@@ -682,7 +682,19 @@ section { padding: clamp(80px,12vh,160px) 6vw; position: relative; }
   border-radius: 50%;
 }
 .pbox h3 { font-family: var(--display); font-weight: 800; font-size: 1.9rem; margin-bottom: 14px; letter-spacing: -.01em; }
-.pbox p { opacity: .75; font-weight: 300; margin-bottom: 32px; line-height: 1.7; }
+.pbox p { opacity: .75; font-weight: 300; margin-bottom: 28px; line-height: 1.7; }
+.pbenefits { list-style: none; margin: 0 0 34px; padding: 0; position: relative; }
+.pbenefits li {
+  position: relative; padding: 0 0 0 30px; margin-bottom: 14px;
+  font-weight: 300; font-size: .95rem; line-height: 1.55; opacity: .82;
+}
+.pbenefits li:last-child { margin-bottom: 0; }
+.pbenefits li::before {
+  content: ''; position: absolute; left: 0; top: .55em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold, #d4a017);
+  box-shadow: 0 0 0 4px rgba(212,160,23,.18);
+}
 
 /* ===== TESTIMONIALS ===== */
 .testimonials-section {
@@ -1116,16 +1128,22 @@ footer::before {
 <section id="partenaires">
   <div class="partners-wrap">
     <div>
-      <div class="eyebrow reveal">Devenez partenaire</div>
-      <h2 class="h2 reveal d1">Faites entrer SYFIR<br>dans <em>votre lieu</em>.</h2>
-      <p class="reveal d2" style="margin-top:24px;opacity:.7;font-weight:300;font-size:1rem;line-height:1.7;max-width:480px">Rejoignez le réseau de lieux qui font vibrer leurs clients avec SYFIR. Stocks dédiés, animations exclusives et visibilité premium.</p>
+      <div class="eyebrow reveal">Partenariats professionnels</div>
+      <h2 class="h2 reveal d1">Intégrez SYFIR<br>à <em>votre établissement</em>.</h2>
+      <p class="reveal d2" style="margin-top:24px;opacity:.7;font-weight:300;font-size:1rem;line-height:1.7;max-width:480px">SYFIR accompagne les établissements qui souhaitent enrichir leur offre et se démarquer. Bénéficiez d'un approvisionnement dédié, d'opérations sur mesure et d'une mise en avant auprès de notre communauté.</p>
       <div class="ptags reveal d3">
         <span>Bars</span><span>Clubs</span><span>Festivals</span><span>Hôtels</span><span>Restaurants</span><span>Événementiel</span><span>Plages privées</span><span>Yachts</span>
       </div>
     </div>
     <div class="pbox reveal d2">
-      <h3>Un partenariat premium</h3>
-      <p>Rejoignez les lieux qui font vibrer leurs clients. Stocks, animations exclusives et visibilité dédiée pour faire de SYFIR votre signature.</p>
+      <h3>Un partenariat sur mesure</h3>
+      <p>Un accompagnement complet pour faire de SYFIR un véritable atout de votre établissement.</p>
+      <ul class="pbenefits">
+        <li>Approvisionnement dédié et conditions privilégiées</li>
+        <li>Animations et activations exclusives</li>
+        <li>Visibilité auprès de notre communauté</li>
+        <li>Accompagnement par une équipe dédiée</li>
+      </ul>
       <a href="mailto:contact@syfir.fr" class="btn btn-gold">Demander un partenariat</a>
     </div>
   </div>
