@@ -456,10 +456,12 @@ section { padding: clamp(80px,12vh,160px) 6vw; position: relative; }
 .fcard .orb {
   position: absolute; top: -50px; right: -50px;
   width: 180px; height: 180px; border-radius: 50%;
-  filter: blur(10px); opacity: .9;
+  filter: blur(8px); opacity: .85;
   transition: .5s;
+  overflow: hidden;
 }
-.fcard:hover .orb { transform: scale(1.2) translate(10px,-10px); opacity: 1; }
+.fcard .orb img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.fcard:hover .orb { transform: scale(1.2) translate(10px,-10px); opacity: 1; filter: blur(6px); }
 .o1 { background: radial-gradient(circle, #FFF0AA, #FFC857, #FF7A00); }
 .o2 { background: radial-gradient(circle, #FFB347, #FF9A3D, #FF3D6E); }
 .o3 { background: radial-gradient(circle, #A8FFD4, #9DFFC8, #1d9e75); }
@@ -949,11 +951,11 @@ footer::before {
   <div class="eyebrow reveal">L'esprit SYFIR</div>
   <h2 class="h2 reveal d1">Là où le moment<br>devient <em>une scène</em>.</h2>
   <div class="mosaic">
-    <div class="tile t1 reveal"><span>Festivals</span></div>
-    <div class="tile t2 reveal d1"><span>Rooftops</span></div>
-    <div class="tile t3 reveal d2"><span>Plages</span></div>
-    <div class="tile t4 reveal d3"><span>Pool parties</span></div>
-    <div class="tile t5 reveal d4"><span>Bateaux & Yachts</span></div>
+    <div class="tile t1 reveal" style="background-image:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800');background-size:cover;background-position:center"><span>Festivals</span></div>
+    <div class="tile t2 reveal d1" style="background-image:url('https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800');background-size:cover;background-position:center"><span>Rooftops</span></div>
+    <div class="tile t3 reveal d2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800');background-size:cover;background-position:center"><span>Plages</span></div>
+    <div class="tile t4 reveal d3" style="background-image:url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800');background-size:cover;background-position:center"><span>Pool parties</span></div>
+    <div class="tile t5 reveal d4" style="background-image:url('https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800');background-size:cover;background-position:center"><span>Bateaux & Yachts</span></div>
   </div>
   <p class="spirit-quote reveal">« Chaque moment devient une expérience. »</p>
 </section>
@@ -964,7 +966,7 @@ footer::before {
   <h2 class="h2 reveal d1">Quatre <em>vibes</em>.<br>Une seule liberté.</h2>
   <div class="fgrid">
     <div class="fcard reveal d1">
-      <div class="orb o1"></div>
+      <div class="orb o1" style="background-image:url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600');background-size:cover;background-position:center;filter:none;opacity:.9"></div>
       <div class="badge">Signature</div>
       <div class="label">
         <h3>Planteur</h3>
@@ -974,7 +976,7 @@ footer::before {
       </div>
     </div>
     <div class="fcard reveal d2">
-      <div class="orb o2"></div>
+      <div class="orb o2" style="background-image:url('https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=600');background-size:cover;background-position:center;filter:none;opacity:.9"></div>
       <div class="badge">Fruité</div>
       <div class="label">
         <h3>Sunset Passion</h3>
@@ -984,7 +986,7 @@ footer::before {
       </div>
     </div>
     <div class="fcard reveal d3">
-      <div class="orb o3"></div>
+      <div class="orb o3" style="background-image:url('https://images.unsplash.com/photo-1587015990127-424b954b553c?w=600');background-size:cover;background-position:center;filter:none;opacity:.9"></div>
       <div class="badge">Frais</div>
       <div class="label">
         <h3>Tropical Lime</h3>
@@ -994,7 +996,7 @@ footer::before {
       </div>
     </div>
     <div class="fcard reveal d4">
-      <div class="orb o4"></div>
+      <div class="orb o4" style="background-image:url('https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=600');background-size:cover;background-position:center;filter:none;opacity:.9"></div>
       <div class="badge">Festif</div>
       <div class="label">
         <h3>Purple Vibe</h3>
@@ -1040,35 +1042,35 @@ footer::before {
   <h2 class="h2 reveal d1">Des instants, <em>capturés</em>.</h2>
   <div class="gallery">
     <div class="g-item reveal">
-      <div class="g-inner"><div style="height:250px;background:linear-gradient(160deg,#FF7A00,#FFC857,#FF9A3D)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600" alt="Ambiance festival" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d1">
-      <div class="g-inner"><div style="height:185px;background:linear-gradient(160deg,#0F3D5E,#1a5c8a,#FF8F70)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600" alt="DJ set" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d2">
-      <div class="g-inner"><div style="height:310px;background:linear-gradient(160deg,#FF9A3D,#D4A017,#FFD060)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600" alt="Concert" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d1">
-      <div class="g-inner"><div style="height:230px;background:linear-gradient(160deg,#FF8F70,#9c3a5e,#071E30)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600" alt="Événement" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d2">
-      <div class="g-inner"><div style="height:270px;background:linear-gradient(160deg,#FFC857,#FF7A00,#FF5500)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1605731513845-e3def2b7e811?w=600" alt="Cocktails" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d3">
-      <div class="g-inner"><div style="height:195px;background:linear-gradient(160deg,#FF4D75,#FF9A3D,#FFC857)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1567529684892-09290a1b2d05?w=600" alt="Soirée" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d1">
-      <div class="g-inner"><div style="height:290px;background:linear-gradient(160deg,#7F77DD,#C9A7FF,#FF8F70)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600" alt="Festival foule" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
     <div class="g-item reveal d2">
-      <div class="g-inner"><div style="height:210px;background:linear-gradient(160deg,#1d9e75,#9DFFC8,#FFC857)"></div></div>
+      <div class="g-inner"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600" alt="Amis soirée" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
       <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
     </div>
   </div>
@@ -1083,7 +1085,7 @@ footer::before {
       <div class="quote-mark">"</div>
       <p class="ttext">SYFIR c'est pas juste un cocktail, c'est une ambiance. Dès qu'on sort les pochons, l'énergie change instantanément. C'est devenu notre rituel de festival.</p>
       <div class="tauthor">
-        <div class="avatar" style="background:linear-gradient(135deg,#FF7A00,#FFC857)"></div>
+        <div class="avatar"><img src="https://i.pravatar.cc/100?img=1" alt="Chloé M." style="width:100%;height:100%;object-fit:cover"></div>
         <div><div class="aname">Chloé M.</div><div class="ainfo">Festival de Dax · 2025</div></div>
       </div>
     </div>
@@ -1091,7 +1093,7 @@ footer::before {
       <div class="quote-mark">"</div>
       <p class="ttext">Sur le bateau avec les copains, les SYFIR Sunset Passion au coucher de soleil... franchement, c'était la scène parfaite. Le packaging fait tout le travail.</p>
       <div class="tauthor">
-        <div class="avatar" style="background:linear-gradient(135deg,#FF9A3D,#FF5e7a)"></div>
+        <div class="avatar"><img src="https://i.pravatar.cc/100?img=2" alt="Maxime R." style="width:100%;height:100%;object-fit:cover"></div>
         <div><div class="aname">Maxime R.</div><div class="ainfo">Côte d'Azur · Été 2025</div></div>
       </div>
     </div>
@@ -1099,7 +1101,7 @@ footer::before {
       <div class="quote-mark">"</div>
       <p class="ttext">On a intégré SYFIR dans notre concept de rooftop et l'accueil a été incroyable. Nos clients adorent l'aspect visuel et le goût. C'est exactement le produit premium qu'on cherchait.</p>
       <div class="tauthor">
-        <div class="avatar" style="background:linear-gradient(135deg,#7F77DD,#FF8F70)"></div>
+        <div class="avatar"><img src="https://i.pravatar.cc/100?img=3" alt="Lucas B." style="width:100%;height:100%;object-fit:cover"></div>
         <div><div class="aname">Lucas B.</div><div class="ainfo">Gérant de bar, Paris</div></div>
       </div>
     </div>
