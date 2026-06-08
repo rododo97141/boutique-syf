@@ -1,1250 +1,750 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SYFIR — Plus qu'une boisson, une façon de vivre chaque instant. Le cocktail libre.">
-<title>SYFIR — Le Cocktail Libre</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --sunset: #FF7A00;
-  --mango: #FF9A3D;
-  --coral: #FF8F70;
-  --passion: #FFC857;
-  --gold: #D4A017;
-  --gold-light: #F0C84A;
-  --ocean: #0F3D5E;
-  --ocean-deep: #071E30;
-  --cream: #FAF8F2;
-  --ink: #111111;
-  --display: 'Montserrat', sans-serif;
-  --body: 'Plus Jakarta Sans', sans-serif;
-  --serif: 'Fraunces', serif;
-}
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--body);
-  background: var(--ink);
-  color: var(--cream);
-  overflow-x: hidden;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-::selection { background: var(--sunset); color: var(--ink); }
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SYFIR — Le Cocktail Libre. Vivez l'instant. Partagez la couleur. Cocktails premium, événements & festivals.">
+  <title>SYFIR — Le Cocktail Libre</title>
 
-/* ===== REVEAL ON SCROLL ===== */
-.reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
-.reveal.in { opacity: 1; transform: none; }
-.reveal.from-left { transform: translateX(-40px); }
-.reveal.from-right { transform: translateX(40px); }
-.reveal.from-left.in, .reveal.from-right.in { transform: none; }
-.d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
-.d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
-.d5 { transition-delay: .5s; } .d6 { transition-delay: .6s; }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 
-/* ===== GOLDEN LIGHT SWEEP ===== */
-@keyframes goldSweep {
-  0% { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
-}
-.gold-sweep {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 5;
-}
-.gold-sweep::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(240,200,74,.12), rgba(255,200,87,.08), transparent);
-  animation: goldSweep 6s ease-in-out infinite;
-  animation-delay: 2s;
-}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-/* ===== NAV ===== */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 6vw;
-  transition: all .5s cubic-bezier(.16,1,.3,1);
-}
-nav.scrolled {
-  background: rgba(11,11,11,.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  padding: 14px 6vw;
-  border-bottom: 1px solid rgba(212,160,23,.15);
-  box-shadow: 0 4px 40px rgba(0,0,0,.4);
-}
-.brand {
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: 1.6rem;
-  letter-spacing: .5em;
-  padding-left: .5em;
-  background: linear-gradient(120deg, var(--cream), var(--passion), var(--gold));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-links { display: flex; gap: 36px; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; }
-.nav-links a { opacity: .75; transition: .3s; position: relative; }
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-  background: var(--passion); transition: width .3s;
-}
-.nav-links a:hover { opacity: 1; }
-.nav-links a:hover::after { width: 100%; }
-.nav-cta {
-  border: 1px solid rgba(240,200,74,.5);
-  padding: 10px 22px; border-radius: 50px;
-  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
-  transition: .35s; position: relative; overflow: hidden;
-  background: transparent;
-}
-.nav-cta::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--passion), var(--sunset));
-  opacity: 0; transition: .35s;
-}
-.nav-cta span { position: relative; z-index: 1; }
-.nav-cta:hover { border-color: transparent; color: var(--ink); }
-.nav-cta:hover::before { opacity: 1; }
-.burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 10; }
-.burger span { width: 28px; height: 1.5px; background: var(--cream); transition: .3s; display: block; }
-@media(max-width:900px) { .nav-links, .nav-cta { display: none; } .burger { display: flex; } }
-
-/* ===== HERO ===== */
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; padding: 0 6vw; overflow: hidden;
-}
-.hero-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(15,61,94,.8) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,122,0,.3) 0%, transparent 60%),
-    linear-gradient(180deg, #1a0800 0%, #FF7A00 20%, #FF9A3D 35%, #FFC857 45%, #FF8F70 55%, #9c3a5e 70%, #0F3D5E 85%, #071E30 100%);
-}
-.hero-overlay {
-  position: absolute; inset: 0; z-index: 1;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 50%, transparent 30%, rgba(11,11,11,.3) 100%),
-    linear-gradient(0deg, rgba(11,11,11,.7) 0%, transparent 40%, transparent 60%, rgba(11,11,11,.2) 100%);
-}
-
-/* Sun */
-.sun {
-  position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%);
-  width: min(55vw, 480px); aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle, #FFF8E7 0%, #FFE08A 20%, #FFD060 40%, #FFAA20 60%, rgba(255,122,0,0) 72%);
-  filter: blur(1px);
-  animation: sunRise 12s ease-in-out infinite alternate;
-  z-index: 2;
-  box-shadow: 0 0 120px 40px rgba(255,180,0,.35), 0 0 240px 80px rgba(255,122,0,.15);
-}
-@keyframes sunRise { from { transform: translate(-50%,-44%) scale(1); } to { transform: translate(-50%,-58%) scale(1.04); } }
-
-/* Rays */
-.rays {
-  position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%);
-  width: min(90vw, 800px); aspect-ratio: 1; z-index: 1;
-  animation: raysRotate 40s linear infinite;
-}
-@keyframes raysRotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
-.rays::before, .rays::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-conic-gradient(rgba(255,200,87,.06) 0deg 10deg, transparent 10deg 20deg);
-  border-radius: 50%;
-}
-.rays::after { animation: raysRotate 60s linear infinite reverse; opacity: .5; }
-
-/* Sea / waves */
-.sea-wrap {
-  position: absolute; left: 0; right: 0; bottom: 0; height: 36%; z-index: 3; overflow: hidden;
-}
-.wave {
-  position: absolute; left: -10%; width: 120%; border-radius: 50%;
-  background: rgba(15,61,94,.4);
-}
-.wave1 { height: 80px; bottom: 0; animation: wave1 8s ease-in-out infinite; }
-.wave2 { height: 60px; bottom: 10px; animation: wave2 10s ease-in-out infinite; background: rgba(15,61,94,.3); }
-.wave3 { height: 50px; bottom: 20px; animation: wave3 12s ease-in-out infinite; background: rgba(7,30,48,.5); }
-@keyframes wave1 { 0%,100% { transform: translateX(0) scaleY(1); } 50% { transform: translateX(-3%) scaleY(1.1); } }
-@keyframes wave2 { 0%,100% { transform: translateX(0) scaleY(1); } 50% { transform: translateX(3%) scaleY(.9); } }
-@keyframes wave3 { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-2%); } }
-
-/* Grain */
-.grain {
-  position: absolute; inset: 0; z-index: 6; opacity: .045; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Hero content */
-.hero-content { position: relative; z-index: 7; max-width: 900px; }
-.hero-eyebrow {
-  font-size: .72rem; letter-spacing: .5em; text-transform: uppercase; font-weight: 600;
-  color: var(--passion); margin-bottom: 20px; opacity: 0;
-  animation: fadeUp .8s .3s cubic-bezier(.16,1,.3,1) forwards;
-}
-.hero h1 {
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: clamp(5rem,20vw,14rem);
-  letter-spacing: .22em;
-  padding-left: .22em;
-  line-height: .85;
-  background: linear-gradient(160deg, #FFF8E7 0%, #FFE08A 30%, #FFD060 50%, #FF9A3D 70%, #FF7A00 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  opacity: 0;
-  animation: heroIn 1.2s .5s cubic-bezier(.16,1,.3,1) forwards;
-  filter: drop-shadow(0 0 40px rgba(255,180,0,.4));
-}
-@keyframes heroIn { from { opacity: 0; transform: scale(.88) translateY(20px); } to { opacity: 1; transform: none; } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
-.hero-tagline {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 200;
-  font-size: clamp(1.2rem, 2.8vw, 2rem);
-  letter-spacing: .06em;
-  margin-top: 10px;
-  opacity: 0;
-  animation: fadeUp .9s .9s cubic-bezier(.16,1,.3,1) forwards;
-  color: rgba(250,248,242,.9);
-}
-.hero-sub {
-  font-size: clamp(.9rem, 1.8vw, 1.1rem);
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  font-weight: 300;
-  margin-top: 28px;
-  opacity: 0;
-  animation: fadeUp .9s 1.1s cubic-bezier(.16,1,.3,1) forwards;
-  color: rgba(250,248,242,.7);
-}
-.hero-btns {
-  display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
-  margin-top: 50px;
-  opacity: 0;
-  animation: fadeUp .9s 1.3s cubic-bezier(.16,1,.3,1) forwards;
-}
-
-/* CTA Buttons */
-.btn {
-  padding: 16px 38px; border-radius: 60px;
-  font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
-  cursor: pointer; transition: .4s cubic-bezier(.16,1,.3,1);
-  border: none; display: inline-block; position: relative; overflow: hidden;
-}
-.btn-gold {
-  background: linear-gradient(135deg, var(--passion) 0%, var(--sunset) 100%);
-  color: var(--ink);
-  box-shadow: 0 8px 32px rgba(255,180,0,.35);
-}
-.btn-gold::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,.3), transparent);
-  opacity: 0; transition: .4s;
-}
-.btn-gold:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(255,150,0,.5); }
-.btn-gold:hover::after { opacity: 1; }
-.btn-outline {
-  border: 1.5px solid rgba(250,248,242,.4);
-  color: var(--cream);
-  background: rgba(250,248,242,.05);
-  backdrop-filter: blur(8px);
-}
-.btn-outline:hover {
-  background: rgba(250,248,242,.12);
-  border-color: rgba(250,248,242,.7);
-  transform: translateY(-4px);
-}
-
-/* Scroll hint */
-.scroll-hint {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-  z-index: 7; font-size: .62rem; letter-spacing: .4em; text-transform: uppercase;
-  opacity: .6; display: flex; flex-direction: column; align-items: center; gap: 12px;
-  animation: fadeUp .9s 1.8s cubic-bezier(.16,1,.3,1) both;
-}
-.scroll-line { width: 1px; height: 48px; background: linear-gradient(var(--cream), transparent); animation: scrollPulse 2.2s ease-in-out infinite; }
-@keyframes scrollPulse { 0%,100% { transform: scaleY(.4); opacity: .3; } 50% { transform: scaleY(1); opacity: .9; } }
-
-/* ===== GENERIC SECTION ===== */
-section { padding: clamp(80px,12vh,160px) 6vw; position: relative; }
-.eyebrow {
-  font-size: .72rem; letter-spacing: .45em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 20px; font-weight: 600;
-  display: flex; align-items: center; gap: 14px;
-}
-.eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
-.h2 {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
-  line-height: 1; letter-spacing: -.02em;
-}
-.h2 em { font-style: normal; color: var(--passion); font-weight: 300; font-family: var(--serif); font-style: italic; }
-
-/* ===== STATS BAR ===== */
-.stats-bar {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(212,160,23,.2);
-  border: 1px solid rgba(212,160,23,.2);
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 70px 0 0;
-}
-.stat {
-  padding: 36px 30px;
-  background: rgba(17,17,17,.8);
-  text-align: center;
-  backdrop-filter: blur(10px);
-}
-.stat .num {
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  background: linear-gradient(135deg, var(--passion), var(--sunset));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1;
-}
-.stat .label { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; opacity: .6; margin-top: 8px; font-weight: 500; }
-@media(max-width:600px) { .stats-bar { grid-template-columns: 1fr; } }
-
-/* ===== MANIFESTO ===== */
-.manifesto-wrap { max-width: 1100px; margin: 0 auto; }
-.manifesto-text {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 200;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  line-height: 1.5;
-  opacity: .9;
-  margin-top: 40px;
-  max-width: 800px;
-}
-.values {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-top: 70px;
-}
-@media(max-width:900px) { .values { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:500px) { .values { grid-template-columns: 1fr; } }
-.vcard {
-  background: rgba(250,248,242,.04);
-  border: 1px solid rgba(250,248,242,.1);
-  border-radius: 24px;
-  padding: 38px 28px;
-  text-align: left;
-  transition: .5s cubic-bezier(.16,1,.3,1);
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-}
-.vcard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(140% 90% at 0% 0%, rgba(255,200,87,.15), transparent 60%);
-  opacity: 0; transition: .5s;
-}
-.vcard:hover { transform: translateY(-10px); border-color: rgba(212,160,23,.5); box-shadow: 0 30px 70px rgba(0,0,0,.5); }
-.vcard:hover::before { opacity: 1; }
-.vcard .ic {
-  width: 52px; height: 52px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--sunset), var(--passion));
-  margin-bottom: 24px;
-  box-shadow: 0 8px 24px rgba(255,122,0,.3);
-}
-.vcard .ic svg { width: 22px; height: 22px; stroke: var(--ink); stroke-width: 2; fill: none; }
-.vcard h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; letter-spacing: .04em; margin-bottom: 10px; }
-.vcard p { font-size: .9rem; opacity: .7; font-weight: 300; line-height: 1.6; }
-
-/* ===== SPIRIT / MOSAIC ===== */
-.spirit {
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,122,0,.06) 0%, transparent 60%),
-    linear-gradient(180deg, var(--ink), #1a0e06 50%, var(--ink));
-}
-.mosaic {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 130px;
-  gap: 16px;
-  margin-top: 60px;
-}
-.tile {
-  border-radius: 20px; position: relative; overflow: hidden;
-  display: flex; align-items: flex-end; padding: 20px;
-  font-size: .74rem; letter-spacing: .26em; text-transform: uppercase;
-  cursor: pointer; transition: .4s;
-}
-.tile:hover { transform: scale(1.02); }
-.tile span { position: relative; z-index: 2; font-weight: 700; letter-spacing: .2em; }
-.tile::before {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(180deg, transparent 30%, rgba(17,17,17,.65));
-}
-.t1 { grid-column: span 4; grid-row: span 2; background: linear-gradient(135deg, #FF5500, #FF7A00, #FFC857); }
-.t2 { grid-column: span 2; grid-row: span 2; background: linear-gradient(135deg, #0F3D5E, #1a5c8a, #FF8F70); }
-.t3 { grid-column: span 2; background: linear-gradient(135deg, #FF9A3D, #D4A017); }
-.t4 { grid-column: span 2; background: linear-gradient(135deg, #FF8F70, #9c3a5e, #0F3D5E); }
-.t5 { grid-column: span 2; background: linear-gradient(135deg, #FFC857, #FF7A00); }
-.spirit-quote {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 200;
-  font-size: clamp(1.8rem, 4.5vw, 3.4rem);
-  text-align: center;
-  margin-top: 70px;
-  line-height: 1.25;
-  color: rgba(250,248,242,.88);
-}
-@media(max-width:760px) {
-  .mosaic { grid-template-columns: repeat(2,1fr); }
-  .t1,.t2,.t3,.t4,.t5 { grid-column: span 1; grid-row: span 1; }
-}
-
-/* ===== FLAVORS ===== */
-.flavors {
-  background:
-    radial-gradient(80% 60% at 80% 10%, rgba(255,122,0,.16), transparent 55%),
-    radial-gradient(60% 60% at 10% 90%, rgba(15,61,94,.45), transparent 60%),
-    var(--ink);
-}
-.fgrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-top: 64px;
-}
-@media(max-width:1000px) { .fgrid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:560px) { .fgrid { grid-template-columns: 1fr; } }
-.fcard {
-  position: relative;
-  border-radius: 28px;
-  padding: 32px 28px 34px;
-  overflow: hidden;
-  backdrop-filter: blur(20px);
-  background: rgba(250,248,242,.055);
-  border: 1px solid rgba(250,248,242,.12);
-  transition: .5s cubic-bezier(.16,1,.3,1);
-  cursor: pointer;
-}
-.fcard:hover { transform: translateY(-14px); border-color: rgba(250,248,242,.35); box-shadow: 0 40px 80px rgba(0,0,0,.5); }
-.fcard .orb {
-  position: absolute; top: -50px; right: -50px;
-  width: 180px; height: 180px; border-radius: 50%;
-  filter: blur(8px); opacity: .85;
-  transition: .5s;
-  overflow: hidden;
-}
-.fcard .orb img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.fcard:hover .orb { transform: scale(1.2) translate(10px,-10px); opacity: 1; filter: blur(6px); }
-.o1 { background: radial-gradient(circle, #FFF0AA, #FFC857, #FF7A00); }
-.o2 { background: radial-gradient(circle, #FFB347, #FF9A3D, #FF3D6E); }
-.o3 { background: radial-gradient(circle, #A8FFD4, #9DFFC8, #1d9e75); }
-.o4 { background: radial-gradient(circle, #DDB4FF, #C9A7FF, #5E4EDD); }
-
-/* condensation drops */
-.fcard::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(3px 4px at 20% 30%, rgba(255,255,255,.15) 0%, transparent 100%),
-    radial-gradient(2px 3px at 70% 20%, rgba(255,255,255,.12) 0%, transparent 100%),
-    radial-gradient(2px 5px at 45% 60%, rgba(255,255,255,.1) 0%, transparent 100%),
-    radial-gradient(3px 3px at 85% 50%, rgba(255,255,255,.1) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-.fcard .label { position: relative; z-index: 2; }
-.fcard h3 { font-family: var(--display); font-weight: 800; font-size: 1.8rem; margin-top: 90px; margin-bottom: 4px; letter-spacing: -.01em; }
-.fcard .sub { font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; opacity: .55; margin-bottom: 22px; }
-.notes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-.notes span {
-  font-size: .72rem; padding: 5px 14px; border-radius: 30px;
-  background: rgba(250,248,242,.1); border: 1px solid rgba(250,248,242,.12);
-  letter-spacing: .08em;
-}
-.intensity { display: flex; align-items: center; gap: 10px; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
-.bar { flex: 1; height: 3px; border-radius: 4px; background: rgba(250,248,242,.15); overflow: hidden; }
-.bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--passion), var(--sunset), var(--coral)); border-radius: 4px; }
-.fcard .badge {
-  position: absolute; top: 22px; left: 22px; z-index: 3;
-  background: rgba(17,17,17,.7); border: 1px solid rgba(250,248,242,.15);
-  backdrop-filter: blur(10px);
-  padding: 6px 14px; border-radius: 30px;
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
-}
-
-/* ===== WHY ===== */
-.why-section {
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(212,160,23,.08) 0%, transparent 60%),
-    var(--ink);
-}
-.why-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin-top: 64px;
-  background: rgba(250,248,242,.08);
-  border: 1px solid rgba(250,248,242,.08);
-  border-radius: 24px;
-  overflow: hidden;
-}
-@media(max-width:860px) { .why-grid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:480px) { .why-grid { grid-template-columns: 1fr; } }
-.why-col {
-  padding: 44px 32px;
-  background: rgba(17,17,17,.9);
-  position: relative;
-  overflow: hidden;
-  transition: .4s;
-}
-.why-col:hover { background: rgba(22,22,22,.9); }
-.why-col::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--sunset), var(--passion));
-  transform: scaleX(0); transform-origin: left;
-  transition: .4s;
-}
-.why-col:hover::after { transform: scaleX(1); }
-.why-col .num {
-  font-family: var(--display);
-  font-size: 3rem; font-weight: 900;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  opacity: .35; line-height: 1;
-}
-.why-col h3 { font-size: 1.05rem; letter-spacing: .04em; margin: 16px 0 10px; font-weight: 700; }
-.why-col p { font-size: .88rem; opacity: .6; font-weight: 300; line-height: 1.7; }
-
-/* ===== GALLERY ===== */
-.gallery-section {
-  background: linear-gradient(180deg, var(--ink), #120800 50%, var(--ink));
-}
-.gallery {
-  columns: 4; column-gap: 16px; margin-top: 60px;
-}
-@media(max-width:900px) { .gallery { columns: 2; } }
-@media(max-width:520px) { .gallery { columns: 1; } }
-.g-item {
-  break-inside: avoid; margin-bottom: 16px;
-  border-radius: 18px; overflow: hidden;
-  position: relative; cursor: pointer;
-}
-.g-item .g-inner {
-  transition: .6s cubic-bezier(.16,1,.3,1);
-  position: relative;
-}
-.g-item:hover .g-inner { transform: scale(1.05); }
-.g-item::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(17,17,17,.45));
-  z-index: 1; transition: .4s;
-}
-.g-item:hover::after { opacity: 0; }
-.g-overlay {
-  position: absolute; inset: 0; z-index: 2;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,122,0,.15); opacity: 0; transition: .4s;
-  border-radius: 18px;
-}
-.g-item:hover .g-overlay { opacity: 1; }
-.g-overlay svg { width: 36px; height: 36px; stroke: var(--cream); fill: none; stroke-width: 1.5; }
-
-/* product mock images */
-.prod-img {
-  width: 100%; display: block;
-  position: relative; overflow: hidden;
-}
-.prod-img::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(160deg, rgba(255,255,255,.15) 0%, transparent 50%);
-  z-index: 1;
-}
-
-/* ===== COMMUNITY ===== */
-.community {
-  text-align: center;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,122,0,.08) 0%, transparent 60%),
-    linear-gradient(180deg, var(--ink), #160a04 50%, var(--ink));
-}
-.hashtag {
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: clamp(3.5rem,14vw,9rem);
-  background: linear-gradient(120deg, var(--passion), var(--sunset), var(--coral), var(--passion));
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: .04em;
-  margin: 30px 0;
-  animation: gradShift 4s ease-in-out infinite;
-}
-@keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-.community-text { opacity: .75; font-weight: 300; max-width: 560px; margin: 0 auto; font-size: 1.05rem; line-height: 1.7; }
-.social-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
-.social-btn {
-  width: 56px; height: 56px; border-radius: 50%;
-  border: 1px solid rgba(250,248,242,.2);
-  display: flex; align-items: center; justify-content: center;
-  transition: .35s; cursor: pointer;
-  position: relative; overflow: hidden;
-}
-.social-btn::before {
-  content: ''; position: absolute; inset: 0; border-radius: 50%;
-  background: linear-gradient(135deg, var(--sunset), var(--passion));
-  opacity: 0; transition: .35s;
-}
-.social-btn:hover { border-color: transparent; transform: translateY(-5px) scale(1.1); box-shadow: 0 12px 30px rgba(255,122,0,.35); }
-.social-btn:hover::before { opacity: 1; }
-.social-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; position: relative; z-index: 1; }
-.social-btn:hover svg { stroke: var(--ink); }
-
-/* Vibes grid */
-.vibes-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px; margin-top: 60px;
-}
-@media(max-width:760px) { .vibes-grid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:480px) { .vibes-grid { grid-template-columns: 1fr; } }
-.vibe-card {
-  border-radius: 20px;
-  padding: 32px 26px;
-  position: relative; overflow: hidden;
-  border: 1px solid rgba(250,248,242,.1);
-  background: rgba(250,248,242,.04);
-  text-align: center;
-  transition: .4s;
-}
-.vibe-card:hover { transform: translateY(-6px); border-color: rgba(255,200,87,.3); }
-.vibe-card .vibe-icon { font-size: 2.2rem; margin-bottom: 14px; }
-.vibe-card h4 { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
-.vibe-card p { font-size: .85rem; opacity: .65; font-weight: 300; }
-
-/* ===== PARTNERS ===== */
-.partners-wrap {
-  display: grid; grid-template-columns: 1.1fr 1fr;
-  gap: 70px; align-items: center;
-}
-@media(max-width:820px) { .partners-wrap { grid-template-columns: 1fr; } }
-.ptags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-.ptags span {
-  padding: 10px 22px; border-radius: 50px;
-  border: 1px solid rgba(250,248,242,.18);
-  font-size: .82rem; letter-spacing: .1em;
-  transition: .3s; cursor: default;
-}
-.ptags span:hover { background: rgba(255,122,0,.1); border-color: rgba(255,122,0,.4); }
-.pbox {
-  background: linear-gradient(135deg, rgba(255,122,0,.1), rgba(15,61,94,.2));
-  border: 1px solid rgba(212,160,23,.35);
-  border-radius: 28px; padding: 50px 42px;
-  backdrop-filter: blur(12px);
-  position: relative; overflow: hidden;
-}
-.pbox::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(212,160,23,.15), transparent 70%);
-  border-radius: 50%;
-}
-.pbox h3 { font-family: var(--display); font-weight: 800; font-size: 1.9rem; margin-bottom: 14px; letter-spacing: -.01em; }
-.pbox p { opacity: .75; font-weight: 300; margin-bottom: 28px; line-height: 1.7; }
-.pbenefits { list-style: none; margin: 0 0 34px; padding: 0; position: relative; }
-.pbenefits li {
-  position: relative; padding: 0 0 0 30px; margin-bottom: 14px;
-  font-weight: 300; font-size: .95rem; line-height: 1.55; opacity: .82;
-}
-.pbenefits li:last-child { margin-bottom: 0; }
-.pbenefits li::before {
-  content: ''; position: absolute; left: 0; top: .55em;
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--gold, #d4a017);
-  box-shadow: 0 0 0 4px rgba(212,160,23,.18);
-}
-
-/* ===== TESTIMONIALS ===== */
-.testimonials-section {
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(15,61,94,.3) 0%, transparent 60%),
-    var(--ink);
-  overflow: hidden;
-}
-.tgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 60px; }
-@media(max-width:860px) { .tgrid { grid-template-columns: 1fr; } }
-.tcard {
-  background: rgba(250,248,242,.04);
-  border: 1px solid rgba(250,248,242,.1);
-  border-radius: 22px; padding: 34px 28px;
-  position: relative; transition: .4s;
-}
-.tcard:hover { transform: translateY(-6px); border-color: rgba(212,160,23,.3); }
-.tcard .quote-mark {
-  font-family: var(--serif);
-  font-size: 5rem; line-height: .8;
-  color: var(--passion); opacity: .3;
-  font-weight: 300; margin-bottom: 16px;
-}
-.tcard .ttext { font-family: var(--serif); font-style: italic; font-weight: 300; opacity: .85; line-height: 1.65; font-size: 1.05rem; }
-.tcard .tauthor { margin-top: 24px; display: flex; align-items: center; gap: 14px; }
-.tcard .avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid rgba(212,160,23,.4);
-  overflow: hidden; flex-shrink: 0;
-}
-.tcard .aname { font-weight: 600; font-size: .9rem; }
-.tcard .ainfo { font-size: .78rem; opacity: .55; letter-spacing: .08em; margin-top: 2px; }
-
-/* ===== FOOTER ===== */
-footer {
-  background: var(--ink);
-  padding: 100px 6vw 44px;
-  border-top: 1px solid rgba(250,248,242,.07);
-  position: relative;
-}
-footer::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--passion), var(--sunset), transparent);
-  opacity: .5;
-}
-.foot-logo {
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: clamp(4rem,16vw,11rem);
-  letter-spacing: .25em;
-  padding-left: .25em;
-  text-align: center;
-  background: linear-gradient(120deg, rgba(250,248,242,.25), var(--passion), var(--gold), rgba(250,248,242,.2));
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.foot-tag {
-  text-align: center;
-  font-family: var(--serif); font-style: italic;
-  font-weight: 200; font-size: 1.35rem;
-  opacity: .8; margin-top: 8px;
-}
-.foot-cols {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px; margin: 70px 0 60px;
-}
-@media(max-width:860px) { .foot-cols { grid-template-columns: 1fr 1fr; } }
-@media(max-width:540px) { .foot-cols { grid-template-columns: 1fr; } }
-.foot-col h4 { font-family: var(--display); font-weight: 700; font-size: .85rem; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 20px; color: var(--passion); }
-.foot-col p { font-size: .88rem; opacity: .6; font-weight: 300; line-height: 1.7; }
-.foot-col ul { list-style: none; }
-.foot-col ul li { margin-bottom: 10px; }
-.foot-col ul li a { font-size: .88rem; opacity: .6; transition: .3s; }
-.foot-col ul li a:hover { opacity: 1; color: var(--passion); }
-.foot-bottom {
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 16px;
-  border-top: 1px solid rgba(250,248,242,.07);
-  padding-top: 30px;
-}
-.legal { font-size: .75rem; opacity: .4; line-height: 1.6; }
-.foot-social { display: flex; gap: 14px; }
-.foot-social a {
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid rgba(250,248,242,.15);
-  display: flex; align-items: center; justify-content: center;
-  transition: .3s;
-}
-.foot-social a:hover { background: rgba(255,122,0,.15); border-color: rgba(255,122,0,.4); }
-.foot-social svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; opacity: .7; }
-
-/* ===== MARQUEE ===== */
-.marquee-wrap {
-  overflow: hidden;
-  border-top: 1px solid rgba(212,160,23,.2);
-  border-bottom: 1px solid rgba(212,160,23,.2);
-  padding: 18px 0;
-  background: rgba(212,160,23,.04);
-}
-.marquee-track {
-  display: flex; align-items: center; gap: 0;
-  animation: marquee 20s linear infinite;
-  white-space: nowrap;
-}
-.marquee-track:hover { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-.marquee-item {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: .78rem;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  opacity: .5;
-  padding: 0 36px;
-  display: flex; align-items: center; gap: 24px;
-}
-.marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--passion); opacity: .8; }
-
-/* ===== MOBILE NAV ===== */
-.mobile-nav {
-  position: fixed; inset: 0; z-index: 99;
-  background: rgba(11,11,11,.97);
-  backdrop-filter: blur(20px);
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center; gap: 36px;
-  transform: translateX(100%); transition: transform .5s cubic-bezier(.16,1,.3,1);
-}
-.mobile-nav.open { transform: none; }
-.mobile-nav a { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: .1em; opacity: .8; transition: .3s; }
-.mobile-nav a:hover { opacity: 1; color: var(--passion); }
-.close-btn { position: absolute; top: 26px; right: 6vw; font-size: 1.8rem; cursor: pointer; opacity: .7; }
-
-/* ===== PARALLAX HINT ===== */
-.parallax-section { position: relative; overflow: hidden; }
-.parallax-bg { transition: transform .1s linear; will-change: transform; }
-
-/* ===== FLOATING PRODUCT ===== */
-@keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-18px) rotate(2deg); } }
-@keyframes floatShadow { 0%,100% { transform: scaleX(1); opacity: .5; } 50% { transform: scaleX(.85); opacity: .3; } }
-.float-anim { animation: float 6s ease-in-out infinite; }
-
-/* ===== RESPONSIVE EXTRAS ===== */
-@media(max-width:640px) {
-  .pbox { padding: 34px 26px; }
-  section { padding: clamp(60px,10vh,120px) 5vw; }
-}
-</style>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav" id="mobileNav">
-  <div class="close-btn" id="closeNav">✕</div>
-  <a href="#univers" onclick="closeMobileNav()">Univers</a>
-  <a href="#moments" onclick="closeMobileNav()">Moments</a>
-  <a href="#communaute" onclick="closeMobileNav()">Communauté</a>
-  <a href="#partenaires" onclick="closeMobileNav()">Partenaires</a>
-  <a href="#partenaires" class="btn btn-gold" onclick="closeMobileNav()">Partenaires</a>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-  <div class="brand">SYFIR</div>
-  <div class="nav-links">
-    <a href="#univers">Univers</a>
-    <a href="#moments">Moments</a>
-    <a href="#communaute">Communauté</a>
-    <a href="#partenaires">Partenaires</a>
+  <!-- ===== MOBILE NAV ===== -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="close-btn" id="closeNav" aria-label="Fermer le menu">
+      <i class="fas fa-times"></i>
+    </button>
+    <nav class="mobile-links">
+      <a href="#univers"     onclick="closeMobileNav()">Univers</a>
+      <a href="#boutique"    onclick="closeMobileNav()">Boutique</a>
+      <a href="#evenements"  onclick="closeMobileNav()">Événements</a>
+      <a href="#partenaires" onclick="closeMobileNav()">Partenaires</a>
+      <a href="#galerie"     onclick="closeMobileNav()">Galerie</a>
+      <a href="#contact"     onclick="closeMobileNav()">Contact</a>
+    </nav>
+    <a href="#boutique" class="btn btn-gold" onclick="closeMobileNav()">Commander</a>
   </div>
-  <a href="#univers" class="nav-cta"><span>Découvrir l'univers</span></a>
-  <div class="burger" id="burgerBtn"><span></span><span></span><span></span></div>
-</nav>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-bg"></div>
-  <div class="rays"></div>
-  <div class="sun"></div>
-  <div class="sea-wrap">
-    <div class="wave wave1"></div>
-    <div class="wave wave2"></div>
-    <div class="wave wave3"></div>
-  </div>
-  <div class="grain"></div>
-  <div class="gold-sweep"></div>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="brand">SYFIR</div>
+    <nav class="nav-links" role="navigation" aria-label="Navigation principale">
+      <a href="#univers">Univers</a>
+      <a href="#boutique">Boutique</a>
+      <a href="#evenements">Événements</a>
+      <a href="#partenaires">Partenaires</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#boutique" class="nav-cta"><span>Commander</span></a>
+    <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow">Le Cocktail Libre · Vivez l'instant</div>
-    <h1>SYFIR</h1>
-    <div class="hero-tagline">Plus qu'une boisson. Une façon de vivre.</div>
-    <div class="hero-sub">Liberté · Partage · Soleil · Évasion</div>
-    <div class="hero-btns">
-      <a href="#univers" class="btn btn-gold">Découvrir l'univers</a>
-      <a href="#moments" class="btn btn-outline">Nos moments</a>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <!-- Animated background -->
+    <div class="hero-bg"></div>
+    <div class="sun-wrap">
+      <div class="sun-glow"></div>
+      <div class="sun"></div>
+      <div class="rays"></div>
     </div>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</header>
+    <div class="sea-wrap">
+      <div class="wave wave1"></div>
+      <div class="wave wave2"></div>
+      <div class="wave wave3"></div>
+    </div>
+    <div class="grain"></div>
+    <div class="hero-overlay"></div>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
-    <!-- duplicated for seamless loop -->
-    <div class="marquee-item">Le Cocktail Libre<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Votre Moment<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Vos Règles<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Notre Vibe<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Liberté<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Partage<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Évasion<span class="marquee-dot"></span></div>
-    <div class="marquee-item">#SYFIR<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Le Cocktail Libre<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Votre Moment<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Vos Règles<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Notre Vibe<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Liberté<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Partage<span class="marquee-dot"></span></div>
-    <div class="marquee-item">Évasion<span class="marquee-dot"></span></div>
-    <div class="marquee-item">#SYFIR<span class="marquee-dot"></span></div>
-  </div>
-</div>
-
-<!-- MANIFESTE -->
-<section id="univers">
-  <div class="gold-sweep" style="position:absolute;inset:0;pointer-events:none;"></div>
-  <div class="manifesto-wrap">
-    <div class="eyebrow reveal">Une vision avant d'être une boisson</div>
-    <h2 class="h2 reveal d1">Aujourd'hui on ne cherche plus<br>un produit. On cherche <em>une émotion</em>.</h2>
-    <p class="manifesto-text reveal d2">Des expériences. Des souvenirs. Du partage. SYFIR est née de cette idée simple : chaque instant mérite d'être vécu pleinement, sans règles, sans attendre. C'est ça, le cocktail libre.</p>
-  </div>
-  <div class="values">
-    <div class="vcard reveal d1">
-      <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-      <h3>Liberté</h3><p>Emmenez SYFIR partout. Aucune limite, aucun moment de trop.</p>
-    </div>
-    <div class="vcard reveal d2">
-      <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <h3>Partage</h3><p>Pensé pour les moments entre amis, les rires et les retrouvailles.</p>
-    </div>
-    <div class="vcard reveal d3">
-      <div class="ic"><svg viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
-      <h3>Mobilité</h3><p>Un format pratique et innovant qui vous suit partout.</p>
-    </div>
-    <div class="vcard reveal d4">
-      <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-      <h3>Instantanéité</h3><p>Prêt à profiter immédiatement. L'instant n'attend pas.</p>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-bar reveal" style="margin:0 6vw">
-  <div class="stat reveal d1"><div class="num" data-target="50">0</div><div class="label">Événements partenaires</div></div>
-  <div class="stat reveal d2"><div class="num" data-target="12000">0</div><div class="label">Membres de la communauté</div></div>
-  <div class="stat reveal d3"><div class="num" data-target="4">0</div><div class="label">Saveurs uniques</div></div>
-</div>
-
-<!-- ESPRIT -->
-<section class="spirit" id="moments">
-  <div class="eyebrow reveal">L'esprit SYFIR</div>
-  <h2 class="h2 reveal d1">Là où le moment<br>devient <em>une scène</em>.</h2>
-  <div class="mosaic">
-    <div class="tile t1 reveal" style="background-image:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800');background-size:cover;background-position:center"><span>Festivals</span></div>
-    <div class="tile t2 reveal d1" style="background-image:url('https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800');background-size:cover;background-position:center"><span>Rooftops</span></div>
-    <div class="tile t3 reveal d2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800');background-size:cover;background-position:center"><span>Plages</span></div>
-    <div class="tile t4 reveal d3" style="background-image:url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800');background-size:cover;background-position:center"><span>Pool parties</span></div>
-    <div class="tile t5 reveal d4" style="background-image:url('https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800');background-size:cover;background-position:center"><span>Bateaux & Yachts</span></div>
-  </div>
-  <p class="spirit-quote reveal">« Chaque moment devient une expérience. »</p>
-</section>
-
-
-<!-- POURQUOI -->
-<section class="why-section">
-  <div class="eyebrow reveal">Pourquoi choisir SYFIR</div>
-  <h2 class="h2 reveal d1">L'évidence, <em>simplement</em>.</h2>
-  <div class="why-grid">
-    <div class="why-col reveal d1">
-      <div class="num">01</div>
-      <h3>Design unique</h3>
-      <p>Une identité visuelle pensée comme une marque lifestyle internationale, pas comme une simple boisson.</p>
-    </div>
-    <div class="why-col reveal d2">
-      <div class="num">02</div>
-      <h3>Facile à transporter</h3>
-      <p>Le format pochon qui vous suit du sac de plage au rooftop en passant par le festival.</p>
-    </div>
-    <div class="why-col reveal d3">
-      <div class="num">03</div>
-      <h3>Expérience visuelle</h3>
-      <p>Des couleurs de coucher de soleil, à boire des yeux avant les lèvres. Un objet de désir.</p>
-    </div>
-    <div class="why-col reveal d4">
-      <div class="num">04</div>
-      <h3>Lifestyle premium</h3>
-      <p>Un univers, une vibe, une façon de vivre chaque instant pleinement et sans retenue.</p>
-    </div>
-  </div>
-</section>
-
-<!-- GALERIE -->
-<section class="gallery-section">
-  <div class="eyebrow reveal">La galerie</div>
-  <h2 class="h2 reveal d1">Des instants, <em>capturés</em>.</h2>
-  <div class="gallery">
-    <div class="g-item reveal">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600" alt="Ambiance festival" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d1">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600" alt="DJ set" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d2">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600" alt="Concert" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d1">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600" alt="Événement" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d2">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600" alt="Cocktail party" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d3">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600" alt="Drinks" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d1">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1543003303-d671beec1a1a?w=600" alt="Beach party" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-    <div class="g-item reveal d2">
-      <div class="g-inner"><img src="https://images.unsplash.com/photo-1574691250077-03a929faece5?w=600" alt="Summer festival" loading="lazy" style="width:100%;display:block;object-fit:cover"></div>
-      <div class="g-overlay"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials-section">
-  <div class="eyebrow reveal">Ils ont vécu l'expérience</div>
-  <h2 class="h2 reveal d1">La vibe, <em>en mots</em>.</h2>
-  <div class="tgrid">
-    <div class="tcard reveal d1">
-      <div class="quote-mark">"</div>
-      <p class="ttext">SYFIR c'est pas juste un cocktail, c'est une ambiance. Dès qu'on sort les pochons, l'énergie change instantanément. C'est devenu notre rituel de festival.</p>
-      <div class="tauthor">
-        <div class="avatar"><img src="https://i.pravatar.cc/100?img=1" alt="Chloé M." style="width:100%;height:100%;object-fit:cover"></div>
-        <div><div class="aname">Chloé M.</div><div class="ainfo">Festival de Dax · 2025</div></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Le Cocktail Libre · Vivez l'instant</p>
+      <h1 class="hero-title">SYFIR</h1>
+      <p class="hero-tagline">Le Cocktail Libre.</p>
+      <p class="hero-sub">Vivez l'instant.&nbsp;&nbsp;Partagez la couleur.</p>
+      <div class="hero-btns">
+        <a href="#boutique" class="btn btn-gold">
+          <i class="fas fa-shopping-bag"></i> Découvrir la boutique
+        </a>
+        <a href="#univers" class="btn btn-outline">
+          <i class="fas fa-play-circle"></i> Notre univers
+        </a>
       </div>
     </div>
-    <div class="tcard reveal d2">
-      <div class="quote-mark">"</div>
-      <p class="ttext">Sur le bateau avec les copains, les SYFIR Sunset Passion au coucher de soleil... franchement, c'était la scène parfaite. Le packaging fait tout le travail.</p>
-      <div class="tauthor">
-        <div class="avatar"><img src="https://i.pravatar.cc/100?img=2" alt="Maxime R." style="width:100%;height:100%;object-fit:cover"></div>
-        <div><div class="aname">Maxime R.</div><div class="ainfo">Côte d'Azur · Été 2025</div></div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marqueeTrack">
+      <span class="marquee-item">Le Cocktail Libre <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Vivez l'instant <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Partagez la couleur <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Liberté <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Partage <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Soleil <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Évasion <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">#SYFIR <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Le Cocktail Libre <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Vivez l'instant <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Partagez la couleur <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Liberté <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Partage <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Soleil <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">Évasion <i class="fas fa-circle"></i></span>
+      <span class="marquee-item">#SYFIR <i class="fas fa-circle"></i></span>
+    </div>
+  </div>
+
+  <!-- ===== SECTION UNIVERS ===== -->
+  <section id="univers" class="section-univers">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow"><span class="eyebrow-line"></span>L'Univers SYFIR</span>
+        <h2 class="section-title">Plus qu'une boisson.<br><em>Une façon de vivre.</em></h2>
+        <p class="section-desc">SYFIR est née d'une idée simple : chaque instant mérite d'être vécu pleinement, sans règles, sans attendre. Le format liberté. La couleur. Le partage.</p>
+      </div>
+
+      <div class="values-grid">
+        <div class="vcard reveal d1">
+          <div class="vcard-icon"><i class="fas fa-wind"></i></div>
+          <h3>Liberté</h3>
+          <p>Emmenez SYFIR partout. Plage, festival, rooftop — aucune limite, aucun moment de trop.</p>
+        </div>
+        <div class="vcard reveal d2">
+          <div class="vcard-icon"><i class="fas fa-users"></i></div>
+          <h3>Partage</h3>
+          <p>Pensé pour les moments entre amis, les rires, les retrouvailles et les nouvelles rencontres.</p>
+        </div>
+        <div class="vcard reveal d3">
+          <div class="vcard-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>Mobilité</h3>
+          <p>Un format pochon innovant ultra-pratique qui vous suit partout sans contrainte.</p>
+        </div>
+        <div class="vcard reveal d4">
+          <div class="vcard-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Instantanéité</h3>
+          <p>Prêt à profiter immédiatement. L'instant n'attend pas — SYFIR non plus.</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-bar reveal d2">
+        <div class="stat">
+          <div class="stat-num" data-target="50">0</div>
+          <div class="stat-label">Événements Partenaires</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="12000">0</div>
+          <div class="stat-label">Membres de la Communauté</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="3">0</div>
+          <div class="stat-label">Saveurs Premium</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="100">0</div>
+          <div class="stat-label">% Format Liberté</div>
+        </div>
       </div>
     </div>
-    <div class="tcard reveal d3">
-      <div class="quote-mark">"</div>
-      <p class="ttext">On a intégré SYFIR dans notre concept de rooftop et l'accueil a été incroyable. Nos clients adorent l'aspect visuel et le goût. C'est exactement le produit premium qu'on cherchait.</p>
-      <div class="tauthor">
-        <div class="avatar"><img src="https://i.pravatar.cc/100?img=3" alt="Lucas B." style="width:100%;height:100%;object-fit:cover"></div>
-        <div><div class="aname">Lucas B.</div><div class="ainfo">Gérant de bar, Paris</div></div>
+  </section>
+
+  <!-- ===== SECTION BOUTIQUE ===== -->
+  <section id="boutique" class="section-boutique">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow"><span class="eyebrow-line"></span>Nos Saveurs</span>
+        <h2 class="section-title">Des cocktails <em>d'exception</em>.</h2>
+        <p class="section-desc">Chaque saveur est une invitation au voyage. Des assemblages de fruits exotiques et d'arômes premium, conditionnés dans le format liberté.</p>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- Produit 1 -->
+        <div class="product-card reveal d1">
+          <div class="product-badge">Best-seller</div>
+          <div class="product-img">
+            <img src="https://images.pexels.com/photos/3407777/pexels-photo-3407777.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sunset Planteur cocktail" loading="lazy">
+            <div class="product-overlay">
+              <button class="btn-quick-view" data-product="sunset-planteur" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i> Voir
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-tags">
+              <span>Mangue</span>
+              <span>Ananas</span>
+              <span>Passion</span>
+            </div>
+            <h3 class="product-name">Sunset Planteur</h3>
+            <p class="product-desc">Un voyage tropical en une gorgée. La richesse de la mangue mûre, la fraîcheur de l'ananas et l'intensité du fruit de la passion.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price">4,90 €</span>
+                <span class="unit">/ sachet 250ml</span>
+              </div>
+              <button class="btn-cart" data-name="Sunset Planteur" data-price="4.90">
+                <i class="fas fa-shopping-bag"></i> Ajouter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 2 -->
+        <div class="product-card reveal d2">
+          <div class="product-badge badge-coral">Nouveau</div>
+          <div class="product-img">
+            <img src="https://images.pexels.com/photos/1304540/pexels-photo-1304540.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Coral Breeze cocktail" loading="lazy">
+            <div class="product-overlay">
+              <button class="btn-quick-view" data-product="coral-breeze" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i> Voir
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-tags">
+              <span>Fruits rouges</span>
+              <span>Agrumes</span>
+              <span>Hibiscus</span>
+            </div>
+            <h3 class="product-name">Coral Breeze</h3>
+            <p class="product-desc">La douceur des fruits rouges rencontre l'acidité des agrumes. Une note florale d'hibiscus pour une fraîcheur absolument unique.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price">4,90 €</span>
+                <span class="unit">/ sachet 250ml</span>
+              </div>
+              <button class="btn-cart" data-name="Coral Breeze" data-price="4.90">
+                <i class="fas fa-shopping-bag"></i> Ajouter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 3 -->
+        <div class="product-card reveal d3">
+          <div class="product-badge badge-gold">Premium</div>
+          <div class="product-img">
+            <img src="https://images.pexels.com/photos/2775860/pexels-photo-2775860.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Golden Escape cocktail" loading="lazy">
+            <div class="product-overlay">
+              <button class="btn-quick-view" data-product="golden-escape" aria-label="Voir le produit">
+                <i class="fas fa-eye"></i> Voir
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-tags">
+              <span>Citron vert</span>
+              <span>Exotique</span>
+              <span>Passion</span>
+            </div>
+            <h3 class="product-name">Golden Escape</h3>
+            <p class="product-desc">L'équilibre parfait entre le citron vert acidulé, les fruits exotiques et la passion. Une évasion en bouteille à chaque gorgée.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price">5,50 €</span>
+                <span class="unit">/ sachet 250ml</span>
+              </div>
+              <button class="btn-cart" data-name="Golden Escape" data-price="5.50">
+                <i class="fas fa-shopping-bag"></i> Ajouter
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Panier flottant -->
+      <div class="cart-toast" id="cartToast">
+        <i class="fas fa-check-circle"></i>
+        <span id="cartToastMsg">Produit ajouté au panier</span>
+      </div>
+
+      <div class="boutique-cta reveal">
+        <p>Le Format Liberté — sachet transparent refermable, sans verre, sans contrainte.</p>
+        <a href="#contact" class="btn btn-gold">Commander en volume</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- COMMUNAUTÉ -->
-<section id="communaute" class="community">
-  <div class="eyebrow reveal" style="justify-content:center">Rejoignez la communauté</div>
-  <div class="hashtag reveal d1">#SYFIR</div>
-  <p class="community-text reveal d2">Partagez vos moments, vos couchers de soleil, vos soirées. La vibe se vit ensemble — et se partage encore plus fort.</p>
-  <div class="social-row reveal d3">
-    <a href="#" class="social-btn" aria-label="Instagram">
-      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-    </a>
-    <a href="#" class="social-btn" aria-label="TikTok">
-      <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/></svg>
-    </a>
-    <a href="#" class="social-btn" aria-label="YouTube">
-      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
-    </a>
-    <a href="#" class="social-btn" aria-label="Facebook">
-      <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-    </a>
-  </div>
-  <div class="vibes-grid reveal d4">
-    <div class="vibe-card">
-      <div class="vibe-icon">🏖️</div>
-      <h4>Plages & Piscines</h4>
-      <p>Le pochon parfait pour les journées au soleil. Frais, portable, festif.</p>
-    </div>
-    <div class="vibe-card">
-      <div class="vibe-icon">🎪</div>
-      <h4>Festivals</h4>
-      <p>Léger, résistant, sans verre. Le compagnon idéal des grandes scènes.</p>
-    </div>
-    <div class="vibe-card">
-      <div class="vibe-icon">🛥️</div>
-      <h4>Sur l'eau</h4>
-      <p>Yachts, bateaux, pédalos — SYFIR flotte dans votre lifestyle.</p>
-    </div>
-    <div class="vibe-card">
-      <div class="vibe-icon">🌆</div>
-      <h4>Rooftops</h4>
-      <p>Pour les soirées au-dessus des villes avec vue sur le coucher de soleil.</p>
-    </div>
-    <div class="vibe-card">
-      <div class="vibe-icon">🎶</div>
-      <h4>Concerts</h4>
-      <p>Dans la fosse ou en VIP, SYFIR rythme chaque note avec vous.</p>
-    </div>
-    <div class="vibe-card">
-      <div class="vibe-icon">🏡</div>
-      <h4>Terrasses & BBQ</h4>
-      <p>Entre amis, sous le soleil — les meilleurs souvenirs commencent ici.</p>
-    </div>
-  </div>
-</section>
+  <!-- ===== SECTION ÉVÉNEMENTS ===== -->
+  <section id="evenements" class="section-events">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow"><span class="eyebrow-line"></span>SYFIR Experience</span>
+        <h2 class="section-title">Vivez <em>l'expérience</em><br>à votre rythme.</h2>
+        <p class="section-desc">SYFIR s'invite à vos événements pour transformer chaque occasion en souvenir inoubliable. Du festival intime à la grande soirée privée.</p>
+      </div>
 
-<!-- PARTENAIRES -->
-<section id="partenaires">
-  <div class="partners-wrap">
-    <div>
-      <div class="eyebrow reveal">Partenariats professionnels</div>
-      <h2 class="h2 reveal d1">Intégrez SYFIR<br>à <em>votre établissement</em>.</h2>
-      <p class="reveal d2" style="margin-top:24px;opacity:.7;font-weight:300;font-size:1rem;line-height:1.7;max-width:480px">SYFIR accompagne les établissements qui souhaitent enrichir leur offre et se démarquer. Bénéficiez d'un approvisionnement dédié, d'opérations sur mesure et d'une mise en avant auprès de notre communauté.</p>
-      <div class="ptags reveal d3">
-        <span>Bars</span><span>Clubs</span><span>Festivals</span><span>Hôtels</span><span>Restaurants</span><span>Événementiel</span><span>Plages privées</span><span>Yachts</span>
+      <div class="events-grid">
+
+        <div class="event-card reveal d1" style="--img: url('https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="event-bg"></div>
+          <div class="event-content">
+            <div class="event-icon"><i class="fas fa-music"></i></div>
+            <h3>Festivals</h3>
+            <p>Animations SYFIR dans les grands festivals. Bars éphémères, distributions et animations de marque.</p>
+            <a href="#contact" class="event-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="event-card reveal d2" style="--img: url('https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="event-bg"></div>
+          <div class="event-content">
+            <div class="event-icon"><i class="fas fa-birthday-cake"></i></div>
+            <h3>Anniversaires</h3>
+            <p>Rendez votre anniversaire mémorable avec une animation cocktail SYFIR personnalisée.</p>
+            <a href="#contact" class="event-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="event-card reveal d3" style="--img: url('https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="event-bg"></div>
+          <div class="event-content">
+            <div class="event-icon"><i class="fas fa-rings-wedding"></i></div>
+            <h3>Mariages</h3>
+            <p>Sublimez votre mariage avec une offre cocktail unique. Formules open bar sur mesure.</p>
+            <a href="#contact" class="event-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="event-card reveal d4" style="--img: url('https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="event-bg"></div>
+          <div class="event-content">
+            <div class="event-icon"><i class="fas fa-moon"></i></div>
+            <h3>Soirées Privées</h3>
+            <p>Soirées VIP, pool parties, rooftops — SYFIR crée l'atmosphère et l'expérience.</p>
+            <a href="#contact" class="event-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="event-card reveal d2" style="--img: url('https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <div class="event-bg"></div>
+          <div class="event-content">
+            <div class="event-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Événements Pro</h3>
+            <p>Séminaires, lancements de produits, soirées corporate — l'expérience SYFIR au service de votre image.</p>
+            <a href="#contact" class="event-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="event-card event-card-cta reveal d3">
+          <div class="event-content event-content-cta">
+            <div class="event-icon"><i class="fas fa-star"></i></div>
+            <h3>Votre événement<br>sur mesure</h3>
+            <p>Chaque événement est unique. Discutons ensemble de votre projet.</p>
+            <a href="#contact" class="btn btn-gold">Nous contacter</a>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="pbox reveal d2">
-      <h3>Un partenariat sur mesure</h3>
-      <p>Un accompagnement complet pour faire de SYFIR un véritable atout de votre établissement.</p>
-      <ul class="pbenefits">
-        <li>Approvisionnement dédié et conditions privilégiées</li>
-        <li>Animations et activations exclusives</li>
-        <li>Visibilité auprès de notre communauté</li>
-        <li>Accompagnement par une équipe dédiée</li>
-      </ul>
-      <a href="mailto:contact@syfir.fr" class="btn btn-gold">Demander un partenariat</a>
+  </section>
+
+  <!-- ===== SECTION PARTENAIRES ===== -->
+  <section id="partenaires" class="section-partners">
+    <div class="container">
+      <div class="partners-layout">
+        <div class="partners-left reveal from-left">
+          <span class="eyebrow"><span class="eyebrow-line"></span>Devenez Partenaire</span>
+          <h2 class="section-title">Intégrez SYFIR<br>à <em>votre établissement</em>.</h2>
+          <p class="partners-desc">SYFIR accompagne les professionnels qui souhaitent enrichir leur offre boissons. Un produit premium, une marque lifestyle reconnue, un partenariat sur mesure.</p>
+          <div class="partner-tags">
+            <span><i class="fas fa-cocktail"></i> Bars</span>
+            <span><i class="fas fa-music"></i> Clubs</span>
+            <span><i class="fas fa-utensils"></i> Restaurants</span>
+            <span><i class="fas fa-hotel"></i> Hôtels</span>
+            <span><i class="fas fa-umbrella-beach"></i> Plages privées</span>
+            <span><i class="fas fa-calendar"></i> Organisateurs</span>
+            <span><i class="fas fa-ship"></i> Yachts</span>
+            <span><i class="fas fa-store"></i> Points de vente</span>
+          </div>
+        </div>
+        <div class="partners-right reveal from-right d2">
+          <div class="pbox">
+            <div class="pbox-header">
+              <h3>Un partenariat<br>sur mesure</h3>
+              <div class="pbox-badge">B2B</div>
+            </div>
+            <p>Un accompagnement complet pour faire de SYFIR un véritable atout de votre établissement.</p>
+            <ul class="benefits-list">
+              <li><i class="fas fa-check"></i> Approvisionnement dédié et conditions privilégiées</li>
+              <li><i class="fas fa-check"></i> Animations et activations exclusives en point de vente</li>
+              <li><i class="fas fa-check"></i> Visibilité auprès de la communauté SYFIR</li>
+              <li><i class="fas fa-check"></i> Accompagnement commercial personnalisé</li>
+              <li><i class="fas fa-check"></i> Matériels PLV et communication offerts</li>
+            </ul>
+            <a href="#contact" class="btn btn-gold btn-full">
+              <i class="fas fa-handshake"></i> Demander un partenariat
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats partenaires -->
+      <div class="partner-stats reveal d3">
+        <div class="pstat">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="pstat-num" data-target="30">0</div>
+          <div class="pstat-label">Villes partenaires</div>
+        </div>
+        <div class="pstat">
+          <i class="fas fa-store"></i>
+          <div class="pstat-num" data-target="150">0</div>
+          <div class="pstat-label">Points de distribution</div>
+        </div>
+        <div class="pstat">
+          <i class="fas fa-star"></i>
+          <div class="pstat-num" data-target="98">0</div>
+          <div class="pstat-label">% de satisfaction</div>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- ===== SECTION GALERIE ===== -->
+  <section id="galerie" class="section-gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow"><span class="eyebrow-line"></span>Moments SYFIR</span>
+        <h2 class="section-title">Des instants <em>capturés</em>.</h2>
+        <p class="section-desc">L'univers SYFIR en images — plages, festivals, soirées, couchers de soleil. Chaque moment, une couleur.</p>
+      </div>
+
+      <div class="masonry-gallery">
+        <div class="g-item reveal d1">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Festival SYFIR" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d2">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/3407777/pexels-photo-3407777.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cocktail coloré" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d3">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Soirée privée" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d1">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/1836956/pexels-photo-1836956.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Coucher de soleil tropical" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d2">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/1304540/pexels-photo-1304540.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cocktails premium" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d3">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/2773987/pexels-photo-2773987.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Groupe d'amis" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d2">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/2775860/pexels-photo-2775860.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ambiance lifestyle" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+        <div class="g-item reveal d1">
+          <div class="g-inner">
+            <img src="https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rooftop soirée" loading="lazy">
+          </div>
+          <div class="g-overlay"><i class="fas fa-expand"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION TÉMOIGNAGES ===== -->
+  <section id="temoignages" class="section-testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow"><span class="eyebrow-line"></span>Ils ont vécu l'expérience</span>
+        <h2 class="section-title">La vibe, <em>en mots</em>.</h2>
+      </div>
+
+      <div class="testimonials-slider" id="testimonialsSlider">
+        <div class="testimonials-track" id="testimonialsTrack">
+
+          <div class="tcard">
+            <div class="tcard-quote"><i class="fas fa-quote-left"></i></div>
+            <p class="tcard-text">SYFIR c'est pas juste un cocktail, c'est une ambiance. Dès qu'on sort les pochons, l'énergie change instantanément. C'est devenu notre rituel de festival.</p>
+            <div class="tcard-author">
+              <img src="https://i.pravatar.cc/80?img=5" alt="Chloé M." loading="lazy">
+              <div>
+                <div class="tcard-name">Chloé M.</div>
+                <div class="tcard-role">Festival de Dax · 2025</div>
+              </div>
+              <div class="tcard-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-quote"><i class="fas fa-quote-left"></i></div>
+            <p class="tcard-text">Sur le bateau avec les copains, les SYFIR Sunset Passion au coucher de soleil... franchement, c'était la scène parfaite. Le packaging fait tout le travail.</p>
+            <div class="tcard-author">
+              <img src="https://i.pravatar.cc/80?img=12" alt="Maxime R." loading="lazy">
+              <div>
+                <div class="tcard-name">Maxime R.</div>
+                <div class="tcard-role">Côte d'Azur · Été 2025</div>
+              </div>
+              <div class="tcard-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-quote"><i class="fas fa-quote-left"></i></div>
+            <p class="tcard-text">On a intégré SYFIR dans notre concept de rooftop. L'accueil a été incroyable — nos clients adorent l'aspect visuel et le goût. C'est exactement le produit premium qu'on cherchait.</p>
+            <div class="tcard-author">
+              <img src="https://i.pravatar.cc/80?img=15" alt="Lucas B." loading="lazy">
+              <div>
+                <div class="tcard-name">Lucas B.</div>
+                <div class="tcard-role">Gérant de bar · Paris</div>
+              </div>
+              <div class="tcard-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="slider-controls">
+          <button class="slider-btn" id="prevBtn" aria-label="Précédent">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="slider-dots" id="sliderDots">
+            <button class="dot active" data-index="0"></button>
+            <button class="dot" data-index="1"></button>
+            <button class="dot" data-index="2"></button>
+          </div>
+          <button class="slider-btn" id="nextBtn" aria-label="Suivant">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION CONTACT ===== -->
+  <section id="contact" class="section-contact">
+    <div class="container">
+      <div class="contact-layout">
+        <div class="contact-left reveal from-left">
+          <span class="eyebrow"><span class="eyebrow-line"></span>Nous contacter</span>
+          <h2 class="section-title">Parlons de<br><em>votre projet</em>.</h2>
+          <p class="contact-desc">Une question, un projet événementiel, un partenariat ? Notre équipe vous répond dans les 24h.</p>
+
+          <div class="contact-infos">
+            <div class="contact-info-item">
+              <div class="info-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <div class="info-label">Email</div>
+                <a href="mailto:contact@syfir.fr" class="info-value">contact@syfir.fr</a>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="info-icon"><i class="fas fa-phone"></i></div>
+              <div>
+                <div class="info-label">Téléphone</div>
+                <a href="tel:+33600000000" class="info-value">+33 6 00 00 00 00</a>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <div class="info-label">Localisation</div>
+                <span class="info-value">France — disponible partout</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-social">
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-right reveal from-right d2">
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">Prénom *</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" autocomplete="given-name">
+                <span class="form-error" id="firstNameError"></span>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Nom *</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Votre nom" autocomplete="family-name">
+                <span class="form-error" id="lastNameError"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" placeholder="votre@email.com" autocomplete="email">
+              <span class="form-error" id="emailError"></span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input type="tel" id="phone" name="phone" placeholder="+33 6 00 00 00 00" autocomplete="tel">
+              <span class="form-error" id="phoneError"></span>
+            </div>
+            <div class="form-group">
+              <label for="requestType">Type de demande *</label>
+              <div class="select-wrap">
+                <select id="requestType" name="requestType">
+                  <option value="">Sélectionner...</option>
+                  <option value="boutique">Boutique / Commande</option>
+                  <option value="evenement">Événement / Festival</option>
+                  <option value="partenariat">Partenariat B2B</option>
+                  <option value="presse">Presse / Communication</option>
+                  <option value="autre">Autre</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+              <span class="form-error" id="requestTypeError"></span>
+            </div>
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="5" placeholder="Décrivez votre projet ou votre demande..."></textarea>
+              <span class="form-error" id="messageError"></span>
+            </div>
+            <button type="submit" class="btn btn-gold btn-full btn-submit" id="submitBtn">
+              <span class="btn-text"><i class="fas fa-paper-plane"></i> Envoyer le message</span>
+              <span class="btn-loading" style="display:none"><i class="fas fa-spinner fa-spin"></i> Envoi...</span>
+            </button>
+            <div class="form-success" id="formSuccess" style="display:none">
+              <i class="fas fa-check-circle"></i>
+              <strong>Message envoyé avec succès !</strong>
+              <p>Nous vous répondrons dans les 24h. À très bientôt !</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-brand">
+          <div class="footer-logo">SYFIR</div>
+          <p class="footer-tagline">Vivez l'instant. Partagez la couleur.</p>
+        </div>
+
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>SYFIR</h4>
+            <p>Le cocktail libre. Plus qu'une boisson, une expérience. Une façon de vivre chaque instant pleinement, sans règles, sans attendre.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="#univers">Univers</a></li>
+              <li><a href="#boutique">Boutique</a></li>
+              <li><a href="#evenements">Événements</a></li>
+              <li><a href="#partenaires">Partenaires</a></li>
+              <li><a href="#galerie">Galerie</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#evenements">Festivals</a></li>
+              <li><a href="#evenements">Mariages</a></li>
+              <li><a href="#evenements">Soirées privées</a></li>
+              <li><a href="#evenements">Événements pro</a></li>
+              <li><a href="#partenaires">Distribution B2B</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:contact@syfir.fr">contact@syfir.fr</a></li>
+              <li><a href="tel:+33600000000">+33 6 00 00 00 00</a></li>
+              <li><a href="#partenaires">Devenir partenaire</a></li>
+              <li><a href="#">Presse</a></li>
+              <li><a href="#">Mentions légales</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p class="legal">
+          L'abus d'alcool est dangereux pour la santé. À consommer avec modération.<br>
+          © 2026 SYFIR — Votre Moment. Vos Règles. Notre Vibe.
+        </p>
+        <div class="footer-links">
+          <a href="#">Mentions légales</a>
+          <a href="#">CGV</a>
+          <a href="#">Politique de confidentialité</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== CART ICON (floating) ===== -->
+  <div class="cart-fab" id="cartFab" style="display:none">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="cart-count" id="cartCount">0</span>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="foot-logo reveal">SYFIR</div>
-  <div class="foot-tag reveal d1">Vivez l'instant. Partagez la couleur.</div>
-  <div class="foot-cols reveal d2">
-    <div class="foot-col">
-      <h4>SYFIR</h4>
-      <p>Le cocktail libre. Plus qu'une boisson, une expérience. Une façon de vivre chaque instant pleinement, sans règles, sans attendre.</p>
-      <p style="margin-top:16px;font-size:.82rem;opacity:.45">Votre Moment. Vos Règles. Notre Vibe.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="#univers">Univers</a></li>
-        <li><a href="#moments">Moments</a></li>
-        <li><a href="#communaute">Communauté</a></li>
-        <li><a href="#partenaires">Partenaires</a></li>
-      </ul>
-    </div>
-
-    <div class="foot-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="mailto:contact@syfir.fr">contact@syfir.fr</a></li>
-        <li><a href="#partenaires">Devenir partenaire</a></li>
-        <li><a href="#">Presse</a></li>
-        <li><a href="#">Mentions légales</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    <p class="legal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.<br>© 2026 SYFIR — Votre Moment. Vos Règles. Notre Vibe.</p>
-    <div class="foot-social">
-      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-      <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/></svg></a>
-      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
-    </div>
-  </div>
-</footer>
-
-<script>
-/* NAV scroll */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-/* BURGER */
-const burgerBtn = document.getElementById('burgerBtn');
-const mobileNav = document.getElementById('mobileNav');
-const closeNav = document.getElementById('closeNav');
-burgerBtn.addEventListener('click', () => mobileNav.classList.add('open'));
-closeNav.addEventListener('click', () => mobileNav.classList.remove('open'));
-function closeMobileNav() { mobileNav.classList.remove('open'); }
-
-/* REVEAL ON SCROLL */
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: .12 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-/* COUNTER ANIMATION */
-function animateCounter(el) {
-  const target = parseInt(el.dataset.target);
-  const duration = 2000;
-  const start = performance.now();
-  function step(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const val = Math.round(eased * target);
-    el.textContent = target >= 1000 ? val.toLocaleString('fr-FR') + '+' : val;
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-const counterObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      animateCounter(e.target);
-      counterObs.unobserve(e.target);
-    }
-  });
-}, { threshold: .5 });
-document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
-
-/* PARALLAX subtle */
-window.addEventListener('scroll', () => {
-  const sy = window.scrollY;
-  const sun = document.querySelector('.sun');
-  if (sun) sun.style.transform = `translate(-50%, calc(-50% + ${sy * .04}px))`;
-});
-</script>
+  <!-- Scripts -->
+  <script src="script.js"></script>
 </body>
 </html>
