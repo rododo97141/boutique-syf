@@ -381,6 +381,95 @@ section { padding: clamp(80px,12vh,160px) 6vw; position: relative; }
 .vcard h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; letter-spacing: .04em; margin-bottom: 10px; }
 .vcard p { font-size: .9rem; opacity: .7; font-weight: 300; line-height: 1.6; }
 
+/* ===== SAVEURS ===== */
+.saveurs-section {
+  position: relative;
+  padding: 120px 6vw;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,122,0,.05) 50%, rgba(0,0,0,0) 100%);
+  overflow: hidden;
+}
+.saveurs-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 80px;
+}
+.saveurs-intro {
+  font-size: 1.05rem;
+  opacity: .7;
+  margin-top: 20px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+.saveurs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+@media(max-width:1000px) { .saveurs-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:550px) { .saveurs-grid { grid-template-columns: 1fr; } }
+.saveur-card {
+  background: rgba(250,248,242,.04);
+  border: 1px solid rgba(250,248,242,.1);
+  border-radius: 28px;
+  padding: 40px 30px 36px;
+  text-align: center;
+  transition: .5s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+.saveur-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(140% 90% at 50% 0%, rgba(255,200,87,.1), transparent 60%);
+  opacity: 0; transition: .5s;
+}
+.saveur-card:hover { transform: translateY(-12px); border-color: rgba(212,160,23,.45); box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+.saveur-card:hover::before { opacity: 1; }
+.saveur-orb {
+  width: 100px; height: 100px; border-radius: 50%;
+  margin: 0 auto 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  position: relative; z-index: 1;
+  transition: transform .5s cubic-bezier(.16,1,.3,1);
+}
+.saveur-card:hover .saveur-orb { transform: scale(1.1); }
+.saveur-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: .05em;
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+.saveur-desc {
+  font-size: .88rem;
+  opacity: .7;
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 22px;
+  position: relative; z-index: 1;
+}
+.saveur-tags {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+.saveur-tags span {
+  font-size: .7rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: 1px solid rgba(240,200,74,.4);
+  color: var(--passion);
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
 /* ===== SPIRIT / MOSAIC ===== */
 .spirit {
   background:
@@ -850,10 +939,11 @@ footer::before {
 <div class="mobile-nav" id="mobileNav">
   <div class="close-btn" id="closeNav">✕</div>
   <a href="#univers" onclick="closeMobileNav()">Univers</a>
+  <a href="#saveurs" onclick="closeMobileNav()">Saveurs</a>
   <a href="#moments" onclick="closeMobileNav()">Moments</a>
   <a href="#communaute" onclick="closeMobileNav()">Communauté</a>
   <a href="#partenaires" onclick="closeMobileNav()">Partenaires</a>
-  <a href="#partenaires" class="btn btn-gold" onclick="closeMobileNav()">Partenaires</a>
+  <a href="#saveurs" class="btn btn-gold" onclick="closeMobileNav()">Voir les saveurs</a>
 </div>
 
 <!-- NAV -->
@@ -861,11 +951,12 @@ footer::before {
   <div class="brand">SYFIR</div>
   <div class="nav-links">
     <a href="#univers">Univers</a>
+    <a href="#saveurs">Saveurs</a>
     <a href="#moments">Moments</a>
     <a href="#communaute">Communauté</a>
     <a href="#partenaires">Partenaires</a>
   </div>
-  <a href="#univers" class="nav-cta"><span>Découvrir l'univers</span></a>
+  <a href="#saveurs" class="nav-cta"><span>Voir les saveurs</span></a>
   <div class="burger" id="burgerBtn"><span></span><span></span><span></span></div>
 </nav>
 
@@ -889,7 +980,7 @@ footer::before {
     <div class="hero-sub">Liberté · Partage · Soleil · Évasion</div>
     <div class="hero-btns">
       <a href="#univers" class="btn btn-gold">Découvrir l'univers</a>
-      <a href="#moments" class="btn btn-outline">Nos moments</a>
+      <a href="#saveurs" class="btn btn-outline">Voir les saveurs</a>
     </div>
   </div>
   <div class="scroll-hint">
@@ -955,6 +1046,42 @@ footer::before {
   <div class="stat reveal d2"><div class="num" data-target="12000">0</div><div class="label">Membres de la communauté</div></div>
   <div class="stat reveal d3"><div class="num" data-target="4">0</div><div class="label">Saveurs uniques</div></div>
 </div>
+
+<!-- SAVEURS -->
+<section id="saveurs" class="saveurs-section">
+  <div class="gold-sweep" style="position:absolute;inset:0;pointer-events:none;"></div>
+  <div class="saveurs-header">
+    <div class="eyebrow reveal">Nos créations</div>
+    <h2 class="h2 reveal d1">Quatre saveurs.<br><em>Un monde de possibilités.</em></h2>
+    <p class="saveurs-intro reveal d2">Chaque saveur SYFIR est une invitation à un instant différent. Choisissez votre humeur.</p>
+  </div>
+  <div class="saveurs-grid">
+    <div class="saveur-card reveal d1">
+      <div class="saveur-orb" style="background:radial-gradient(circle at 40% 40%, #FFB347, #FF7A00, #C0392B)"></div>
+      <div class="saveur-name">Passion Soleil</div>
+      <div class="saveur-desc">Fruit de la passion, mangue & une touche de gingembre. L'évasion en une gorgée.</div>
+      <div class="saveur-tags"><span>Tropical</span><span>Pétillant</span></div>
+    </div>
+    <div class="saveur-card reveal d2">
+      <div class="saveur-orb" style="background:radial-gradient(circle at 40% 40%, #B8F0A0, #2ECC71, #1a6b3a)"></div>
+      <div class="saveur-name">Citrus Libre</div>
+      <div class="saveur-desc">Citron vert, basilic & eau de coco. La fraîcheur absolue pour les journées ensoleillées.</div>
+      <div class="saveur-tags"><span>Frais</span><span>Herbacé</span></div>
+    </div>
+    <div class="saveur-card reveal d3">
+      <div class="saveur-orb" style="background:radial-gradient(circle at 40% 40%, #F8C8D4, #E91E8C, #7B0D5E)"></div>
+      <div class="saveur-name">Berry Nuit</div>
+      <div class="saveur-desc">Fruits rouges, hibiscus & une note florale. Pour les soirées qui commencent au coucher du soleil.</div>
+      <div class="saveur-tags"><span>Fruité</span><span>Floral</span></div>
+    </div>
+    <div class="saveur-card reveal d4">
+      <div class="saveur-orb" style="background:radial-gradient(circle at 40% 40%, #FFF0A0, #F0C84A, #C0830A)"></div>
+      <div class="saveur-name">Gold Rush</div>
+      <div class="saveur-desc">Ananas, vanille & zeste d'orange. Le classique réinventé pour ceux qui voient la vie en or.</div>
+      <div class="saveur-tags"><span>Doux</span><span>Exotique</span></div>
+    </div>
+  </div>
+</section>
 
 <!-- ESPRIT -->
 <section class="spirit" id="moments">
