@@ -137,18 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${item.img}" alt="${item.name}" class="cart-item-img">
                 <div class="cart-item-details">
                     <p class="cart-item-name">${item.name}</p>
-                    <div class="cart-item-controls">
-                        <button class="cart-qty-btn" data-action="decrease" data-id="${item.id}">−</button>
-                        <span class="cart-qty">${item.qty}</span>
-                        <button class="cart-qty-btn" data-action="increase" data-id="${item.id}">+</button>
+                    <span class="cart-item-price">${(item.price * item.qty).toFixed(2).replace('.', ',')} €</span>
+                    <div class="cart-quantity-selector">
+                        <button class="qty-btn" data-action="decrease" data-id="${item.id}">−</button>
+                        <span class="qty-val">${item.qty}</span>
+                        <button class="qty-btn" data-action="increase" data-id="${item.id}">+</button>
                     </div>
                 </div>
-                <span class="cart-item-price">${(item.price * item.qty).toFixed(2).replace('.', ',')} €</span>
+                <button class="btn-remove-item" data-id="${item.id}" aria-label="Supprimer"><i class="fa-solid fa-xmark"></i></button>
             </div>
         `).join('');
 
-        // Délégation des boutons +/−
-        cartItemsCtn.querySelectorAll('.cart-qty-btn').forEach(btn => {
+        cartItemsCtn.querySelectorAll('.qty-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.dataset.id;
                 const item = cart.find(i => i.id === id);
@@ -162,10 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderCart();
             });
         });
+
+        cartItemsCtn.querySelectorAll('.btn-remove-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                cart = cart.filter(i => i.id !== btn.dataset.id);
+                renderCart();
+            });
+        });
     }
 
     function animateCartIcon() {
-        cartIcon.classList.add('bounce');
-        cartIcon.addEventListener('animationend', () => cartIcon.classList.remove('bounce'), { once: true });
+        cartIcon.classList.add('cart-bounce');
+        cartIcon.addEventListener('animationend', () => cartIcon.classList.remove('cart-bounce'), { once: true });
     }
 });
