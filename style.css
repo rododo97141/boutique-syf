@@ -410,16 +410,255 @@ body.modal-open {
    ========================================================================== */
 .reveal {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s var(--transition-premium), transform 0.9s var(--transition-premium);
+    transform: translateY(60px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.in { opacity: 1; transform: none; }
-.delay-1 { transition-delay: 0.15s; }
-.delay-2 { transition-delay: 0.3s; }
-.delay-3 { transition-delay: 0.45s; }
+.reveal.reveal-active { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+.delay-3 { transition-delay: 0.6s; }
 
 /* ==========================================================================
-   7. COCKTAILS SECTION
+   7. SECTION NOTRE MARQUE (LAYOUT MAGAZINE ASYMÉTRIQUE)
+   ========================================================================== */
+.brand-section {
+    padding: 12rem 4rem;
+    position: relative;
+    background-color: var(--night-black);
+    z-index: 5;
+}
+
+.brand-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16rem;
+}
+
+.magazine-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    gap: 4rem;
+}
+
+.row-1 .text-block      { grid-column: 1 / span 5; }
+.row-1 .image-block-large { grid-column: 6 / span 7; }
+
+.row-2 .pouch-visual-block  { grid-column: 1 / span 6; }
+.row-2 .text-block.right    { grid-column: 7 / span 6; padding-left: 4rem; }
+
+.section-tagline {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--champagne-gold);
+    margin-bottom: 1.5rem;
+}
+
+.magazine-title {
+    font-family: var(--font-editorial);
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--sand-cream);
+    margin-bottom: 2.5rem;
+}
+
+.magazine-title .italic-text  { font-style: italic; color: var(--sunset-orange); }
+.magazine-title .bold-accent  { font-weight: 700; letter-spacing: -0.01em; }
+
+.magazine-text p {
+    font-family: var(--font-read);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255, 244, 230, 0.7);
+    margin-bottom: 1.5rem;
+}
+
+.magazine-text p.highlight {
+    font-size: 1.15rem;
+    color: var(--sand-cream);
+    font-weight: 300;
+    border-left: 2px solid var(--sunset-orange);
+    padding-left: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.img-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s var(--transition-premium);
+}
+
+.img-wrapper:hover img { transform: scale(1.05); }
+
+.caption {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 244, 230, 0.4);
+    display: block;
+    margin-top: 1rem;
+    text-align: right;
+}
+
+/* Sachet translucide (glassmorphism) */
+.pouch-visual-block {
+    position: relative;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pouch-environment-bg {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-image: url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    filter: grayscale(30%);
+    border-radius: 4px;
+}
+
+.syfir-pouch-mockup {
+    position: relative;
+    width: 320px;
+    height: 480px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 254, 246, 0.15);
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 2;
+    overflow: hidden;
+    transition: transform 0.8s var(--transition-premium), border-color 0.5s;
+}
+
+.syfir-pouch-mockup:hover {
+    transform: translateY(-10px) rotate(1deg);
+    border-color: rgba(255, 122, 0, 0.4);
+}
+
+.pouch-seal {
+    width: 100%;
+    height: 35px;
+    background: linear-gradient(to bottom, rgba(255,244,230,0.05), rgba(255,244,230,0.02));
+    border-bottom: 1px dashed rgba(255, 254, 246, 0.2);
+    position: relative;
+}
+
+.pouch-seal::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 4px;
+    background-color: rgba(255,254,246,0.2);
+    border-radius: 2px;
+}
+
+.pouch-content {
+    padding: 3rem 2rem;
+    height: calc(100% - 35px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pouch-brand {
+    font-family: var(--font-editorial);
+    font-size: 2.2rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 244, 230, 0.8);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.floating-elements { width: 100%; display: flex; flex-direction: column; gap: 1.2rem; }
+
+.element-tag {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    border-radius: 50px;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.element-tag.ice   { background: rgba(247,210,139,0.1);  border: 1px solid rgba(247,210,139,0.2);  color: var(--champagne-gold); }
+.element-tag.fruit { background: rgba(255,122,0,0.1);    border: 1px solid rgba(255,122,0,0.2);    color: var(--mango-orange); }
+.element-tag.color { background: rgba(255,107,97,0.15);  border: 1px solid rgba(255,107,97,0.25);  color: var(--coral-tropical); }
+
+.pouch-reflection {
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 50%; height: 200%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+    transform: rotate(25deg);
+    pointer-events: none;
+    transition: transform 0.8s var(--transition-premium);
+}
+
+.syfir-pouch-mockup:hover .pouch-reflection { transform: rotate(25deg) translateX(300px); }
+
+.features-list { display: flex; flex-direction: column; gap: 2.5rem; }
+
+.feature-item h4 {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--sand-cream);
+    margin-bottom: 0.6rem;
+}
+
+.feature-item p {
+    font-family: var(--font-read);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255, 244, 230, 0.6);
+}
+
+@media (max-width: 1024px) {
+    .brand-section { padding: 8rem 2rem; }
+    .brand-container { gap: 10rem; }
+    .magazine-grid { gap: 2rem; }
+    .magazine-title { font-size: 2.6rem; }
+    .row-2 .text-block.right { padding-left: 0; }
+}
+
+@media (max-width: 768px) {
+    .magazine-grid { display: flex; flex-direction: column; }
+    .row-1 .text-block, .row-1 .image-block-large,
+    .row-2 .pouch-visual-block, .row-2 .text-block.right { width: 100%; }
+    .pouch-visual-block { height: 500px; }
+    .syfir-pouch-mockup { width: 280px; height: 420px; }
+}
+
+/* ==========================================================================
+   8. COCKTAILS SECTION
    ========================================================================== */
 .cocktails-section {
     padding: 8rem 0;

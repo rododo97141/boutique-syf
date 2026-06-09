@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── REVEAL ON SCROLL ─────────────────────────────────────────────────────
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('in');
+            if (entry.isIntersecting) entry.target.classList.add('reveal-active');
         });
     }, { threshold: 0.12 });
 
