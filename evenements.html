@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réservez vos billets ou organisez votre événement.">
+<title>SYFIR Événements — Billetterie &amp; Espace Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-events">
+
+<!-- ============================================================
+     NAVIGATION BILLETTERIE
+============================================================ -->
+<nav id="nav" class="nav-tickets">
+  <a href="index.html" class="nav-logo">SYFIR<span class="logo-suffix">Événements</span></a>
+
+  <div class="ticket-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="search" id="eventSearch" placeholder="Rechercher une soirée, une ville, un festival…" aria-label="Rechercher un événement">
+  </div>
+
+  <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Espace client</button>
+    <a class="btn btn-solid btn-sm" href="#pro">Espace pro</a>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Menu mobile -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
+  <a href="index.html">← Retour au site SYFIR</a>
+  <a href="#billetterie">Billetterie</a>
+  <a href="#pro">Espace professionnel</a>
+  <a href="#" id="clientSpaceBtnMobile">Espace client</a>
+  <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<!-- ============================================================
+     HERO BILLETTERIE
+============================================================ -->
+<header class="tickets-hero">
+  <div class="hero-bg tickets-hero-bg" data-parallax="0.25"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <p class="hero-kicker reveal">La billetterie officielle SYFIR</p>
+    <h1 class="tickets-title reveal d1">Vos prochains <em>souvenirs</em><br>commencent ici.</h1>
+    <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals et soirées privées — organisés par SYFIR et ses partenaires.</p>
+    <div class="hero-cta reveal d3">
+      <a href="#billetterie" class="btn btn-solid">Voir les événements</a>
+      <a href="#pro" class="btn btn-ghost">Organiser le mien</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     BILLETTERIE — filtres + grille d'événements
+============================================================ -->
+<section id="billetterie" class="section section-tickets">
+  <div class="container">
+    <p class="eyebrow reveal">Billetterie</p>
+    <h2 class="h2 reveal d1">Événements <em>à l'affiche</em></h2>
+
+    <!-- Filtres -->
+    <div class="filters reveal d2">
+      <div class="filter-chips" id="filterChips">
+        <button class="chip active" data-filter="tous">Tous</button>
+        <button class="chip" data-filter="beach">Beach Party</button>
+        <button class="chip" data-filter="rooftop">Rooftop</button>
+        <button class="chip" data-filter="festival">Festival</button>
+        <button class="chip" data-filter="club">Club</button>
+        <button class="chip" data-filter="prive">Soirée privée 🔒</button>
+      </div>
+      <div class="filter-extra">
+        <select id="cityFilter" aria-label="Filtrer par ville">
+          <option value="">Toutes les villes</option>
+        </select>
+        <label class="sort-label">
+          Trier :
+          <select id="sortFilter" aria-label="Trier les événements">
+            <option value="date">Date</option>
+            <option value="prix">Prix croissant</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <!-- Grille rendue par script.js -->
+    <div class="events-grid" id="eventsGrid"></div>
+    <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à votre recherche. Revenez vite, la programmation évolue chaque semaine. ✦</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     ESPACE PROFESSIONNEL — créer un événement
+============================================================ -->
+<section id="pro" class="section section-pro">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Espace professionnel</p>
+    <h2 class="h2 reveal d1">Organisez avec <em>SYFIR Experience</em></h2>
+    <p class="section-intro intro-light reveal d2">Créez votre événement en quelques minutes. Chaque événement est facturé selon les options choisies. Privé avec code d'accès, ou ouvert au grand public : vous décidez.</p>
+
+    <div class="pro-layout">
+      <!-- Formulaire de création -->
+      <form class="pro-form reveal from-left d2" id="proForm" novalidate>
+        <h3>Créer mon événement</h3>
+
+        <div class="form-field">
+          <label for="evName">Nom de l'événement *</label>
+          <input type="text" id="evName" placeholder="Ex. Sunset Rooftop Party">
+          <span class="field-error"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="evType">Type *</label>
+            <select id="evType">
+              <option value="">Choisir…</option>
+              <option value="beach">Beach Party</option>
+              <option value="rooftop">Rooftop</option>
+              <option value="festival">Festival</option>
+              <option value="club">Club</option>
+            </select>
+            <span class="field-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="evDate">Date *</label>
+            <input type="date" id="evDate">
+            <span class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="evCity">Ville *</label>
+            <input type="text" id="evCity" placeholder="Ex. Pointe-à-Pitre">
+            <span class="field-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="evPrice">Prix d'entrée (€) *</label>
+            <input type="number" id="evPrice" min="0" step="0.5" placeholder="25">
+            <span class="field-error"></span>
+          </div>
+        </div>
+
+        <!-- Visibilité : public ou privé -->
+        <fieldset class="visibility-switch">
+          <legend>Visibilité de l'événement *</legend>
+          <label class="vis-opt">
+            <input type="radio" name="evVisibility" value="public" checked>
+            <span><strong>🌍 Ouvert au public</strong><small>Visible dans la billetterie SYFIR</small></span>
+          </label>
+          <label class="vis-opt">
+            <input type="radio" name="evVisibility" value="prive">
+            <span><strong>🔒 Privé</strong><small>Accessible uniquement avec votre code</small></span>
+          </label>
+        </fieldset>
+        <div class="form-field" id="privateCodeField" hidden>
+          <label for="evCode">Code d'accès privé *</label>
+          <input type="text" id="evCode" placeholder="Ex. SUNSET2026" maxlength="16">
+          <span class="field-error"></span>
+        </div>
+
+        <!-- Options facturées -->
+        <fieldset class="options-list">
+          <legend>Options SYFIR Experience <small>(facturées par événement)</small></legend>
+          <label class="opt-line"><input type="checkbox" data-cost="49" checked disabled><span>Billetterie en ligne &amp; QR codes</span><strong>49 €</strong></label>
+          <label class="opt-line"><input type="checkbox" data-cost="79" class="ev-option"><span>Mise en avant page d'accueil</span><strong>79 €</strong></label>
+          <label class="opt-line"><input type="checkbox" data-cost="129" class="ev-option"><span>Scan d'entrée &amp; contrôle d'accès</span><strong>129 €</strong></label>
+          <label class="opt-line"><input type="checkbox" data-cost="299" class="ev-option"><span>Bar à cocktails SYFIR sur place</span><strong>299 €</strong></label>
+          <label class="opt-line"><input type="checkbox" data-cost="159" class="ev-option"><span>Photographe golden hour</span><strong>159 €</strong></label>
+          <label class="opt-line"><input type="checkbox" data-cost="89" class="ev-option"><span>Campagne réseaux #SYFIR</span><strong>89 €</strong></label>
+        </fieldset>
+
+        <!-- Facturation en direct -->
+        <div class="billing-box" aria-live="polite">
+          <div class="billing-line"><span>Création + billetterie</span><span>49,00 €</span></div>
+          <div class="billing-line" id="billingOptions"><span>Options sélectionnées</span><span>0,00 €</span></div>
+          <div class="billing-line billing-note"><span>Commission billetterie</span><span>2,5 % / billet vendu</span></div>
+          <div class="billing-total"><span>Facturation estimée</span><strong id="billingTotal">49,00 €</strong></div>
+        </div>
+
+        <button type="submit" class="btn btn-solid btn-lg btn-full">Créer l'événement</button>
+        <p class="form-success" id="proSuccess" hidden></p>
+      </form>
+
+      <!-- Avantages pro -->
+      <aside class="pro-aside reveal from-right d3">
+        <div class="pro-card" data-tilt>
+          <h4>Pourquoi organiser avec SYFIR ?</h4>
+          <ul>
+            <li>✦ Billetterie en ligne clé en main, paiement sécurisé</li>
+            <li>✦ Événement public visible par toute la communauté SYFIR</li>
+            <li>✦ Mode privé avec code d'accès pour vos invités</li>
+            <li>✦ Facturation claire, à l'option, sans abonnement</li>
+            <li>✦ Bar SYFIR, photographe &amp; communication en option</li>
+            <li>✦ Tableau de bord ventes en temps réel</li>
+          </ul>
+        </div>
+        <div class="pro-card pro-card-img" data-tilt>
+          <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=700&q=80" alt="Concert organisé avec SYFIR" loading="lazy">
+          <p>« Notre rooftop affichait complet en 4 jours. »<br><small>— Léa M., organisatrice partenaire</small></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">SYFIR<span>™</span></div>
+      <p>SYFIR Événements.<br>La billetterie des moments inoubliables.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Billetterie</h4>
+      <a href="#billetterie">Tous les événements</a>
+      <a href="#" id="footClientSpace">Espace client</a>
+      <a href="#pro">Espace professionnel</a>
+    </div>
+    <div class="footer-col">
+      <h4>SYFIR</h4>
+      <a href="index.html">Le site de la marque</a>
+      <a href="index.html#cocktails">Nos Cocktails</a>
+      <a href="index.html#partenaires">Devenir partenaire</a>
+    </div>
+    <div class="footer-col">
+      <h4>Légal</h4>
+      <a href="#">CGV billetterie</a>
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SYFIR Événements. — L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     MODALE BILLETS — achat de billets
+============================================================ -->
+<div class="modal" id="ticketModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    <div class="modal-media"><img id="tmImage" src="" alt=""></div>
+    <div class="modal-body">
+      <span class="modal-tag" id="tmTag"></span>
+      <h3 id="tmTitle"></h3>
+      <p class="modal-meta" id="tmMeta"></p>
+
+      <!-- Saisie du code pour événements privés -->
+      <div class="private-gate" id="privateGate" hidden>
+        <p>🔒 Cet événement est privé. Entrez votre code d'accès :</p>
+        <div class="gate-row">
+          <input type="text" id="gateCode" placeholder="CODE D'ACCÈS">
+          <button class="btn btn-solid btn-sm" id="gateSubmit">Valider</button>
+        </div>
+        <span class="field-error" id="gateError"></span>
+      </div>
+
+      <!-- Choix des billets -->
+      <div class="ticket-tiers" id="ticketTiers"></div>
+
+      <div class="modal-foot" id="modalFoot">
+        <div class="cart-total"><span>Total</span><strong id="tmTotal">0,00 €</strong></div>
+        <button class="btn btn-solid" id="tmBuy" disabled>Réserver mes billets</button>
+      </div>
+      <p class="form-success" id="tmSuccess" hidden></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODALE ESPACE CLIENT — connexion / inscription / mes billets
+============================================================ -->
+<div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-box modal-box-sm">
+    <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    <div class="modal-body">
+      <h3>Espace client</h3>
+      <div class="tabs" id="clientTabs">
+        <button class="tab active" data-tab="login">Connexion</button>
+        <button class="tab" data-tab="register">Inscription</button>
+        <button class="tab" data-tab="tickets">Mes billets</button>
+      </div>
+
+      <!-- Connexion -->
+      <form class="tab-panel active" id="panel-login" novalidate>
+        <div class="form-field">
+          <label for="clEmail">Email</label>
+          <input type="email" id="clEmail" placeholder="vous@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="clPass">Mot de passe</label>
+          <input type="password" id="clPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Se connecter</button>
+      </form>
+
+      <!-- Inscription -->
+      <form class="tab-panel" id="panel-register" novalidate>
+        <div class="form-field">
+          <label for="rgName">Nom complet</label>
+          <input type="text" id="rgName" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgEmail">Email</label>
+          <input type="email" id="rgEmail" placeholder="vous@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgPass">Mot de passe (8 caractères min.)</label>
+          <input type="password" id="rgPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Créer mon compte</button>
+      </form>
+
+      <!-- Mes billets -->
+      <div class="tab-panel" id="panel-tickets">
+        <div id="myTickets"><p class="cart-empty">Aucun billet pour l'instant. Vos réservations apparaîtront ici.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
