@@ -444,9 +444,10 @@ nav.scrolled {
 /* ===== OÙ NOUS TROUVER — partenaires & lieux ===== */
 .places-grid { display: grid; gap: 18px; margin-top: 34px; }
 .place-card {
+  display: flex; align-items: center; gap: 18px;
   background: rgba(250, 248, 242, .04);
   border: 1px solid rgba(255, 200, 87, .16);
-  border-radius: var(--radius); padding: 24px 22px;
+  border-radius: var(--radius); padding: 16px;
   transition: transform .5s var(--ease), border-color .4s, background .4s, box-shadow .5s var(--ease);
   animation: cardIn .5s var(--ease) backwards;
 }
@@ -457,13 +458,24 @@ nav.scrolled {
   box-shadow: 0 20px 46px rgba(0, 0, 0, .35);
 }
 .place-card[hidden] { display: none; }
+.place-thumb {
+  width: 96px; height: 96px; flex-shrink: 0;
+  border-radius: 14px; overflow: hidden;
+  background: rgba(255, 200, 87, .08);
+}
+.place-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .8s var(--ease);
+}
+.place-card:hover .place-thumb img { transform: scale(1.1); }
+.place-body { min-width: 0; }
 .place-type {
   font-family: var(--display); font-size: .64rem; font-weight: 800;
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--passion);
 }
-.place-card h3 { font-family: var(--display); font-weight: 800; font-size: 1.12rem; text-transform: uppercase; letter-spacing: .03em; margin: 8px 0 4px; }
-.place-loc { font-size: .88rem; color: rgba(250, 248, 242, .65); margin-bottom: 14px; }
+.place-card h3 { font-family: var(--display); font-weight: 800; font-size: 1.08rem; text-transform: uppercase; letter-spacing: .03em; margin: 6px 0 4px; }
+.place-loc { font-size: .85rem; color: rgba(250, 248, 242, .65); margin-bottom: 12px; }
 .place-serve { display: flex; flex-wrap: wrap; gap: 8px; }
 .place-serve span {
   font-size: .72rem; font-weight: 600;
@@ -889,7 +901,8 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
   .events-grid { grid-template-columns: repeat(3, 1fr); }
-  .places-grid { grid-template-columns: repeat(4, 1fr); }
+  .places-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .place-thumb { width: 110px; height: 110px; }
   .insta-grid { grid-template-columns: repeat(6, 1fr); }
   .section { padding: 130px 0; }
   .pro-layout { grid-template-columns: 1.15fr .85fr; align-items: start; gap: 50px; }
