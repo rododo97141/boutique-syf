@@ -177,10 +177,11 @@
   if (partnerForm) {
     // Le champ contextuel s'adapte au type de demande choisi
     const contextConfig = {
-      partenaire:   { label: 'Nom de l\'établissement *', placeholder: 'Le nom de votre lieu' },
-      evenement:    { label: 'Type d\'événement *',       placeholder: 'Mariage, soirée privée, festival…' },
-      distributeur: { label: 'Zone de distribution *',    placeholder: 'Région, département, île…' },
-      autre:        { label: 'Objet de votre demande *',  placeholder: 'Presse, collaboration, idée…' }
+      partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de votre lieu' },
+      evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
+      artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
+      distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
+      autre:        { label: 'Objet de votre demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
     $$('input[name="requestType"]', partnerForm).forEach(radio => {
       radio.addEventListener('change', () => {

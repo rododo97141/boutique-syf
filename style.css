@@ -908,7 +908,7 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
   .pro-layout { grid-template-columns: 1.15fr .85fr; align-items: start; gap: 50px; }
   .pro-form { padding: 40px 38px; }
   .smart-form { padding: 48px 44px; }
-  .form-choice { grid-template-columns: repeat(4, 1fr); }
+  .form-choice { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
 }
 
 /* Ultra-wide */
