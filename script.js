@@ -10,14 +10,13 @@
    05. Parallaxe douce
    06. Effet tilt premium (micro-interactions)
    07. Toast
-   08. Panier (compteur + tiroir + localStorage)
-   09. Cocktails : format à emporter / sur place
-   10. Formulaire partenaire intelligent + validation
-   11. Page Événements : données & rendu
-   12. Page Événements : filtres / recherche / tri
-   13. Page Événements : modale billets (+ accès privé)
-   14. Page Événements : espace client (onglets, connexion)
-   15. Page Événements : espace pro (création + facturation)
+   08. Où nous trouver : filtre des partenaires
+   09. Formulaire partenaire intelligent + validation
+   10. Page Événements : données & rendu
+   11. Page Événements : filtres / recherche / tri
+   12. Page Événements : modale billets (+ accès privé)
+   13. Page Événements : espace client (onglets, connexion)
+   14. Page Événements : espace pro (création + facturation)
 ============================================================ */
 
 (() => {
@@ -133,92 +132,26 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
-  /* ===== 08. PANIER ===== */
-  const cartDrawer = $('#cartDrawer');
-  const overlay = $('#overlay');
-  let cart = store.get('syfir-cart', []);
-
-  const renderCart = () => {
-    const count = cart.reduce((s, i) => s + i.qty, 0);
-    const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
-    const countEl = $('#cartCount');
-    if (countEl) {
-      countEl.textContent = count;
-      countEl.classList.remove('bump');
-      void countEl.offsetWidth; // relance l'animation
-      countEl.classList.add('bump');
-    }
-    const itemsEl = $('#cartItems');
-    if (itemsEl) {
-      itemsEl.innerHTML = cart.length
-        ? cart.map((i, idx) => `
-          <div class="cart-item">
-            <div class="cart-item-info">
-              <strong>${i.name}</strong>
-              <small>${i.format === 'emporter' ? 'À emporter — sachet' : 'Sur place — verre'}</small>
-            </div>
-            <div class="cart-item-qty">
-              <button class="qty-btn" data-idx="${idx}" data-delta="-1" aria-label="Retirer">−</button>
-              <span>${i.qty}</span>
-              <button class="qty-btn" data-idx="${idx}" data-delta="1" aria-label="Ajouter">+</button>
-            </div>
-            <span class="cart-item-price">${euro(i.qty * i.price)}</span>
-          </div>`).join('')
-        : '<p class="cart-empty">Votre panier attend son premier rayon de soleil.</p>';
-    }
-    const totalEl = $('#cartTotal');
-    if (totalEl) totalEl.textContent = euro(total);
-    store.set('syfir-cart', cart);
-  };
-
-  const openCart = () => { cartDrawer?.classList.add('open'); overlay?.classList.add('show'); };
-  const closeCart = () => { cartDrawer?.classList.remove('open'); overlay?.classList.remove('show'); };
-  $('#cartBtn')?.addEventListener('click', openCart);
-  $('#cartClose')?.addEventListener('click', closeCart);
-  overlay?.addEventListener('click', () => { closeCart(); mobileNav?.classList.remove('open'); });
-
-  $('#cartItems')?.addEventListener('click', e => {
-    const btn = e.target.closest('.qty-btn');
-    if (!btn) return;
-    const item = cart[+btn.dataset.idx];
-    item.qty += +btn.dataset.delta;
-    if (item.qty <= 0) cart.splice(+btn.dataset.idx, 1);
-    renderCart();
-  });
-
-  $('#cartCheckout')?.addEventListener('click', () => {
-    if (!cart.length) { showToast('Ajoutez d\'abord un cocktail à votre panier ✦'); return; }
-    cart = [];
-    renderCart();
-    closeCart();
-    showToast('✦ Commande confirmée ! Vos cocktails SYFIR arrivent.');
-  });
-
-  renderCart();
-
-  /* ===== 09. COCKTAILS : FORMAT À EMPORTER / SUR PLACE ===== */
-  $$('.cocktail-card').forEach(card => {
-    const priceDisplay = $('[data-price-display]', card);
-    $$('.format-opt', card).forEach(btn => {
-      btn.addEventListener('click', () => {
-        $$('.format-opt', card).forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        priceDisplay.textContent = euro(parseFloat(btn.dataset.price));
+  /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
+  const placeChips = $('#placeChips');
+  if (placeChips) {
+    placeChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', placeChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const type = chip.dataset.place;
+      let visible = 0;
+      $$('.place-card').forEach(card => {
+        const show = type === 'tous' || card.dataset.type === type;
+        card.hidden = !show;
+        if (show) visible++;
       });
+      $('#noPlaces').hidden = visible > 0;
     });
-    $('.add-to-cart', card)?.addEventListener('click', () => {
-      const active = $('.format-opt.active', card);
-      const name = card.dataset.name;
-      const format = active.dataset.format;
-      const price = parseFloat(active.dataset.price);
-      const existing = cart.find(i => i.name === name && i.format === format);
-      existing ? existing.qty++ : cart.push({ name, format, price, qty: 1 });
-      renderCart();
-      showToast(`${name} ajouté — ${format === 'emporter' ? 'sachet à emporter' : 'verre sur place'}`);
-    });
-  });
+  }
 
-  /* ===== 10. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
+  /* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
   const validators = {
     name: v => v.trim().length >= 2 || 'Indiquez votre nom complet.',
     email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Adresse email invalide.',
@@ -298,7 +231,7 @@
   const eventsGrid = $('#eventsGrid');
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
-  /* ===== 11. DONNÉES & RENDU ===== */
+  /* ===== 10. DONNÉES & RENDU ===== */
   const TIERS_DEFAULT = [
     { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8 },
     { name: 'Standard', desc: 'Entrée + 1 cocktail SYFIR', mult: 1 },
@@ -354,7 +287,7 @@
       cities.map(c => `<option value="${c}" ${c === current ? 'selected' : ''}>${c}</option>`).join('');
   };
 
-  /* ===== 12. FILTRES / RECHERCHE / TRI ===== */
+  /* ===== 11. FILTRES / RECHERCHE / TRI ===== */
   const state = { filter: 'tous', city: '', sort: 'date', search: '' };
 
   const renderEvents = () => {
@@ -383,7 +316,7 @@
   refreshCityOptions();
   renderEvents();
 
-  /* ===== 13. MODALE BILLETS ===== */
+  /* ===== 12. MODALE BILLETS ===== */
   const ticketModal = $('#ticketModal');
   let currentEvent = null;
   let tierQty = [];
@@ -470,7 +403,7 @@
     renderMyTickets();
   });
 
-  /* ===== 14. ESPACE CLIENT ===== */
+  /* ===== 13. ESPACE CLIENT ===== */
   const clientModal = $('#clientModal');
   const openClient = e => { e?.preventDefault(); openModal(clientModal); };
   $('#clientSpaceBtn')?.addEventListener('click', openClient);
@@ -519,7 +452,7 @@
     showToast('✦ Compte créé ! Bienvenue dans la communauté SYFIR.');
   });
 
-  /* ===== 15. ESPACE PRO — création + facturation ===== */
+  /* ===== 14. ESPACE PRO — création + facturation ===== */
   const proForm = $('#proForm');
   const BASE_FEE = 49;
 

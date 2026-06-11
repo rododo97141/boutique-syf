@@ -31,14 +31,11 @@
     <li><a href="#accueil" class="nav-link active">Accueil</a></li>
     <li><a href="#marque" class="nav-link">Notre marque</a></li>
     <li><a href="#cocktails" class="nav-link">Nos Cocktails</a></li>
+    <li><a href="#ou-trouver" class="nav-link">Où nous trouver</a></li>
     <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
     <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
   <div class="nav-actions">
-    <button class="cart-btn" id="cartBtn" aria-label="Panier">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -51,26 +48,11 @@
   <a href="#accueil">Accueil</a>
   <a href="#marque">Notre marque</a>
   <a href="#cocktails">Nos Cocktails</a>
+  <a href="#ou-trouver">Où nous trouver</a>
   <a href="evenements.html">Événements &amp; Fêtes</a>
   <a href="#partenaires">Devenir partenaire</a>
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
 </div>
-
-<!-- Panier latéral -->
-<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-  <div class="cart-head">
-    <h3>Votre sélection</h3>
-    <button class="cart-close" id="cartClose" aria-label="Fermer le panier">✕</button>
-  </div>
-  <div class="cart-items" id="cartItems">
-    <p class="cart-empty">Votre panier attend son premier rayon de soleil.</p>
-  </div>
-  <div class="cart-foot">
-    <div class="cart-total"><span>Total</span><strong id="cartTotal">0,00 €</strong></div>
-    <button class="btn btn-solid btn-full" id="cartCheckout">Commander</button>
-  </div>
-</aside>
-<div class="overlay" id="overlay"></div>
 
 <!-- ============================================================
      HERO — LE COCKTAIL LIBRE™
@@ -163,33 +145,32 @@
   <div class="container">
     <p class="eyebrow reveal">Les saveurs</p>
     <h2 class="h2 reveal d1">Nos Cocktails <em>Signature</em></h2>
-    <p class="section-intro reveal d2">Deux façons de les vivre : <strong>à emporter</strong>, servi dans notre sachet signature scellé — ou <strong>sur place</strong>, servi dans le verre SYFIR.</p>
+    <p class="section-intro reveal d2">Deux façons de les vivre : <strong>sur place</strong>, servi dans le verre SYFIR — ou <strong>à emporter</strong>, dans notre sachet signature scellé. Disponibles chez certains de nos partenaires.</p>
 
     <div class="cocktail-grid">
 
-      <!-- Syf Planteur -->
-      <article class="cocktail-card reveal d1" data-tilt data-name="Syf Planteur™">
+      <!-- Syf Planteur — image du sachet : déposer le fichier dans images/syfir-planteur.png -->
+      <article class="cocktail-card reveal d1" data-tilt>
         <div class="cocktail-media">
-          <img src="https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&q=80" alt="Syf Planteur — cocktail mangue passion ananas" loading="lazy">
+          <img src="images/syfir-planteur.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&q=80'"
+               alt="Syf Planteur — sachet cocktail mangue passion ananas" loading="lazy">
           <span class="cocktail-badge">Best-seller</span>
         </div>
         <div class="cocktail-body">
           <h3>Syf Planteur<sup>™</sup></h3>
           <p class="cocktail-notes">Mangue • Passion • Ananas</p>
           <p class="cocktail-desc">L'esprit des tropiques dans un coucher de soleil liquide.</p>
-          <div class="format-switch" role="radiogroup" aria-label="Format">
-            <button class="format-opt active" data-format="emporter" data-price="9.50">À emporter <small>Sachet — 9,50 €</small></button>
-            <button class="format-opt" data-format="surplace" data-price="11.00">Sur place <small>Verre — 11,00 €</small></button>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
           </div>
-          <div class="cocktail-foot">
-            <span class="cocktail-price" data-price-display>9,50 €</span>
-            <button class="btn btn-solid btn-sm add-to-cart">Ajouter</button>
-          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
         </div>
       </article>
 
       <!-- Coral Breeze -->
-      <article class="cocktail-card reveal d2" data-tilt data-name="Coral Breeze™">
+      <article class="cocktail-card reveal d2" data-tilt>
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Coral Breeze — cocktail agrumes hibiscus fruits rouges" loading="lazy">
           <span class="cocktail-badge badge-coral">Vibrant</span>
@@ -198,19 +179,16 @@
           <h3>Coral Breeze<sup>™</sup></h3>
           <p class="cocktail-notes">Agrumes • Hibiscus • Fruits rouges</p>
           <p class="cocktail-desc">Fraîcheur vibrante et énergie colorée.</p>
-          <div class="format-switch" role="radiogroup" aria-label="Format">
-            <button class="format-opt active" data-format="emporter" data-price="9.00">À emporter <small>Sachet — 9,00 €</small></button>
-            <button class="format-opt" data-format="surplace" data-price="10.50">Sur place <small>Verre — 10,50 €</small></button>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
           </div>
-          <div class="cocktail-foot">
-            <span class="cocktail-price" data-price-display>9,00 €</span>
-            <button class="btn btn-solid btn-sm add-to-cart">Ajouter</button>
-          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
         </div>
       </article>
 
       <!-- Golden Escape -->
-      <article class="cocktail-card reveal d3" data-tilt data-name="Golden Escape™">
+      <article class="cocktail-card reveal d3" data-tilt>
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&q=80" alt="Golden Escape — cocktail citron vert passion fruits exotiques" loading="lazy">
           <span class="cocktail-badge badge-gold">Édition Or</span>
@@ -219,19 +197,90 @@
           <h3>Golden Escape<sup>™</sup></h3>
           <p class="cocktail-notes">Citron vert • Passion • Fruits exotiques</p>
           <p class="cocktail-desc">Une invitation au voyage.</p>
-          <div class="format-switch" role="radiogroup" aria-label="Format">
-            <button class="format-opt active" data-format="emporter" data-price="10.00">À emporter <small>Sachet — 10,00 €</small></button>
-            <button class="format-opt" data-format="surplace" data-price="12.00">Sur place <small>Verre — 12,00 €</small></button>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
           </div>
-          <div class="cocktail-foot">
-            <span class="cocktail-price" data-price-display>10,00 €</span>
-            <button class="btn btn-solid btn-sm add-to-cart">Ajouter</button>
-          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
         </div>
       </article>
     </div>
 
     <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     OÙ TROUVER NOS COCKTAILS — partenaires & lieux
+============================================================ -->
+<section id="ou-trouver" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Où nous trouver</p>
+    <h2 class="h2 reveal d1">Retrouvez SYFIR<br>chez <em>nos partenaires</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Bars, restaurants, beach clubs, hôtels et boutiques : nos cocktails se dégustent <strong>sur place</strong> ou s'emportent <strong>en sachet</strong> chez les adresses sélectionnées ci-dessous.</p>
+
+    <div class="filter-chips reveal d2" id="placeChips">
+      <button class="chip active" data-place="tous">Tous</button>
+      <button class="chip" data-place="bar">Bars</button>
+      <button class="chip" data-place="restaurant">Restaurants</button>
+      <button class="chip" data-place="beach">Beach clubs</button>
+      <button class="chip" data-place="hotel">Hôtels</button>
+      <button class="chip" data-place="boutique">Boutiques</button>
+    </div>
+
+    <div class="places-grid" id="placesGrid">
+      <article class="place-card reveal d1" data-type="beach">
+        <span class="place-type">Beach club</span>
+        <h3>Le Ti' Sable</h3>
+        <p class="place-loc">📍 Plage de Bois Jolan — Sainte-Anne</p>
+        <div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div>
+      </article>
+      <article class="place-card reveal d2" data-type="bar">
+        <span class="place-type">Bar de plage</span>
+        <h3>La Casa Coco</h3>
+        <p class="place-loc">📍 Plage de la Datcha — Le Gosier</p>
+        <div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div>
+      </article>
+      <article class="place-card reveal d3" data-type="bar">
+        <span class="place-type">Rooftop bar</span>
+        <h3>Sunset Lounge</h3>
+        <p class="place-loc">📍 Centre-ville — Pointe-à-Pitre</p>
+        <div class="place-serve"><span>🥂 Sur place</span></div>
+      </article>
+      <article class="place-card reveal d4" data-type="restaurant">
+        <span class="place-type">Restaurant</span>
+        <h3>L'Habitation Créole</h3>
+        <p class="place-loc">📍 Avenue de l'Europe — Saint-François</p>
+        <div class="place-serve"><span>🥂 Sur place</span></div>
+      </article>
+      <article class="place-card reveal d1" data-type="hotel">
+        <span class="place-type">Hôtel</span>
+        <h3>Karibea Beach Resort</h3>
+        <p class="place-loc">📍 Pointe de la Verdure — Le Gosier</p>
+        <div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div>
+      </article>
+      <article class="place-card reveal d2" data-type="boutique">
+        <span class="place-type">Boutique</span>
+        <h3>Le Comptoir des Îles</h3>
+        <p class="place-loc">📍 Rue de la République — Basse-Terre</p>
+        <div class="place-serve"><span>🛍️ À emporter</span></div>
+      </article>
+      <article class="place-card reveal d3" data-type="beach">
+        <span class="place-type">Beach club</span>
+        <h3>Blue Lagoon</h3>
+        <p class="place-loc">📍 Plage de Grande Anse — Deshaies</p>
+        <div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div>
+      </article>
+      <article class="place-card reveal d4" data-type="restaurant">
+        <span class="place-type">Bar-restaurant</span>
+        <h3>Le Marina Café</h3>
+        <p class="place-loc">📍 Marina de Rivière-Sens — Gourbeyre</p>
+        <div class="place-serve"><span>🥂 Sur place</span></div>
+      </article>
+    </div>
+    <p class="no-results" id="noPlaces" hidden>Aucun partenaire dans cette catégorie pour le moment — la famille SYFIR s'agrandit chaque mois. ✦</p>
+
+    <p class="places-cta reveal">Vous souhaitez proposer SYFIR dans votre établissement ? <a href="#partenaires">Devenez partenaire →</a></p>
   </div>
 </section>
 
@@ -390,6 +439,7 @@
       <h4>Explorer</h4>
       <a href="#marque">Notre marque</a>
       <a href="#cocktails">Nos Cocktails</a>
+      <a href="#ou-trouver">Où nous trouver</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="#partenaires">Devenir partenaire</a>
     </div>
