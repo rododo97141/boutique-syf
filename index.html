@@ -12,275 +12,203 @@
 </head>
 <body>
 
-    <!-- 1. AGE GATE MODAL -->
-    <div id="age-gate" class="age-gate-overlay">
-        <div class="age-gate-glow"></div>
-        <div class="age-gate-card">
-            <h1 class="brand-logo-large">SYFIR</h1>
-            <p class="age-gate-tagline">Vivez l'instant. Partagez la couleur.</p>
-            <p class="age-gate-question">Pour entrer dans cet univers, vous devez avoir l'âge légal de consommer de l'alcool.</p>
-            <div class="age-gate-buttons">
-                <button id="age-confirm" class="btn btn-primary">Je suis majeur</button>
-                <button id="age-deny" class="btn btn-secondary">Quitter</button>
+<!-- 1. AGE GATE MODAL -->
+<div id="age-gate" class="age-gate-overlay">
+    <div class="age-gate-glow"></div>
+    <div class="age-gate-card">
+        <h1 class="brand-logo-large">SYFIR</h1>
+        <p class="age-gate-tagline">Vivez l'instant. Partagez la couleur.</p>
+        <p class="age-gate-question">Pour entrer dans cet univers, vous devez avoir l'âge légal de consommer de l'alcool.</p>
+        <div class="age-gate-buttons">
+            <button id="age-confirm" class="btn btn-primary">Je suis majeur</button>
+            <button id="age-deny" class="btn btn-secondary">Quitter</button>
+        </div>
+        <p class="age-gate-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+    </div>
+</div>
+
+<!-- 2. HEADER -->
+<header class="main-header transparent">
+    <div class="header-container">
+        <a href="#" class="logo">SYFIR</a>
+        <nav class="nav-menu">
+            <a href="#cocktails" class="nav-link">La Boutique</a>
+        </nav>
+        <div class="header-actions">
+            <button class="btn btn-nav" onclick="document.getElementById('cocktails').scrollIntoView({behavior:'smooth'})">Commander</button>
+            <div class="cart-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-count">0</span>
             </div>
-            <p class="age-gate-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
         </div>
     </div>
+</header>
 
-    <!-- 2. HEADER -->
-    <header class="main-header transparent">
-        <div class="header-container">
-            <a href="#" class="logo">SYFIR</a>
-            <nav class="nav-menu">
-                <a href="#cocktails" class="nav-link">Nos Cocktails</a>
-            </nav>
-            <div class="header-actions">
-                <button class="btn btn-nav">Commander</button>
-                <div class="cart-icon">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-count">0</span>
-                </div>
+<!-- 3. HERO -->
+<main>
+    <section id="hero" class="hero-section">
+        <div class="sunset-halo"></div>
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content">
+            <h2 class="hero-subtitle">SYFIR &bull; LE COCKTAIL LIBRE™</h2>
+            <h1 class="hero-title">
+                Le soleil descend.<br>
+                <span class="italic-text">Les amis arrivent.</span><br>
+                La musique monte.
+            </h1>
+            <p class="hero-lead">Les verres se lèvent. Le moment est à vous.</p>
+            <div class="hero-cta-group">
+                <a href="#cocktails" class="btn btn-primary">Voir la boutique</a>
+                <a href="#cocktails" class="btn btn-outline">Nos Cocktails</a>
             </div>
         </div>
-    </header>
+        <div class="scroll-indicator">
+            <span class="scroll-text">Explorez l'univers</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-    <!-- 3. HERO -->
-    <main>
-        <section id="hero" class="hero-section">
-            <div class="sunset-halo"></div>
-            <div class="hero-bg-overlay"></div>
-            <div class="hero-content">
-                <h2 class="hero-subtitle">SYFIR &bull; LE COCKTAIL LIBRE™</h2>
-                <h1 class="hero-title">
-                    Le soleil descend.<br>
-                    <span class="italic-text">Les amis arrivent.</span><br>
-                    La musique monte.
-                </h1>
-                <p class="hero-lead">Les verres se lèvent. Le moment est à vous.</p>
-                <div class="hero-cta-group">
-                    <a href="#marque" class="btn btn-primary">Notre Marque</a>
-                    <a href="#cocktails" class="btn btn-outline">Nos Cocktails</a>
-                </div>
+    <!-- 4. LA BOUTIQUE -->
+    <section id="cocktails" class="cocktails-section">
+        <div class="cocktails-container">
+
+            <div class="collection-header reveal">
+                <span class="section-number">LA BOUTIQUE</span>
+                <h2 class="section-main-title">Nos Cocktails <span class="italic-text">Signature</span></h2>
+                <p class="collection-descriptor">L'excellence de la mixologie haut de gamme scellée dans un format de pure liberté. Tous nos cocktails sont prêts à déguster, à servir bien frais sur glace.</p>
             </div>
-            <div class="scroll-indicator">
-                <span class="scroll-text">Explorez l'univers</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
 
-        <!-- 4. NOTRE MARQUE -->
-        <section id="marque" class="brand-section">
-            <div class="brand-container">
+            <div class="products-grid">
 
-                <!-- Ligne 1 : Texte gauche, Image droite -->
-                <div class="magazine-grid row-1">
-                    <div class="text-block reveal">
-                        <span class="section-number">01 / NOTRE MARQUE</span>
-                        <p class="section-tagline">Le Cocktail Libre™</p>
-                        <h2 class="magazine-title">
-                            Plus qu'une boisson,<br>
-                            <span class="italic-text">une façon de vivre</span><br>
-                            <span class="bold-accent">chaque instant.</span>
-                        </h2>
-                        <div class="magazine-text">
-                            <p>SYFIR est né d'une conviction simple&nbsp;: chaque moment mérite d'être célébré avec ce qui se fait de mieux. Nos cocktails sont pensés pour ceux qui refusent de choisir entre qualité et liberté.</p>
-                            <p class="highlight">Élaborés avec des ingrédients soigneusement sélectionnés, nos recettes capturent l'essence du soleil couchant — ce moment suspendu où tout devient possible.</p>
-                        </div>
+                <div class="product-card reveal" data-flavor="planteur">
+                    <div class="product-image-wrapper">
+                        <div class="product-glow"></div>
+                        <img src="syfir-planteur.png" alt="SYFIR Saveur Planteurs" class="product-img">
+                        <span class="product-badge">Édition Solaire</span>
                     </div>
-                    <div class="image-block-large reveal delay-2">
-                        <div class="img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1470338745628-171cf53de3a8?auto=format&fit=crop&w=1200&q=80" alt="L'univers SYFIR — ambiance coucher de soleil">
+                    <div class="product-info">
+                        <div class="product-meta">
+                            <h3 class="product-title">SYFIR PLANTEURS™</h3>
+                            <span class="product-price">22,00 €</span>
                         </div>
-                        <span class="caption">L'univers SYFIR — Édition Solaire 2024</span>
+                        <p class="product-ingredients">Orange &bull; Fruits Rouges &bull; Épices</p>
+                        <p class="product-description">L'esprit brut et envoûtant des tropiques capturé dans un coucher de soleil liquide. Une attaque généreuse et une finale acidulée.</p>
+                        <button class="btn btn-add-cart" data-id="sf-planteur" data-name="SYFIR PLANTEURS™" data-price="22.00" data-img="syfir-planteur.png">
+                            <span>Ajouter au panier</span>
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Ligne 2 : Sachet gauche, Bénéfices droite -->
-                <div class="magazine-grid row-2">
-                    <div class="pouch-visual-block reveal">
-                        <div class="pouch-environment-bg"></div>
-                        <div class="syfir-pouch-mockup">
-                            <div class="pouch-seal"></div>
-                            <div class="pouch-content">
-                                <span class="pouch-brand">SYFIR</span>
-                                <div class="floating-elements">
-                                    <span class="element-tag ice">Rafraîchissant &amp; Pétillant</span>
-                                    <span class="element-tag fruit">Mangue · Passion · Ananas</span>
-                                    <span class="element-tag color">Couleur Sunset Orange</span>
-                                </div>
-                            </div>
-                            <div class="pouch-reflection"></div>
-                        </div>
+                <div class="product-card reveal delay-1" data-flavor="mojito">
+                    <div class="product-image-wrapper">
+                        <div class="product-glow"></div>
+                        <img src="syfir-mojito.png" alt="SYFIR Saveur Mojito" class="product-img">
+                        <span class="product-badge">Fraîcheur Vive</span>
                     </div>
-                    <div class="text-block right reveal delay-1">
-                        <span class="section-number">02 / LE FORMAT LIBERTÉ</span>
-                        <h2 class="magazine-title">
-                            Conçu pour<br>
-                            <span class="italic-text">vos instants</span><br>
-                            <span class="bold-accent">uniques.</span>
-                        </h2>
-                        <div class="features-list">
-                            <div class="feature-item">
-                                <h4>Format nomade premium</h4>
-                                <p>Sachet translucide 250ml, refermable et incassable. L'élégance qui s'adapte à tous vos moments — plage, festival, terrasse.</p>
-                            </div>
-                            <div class="feature-item">
-                                <h4>Prêt à consommer</h4>
-                                <p>Déjà dosé, équilibré et prêt à déguster. Servir frais sur glace pour une expérience cocktail complète sans effort.</p>
-                            </div>
-                            <div class="feature-item">
-                                <h4>Zéro compromis sur la qualité</h4>
-                                <p>Recettes développées avec des bartenders professionnels. Les mêmes ingrédients que dans les meilleurs bars, dans votre main.</p>
-                            </div>
+                    <div class="product-info">
+                        <div class="product-meta">
+                            <h3 class="product-title">SYFIR MOJITO™</h3>
+                            <span class="product-price">22,00 €</span>
                         </div>
+                        <p class="product-ingredients">Citron Vert &bull; Menthe &bull; Canne</p>
+                        <p class="product-description">La fraîcheur tranchante du citron vert et de la menthe, pour un instant de pure vivacité lorsque la nuit s'éveille.</p>
+                        <button class="btn btn-add-cart" data-id="sf-mojito" data-name="SYFIR MOJITO™" data-price="22.00" data-img="syfir-mojito.png">
+                            <span>Ajouter au panier</span>
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card reveal delay-2" data-flavor="tropicale">
+                    <div class="product-image-wrapper">
+                        <div class="product-glow"></div>
+                        <img src="syfir-tropicale.png" alt="SYFIR Saveur Tropicale" class="product-img">
+                        <span class="product-badge">Prestige Exotique</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-meta">
+                            <h3 class="product-title">SYFIR TROPICALE™</h3>
+                            <span class="product-price">22,00 €</span>
+                        </div>
+                        <p class="product-ingredients">Kiwi &bull; Mangue &bull; Fruits Exotiques</p>
+                        <p class="product-description">Une invitation au voyage sans concession. Un équilibre parfait entre douceur dorée et vivacité zestée des îles.</p>
+                        <button class="btn btn-add-cart" data-id="sf-tropicale" data-name="SYFIR TROPICALE™" data-price="22.00" data-img="syfir-tropicale.png">
+                            <span>Ajouter au panier</span>
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 5. NOS COCKTAILS -->
-        <section id="cocktails" class="cocktails-section">
-            <div class="cocktails-container">
-
-                <div class="collection-header reveal">
-                    <span class="section-number">03 / LA COLLECTION</span>
-                    <h2 class="section-main-title">Nos Cocktails <span class="italic-text">Signature</span></h2>
-                    <p class="collection-descriptor">L'excellence de la mixologie haut de gamme scellée dans un format de pure liberté. Découvrez trois expressions chromatiques et gustatives uniques.</p>
-                </div>
-
-                <div class="products-grid">
-
-                    <div class="product-card reveal" data-flavor="planteur">
-                        <div class="product-image-wrapper">
-                            <div class="product-glow"></div>
-                            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" alt="SYFIR PLANTEUR™ - Cocktail Premium" class="product-img">
-                            <span class="product-badge">Édition Solaire</span>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-meta">
-                                <h3 class="product-title">SYFIR PLANTEUR™</h3>
-                                <span class="product-price">14,00 €</span>
-                            </div>
-                            <p class="product-ingredients">Mangue &bull; Passion &bull; Ananas</p>
-                            <p class="product-description">L'esprit brut et envoûtant des tropiques capturé dans un coucher de soleil liquide. Une attaque généreuse et une finale acidulée.</p>
-                            <button class="btn btn-add-cart" data-id="sf-planteur" data-name="SYFIR PLANTEUR™" data-price="14.00" data-img="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=150&q=80">
-                                <span>Ajouter au flacon</span>
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="product-card reveal delay-1" data-flavor="coral">
-                        <div class="product-image-wrapper">
-                            <div class="product-glow"></div>
-                            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80" alt="CORAL BREEZE™ - Cocktail Premium" class="product-img">
-                            <span class="product-badge">Énergie Vibrante</span>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-meta">
-                                <h3 class="product-title">CORAL BREEZE™</h3>
-                                <span class="product-price">15,00 €</span>
-                            </div>
-                            <p class="product-ingredients">Agrumes &bull; Hibiscus &bull; Fruits Rouges</p>
-                            <p class="product-description">Une fraîcheur tranchante combinée à l'élégance florale de l'hibiscus. Idéal lorsque la nuit commence à s'éveiller.</p>
-                            <button class="btn btn-add-cart" data-id="sf-coral" data-name="CORAL BREEZE™" data-price="15.00" data-img="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=150&q=80">
-                                <span>Ajouter au flacon</span>
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="product-card reveal delay-2" data-flavor="golden">
-                        <div class="product-image-wrapper">
-                            <div class="product-glow"></div>
-                            <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=800&q=80" alt="GOLDEN ESCAPE™ - Cocktail Premium" class="product-img">
-                            <span class="product-badge">Prestige Absolu</span>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-meta">
-                                <h3 class="product-title">GOLDEN ESCAPE™</h3>
-                                <span class="product-price">16,00 €</span>
-                            </div>
-                            <p class="product-ingredients">Citron Vert &bull; Passion &bull; Fruits Exotiques</p>
-                            <p class="product-description">Une invitation au voyage sans concession. Un équilibre parfait entre douceur dorée et vivacité zestée de fin de journée.</p>
-                            <button class="btn btn-add-cart" data-id="sf-golden" data-name="GOLDEN ESCAPE™" data-price="16.00" data-img="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=150&q=80">
-                                <span>Ajouter au flacon</span>
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. ÉVÉNEMENTIEL -->
-        <section id="evenements" class="section-evenements">
-            <div class="container">
-                <div class="evenements-inner reveal">
-                    <span class="section-label">Événementiel</span>
-                    <h2 class="section-title">Votre événement,<br><em>sublimé par SYFIR.</em></h2>
-                    <p class="section-body">Mariages, soirées privées, lancements de produits, festivals — notre équipe crée des expériences cocktail sur mesure qui marquent les esprits.</p>
-                    <a href="mailto:contact@syfir.fr" class="btn btn-primary">Nous contacter</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 7. FOOTER -->
-    <footer class="main-footer">
+    <!-- 5. ÉVÉNEMENTIEL -->
+    <section id="evenements" class="section-evenements">
         <div class="container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <span class="logo">SYFIR</span>
-                    <p>Le Cocktail Libre™</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#marque">Notre Marque</a>
-                    <a href="#cocktails">Nos Cocktails</a>
-                    <a href="#evenements">Événementiel</a>
-                </div>
-                <div class="footer-social">
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2024 SYFIR. Tous droits réservés.</p>
-                <p class="footer-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+            <div class="evenements-inner reveal">
+                <span class="section-label">Événementiel</span>
+                <h2 class="section-title">Votre événement,<br><em>sublimé par SYFIR.</em></h2>
+                <p class="section-body">Mariages, soirées privées, lancements de produits, festivals — notre équipe crée des expériences cocktail sur mesure qui marquent les esprits.</p>
+                <a href="mailto:contact@syfir.fr" class="btn btn-primary">Nous contacter</a>
             </div>
         </div>
-    </footer>
+    </section>
+</main>
 
-    <!-- CART DRAWER -->
-    <div id="cart-drawer" class="cart-drawer">
-        <div class="cart-drawer-overlay"></div>
-        <div class="cart-drawer-content">
-            <div class="cart-drawer-header">
-                <h3>Votre Sélection</h3>
-                <button id="close-cart" class="btn-close-cart"><i class="fa-solid fa-xmark"></i></button>
+<!-- 6. FOOTER -->
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <span class="logo">SYFIR</span>
+                <p>Le Cocktail Libre™</p>
             </div>
-
-            <div id="cart-items-container" class="cart-items-body">
-                <div class="cart-empty-state">
-                    <p>Le panier est vide.</p>
-                    <span>Commencez à capturer l'instant.</span>
-                </div>
+            <div class="footer-links">
+                <a href="#cocktails">La Boutique</a>
+                <a href="#evenements">Événementiel</a>
             </div>
-
-            <div class="cart-drawer-footer">
-                <div class="cart-total-row">
-                    <span>Total Estimé</span>
-                    <span id="cart-total-price">0,00 €</span>
-                </div>
-                <button class="btn btn-primary btn-checkout">Passer à la commande</button>
-                <p class="checkout-notice">Livraison sécurisée premium sous 48h.</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 SYFIR. Tous droits réservés.</p>
+            <p class="footer-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
         </div>
     </div>
+</footer>
 
-    <script src="script.js"></script>
+<!-- CART DRAWER -->
+<div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-overlay"></div>
+    <div class="cart-drawer-content">
+        <div class="cart-drawer-header">
+            <h3>Votre Sélection</h3>
+            <button id="close-cart" class="btn-close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div id="cart-items-container" class="cart-items-body">
+            <div class="cart-empty-state">
+                <p>Le panier est vide.</p>
+                <span>Commencez à capturer l'instant.</span>
+            </div>
+        </div>
+
+        <div class="cart-drawer-footer">
+            <div class="cart-total-row">
+                <span>Total Estimé</span>
+                <span id="cart-total-price">0,00 €</span>
+            </div>
+            <button class="btn btn-primary btn-checkout">Passer à la commande</button>
+            <p class="checkout-notice">Livraison sécurisée premium sous 48h.</p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
