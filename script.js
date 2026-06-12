@@ -151,7 +151,41 @@
     });
   }
 
-  /* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
+  /* ===== 08b. FICHE PARTENAIRE (modale) ===== */
+const placeModal = document.querySelector('#placeModal');
+const placesGridEl = document.querySelector('#placesGrid');
+if (placeModal && placesGridEl) {
+  const pmImg = document.querySelector('#pmMainImg');
+  const pmThumbs = document.querySelector('#pmThumbs');
+  placesGridEl.addEventListener('click', ev => {
+    const card = ev.target.closest('.place-card');
+    if (!card) return;
+    const photos = (card.dataset.photos || '').split('|').filter(Boolean);
+    document.querySelector('#pmType').textContent = card.querySelector('.place-type')?.textContent || '';
+    document.querySelector('#pmTitle').textContent = card.querySelector('h3')?.textContent || '';
+    document.querySelector('#pmLoc').textContent = card.querySelector('.place-loc')?.textContent || '';
+    document.querySelector('#pmDesc').textContent = card.dataset.desc || '';
+    document.querySelector('#pmServe').innerHTML = card.querySelector('.place-serve')?.innerHTML || '';
+    const web = card.dataset.web;
+    const link = document.querySelector('#pmWeb');
+    if (web) { link.href = web; link.hidden = false; } else { link.hidden = true; }
+    if (photos.length) {
+      pmImg.src = photos[0];
+      pmImg.alt = document.querySelector('#pmTitle').textContent;
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${p}" type="button"><img src="${p}" alt="" loading="lazy"></button>`).join('');
+    }
+    openModal(placeModal);
+  });
+  pmThumbs.addEventListener('click', ev => {
+    const t = ev.target.closest('.pm-thumb');
+    if (!t) return;
+    pmImg.src = t.dataset.src;
+    pmThumbs.querySelectorAll('.pm-thumb').forEach(b => b.classList.remove('active'));
+    t.classList.add('active');
+  });
+}
+
+/* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
   const validators = {
     name: v => v.trim().length >= 2 || 'Indiquez votre nom complet.',
     email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Adresse email invalide.',
