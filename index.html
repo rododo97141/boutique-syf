@@ -1,212 +1,290 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYFIR | Le Cocktail Libre™</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYFIR | Le Cocktail Libre™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- 1. AGE GATE MODAL -->
 <div id="age-gate" class="age-gate-overlay">
-    <div class="age-gate-glow"></div>
-    <div class="age-gate-card">
-        <h1 class="brand-logo-large">SYFIR</h1>
-        <p class="age-gate-tagline">Vivez l'instant. Partagez la couleur.</p>
-        <p class="age-gate-question">Pour entrer dans cet univers, vous devez avoir l'âge légal de consommer de l'alcool.</p>
-        <div class="age-gate-buttons">
-            <button id="age-confirm" class="btn btn-primary">Je suis majeur</button>
-            <button id="age-deny" class="btn btn-secondary">Quitter</button>
-        </div>
-        <p class="age-gate-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
-    </div>
+<div class="age-gate-glow"></div>
+<div class="age-gate-card">
+<h1 class="brand-logo-large">SYFIR</h1>
+<p class="age-gate-tagline">Vivez l'instant. Partagez la couleur.</p>
+<p class="age-gate-question">Pour entrer dans cet univers, vous devez avoir l'âge légal de consommer de l'alcool.</p>
+<div class="age-gate-buttons">
+<button id="age-confirm" class="btn btn-primary">Je suis majeur</button>
+<button id="age-deny" class="btn btn-secondary">Quitter</button>
+</div>
+<p class="age-gate-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+</div>
 </div>
 
 <!-- 2. HEADER -->
 <header class="main-header transparent">
-    <div class="header-container">
-        <a href="#" class="logo">SYFIR</a>
-        <nav class="nav-menu">
-            <a href="#cocktails" class="nav-link">La Boutique</a>
-        </nav>
-        <div class="header-actions">
-            <button class="btn btn-nav" onclick="document.getElementById('cocktails').scrollIntoView({behavior:'smooth'})">Commander</button>
-            <div class="cart-icon">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <span class="cart-count">0</span>
-            </div>
-        </div>
-    </div>
+<div class="header-container">
+<a href="#" class="logo">SYFIR</a>
+<nav class="nav-menu">
+<a href="#cocktails" class="nav-link">La Boutique</a>
+<a href="#bouteilles" class="nav-link">Les Bouteilles</a>
+</nav>
+<div class="header-actions">
+<button class="btn btn-nav" onclick="document.getElementById('cocktails').scrollIntoView({behavior:'smooth'})">Commander</button>
+<div class="cart-icon">
+<i class="fa-solid fa-bag-shopping"></i>
+<span class="cart-count">0</span>
+</div>
+</div>
+</div>
 </header>
 
 <!-- 3. HERO -->
 <main>
-    <section id="hero" class="hero-section">
-        <div class="sunset-halo"></div>
-        <div class="hero-bg-overlay"></div>
-        <div class="hero-content">
-            <h2 class="hero-subtitle">SYFIR &bull; LE COCKTAIL LIBRE™</h2>
-            <h1 class="hero-title">
-                Le soleil descend.<br>
-                <span class="italic-text">Les amis arrivent.</span><br>
-                La musique monte.
-            </h1>
-            <p class="hero-lead">Les verres se lèvent. Le moment est à vous.</p>
-            <div class="hero-cta-group">
-                <a href="#cocktails" class="btn btn-primary">Voir la boutique</a>
-                <a href="#cocktails" class="btn btn-outline">Nos Cocktails</a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <span class="scroll-text">Explorez l'univers</span>
-            <div class="scroll-line"></div>
-        </div>
-    </section>
+<section id="hero" class="hero-section">
+<div class="sunset-halo"></div>
+<div class="hero-bg-overlay"></div>
+<div class="hero-content">
+<h2 class="hero-subtitle">SYFIR &bull; LE COCKTAIL LIBRE™</h2>
+<h1 class="hero-title">
+Le soleil descend.<br>
+<span class="italic-text">Les amis arrivent.</span><br>
+La musique monte.
+</h1>
+<p class="hero-lead">Les verres se lèvent. Le moment est à vous.</p>
+<div class="hero-cta-group">
+<a href="#cocktails" class="btn btn-primary">Voir la boutique</a>
+<a href="#cocktails" class="btn btn-outline">Nos Cocktails</a>
+</div>
+</div>
+<div class="scroll-indicator">
+<span class="scroll-text">Explorez l'univers</span>
+<div class="scroll-line"></div>
+</div>
+</section>
 
-    <!-- 4. LA BOUTIQUE -->
-    <section id="cocktails" class="cocktails-section">
-        <div class="cocktails-container">
+<!-- 4. LA BOUTIQUE -->
+<section id="cocktails" class="cocktails-section">
+<div class="cocktails-container">
 
-            <div class="collection-header reveal">
-                <span class="section-number">LA BOUTIQUE</span>
-                <h2 class="section-main-title">Nos Cocktails <span class="italic-text">Signature</span></h2>
-                <p class="collection-descriptor">L'excellence de la mixologie haut de gamme scellée dans un format de pure liberté. Tous nos cocktails sont prêts à déguster, à servir bien frais sur glace.</p>
-            </div>
+<div class="collection-header reveal">
+<span class="section-number">LA BOUTIQUE</span>
+<h2 class="section-main-title">Nos Cocktails <span class="italic-text">Signature</span></h2>
+<p class="collection-descriptor">L'excellence de la mixologie haut de gamme scellée dans un format de pure liberté. Tous nos cocktails sont prêts à déguster, à servir bien frais sur glace.</p>
+</div>
 
-            <div class="products-grid">
+<div class="products-grid">
 
-                <div class="product-card reveal" data-flavor="planteur">
-                    <div class="product-image-wrapper">
-                        <div class="product-glow"></div>
-                        <img src="syfir-planteur.png" alt="SYFIR Saveur Planteurs" class="product-img">
-                        <span class="product-badge">Édition Solaire</span>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-meta">
-                            <h3 class="product-title">SYFIR PLANTEURS™</h3>
-                            <span class="product-price">22,00 €</span>
-                        </div>
-                        <p class="product-ingredients">Orange &bull; Fruits Rouges &bull; Épices</p>
-                        <p class="product-description">L'esprit brut et envoûtant des tropiques capturé dans un coucher de soleil liquide. Une attaque généreuse et une finale acidulée.</p>
-                        <button class="btn btn-add-cart" data-id="sf-planteur" data-name="SYFIR PLANTEURS™" data-price="22.00" data-img="syfir-planteur.png">
-                            <span>Ajouter au panier</span>
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+<div class="product-card reveal" data-flavor="planteur">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-planteur.png" alt="SYFIR Saveur Planteurs" class="product-img">
+<span class="product-badge">Édition Solaire</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR PLANTEURS™</h3>
+<span class="product-price">22,00 €</span>
+</div>
+<p class="product-ingredients">Orange &bull; Fruits Rouges &bull; Épices</p>
+<p class="product-description">L'esprit brut et envoûtant des tropiques capturé dans un coucher de soleil liquide. Une attaque généreuse et une finale acidulée.</p>
+<button class="btn btn-add-cart" data-id="sf-planteur" data-name="SYFIR PLANTEURS™" data-price="22.00" data-img="syfir-planteur.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
 
-                <div class="product-card reveal delay-1" data-flavor="mojito">
-                    <div class="product-image-wrapper">
-                        <div class="product-glow"></div>
-                        <img src="syfir-mojito.png" alt="SYFIR Saveur Mojito" class="product-img">
-                        <span class="product-badge">Fraîcheur Vive</span>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-meta">
-                            <h3 class="product-title">SYFIR MOJITO™</h3>
-                            <span class="product-price">22,00 €</span>
-                        </div>
-                        <p class="product-ingredients">Citron Vert &bull; Menthe &bull; Canne</p>
-                        <p class="product-description">La fraîcheur tranchante du citron vert et de la menthe, pour un instant de pure vivacité lorsque la nuit s'éveille.</p>
-                        <button class="btn btn-add-cart" data-id="sf-mojito" data-name="SYFIR MOJITO™" data-price="22.00" data-img="syfir-mojito.png">
-                            <span>Ajouter au panier</span>
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+<div class="product-card reveal delay-1" data-flavor="mojito">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-mojito.png" alt="SYFIR Saveur Mojito" class="product-img">
+<span class="product-badge">Fraîcheur Vive</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR MOJITO™</h3>
+<span class="product-price">22,00 €</span>
+</div>
+<p class="product-ingredients">Citron Vert &bull; Menthe &bull; Canne</p>
+<p class="product-description">La fraîcheur tranchante du citron vert et de la menthe, pour un instant de pure vivacité lorsque la nuit s'éveille.</p>
+<button class="btn btn-add-cart" data-id="sf-mojito" data-name="SYFIR MOJITO™" data-price="22.00" data-img="syfir-mojito.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
 
-                <div class="product-card reveal delay-2" data-flavor="tropicale">
-                    <div class="product-image-wrapper">
-                        <div class="product-glow"></div>
-                        <img src="syfir-tropicale.png" alt="SYFIR Saveur Tropicale" class="product-img">
-                        <span class="product-badge">Prestige Exotique</span>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-meta">
-                            <h3 class="product-title">SYFIR TROPICALE™</h3>
-                            <span class="product-price">22,00 €</span>
-                        </div>
-                        <p class="product-ingredients">Kiwi &bull; Mangue &bull; Fruits Exotiques</p>
-                        <p class="product-description">Une invitation au voyage sans concession. Un équilibre parfait entre douceur dorée et vivacité zestée des îles.</p>
-                        <button class="btn btn-add-cart" data-id="sf-tropicale" data-name="SYFIR TROPICALE™" data-price="22.00" data-img="syfir-tropicale.png">
-                            <span>Ajouter au panier</span>
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+<div class="product-card reveal delay-2" data-flavor="tropicale">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-tropicale.png" alt="SYFIR Saveur Tropicale" class="product-img">
+<span class="product-badge">Prestige Exotique</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR TROPICALE™</h3>
+<span class="product-price">22,00 €</span>
+</div>
+<p class="product-ingredients">Kiwi &bull; Mangue &bull; Fruits Exotiques</p>
+<p class="product-description">Une invitation au voyage sans concession. Un équilibre parfait entre douceur dorée et vivacité zestée des îles.</p>
+<button class="btn btn-add-cart" data-id="sf-tropicale" data-name="SYFIR TROPICALE™" data-price="22.00" data-img="syfir-tropicale.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
 
-            </div>
-        </div>
-    </section>
+</div>
+</div>
+</section>
 
-    <!-- 5. ÉVÉNEMENTIEL -->
-    <section id="evenements" class="section-evenements">
-        <div class="container">
-            <div class="evenements-inner reveal">
-                <span class="section-label">Événementiel</span>
-                <h2 class="section-title">Votre événement,<br><em>sublimé par SYFIR.</em></h2>
-                <p class="section-body">Mariages, soirées privées, lancements de produits, festivals — notre équipe crée des expériences cocktail sur mesure qui marquent les esprits.</p>
-                <a href="mailto:contact@syfir.fr" class="btn btn-primary">Nous contacter</a>
-            </div>
-        </div>
-    </section>
+<!-- 4B. LES BOUTEILLES -->
+<section id="bouteilles" class="cocktails-section">
+<div class="cocktails-container">
+
+<div class="collection-header reveal">
+<span class="section-number">LES BOUTEILLES</span>
+<h2 class="section-main-title">Nos Bouteilles <span class="italic-text">d'Exception</span></h2>
+<p class="collection-descriptor">Le format bouteille SYFIR : un grand contenant à partager, pour prolonger la fête et sublimer vos plus belles tablées. À servir bien frais.</p>
+</div>
+
+<div class="products-grid">
+
+<div class="product-card reveal" data-flavor="planteur">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-bouteille-tradition.png" alt="SYFIR Planteur Traditionnel" class="product-img">
+<span class="product-badge">Recette des Antilles</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR PLANTEUR TRADITION™</h3>
+<span class="product-price">28,00 €</span>
+</div>
+<p class="product-ingredients">70cl &bull; Recette des Antilles &bull; Fruits Exotiques</p>
+<p class="product-description">La recette authentique du planteur traditionnel des îles, en grande bouteille. Le format idéal pour partager le soleil entre amis.</p>
+<button class="btn btn-add-cart" data-id="sf-bt-tradition" data-name="SYFIR PLANTEUR TRADITION™" data-price="28.00" data-img="syfir-bouteille-tradition.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
+
+<div class="product-card reveal delay-1" data-flavor="planteur">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-bouteille-planteur.png" alt="SYFIR Planteurs Carafe Prestige" class="product-img">
+<span class="product-badge">Édition Prestige</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR PLANTEURS CARAFE™</h3>
+<span class="product-price">35,00 €</span>
+</div>
+<p class="product-ingredients">Orange &bull; Fruits Rouges &bull; Carafe Dorée</p>
+<p class="product-description">Notre planteur signature dans une carafe d'exception au bouchon doré. La pièce maîtresse de vos réceptions les plus raffinées.</p>
+<button class="btn btn-add-cart" data-id="sf-bt-carafe" data-name="SYFIR PLANTEURS CARAFE™" data-price="35.00" data-img="syfir-bouteille-planteur.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
+
+<div class="product-card reveal delay-2" data-flavor="tropicale">
+<div class="product-image-wrapper">
+<div class="product-glow"></div>
+<img src="syfir-bouteille-trio.png" alt="SYFIR Coffret Trio Bouteilles" class="product-img">
+<span class="product-badge">Coffret Découverte</span>
+</div>
+<div class="product-info">
+<div class="product-meta">
+<h3 class="product-title">SYFIR COFFRET TRIO™</h3>
+<span class="product-price">75,00 €</span>
+</div>
+<p class="product-ingredients">Fraise &bull; Tropicale &bull; Menthe-Concombre</p>
+<p class="product-description">Trois bouteilles, trois saveurs envoûtantes réunies dans un coffret découverte. Le cadeau parfait pour les amateurs de fraîcheur.</p>
+<button class="btn btn-add-cart" data-id="sf-bt-trio" data-name="SYFIR COFFRET TRIO™" data-price="75.00" data-img="syfir-bouteille-trio.png">
+<span>Ajouter au panier</span>
+<i class="fa-solid fa-plus"></i>
+</button>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 5. ÉVÉNEMENTIEL -->
+<section id="evenements" class="section-evenements">
+<div class="container">
+<div class="evenements-inner reveal">
+<span class="section-label">Événementiel</span>
+<h2 class="section-title">Votre événement,<br><em>sublimé par SYFIR.</em></h2>
+<p class="section-body">Mariages, soirées privées, lancements de produits, festivals — notre équipe crée des expériences cocktail sur mesure qui marquent les esprits.</p>
+<a href="mailto:contact@syfir.fr" class="btn btn-primary">Nous contacter</a>
+</div>
+</div>
+</section>
 </main>
 
 <!-- 6. FOOTER -->
 <footer class="main-footer">
-    <div class="container">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <span class="logo">SYFIR</span>
-                <p>Le Cocktail Libre™</p>
-            </div>
-            <div class="footer-links">
-                <a href="#cocktails">La Boutique</a>
-                <a href="#evenements">Événementiel</a>
-            </div>
-            <div class="footer-social">
-                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 SYFIR. Tous droits réservés.</p>
-            <p class="footer-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
-        </div>
-    </div>
+<div class="container">
+<div class="footer-top">
+<div class="footer-brand">
+<span class="logo">SYFIR</span>
+<p>Le Cocktail Libre™</p>
+</div>
+<div class="footer-links">
+<a href="#cocktails">La Boutique</a>
+<a href="#bouteilles">Les Bouteilles</a>
+<a href="#evenements">Événementiel</a>
+</div>
+<div class="footer-social">
+<a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+<a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+<a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 SYFIR. Tous droits réservés.</p>
+<p class="footer-warning">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+</div>
+</div>
 </footer>
 
 <!-- CART DRAWER -->
 <div id="cart-drawer" class="cart-drawer">
-    <div class="cart-drawer-overlay"></div>
-    <div class="cart-drawer-content">
-        <div class="cart-drawer-header">
-            <h3>Votre Sélection</h3>
-            <button id="close-cart" class="btn-close-cart"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+<div class="cart-drawer-overlay"></div>
+<div class="cart-drawer-content">
+<div class="cart-drawer-header">
+<h3>Votre Sélection</h3>
+<button id="close-cart" class="btn-close-cart"><i class="fa-solid fa-xmark"></i></button>
+</div>
 
-        <div id="cart-items-container" class="cart-items-body">
-            <div class="cart-empty-state">
-                <p>Le panier est vide.</p>
-                <span>Commencez à capturer l'instant.</span>
-            </div>
-        </div>
+<div id="cart-items-container" class="cart-items-body">
+<div class="cart-empty-state">
+<p>Le panier est vide.</p>
+<span>Commencez à capturer l'instant.</span>
+</div>
+</div>
 
-        <div class="cart-drawer-footer">
-            <div class="cart-total-row">
-                <span>Total Estimé</span>
-                <span id="cart-total-price">0,00 €</span>
-            </div>
-            <button class="btn btn-primary btn-checkout">Passer à la commande</button>
-            <p class="checkout-notice">Livraison sécurisée premium sous 48h.</p>
-        </div>
-    </div>
+<div class="cart-drawer-footer">
+<div class="cart-total-row">
+<span>Total Estimé</span>
+<span id="cart-total-price">0,00 €</span>
+</div>
+<button class="btn btn-primary btn-checkout">Passer à la commande</button>
+<p class="checkout-notice">Livraison sécurisée premium sous 48h.</p>
+</div>
+</div>
 </div>
 
 <script src="script.js"></script>
