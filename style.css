@@ -501,6 +501,7 @@ nav.scrolled {
 .pm-serve { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .pm-serve span { font-size: .72rem; font-weight: 600; padding: 6px 12px; border-radius: 100px; background: rgba(255,122,0,.12); color: var(--passion); border: 1px solid rgba(255,200,87,.25); }
 .pm-web { display: inline-flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sunset); transition: transform .3s var(--ease); }
+.pm-web[hidden] { display: none; }
 .pm-web:hover { transform: translateX(4px); color: var(--gold); }
 
 .places-cta { margin-top: 40px; text-align: center; color: var(--grey); }
