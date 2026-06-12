@@ -156,7 +156,7 @@ const placeModal = document.querySelector('#placeModal');
 const placesGridEl = document.querySelector('#placesGrid');
 if (placeModal && placesGridEl) {
   const pmImg = document.querySelector('#pmMainImg');
-  const pmThumbs = document.querySelector('#pmThumbs');
+  const pmThumbs = document.querySelector('#pmThumbs');  const closePM = () => { placeModal.classList.remove('open'); document.body.style.overflow = ''; };
   placesGridEl.addEventListener('click', ev => {
     const card = ev.target.closest('.place-card');
     if (!card) return;
