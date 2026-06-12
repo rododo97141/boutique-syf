@@ -174,7 +174,7 @@ if (placeModal && placesGridEl) {
       pmImg.alt = document.querySelector('#pmTitle').textContent;
       pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${p}" type="button"><img src="${p}" alt="" loading="lazy"></button>`).join('');
     }
-    openModal(placeModal);
+    placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
   });
   pmThumbs.addEventListener('click', ev => {
     const t = ev.target.closest('.pm-thumb');
