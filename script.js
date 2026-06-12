@@ -291,7 +291,7 @@ if (placeModal && placesGridEl) {
   // Les événements créés via l'espace pro sont conservés en local
   let events = [...baseEvents, ...store.get('syfir-pro-events', [])];
 
-  const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', prive: 'Soirée privée' };
+  const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
 
   const eventCardHTML = (ev, i) => {
     const d = new Date(ev.date + 'T12:00:00');
