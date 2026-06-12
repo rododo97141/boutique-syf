@@ -1080,3 +1080,117 @@ body.modal-open {
     .age-gate-card { padding: 1.5rem; }
     .brand-logo-large { font-size: 3rem; }
 }
+
+
+/* ==========================================================================
+   14. THÈME CLAIR SYFIR (FOND CLAIR + COULEURS DE LA MARQUE)
+   ========================================================================== */
+html {
+  background-color: var(--sand-cream);
+  color: var(--caramel-brown);
+}
+
+/* --- HEADER --- */
+.main-header.scrolled {
+  background-color: rgba(255, 244, 230, 0.9);
+  border-bottom: 1px solid rgba(90, 58, 34, 0.08);
+}
+.logo { color: var(--caramel-brown); }
+.nav-link { color: rgba(90, 58, 34, 0.7); }
+.nav-link:hover, .nav-link.active { color: var(--sunset-orange); }
+.btn-nav { background-color: var(--sunset-orange); color: #fff; }
+.btn-nav:hover { background-color: var(--mango-orange); }
+.cart-icon { color: var(--caramel-brown); }
+.cart-icon:hover { color: var(--sunset-orange); }
+.cart-count { color: #fff; }
+
+/* --- BOUTONS --- */
+.btn-primary { background-color: var(--sunset-orange); color: #fff; }
+.btn-primary:hover { background-color: var(--mango-orange); color: #fff; box-shadow: 0 8px 30px rgba(255,122,0,0.25); }
+.btn-outline { border: 1px solid rgba(90, 58, 34, 0.25); color: var(--caramel-brown); }
+.btn-outline:hover { border-color: var(--sunset-orange); background-color: rgba(255,122,0,0.06); color: var(--sunset-orange); }
+
+/* --- SECTIONS FOND CLAIR --- */
+.brand-section,
+.cocktails-section {
+  background-color: var(--sand-cream);
+}
+.cocktails-section:nth-of-type(even) { background-color: #FFFBF4; }
+#bouteilles { background-color: #FFFBF4; }
+
+.section-main-title { color: var(--caramel-brown); }
+.section-main-title .italic-text { color: var(--sunset-orange); }
+.collection-descriptor { color: rgba(90, 58, 34, 0.65); }
+.section-number, .section-label { color: var(--sunset-orange) !important; }
+
+/* --- FICHES PRODUITS --- */
+.product-card {
+  background: #ffffff;
+  border: 1px solid rgba(90, 58, 34, 0.08);
+  box-shadow: 0 10px 30px -15px rgba(90,58,34,0.15);
+}
+.product-card:hover {
+  border-color: rgba(255, 122, 0, 0.3);
+  box-shadow: 0 30px 60px -20px rgba(90, 58, 34, 0.25);
+}
+.product-image-wrapper { background-color: #f6efe6; }
+.product-badge {
+  background-color: rgba(255, 244, 230, 0.92);
+  color: var(--caramel-brown);
+  border: 1px solid rgba(255, 122, 0, 0.2);
+}
+.product-title { color: var(--caramel-brown); }
+.product-price { color: var(--sunset-orange); }
+.product-description { color: rgba(90, 58, 34, 0.6); }
+.btn-add-cart {
+  border: 1px solid rgba(90, 58, 34, 0.15);
+  color: var(--caramel-brown);
+}
+.product-card:hover .btn-add-cart { border-color: var(--accent-glow); background-color: rgba(255,122,0,0.04); }
+.btn-add-cart:hover { background-color: var(--sunset-orange) !important; color: #fff; }
+
+/* --- AGE GATE (reste sombre pour le contraste mais accents marque) --- */
+.age-gate-overlay { background-color: rgba(255, 244, 230, 0.96); backdrop-filter: blur(20px); }
+.brand-logo-large { color: var(--caramel-brown); }
+.age-gate-question { color: rgba(90, 58, 34, 0.8); }
+.age-gate-warning { color: rgba(90, 58, 34, 0.45); border-top: 1px solid rgba(90,58,34,0.12); }
+
+/* --- CART DRAWER CLAIR --- */
+.cart-drawer-overlay { background-color: rgba(90, 58, 34, 0.35); }
+.cart-drawer-content {
+  background: rgba(255, 251, 244, 0.97);
+  border-left: 1px solid rgba(90, 58, 34, 0.08);
+  box-shadow: -20px 0 50px rgba(90,58,34,0.15);
+}
+.cart-drawer-header { border-bottom: 1px solid rgba(90,58,34,0.08); color: var(--caramel-brown); }
+.cart-drawer-header h3 { color: var(--caramel-brown); }
+.btn-close-cart { color: var(--caramel-brown); }
+.cart-empty-state p { color: var(--caramel-brown); }
+.cart-empty-state span { color: rgba(90,58,34,0.5); }
+.cart-item { border-bottom: 1px solid rgba(90,58,34,0.06); }
+.cart-item-name { color: var(--caramel-brown); }
+.cart-item-price { color: var(--sunset-orange); }
+.cart-quantity-selector { background: rgba(90,58,34,0.03); border: 1px solid rgba(90,58,34,0.1); }
+.qty-btn { color: var(--caramel-brown); }
+.qty-btn:hover { background: rgba(90,58,34,0.06); }
+.cart-drawer-footer { border-top: 1px solid rgba(90,58,34,0.08); background-color: rgba(255,244,230,0.5); }
+.cart-total-row { color: var(--caramel-brown); }
+#cart-total-price { color: var(--sunset-orange); }
+.checkout-notice { color: rgba(90,58,34,0.4); }
+
+/* --- FOOTER CLAIR --- */
+.main-footer { background-color: #FFFBF4; color: var(--caramel-brown); border-top: 1px solid rgba(90,58,34,0.08); }
+.main-footer .logo { color: var(--caramel-brown); }
+.main-footer .footer-links a,
+.main-footer .footer-brand p,
+.main-footer .footer-bottom p { color: rgba(90,58,34,0.7); }
+.main-footer .footer-links a:hover { color: var(--sunset-orange); }
+.main-footer .footer-social a { color: var(--caramel-brown); }
+.main-footer .footer-social a:hover { color: var(--sunset-orange); }
+.footer-warning { color: rgba(90,58,34,0.45) !important; }
+
+/* --- ÉVÉNEMENTIEL CLAIR --- */
+.section-evenements { background-color: var(--sand-cream); }
+.section-evenements .section-title { color: var(--caramel-brown); }
+.section-evenements .section-title em { color: var(--sunset-orange); }
+.section-evenements .section-body { color: rgba(90,58,34,0.7); }
