@@ -229,7 +229,7 @@
     </div>
 
     <div class="places-grid" id="placesGrid">
-      <article class="place-card reveal d1" data-type="beach">
+      <article class="place-card reveal d1" data-type="beach" data-desc="Les pieds dans le sable fin de Bois Jolan, Le Ti' Sable est une adresse iconique de Sainte-Anne. Transats face au lagon, ambiance lounge au coucher du soleil et carte de cocktails SYFIR servis dans le verre ou en sachet à emporter sur la plage." data-photos="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80|https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80|https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?w=800&q=80">
         <div class="place-thumb">
           <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80'"
@@ -268,7 +268,7 @@
           <div class="place-serve"><span>🥂 Sur place</span></div>
         </div>
       </article>
-      <article class="place-card reveal d4" data-type="restaurant">
+      <article class="place-card reveal d4" data-type="restaurant" data-desc="À Saint-François, L'Habitation Créole revisite la cuisine créole dans un cadre tropical chic. En accord avec ses plats, la maison propose les cocktails SYFIR servis au verre pour sublimer chaque dîner face aux jardins." data-photos="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80|https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80|https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80">
         <div class="place-thumb">
           <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80'"
@@ -309,18 +309,16 @@
       </article>
       <article class="place-card reveal d3" data-type="beach">
         <div class="place-thumb">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=400&q=80'"
+place-card reveal d1" data-type="hotel">               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=400&q=80'"
                alt="Blue Lagoon — beach club à Deshaies" loading="lazy">
         </div>
-        <div class="place-body">
-          <span class="place-type">Beach club</span>
+place-card reveal d1" data-type="hotel" data-desc="Les pieds dans l'eau à la Pointe de la Verdure au Gosier, le Karibea Beach Resort offre plages privées, piscines et bar lounge. Les cocktails SYFIR y rythment les journées, du transat au coucher de soleil, sur place ou à emporter." data-photos="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80|https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80|https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80">          <span class="place-type">Beach club</span>
           <h3>Blue Lagoon</h3>
           <p class="place-loc">📍 Plage de Grande Anse — Deshaies</p>
           <div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div>
         </div>
       </article>
-      <article class="place-card reveal d4" data-type="restaurant">
+      <article class="place-card reveal d4" data-type="restaurant" data-desc="Sur la marina de Rivière-Sens à Gourbeyre, Le Marina Café réunit bonne cuisine et ambiance conviviale au bord de l'eau. Les cocktails SYFIR y sont servis au verre, parfaits pour prolonger la soirée face aux voiliers." data-photos="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80|https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80|https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80">
         <div class="place-thumb">
           <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80'"
@@ -520,6 +518,25 @@
     <p>© 2026 SYFIR. Tous droits réservés. — L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>
+
+<!-- Modale fiche partenaire -->
+<div class="modal" id="placeModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="pm-gallery">
+        <div class="pm-main"><img id="pmMainImg" src="" alt=""></div>
+        <div class="pm-thumbs" id="pmThumbs"></div>
+      </div>
+      <p class="modal-tag" id="pmType" style="margin-top:18px"></p>
+      <h3 id="pmTitle"></h3>
+      <p class="modal-meta" id="pmLoc"></p>
+      <div class="pm-serve" id="pmServe"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <a class="pm-web" id="pmWeb" href="#" target="_blank" rel="noopener" hidden>Visiter le site →</a>
+    </div>
+  </div>
+</div>
 
 <!-- Toast notification -->
 <div class="toast" id="toast" role="status"></div>
