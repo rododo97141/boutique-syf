@@ -156,7 +156,7 @@ const placeModal = document.querySelector('#placeModal');
 const placesGridEl = document.querySelector('#placesGrid');
 if (placeModal && placesGridEl) {
   const pmImg = document.querySelector('#pmMainImg');
-  const pmThumbs = document.querySelector('#pmThumbs');  const closePM = () => { placeModal.classList.remove('open'); document.body.style.overflow = ''; };
+  const pmThumbs = document.querySelector('#pmThumbs');  const closePM = () => { placeModal.classList.remove('open'); document.body.style.overflow = ''; }; placeModal.addEventListener('click', ev => { if (ev.target === placeModal || ev.target.closest('[data-close]')) closePM(); }); document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && placeModal.classList.contains('open')) closePM(); });
   placesGridEl.addEventListener('click', ev => {
     const card = ev.target.closest('.place-card');
     if (!card) return;
