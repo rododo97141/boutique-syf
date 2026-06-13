@@ -27,6 +27,7 @@
   --passion: #FFC857;
   --gold: #D4A017;
   --gold-light: #F0C84A;
+  --gold-deep: #B8860B;
   --ocean: #0F3D5E;
   --ocean-deep: #071E30;
   --cream: #FAF8F2;
@@ -41,6 +42,8 @@
   --ease: cubic-bezier(.16, 1, .3, 1);
   --radius: 18px;
   --nav-h: 72px;
+  /* Or métallique SYFIR (lettrage doré du packaging) */
+  --gold-metal: linear-gradient(160deg, #F6D87C 8%, #D4A017 38%, #B8860B 58%, #F0C84A 86%);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -82,8 +85,12 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   text-transform: uppercase;
   margin-bottom: 24px;
 }
-.h2 em { font-family: var(--serif); font-style: italic; font-weight: 300; text-transform: none; letter-spacing: 0; color: var(--passion); }
-.section-cream .h2 em { color: var(--sunset); }
+.h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
 
 .section { padding: 96px 0; position: relative; }
 .section-cream { background: var(--cream); color: var(--ink); }
@@ -181,9 +188,22 @@ nav.scrolled {
   box-shadow: 0 1px 0 rgba(255, 200, 87, .14);
 }
 .nav-logo {
+  display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--display); font-weight: 900; font-size: 1.35rem; letter-spacing: .22em;
   color: var(--cream); flex-shrink: 0;
 }
+/* Emblème SYFIR (déesse soleil) — se retire seul si le fichier manque */
+.nav-emblem { width: 34px; height: 34px; object-fit: contain; border-radius: 50%; }
+
+/* Bouton de thème : Auto → Clair → Sombre */
+.theme-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: none; border: 1.5px solid rgba(255, 200, 87, .35);
+  color: var(--cream); font-size: 1.05rem; line-height: 1;
+  transition: transform .3s var(--ease), background .3s, border-color .3s;
+}
+.theme-btn:hover { transform: translateY(-2px) rotate(15deg); background: rgba(255, 200, 87, .12); border-color: var(--passion); }
 .nav-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
 .logo-suffix { font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: .02em; font-size: .62em !important; vertical-align: baseline !important; margin-left: 8px; }
 
@@ -267,8 +287,10 @@ nav.scrolled {
 }
 .hero-bg {
   position: absolute; inset: -12% 0;
+  /* Visuel de marque en priorité, photo d'ambiance en secours */
   background:
     linear-gradient(180deg, rgba(7, 30, 48, .25), rgba(17, 17, 17, .55) 80%),
+    url('images/syfir-hero.png') center / cover no-repeat,
     url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80') center / cover no-repeat;
   will-change: transform;
 }
@@ -668,7 +690,11 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
   font-size: clamp(2.1rem, 7vw, 4.2rem); line-height: 1.08;
   text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 18px;
 }
-.tickets-title em { font-family: var(--serif); font-style: italic; font-weight: 300; text-transform: none; color: var(--passion); }
+.tickets-title em {
+  font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
 .tickets-hero .section-intro { margin-inline: auto; margin-bottom: 30px; }
 
 /* Filtres */
@@ -890,6 +916,151 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
   max-width: 90vw; text-align: center;
 }
 .toast.show { transform: translate(-50%, 0); }
+
+/* ===== BANNIÈRE COCKTAIL MOBILE ===== */
+.mobile-banner {
+  position: relative; overflow: hidden;
+  padding: 110px 0; text-align: center;
+}
+.mobile-banner-bg {
+  position: absolute; inset: -12% 0;
+  background:
+    linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(17, 17, 17, .65)),
+    url('images/syfir-mobile.png') center / cover no-repeat,
+    url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1800&q=80') center / cover no-repeat;
+  will-change: transform;
+}
+.mobile-banner .container { position: relative; z-index: 2; }
+.mobile-banner .h2 { color: var(--cream); }
+.mobile-banner p { color: rgba(250, 248, 242, .85); max-width: 520px; margin: 0 auto 30px; font-family: var(--serif); font-style: italic; font-size: 1.15rem; }
+
+/* ============================================================
+   THÈME CLAIR — « Été doré » (sable, blanc, or)
+   Activé via <html data-theme="light">
+============================================================ */
+html[data-theme="light"] body { background: #FAF6EE; color: #221A10; }
+
+/* Navigation */
+html[data-theme="light"] nav.scrolled { background: rgba(250, 246, 238, .88); box-shadow: 0 1px 0 rgba(212, 160, 23, .25); }
+html[data-theme="light"] nav.scrolled .nav-logo,
+html[data-theme="light"] nav.scrolled .nav-link:hover,
+html[data-theme="light"] nav.scrolled .nav-link.active { color: #221A10; }
+html[data-theme="light"] nav.scrolled .nav-link { color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] nav.scrolled .nav-link-event { color: var(--gold-deep); }
+html[data-theme="light"] nav.scrolled .burger span { background: #221A10; }
+html[data-theme="light"] nav.scrolled .theme-btn { color: #221A10; border-color: rgba(184, 134, 11, .45); }
+html[data-theme="light"] .mobile-nav { background: rgba(250, 246, 238, .97); }
+html[data-theme="light"] .mobile-nav a, html[data-theme="light"] .mobile-close { color: #221A10; }
+html[data-theme="light"] .mobile-nav-foot { color: rgba(34, 26, 16, .5); }
+
+/* Typo & sections */
+html[data-theme="light"] .section-intro { color: #6E6353; }
+html[data-theme="light"] .eyebrow { color: var(--gold-deep); }
+/* Les textes « light » redeviennent sombres sur fond clair… */
+html[data-theme="light"] .intro-light { color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] .eyebrow-light { color: var(--gold-deep); }
+/* …sauf au-dessus des sections à image de fond, où ils restent crème */
+html[data-theme="light"] .section-event .intro-light,
+html[data-theme="light"] .tickets-hero .intro-light,
+html[data-theme="light"] .mobile-banner .intro-light { color: rgba(250, 248, 242, .85); }
+html[data-theme="light"] .section-event .eyebrow-light,
+html[data-theme="light"] .tickets-hero .eyebrow-light,
+html[data-theme="light"] .mobile-banner .eyebrow-light { color: var(--passion); }
+/* Les sections à image gardent leur texte crème, quel que soit le thème */
+html[data-theme="light"] .hero,
+html[data-theme="light"] .section-event,
+html[data-theme="light"] .tickets-hero,
+html[data-theme="light"] .mobile-banner { color: var(--cream); }
+html[data-theme="light"] .section-dark { background: #F3ECDC; }
+html[data-theme="light"] .section-cream { background: #FFFFFF; }
+
+/* Notre marque */
+html[data-theme="light"] .lead { color: #221A10; }
+html[data-theme="light"] .split-text p { color: rgba(34, 26, 16, .75); }
+html[data-theme="light"] .split-text strong { color: var(--gold-deep); }
+html[data-theme="light"] .accent-line { color: #221A10 !important; }
+html[data-theme="light"] .values span { color: var(--gold-deep); border-color: rgba(184, 134, 11, .4); }
+html[data-theme="light"] .values span:hover { background: rgba(212, 160, 23, .12); }
+
+/* Où nous trouver */
+html[data-theme="light"] .place-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .28); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
+html[data-theme="light"] .place-card:hover { background: #FFFDF6; box-shadow: 0 20px 46px rgba(60, 45, 20, .15); }
+html[data-theme="light"] .place-type { color: var(--gold-deep); }
+html[data-theme="light"] .place-loc { color: #6E6353; }
+html[data-theme="light"] .place-serve span,
+html[data-theme="light"] .pm-serve span { background: rgba(212, 160, 23, .1); color: #8A6508; border-color: rgba(184, 134, 11, .35); }
+html[data-theme="light"] .places-cta { color: #6E6353; }
+html[data-theme="light"] .places-cta a { color: var(--gold-deep); }
+html[data-theme="light"] .places-cta a:hover { color: var(--sunset); }
+html[data-theme="light"] .no-results { color: #8A7E6C; }
+html[data-theme="light"] .chip { border-color: rgba(34, 26, 16, .25); color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] .chip:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+html[data-theme="light"] .chip.active { color: var(--ink); }
+
+/* Formulaires */
+html[data-theme="light"] .smart-form, html[data-theme="light"] .pro-form { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); box-shadow: 0 10px 34px rgba(60, 45, 20, .08); }
+html[data-theme="light"] .form-choice legend, html[data-theme="light"] .options-list legend { color: var(--gold-deep); }
+html[data-theme="light"] .form-field label, html[data-theme="light"] .visibility-switch legend { color: rgba(34, 26, 16, .65); }
+html[data-theme="light"] .form-field input, html[data-theme="light"] .form-field select, html[data-theme="light"] .form-field textarea {
+  background: #FAF6EE; border-color: #E4D9C2; color: #221A10;
+}
+html[data-theme="light"] .form-field input::placeholder, html[data-theme="light"] .form-field textarea::placeholder { color: rgba(34, 26, 16, .35); }
+html[data-theme="light"] .form-field select option { background: #FFFFFF; }
+html[data-theme="light"] .choice-card span, html[data-theme="light"] .vis-opt span { border-color: #E4D9C2; }
+html[data-theme="light"] .choice-card small, html[data-theme="light"] .vis-opt small { color: #8A7E6C; }
+html[data-theme="light"] .form-consent { color: rgba(34, 26, 16, .75); }
+html[data-theme="light"] .opt-line { border-bottom-color: rgba(34, 26, 16, .12); }
+html[data-theme="light"] .billing-box { background: #FAF4E4; border-color: rgba(212, 160, 23, .35); }
+html[data-theme="light"] .billing-line { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .billing-total strong, html[data-theme="light"] .opt-line strong { color: var(--gold-deep); }
+
+/* Footer */
+html[data-theme="light"] footer { background: #F3ECDC; border-top-color: rgba(212, 160, 23, .3); }
+html[data-theme="light"] .footer-brand p, html[data-theme="light"] .footer-col a { color: rgba(34, 26, 16, .65); }
+html[data-theme="light"] .footer-col a:hover { color: #221A10; }
+html[data-theme="light"] .footer-col h4 { color: var(--gold-deep); }
+html[data-theme="light"] .footer-bottom { border-top-color: rgba(34, 26, 16, .1); }
+html[data-theme="light"] .footer-bottom p { color: #8A7E6C; }
+
+/* Page Événements */
+html[data-theme="light"] nav.scrolled .btn-ghost { border-color: rgba(34, 26, 16, .35); color: #221A10; }
+html[data-theme="light"] nav.scrolled .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+html[data-theme="light"] nav.scrolled .ticket-search input { color: #221A10; }
+html[data-theme="light"] nav.scrolled .ticket-search input::placeholder { color: rgba(34, 26, 16, .4); }
+html[data-theme="light"] .ticket-search { background: rgba(34, 26, 16, .05); border-color: rgba(34, 26, 16, .15); }
+html[data-theme="light"] .filter-extra select { background: #FFFFFF; color: #221A10; border-color: #E4D9C2; }
+html[data-theme="light"] .sort-label { color: #6E6353; }
+html[data-theme="light"] .event-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .25); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
+html[data-theme="light"] .event-card-meta, html[data-theme="light"] .event-price small { color: #6E6353; }
+html[data-theme="light"] .event-price strong { color: var(--gold-deep); }
+html[data-theme="light"] .event-organizer { color: #8A7E6C; border-top-color: rgba(34, 26, 16, .15); }
+html[data-theme="light"] .section-pro { background: linear-gradient(180deg, #F3ECDC, #FAF6EE); }
+html[data-theme="light"] .pro-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); }
+html[data-theme="light"] .pro-card ul { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .pro-card h4 { color: var(--gold-deep); }
+html[data-theme="light"] .vis-opt small, html[data-theme="light"] .tier-info small { color: #8A7E6C; }
+
+/* Modales */
+html[data-theme="light"] .modal-box { background: #FFFFFF; border-color: rgba(212, 160, 23, .35); }
+html[data-theme="light"] .modal-close { background: rgba(250, 246, 238, .9); color: #221A10; }
+html[data-theme="light"] .modal-meta { color: #6E6353; }
+html[data-theme="light"] .modal-tag { color: var(--gold-deep); }
+html[data-theme="light"] .tier { border-color: #E4D9C2; }
+html[data-theme="light"] .tier-price { color: var(--gold-deep); }
+html[data-theme="light"] .qty-btn { border-color: rgba(34, 26, 16, .3); color: #221A10; }
+html[data-theme="light"] .cart-total strong { color: var(--gold-deep); }
+html[data-theme="light"] .cart-total span { color: #6E6353; }
+html[data-theme="light"] .cart-empty { color: #8A7E6C; }
+html[data-theme="light"] .tabs { border-bottom-color: rgba(34, 26, 16, .12); }
+html[data-theme="light"] .tab { color: #8A7E6C; }
+html[data-theme="light"] .tab:hover { color: #221A10; }
+html[data-theme="light"] .tab.active { color: var(--gold-deep); }
+html[data-theme="light"] .gate-row input { background: #FAF6EE; border-color: #E4D9C2; color: #221A10; }
+html[data-theme="light"] .pm-desc { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .pm-web { color: var(--gold-deep); }
+html[data-theme="light"] .my-ticket strong { color: #221A10; }
+html[data-theme="light"] .my-ticket small { color: #6E6353; }
+html[data-theme="light"] .field-error { color: #C8323A; }
 
 /* ===== 14. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */

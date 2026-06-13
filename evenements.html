@@ -8,6 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-events">
@@ -26,6 +36,7 @@
   <div class="nav-actions">
     <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Espace client</button>
     <a class="btn btn-solid btn-sm" href="#pro">Espace pro</a>
+    <button class="theme-btn" id="themeBtn" aria-label="Changer de thème" title="Thème : automatique">🌗</button>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>

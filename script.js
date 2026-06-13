@@ -132,6 +132,38 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
+  /* ===== 07b. THÈME CLAIR / SOMBRE / AUTO =====
+     Auto : clair le jour (7h-19h), sombre la nuit.
+     Le choix est mémorisé et appliqué dès le <head> (script inline). */
+  const themeBtn = $('#themeBtn');
+  const themeByHour = () => {
+    const h = new Date().getHours();
+    return h >= 7 && h < 19 ? 'light' : 'dark';
+  };
+  const applyTheme = pref => {
+    const mode = pref === 'auto' ? themeByHour() : pref;
+    document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.setAttribute('data-theme-pref', pref);
+    if (themeBtn) {
+      themeBtn.textContent = pref === 'auto' ? '🌗' : pref === 'light' ? '☀️' : '🌙';
+      themeBtn.title = 'Thème : ' + (pref === 'auto'
+        ? `automatique (${themeByHour() === 'light' ? 'jour' : 'nuit'})`
+        : pref === 'light' ? 'clair' : 'sombre');
+    }
+  };
+  let themePref = localStorage.getItem('syfir-theme') || 'auto';
+  applyTheme(themePref);
+  themeBtn?.addEventListener('click', () => {
+    themePref = themePref === 'auto' ? 'light' : themePref === 'light' ? 'dark' : 'auto';
+    localStorage.setItem('syfir-theme', themePref);
+    applyTheme(themePref);
+    showToast(themePref === 'auto'
+      ? '🌗 Thème automatique — clair le jour, sombre la nuit'
+      : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
+  });
+  // En mode auto, on suit l'heure qui tourne
+  setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
+
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
   if (placeChips) {

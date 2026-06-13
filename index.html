@@ -10,6 +10,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,7 +36,10 @@
      NAVIGATION
 ============================================================ -->
 <nav id="nav">
-  <a href="#accueil" class="nav-logo">SYFIR<span>™</span></a>
+  <a href="#accueil" class="nav-logo">
+    <img src="images/syfir-logo.png" alt="" class="nav-emblem" onerror="this.remove()">
+    SYFIR<span>™</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#accueil" class="nav-link active">Accueil</a></li>
     <li><a href="#marque" class="nav-link">Notre marque</a></li>
@@ -36,6 +49,7 @@
     <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
   <div class="nav-actions">
+    <button class="theme-btn" id="themeBtn" aria-label="Changer de thème" title="Thème : automatique">🌗</button>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -118,7 +132,9 @@
       </div>
       <div class="split-visual reveal from-right d3">
         <figure class="visual-card" data-tilt>
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80" alt="Plage au coucher du soleil" loading="lazy">
+          <img src="images/syfir-danseuse.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80'"
+               alt="L'esprit carnaval SYFIR" loading="lazy">
           <figcaption><em>« Je veux vivre ça. »</em></figcaption>
         </figure>
       </div>
@@ -207,6 +223,19 @@
     </div>
 
     <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     COCKTAIL MOBILE — votre été, partout
+============================================================ -->
+<section class="mobile-banner">
+  <div class="mobile-banner-bg" data-parallax="0.15"></div>
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">SYFIR — Cocktail mobile</p>
+    <h2 class="h2 reveal d1">Votre été, <em>partout</em>.</h2>
+    <p class="reveal d2">À la plage, en bateau, au parc ou sur un rooftop : le sachet SYFIR emporte le cocktail premium là où la vie se passe.</p>
+    <a href="#ou-trouver" class="btn btn-solid reveal d3">Trouver un point de vente</a>
   </div>
 </section>
 
@@ -397,11 +426,15 @@
 
   <div class="insta-grid">
     <a class="insta-item reveal d1" href="#communaute" aria-label="Photo communauté">
-      <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80" alt="Amis qui trinquent au soleil" loading="lazy">
+      <img src="images/syfir-fete.png"
+           onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80'"
+           alt="Amis qui trinquent avec des sachets SYFIR" loading="lazy">
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d2" href="#communaute" aria-label="Photo communauté">
-      <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80" alt="Cocktails colorés" loading="lazy">
+      <img src="images/syfir-flatlay.png"
+           onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80'"
+           alt="Sachet SYFIR entouré de fruits frais" loading="lazy">
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d3" href="#communaute" aria-label="Photo communauté">
