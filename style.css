@@ -1062,6 +1062,11 @@ html[data-theme="light"] .my-ticket strong { color: #221A10; }
 html[data-theme="light"] .my-ticket small { color: #6E6353; }
 html[data-theme="light"] .field-error { color: #C8323A; }
 
+/* Préloader & toast assortis au thème (pas de flash sombre en plein jour) */
+html[data-theme="light"] .preloader { background: #FAF6EE; }
+html[data-theme="light"] .preloader-tag { color: rgba(34, 26, 16, .55); }
+html[data-theme="light"] .toast { background: #221A10; color: var(--cream); box-shadow: 0 14px 40px rgba(34, 26, 16, .35); }
+
 /* ===== 14. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {
