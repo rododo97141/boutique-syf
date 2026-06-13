@@ -1,0 +1,3089 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SYFIR — Le Cocktail Libre™. Cocktails premium & expériences événementielles. Festivals, plages, rooftops, couchers de soleil.">
+<meta property="og:title" content="SYFIR — Le Cocktail Libre™">
+<meta property="og:description" content="Plus qu'un cocktail. Une expérience. SYFIR accompagne les moments que l'on n'oublie jamais.">
+<title>SYFIR — Le Cocktail Libre™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<style>
+/* ============================================================
+   SYFIR — Le Cocktail Libre™
+   style.css — design system & pages (mobile first)
+   ------------------------------------------------------------
+   Sommaire :
+   01. Variables & base
+   02. Utilitaires (boutons, titres, reveal, sections)
+   03. Préloader
+   04. Navigation + menu mobile + panier
+   05. Hero & marquee
+   06. Notre marque / moments
+   07. Cocktails
+   08. Événements (passerelle accueil)
+   09. Partenaires (formulaire intelligent)
+   10. Communauté (galerie Instagram)
+   11. Footer
+   12. Page Événements (billetterie, espace pro, modales)
+   13. Toast & animations
+   14. Responsive (tablette / desktop / ultra-wide)
+============================================================ */
+
+/* ===== 01. VARIABLES & BASE ===== */
+:root {
+  --sunset: #FF7A00;
+  --mango: #FF9A3D;
+  --coral: #FF8F70;
+  --passion: #FFC857;
+  --gold: #D4A017;
+  --gold-light: #F0C84A;
+  --gold-deep: #B8860B;
+  --ocean: #0F3D5E;
+  --ocean-deep: #071E30;
+  --cream: #FAF8F2;
+  --ink: #111111;
+  --ink-soft: #1B1B1B;
+  --grey: #8A8A8A;
+  --error: #E5484D;
+  --success: #46A758;
+  --display: 'Montserrat', sans-serif;
+  --body: 'Plus Jakarta Sans', sans-serif;
+  --serif: 'Fraunces', serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --radius: 18px;
+  --nav-h: 72px;
+  /* Or métallique SYFIR (lettrage doré du packaging) */
+  --gold-metal: linear-gradient(160deg, #F6D87C 8%, #D4A017 38%, #B8860B 58%, #F0C84A 86%);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--ink);
+  color: var(--cream);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--sunset); color: var(--ink); }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; font-size: 1rem; }
+
+/* ===== 02. UTILITAIRES ===== */
+.container { width: min(1200px, 92vw); margin-inline: auto; }
+
+.eyebrow {
+  font-family: var(--display);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--sunset);
+  margin-bottom: 16px;
+}
+.eyebrow-light { color: var(--passion); }
+
+.h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.section { padding: 96px 0; position: relative; }
+.section-cream { background: var(--cream); color: var(--ink); }
+.section-dark { background: var(--ink-soft); }
+.section-intro { max-width: 560px; color: var(--grey); margin-bottom: 48px; }
+.section-cream .section-intro { color: #555; }
+.intro-light { color: rgba(250, 248, 242, .75); }
+
+/* Boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 100px;
+  border: 1.5px solid transparent;
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .3s, color .3s, border-color .3s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-solid {
+  background: linear-gradient(120deg, var(--sunset), var(--passion));
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(255, 122, 0, .35);
+}
+.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(255, 122, 0, .5); }
+.btn-ghost { border-color: rgba(250, 248, 242, .4); color: var(--cream); backdrop-filter: blur(6px); }
+.btn-ghost:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-3px); }
+.btn-sm { padding: 11px 22px; font-size: .72rem; }
+.btn-lg { padding: 19px 44px; }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+/* Onde lumineuse au survol */
+.btn-solid::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.45), transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .7s var(--ease);
+}
+.btn-solid:hover::after { transform: translateX(120%); }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(42px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal.from-left { transform: translateX(-42px); }
+.reveal.from-right { transform: translateX(42px); }
+.reveal.from-left.in, .reveal.from-right.in { transform: none; }
+.d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; }
+.d5 { transition-delay: .4s; }  .d6 { transition-delay: .48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ===== 03. PRÉLOADER ===== */
+.preloader {
+  position: fixed; inset: 0; z-index: 999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: var(--ink);
+  transition: opacity .8s var(--ease), visibility .8s;
+}
+.preloader.done { opacity: 0; visibility: hidden; }
+.preloader-logo {
+  font-family: var(--display); font-weight: 900; font-size: clamp(2.4rem, 9vw, 4rem);
+  letter-spacing: .3em; padding-left: .3em;
+  background: linear-gradient(120deg, var(--sunset), var(--passion), var(--gold-light));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: pulseLogo 1.4s var(--ease) infinite alternate;
+}
+.preloader-logo span { font-size: .35em; vertical-align: super; }
+.preloader-tag { font-family: var(--serif); font-style: italic; color: rgba(250,248,242,.55); letter-spacing: .08em; }
+@keyframes pulseLogo { from { opacity: .6; transform: scale(.98); } to { opacity: 1; transform: scale(1); } }
+
+/* ===== 04. NAVIGATION ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  height: var(--nav-h);
+  padding: 0 5vw;
+  transition: background .5s var(--ease), box-shadow .5s var(--ease), height .4s var(--ease);
+}
+nav.scrolled {
+  background: rgba(13, 13, 13, .82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 1px 0 rgba(255, 200, 87, .14);
+}
+.nav-logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--display); font-weight: 900; font-size: 1.35rem; letter-spacing: .22em;
+  color: var(--cream); flex-shrink: 0;
+}
+/* Emblème SYFIR (déesse soleil) — se retire seul si le fichier manque */
+.nav-emblem { width: 34px; height: 34px; object-fit: contain; border-radius: 50%; }
+
+/* Bouton de thème : Auto → Clair → Sombre */
+.theme-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: none; border: 1.5px solid rgba(255, 200, 87, .35);
+  color: var(--cream); font-size: 1.05rem; line-height: 1;
+  transition: transform .3s var(--ease), background .3s, border-color .3s;
+}
+.theme-btn:hover { transform: translateY(-2px) rotate(15deg); background: rgba(255, 200, 87, .12); border-color: var(--passion); }
+
+/* Menu déroulant du thème */
+.theme-switch { position: relative; }
+.theme-menu {
+  position: absolute; top: calc(100% + 12px); right: 0; z-index: 120;
+  width: 248px; padding: 8px;
+  background: rgba(18, 18, 18, .96);
+  border: 1px solid rgba(255, 200, 87, .22);
+  border-radius: 16px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .5);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  animation: themeMenuIn .28s var(--ease);
+}
+@keyframes themeMenuIn { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+.theme-menu-title {
+  font-family: var(--display); font-size: .62rem; font-weight: 700;
+  letter-spacing: .26em; text-transform: uppercase; color: var(--passion);
+  padding: 8px 12px 6px;
+}
+.theme-opt {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 10px 12px; border-radius: 11px;
+  background: none; border: none; color: var(--cream);
+  font-family: var(--body); font-size: .92rem; text-align: left;
+  transition: background .2s;
+}
+.theme-opt:hover { background: rgba(255, 200, 87, .1); }
+.theme-opt-ic { font-size: 1.15rem; line-height: 1; width: 22px; text-align: center; }
+.theme-opt-txt { display: flex; flex-direction: column; line-height: 1.25; flex: 1; }
+.theme-opt-txt small { color: rgba(250, 248, 242, .5); font-size: .72rem; }
+.theme-check { color: var(--passion); font-weight: 700; opacity: 0; transition: opacity .2s; }
+.theme-opt[aria-checked="true"] .theme-check { opacity: 1; }
+.theme-opt[aria-checked="true"] { background: rgba(255, 200, 87, .07); }
+
+/* Menu de thème — variante claire */
+html[data-theme="light"] .theme-menu { background: rgba(255, 253, 247, .97); border-color: rgba(184, 134, 11, .28); box-shadow: 0 22px 60px rgba(60, 45, 20, .22); }
+html[data-theme="light"] .theme-menu-title { color: var(--gold-deep); }
+html[data-theme="light"] .theme-opt { color: #221A10; }
+html[data-theme="light"] .theme-opt:hover { background: rgba(212, 160, 23, .12); }
+html[data-theme="light"] .theme-opt[aria-checked="true"] { background: rgba(212, 160, 23, .1); }
+html[data-theme="light"] .theme-opt-txt small { color: #8A7E6C; }
+html[data-theme="light"] .theme-check { color: var(--gold-deep); }
+.nav-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
+.logo-suffix { font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: .02em; font-size: .62em !important; vertical-align: baseline !important; margin-left: 8px; }
+
+.nav-links { display: none; list-style: none; gap: 34px; }
+.nav-link {
+  font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(250, 248, 242, .72);
+  padding-bottom: 5px; position: relative; transition: color .3s;
+}
+.nav-link::after {
+  content: ''; position: absolute; left: 0; bottom: 0; height: 1.5px; width: 0;
+  background: linear-gradient(90deg, var(--sunset), var(--passion));
+  transition: width .4s var(--ease);
+}
+.nav-link:hover, .nav-link.active { color: var(--cream); }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link-event { color: var(--passion); }
+
+.nav-actions { display: flex; align-items: center; gap: 14px; }
+
+/* Burger */
+.burger {
+  display: flex; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 8px;
+}
+.burger span { width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: .3s; }
+.burger:hover span { background: var(--passion); }
+
+/* Menu mobile plein écran */
+.mobile-nav {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(10, 10, 10, .97);
+  backdrop-filter: blur(24px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .5s var(--ease), visibility .5s;
+}
+.mobile-nav.open { opacity: 1; visibility: visible; }
+.mobile-nav a {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.5rem, 6vw, 2.2rem);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding: 10px; color: var(--cream);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease), color .3s;
+}
+.mobile-nav.open a { opacity: 1; transform: none; }
+.mobile-nav.open a:nth-child(2) { transition-delay: .08s; }
+.mobile-nav.open a:nth-child(3) { transition-delay: .14s; }
+.mobile-nav.open a:nth-child(4) { transition-delay: .2s; }
+.mobile-nav.open a:nth-child(5) { transition-delay: .26s; }
+.mobile-nav.open a:nth-child(6) { transition-delay: .32s; }
+.mobile-nav.open a:nth-child(7) { transition-delay: .38s; }
+.mobile-nav a:hover { color: var(--passion); }
+.mobile-close {
+  position: absolute; top: 24px; right: 6vw;
+  background: none; border: none; color: var(--cream); font-size: 1.5rem;
+  transition: transform .3s, color .3s;
+}
+.mobile-close:hover { transform: rotate(90deg); color: var(--passion); }
+.mobile-nav-foot { margin-top: 32px; font-family: var(--serif); font-style: italic; color: rgba(250,248,242,.45); }
+
+/* Éléments partagés (billetterie : compteurs, totaux, états vides) */
+.cart-empty { color: var(--grey); font-family: var(--serif); font-style: italic; text-align: center; margin-top: 32px; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(16px); } }
+.qty-btn {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid rgba(250, 248, 242, .25); background: none; color: var(--cream);
+  display: grid; place-items: center; font-size: .9rem; line-height: 1;
+  transition: border-color .3s, background .3s;
+}
+.qty-btn:hover { border-color: var(--passion); background: rgba(255, 200, 87, .1); }
+.cart-total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.cart-total span { color: var(--grey); text-transform: uppercase; font-size: .78rem; letter-spacing: .12em; }
+.cart-total strong { font-family: var(--display); font-size: 1.4rem; color: var(--passion); }
+
+/* ===== 05. HERO ===== */
+.hero {
+  position: relative; min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: -12% 0;
+  /* Visuel de marque en priorité, photo d'ambiance en secours */
+  background:
+    linear-gradient(180deg, rgba(7, 30, 48, .25), rgba(17, 17, 17, .55) 80%),
+    url('images/syfir-hero.png') center / cover no-repeat,
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80') center / cover no-repeat;
+  will-change: transform;
+}
+.hero-veil {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 110%, rgba(255, 122, 0, .35), transparent 55%);
+}
+/* Balayage lumineux doré */
+.gold-sweep { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.gold-sweep::after {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 55%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(240, 200, 74, .12), rgba(255, 200, 87, .07), transparent);
+  transform: translateX(-120%) skewX(-18deg);
+  animation: goldSweep 7s ease-in-out infinite 2s;
+}
+@keyframes goldSweep {
+  0% { transform: translateX(-120%) skewX(-18deg); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateX(260%) skewX(-18deg); opacity: 0; }
+}
+
+.hero-inner { position: relative; z-index: 2; padding: 120px 6vw 80px; }
+.hero-kicker {
+  font-size: .78rem; font-weight: 600; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--passion); margin-bottom: 18px;
+}
+.hero-title { overflow: hidden; }
+.hero-line { display: block; overflow: hidden; }
+.hero-line span {
+  display: block;
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(4rem, 17vw, 11.5rem);
+  line-height: .95; letter-spacing: .12em; padding-left: .12em;
+  background: linear-gradient(115deg, var(--cream) 25%, var(--passion) 55%, var(--sunset) 85%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  transform: translateY(110%);
+  animation: riseUp 1.1s var(--ease) .9s forwards;
+}
+@keyframes riseUp { to { transform: none; } }
+.hero-sub {
+  font-family: var(--display); font-weight: 700; font-size: clamp(.85rem, 2.6vw, 1.25rem);
+  letter-spacing: .5em; padding-left: .5em; text-transform: uppercase;
+  color: var(--cream); margin-top: 8px;
+}
+.hero-sub sup { font-size: .5em; color: var(--passion); }
+.hero-poem { margin: 36px 0 42px; font-family: var(--serif); font-weight: 300; font-size: clamp(1.05rem, 3vw, 1.45rem); line-height: 1.9; color: rgba(250, 248, 242, .88); }
+.hero-poem em { color: var(--passion); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(250, 248, 242, .6);
+}
+.scroll-hint-line { width: 1px; height: 44px; background: rgba(250, 248, 242, .35); position: relative; overflow: hidden; }
+.scroll-hint-line::after {
+  content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+  background: var(--passion);
+  animation: dropLine 2s var(--ease) infinite;
+}
+@keyframes dropLine { to { top: 100%; } }
+
+/* Marquee */
+.marquee {
+  overflow: hidden; padding: 22px 0;
+  background: linear-gradient(90deg, var(--sunset), var(--passion), var(--gold-light), var(--sunset));
+  color: var(--ink);
+}
+.marquee-track {
+  display: flex; align-items: center; gap: 36px; width: max-content;
+  font-family: var(--display); font-weight: 800; font-size: 1rem;
+  letter-spacing: .25em; text-transform: uppercase; white-space: nowrap;
+  animation: marquee 26s linear infinite;
+}
+.marquee-track i { font-style: normal; font-size: .8em; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ===== 06. NOTRE MARQUE / MOMENTS ===== */
+.split { display: grid; gap: 48px; margin-top: 24px; }
+.lead { font-size: 1.15rem; margin-bottom: 18px; color: var(--cream); }
+.split-text p { color: rgba(250, 248, 242, .72); margin-bottom: 16px; }
+.split-text strong { color: var(--passion); }
+.accent-line {
+  font-family: var(--serif); font-style: italic; font-size: 1.2rem;
+  color: var(--cream) !important;
+  border-left: 2px solid var(--sunset); padding-left: 18px; margin: 26px 0 !important;
+}
+.values { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.values span {
+  font-size: .74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 100px;
+  border: 1px solid rgba(255, 200, 87, .35); color: var(--passion);
+  transition: background .3s, transform .3s var(--ease);
+}
+.values span:hover { background: rgba(255, 200, 87, .12); transform: translateY(-2px); }
+
+.visual-card {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  transition: transform .5s var(--ease);
+}
+.visual-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform 1.2s var(--ease); }
+.visual-card:hover img { transform: scale(1.06); }
+.visual-card figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 60px 24px 22px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .75));
+  font-family: var(--serif); font-size: 1.3rem; color: var(--cream);
+}
+
+/* Bande de moments — scroll horizontal */
+.moments { margin-top: 80px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.moments::-webkit-scrollbar { display: none; }
+.moments-track { display: flex; gap: 18px; padding: 4px 5vw 24px; width: max-content; }
+.moment {
+  position: relative; width: 230px; height: 320px; flex-shrink: 0;
+  border-radius: var(--radius); overflow: hidden;
+  background: linear-gradient(rgba(7, 30, 48, .2), rgba(17, 17, 17, .55)), var(--img) center / cover;
+  display: flex; align-items: flex-end; padding: 22px;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.moment:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 24px 50px rgba(255, 122, 0, .25); }
+.moment h3 {
+  font-family: var(--display); font-weight: 800; font-size: 1.05rem;
+  text-transform: uppercase; letter-spacing: .1em;
+}
+
+/* ===== 07. COCKTAILS ===== */
+.cocktail-grid { display: grid; gap: 32px; }
+.cocktail-card {
+  background: #fff; border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 12px 40px rgba(17, 17, 17, .1);
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.cocktail-card:hover { transform: translateY(-10px); box-shadow: 0 30px 70px rgba(255, 122, 0, .22); }
+.cocktail-media { position: relative; overflow: hidden; aspect-ratio: 7/5; }
+.cocktail-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.cocktail-card:hover .cocktail-media img { transform: scale(1.08); }
+.cocktail-badge {
+  position: absolute; top: 16px; left: 16px;
+  font-family: var(--display); font-size: .65rem; font-weight: 800;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 7px 14px; border-radius: 100px;
+  background: var(--ink); color: var(--passion);
+}
+.badge-coral { background: var(--coral); color: var(--ink); }
+.badge-gold { background: linear-gradient(120deg, var(--gold), var(--gold-light)); color: var(--ink); }
+
+.cocktail-body { padding: 26px 26px 30px; }
+.cocktail-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.35rem; text-transform: uppercase; letter-spacing: .04em; }
+.cocktail-body h3 sup { font-size: .5em; color: var(--sunset); }
+.cocktail-notes { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--sunset); margin: 6px 0 10px; }
+.cocktail-desc { font-family: var(--serif); font-style: italic; color: #666; margin-bottom: 20px; }
+
+/* Modes de dégustation : sur place (verre) / à emporter (sachet) */
+.serve-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.serve-tag {
+  font-size: .74rem; font-weight: 600; letter-spacing: .04em;
+  padding: 8px 14px; border-radius: 100px;
+  border: 1.5px solid #E5E0D5; background: var(--cream); color: #555;
+}
+.serve-link {
+  display: inline-block;
+  font-family: var(--display); font-weight: 700; font-size: .78rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--sunset);
+  transition: transform .3s var(--ease), color .3s;
+}
+.serve-link:hover { transform: translateX(5px); color: var(--gold); }
+
+.legal-note { margin-top: 44px; text-align: center; font-size: .76rem; color: #999; }
+
+/* ===== OÙ NOUS TROUVER — partenaires & lieux ===== */
+.places-grid { display: grid; gap: 18px; margin-top: 34px; }
+.place-card {
+  display: flex; align-items: center; gap: 18px;
+  background: rgba(250, 248, 242, .04);
+  border: 1px solid rgba(255, 200, 87, .16);
+  border-radius: var(--radius); padding: 16px;
+  transition: transform .5s var(--ease), border-color .4s, background .4s, box-shadow .5s var(--ease);
+  animation: cardIn .5s var(--ease) backwards;
+}
+.place-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--passion);
+  background: rgba(255, 200, 87, .07);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .35);
+}
+.place-card[hidden] { display: none; }
+.place-thumb {
+  width: 96px; height: 96px; flex-shrink: 0;
+  border-radius: 14px; overflow: hidden;
+  background: rgba(255, 200, 87, .08);
+}
+.place-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .8s var(--ease);
+}
+.place-card:hover .place-thumb img { transform: scale(1.1); }
+.place-body { min-width: 0; }
+.place-type {
+  font-family: var(--display); font-size: .64rem; font-weight: 800;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--passion);
+}
+.place-card h3 { font-family: var(--display); font-weight: 800; font-size: 1.08rem; text-transform: uppercase; letter-spacing: .03em; margin: 6px 0 4px; }
+.place-loc { font-size: .85rem; color: rgba(250, 248, 242, .65); margin-bottom: 12px; }
+.place-serve { display: flex; flex-wrap: wrap; gap: 8px; }
+.place-serve span {
+  font-size: .72rem; font-weight: 600;
+  padding: 6px 12px; border-radius: 100px;
+  background: rgba(255, 122, 0, .12); color: var(--passion);
+  border: 1px solid rgba(255, 200, 87, .25);
+}
+.place-card { cursor: pointer; }
+.place-card::after { content: 'Voir la fiche →'; position: absolute; bottom: 10px; right: 14px; font-family: var(--display); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--passion); opacity: 0; transition: opacity .3s; }
+.place-card { position: relative; }
+.place-card:hover::after { opacity: 1; }
+
+/* Fiche partenaire — modale */
+.pm-gallery { display: grid; gap: 10px; }
+.pm-main { aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: rgba(255,200,87,.08); }
+.pm-main img { width: 100%; height: 100%; object-fit: cover; }
+.pm-thumbs { display: flex; gap: 8px; }
+.pm-thumb { flex: 1; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 2px solid transparent; background: none; padding: 0; transition: border-color .3s, transform .3s var(--ease); }
+.pm-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pm-thumb:hover { transform: translateY(-2px); }
+.pm-thumb.active { border-color: var(--passion); }
+.pm-desc { color: rgba(250,248,242,.78); margin: 18px 0; font-size: .96rem; line-height: 1.7; }
+.pm-serve { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.pm-serve span { font-size: .72rem; font-weight: 600; padding: 6px 12px; border-radius: 100px; background: rgba(255,122,0,.12); color: var(--passion); border: 1px solid rgba(255,200,87,.25); }
+.pm-web { display: inline-flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sunset); transition: transform .3s var(--ease); }
+.pm-web[hidden] { display: none; }
+.pm-web:hover { transform: translateX(4px); color: var(--gold); }
+
+.places-cta { margin-top: 40px; text-align: center; color: var(--grey); }
+.places-cta a { color: var(--passion); font-weight: 700; transition: color .3s; }
+.places-cta a:hover { color: var(--cream); }
+
+/* ===== 08. ÉVÉNEMENTS — passerelle accueil ===== */
+.section-event { overflow: hidden; }
+.event-bg {
+  position: absolute; inset: -12% 0;
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, .82), rgba(7, 30, 48, .85)),
+    url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1800&q=80') center / cover no-repeat;
+  will-change: transform;
+}
+.section-event .container { position: relative; z-index: 2; }
+.event-duo { display: grid; gap: 24px; margin-top: 16px; }
+.event-door {
+  display: block; padding: 38px 32px;
+  border-radius: var(--radius);
+  background: rgba(250, 248, 242, .05);
+  border: 1px solid rgba(255, 200, 87, .22);
+  backdrop-filter: blur(12px);
+  transition: transform .5s var(--ease), border-color .4s, background .4s, box-shadow .5s var(--ease);
+}
+.event-door:hover {
+  transform: translateY(-8px);
+  border-color: var(--passion);
+  background: rgba(255, 200, 87, .08);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, .4);
+}
+.event-door-tag {
+  font-size: .68rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--passion);
+}
+.event-door h3 { font-family: var(--display); font-weight: 800; font-size: 1.5rem; text-transform: uppercase; margin: 12px 0 10px; }
+.event-door p { color: rgba(250, 248, 242, .7); margin-bottom: 20px; }
+.event-door-cta { font-weight: 700; color: var(--passion); letter-spacing: .06em; }
+.event-door-pro { background: linear-gradient(135deg, rgba(255, 122, 0, .16), rgba(255, 200, 87, .08)); }
+
+/* ===== 09. PARTENAIRES — formulaire intelligent ===== */
+.partner-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+.partner-chips span {
+  font-family: var(--display); font-size: .74rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 11px 20px; border-radius: 100px;
+  border: 1px solid rgba(255, 200, 87, .3); color: var(--cream);
+  transition: background .3s, color .3s, transform .3s var(--ease);
+}
+.partner-chips span:hover { background: var(--passion); color: var(--ink); transform: translateY(-3px); }
+
+.smart-form {
+  background: var(--ink-soft);
+  border: 1px solid rgba(255, 200, 87, .15);
+  border-radius: var(--radius);
+  padding: 32px 26px;
+}
+.form-choice { border: none; display: grid; gap: 12px; margin-bottom: 32px; }
+.form-choice legend {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  letter-spacing: .14em; font-size: .85rem; color: var(--passion); margin-bottom: 16px;
+}
+.choice-card { position: relative; display: block; cursor: pointer; }
+.choice-card input { position: absolute; opacity: 0; }
+.choice-card span {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 16px 18px; border-radius: 14px;
+  border: 1.5px solid rgba(250, 248, 242, .14);
+  transition: border-color .3s, background .3s, transform .3s var(--ease);
+}
+.choice-card small { color: var(--grey); font-size: .8rem; }
+.choice-card:hover span { transform: translateY(-2px); border-color: rgba(255, 200, 87, .4); }
+.choice-card input:checked + span { border-color: var(--sunset); background: rgba(255, 122, 0, .09); }
+.choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+.form-grid { display: grid; gap: 20px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(250, 248, 242, .65); }
+.form-field input, .form-field select, .form-field textarea {
+  background: rgba(250, 248, 242, .05);
+  border: 1.5px solid rgba(250, 248, 242, .16);
+  border-radius: 12px; padding: 14px 16px; color: var(--cream);
+  transition: border-color .3s, box-shadow .3s;
+}
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(250, 248, 242, .3); }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline: none; border-color: var(--passion);
+  box-shadow: 0 0 0 3px rgba(255, 200, 87, .15);
+}
+.form-field select option { background: var(--ink-soft); }
+.form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea { border-color: var(--error); }
+.field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
+textarea { resize: vertical; }
+
+.form-consent { display: flex; align-items: flex-start; gap: 10px; margin: 22px 0 26px; font-size: .88rem; color: rgba(250, 248, 242, .7); cursor: pointer; flex-wrap: wrap; }
+.form-consent input { accent-color: var(--sunset); width: 18px; height: 18px; margin-top: 2px; }
+.form-consent.invalid span:first-of-type { color: var(--error); }
+.form-consent .field-error { flex-basis: 100%; }
+
+.form-success {
+  margin-top: 20px; padding: 16px 20px; border-radius: 12px;
+  background: rgba(70, 167, 88, .12); border: 1px solid rgba(70, 167, 88, .4);
+  color: #8FD19E; animation: slideIn .5s var(--ease);
+}
+
+/* ===== 10. COMMUNAUTÉ — galerie Instagram ===== */
+.insta-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  margin-top: 16px;
+}
+.insta-item { position: relative; overflow: hidden; aspect-ratio: 1; display: block; }
+.insta-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease), filter .5s; }
+.insta-item:hover img { transform: scale(1.08); filter: brightness(.65); }
+.insta-overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--display); font-weight: 800; letter-spacing: .2em;
+  color: var(--passion); font-size: 1.1rem;
+  opacity: 0; transition: opacity .4s;
+}
+.insta-item:hover .insta-overlay { opacity: 1; }
+
+/* ===== 11. FOOTER ===== */
+footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); padding-top: 70px; }
+.footer-grid { display: grid; gap: 38px; padding-bottom: 50px; }
+.footer-logo { font-family: var(--display); font-weight: 900; font-size: 1.6rem; letter-spacing: .22em; margin-bottom: 14px; }
+.footer-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
+.footer-brand p { color: var(--grey); font-size: .92rem; }
+.footer-col { display: flex; flex-direction: column; gap: 12px; }
+.footer-col h4 {
+  font-family: var(--display); font-size: .78rem; font-weight: 800;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--passion); margin-bottom: 6px;
+}
+.footer-col a { color: rgba(250, 248, 242, .6); font-size: .92rem; transition: color .3s, transform .3s var(--ease); width: fit-content; }
+.footer-col a:hover { color: var(--cream); transform: translateX(4px); }
+.footer-bottom { border-top: 1px solid rgba(250, 248, 242, .07); padding: 22px 5vw; text-align: center; }
+.footer-bottom p { font-size: .76rem; color: #777; }
+
+/* ===== 12. PAGE ÉVÉNEMENTS (billetterie) ===== */
+.nav-tickets { gap: 14px; }
+.ticket-search {
+  display: none; flex: 1; max-width: 460px; align-items: center; gap: 10px;
+  background: rgba(250, 248, 242, .07);
+  border: 1px solid rgba(250, 248, 242, .14);
+  border-radius: 100px; padding: 10px 18px;
+  transition: border-color .3s, box-shadow .3s;
+}
+.ticket-search:focus-within { border-color: var(--passion); box-shadow: 0 0 0 3px rgba(255, 200, 87, .12); }
+.ticket-search svg { width: 17px; height: 17px; color: var(--grey); flex-shrink: 0; }
+.ticket-search input { flex: 1; background: none; border: none; outline: none; color: var(--cream); font-size: .9rem; }
+.ticket-search input::placeholder { color: rgba(250, 248, 242, .35); }
+
+.tickets-hero {
+  position: relative; min-height: 72svh;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  overflow: hidden;
+}
+.tickets-hero-bg {
+  background:
+    linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(17, 17, 17, .8)),
+    url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80') center / cover no-repeat;
+}
+.tickets-title {
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(2.1rem, 7vw, 4.2rem); line-height: 1.08;
+  text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 18px;
+}
+.tickets-title em {
+  font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.tickets-hero .section-intro { margin-inline: auto; margin-bottom: 30px; }
+
+/* Filtres */
+.filters { display: flex; flex-direction: column; gap: 18px; margin-bottom: 42px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  font-family: var(--display); font-size: .72rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 10px 19px; border-radius: 100px;
+  background: none; border: 1.5px solid rgba(250, 248, 242, .2); color: rgba(250, 248, 242, .75);
+  transition: all .3s var(--ease);
+}
+.chip:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
+.chip.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); border-color: transparent; color: var(--ink); }
+.filter-extra { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.filter-extra select {
+  background: var(--ink-soft); color: var(--cream);
+  border: 1.5px solid rgba(250, 248, 242, .18); border-radius: 100px;
+  padding: 10px 18px; font-size: .85rem;
+}
+.sort-label { display: flex; align-items: center; gap: 10px; font-size: .82rem; color: var(--grey); }
+
+/* Grille événements */
+.events-grid { display: grid; gap: 28px; }
+.event-card {
+  background: var(--ink-soft);
+  border: 1px solid rgba(250, 248, 242, .09);
+  border-radius: var(--radius); overflow: hidden;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .4s;
+  animation: cardIn .6s var(--ease) backwards;
+}
+@keyframes cardIn { from { opacity: 0; transform: translateY(26px); } }
+.event-card:hover { transform: translateY(-8px); border-color: rgba(255, 200, 87, .4); box-shadow: 0 26px 60px rgba(0, 0, 0, .45); }
+.event-card-media { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+.event-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.event-card:hover .event-card-media img { transform: scale(1.07); }
+.event-date {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--cream); color: var(--ink);
+  border-radius: 12px; padding: 8px 13px; text-align: center; line-height: 1.1;
+}
+.event-date strong { display: block; font-family: var(--display); font-size: 1.25rem; font-weight: 900; }
+.event-date small { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.event-tag {
+  position: absolute; top: 14px; right: 14px;
+  font-family: var(--display); font-size: .62rem; font-weight: 800;
+  letter-spacing: .16em; text-transform: uppercase;
+  padding: 7px 13px; border-radius: 100px;
+  background: rgba(17, 17, 17, .8); color: var(--passion); backdrop-filter: blur(6px);
+}
+.event-tag.tag-prive { background: var(--ink); color: var(--coral); }
+.event-card-body { padding: 22px 22px 26px; }
+.event-card-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 6px; }
+.event-card-meta { font-size: .85rem; color: var(--grey); margin-bottom: 16px; }
+.event-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.event-price small { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--grey); }
+.event-price strong { font-family: var(--display); font-size: 1.2rem; color: var(--passion); }
+.event-organizer { font-size: .74rem; color: var(--grey); margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(250, 248, 242, .1); }
+.no-results { text-align: center; color: var(--grey); font-family: var(--serif); font-style: italic; font-size: 1.1rem; padding: 40px 0; }
+
+/* Espace pro */
+.section-pro { background: linear-gradient(180deg, var(--ocean-deep), #0A1622); }
+.pro-layout { display: grid; gap: 36px; }
+.pro-form {
+  background: rgba(250, 248, 242, .04);
+  border: 1px solid rgba(255, 200, 87, .18);
+  border-radius: var(--radius); padding: 30px 24px;
+}
+.pro-form h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 1.2rem; margin-bottom: 24px; }
+.pro-form .form-field { margin-bottom: 18px; }
+.form-row { display: grid; gap: 18px; }
+
+.visibility-switch { border: none; display: grid; gap: 10px; margin: 8px 0 18px; }
+.visibility-switch legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(250, 248, 242, .65); margin-bottom: 10px; }
+.vis-opt { position: relative; display: block; cursor: pointer; }
+.vis-opt input { position: absolute; opacity: 0; }
+.vis-opt span { display: flex; flex-direction: column; padding: 14px 16px; border-radius: 12px; border: 1.5px solid rgba(250, 248, 242, .15); transition: all .3s; }
+.vis-opt small { color: var(--grey); }
+.vis-opt input:checked + span { border-color: var(--sunset); background: rgba(255, 122, 0, .1); }
+.vis-opt input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+.options-list { border: none; margin-bottom: 22px; }
+.options-list legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(250, 248, 242, .65); margin-bottom: 12px; }
+.options-list legend small { display: block; text-transform: none; letter-spacing: 0; color: var(--grey); font-weight: 400; }
+.opt-line {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 4px; border-bottom: 1px dashed rgba(250, 248, 242, .09);
+  cursor: pointer; transition: background .3s;
+}
+.opt-line:hover { background: rgba(255, 200, 87, .04); }
+.opt-line input { accent-color: var(--sunset); width: 17px; height: 17px; flex-shrink: 0; }
+.opt-line span { flex: 1; font-size: .92rem; }
+.opt-line strong { color: var(--passion); font-size: .92rem; }
+
+.billing-box {
+  background: rgba(17, 17, 17, .45);
+  border: 1px solid rgba(255, 200, 87, .2);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 24px;
+}
+.billing-line { display: flex; justify-content: space-between; font-size: .88rem; color: rgba(250, 248, 242, .75); padding: 5px 0; }
+.billing-note { color: var(--grey); font-size: .8rem; }
+.billing-total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(255, 200, 87, .2);
+}
+.billing-total span { text-transform: uppercase; font-size: .76rem; letter-spacing: .12em; color: var(--grey); }
+.billing-total strong { font-family: var(--display); font-size: 1.35rem; color: var(--passion); }
+
+.pro-aside { display: grid; gap: 22px; align-content: start; }
+.pro-card {
+  background: rgba(250, 248, 242, .05);
+  border: 1px solid rgba(255, 200, 87, .16);
+  border-radius: var(--radius); padding: 26px;
+  transition: transform .5s var(--ease);
+}
+.pro-card h4 { font-family: var(--display); text-transform: uppercase; letter-spacing: .08em; font-size: 1rem; margin-bottom: 16px; color: var(--passion); }
+.pro-card ul { list-style: none; display: grid; gap: 11px; color: rgba(250, 248, 242, .78); font-size: .92rem; }
+.pro-card-img { padding: 0; overflow: hidden; }
+.pro-card-img img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+.pro-card-img p { padding: 20px 24px; font-family: var(--serif); font-style: italic; }
+.pro-card-img small { color: var(--grey); font-style: normal; font-family: var(--body); }
+
+/* Modales */
+.modal {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center; padding: 18px;
+  background: rgba(0, 0, 0, .72); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .4s, visibility .4s;
+  overflow-y: auto;
+}
+.modal.open { opacity: 1; visibility: visible; }
+.modal-box {
+  position: relative; width: min(680px, 100%);
+  background: var(--ink-soft);
+  border: 1px solid rgba(255, 200, 87, .2);
+  border-radius: 22px; overflow: hidden;
+  transform: translateY(30px) scale(.97);
+  transition: transform .45s var(--ease);
+  margin: auto;
+}
+.modal.open .modal-box { transform: none; }
+.modal-box-sm { width: min(440px, 100%); }
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(17, 17, 17, .7); border: none; color: var(--cream);
+  transition: transform .3s, color .3s;
+}
+.modal-close:hover { transform: rotate(90deg); color: var(--passion); }
+.modal-media { aspect-ratio: 16/7; overflow: hidden; }
+.modal-media img { width: 100%; height: 100%; object-fit: cover; }
+.modal-body { padding: 26px; }
+.modal-tag { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--passion); }
+.modal-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; margin: 8px 0 4px; }
+.modal-meta { color: var(--grey); font-size: .9rem; margin-bottom: 20px; }
+
+.private-gate { background: rgba(255, 143, 112, .08); border: 1px solid rgba(255, 143, 112, .3); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+.private-gate p { font-size: .9rem; margin-bottom: 12px; }
+.gate-row { display: flex; gap: 10px; }
+.gate-row input {
+  flex: 1; min-width: 0; background: rgba(17, 17, 17, .5);
+  border: 1.5px solid rgba(250, 248, 242, .2); border-radius: 100px;
+  padding: 11px 18px; color: var(--cream); text-transform: uppercase; letter-spacing: .12em;
+}
+.gate-row input:focus { outline: none; border-color: var(--passion); }
+
+.ticket-tiers { display: grid; gap: 12px; margin-bottom: 22px; }
+.tier {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 15px 18px; border-radius: 14px;
+  border: 1.5px solid rgba(250, 248, 242, .13);
+  transition: border-color .3s, background .3s;
+}
+.tier:hover { border-color: rgba(255, 200, 87, .4); }
+.tier.has-qty { border-color: var(--sunset); background: rgba(255, 122, 0, .07); }
+.tier-info strong { display: block; font-size: .95rem; }
+.tier-info small { color: var(--grey); }
+.tier-right { display: flex; align-items: center; gap: 14px; }
+.tier-price { font-family: var(--display); font-weight: 800; color: var(--passion); white-space: nowrap; }
+.tier-qty { display: flex; align-items: center; gap: 9px; }
+.tier-qty output { min-width: 20px; text-align: center; font-weight: 700; }
+.modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.modal-foot .cart-total { margin-bottom: 0; }
+
+/* Onglets espace client */
+.tabs { display: flex; gap: 6px; margin: 18px 0 22px; border-bottom: 1px solid rgba(250, 248, 242, .1); }
+.tab {
+  background: none; border: none; color: var(--grey);
+  font-family: var(--display); font-weight: 700; font-size: .76rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 10px 12px; border-bottom: 2px solid transparent;
+  transition: color .3s, border-color .3s;
+}
+.tab:hover { color: var(--cream); }
+.tab.active { color: var(--passion); border-bottom-color: var(--sunset); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: slideIn .4s var(--ease); }
+.tab-panel .form-field { margin-bottom: 16px; }
+
+.my-ticket {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 14px 16px; border: 1px dashed rgba(255, 200, 87, .4); border-radius: 12px;
+  margin-bottom: 10px;
+}
+.my-ticket strong { display: block; font-size: .92rem; }
+.my-ticket small { color: var(--grey); }
+.my-ticket .qr { font-size: 1.6rem; }
+
+/* ===== 13. TOAST ===== */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; z-index: 400;
+  transform: translate(-50%, 140%);
+  background: var(--cream); color: var(--ink);
+  font-weight: 600; font-size: .92rem;
+  padding: 15px 28px; border-radius: 100px;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, .45);
+  transition: transform .55s var(--ease);
+  max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translate(-50%, 0); }
+
+/* ===== BANNIÈRE COCKTAIL MOBILE ===== */
+.mobile-banner {
+  position: relative; overflow: hidden;
+  padding: 110px 0; text-align: center;
+}
+.mobile-banner-bg {
+  position: absolute; inset: -12% 0;
+  background:
+    linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(17, 17, 17, .65)),
+    url('images/syfir-mobile.png') center / cover no-repeat,
+    url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1800&q=80') center / cover no-repeat;
+  will-change: transform;
+}
+.mobile-banner .container { position: relative; z-index: 2; }
+.mobile-banner .h2 { color: var(--cream); }
+.mobile-banner p { color: rgba(250, 248, 242, .85); max-width: 520px; margin: 0 auto 30px; font-family: var(--serif); font-style: italic; font-size: 1.15rem; }
+
+/* ============================================================
+   THÈME CLAIR — « Été doré » (sable, blanc, or)
+   Activé via <html data-theme="light">
+============================================================ */
+html[data-theme="light"] body { background: #FAF6EE; color: #221A10; }
+
+/* Navigation */
+html[data-theme="light"] nav.scrolled { background: rgba(250, 246, 238, .88); box-shadow: 0 1px 0 rgba(212, 160, 23, .25); }
+html[data-theme="light"] nav.scrolled .nav-logo,
+html[data-theme="light"] nav.scrolled .nav-link:hover,
+html[data-theme="light"] nav.scrolled .nav-link.active { color: #221A10; }
+html[data-theme="light"] nav.scrolled .nav-link { color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] nav.scrolled .nav-link-event { color: var(--gold-deep); }
+html[data-theme="light"] nav.scrolled .burger span { background: #221A10; }
+html[data-theme="light"] nav.scrolled .theme-btn { color: #221A10; border-color: rgba(184, 134, 11, .45); }
+html[data-theme="light"] .mobile-nav { background: rgba(250, 246, 238, .97); }
+html[data-theme="light"] .mobile-nav a, html[data-theme="light"] .mobile-close { color: #221A10; }
+html[data-theme="light"] .mobile-nav-foot { color: rgba(34, 26, 16, .5); }
+
+/* Typo & sections */
+html[data-theme="light"] .section-intro { color: #6E6353; }
+html[data-theme="light"] .eyebrow { color: var(--gold-deep); }
+/* Les textes « light » redeviennent sombres sur fond clair… */
+html[data-theme="light"] .intro-light { color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] .eyebrow-light { color: var(--gold-deep); }
+/* …sauf au-dessus des sections à image de fond, où ils restent crème */
+html[data-theme="light"] .section-event .intro-light,
+html[data-theme="light"] .tickets-hero .intro-light,
+html[data-theme="light"] .mobile-banner .intro-light { color: rgba(250, 248, 242, .85); }
+html[data-theme="light"] .section-event .eyebrow-light,
+html[data-theme="light"] .tickets-hero .eyebrow-light,
+html[data-theme="light"] .mobile-banner .eyebrow-light { color: var(--passion); }
+/* Les sections à image gardent leur texte crème, quel que soit le thème */
+html[data-theme="light"] .hero,
+html[data-theme="light"] .section-event,
+html[data-theme="light"] .tickets-hero,
+html[data-theme="light"] .mobile-banner { color: var(--cream); }
+html[data-theme="light"] .section-dark { background: #F3ECDC; }
+html[data-theme="light"] .section-cream { background: #FFFFFF; }
+
+/* Notre marque */
+html[data-theme="light"] .lead { color: #221A10; }
+html[data-theme="light"] .split-text p { color: rgba(34, 26, 16, .75); }
+html[data-theme="light"] .split-text strong { color: var(--gold-deep); }
+html[data-theme="light"] .accent-line { color: #221A10 !important; }
+html[data-theme="light"] .values span { color: var(--gold-deep); border-color: rgba(184, 134, 11, .4); }
+html[data-theme="light"] .values span:hover { background: rgba(212, 160, 23, .12); }
+
+/* Où nous trouver */
+html[data-theme="light"] .place-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .28); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
+html[data-theme="light"] .place-card:hover { background: #FFFDF6; box-shadow: 0 20px 46px rgba(60, 45, 20, .15); }
+html[data-theme="light"] .place-type { color: var(--gold-deep); }
+html[data-theme="light"] .place-loc { color: #6E6353; }
+html[data-theme="light"] .place-serve span,
+html[data-theme="light"] .pm-serve span { background: rgba(212, 160, 23, .1); color: #8A6508; border-color: rgba(184, 134, 11, .35); }
+html[data-theme="light"] .places-cta { color: #6E6353; }
+html[data-theme="light"] .places-cta a { color: var(--gold-deep); }
+html[data-theme="light"] .places-cta a:hover { color: var(--sunset); }
+html[data-theme="light"] .no-results { color: #8A7E6C; }
+html[data-theme="light"] .chip { border-color: rgba(34, 26, 16, .25); color: rgba(34, 26, 16, .7); }
+html[data-theme="light"] .chip:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+html[data-theme="light"] .chip.active { color: var(--ink); }
+
+/* Formulaires */
+html[data-theme="light"] .smart-form, html[data-theme="light"] .pro-form { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); box-shadow: 0 10px 34px rgba(60, 45, 20, .08); }
+html[data-theme="light"] .form-choice legend, html[data-theme="light"] .options-list legend { color: var(--gold-deep); }
+html[data-theme="light"] .form-field label, html[data-theme="light"] .visibility-switch legend { color: rgba(34, 26, 16, .65); }
+html[data-theme="light"] .form-field input, html[data-theme="light"] .form-field select, html[data-theme="light"] .form-field textarea {
+  background: #FAF6EE; border-color: #E4D9C2; color: #221A10;
+}
+html[data-theme="light"] .form-field input::placeholder, html[data-theme="light"] .form-field textarea::placeholder { color: rgba(34, 26, 16, .35); }
+html[data-theme="light"] .form-field select option { background: #FFFFFF; }
+html[data-theme="light"] .choice-card span, html[data-theme="light"] .vis-opt span { border-color: #E4D9C2; }
+html[data-theme="light"] .choice-card small, html[data-theme="light"] .vis-opt small { color: #8A7E6C; }
+html[data-theme="light"] .form-consent { color: rgba(34, 26, 16, .75); }
+html[data-theme="light"] .opt-line { border-bottom-color: rgba(34, 26, 16, .12); }
+html[data-theme="light"] .billing-box { background: #FAF4E4; border-color: rgba(212, 160, 23, .35); }
+html[data-theme="light"] .billing-line { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .billing-total strong, html[data-theme="light"] .opt-line strong { color: var(--gold-deep); }
+
+/* Footer */
+html[data-theme="light"] footer { background: #F3ECDC; border-top-color: rgba(212, 160, 23, .3); }
+html[data-theme="light"] .footer-brand p, html[data-theme="light"] .footer-col a { color: rgba(34, 26, 16, .65); }
+html[data-theme="light"] .footer-col a:hover { color: #221A10; }
+html[data-theme="light"] .footer-col h4 { color: var(--gold-deep); }
+html[data-theme="light"] .footer-bottom { border-top-color: rgba(34, 26, 16, .1); }
+html[data-theme="light"] .footer-bottom p { color: #8A7E6C; }
+
+/* Page Événements */
+html[data-theme="light"] nav.scrolled .btn-ghost { border-color: rgba(34, 26, 16, .35); color: #221A10; }
+html[data-theme="light"] nav.scrolled .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+html[data-theme="light"] nav.scrolled .ticket-search input { color: #221A10; }
+html[data-theme="light"] nav.scrolled .ticket-search input::placeholder { color: rgba(34, 26, 16, .4); }
+html[data-theme="light"] .ticket-search { background: rgba(34, 26, 16, .05); border-color: rgba(34, 26, 16, .15); }
+html[data-theme="light"] .filter-extra select { background: #FFFFFF; color: #221A10; border-color: #E4D9C2; }
+html[data-theme="light"] .sort-label { color: #6E6353; }
+html[data-theme="light"] .event-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .25); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
+html[data-theme="light"] .event-card-meta, html[data-theme="light"] .event-price small { color: #6E6353; }
+html[data-theme="light"] .event-price strong { color: var(--gold-deep); }
+html[data-theme="light"] .event-organizer { color: #8A7E6C; border-top-color: rgba(34, 26, 16, .15); }
+html[data-theme="light"] .section-pro { background: linear-gradient(180deg, #F3ECDC, #FAF6EE); }
+html[data-theme="light"] .pro-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); }
+html[data-theme="light"] .pro-card ul { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .pro-card h4 { color: var(--gold-deep); }
+html[data-theme="light"] .vis-opt small, html[data-theme="light"] .tier-info small { color: #8A7E6C; }
+
+/* Modales */
+html[data-theme="light"] .modal-box { background: #FFFFFF; border-color: rgba(212, 160, 23, .35); }
+html[data-theme="light"] .modal-close { background: rgba(250, 246, 238, .9); color: #221A10; }
+html[data-theme="light"] .modal-meta { color: #6E6353; }
+html[data-theme="light"] .modal-tag { color: var(--gold-deep); }
+html[data-theme="light"] .tier { border-color: #E4D9C2; }
+html[data-theme="light"] .tier-price { color: var(--gold-deep); }
+html[data-theme="light"] .qty-btn { border-color: rgba(34, 26, 16, .3); color: #221A10; }
+html[data-theme="light"] .cart-total strong { color: var(--gold-deep); }
+html[data-theme="light"] .cart-total span { color: #6E6353; }
+html[data-theme="light"] .cart-empty { color: #8A7E6C; }
+html[data-theme="light"] .tabs { border-bottom-color: rgba(34, 26, 16, .12); }
+html[data-theme="light"] .tab { color: #8A7E6C; }
+html[data-theme="light"] .tab:hover { color: #221A10; }
+html[data-theme="light"] .tab.active { color: var(--gold-deep); }
+html[data-theme="light"] .gate-row input { background: #FAF6EE; border-color: #E4D9C2; color: #221A10; }
+html[data-theme="light"] .pm-desc { color: rgba(34, 26, 16, .8); }
+html[data-theme="light"] .pm-web { color: var(--gold-deep); }
+html[data-theme="light"] .my-ticket strong { color: #221A10; }
+html[data-theme="light"] .my-ticket small { color: #6E6353; }
+html[data-theme="light"] .field-error { color: #C8323A; }
+
+/* Préloader & toast assortis au thème (pas de flash sombre en plein jour) */
+html[data-theme="light"] .preloader { background: #FAF6EE; }
+html[data-theme="light"] .preloader-tag { color: rgba(34, 26, 16, .55); }
+html[data-theme="light"] .toast { background: #221A10; color: var(--cream); box-shadow: 0 14px 40px rgba(34, 26, 16, .35); }
+
+/* ===== ARTISTES & DJs ===== */
+.artist-chips { margin-bottom: 18px; }
+.lineup-note {
+  margin-bottom: 38px; max-width: 760px;
+  font-size: .94rem; color: rgba(250, 248, 242, .7);
+  padding-left: 14px; border-left: 2px solid var(--passion);
+}
+.lineup-note strong { color: var(--passion); }
+.lineup-note a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.lineup-note a:hover { color: var(--sunset); }
+html[data-theme="light"] .lineup-note { color: #6E6353; border-left-color: var(--gold-deep); }
+html[data-theme="light"] .lineup-note strong,
+html[data-theme="light"] .lineup-note a { color: var(--gold-deep); }
+html[data-theme="light"] .lineup-note a:hover { color: var(--sunset); }
+.artists-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.artist-card {
+  background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(255, 200, 87, .14);
+  border-radius: var(--radius); overflow: hidden;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .3s;
+}
+.artist-card:hover { transform: translateY(-6px); border-color: rgba(255, 200, 87, .4); box-shadow: 0 22px 50px rgba(0, 0, 0, .42); }
+.artist-photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ocean-deep); }
+.artist-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.artist-card:hover .artist-photo img { transform: scale(1.06); }
+.artist-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--gold-metal); color: var(--ink);
+  font-family: var(--display); font-size: .6rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 100px;
+}
+.artist-info { padding: 22px 22px 24px; }
+.artist-info h3 { font-family: var(--display); font-weight: 800; font-size: 1.28rem; text-transform: uppercase; letter-spacing: -.01em; }
+.artist-role { color: var(--passion); font-family: var(--serif); font-style: italic; font-size: 1.02rem; margin: 4px 0 14px; }
+.artist-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.artist-tags span {
+  font-size: .68rem; letter-spacing: .04em; text-transform: uppercase;
+  padding: 5px 12px; border: 1px solid rgba(255, 200, 87, .28);
+  border-radius: 100px; color: rgba(250, 248, 242, .75);
+}
+.artist-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .08);
+}
+.artist-soc { font-size: .84rem; color: rgba(250, 248, 242, .7); transition: color .3s; }
+.artist-soc:hover { color: var(--passion); }
+.artist-book {
+  background: none; border: none;
+  font-family: var(--display); font-weight: 700; font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--sunset);
+  transition: color .3s, transform .3s;
+}
+.artist-book:hover { color: var(--passion); transform: translateX(3px); }
+.artists-empty { margin-top: 28px; }
+.artists-cta { text-align: center; margin-top: 44px; color: rgba(250, 248, 242, .7); }
+.artists-cta-link {
+  display: inline; background: none; border: none;
+  font-family: var(--display); font-weight: 700; font-size: .82rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--passion);
+  transition: color .3s;
+}
+.artists-cta-link:hover { color: var(--sunset); text-decoration: underline; text-underline-offset: 4px; }
+
+/* Artistes — variante claire */
+html[data-theme="light"] .artist-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .25); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
+html[data-theme="light"] .artist-card:hover { box-shadow: 0 20px 46px rgba(60, 45, 20, .15); }
+html[data-theme="light"] .artist-info h3 { color: #221A10; }
+html[data-theme="light"] .artist-tags span { border-color: rgba(184, 134, 11, .35); color: #6E6353; }
+html[data-theme="light"] .artist-foot { border-top-color: rgba(34, 26, 16, .1); }
+html[data-theme="light"] .artist-soc { color: #6E6353; }
+html[data-theme="light"] .artist-role { color: var(--gold-deep); }
+html[data-theme="light"] .artists-cta { color: #6E6353; }
+html[data-theme="light"] .artists-cta-link { color: var(--gold-deep); }
+html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
+
+/* Bouton lecture sur la carte artiste */
+.artist-play {
+  position: absolute; right: 14px; bottom: 14px;
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gold-metal); color: var(--ink);
+  font-size: 1rem; border: none;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .4);
+  transform: translateY(6px); opacity: 0;
+  transition: transform .4s var(--ease), opacity .4s, box-shadow .3s;
+}
+.artist-card:hover .artist-play { transform: none; opacity: 1; }
+.artist-play:hover { box-shadow: 0 12px 30px rgba(255, 122, 0, .5); }
+.artist-play.playing { transform: none; opacity: 1; animation: playPulse 1.6s ease infinite; }
+@keyframes playPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,200,87,.5); } 50% { box-shadow: 0 0 0 10px rgba(255,200,87,0); } }
+.artist-card { cursor: pointer; }
+.artist-more { font-size: .8rem; color: var(--passion); font-family: var(--display); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+html[data-theme="light"] .artist-more { color: var(--gold-deep); }
+
+/* ===== MODALE FICHE ARTISTE ===== */
+.artist-modal-box { max-width: 540px; }
+.am-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--ocean-deep); }
+.am-hero img { width: 100%; height: 100%; object-fit: cover; }
+.am-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.am-tags span { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; padding: 5px 12px; border: 1px solid rgba(255, 200, 87, .3); border-radius: 100px; color: rgba(250, 248, 242, .8); }
+.am-player {
+  display: flex; align-items: center; gap: 14px;
+  margin: 22px 0 18px; padding: 14px 16px;
+  background: rgba(255, 200, 87, .07); border: 1px solid rgba(255, 200, 87, .2);
+  border-radius: 100px;
+}
+.am-play {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%;
+  display: grid; place-items: center; border: none;
+  background: var(--gold-metal); color: var(--ink); font-size: 1rem;
+  transition: transform .3s;
+}
+.am-play:hover { transform: scale(1.08); }
+.am-bar { flex: 1; height: 6px; border-radius: 100px; background: rgba(250, 248, 242, .18); overflow: hidden; cursor: pointer; }
+.am-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--sunset), var(--passion)); border-radius: 100px; }
+.am-time { font-size: .82rem; color: rgba(250, 248, 242, .65); font-variant-numeric: tabular-nums; min-width: 34px; }
+.am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.am-stream-link {
+  font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 100px; border: 1.5px solid rgba(255, 200, 87, .35); color: var(--cream);
+  transition: border-color .3s, color .3s, transform .3s;
+}
+.am-stream-link:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
+.am-book { margin-top: 4px; }
+
+/* ===== GROUPES DE MUSIQUE ===== */
+.bands-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 40px 0 56px; }
+.band-card { background: rgba(255,255,255,.035); border: 1px solid rgba(255,200,87,.14); border-radius: var(--radius); overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .3s; }
+.band-card:hover { transform: translateY(-6px); border-color: rgba(255,200,87,.4); box-shadow: 0 22px 50px rgba(0,0,0,.4); }
+.band-photo { aspect-ratio: 16 / 10; overflow: hidden; background: var(--ocean-deep); }
+.band-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.band-card:hover .band-photo img { transform: scale(1.06); }
+.band-info { padding: 22px 22px 26px; }
+.band-info h3 { font-family: var(--display); font-weight: 800; font-size: 1.28rem; text-transform: uppercase; }
+.band-desc { color: rgba(250,248,242,.72); margin: 12px 0 18px; font-size: .96rem; }
+.band-book { color: var(--sunset); }
+
+/* Agenda des concerts */
+.agenda { background: rgba(255,255,255,.03); border: 1px solid rgba(255,200,87,.16); border-radius: var(--radius); padding: 28px 30px; }
+.agenda-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 8px; }
+.agenda-list { list-style: none; }
+.agenda-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.agenda-row:last-child { border-bottom: none; }
+.agenda-date { flex-shrink: 0; width: 58px; text-align: center; line-height: 1; }
+.agenda-date strong { display: block; font-family: var(--display); font-size: 1.7rem; font-weight: 800; color: var(--passion); }
+.agenda-date span { font-size: .66rem; letter-spacing: .14em; color: rgba(250,248,242,.6); }
+.agenda-main { flex: 1; }
+.agenda-band { font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
+.agenda-place { color: rgba(250,248,242,.62); font-size: .9rem; }
+.agenda-cta { flex-shrink: 0; font-family: var(--display); font-weight: 700; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sunset); transition: color .3s, transform .3s; }
+.agenda-cta:hover { color: var(--passion); transform: translateX(3px); }
+
+/* ===== CARROUSEL DE LOGOS PARTENAIRES ===== */
+.logos-chips { margin-bottom: 6px; }
+.logos-marquee {
+  margin-top: 38px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.logos-track { display: flex; gap: 18px; width: max-content; padding: 0 5vw; animation: logoScroll 40s linear infinite; }
+.logos-marquee:hover .logos-track { animation-play-state: paused; }
+.logo-tile {
+  flex-shrink: 0; width: 200px; min-height: 96px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  padding: 18px 22px; border-radius: 14px;
+  background: rgba(17,17,17,.04); border: 1px solid rgba(17,17,17,.12);
+  transition: transform .4s var(--ease), border-color .3s, background .3s, box-shadow .4s;
+}
+.logo-tile span { font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--ink); letter-spacing: -.01em; }
+.logo-tile small { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-deep); }
+.logo-tile:hover { transform: translateY(-4px); border-color: var(--gold); background: #fff; box-shadow: 0 16px 36px rgba(60,45,20,.14); }
+@keyframes logoScroll { to { transform: translateX(-50%); } }
+.logos-marquee.is-filtered { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+.logos-marquee.is-filtered .logos-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; padding: 0 5vw; }
+.logos-marquee.is-filtered .logo-clone { display: none; }
+.logos-empty { text-align: center; margin-top: 26px; }
+
+/* ===== ÉQUIPE & COLLABORATEURS ===== */
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin: 40px 0 50px; }
+.team-card { text-align: center; padding: 30px 22px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,200,87,.14); border-radius: var(--radius); transition: transform .5s var(--ease), border-color .3s, box-shadow .5s; }
+.team-card:hover { transform: translateY(-6px); border-color: rgba(255,200,87,.4); box-shadow: 0 20px 44px rgba(0,0,0,.36); }
+.team-avatar { width: 92px; height: 92px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,200,87,.4); }
+.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-card h3 { font-family: var(--display); font-weight: 800; font-size: 1.12rem; text-transform: uppercase; }
+.team-role { color: var(--passion); font-family: var(--serif); font-style: italic; margin: 2px 0 10px; }
+.team-bio { font-size: .9rem; color: rgba(250,248,242,.66); margin-bottom: 14px; }
+.team-contact { font-size: .86rem; color: var(--sunset); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.team-contact:hover { border-color: var(--sunset); }
+
+.roles-open { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 26px; padding: 32px 34px; border-radius: var(--radius); background: linear-gradient(120deg, rgba(255,122,0,.12), rgba(255,200,87,.07)); border: 1px solid rgba(255,200,87,.22); }
+.roles-head h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; }
+.roles-head p { color: rgba(250,248,242,.7); max-width: 420px; }
+.roles-list { display: flex; flex-wrap: wrap; gap: 12px; }
+.role-pill { padding: 12px 20px; border-radius: 100px; background: rgba(17,17,17,.3); border: 1.5px solid rgba(255,200,87,.35); color: var(--cream); font-family: var(--body); font-weight: 500; font-size: .92rem; transition: border-color .3s, transform .3s, background .3s; }
+.role-pill:hover { border-color: var(--passion); transform: translateY(-2px); background: rgba(255,200,87,.12); }
+
+/* ===== RETOUR EN HAUT + PROGRESSION ===== */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 200; background: linear-gradient(90deg, var(--sunset), var(--passion)); transition: width .1s linear; }
+.to-top {
+  position: fixed; right: 22px; bottom: 22px; z-index: 130;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.2rem;
+  background: var(--gold-metal); color: var(--ink); border: none;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .4s, visibility .4s, transform .4s var(--ease);
+}
+.to-top.show { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { transform: translateY(-3px); }
+
+/* ===== VARIANTES CLAIRES (nouvelles sections) ===== */
+html[data-theme="light"] .band-card { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.07); }
+html[data-theme="light"] .band-card:hover { box-shadow: 0 20px 46px rgba(60,45,20,.15); }
+html[data-theme="light"] .band-info h3 { color: #221A10; }
+html[data-theme="light"] .band-desc { color: rgba(34,26,16,.72); }
+html[data-theme="light"] .agenda { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.06); }
+html[data-theme="light"] .agenda-title { color: #221A10; }
+html[data-theme="light"] .agenda-row { border-bottom-color: rgba(34,26,16,.1); }
+html[data-theme="light"] .agenda-date strong { color: var(--gold-deep); }
+html[data-theme="light"] .agenda-date span, html[data-theme="light"] .agenda-place { color: #6E6353; }
+html[data-theme="light"] .agenda-band { color: #221A10; }
+html[data-theme="light"] .logo-tile { background: #fff; border-color: rgba(212,160,23,.22); }
+html[data-theme="light"] .logo-tile:hover { box-shadow: 0 16px 36px rgba(60,45,20,.14); }
+html[data-theme="light"] .team-card { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.07); }
+html[data-theme="light"] .team-card:hover { box-shadow: 0 20px 46px rgba(60,45,20,.15); }
+html[data-theme="light"] .team-card h3 { color: #221A10; }
+html[data-theme="light"] .team-role { color: var(--gold-deep); }
+html[data-theme="light"] .team-bio { color: #6E6353; }
+html[data-theme="light"] .roles-open { background: linear-gradient(120deg, rgba(255,122,0,.1), rgba(212,160,23,.08)); border-color: rgba(184,134,11,.3); }
+html[data-theme="light"] .roles-head h3 { color: #221A10; }
+html[data-theme="light"] .roles-head p { color: #6E6353; }
+html[data-theme="light"] .role-pill { background: #fff; color: #221A10; border-color: rgba(184,134,11,.4); }
+html[data-theme="light"] .role-pill:hover { background: rgba(212,160,23,.1); }
+html[data-theme="light"] .am-tags span { border-color: rgba(184,134,11,.35); color: #6E6353; }
+html[data-theme="light"] .am-player { background: rgba(212,160,23,.08); border-color: rgba(184,134,11,.25); }
+html[data-theme="light"] .am-bar { background: rgba(34,26,16,.14); }
+html[data-theme="light"] .am-time { color: #6E6353; }
+html[data-theme="light"] .am-stream-link { border-color: rgba(184,134,11,.4); color: #221A10; }
+html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+
+@media (prefers-reduced-motion: reduce) { .logos-track { animation: none; } }
+
+/* ===== 14. RESPONSIVE ===== */
+/* Petits écrans : la nav billetterie passe par le menu mobile */
+@media (max-width: 639px) {
+  .nav-tickets .nav-actions .btn { display: none; }
+}
+
+/* Tablette */
+@media (min-width: 640px) {
+  .form-grid { grid-template-columns: 1fr 1fr; }
+  .form-field-full { grid-column: 1 / -1; }
+  .form-choice { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr 1fr; }
+  .cocktail-grid { grid-template-columns: repeat(2, 1fr); }
+  .events-grid { grid-template-columns: repeat(2, 1fr); }
+  .places-grid { grid-template-columns: repeat(2, 1fr); }
+  .artists-grid { grid-template-columns: repeat(2, 1fr); }
+  .bands-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(4, 1fr); }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); }
+  .event-duo { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
+  .filters { flex-direction: row; justify-content: space-between; align-items: center; }
+  .visibility-switch { grid-template-columns: 1fr 1fr; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .nav-links { display: flex; }
+  .burger { display: none; }
+  .page-events .burger { display: flex; }
+  .ticket-search { display: flex; }
+  .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
+  .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
+  .events-grid { grid-template-columns: repeat(3, 1fr); }
+  .artists-grid { grid-template-columns: repeat(4, 1fr); }
+  .bands-grid { grid-template-columns: repeat(3, 1fr); }
+  .places-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .place-thumb { width: 110px; height: 110px; }
+  .insta-grid { grid-template-columns: repeat(6, 1fr); }
+  .section { padding: 130px 0; }
+  .pro-layout { grid-template-columns: 1.15fr .85fr; align-items: start; gap: 50px; }
+  .pro-form { padding: 40px 38px; }
+  .smart-form { padding: 48px 44px; }
+  .form-choice { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+}
+
+/* Ultra-wide */
+@media (min-width: 1800px) {
+  .container { width: min(1440px, 88vw); }
+  html { font-size: 17.5px; }
+  .moments-track { padding-inline: calc((100vw - 1440px) / 2); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PRELOADER — révélation de la marque
+============================================================ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-logo">SYFIR<span>™</span></div>
+  <div class="preloader-tag">Le Cocktail Libre</div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav id="nav">
+  <a href="#accueil" class="nav-logo">
+    <img src="images/syfir-logo.png" alt="" class="nav-emblem" onerror="this.remove()">
+    SYFIR<span>™</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+    <li><a href="#marque" class="nav-link">Notre marque</a></li>
+    <li><a href="#cocktails" class="nav-link">Nos Cocktails</a></li>
+    <li><a href="#ou-trouver" class="nav-link">Où nous trouver</a></li>
+    <li><a href="#artistes" class="nav-link">Artistes &amp; DJs</a></li>
+    <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
+    <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">🌗</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">☀️</span><span class="theme-opt-txt">Clair<small>Été doré</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
+      </div>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Menu mobile plein écran -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
+  <a href="#accueil">Accueil</a>
+  <a href="#marque">Notre marque</a>
+  <a href="#cocktails">Nos Cocktails</a>
+  <a href="#ou-trouver">Où nous trouver</a>
+  <a href="#confiance">Ils nous font confiance</a>
+  <a href="#artistes">Artistes, DJs &amp; groupes</a>
+  <a href="#agenda">Agenda des concerts</a>
+  <a href="evenements.html">Événements &amp; Fêtes</a>
+  <a href="#partenaires">Devenir partenaire</a>
+  <a href="#equipe">Équipe &amp; collaborateurs</a>
+  <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
+</div>
+
+<!-- ============================================================
+     HERO — LE COCKTAIL LIBRE™
+============================================================ -->
+<header class="hero" id="accueil">
+  <div class="hero-bg" data-parallax="0.25"></div>
+  <div class="hero-veil"></div>
+  <div class="gold-sweep"></div>
+
+  <div class="hero-inner">
+    <p class="hero-kicker reveal">Cocktails premium &amp; expériences</p>
+    <h1 class="hero-title">
+      <span class="hero-line"><span>SYFIR</span></span>
+    </h1>
+    <p class="hero-sub reveal d2">LE COCKTAIL LIBRE<sup>™</sup></p>
+    <div class="hero-poem reveal d3">
+      <p>Le soleil descend.</p>
+      <p>La musique monte.</p>
+      <p>Les verres se lèvent.</p>
+      <p><em>Le moment est à vous.</em></p>
+    </div>
+    <div class="hero-cta reveal d4">
+      <a href="#cocktails" class="btn btn-solid">Découvrir les saveurs</a>
+      <a href="evenements.html" class="btn btn-ghost">Vivre un événement</a>
+    </div>
+  </div>
+
+  <a href="#marque" class="scroll-hint" aria-label="Défiler">
+    <span class="scroll-hint-line"></span>
+    <span>Explorer</span>
+  </a>
+</header>
+
+<!-- Bandeau défilant -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marquee">
+    <span>Liberté</span><i>✦</i><span>Soleil</span><i>✦</i><span>Partage</span><i>✦</i>
+    <span>Fête</span><i>✦</i><span>Évasion</span><i>✦</i><span>Souvenirs</span><i>✦</i>
+    <span>Vacances</span><i>✦</i><span>Golden Hour</span><i>✦</i>
+  </div>
+</div>
+
+<!-- ============================================================
+     NOTRE MARQUE — L'UNIVERS SYFIR
+============================================================ -->
+<section id="marque" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Notre marque</p>
+    <h2 class="h2 reveal d1">Plus qu'un cocktail.<br><em>Une façon de vivre l'instant.</em></h2>
+
+    <div class="split">
+      <div class="split-text reveal from-left d2">
+        <p class="lead">SYFIR n'est pas une marque de boissons avec des événements. SYFIR est une <strong>marque d'expériences</strong>.</p>
+        <p>Chaque cocktail, chaque événement nous fait vivre une histoire. Une plage improvisée. Un coucher de soleil inattendu. Une soirée qui se prolonge. Un festival inoubliable.</p>
+        <p class="accent-line">SYFIR accompagne les moments que l'on n'oublie jamais.</p>
+        <div class="values">
+          <span>Plaisir immédiat</span>
+          <span>Partage</span>
+          <span>Spontanéité</span>
+          <span>Instants photogéniques</span>
+          <span>Expériences mémorables</span>
+        </div>
+      </div>
+      <div class="split-visual reveal from-right d3">
+        <figure class="visual-card" data-tilt>
+          <img src="images/syfir-danseuse.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80'"
+               alt="L'esprit carnaval SYFIR" loading="lazy">
+          <figcaption><em>« Je veux vivre ça. »</em></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Les territoires SYFIR -->
+  <div class="moments">
+    <div class="moments-track">
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80')"><h3>Festivals</h3></article>
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80')"><h3>Plages</h3></article>
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=800&q=80')"><h3>Rooftops</h3></article>
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80')"><h3>Soirées privées</h3></article>
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=800&q=80')"><h3>Pique-niques</h3></article>
+      <article class="moment" style="--img:url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')"><h3>Événements exclusifs</h3></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NOS COCKTAILS — LES SAVEURS
+============================================================ -->
+<section id="cocktails" class="section section-cream">
+  <div class="container">
+    <p class="eyebrow reveal">Les saveurs</p>
+    <h2 class="h2 reveal d1">Nos Cocktails <em>Signature</em></h2>
+    <p class="section-intro reveal d2">Deux façons de les vivre : <strong>sur place</strong>, servi dans le verre SYFIR — ou <strong>à emporter</strong>, dans notre sachet signature scellé. Disponibles chez certains de nos partenaires.</p>
+
+    <div class="cocktail-grid">
+
+      <!-- Syf Planteur — image du sachet : déposer le fichier dans images/syfir-planteur.png -->
+      <article class="cocktail-card reveal d1" data-tilt>
+        <div class="cocktail-media">
+          <img src="images/syfir-planteur.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&q=80'"
+               alt="Syf Planteur — sachet cocktail mangue passion ananas" loading="lazy">
+          <span class="cocktail-badge">Best-seller</span>
+        </div>
+        <div class="cocktail-body">
+          <h3>Syf Planteur<sup>™</sup></h3>
+          <p class="cocktail-notes">Mangue • Passion • Ananas</p>
+          <p class="cocktail-desc">L'esprit des tropiques dans un coucher de soleil liquide.</p>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
+          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
+        </div>
+      </article>
+
+      <!-- Syf Coral Breeze -->
+      <article class="cocktail-card reveal d2" data-tilt>
+        <div class="cocktail-media">
+          <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Syf Coral Breeze — cocktail agrumes hibiscus fruits rouges" loading="lazy">
+          <span class="cocktail-badge badge-coral">Vibrant</span>
+        </div>
+        <div class="cocktail-body">
+          <h3>Syf Coral Breeze<sup>™</sup></h3>
+          <p class="cocktail-notes">Agrumes • Hibiscus • Fruits rouges</p>
+          <p class="cocktail-desc">Fraîcheur vibrante et énergie colorée.</p>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
+          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
+        </div>
+      </article>
+
+      <!-- Syf Golden Escape -->
+      <article class="cocktail-card reveal d3" data-tilt>
+        <div class="cocktail-media">
+          <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&q=80" alt="Syf Golden Escape — cocktail citron vert passion fruits exotiques" loading="lazy">
+          <span class="cocktail-badge badge-gold">Édition Or</span>
+        </div>
+        <div class="cocktail-body">
+          <h3>Syf Golden Escape<sup>™</sup></h3>
+          <p class="cocktail-notes">Citron vert • Passion • Fruits exotiques</p>
+          <p class="cocktail-desc">Une invitation au voyage.</p>
+          <div class="serve-tags">
+            <span class="serve-tag">🥂 Sur place — verre</span>
+            <span class="serve-tag">🛍️ À emporter — sachet</span>
+          </div>
+          <a href="#ou-trouver" class="serve-link">Où le trouver →</a>
+        </div>
+      </article>
+    </div>
+
+    <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     COCKTAIL MOBILE — votre été, partout
+============================================================ -->
+<section class="mobile-banner">
+  <div class="mobile-banner-bg" data-parallax="0.15"></div>
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">SYFIR — Cocktail mobile</p>
+    <h2 class="h2 reveal d1">Votre été, <em>partout</em>.</h2>
+    <p class="reveal d2">À la plage, en bateau, au parc ou sur un rooftop : le sachet SYFIR emporte le cocktail premium là où la vie se passe.</p>
+    <a href="#ou-trouver" class="btn btn-solid reveal d3">Trouver un point de vente</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     OÙ TROUVER NOS COCKTAILS — partenaires & lieux
+============================================================ -->
+<section id="ou-trouver" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Où nous trouver</p>
+    <h2 class="h2 reveal d1">Retrouvez SYFIR<br>chez <em>nos partenaires</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Bars, restaurants, beach clubs, hôtels et boutiques : nos cocktails se dégustent <strong>sur place</strong> ou s'emportent <strong>en sachet</strong> chez les adresses sélectionnées ci-dessous.</p>
+
+    <div class="filter-chips reveal d2" id="placeChips">
+      <button class="chip active" data-place="tous">Tous</button>
+      <button class="chip" data-place="bar">Bars</button>
+      <button class="chip" data-place="restaurant">Restaurants</button>
+      <button class="chip" data-place="beach">Beach clubs</button>
+      <button class="chip" data-place="hotel">Hôtels</button>
+      <button class="chip" data-place="boutique">Boutiques</button>
+    </div>
+
+    <div class="places-grid" id="placesGrid">
+
+      <article class="place-card reveal d1" data-type="beach" data-desc="Les pieds dans le sable fin de Bois Jolan, Le Ti' Sable est une adresse iconique de Sainte-Anne. Transats face au lagon, ambiance lounge au coucher du soleil et cocktails SYFIR servis dans le verre ou en sachet à emporter." data-photos="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80|https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80|https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80" alt="Le Ti' Sable — beach club à Sainte-Anne" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Beach club</span><h3>Le Ti' Sable</h3><p class="place-loc">📍 Plage de Bois Jolan — Sainte-Anne</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d2" data-type="bar" data-desc="Sur la célèbre plage de la Datcha au Gosier, La Casa Coco mêle esprit guinguette tropicale et énergie festive. Musique live, transats colorés et cocktails SYFIR à savourer face à la mer ou à emporter pour la plage." data-photos="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80|https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80|https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80" alt="La Casa Coco — bar de plage au Gosier" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Bar de plage</span><h3>La Casa Coco</h3><p class="place-loc">📍 Plage de la Datcha — Le Gosier</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d3" data-type="bar" data-desc="Perché au cœur de Pointe-à-Pitre, le Sunset Lounge offre une vue panoramique sur la ville et la baie. Ambiance feutrée, DJ sets au crépuscule et carte de cocktails SYFIR servis exclusivement sur place dans le verre signature." data-photos="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80|https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=800&q=80|https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80" alt="Sunset Lounge — rooftop bar à Pointe-à-Pitre" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Rooftop bar</span><h3>Sunset Lounge</h3><p class="place-loc">📍 Centre-ville — Pointe-à-Pitre</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+      <article class="place-card reveal d4" data-type="restaurant" data-desc="À Saint-François, L'Habitation Créole célèbre la cuisine antillaise dans un cadre élégant et végétal. En accord avec ses plats signatures, le restaurant propose les cocktails SYFIR servis sur place pour prolonger l'expérience." data-photos="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80|https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80|https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80" alt="L'Habitation Créole — restaurant à Saint-François" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Restaurant</span><h3>L'Habitation Créole</h3><p class="place-loc">📍 Avenue de l'Europe — Saint-François</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+      <article class="place-card reveal d1" data-type="hotel" data-desc="Face au lagon de la Pointe de la Verdure au Gosier, le Karibea Beach Resort accueille ses hôtes dans un cadre balnéaire d'exception. Cocktails SYFIR disponibles au bar de la piscine et de la plage, sur place ou à emporter." data-photos="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800&q=80|https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80|https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400&q=80" alt="Karibea Beach Resort — hôtel au Gosier" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Hôtel</span><h3>Karibea Beach Resort</h3><p class="place-loc">📍 Pointe de la Verdure — Le Gosier</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d2" data-type="boutique" data-desc="Au cœur de Basse-Terre, Le Comptoir des Îles est une épicerie fine dédiée aux saveurs locales. On y retrouve les sachets SYFIR signature à emporter, parfaits pour prolonger l'esprit des tropiques chez soi ou en pique-nique." data-photos="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800&q=80|https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=800&q=80|https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400&q=80" alt="Le Comptoir des Îles — boutique à Basse-Terre" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Boutique</span><h3>Le Comptoir des Îles</h3><p class="place-loc">📍 Rue de la République — Basse-Terre</p><div class="place-serve"><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d3" data-type="beach" data-desc="Sur la sublime plage de Grande Anse à Deshaies, Blue Lagoon est un beach club au sable doré et aux eaux turquoise. Parasols, paillotes et cocktails SYFIR servis sur place ou en sachet pour profiter du soleil les pieds dans l'eau." data-photos="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=800&q=80|https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=800&q=80|https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=400&q=80" alt="Blue Lagoon — beach club à Deshaies" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Beach club</span><h3>Blue Lagoon</h3><p class="place-loc">📍 Plage de Grande Anse — Deshaies</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d4" data-type="restaurant" data-desc="Amarré à la Marina de Rivière-Sens à Gourbeyre, Le Marina Café marie cuisine de la mer et ambiance nautique décontractée. Vue sur les bateaux, terrasse au coucher du soleil et cocktails SYFIR servis sur place." data-photos="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80|https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80|https://images.unsplash.com/photo-1437846972679-9e6e537be46e?w=800&q=80">
+        <div class="place-thumb"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80" alt="Le Marina Café — bar-restaurant à Gourbeyre" loading="lazy"></div>
+        <div class="place-body"><span class="place-type">Bar-restaurant</span><h3>Le Marina Café</h3><p class="place-loc">📍 Marina de Rivière-Sens — Gourbeyre</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+    </div>
+    <p class="no-results" id="noPlaces" hidden>Aucun partenaire dans cette catégorie pour le moment — la famille SYFIR s'agrandit chaque mois. ✦</p>
+
+    <p class="places-cta reveal">Vous souhaitez proposer SYFIR dans votre établissement ? <a href="#partenaires">Devenez partenaire →</a></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     ILS NOUS FONT CONFIANCE — carrousel de logos partenaires
+============================================================ -->
+<section id="confiance" class="section section-cream">
+  <div class="container">
+    <p class="eyebrow reveal">Ils nous font confiance</p>
+    <h2 class="h2 reveal d1">Le réseau <em>SYFIR</em>.</h2>
+    <p class="section-intro reveal d2">Bars, hôtels, beach clubs, médias et distributeurs : ils servent et soutiennent SYFIR. Filtrez par catégorie, cliquez pour découvrir.</p>
+
+    <div class="filter-chips logos-chips reveal d2" id="logoChips">
+      <button class="chip active" data-cat="tous">Tous</button>
+      <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
+      <button class="chip" data-cat="hotel">Hôtels</button>
+      <button class="chip" data-cat="beach">Beach clubs</button>
+      <button class="chip" data-cat="media">Médias</button>
+      <button class="chip" data-cat="distrib">Distributeurs</button>
+    </div>
+  </div>
+
+  <!-- Bandeau défilant (pause au survol) -->
+  <div class="logos-marquee reveal d3" id="logosMarquee">
+    <div class="logos-track" id="logosTrack">
+      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="Le Ti' Sable — Beach club"><span>Le Ti' Sable</span><small>Beach club</small></a>
+      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Sunset Lounge — Rooftop bar"><span>Sunset Lounge</span><small>Rooftop</small></a>
+      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Habitation Créole — Hôtel"><span>Habitation Créole</span><small>Hôtel</small></a>
+      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="La Casa Coco — Bar de plage"><span>La Casa Coco</span><small>Bar de plage</small></a>
+      <a class="logo-tile" data-cat="media" href="#confiance" title="Tropik FM — Radio partenaire"><span>Tropik FM</span><small>Radio</small></a>
+      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Antilles Distrib — Distributeur"><span>Antilles Distrib</span><small>Distributeur</small></a>
+      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Blue Lagoon — Beach club"><span>Blue Lagoon</span><small>Club</small></a>
+      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Palm Resort — Hôtel"><span>Palm Resort</span><small>Hôtel</small></a>
+      <a class="logo-tile" data-cat="media" href="#confiance" title="Karaïb Mag — Magazine"><span>Karaïb Mag</span><small>Magazine</small></a>
+      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Sun Logistics — Distribution"><span>Sun Logistics</span><small>Distribution</small></a>
+    </div>
+  </div>
+  <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
+</section>
+
+<!-- ============================================================
+     ÉVÉNEMENTS & FÊTES — passerelle vers la billetterie
+============================================================ -->
+<section id="evenements" class="section section-event">
+  <div class="event-bg" data-parallax="0.2"></div>
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Événements &amp; Fêtes</p>
+    <h2 class="h2 reveal d1">Là où le moment<br>devient <em>une scène</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals, soirées privées — réservez vos billets pour les expériences SYFIR, ou organisez la vôtre.</p>
+
+    <div class="event-duo">
+      <a href="evenements.html" class="event-door reveal from-left d2" data-tilt>
+        <span class="event-door-tag">Espace client</span>
+        <h3>Prendre mes billets</h3>
+        <p>Accédez à la billetterie SYFIR : soirées, fêtes et événements ouverts au public.</p>
+        <span class="event-door-cta">Voir les événements →</span>
+      </a>
+      <a href="evenements.html#pro" class="event-door event-door-pro reveal from-right d3" data-tilt>
+        <span class="event-door-tag">Espace professionnel</span>
+        <h3>Organiser un événement</h3>
+        <p>Créez votre événement public ou privé, gérez la billetterie et les options SYFIR Experience.</p>
+        <span class="event-door-cta">Créer mon événement →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTISTES & DJs — fiches + extraits audio
+============================================================ -->
+<section id="artistes" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
+    <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Tout le collectif SYFIR réuni : DJs résidents, voix solaires et groupes musicaux. Filtrez, écoutez un extrait, puis bookez pour votre événement.</p>
+
+    <div class="filter-chips artist-chips reveal d2" id="artistChips">
+      <button class="chip active" data-cat="tous">Tous</button>
+      <button class="chip" data-cat="dj">DJ</button>
+      <button class="chip" data-cat="artiste">Artiste</button>
+      <button class="chip" data-cat="groupe">Groupe musical</button>
+    </div>
+
+    <p class="lineup-note reveal d2">✦ Artistes, DJs et groupes musicaux sont des <strong>partenaires</strong> SYFIR (talents bookés pour les événements). À ne pas confondre avec l'<a href="#equipe">équipe &amp; les collaborateurs</a> qui font tourner SYFIR au quotidien.</p>
+
+    <div class="artists-grid" id="lineupGrid">
+      <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
+        data-name="DJ Solaris" data-role="House tropicale · Afro" data-badge="DJ résident"
+        data-img="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80"
+        data-tags="Sunset sets,Beach party,Afro house"
+        data-bio="Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend — une signature SYFIR depuis trois saisons."
+        data-audio="audio/dj-solaris.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
+        <div class="artist-photo">
+          <img src="images/artiste-solaris.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=700&q=80'" alt="DJ Solaris aux platines" loading="lazy">
+          <span class="artist-badge">DJ résident</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de DJ Solaris">▶</button>
+        </div>
+        <div class="artist-info">
+          <h3>DJ Solaris</h3>
+          <p class="artist-role">House tropicale · Afro</p>
+          <div class="artist-tags"><span>Sunset sets</span><span>Beach party</span></div>
+          <div class="artist-foot">
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d2" data-type="chant" data-cat="artiste"
+        data-name="Maya Lumière" data-role="Soul · Pop solaire" data-badge="Artiste"
+        data-img="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80"
+        data-tags="Live acoustique,Rooftop,Soul"
+        data-bio="Voix de velours et présence solaire, Maya Lumière transforme un rooftop en moment suspendu. Reprises soul et compositions pop ensoleillées, en formule acoustique ou avec band."
+        data-audio="audio/maya-lumiere.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
+        <div class="artist-photo">
+          <img src="images/artiste-maya.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80'" alt="Maya Lumière au chant" loading="lazy">
+          <span class="artist-badge">Artiste</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de Maya Lumière">▶</button>
+        </div>
+        <div class="artist-info">
+          <h3>Maya Lumière</h3>
+          <p class="artist-role">Soul · Pop solaire</p>
+          <div class="artist-tags"><span>Live acoustique</span><span>Rooftop</span></div>
+          <div class="artist-foot">
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d3" data-type="dj" data-cat="dj"
+        data-name="DJ Brise" data-role="Deep house · Sunset" data-badge="DJ résident"
+        data-img="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
+        data-tags="Apéro-mix,Plage,Deep house"
+        data-bio="Le maître de l'apéro-mix. DJ Brise déroule une deep house caressante, parfaite pour les fins de journée les pieds dans le sable. Tempo doux, basses chaudes, transitions soyeuses."
+        data-audio="audio/dj-brise.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
+        <div class="artist-photo">
+          <img src="images/artiste-brise.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=700&q=80'" alt="DJ Brise en sunset set" loading="lazy">
+          <span class="artist-badge">DJ résident</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de DJ Brise">▶</button>
+        </div>
+        <div class="artist-info">
+          <h3>DJ Brise</h3>
+          <p class="artist-role">Deep house · Sunset</p>
+          <div class="artist-tags"><span>Apéro-mix</span><span>Plage</span></div>
+          <div class="artist-foot">
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
+        data-name="NÉO" data-role="Électro · Carnaval" data-badge="DJ · Producteur"
+        data-img="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80"
+        data-tags="Club,Headliner,Électro"
+        data-bio="Producteur et tête d'affiche, NÉO fusionne électro et énergie carnaval. Drops massifs, percussions créoles : c'est le set qui fait basculer la soirée en mode club jusqu'au bout de la nuit."
+        data-audio="audio/neo.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
+        <div class="artist-photo">
+          <img src="images/artiste-neo.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=700&q=80'" alt="NÉO, DJ et producteur" loading="lazy">
+          <span class="artist-badge">DJ · Producteur</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de NÉO">▶</button>
+        </div>
+        <div class="artist-info">
+          <h3>NÉO</h3>
+          <p class="artist-role">Électro · Carnaval</p>
+          <div class="artist-tags"><span>Club</span><span>Headliner</span></div>
+          <div class="artist-foot">
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="band-card reveal d1" data-cat="groupe">
+        <div class="band-photo">
+          <img src="images/artiste-kreyol.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'" alt="Kréyòl Sound System en live" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Kréyòl Sound System</h3>
+          <p class="artist-role">Zouk · Dancehall · Konpa</p>
+          <p class="band-desc">Un sound system 6 musiciens qui enflamme les festivals avec un mur de cuivres et de basses créoles.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+
+      <article class="band-card reveal d2" data-cat="groupe">
+        <div class="band-photo">
+          <img src="images/artiste-tropicanos.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80'" alt="Los Tropicanos sur scène" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Los Tropicanos</h3>
+          <p class="artist-role">Salsa · Latino · Cumbia</p>
+          <p class="band-desc">Cuivres chauds et rythmes latinos pour faire danser la piste : l'orchestre des soirées privées qui ne s'arrêtent jamais.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+
+      <article class="band-card reveal d3" data-cat="groupe">
+        <div class="band-photo">
+          <img src="images/artiste-zenith.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80'" alt="Zénith Brass en concert" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Zénith Brass</h3>
+          <p class="artist-role">Brass band · Funk · Carnaval</p>
+          <p class="band-desc">Fanfare mobile qui déambule et met le feu, du carnaval au cocktail de rue. Cuivres only, énergie maximale.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+    </div>
+    <p class="no-results artists-empty" id="noArtists" hidden>Aucun talent dans cette catégorie pour l'instant. ✦</p>
+
+    <p class="artists-cta reveal d2">
+      Vous êtes DJ, chanteur·euse ou groupe ?
+      <button class="artists-cta-link" data-request="artiste" type="button">Rejoignez le line-up SYFIR →</button>
+    </p>
+
+    <!-- Agenda des concerts -->
+    <div class="agenda reveal d2" id="agenda">
+      <h3 class="agenda-title">Agenda des concerts</h3>
+      <ul class="agenda-list">
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>21</strong><span>JUIN</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Kréyòl Sound System</p>
+            <p class="agenda-place">📍 Pique-nique Golden Escape — Deshaies</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>04</strong><span>JUIL</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Los Tropicanos</p>
+            <p class="agenda-place">📍 SYFIR Sunset Beach Party — Sainte-Anne</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>15</strong><span>AOÛT</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Zénith Brass</p>
+            <p class="agenda-place">📍 SYFIR Tropical Festival — Le Gosier</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DEVENIR PARTENAIRE — SYFIR EXPERIENCE
+============================================================ -->
+<section id="partenaires" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Devenir partenaire</p>
+    <h2 class="h2 reveal d1">SYFIR <em>EXPERIENCE</em></h2>
+    <p class="section-intro reveal d2">Intégrez l'univers SYFIR à votre établissement ou à votre événement.</p>
+
+    <div class="partner-chips reveal d2">
+      <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span>
+    </div>
+
+    <!-- Formulaire intelligent -->
+    <form class="smart-form reveal d3" id="partnerForm" novalidate>
+      <fieldset class="form-choice">
+        <legend>Votre demande</legend>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="partenaire" checked>
+          <span><strong>Devenir partenaire</strong><small>Bars, hôtels, restaurants, clubs…</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="evenement">
+          <span><strong>Organiser un événement</strong><small>Privé ou ouvert au public</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="artiste">
+          <span><strong>Artiste · DJ · Groupe</strong><small>Jouez sur les scènes SYFIR</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="collaborateur">
+          <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="distributeur">
+          <span><strong>Devenir distributeur</strong><small>Distribution SYFIR régionale</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="autre">
+          <span><strong>Autre demande</strong><small>Presse, collaboration, idée…</small></span>
+        </label>
+      </fieldset>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="pfName">Nom complet *</label>
+          <input type="text" id="pfName" name="name" autocomplete="name" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfEmail">Email *</label>
+          <input type="email" id="pfEmail" name="email" autocomplete="email" placeholder="vous@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfPhone">Téléphone *</label>
+          <input type="tel" id="pfPhone" name="phone" autocomplete="tel" placeholder="06 12 34 56 78">
+          <span class="field-error"></span>
+        </div>
+        <!-- Champ contextuel : change selon le type de demande -->
+        <div class="form-field" id="contextField">
+          <label for="pfContext">Nom de l'établissement *</label>
+          <input type="text" id="pfContext" name="context" placeholder="Le nom de votre lieu">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field form-field-full">
+          <label for="pfMessage">Votre projet *</label>
+          <textarea id="pfMessage" name="message" rows="4" placeholder="Parlez-nous de votre vision…"></textarea>
+          <span class="field-error"></span>
+        </div>
+      </div>
+
+      <label class="form-consent">
+        <input type="checkbox" id="pfConsent" name="consent">
+        <span>J'accepte d'être recontacté(e) par l'équipe SYFIR. *</span>
+        <span class="field-error"></span>
+      </label>
+
+      <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
+      <p class="form-success" id="formSuccess" hidden>✦ Merci ! Votre demande a bien été envoyée. L'équipe SYFIR vous répond sous 48 h.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================
+     ÉQUIPE & COLLABORATEURS — rôles & contacts
+============================================================ -->
+<section id="equipe" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">L'équipe SYFIR</p>
+    <h2 class="h2 reveal d1">Les visages derrière <em>la couleur</em>.</h2>
+    <p class="section-intro reveal d2">Une équipe soudée et des collaborateurs partout sur le terrain. Un projet, une question ? Écrivez à la bonne personne.</p>
+
+    <div class="team-grid">
+      <article class="team-card reveal d1">
+        <div class="team-avatar"><img src="images/equipe-camille.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80'" alt="Camille Roussel" loading="lazy"></div>
+        <h3>Camille Roussel</h3>
+        <p class="team-role">Fondatrice &amp; Direction</p>
+        <p class="team-bio">Vision, marque et partenariats stratégiques.</p>
+        <a class="team-contact" href="mailto:camille@syfir.fr">camille@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d2">
+        <div class="team-avatar"><img src="images/equipe-yanis.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'" alt="Yanis Mercier" loading="lazy"></div>
+        <h3>Yanis Mercier</h3>
+        <p class="team-role">Booking &amp; Line-up</p>
+        <p class="team-bio">Artistes, DJs et groupes : c'est lui qui compose les soirées.</p>
+        <a class="team-contact" href="mailto:booking@syfir.fr">booking@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d3">
+        <div class="team-avatar"><img src="images/equipe-lea.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80'" alt="Léa Fontaine" loading="lazy"></div>
+        <h3>Léa Fontaine</h3>
+        <p class="team-role">Partenariats &amp; Événements</p>
+        <p class="team-bio">Lieux, distributeurs et organisation des fêtes SYFIR.</p>
+        <a class="team-contact" href="mailto:pro@syfir.fr">pro@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d4">
+        <div class="team-avatar"><img src="images/equipe-marco.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&q=80'" alt="Marco Léandre" loading="lazy"></div>
+        <h3>Marco Léandre</h3>
+        <p class="team-role">Contenu &amp; Communauté</p>
+        <p class="team-bio">Photo, vidéo et réseaux : la couleur SYFIR en ligne.</p>
+        <a class="team-contact" href="mailto:media@syfir.fr">media@syfir.fr</a>
+      </article>
+    </div>
+
+    <!-- Rôles ouverts -->
+    <div class="roles-open reveal d2">
+      <div class="roles-head">
+        <h3>On recrute des collaborateurs</h3>
+        <p>Rejoignez le terrain SYFIR. Choisissez un rôle, on vous recontacte.</p>
+      </div>
+      <div class="roles-list">
+        <button class="role-pill" data-request="collaborateur" type="button">📸 Photographe / Vidéaste</button>
+        <button class="role-pill" data-request="collaborateur" type="button">🥂 Hôte · Hôtesse d'événement</button>
+        <button class="role-pill" data-request="collaborateur" type="button">⭐ Ambassadeur · rice</button>
+        <button class="role-pill" data-request="collaborateur" type="button">🎓 Stage / Alternance</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMMUNAUTÉ — Partagez la couleur.
+============================================================ -->
+<section id="communaute" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Communauté</p>
+    <h2 class="h2 reveal d1">Partagez <em>la couleur</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Identifiez <strong>#SYFIR</strong> et entrez dans la galerie.</p>
+  </div>
+
+  <div class="insta-grid">
+    <a class="insta-item reveal d1" href="#communaute" aria-label="Photo communauté">
+      <img src="images/syfir-fete.png"
+           onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80'"
+           alt="Amis qui trinquent avec des sachets SYFIR" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d2" href="#communaute" aria-label="Photo communauté">
+      <img src="images/syfir-flatlay.png"
+           onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80'"
+           alt="Sachet SYFIR entouré de fruits frais" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d3" href="#communaute" aria-label="Photo communauté">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80" alt="Plage paradisiaque" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d4" href="#communaute" aria-label="Photo communauté">
+      <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80" alt="Festival de musique" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d5" href="#communaute" aria-label="Photo communauté">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600&q=80" alt="Coucher de soleil en festival" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d6" href="#communaute" aria-label="Photo communauté">
+      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="Fête entre amis" loading="lazy">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">SYFIR<span>™</span></div>
+      <p>Le Cocktail Libre™.<br>Cocktails premium &amp; expériences événementielles.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explorer</h4>
+      <a href="#marque">Notre marque</a>
+      <a href="#cocktails">Nos Cocktails</a>
+      <a href="#ou-trouver">Où nous trouver</a>
+      <a href="#confiance">Ils nous font confiance</a>
+      <a href="evenements.html">Événements &amp; Fêtes</a>
+    </div>
+    <div class="footer-col">
+      <h4>Artistes &amp; équipe</h4>
+      <a href="#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="#agenda">Agenda des concerts</a>
+      <a href="#partenaires">Devenir partenaire</a>
+      <a href="#equipe">Équipe &amp; collaborateurs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Communauté</h4>
+      <a href="#communaute">#SYFIR</a>
+      <a href="#communaute">Instagram</a>
+      <a href="#communaute">TikTok</a>
+    </div>
+    <div class="footer-col">
+      <h4>Légal</h4>
+      <a href="#">Mentions légales</a>
+      <a href="#">CGV</a>
+      <a href="#">Confidentialité</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SYFIR. Tous droits réservés. — L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<!-- Modale fiche partenaire -->
+<div class="modal" id="placeModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="pm-gallery">
+        <div class="pm-main"><img id="pmMainImg" src="" alt=""></div>
+        <div class="pm-thumbs" id="pmThumbs"></div>
+      </div>
+      <p class="modal-tag" id="pmType" style="margin-top:18px"></p>
+      <h3 id="pmTitle"></h3>
+      <p class="modal-meta" id="pmLoc"></p>
+      <div class="pm-serve" id="pmServe"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <a class="pm-web" id="pmWeb" href="#" target="_blank" rel="noopener" hidden>Visiter le site →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modale fiche artiste -->
+<div class="modal" id="artistModal">
+  <div class="modal-box artist-modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="am-hero">
+        <img id="amImg" src="" alt="">
+        <span class="artist-badge" id="amBadge"></span>
+      </div>
+      <p class="modal-tag" id="amRole" style="margin-top:18px"></p>
+      <h3 id="amName"></h3>
+      <div class="am-tags" id="amTags"></div>
+      <p class="pm-desc" id="amBio"></p>
+
+      <!-- Lecteur d'extrait -->
+      <div class="am-player" id="amPlayer">
+        <button class="am-play" id="amPlay" type="button" aria-label="Lire / mettre en pause">▶</button>
+        <div class="am-bar"><div class="am-bar-fill" id="amBarFill"></div></div>
+        <span class="am-time" id="amTime">0:00</span>
+      </div>
+
+      <div class="am-stream" id="amStream">
+        <a class="am-stream-link" id="amSpotify" href="#" target="_blank" rel="noopener">Spotify</a>
+        <a class="am-stream-link" id="amSoundcloud" href="#" target="_blank" rel="noopener">SoundCloud</a>
+        <a class="am-stream-link" id="amYoutube" href="#" target="_blank" rel="noopener">YouTube</a>
+      </div>
+      <button class="btn btn-solid btn-full am-book" data-request="artiste" type="button">Booker cet artiste</button>
+    </div>
+  </div>
+</div>
+
+<!-- Élément audio global pour les extraits -->
+<audio id="previewAudio" preload="none"></audio>
+
+<!-- Bouton retour en haut -->
+<button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
+
+<!-- Barre de progression de lecture -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ============================================================
+   SYFIR — Le Cocktail Libre™
+   script.js — Vanilla JS uniquement
+   ------------------------------------------------------------
+   Sommaire :
+   01. Helpers
+   02. Préloader
+   03. Navbar dynamique + menu mobile
+   04. Reveal on scroll
+   05. Parallaxe douce
+   06. Effet tilt premium (micro-interactions)
+   07. Toast
+   08. Où nous trouver : filtre des partenaires
+   09. Formulaire partenaire intelligent + validation
+   10. Page Événements : données & rendu
+   11. Page Événements : filtres / recherche / tri
+   12. Page Événements : modale billets (+ accès privé)
+   13. Page Événements : espace client (onglets, connexion)
+   14. Page Événements : espace pro (création + facturation)
+============================================================ */
+
+(() => {
+  'use strict';
+
+  /* ===== 01. HELPERS ===== */
+  const $  = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+  const euro = n => n.toFixed(2).replace('.', ',') + ' €';
+  const store = {
+    get(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+      catch { return fallback; }
+    },
+    set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+  };
+
+  /* ===== 02. PRÉLOADER ===== */
+  const preloader = $('#preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      setTimeout(() => preloader.classList.add('done'), 600);
+    });
+    // Sécurité : on ne bloque jamais plus de 2,5 s
+    setTimeout(() => preloader.classList.add('done'), 2500);
+  }
+
+  /* ===== 03. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
+  const nav = $('#nav');
+  const onScrollNav = () => nav && nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScrollNav, { passive: true });
+  onScrollNav();
+
+  // Lien actif selon la section visible
+  const sections = $$('section[id], header[id]');
+  const navLinks = $$('.nav-link');
+  if (sections.length && navLinks.length) {
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => spy.observe(s));
+  }
+
+  const mobileNav = $('#mobileNav');
+  $('#burgerBtn')?.addEventListener('click', () => mobileNav.classList.add('open'));
+  $('#closeNav')?.addEventListener('click', () => mobileNav.classList.remove('open'));
+  $$('a', mobileNav || document.createElement('div')).forEach(a =>
+    a.addEventListener('click', () => mobileNav.classList.remove('open')));
+
+  // Smooth scroll avec décalage de navbar (ancres internes)
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  /* ===== 04. REVEAL ON SCROLL ===== */
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  $$('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ===== 05. PARALLAXE DOUCE ===== */
+  const parallaxEls = $$('[data-parallax]');
+  if (parallaxEls.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        parallaxEls.forEach(el => {
+          const speed = parseFloat(el.dataset.parallax) || 0.2;
+          const rect = el.parentElement.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < innerHeight) {
+            el.style.transform = `translateY(${rect.top * -speed}px)`;
+          }
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
+  /* ===== 06. EFFET TILT PREMIUM ===== */
+  if (matchMedia('(hover: hover)').matches) {
+    $$('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-6px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ===== 07. TOAST ===== */
+  const toast = $('#toast');
+  let toastTimer;
+  const showToast = msg => {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  };
+
+  /* ===== 07b. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
+     Auto : clair le jour (7h-19h), sombre la nuit.
+     Le choix est mémorisé et appliqué dès le <head> (script inline). */
+  const themeSwitch = $('#themeSwitch');
+  const themeBtn    = $('#themeBtn');
+  const themeMenu   = $('#themeMenu');
+  const themeOpts   = $$('.theme-opt', themeSwitch || document.createElement('div'));
+  const themeByHour = () => {
+    const h = new Date().getHours();
+    return h >= 7 && h < 19 ? 'light' : 'dark';
+  };
+  const themeIcon = { auto: '🌗', light: '☀️', dark: '🌙' };
+  const applyTheme = pref => {
+    const mode = pref === 'auto' ? themeByHour() : pref;
+    document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.setAttribute('data-theme-pref', pref);
+    if (themeBtn) {
+      themeBtn.textContent = themeIcon[pref] || themeIcon.auto;
+      themeBtn.title = 'Thème : ' + (pref === 'auto'
+        ? `automatique (${themeByHour() === 'light' ? 'jour' : 'nuit'})`
+        : pref === 'light' ? 'clair' : 'sombre');
+    }
+    themeOpts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.theme === pref)));
+  };
+  let themePref = localStorage.getItem('syfir-theme') || 'auto';
+  applyTheme(themePref);
+
+  const closeThemeMenu = () => {
+    if (!themeMenu || themeMenu.hidden) return;
+    themeMenu.hidden = true;
+    themeBtn?.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onThemeOutside);
+    document.removeEventListener('keydown', onThemeKey);
+  };
+  const onThemeOutside = e => { if (!themeSwitch.contains(e.target)) closeThemeMenu(); };
+  const onThemeKey = e => { if (e.key === 'Escape') { closeThemeMenu(); themeBtn?.focus(); } };
+  const openThemeMenu = () => {
+    if (!themeMenu) return;
+    themeMenu.hidden = false;
+    themeBtn?.setAttribute('aria-expanded', 'true');
+    // écouteurs ajoutés au prochain tick pour ne pas capter le clic d'ouverture
+    setTimeout(() => {
+      document.addEventListener('click', onThemeOutside);
+      document.addEventListener('keydown', onThemeKey);
+    });
+  };
+  themeBtn?.addEventListener('click', e => {
+    e.stopPropagation();
+    themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
+  });
+  themeOpts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      themePref = opt.dataset.theme;
+      localStorage.setItem('syfir-theme', themePref);
+      applyTheme(themePref);
+      closeThemeMenu();
+      showToast(themePref === 'auto'
+        ? '🌗 Thème automatique — clair le jour, sombre la nuit'
+        : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
+    });
+  });
+  // En mode auto, on suit l'heure qui tourne
+  setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
+
+  /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
+  const placeChips = $('#placeChips');
+  if (placeChips) {
+    placeChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', placeChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const type = chip.dataset.place;
+      let visible = 0;
+      $$('.place-card').forEach(card => {
+        const show = type === 'tous' || card.dataset.type === type;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      $('#noPlaces').hidden = visible > 0;
+    });
+  }
+
+  /* ===== 08a-bis. LINE-UP (artistes, DJs & groupes) : filtre + booking ===== */
+  const artistChips = $('#artistChips');
+  const lineupGrid = $('#lineupGrid');
+  if (artistChips && lineupGrid) {
+    artistChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', artistChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.cat;
+      let visible = 0;
+      $$(':scope > article', lineupGrid).forEach(card => {
+        const show = cat === 'tous' || card.dataset.cat === cat;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      const empty = $('#noArtists');
+      if (empty) empty.hidden = visible > 0;
+    });
+  }
+
+  // « Booker » / « Rejoindre le line-up » → présélectionne le bon type
+  // dans le formulaire partenaire et y fait défiler la page.
+  $$('[data-request]').forEach(el => {
+    el.addEventListener('click', () => {
+      const radio = $(`input[name="requestType"][value="${el.dataset.request}"]`);
+      if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
+      const form = $('#partnerForm');
+      if (form) {
+        const top = form.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ===== 08a-ter. LECTEUR D'EXTRAITS + FICHE ARTISTE ===== */
+  const audio = $('#previewAudio');
+  let currentBtn = null;
+  const fmt = s => { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  const setPlayIcon = (btn, playing) => {
+    if (!btn) return;
+    btn.textContent = playing ? '❚❚' : '▶';
+    btn.classList.toggle('playing', playing);
+  };
+  const stopCurrent = () => { setPlayIcon(currentBtn, false); currentBtn = null; };
+  const toggleAudio = (src, btn) => {
+    if (!audio || !src) { showToast('🎧 Extrait audio bientôt disponible'); return; }
+    if (currentBtn === btn && !audio.paused) { audio.pause(); return; }
+    if (!audio.src.endsWith(src)) { audio.src = src; }
+    if (currentBtn && currentBtn !== btn) setPlayIcon(currentBtn, false);
+    currentBtn = btn;
+    audio.play()
+      .then(() => setPlayIcon(btn, true))
+      .catch(() => { showToast('🎧 Extrait audio bientôt disponible'); stopCurrent(); });
+  };
+  audio?.addEventListener('pause', () => { if (currentBtn) setPlayIcon(currentBtn, false); });
+  audio?.addEventListener('ended', stopCurrent);
+
+  // Lecture rapide depuis la carte
+  $$('.artist-play').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleAudio(btn.closest('.artist-card')?.dataset.audio, btn);
+    });
+  });
+
+  // Modale fiche artiste
+  const artistModal = $('#artistModal');
+  if (artistModal) {
+    const amImg = $('#amImg'), amBadge = $('#amBadge'), amRole = $('#amRole'),
+          amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
+          amPlay = $('#amPlay'), amBar = artistModal.querySelector('.am-bar'),
+          amBarFill = $('#amBarFill'), amTime = $('#amTime');
+    let modalSrc = '';
+
+    const openArtist = card => {
+      const d = card.dataset;
+      const [primary, fallback] = (d.img || '').split('|');
+      amImg.src = primary || fallback || '';
+      amImg.onerror = () => { amImg.onerror = null; if (fallback) amImg.src = fallback; };
+      amImg.alt = d.name || '';
+      amBadge.textContent = d.badge || '';
+      amRole.textContent = d.role || '';
+      amName.textContent = d.name || '';
+      amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
+        .map(t => `<span>${t.trim()}</span>`).join('');
+      amBio.textContent = d.bio || '';
+      $('#amSpotify').href = d.spotify || '#';
+      $('#amSoundcloud').href = d.soundcloud || '#';
+      $('#amYoutube').href = d.youtube || '#';
+      modalSrc = d.audio || '';
+      amBarFill.style.width = '0%'; amTime.textContent = '0:00';
+      setPlayIcon(amPlay, false);
+      artistModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeArtist = () => {
+      artistModal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (currentBtn === amPlay) audio?.pause();
+    };
+    $$('.artist-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('[data-request]') || e.target.closest('.artist-play')) return;
+        openArtist(card);
+      });
+    });
+    artistModal.addEventListener('click', e => {
+      if (e.target === artistModal || e.target.closest('[data-close]')) closeArtist();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
+    });
+    artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
+    amPlay?.addEventListener('click', () => toggleAudio(modalSrc, amPlay));
+    audio?.addEventListener('timeupdate', () => {
+      if (currentBtn !== amPlay) return;
+      const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      amBarFill.style.width = p + '%';
+      amTime.textContent = fmt(audio.currentTime);
+    });
+    amBar?.addEventListener('click', e => {
+      if (!audio.duration) return;
+      const r = amBar.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+    });
+  }
+
+  /* ===== 08a-quater. CARROUSEL DE LOGOS PARTENAIRES ===== */
+  const logosTrack = $('#logosTrack');
+  const logosMarquee = $('#logosMarquee');
+  if (logosTrack) {
+    [...logosTrack.children].forEach(t => {
+      const c = t.cloneNode(true);
+      c.classList.add('logo-clone'); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1;
+      logosTrack.appendChild(c);
+    });
+  }
+  const logoChips = $('#logoChips');
+  if (logoChips && logosMarquee) {
+    logoChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', logoChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.cat;
+      logosMarquee.classList.toggle('is-filtered', cat !== 'tous');
+      let visible = 0;
+      $$('.logo-tile:not(.logo-clone)', logosTrack).forEach(tile => {
+        const show = cat === 'tous' || tile.dataset.cat === cat;
+        tile.hidden = !show;
+        if (show) visible++;
+      });
+      const empty = $('#noLogos');
+      if (empty) empty.hidden = visible > 0;
+    });
+  }
+
+  /* ===== 08b. FICHE PARTENAIRE (modale) ===== */
+const placeModal = document.querySelector('#placeModal');
+const placesGridEl = document.querySelector('#placesGrid');
+if (placeModal && placesGridEl) {
+  const pmImg = document.querySelector('#pmMainImg');
+  const pmThumbs = document.querySelector('#pmThumbs');  const closePM = () => { placeModal.classList.remove('open'); document.body.style.overflow = ''; }; placeModal.addEventListener('click', ev => { if (ev.target === placeModal || ev.target.closest('[data-close]')) closePM(); }); document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && placeModal.classList.contains('open')) closePM(); });
+  placesGridEl.addEventListener('click', ev => {
+    const card = ev.target.closest('.place-card');
+    if (!card) return;
+    const photos = (card.dataset.photos || '').split('|').filter(Boolean);
+    document.querySelector('#pmType').textContent = card.querySelector('.place-type')?.textContent || '';
+    document.querySelector('#pmTitle').textContent = card.querySelector('h3')?.textContent || '';
+    document.querySelector('#pmLoc').textContent = card.querySelector('.place-loc')?.textContent || '';
+    document.querySelector('#pmDesc').textContent = card.dataset.desc || '';
+    document.querySelector('#pmServe').innerHTML = card.querySelector('.place-serve')?.innerHTML || '';
+    const web = card.dataset.web;
+    const link = document.querySelector('#pmWeb');
+    if (web) { link.href = web; link.hidden = false; } else { link.hidden = true; }
+    if (photos.length) {
+      pmImg.src = photos[0];
+      pmImg.alt = document.querySelector('#pmTitle').textContent;
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${p}" type="button"><img src="${p}" alt="" loading="lazy"></button>`).join('');
+    }
+    placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
+  });
+  pmThumbs.addEventListener('click', ev => {
+    const t = ev.target.closest('.pm-thumb');
+    if (!t) return;
+    pmImg.src = t.dataset.src;
+    pmThumbs.querySelectorAll('.pm-thumb').forEach(b => b.classList.remove('active'));
+    t.classList.add('active');
+  });
+}
+
+/* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
+  const validators = {
+    name: v => v.trim().length >= 2 || 'Indiquez votre nom complet.',
+    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Adresse email invalide.',
+    phone: v => /^(\+?\d[\d\s.-]{8,14})$/.test(v.trim()) || 'Numéro de téléphone invalide.',
+    required: v => v.trim().length > 0 || 'Ce champ est requis.',
+    message: v => v.trim().length >= 10 || 'Donnez-nous un peu plus de détails (10 caractères min.).'
+  };
+
+  const setFieldState = (field, error) => {
+    const wrap = field.closest('.form-field, .form-consent');
+    if (!wrap) return !error;
+    wrap.classList.toggle('invalid', !!error);
+    const errEl = $('.field-error', wrap);
+    if (errEl) errEl.textContent = error || '';
+    return !error;
+  };
+  const check = (field, rule) => {
+    const result = rule(field.value || '');
+    return setFieldState(field, result === true ? '' : result);
+  };
+
+  const partnerForm = $('#partnerForm');
+  if (partnerForm) {
+    // Le champ contextuel s'adapte au type de demande choisi
+    const contextConfig = {
+      partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de votre lieu' },
+      evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
+      artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
+      collaborateur:{ label: 'Votre rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
+      distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
+      autre:        { label: 'Objet de votre demande *',       placeholder: 'Presse, collaboration, idée…' }
+    };
+    $$('input[name="requestType"]', partnerForm).forEach(radio => {
+      radio.addEventListener('change', () => {
+        const conf = contextConfig[radio.value];
+        $('#contextField label').textContent = conf.label;
+        $('#pfContext').placeholder = conf.placeholder;
+        setFieldState($('#pfContext'), '');
+      });
+    });
+
+    // Validation à la volée dès qu'un champ a été touché
+    const liveRules = [
+      ['#pfName', validators.name], ['#pfEmail', validators.email],
+      ['#pfPhone', validators.phone], ['#pfContext', validators.required],
+      ['#pfMessage', validators.message]
+    ];
+    liveRules.forEach(([sel, rule]) => {
+      const field = $(sel);
+      field.addEventListener('blur', () => check(field, rule));
+      field.addEventListener('input', () => {
+        if (field.closest('.form-field').classList.contains('invalid')) check(field, rule);
+      });
+    });
+
+    partnerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const consent = $('#pfConsent');
+      const ok = [
+        ...liveRules.map(([sel, rule]) => check($(sel), rule)),
+        setFieldState(consent, consent.checked ? '' : 'Merci de cocher cette case.')
+      ].every(Boolean);
+      if (!ok) {
+        $('.invalid', partnerForm)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      partnerForm.reset();
+      $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
+      const success = $('#formSuccess');
+      success.hidden = false;
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+    });
+  }
+
+  /* ===== 09b. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages) ===== */
+  const toTop = $('#toTop');
+  const progress = $('#scrollProgress');
+  if (toTop || progress) {
+    let uiTick = false;
+    const onScrollUI = () => {
+      if (uiTick) return;
+      uiTick = true;
+      requestAnimationFrame(() => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        if (progress) progress.style.width = p + '%';
+        if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+        uiTick = false;
+      });
+    };
+    window.addEventListener('scroll', onScrollUI, { passive: true });
+    onScrollUI();
+    toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  /* ============================================================
+     PAGE ÉVÉNEMENTS — billetterie & espace pro
+  ============================================================ */
+  const eventsGrid = $('#eventsGrid');
+  if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
+
+  /* ===== 10. DONNÉES & RENDU ===== */
+  const TIERS_DEFAULT = [
+    { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8 },
+    { name: 'Standard', desc: 'Entrée + 1 cocktail SYFIR', mult: 1 },
+    { name: 'VIP Golden Hour', desc: 'Carré VIP + open cocktails', mult: 2.2 }
+  ];
+  const MONTHS = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUIN', 'JUIL', 'AOÛT', 'SEP', 'OCT', 'NOV', 'DÉC'];
+
+  const baseEvents = [
+    { id: 1, name: 'SYFIR Sunset Beach Party', type: 'beach', city: 'Sainte-Anne', date: '2026-07-04', price: 25,
+      img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80', organizer: 'SYFIR Official', prive: false },
+    { id: 2, name: 'Golden Hour Rooftop', type: 'rooftop', city: 'Paris', date: '2026-06-26', price: 35,
+      img: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80', organizer: 'SYFIR Official', prive: false },
+    { id: 3, name: 'Coral Night — Club Edition', type: 'club', city: 'Pointe-à-Pitre', date: '2026-07-11', price: 20,
+      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80', organizer: 'Club Azur × SYFIR', prive: false },
+    { id: 4, name: 'SYFIR Tropical Festival', type: 'festival', city: 'Le Gosier', date: '2026-08-15', price: 45,
+      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false },
+    { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', date: '2026-07-18', price: 80,
+      img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
+    { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', date: '2026-06-21', price: 15,
+      img: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=900&q=80', organizer: 'SYFIR Official', prive: false }
+  ];
+  // Les événements créés via l'espace pro sont conservés en local
+  let events = [...baseEvents, ...store.get('syfir-pro-events', [])];
+
+  const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
+
+  const eventCardHTML = (ev, i) => {
+    const d = new Date(ev.date + 'T12:00:00');
+    return `
+    <article class="event-card" style="animation-delay:${i * 0.07}s">
+      <div class="event-card-media">
+        <img src="${ev.img}" alt="${ev.name}" loading="lazy">
+        <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
+        <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
+      </div>
+      <div class="event-card-body">
+        <h3>${ev.name}</h3>
+        <p class="event-card-meta">📍 ${ev.city} · ${d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+        <div class="event-card-foot">
+          <span class="event-price"><small>À partir de</small><strong>${euro(ev.price * 0.8)}</strong></span>
+          <button class="btn btn-solid btn-sm" data-tickets="${ev.id}">Billets</button>
+        </div>
+        <p class="event-organizer">Organisé par ${ev.organizer}</p>
+      </div>
+    </article>`;
+  };
+
+  const cityFilter = $('#cityFilter');
+  const refreshCityOptions = () => {
+    const current = cityFilter.value;
+    const cities = [...new Set(events.map(e => e.city))].sort();
+    cityFilter.innerHTML = '<option value="">Toutes les villes</option>' +
+      cities.map(c => `<option value="${c}" ${c === current ? 'selected' : ''}>${c}</option>`).join('');
+  };
+
+  /* ===== 11. FILTRES / RECHERCHE / TRI ===== */
+  const state = { filter: 'tous', city: '', sort: 'date', search: '' };
+
+  const renderEvents = () => {
+    let list = events.filter(ev =>
+      (state.filter === 'tous' || ev.type === state.filter || (state.filter === 'prive' && ev.prive)) &&
+      (!state.city || ev.city === state.city) &&
+      (!state.search || (ev.name + ' ' + ev.city + ' ' + ev.organizer).toLowerCase().includes(state.search))
+    );
+    list.sort((a, b) => state.sort === 'prix' ? a.price - b.price : a.date.localeCompare(b.date));
+    eventsGrid.innerHTML = list.map(eventCardHTML).join('');
+    $('#noResults').hidden = list.length > 0;
+  };
+
+  $('#filterChips').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    $$('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    state.filter = chip.dataset.filter;
+    renderEvents();
+  });
+  cityFilter.addEventListener('change', () => { state.city = cityFilter.value; renderEvents(); });
+  $('#sortFilter').addEventListener('change', e => { state.sort = e.target.value; renderEvents(); });
+  $('#eventSearch')?.addEventListener('input', e => { state.search = e.target.value.trim().toLowerCase(); renderEvents(); });
+
+  refreshCityOptions();
+  renderEvents();
+
+  /* ===== 12. MODALE BILLETS ===== */
+  const ticketModal = $('#ticketModal');
+  let currentEvent = null;
+  let tierQty = [];
+
+  const openModal = m => { m.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeModal = m => { m.classList.remove('open'); document.body.style.overflow = ''; };
+  $$('.modal').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) closeModal(m); });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal.open').forEach(closeModal); });
+
+  const renderTiers = () => {
+    $('#ticketTiers').innerHTML = TIERS_DEFAULT.map((t, i) => `
+      <div class="tier ${tierQty[i] > 0 ? 'has-qty' : ''}">
+        <div class="tier-info"><strong>${t.name}</strong><small>${t.desc}</small></div>
+        <div class="tier-right">
+          <span class="tier-price">${euro(currentEvent.price * t.mult)}</span>
+          <div class="tier-qty">
+            <button class="qty-btn" data-tier="${i}" data-delta="-1" aria-label="Moins">−</button>
+            <output>${tierQty[i]}</output>
+            <button class="qty-btn" data-tier="${i}" data-delta="1" aria-label="Plus">+</button>
+          </div>
+        </div>
+      </div>`).join('');
+    const total = tierQty.reduce((s, q, i) => s + q * currentEvent.price * TIERS_DEFAULT[i].mult, 0);
+    $('#tmTotal').textContent = euro(total);
+    $('#tmBuy').disabled = total === 0;
+  };
+
+  const showTicketArea = unlocked => {
+    $('#privateGate').hidden = unlocked;
+    $('#ticketTiers').style.display = unlocked ? '' : 'none';
+    $('#modalFoot').style.display = unlocked ? '' : 'none';
+  };
+
+  eventsGrid.addEventListener('click', e => {
+    const btn = e.target.closest('[data-tickets]');
+    if (!btn) return;
+    currentEvent = events.find(ev => ev.id === +btn.dataset.tickets);
+    tierQty = TIERS_DEFAULT.map(() => 0);
+    const d = new Date(currentEvent.date + 'T12:00:00');
+    $('#tmImage').src = currentEvent.img;
+    $('#tmImage').alt = currentEvent.name;
+    $('#tmTag').textContent = currentEvent.prive ? '🔒 Soirée privée' : typeLabel[currentEvent.type] || 'Événement';
+    $('#tmTitle').textContent = currentEvent.name;
+    $('#tmMeta').textContent = `📍 ${currentEvent.city} · ${d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · Organisé par ${currentEvent.organizer}`;
+    $('#tmSuccess').hidden = true;
+    $('#gateError').textContent = '';
+    $('#gateCode').value = '';
+    showTicketArea(!currentEvent.prive);
+    renderTiers();
+    openModal(ticketModal);
+  });
+
+  // Code d'accès pour les événements privés
+  $('#gateSubmit').addEventListener('click', () => {
+    const code = $('#gateCode').value.trim().toUpperCase();
+    if (code && code === (currentEvent.code || '').toUpperCase()) {
+      showTicketArea(true);
+      showToast('🔓 Accès débloqué — bienvenue !');
+    } else {
+      $('#gateError').textContent = 'Code invalide. Vérifiez votre invitation.';
+    }
+  });
+
+  $('#ticketTiers').addEventListener('click', e => {
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+    const i = +btn.dataset.tier;
+    tierQty[i] = Math.max(0, tierQty[i] + +btn.dataset.delta);
+    renderTiers();
+  });
+
+  $('#tmBuy').addEventListener('click', () => {
+    const bought = tierQty.map((q, i) => q > 0 ? `${q}× ${TIERS_DEFAULT[i].name}` : null).filter(Boolean).join(', ');
+    const myTickets = store.get('syfir-tickets', []);
+    myTickets.push({ event: currentEvent.name, city: currentEvent.city, date: currentEvent.date, detail: bought });
+    store.set('syfir-tickets', myTickets);
+    $('#ticketTiers').style.display = 'none';
+    $('#modalFoot').style.display = 'none';
+    const ok = $('#tmSuccess');
+    ok.textContent = `✦ Réservation confirmée : ${bought}. Vos billets (QR codes) sont disponibles dans votre espace client.`;
+    ok.hidden = false;
+    renderMyTickets();
+  });
+
+  /* ===== 13. ESPACE CLIENT ===== */
+  const clientModal = $('#clientModal');
+  const openClient = e => { e?.preventDefault(); openModal(clientModal); };
+  $('#clientSpaceBtn')?.addEventListener('click', openClient);
+  $('#clientSpaceBtnMobile')?.addEventListener('click', e => { openClient(e); mobileNav?.classList.remove('open'); });
+  $('#footClientSpace')?.addEventListener('click', openClient);
+
+  $('#clientTabs').addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    $$('.tab').forEach(t => t.classList.remove('active'));
+    $$('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    $(`#panel-${tab.dataset.tab}`).classList.add('active');
+  });
+
+  const renderMyTickets = () => {
+    const myTickets = store.get('syfir-tickets', []);
+    $('#myTickets').innerHTML = myTickets.length
+      ? myTickets.map(t => `
+        <div class="my-ticket">
+          <div><strong>${t.event}</strong><small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small></div>
+          <span class="qr" aria-label="QR code">▣</span>
+        </div>`).join('')
+      : '<p class="cart-empty">Aucun billet pour l\'instant. Vos réservations apparaîtront ici.</p>';
+  };
+  renderMyTickets();
+
+  $('#panel-login').addEventListener('submit', e => {
+    e.preventDefault();
+    const okMail = check($('#clEmail'), validators.email);
+    const okPass = check($('#clPass'), v => v.length >= 8 || '8 caractères minimum.');
+    if (!okMail || !okPass) return;
+    closeModal(clientModal);
+    showToast('✦ Bienvenue dans votre espace SYFIR !');
+  });
+
+  $('#panel-register').addEventListener('submit', e => {
+    e.preventDefault();
+    const ok = [
+      check($('#rgName'), validators.name),
+      check($('#rgEmail'), validators.email),
+      check($('#rgPass'), v => v.length >= 8 || '8 caractères minimum.')
+    ].every(Boolean);
+    if (!ok) return;
+    closeModal(clientModal);
+    showToast('✦ Compte créé ! Bienvenue dans la communauté SYFIR.');
+  });
+
+  /* ===== 14. ESPACE PRO — création + facturation ===== */
+  const proForm = $('#proForm');
+  const BASE_FEE = 49;
+
+  // Le champ "code privé" n'apparaît que si l'événement est privé
+  $$('input[name="evVisibility"]').forEach(r => {
+    r.addEventListener('change', () => {
+      $('#privateCodeField').hidden = r.value !== 'prive' || !r.checked;
+    });
+  });
+
+  // Facturation estimée mise à jour en direct
+  const updateBilling = () => {
+    const optsTotal = $$('.ev-option:checked').reduce((s, c) => s + +c.dataset.cost, 0);
+    $('#billingOptions').lastElementChild.textContent = euro(optsTotal);
+    $('#billingTotal').textContent = euro(BASE_FEE + optsTotal);
+  };
+  $$('.ev-option').forEach(c => c.addEventListener('change', updateBilling));
+
+  proForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const isPrivate = $('input[name="evVisibility"]:checked').value === 'prive';
+    const ok = [
+      check($('#evName'), validators.required),
+      check($('#evType'), validators.required),
+      check($('#evDate'), v => (v && new Date(v) >= new Date().setHours(0, 0, 0, 0)) || 'Choisissez une date à venir.'),
+      check($('#evCity'), validators.required),
+      check($('#evPrice'), v => (v !== '' && +v >= 0) || 'Indiquez un prix valide.'),
+      !isPrivate || check($('#evCode'), v => v.trim().length >= 4 || 'Code de 4 caractères minimum.')
+    ].every(Boolean);
+    if (!ok) {
+      $('.invalid', proForm)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const imgByType = {
+      beach: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80',
+      rooftop: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80',
+      festival: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80',
+      club: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80',
+      soiree: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80'
+    };
+    // Image de secours si un nouveau type n'a pas encore de visuel dédié
+    const defaultImg = 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80';
+    const newEvent = {
+      id: Date.now(),
+      name: $('#evName').value.trim(),
+      type: isPrivate ? 'prive' : $('#evType').value,
+      city: $('#evCity').value.trim(),
+      date: $('#evDate').value,
+      price: +$('#evPrice').value,
+      img: imgByType[$('#evType').value] || defaultImg,
+      organizer: 'Votre organisation × SYFIR',
+      prive: isPrivate,
+      code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
+    };
+
+    const proEvents = store.get('syfir-pro-events', []);
+    proEvents.push(newEvent);
+    store.set('syfir-pro-events', proEvents);
+    events = [...baseEvents, ...proEvents];
+    refreshCityOptions();
+    renderEvents();
+
+    const total = $('#billingTotal').textContent;
+    const success = $('#proSuccess');
+    success.textContent = isPrivate
+      ? `✦ Événement privé créé ! Partagez le code « ${newEvent.code} » avec vos invités. Facturation : ${total} + 2,5 % par billet vendu.`
+      : `✦ Événement publié dans la billetterie SYFIR ! Facturation : ${total} + 2,5 % par billet vendu.`;
+    success.hidden = false;
+
+    proForm.reset();
+    $$('.invalid', proForm).forEach(el => el.classList.remove('invalid'));
+    $('#privateCodeField').hidden = true;
+    updateBilling();
+    showToast('✦ Événement créé avec succès !');
+    document.getElementById('billetterie').scrollIntoView({ behavior: 'smooth' });
+  });
+
+})();
+
+</script>
+</body>
+</html>
