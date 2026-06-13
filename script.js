@@ -249,6 +249,129 @@
     });
   });
 
+  /* ===== 08a-ter. LECTEUR D'EXTRAITS + FICHE ARTISTE ===== */
+  const audio = $('#previewAudio');
+  let currentBtn = null;
+  const fmt = s => { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  const setPlayIcon = (btn, playing) => {
+    if (!btn) return;
+    btn.textContent = playing ? '❚❚' : '▶';
+    btn.classList.toggle('playing', playing);
+  };
+  const stopCurrent = () => { setPlayIcon(currentBtn, false); currentBtn = null; };
+  const toggleAudio = (src, btn) => {
+    if (!audio || !src) { showToast('🎧 Extrait audio bientôt disponible'); return; }
+    if (currentBtn === btn && !audio.paused) { audio.pause(); return; }
+    if (!audio.src.endsWith(src)) { audio.src = src; }
+    if (currentBtn && currentBtn !== btn) setPlayIcon(currentBtn, false);
+    currentBtn = btn;
+    audio.play()
+      .then(() => setPlayIcon(btn, true))
+      .catch(() => { showToast('🎧 Extrait audio bientôt disponible'); stopCurrent(); });
+  };
+  audio?.addEventListener('pause', () => { if (currentBtn) setPlayIcon(currentBtn, false); });
+  audio?.addEventListener('ended', stopCurrent);
+
+  // Lecture rapide depuis la carte
+  $$('.artist-play').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleAudio(btn.closest('.artist-card')?.dataset.audio, btn);
+    });
+  });
+
+  // Modale fiche artiste
+  const artistModal = $('#artistModal');
+  if (artistModal) {
+    const amImg = $('#amImg'), amBadge = $('#amBadge'), amRole = $('#amRole'),
+          amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
+          amPlay = $('#amPlay'), amBar = artistModal.querySelector('.am-bar'),
+          amBarFill = $('#amBarFill'), amTime = $('#amTime');
+    let modalSrc = '';
+
+    const openArtist = card => {
+      const d = card.dataset;
+      const [primary, fallback] = (d.img || '').split('|');
+      amImg.src = primary || fallback || '';
+      amImg.onerror = () => { amImg.onerror = null; if (fallback) amImg.src = fallback; };
+      amImg.alt = d.name || '';
+      amBadge.textContent = d.badge || '';
+      amRole.textContent = d.role || '';
+      amName.textContent = d.name || '';
+      amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
+        .map(t => `<span>${t.trim()}</span>`).join('');
+      amBio.textContent = d.bio || '';
+      $('#amSpotify').href = d.spotify || '#';
+      $('#amSoundcloud').href = d.soundcloud || '#';
+      $('#amYoutube').href = d.youtube || '#';
+      modalSrc = d.audio || '';
+      amBarFill.style.width = '0%'; amTime.textContent = '0:00';
+      setPlayIcon(amPlay, false);
+      artistModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeArtist = () => {
+      artistModal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (currentBtn === amPlay) audio?.pause();
+    };
+    $$('.artist-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('[data-request]') || e.target.closest('.artist-play')) return;
+        openArtist(card);
+      });
+    });
+    artistModal.addEventListener('click', e => {
+      if (e.target === artistModal || e.target.closest('[data-close]')) closeArtist();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
+    });
+    artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
+    amPlay?.addEventListener('click', () => toggleAudio(modalSrc, amPlay));
+    audio?.addEventListener('timeupdate', () => {
+      if (currentBtn !== amPlay) return;
+      const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      amBarFill.style.width = p + '%';
+      amTime.textContent = fmt(audio.currentTime);
+    });
+    amBar?.addEventListener('click', e => {
+      if (!audio.duration) return;
+      const r = amBar.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+    });
+  }
+
+  /* ===== 08a-quater. CARROUSEL DE LOGOS PARTENAIRES ===== */
+  const logosTrack = $('#logosTrack');
+  const logosMarquee = $('#logosMarquee');
+  if (logosTrack) {
+    [...logosTrack.children].forEach(t => {
+      const c = t.cloneNode(true);
+      c.classList.add('logo-clone'); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1;
+      logosTrack.appendChild(c);
+    });
+  }
+  const logoChips = $('#logoChips');
+  if (logoChips && logosMarquee) {
+    logoChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', logoChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.cat;
+      logosMarquee.classList.toggle('is-filtered', cat !== 'tous');
+      let visible = 0;
+      $$('.logo-tile:not(.logo-clone)', logosTrack).forEach(tile => {
+        const show = cat === 'tous' || tile.dataset.cat === cat;
+        tile.hidden = !show;
+        if (show) visible++;
+      });
+      const empty = $('#noLogos');
+      if (empty) empty.hidden = visible > 0;
+    });
+  }
+
   /* ===== 08b. FICHE PARTENAIRE (modale) ===== */
 const placeModal = document.querySelector('#placeModal');
 const placesGridEl = document.querySelector('#placesGrid');
@@ -357,6 +480,27 @@ if (placeModal && placesGridEl) {
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       showToast('✦ Demande envoyée à l\'équipe SYFIR !');
     });
+  }
+
+  /* ===== 09b. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages) ===== */
+  const toTop = $('#toTop');
+  const progress = $('#scrollProgress');
+  if (toTop || progress) {
+    let uiTick = false;
+    const onScrollUI = () => {
+      if (uiTick) return;
+      uiTick = true;
+      requestAnimationFrame(() => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+        if (progress) progress.style.width = p + '%';
+        if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+        uiTick = false;
+      });
+    };
+    window.addEventListener('scroll', onScrollUI, { passive: true });
+    onScrollUI();
+    toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
   /* ============================================================

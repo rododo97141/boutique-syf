@@ -27,6 +27,23 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 > dans `index.html` (section « Artistes & DJs ») pour mettre tes vrais artistes,
 > puis dépose leurs photos sous le nom de fichier correspondant.
 
+### Groupes & équipe
+
+| `artiste-zenith.png` | Section Groupes — Zénith Brass | Fanfare / brass band |
+| `equipe-camille.png` | Équipe — Camille Roussel | Portrait carré |
+| `equipe-yanis.png` | Équipe — Yanis Mercier | Portrait carré |
+| `equipe-lea.png` | Équipe — Léa Fontaine | Portrait carré |
+| `equipe-marco.png` | Équipe — Marco Léandre | Portrait carré |
+
+### Extraits audio (dossier `audio/`)
+
+Le lecteur de la fiche artiste lit les fichiers du dossier `audio/` :
+`dj-solaris.wav`, `maya-lumiere.wav`, `dj-brise.wav`, `neo.wav`.
+Ce sont pour l'instant de **courts extraits de démonstration** (tonalités) —
+remplace-les par tes vrais mixes (même nom de fichier). Le format `.wav` ou
+`.mp3` fonctionne : si tu passes en `.mp3`, mets à jour les `data-audio`
+correspondants dans `index.html`.
+
 ## Comment les déposer
 
 1. Ouvrez ce dossier `images/` sur GitHub (branche `claude/tender-hypatia-p002y8`).

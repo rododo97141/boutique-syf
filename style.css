@@ -1174,6 +1174,173 @@ html[data-theme="light"] .artists-cta { color: #6E6353; }
 html[data-theme="light"] .artists-cta-link { color: var(--gold-deep); }
 html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
 
+/* Bouton lecture sur la carte artiste */
+.artist-play {
+  position: absolute; right: 14px; bottom: 14px;
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gold-metal); color: var(--ink);
+  font-size: 1rem; border: none;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .4);
+  transform: translateY(6px); opacity: 0;
+  transition: transform .4s var(--ease), opacity .4s, box-shadow .3s;
+}
+.artist-card:hover .artist-play { transform: none; opacity: 1; }
+.artist-play:hover { box-shadow: 0 12px 30px rgba(255, 122, 0, .5); }
+.artist-play.playing { transform: none; opacity: 1; animation: playPulse 1.6s ease infinite; }
+@keyframes playPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,200,87,.5); } 50% { box-shadow: 0 0 0 10px rgba(255,200,87,0); } }
+.artist-card { cursor: pointer; }
+.artist-more { font-size: .8rem; color: var(--passion); font-family: var(--display); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+html[data-theme="light"] .artist-more { color: var(--gold-deep); }
+
+/* ===== MODALE FICHE ARTISTE ===== */
+.artist-modal-box { max-width: 540px; }
+.am-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--ocean-deep); }
+.am-hero img { width: 100%; height: 100%; object-fit: cover; }
+.am-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.am-tags span { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; padding: 5px 12px; border: 1px solid rgba(255, 200, 87, .3); border-radius: 100px; color: rgba(250, 248, 242, .8); }
+.am-player {
+  display: flex; align-items: center; gap: 14px;
+  margin: 22px 0 18px; padding: 14px 16px;
+  background: rgba(255, 200, 87, .07); border: 1px solid rgba(255, 200, 87, .2);
+  border-radius: 100px;
+}
+.am-play {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%;
+  display: grid; place-items: center; border: none;
+  background: var(--gold-metal); color: var(--ink); font-size: 1rem;
+  transition: transform .3s;
+}
+.am-play:hover { transform: scale(1.08); }
+.am-bar { flex: 1; height: 6px; border-radius: 100px; background: rgba(250, 248, 242, .18); overflow: hidden; cursor: pointer; }
+.am-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--sunset), var(--passion)); border-radius: 100px; }
+.am-time { font-size: .82rem; color: rgba(250, 248, 242, .65); font-variant-numeric: tabular-nums; min-width: 34px; }
+.am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.am-stream-link {
+  font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 100px; border: 1.5px solid rgba(255, 200, 87, .35); color: var(--cream);
+  transition: border-color .3s, color .3s, transform .3s;
+}
+.am-stream-link:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
+.am-book { margin-top: 4px; }
+
+/* ===== GROUPES DE MUSIQUE ===== */
+.bands-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 40px 0 56px; }
+.band-card { background: rgba(255,255,255,.035); border: 1px solid rgba(255,200,87,.14); border-radius: var(--radius); overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .3s; }
+.band-card:hover { transform: translateY(-6px); border-color: rgba(255,200,87,.4); box-shadow: 0 22px 50px rgba(0,0,0,.4); }
+.band-photo { aspect-ratio: 16 / 10; overflow: hidden; background: var(--ocean-deep); }
+.band-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.band-card:hover .band-photo img { transform: scale(1.06); }
+.band-info { padding: 22px 22px 26px; }
+.band-info h3 { font-family: var(--display); font-weight: 800; font-size: 1.28rem; text-transform: uppercase; }
+.band-desc { color: rgba(250,248,242,.72); margin: 12px 0 18px; font-size: .96rem; }
+.band-book { color: var(--sunset); }
+
+/* Agenda des concerts */
+.agenda { background: rgba(255,255,255,.03); border: 1px solid rgba(255,200,87,.16); border-radius: var(--radius); padding: 28px 30px; }
+.agenda-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 8px; }
+.agenda-list { list-style: none; }
+.agenda-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.agenda-row:last-child { border-bottom: none; }
+.agenda-date { flex-shrink: 0; width: 58px; text-align: center; line-height: 1; }
+.agenda-date strong { display: block; font-family: var(--display); font-size: 1.7rem; font-weight: 800; color: var(--passion); }
+.agenda-date span { font-size: .66rem; letter-spacing: .14em; color: rgba(250,248,242,.6); }
+.agenda-main { flex: 1; }
+.agenda-band { font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
+.agenda-place { color: rgba(250,248,242,.62); font-size: .9rem; }
+.agenda-cta { flex-shrink: 0; font-family: var(--display); font-weight: 700; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sunset); transition: color .3s, transform .3s; }
+.agenda-cta:hover { color: var(--passion); transform: translateX(3px); }
+
+/* ===== CARROUSEL DE LOGOS PARTENAIRES ===== */
+.logos-chips { margin-bottom: 6px; }
+.logos-marquee {
+  margin-top: 38px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.logos-track { display: flex; gap: 18px; width: max-content; padding: 0 5vw; animation: logoScroll 40s linear infinite; }
+.logos-marquee:hover .logos-track { animation-play-state: paused; }
+.logo-tile {
+  flex-shrink: 0; width: 200px; min-height: 96px;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  padding: 18px 22px; border-radius: 14px;
+  background: rgba(17,17,17,.04); border: 1px solid rgba(17,17,17,.12);
+  transition: transform .4s var(--ease), border-color .3s, background .3s, box-shadow .4s;
+}
+.logo-tile span { font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--ink); letter-spacing: -.01em; }
+.logo-tile small { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-deep); }
+.logo-tile:hover { transform: translateY(-4px); border-color: var(--gold); background: #fff; box-shadow: 0 16px 36px rgba(60,45,20,.14); }
+@keyframes logoScroll { to { transform: translateX(-50%); } }
+.logos-marquee.is-filtered { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+.logos-marquee.is-filtered .logos-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; padding: 0 5vw; }
+.logos-marquee.is-filtered .logo-clone { display: none; }
+.logos-empty { text-align: center; margin-top: 26px; }
+
+/* ===== ÉQUIPE & COLLABORATEURS ===== */
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin: 40px 0 50px; }
+.team-card { text-align: center; padding: 30px 22px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,200,87,.14); border-radius: var(--radius); transition: transform .5s var(--ease), border-color .3s, box-shadow .5s; }
+.team-card:hover { transform: translateY(-6px); border-color: rgba(255,200,87,.4); box-shadow: 0 20px 44px rgba(0,0,0,.36); }
+.team-avatar { width: 92px; height: 92px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,200,87,.4); }
+.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-card h3 { font-family: var(--display); font-weight: 800; font-size: 1.12rem; text-transform: uppercase; }
+.team-role { color: var(--passion); font-family: var(--serif); font-style: italic; margin: 2px 0 10px; }
+.team-bio { font-size: .9rem; color: rgba(250,248,242,.66); margin-bottom: 14px; }
+.team-contact { font-size: .86rem; color: var(--sunset); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.team-contact:hover { border-color: var(--sunset); }
+
+.roles-open { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 26px; padding: 32px 34px; border-radius: var(--radius); background: linear-gradient(120deg, rgba(255,122,0,.12), rgba(255,200,87,.07)); border: 1px solid rgba(255,200,87,.22); }
+.roles-head h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; }
+.roles-head p { color: rgba(250,248,242,.7); max-width: 420px; }
+.roles-list { display: flex; flex-wrap: wrap; gap: 12px; }
+.role-pill { padding: 12px 20px; border-radius: 100px; background: rgba(17,17,17,.3); border: 1.5px solid rgba(255,200,87,.35); color: var(--cream); font-family: var(--body); font-weight: 500; font-size: .92rem; transition: border-color .3s, transform .3s, background .3s; }
+.role-pill:hover { border-color: var(--passion); transform: translateY(-2px); background: rgba(255,200,87,.12); }
+
+/* ===== RETOUR EN HAUT + PROGRESSION ===== */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 200; background: linear-gradient(90deg, var(--sunset), var(--passion)); transition: width .1s linear; }
+.to-top {
+  position: fixed; right: 22px; bottom: 22px; z-index: 130;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.2rem;
+  background: var(--gold-metal); color: var(--ink); border: none;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .4s, visibility .4s, transform .4s var(--ease);
+}
+.to-top.show { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { transform: translateY(-3px); }
+
+/* ===== VARIANTES CLAIRES (nouvelles sections) ===== */
+html[data-theme="light"] .band-card { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.07); }
+html[data-theme="light"] .band-card:hover { box-shadow: 0 20px 46px rgba(60,45,20,.15); }
+html[data-theme="light"] .band-info h3 { color: #221A10; }
+html[data-theme="light"] .band-desc { color: rgba(34,26,16,.72); }
+html[data-theme="light"] .agenda { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.06); }
+html[data-theme="light"] .agenda-title { color: #221A10; }
+html[data-theme="light"] .agenda-row { border-bottom-color: rgba(34,26,16,.1); }
+html[data-theme="light"] .agenda-date strong { color: var(--gold-deep); }
+html[data-theme="light"] .agenda-date span, html[data-theme="light"] .agenda-place { color: #6E6353; }
+html[data-theme="light"] .agenda-band { color: #221A10; }
+html[data-theme="light"] .logo-tile { background: #fff; border-color: rgba(212,160,23,.22); }
+html[data-theme="light"] .logo-tile:hover { box-shadow: 0 16px 36px rgba(60,45,20,.14); }
+html[data-theme="light"] .team-card { background: #fff; border-color: rgba(212,160,23,.25); box-shadow: 0 6px 22px rgba(60,45,20,.07); }
+html[data-theme="light"] .team-card:hover { box-shadow: 0 20px 46px rgba(60,45,20,.15); }
+html[data-theme="light"] .team-card h3 { color: #221A10; }
+html[data-theme="light"] .team-role { color: var(--gold-deep); }
+html[data-theme="light"] .team-bio { color: #6E6353; }
+html[data-theme="light"] .roles-open { background: linear-gradient(120deg, rgba(255,122,0,.1), rgba(212,160,23,.08)); border-color: rgba(184,134,11,.3); }
+html[data-theme="light"] .roles-head h3 { color: #221A10; }
+html[data-theme="light"] .roles-head p { color: #6E6353; }
+html[data-theme="light"] .role-pill { background: #fff; color: #221A10; border-color: rgba(184,134,11,.4); }
+html[data-theme="light"] .role-pill:hover { background: rgba(212,160,23,.1); }
+html[data-theme="light"] .am-tags span { border-color: rgba(184,134,11,.35); color: #6E6353; }
+html[data-theme="light"] .am-player { background: rgba(212,160,23,.08); border-color: rgba(184,134,11,.25); }
+html[data-theme="light"] .am-bar { background: rgba(34,26,16,.14); }
+html[data-theme="light"] .am-time { color: #6E6353; }
+html[data-theme="light"] .am-stream-link { border-color: rgba(184,134,11,.4); color: #221A10; }
+html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+
+@media (prefers-reduced-motion: reduce) { .logos-track { animation: none; } }
+
 /* ===== 14. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {
@@ -1190,9 +1357,11 @@ html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
   .events-grid { grid-template-columns: repeat(2, 1fr); }
   .places-grid { grid-template-columns: repeat(2, 1fr); }
   .artists-grid { grid-template-columns: repeat(2, 1fr); }
+  .bands-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(4, 1fr); }
   .insta-grid { grid-template-columns: repeat(3, 1fr); }
   .event-duo { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
   .filters { flex-direction: row; justify-content: space-between; align-items: center; }
   .visibility-switch { grid-template-columns: 1fr 1fr; }
 }
@@ -1206,7 +1375,8 @@ html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
   .events-grid { grid-template-columns: repeat(3, 1fr); }
-  .artists-grid { grid-template-columns: repeat(3, 1fr); }
+  .artists-grid { grid-template-columns: repeat(4, 1fr); }
+  .bands-grid { grid-template-columns: repeat(3, 1fr); }
   .places-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
   .place-thumb { width: 110px; height: 110px; }
   .insta-grid { grid-template-columns: repeat(6, 1fr); }

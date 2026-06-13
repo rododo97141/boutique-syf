@@ -72,9 +72,12 @@
   <a href="#marque">Notre marque</a>
   <a href="#cocktails">Nos Cocktails</a>
   <a href="#ou-trouver">Où nous trouver</a>
+  <a href="#confiance">Ils nous font confiance</a>
   <a href="#artistes">Artistes &amp; DJs</a>
+  <a href="#groupes">Groupes &amp; concerts</a>
   <a href="evenements.html">Événements &amp; Fêtes</a>
   <a href="#partenaires">Devenir partenaire</a>
+  <a href="#equipe">Équipe &amp; collaborateurs</a>
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
 </div>
 
@@ -317,6 +320,43 @@
 </section>
 
 <!-- ============================================================
+     ILS NOUS FONT CONFIANCE — carrousel de logos partenaires
+============================================================ -->
+<section id="confiance" class="section section-cream">
+  <div class="container">
+    <p class="eyebrow reveal">Ils nous font confiance</p>
+    <h2 class="h2 reveal d1">Le réseau <em>SYFIR</em>.</h2>
+    <p class="section-intro reveal d2">Bars, hôtels, beach clubs, médias et distributeurs : ils servent et soutiennent SYFIR. Filtrez par catégorie, cliquez pour découvrir.</p>
+
+    <div class="filter-chips logos-chips reveal d2" id="logoChips">
+      <button class="chip active" data-cat="tous">Tous</button>
+      <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
+      <button class="chip" data-cat="hotel">Hôtels</button>
+      <button class="chip" data-cat="beach">Beach clubs</button>
+      <button class="chip" data-cat="media">Médias</button>
+      <button class="chip" data-cat="distrib">Distributeurs</button>
+    </div>
+  </div>
+
+  <!-- Bandeau défilant (pause au survol) -->
+  <div class="logos-marquee reveal d3" id="logosMarquee">
+    <div class="logos-track" id="logosTrack">
+      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="Le Ti' Sable — Beach club"><span>Le Ti' Sable</span><small>Beach club</small></a>
+      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Sunset Lounge — Rooftop bar"><span>Sunset Lounge</span><small>Rooftop</small></a>
+      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Habitation Créole — Hôtel"><span>Habitation Créole</span><small>Hôtel</small></a>
+      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="La Casa Coco — Bar de plage"><span>La Casa Coco</span><small>Bar de plage</small></a>
+      <a class="logo-tile" data-cat="media" href="#confiance" title="Tropik FM — Radio partenaire"><span>Tropik FM</span><small>Radio</small></a>
+      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Antilles Distrib — Distributeur"><span>Antilles Distrib</span><small>Distributeur</small></a>
+      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Blue Lagoon — Beach club"><span>Blue Lagoon</span><small>Club</small></a>
+      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Palm Resort — Hôtel"><span>Palm Resort</span><small>Hôtel</small></a>
+      <a class="logo-tile" data-cat="media" href="#confiance" title="Karaïb Mag — Magazine"><span>Karaïb Mag</span><small>Magazine</small></a>
+      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Sun Logistics — Distribution"><span>Sun Logistics</span><small>Distribution</small></a>
+    </div>
+  </div>
+  <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
+</section>
+
+<!-- ============================================================
      ÉVÉNEMENTS & FÊTES — passerelle vers la billetterie
 ============================================================ -->
 <section id="evenements" class="section section-event">
@@ -344,127 +384,109 @@
 </section>
 
 <!-- ============================================================
-     ARTISTES & DJs — le line-up SYFIR
+     ARTISTES & DJs — fiches + extraits audio
 ============================================================ -->
 <section id="artistes" class="section section-dark">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
     <h2 class="h2 reveal d1">Les artistes qui <em>font monter le son</em>.</h2>
-    <p class="section-intro intro-light reveal d2">DJs résidents, groupes live et voix solaires : voici les talents partenaires qui animent les soirées et fêtes SYFIR. Bookez-les pour votre événement, ou rejoignez le line-up.</p>
+    <p class="section-intro intro-light reveal d2">DJs résidents et voix solaires du collectif SYFIR. Écoutez un extrait, découvrez leur univers, puis bookez-les pour votre événement.</p>
 
-    <!-- Filtres -->
     <div class="filter-chips artist-chips reveal d2" id="artistChips">
       <button class="chip active" data-artist="tous">Tous</button>
       <button class="chip" data-artist="dj">DJs</button>
-      <button class="chip" data-artist="groupe">Groupes live</button>
       <button class="chip" data-artist="chant">Voix</button>
     </div>
 
     <div class="artists-grid" id="artistsGrid">
-      <article class="artist-card reveal d1" data-type="dj">
+      <article class="artist-card reveal d1" data-type="dj"
+        data-name="DJ Solaris" data-role="House tropicale · Afro" data-badge="DJ résident"
+        data-img="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80"
+        data-tags="Sunset sets,Beach party,Afro house"
+        data-bio="Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend — une signature SYFIR depuis trois saisons."
+        data-audio="audio/dj-solaris.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
-          <img src="images/artiste-solaris.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=700&q=80'"
-               alt="DJ Solaris aux platines" loading="lazy">
+          <img src="images/artiste-solaris.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=700&q=80'" alt="DJ Solaris aux platines" loading="lazy">
           <span class="artist-badge">DJ résident</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de DJ Solaris">▶</button>
         </div>
         <div class="artist-info">
           <h3>DJ Solaris</h3>
           <p class="artist-role">House tropicale · Afro</p>
           <div class="artist-tags"><span>Sunset sets</span><span>Beach party</span></div>
           <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de DJ Solaris">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
           </div>
         </div>
       </article>
 
-      <article class="artist-card reveal d2" data-type="groupe">
+      <article class="artist-card reveal d2" data-type="chant"
+        data-name="Maya Lumière" data-role="Soul · Pop solaire" data-badge="Voix solaire"
+        data-img="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80"
+        data-tags="Live acoustique,Rooftop,Soul"
+        data-bio="Voix de velours et présence solaire, Maya Lumière transforme un rooftop en moment suspendu. Reprises soul et compositions pop ensoleillées, en formule acoustique ou avec band."
+        data-audio="audio/maya-lumiere.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
-          <img src="images/artiste-kreyol.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=700&q=80'"
-               alt="Kréyòl Sound System en live" loading="lazy">
-          <span class="artist-badge">Groupe live</span>
-        </div>
-        <div class="artist-info">
-          <h3>Kréyòl Sound System</h3>
-          <p class="artist-role">Zouk · Dancehall · Konpa</p>
-          <div class="artist-tags"><span>Live band</span><span>Festival</span></div>
-          <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de Kréyòl Sound System">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="artist-card reveal d3" data-type="chant">
-        <div class="artist-photo">
-          <img src="images/artiste-maya.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80'"
-               alt="Maya Lumière au chant" loading="lazy">
+          <img src="images/artiste-maya.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80'" alt="Maya Lumière au chant" loading="lazy">
           <span class="artist-badge">Voix solaire</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de Maya Lumière">▶</button>
         </div>
         <div class="artist-info">
           <h3>Maya Lumière</h3>
           <p class="artist-role">Soul · Pop solaire</p>
           <div class="artist-tags"><span>Live acoustique</span><span>Rooftop</span></div>
           <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de Maya Lumière">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
           </div>
         </div>
       </article>
 
-      <article class="artist-card reveal d1" data-type="dj">
+      <article class="artist-card reveal d3" data-type="dj"
+        data-name="DJ Brise" data-role="Deep house · Sunset" data-badge="DJ résident"
+        data-img="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
+        data-tags="Apéro-mix,Plage,Deep house"
+        data-bio="Le maître de l'apéro-mix. DJ Brise déroule une deep house caressante, parfaite pour les fins de journée les pieds dans le sable. Tempo doux, basses chaudes, transitions soyeuses."
+        data-audio="audio/dj-brise.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
-          <img src="images/artiste-brise.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=700&q=80'"
-               alt="DJ Brise en sunset set" loading="lazy">
+          <img src="images/artiste-brise.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=700&q=80'" alt="DJ Brise en sunset set" loading="lazy">
           <span class="artist-badge">DJ résident</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de DJ Brise">▶</button>
         </div>
         <div class="artist-info">
           <h3>DJ Brise</h3>
           <p class="artist-role">Deep house · Sunset</p>
           <div class="artist-tags"><span>Apéro-mix</span><span>Plage</span></div>
           <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de DJ Brise">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
           </div>
         </div>
       </article>
 
-      <article class="artist-card reveal d2" data-type="groupe">
+      <article class="artist-card reveal d1" data-type="dj"
+        data-name="NÉO" data-role="Électro · Carnaval" data-badge="DJ · Producteur"
+        data-img="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80"
+        data-tags="Club,Headliner,Électro"
+        data-bio="Producteur et tête d'affiche, NÉO fusionne électro et énergie carnaval. Drops massifs, percussions créoles : c'est le set qui fait basculer la soirée en mode club jusqu'au bout de la nuit."
+        data-audio="audio/neo.wav"
+        data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
-          <img src="images/artiste-tropicanos.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=700&q=80'"
-               alt="Los Tropicanos sur scène" loading="lazy">
-          <span class="artist-badge">Groupe live</span>
-        </div>
-        <div class="artist-info">
-          <h3>Los Tropicanos</h3>
-          <p class="artist-role">Salsa · Latino · Cumbia</p>
-          <div class="artist-tags"><span>Live band</span><span>Soirée privée</span></div>
-          <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de Los Tropicanos">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="artist-card reveal d3" data-type="dj">
-        <div class="artist-photo">
-          <img src="images/artiste-neo.png"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=700&q=80'"
-               alt="NÉO, DJ et producteur" loading="lazy">
+          <img src="images/artiste-neo.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=700&q=80'" alt="NÉO, DJ et producteur" loading="lazy">
           <span class="artist-badge">DJ · Producteur</span>
+          <button class="artist-play" type="button" aria-label="Écouter un extrait de NÉO">▶</button>
         </div>
         <div class="artist-info">
           <h3>NÉO</h3>
           <p class="artist-role">Électro · Carnaval</p>
           <div class="artist-tags"><span>Club</span><span>Headliner</span></div>
           <div class="artist-foot">
-            <a class="artist-soc" href="#artistes" aria-label="Instagram de NÉO">◎ Instagram</a>
-            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
           </div>
         </div>
       </article>
@@ -472,9 +494,89 @@
     <p class="no-results artists-empty" id="noArtists" hidden>Aucun artiste dans cette catégorie pour l'instant. ✦</p>
 
     <p class="artists-cta reveal d2">
-      Vous êtes DJ, groupe ou chanteur·euse ?
+      Vous êtes DJ ou chanteur·euse ?
       <button class="artists-cta-link" data-request="artiste" type="button">Rejoignez le line-up SYFIR →</button>
     </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     GROUPES DE MUSIQUE — live bands + agenda concerts
+============================================================ -->
+<section id="groupes" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Live SYFIR</p>
+    <h2 class="h2 reveal d1">Les groupes qui <em>jouent en vrai</em>.</h2>
+    <p class="section-intro reveal d2">Formations live partenaires de SYFIR. Retrouvez-les sur scène — l'agenda des prochains concerts est juste en dessous.</p>
+
+    <div class="bands-grid">
+      <article class="band-card reveal d1">
+        <div class="band-photo">
+          <img src="images/artiste-kreyol.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'" alt="Kréyòl Sound System en live" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Kréyòl Sound System</h3>
+          <p class="artist-role">Zouk · Dancehall · Konpa</p>
+          <p class="band-desc">Un sound system 6 musiciens qui enflamme les festivals avec un mur de cuivres et de basses créoles.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+
+      <article class="band-card reveal d2">
+        <div class="band-photo">
+          <img src="images/artiste-tropicanos.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80'" alt="Los Tropicanos sur scène" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Los Tropicanos</h3>
+          <p class="artist-role">Salsa · Latino · Cumbia</p>
+          <p class="band-desc">Cuivres chauds et rythmes latinos pour faire danser la piste : l'orchestre des soirées privées qui ne s'arrêtent jamais.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+
+      <article class="band-card reveal d3">
+        <div class="band-photo">
+          <img src="images/artiste-zenith.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80'" alt="Zénith Brass en concert" loading="lazy">
+        </div>
+        <div class="band-info">
+          <h3>Zénith Brass</h3>
+          <p class="artist-role">Brass band · Funk · Carnaval</p>
+          <p class="band-desc">Fanfare mobile qui déambule et met le feu, du carnaval au cocktail de rue. Cuivres only, énergie maximale.</p>
+          <button class="artist-book band-book" data-request="artiste" type="button">Booker ce groupe →</button>
+        </div>
+      </article>
+    </div>
+
+    <!-- Agenda des concerts -->
+    <div class="agenda reveal d2">
+      <h3 class="agenda-title">Agenda des concerts</h3>
+      <ul class="agenda-list">
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>21</strong><span>JUIN</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Kréyòl Sound System</p>
+            <p class="agenda-place">📍 Pique-nique Golden Escape — Deshaies</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>04</strong><span>JUIL</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Los Tropicanos</p>
+            <p class="agenda-place">📍 SYFIR Sunset Beach Party — Sainte-Anne</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+        <li class="agenda-row">
+          <div class="agenda-date"><strong>15</strong><span>AOÛT</span></div>
+          <div class="agenda-main">
+            <p class="agenda-band">Zénith Brass</p>
+            <p class="agenda-place">📍 SYFIR Tropical Festival — Le Gosier</p>
+          </div>
+          <a class="agenda-cta" href="evenements.html">Billets →</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -564,6 +666,65 @@
 </section>
 
 <!-- ============================================================
+     ÉQUIPE & COLLABORATEURS — rôles & contacts
+============================================================ -->
+<section id="equipe" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">L'équipe SYFIR</p>
+    <h2 class="h2 reveal d1">Les visages derrière <em>la couleur</em>.</h2>
+    <p class="section-intro reveal d2">Une équipe soudée et des collaborateurs partout sur le terrain. Un projet, une question ? Écrivez à la bonne personne.</p>
+
+    <div class="team-grid">
+      <article class="team-card reveal d1">
+        <div class="team-avatar"><img src="images/equipe-camille.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80'" alt="Camille Roussel" loading="lazy"></div>
+        <h3>Camille Roussel</h3>
+        <p class="team-role">Fondatrice &amp; Direction</p>
+        <p class="team-bio">Vision, marque et partenariats stratégiques.</p>
+        <a class="team-contact" href="mailto:camille@syfir.fr">camille@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d2">
+        <div class="team-avatar"><img src="images/equipe-yanis.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'" alt="Yanis Mercier" loading="lazy"></div>
+        <h3>Yanis Mercier</h3>
+        <p class="team-role">Booking &amp; Line-up</p>
+        <p class="team-bio">Artistes, DJs et groupes : c'est lui qui compose les soirées.</p>
+        <a class="team-contact" href="mailto:booking@syfir.fr">booking@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d3">
+        <div class="team-avatar"><img src="images/equipe-lea.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80'" alt="Léa Fontaine" loading="lazy"></div>
+        <h3>Léa Fontaine</h3>
+        <p class="team-role">Partenariats &amp; Événements</p>
+        <p class="team-bio">Lieux, distributeurs et organisation des fêtes SYFIR.</p>
+        <a class="team-contact" href="mailto:pro@syfir.fr">pro@syfir.fr</a>
+      </article>
+
+      <article class="team-card reveal d4">
+        <div class="team-avatar"><img src="images/equipe-marco.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&q=80'" alt="Marco Léandre" loading="lazy"></div>
+        <h3>Marco Léandre</h3>
+        <p class="team-role">Contenu &amp; Communauté</p>
+        <p class="team-bio">Photo, vidéo et réseaux : la couleur SYFIR en ligne.</p>
+        <a class="team-contact" href="mailto:media@syfir.fr">media@syfir.fr</a>
+      </article>
+    </div>
+
+    <!-- Rôles ouverts -->
+    <div class="roles-open reveal d2">
+      <div class="roles-head">
+        <h3>On recrute des collaborateurs</h3>
+        <p>Rejoignez le terrain SYFIR. Choisissez un rôle, on vous recontacte.</p>
+      </div>
+      <div class="roles-list">
+        <button class="role-pill" data-request="collaborateur" type="button">📸 Photographe / Vidéaste</button>
+        <button class="role-pill" data-request="collaborateur" type="button">🥂 Hôte · Hôtesse d'événement</button>
+        <button class="role-pill" data-request="collaborateur" type="button">⭐ Ambassadeur · rice</button>
+        <button class="role-pill" data-request="collaborateur" type="button">🎓 Stage / Alternance</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
      COMMUNAUTÉ — Partagez la couleur.
 ============================================================ -->
 <section id="communaute" class="section section-dark">
@@ -619,9 +780,15 @@
       <a href="#marque">Notre marque</a>
       <a href="#cocktails">Nos Cocktails</a>
       <a href="#ou-trouver">Où nous trouver</a>
-      <a href="#artistes">Artistes &amp; DJs</a>
+      <a href="#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
+    </div>
+    <div class="footer-col">
+      <h4>Artistes &amp; équipe</h4>
+      <a href="#artistes">Artistes &amp; DJs</a>
+      <a href="#groupes">Groupes &amp; concerts</a>
       <a href="#partenaires">Devenir partenaire</a>
+      <a href="#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h4>Communauté</h4>
@@ -659,6 +826,46 @@
     </div>
   </div>
 </div>
+
+<!-- Modale fiche artiste -->
+<div class="modal" id="artistModal">
+  <div class="modal-box artist-modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="am-hero">
+        <img id="amImg" src="" alt="">
+        <span class="artist-badge" id="amBadge"></span>
+      </div>
+      <p class="modal-tag" id="amRole" style="margin-top:18px"></p>
+      <h3 id="amName"></h3>
+      <div class="am-tags" id="amTags"></div>
+      <p class="pm-desc" id="amBio"></p>
+
+      <!-- Lecteur d'extrait -->
+      <div class="am-player" id="amPlayer">
+        <button class="am-play" id="amPlay" type="button" aria-label="Lire / mettre en pause">▶</button>
+        <div class="am-bar"><div class="am-bar-fill" id="amBarFill"></div></div>
+        <span class="am-time" id="amTime">0:00</span>
+      </div>
+
+      <div class="am-stream" id="amStream">
+        <a class="am-stream-link" id="amSpotify" href="#" target="_blank" rel="noopener">Spotify</a>
+        <a class="am-stream-link" id="amSoundcloud" href="#" target="_blank" rel="noopener">SoundCloud</a>
+        <a class="am-stream-link" id="amYoutube" href="#" target="_blank" rel="noopener">YouTube</a>
+      </div>
+      <button class="btn btn-solid btn-full am-book" data-request="artiste" type="button">Booker cet artiste</button>
+    </div>
+  </div>
+</div>
+
+<!-- Élément audio global pour les extraits -->
+<audio id="previewAudio" preload="none"></audio>
+
+<!-- Bouton retour en haut -->
+<button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
+
+<!-- Barre de progression de lecture -->
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- Toast notification -->
 <div class="toast" id="toast" role="status"></div>
