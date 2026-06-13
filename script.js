@@ -558,8 +558,11 @@ if (placeModal && placesGridEl) {
       beach: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80',
       rooftop: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80',
       festival: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80',
-      club: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80'
+      club: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80',
+      soiree: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80'
     };
+    // Image de secours si un nouveau type n'a pas encore de visuel dédié
+    const defaultImg = 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80';
     const newEvent = {
       id: Date.now(),
       name: $('#evName').value.trim(),
@@ -567,7 +570,7 @@ if (placeModal && placesGridEl) {
       city: $('#evCity').value.trim(),
       date: $('#evDate').value,
       price: +$('#evPrice').value,
-      img: imgByType[$('#evType').value],
+      img: imgByType[$('#evType').value] || defaultImg,
       organizer: 'Votre organisation × SYFIR',
       prive: isPrivate,
       code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
