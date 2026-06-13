@@ -215,6 +215,40 @@
     });
   }
 
+  /* ===== 08a-bis. ARTISTES & DJs : filtre + booking ===== */
+  const artistChips = $('#artistChips');
+  if (artistChips) {
+    artistChips.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', artistChips).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const type = chip.dataset.artist;
+      let visible = 0;
+      $$('.artist-card').forEach(card => {
+        const show = type === 'tous' || card.dataset.type === type;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      const empty = $('#noArtists');
+      if (empty) empty.hidden = visible > 0;
+    });
+  }
+
+  // « Booker » / « Rejoindre le line-up » → présélectionne le bon type
+  // dans le formulaire partenaire et y fait défiler la page.
+  $$('[data-request]').forEach(el => {
+    el.addEventListener('click', () => {
+      const radio = $(`input[name="requestType"][value="${el.dataset.request}"]`);
+      if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
+      const form = $('#partnerForm');
+      if (form) {
+        const top = form.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
   /* ===== 08b. FICHE PARTENAIRE (modale) ===== */
 const placeModal = document.querySelector('#placeModal');
 const placesGridEl = document.querySelector('#placesGrid');
@@ -278,6 +312,7 @@ if (placeModal && placesGridEl) {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de votre lieu' },
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
+      collaborateur:{ label: 'Votre rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
       distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
       autre:        { label: 'Objet de votre demande *',       placeholder: 'Presse, collaboration, idée…' }
     };

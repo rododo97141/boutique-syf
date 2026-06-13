@@ -45,6 +45,7 @@
     <li><a href="#marque" class="nav-link">Notre marque</a></li>
     <li><a href="#cocktails" class="nav-link">Nos Cocktails</a></li>
     <li><a href="#ou-trouver" class="nav-link">Où nous trouver</a></li>
+    <li><a href="#artistes" class="nav-link">Artistes &amp; DJs</a></li>
     <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
     <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
@@ -71,6 +72,7 @@
   <a href="#marque">Notre marque</a>
   <a href="#cocktails">Nos Cocktails</a>
   <a href="#ou-trouver">Où nous trouver</a>
+  <a href="#artistes">Artistes &amp; DJs</a>
   <a href="evenements.html">Événements &amp; Fêtes</a>
   <a href="#partenaires">Devenir partenaire</a>
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
@@ -342,6 +344,141 @@
 </section>
 
 <!-- ============================================================
+     ARTISTES & DJs — le line-up SYFIR
+============================================================ -->
+<section id="artistes" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
+    <h2 class="h2 reveal d1">Les artistes qui <em>font monter le son</em>.</h2>
+    <p class="section-intro intro-light reveal d2">DJs résidents, groupes live et voix solaires : voici les talents partenaires qui animent les soirées et fêtes SYFIR. Bookez-les pour votre événement, ou rejoignez le line-up.</p>
+
+    <!-- Filtres -->
+    <div class="filter-chips artist-chips reveal d2" id="artistChips">
+      <button class="chip active" data-artist="tous">Tous</button>
+      <button class="chip" data-artist="dj">DJs</button>
+      <button class="chip" data-artist="groupe">Groupes live</button>
+      <button class="chip" data-artist="chant">Voix</button>
+    </div>
+
+    <div class="artists-grid" id="artistsGrid">
+      <article class="artist-card reveal d1" data-type="dj">
+        <div class="artist-photo">
+          <img src="images/artiste-solaris.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=700&q=80'"
+               alt="DJ Solaris aux platines" loading="lazy">
+          <span class="artist-badge">DJ résident</span>
+        </div>
+        <div class="artist-info">
+          <h3>DJ Solaris</h3>
+          <p class="artist-role">House tropicale · Afro</p>
+          <div class="artist-tags"><span>Sunset sets</span><span>Beach party</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de DJ Solaris">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d2" data-type="groupe">
+        <div class="artist-photo">
+          <img src="images/artiste-kreyol.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=700&q=80'"
+               alt="Kréyòl Sound System en live" loading="lazy">
+          <span class="artist-badge">Groupe live</span>
+        </div>
+        <div class="artist-info">
+          <h3>Kréyòl Sound System</h3>
+          <p class="artist-role">Zouk · Dancehall · Konpa</p>
+          <div class="artist-tags"><span>Live band</span><span>Festival</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de Kréyòl Sound System">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d3" data-type="chant">
+        <div class="artist-photo">
+          <img src="images/artiste-maya.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80'"
+               alt="Maya Lumière au chant" loading="lazy">
+          <span class="artist-badge">Voix solaire</span>
+        </div>
+        <div class="artist-info">
+          <h3>Maya Lumière</h3>
+          <p class="artist-role">Soul · Pop solaire</p>
+          <div class="artist-tags"><span>Live acoustique</span><span>Rooftop</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de Maya Lumière">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d1" data-type="dj">
+        <div class="artist-photo">
+          <img src="images/artiste-brise.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=700&q=80'"
+               alt="DJ Brise en sunset set" loading="lazy">
+          <span class="artist-badge">DJ résident</span>
+        </div>
+        <div class="artist-info">
+          <h3>DJ Brise</h3>
+          <p class="artist-role">Deep house · Sunset</p>
+          <div class="artist-tags"><span>Apéro-mix</span><span>Plage</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de DJ Brise">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d2" data-type="groupe">
+        <div class="artist-photo">
+          <img src="images/artiste-tropicanos.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=700&q=80'"
+               alt="Los Tropicanos sur scène" loading="lazy">
+          <span class="artist-badge">Groupe live</span>
+        </div>
+        <div class="artist-info">
+          <h3>Los Tropicanos</h3>
+          <p class="artist-role">Salsa · Latino · Cumbia</p>
+          <div class="artist-tags"><span>Live band</span><span>Soirée privée</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de Los Tropicanos">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist-card reveal d3" data-type="dj">
+        <div class="artist-photo">
+          <img src="images/artiste-neo.png"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=700&q=80'"
+               alt="NÉO, DJ et producteur" loading="lazy">
+          <span class="artist-badge">DJ · Producteur</span>
+        </div>
+        <div class="artist-info">
+          <h3>NÉO</h3>
+          <p class="artist-role">Électro · Carnaval</p>
+          <div class="artist-tags"><span>Club</span><span>Headliner</span></div>
+          <div class="artist-foot">
+            <a class="artist-soc" href="#artistes" aria-label="Instagram de NÉO">◎ Instagram</a>
+            <button class="artist-book" data-request="artiste" type="button">Booker →</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="no-results artists-empty" id="noArtists" hidden>Aucun artiste dans cette catégorie pour l'instant. ✦</p>
+
+    <p class="artists-cta reveal d2">
+      Vous êtes DJ, groupe ou chanteur·euse ?
+      <button class="artists-cta-link" data-request="artiste" type="button">Rejoignez le line-up SYFIR →</button>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
      DEVENIR PARTENAIRE — SYFIR EXPERIENCE
 ============================================================ -->
 <section id="partenaires" class="section">
@@ -352,7 +489,7 @@
 
     <div class="partner-chips reveal d2">
       <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
-      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span>
     </div>
 
     <!-- Formulaire intelligent -->
@@ -370,6 +507,10 @@
         <label class="choice-card">
           <input type="radio" name="requestType" value="artiste">
           <span><strong>Artiste · DJ · Groupe</strong><small>Jouez sur les scènes SYFIR</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="collaborateur">
+          <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
         </label>
         <label class="choice-card">
           <input type="radio" name="requestType" value="distributeur">
@@ -478,6 +619,7 @@
       <a href="#marque">Notre marque</a>
       <a href="#cocktails">Nos Cocktails</a>
       <a href="#ou-trouver">Où nous trouver</a>
+      <a href="#artistes">Artistes &amp; DJs</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="#partenaires">Devenir partenaire</a>
     </div>

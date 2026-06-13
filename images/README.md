@@ -16,6 +16,16 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 | `syfir-mobile.png` | Bannière « Votre été, partout » | Le sachet à la plage « Cocktail mobile » |
 | `syfir-fete.png` | Galerie #SYFIR (1ʳᵉ photo) | Les amis qui trinquent (piscine, rooftop ou bateau) |
 | `syfir-flatlay.png` | Galerie #SYFIR (2ᵉ photo) | Le sachet vu de dessus entouré de fruits |
+| `artiste-solaris.png` | Section Artistes & DJs — DJ Solaris | Portrait / DJ aux platines |
+| `artiste-kreyol.png` | Section Artistes & DJs — Kréyòl Sound System | Groupe en live |
+| `artiste-maya.png` | Section Artistes & DJs — Maya Lumière | Chanteuse au micro |
+| `artiste-brise.png` | Section Artistes & DJs — DJ Brise | DJ en sunset set |
+| `artiste-tropicanos.png` | Section Artistes & DJs — Los Tropicanos | Groupe latino sur scène |
+| `artiste-neo.png` | Section Artistes & DJs — NÉO | DJ / producteur électro |
+
+> Les noms d'artistes ci-dessus sont des **exemples** : modifie-les directement
+> dans `index.html` (section « Artistes & DJs ») pour mettre tes vrais artistes,
+> puis dépose leurs photos sous le nom de fichier correspondant.
 
 ## Comment les déposer
 
