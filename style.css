@@ -1111,7 +1111,19 @@ html[data-theme="light"] .preloader-tag { color: rgba(34, 26, 16, .55); }
 html[data-theme="light"] .toast { background: #221A10; color: var(--cream); box-shadow: 0 14px 40px rgba(34, 26, 16, .35); }
 
 /* ===== ARTISTES & DJs ===== */
-.artist-chips { margin-bottom: 40px; }
+.artist-chips { margin-bottom: 18px; }
+.lineup-note {
+  margin-bottom: 38px; max-width: 760px;
+  font-size: .94rem; color: rgba(250, 248, 242, .7);
+  padding-left: 14px; border-left: 2px solid var(--passion);
+}
+.lineup-note strong { color: var(--passion); }
+.lineup-note a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.lineup-note a:hover { color: var(--sunset); }
+html[data-theme="light"] .lineup-note { color: #6E6353; border-left-color: var(--gold-deep); }
+html[data-theme="light"] .lineup-note strong,
+html[data-theme="light"] .lineup-note a { color: var(--gold-deep); }
+html[data-theme="light"] .lineup-note a:hover { color: var(--sunset); }
 .artists-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
 .artist-card {
   background: rgba(255, 255, 255, .035);
