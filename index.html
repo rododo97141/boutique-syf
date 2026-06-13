@@ -73,8 +73,8 @@
   <a href="#cocktails">Nos Cocktails</a>
   <a href="#ou-trouver">Où nous trouver</a>
   <a href="#confiance">Ils nous font confiance</a>
-  <a href="#artistes">Artistes &amp; DJs</a>
-  <a href="#groupes">Groupes &amp; concerts</a>
+  <a href="#artistes">Artistes, DJs &amp; groupes</a>
+  <a href="#agenda">Agenda des concerts</a>
   <a href="evenements.html">Événements &amp; Fêtes</a>
   <a href="#partenaires">Devenir partenaire</a>
   <a href="#equipe">Équipe &amp; collaborateurs</a>
@@ -389,17 +389,17 @@
 <section id="artistes" class="section section-dark">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
-    <h2 class="h2 reveal d1">Les artistes qui <em>font monter le son</em>.</h2>
-    <p class="section-intro intro-light reveal d2">DJs résidents et voix solaires du collectif SYFIR. Écoutez un extrait, découvrez leur univers, puis bookez-les pour votre événement.</p>
+    <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Tout le collectif SYFIR réuni : DJs résidents, voix solaires et groupes musicaux. Filtrez, écoutez un extrait, puis bookez pour votre événement.</p>
 
     <div class="filter-chips artist-chips reveal d2" id="artistChips">
-      <button class="chip active" data-artist="tous">Tous</button>
-      <button class="chip" data-artist="dj">DJs</button>
-      <button class="chip" data-artist="chant">Voix</button>
+      <button class="chip active" data-cat="tous">Tous</button>
+      <button class="chip" data-cat="artiste">Artistes &amp; DJs</button>
+      <button class="chip" data-cat="groupe">Groupes musicaux</button>
     </div>
 
-    <div class="artists-grid" id="artistsGrid">
-      <article class="artist-card reveal d1" data-type="dj"
+    <div class="artists-grid" id="lineupGrid">
+      <article class="artist-card reveal d1" data-type="dj" data-cat="artiste"
         data-name="DJ Solaris" data-role="House tropicale · Afro" data-badge="DJ résident"
         data-img="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80"
         data-tags="Sunset sets,Beach party,Afro house"
@@ -422,7 +422,7 @@
         </div>
       </article>
 
-      <article class="artist-card reveal d2" data-type="chant"
+      <article class="artist-card reveal d2" data-type="chant" data-cat="artiste"
         data-name="Maya Lumière" data-role="Soul · Pop solaire" data-badge="Voix solaire"
         data-img="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80"
         data-tags="Live acoustique,Rooftop,Soul"
@@ -445,7 +445,7 @@
         </div>
       </article>
 
-      <article class="artist-card reveal d3" data-type="dj"
+      <article class="artist-card reveal d3" data-type="dj" data-cat="artiste"
         data-name="DJ Brise" data-role="Deep house · Sunset" data-badge="DJ résident"
         data-img="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
         data-tags="Apéro-mix,Plage,Deep house"
@@ -468,7 +468,7 @@
         </div>
       </article>
 
-      <article class="artist-card reveal d1" data-type="dj"
+      <article class="artist-card reveal d1" data-type="dj" data-cat="artiste"
         data-name="NÉO" data-role="Électro · Carnaval" data-badge="DJ · Producteur"
         data-img="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80"
         data-tags="Club,Headliner,Électro"
@@ -490,27 +490,8 @@
           </div>
         </div>
       </article>
-    </div>
-    <p class="no-results artists-empty" id="noArtists" hidden>Aucun artiste dans cette catégorie pour l'instant. ✦</p>
 
-    <p class="artists-cta reveal d2">
-      Vous êtes DJ ou chanteur·euse ?
-      <button class="artists-cta-link" data-request="artiste" type="button">Rejoignez le line-up SYFIR →</button>
-    </p>
-  </div>
-</section>
-
-<!-- ============================================================
-     GROUPES DE MUSIQUE — live bands + agenda concerts
-============================================================ -->
-<section id="groupes" class="section">
-  <div class="container">
-    <p class="eyebrow reveal">Live SYFIR</p>
-    <h2 class="h2 reveal d1">Les groupes qui <em>jouent en vrai</em>.</h2>
-    <p class="section-intro reveal d2">Formations live partenaires de SYFIR. Retrouvez-les sur scène — l'agenda des prochains concerts est juste en dessous.</p>
-
-    <div class="bands-grid">
-      <article class="band-card reveal d1">
+      <article class="band-card reveal d1" data-cat="groupe">
         <div class="band-photo">
           <img src="images/artiste-kreyol.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&q=80'" alt="Kréyòl Sound System en live" loading="lazy">
         </div>
@@ -522,7 +503,7 @@
         </div>
       </article>
 
-      <article class="band-card reveal d2">
+      <article class="band-card reveal d2" data-cat="groupe">
         <div class="band-photo">
           <img src="images/artiste-tropicanos.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80'" alt="Los Tropicanos sur scène" loading="lazy">
         </div>
@@ -534,7 +515,7 @@
         </div>
       </article>
 
-      <article class="band-card reveal d3">
+      <article class="band-card reveal d3" data-cat="groupe">
         <div class="band-photo">
           <img src="images/artiste-zenith.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80'" alt="Zénith Brass en concert" loading="lazy">
         </div>
@@ -546,9 +527,15 @@
         </div>
       </article>
     </div>
+    <p class="no-results artists-empty" id="noArtists" hidden>Aucun talent dans cette catégorie pour l'instant. ✦</p>
+
+    <p class="artists-cta reveal d2">
+      Vous êtes DJ, chanteur·euse ou groupe ?
+      <button class="artists-cta-link" data-request="artiste" type="button">Rejoignez le line-up SYFIR →</button>
+    </p>
 
     <!-- Agenda des concerts -->
-    <div class="agenda reveal d2">
+    <div class="agenda reveal d2" id="agenda">
       <h3 class="agenda-title">Agenda des concerts</h3>
       <ul class="agenda-list">
         <li class="agenda-row">
@@ -785,8 +772,8 @@
     </div>
     <div class="footer-col">
       <h4>Artistes &amp; équipe</h4>
-      <a href="#artistes">Artistes &amp; DJs</a>
-      <a href="#groupes">Groupes &amp; concerts</a>
+      <a href="#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="#agenda">Agenda des concerts</a>
       <a href="#partenaires">Devenir partenaire</a>
       <a href="#equipe">Équipe &amp; collaborateurs</a>
     </div>

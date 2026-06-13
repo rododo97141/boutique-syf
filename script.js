@@ -215,18 +215,19 @@
     });
   }
 
-  /* ===== 08a-bis. ARTISTES & DJs : filtre + booking ===== */
+  /* ===== 08a-bis. LINE-UP (artistes, DJs & groupes) : filtre + booking ===== */
   const artistChips = $('#artistChips');
-  if (artistChips) {
+  const lineupGrid = $('#lineupGrid');
+  if (artistChips && lineupGrid) {
     artistChips.addEventListener('click', e => {
       const chip = e.target.closest('.chip');
       if (!chip) return;
       $$('.chip', artistChips).forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      const type = chip.dataset.artist;
+      const cat = chip.dataset.cat;
       let visible = 0;
-      $$('.artist-card').forEach(card => {
-        const show = type === 'tous' || card.dataset.type === type;
+      $$(':scope > article', lineupGrid).forEach(card => {
+        const show = cat === 'tous' || card.dataset.cat === cat;
         card.hidden = !show;
         if (show) visible++;
       });
