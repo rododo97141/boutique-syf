@@ -49,7 +49,15 @@
     <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
   <div class="nav-actions">
-    <button class="theme-btn" id="themeBtn" aria-label="Changer de thème" title="Thème : automatique">🌗</button>
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">🌗</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">☀️</span><span class="theme-opt-txt">Clair<small>Été doré</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
+      </div>
+    </div>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>

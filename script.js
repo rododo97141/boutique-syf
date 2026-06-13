@@ -132,34 +132,66 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
-  /* ===== 07b. THÈME CLAIR / SOMBRE / AUTO =====
+  /* ===== 07b. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
      Auto : clair le jour (7h-19h), sombre la nuit.
      Le choix est mémorisé et appliqué dès le <head> (script inline). */
-  const themeBtn = $('#themeBtn');
+  const themeSwitch = $('#themeSwitch');
+  const themeBtn    = $('#themeBtn');
+  const themeMenu   = $('#themeMenu');
+  const themeOpts   = $$('.theme-opt', themeSwitch || document.createElement('div'));
   const themeByHour = () => {
     const h = new Date().getHours();
     return h >= 7 && h < 19 ? 'light' : 'dark';
   };
+  const themeIcon = { auto: '🌗', light: '☀️', dark: '🌙' };
   const applyTheme = pref => {
     const mode = pref === 'auto' ? themeByHour() : pref;
     document.documentElement.setAttribute('data-theme', mode);
     document.documentElement.setAttribute('data-theme-pref', pref);
     if (themeBtn) {
-      themeBtn.textContent = pref === 'auto' ? '🌗' : pref === 'light' ? '☀️' : '🌙';
+      themeBtn.textContent = themeIcon[pref] || themeIcon.auto;
       themeBtn.title = 'Thème : ' + (pref === 'auto'
         ? `automatique (${themeByHour() === 'light' ? 'jour' : 'nuit'})`
         : pref === 'light' ? 'clair' : 'sombre');
     }
+    themeOpts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.theme === pref)));
   };
   let themePref = localStorage.getItem('syfir-theme') || 'auto';
   applyTheme(themePref);
-  themeBtn?.addEventListener('click', () => {
-    themePref = themePref === 'auto' ? 'light' : themePref === 'light' ? 'dark' : 'auto';
-    localStorage.setItem('syfir-theme', themePref);
-    applyTheme(themePref);
-    showToast(themePref === 'auto'
-      ? '🌗 Thème automatique — clair le jour, sombre la nuit'
-      : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
+
+  const closeThemeMenu = () => {
+    if (!themeMenu || themeMenu.hidden) return;
+    themeMenu.hidden = true;
+    themeBtn?.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onThemeOutside);
+    document.removeEventListener('keydown', onThemeKey);
+  };
+  const onThemeOutside = e => { if (!themeSwitch.contains(e.target)) closeThemeMenu(); };
+  const onThemeKey = e => { if (e.key === 'Escape') { closeThemeMenu(); themeBtn?.focus(); } };
+  const openThemeMenu = () => {
+    if (!themeMenu) return;
+    themeMenu.hidden = false;
+    themeBtn?.setAttribute('aria-expanded', 'true');
+    // écouteurs ajoutés au prochain tick pour ne pas capter le clic d'ouverture
+    setTimeout(() => {
+      document.addEventListener('click', onThemeOutside);
+      document.addEventListener('keydown', onThemeKey);
+    });
+  };
+  themeBtn?.addEventListener('click', e => {
+    e.stopPropagation();
+    themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
+  });
+  themeOpts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      themePref = opt.dataset.theme;
+      localStorage.setItem('syfir-theme', themePref);
+      applyTheme(themePref);
+      closeThemeMenu();
+      showToast(themePref === 'auto'
+        ? '🌗 Thème automatique — clair le jour, sombre la nuit'
+        : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
+    });
   });
   // En mode auto, on suit l'heure qui tourne
   setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
