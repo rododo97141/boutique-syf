@@ -3086,19 +3086,5 @@ if (placeModal && placesGridEl) {
 
 </script>
 
-<!-- SYFIR : correctif apparition au defilement -->
-<script>
-(function(){
-  var SEL=".reveal, [class*=\"reveal\"]";
-  function show(el){el.classList.add("visible","is-visible","in","show","active");el.style.opacity="1";el.style.transform="none";}
-  function inView(){var vh=window.innerHeight||document.documentElement.clientHeight;document.querySelectorAll(SEL).forEach(function(el){var r=el.getBoundingClientRect();if(r.top<vh*0.95&&r.bottom>0)show(el);});}
-  function all(){document.querySelectorAll(SEL).forEach(show);}
-  window.addEventListener("load",function(){inView();if(location.hash)setTimeout(all,100);});
-  document.addEventListener("DOMContentLoaded",function(){setTimeout(inView,200);});
-  window.addEventListener("hashchange",function(){setTimeout(inView,60);setTimeout(all,700);});
-  document.addEventListener("click",function(e){var a=e.target.closest("a[href^=\"#\"]");if(a)setTimeout(all,700);});
-  var t;window.addEventListener("scroll",function(){clearTimeout(t);t=setTimeout(inView,120);},{passive:true});
-})();
-</script>
 </body>
 </html>
