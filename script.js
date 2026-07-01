@@ -81,12 +81,20 @@
   });
 
   /* ===== 04. REVEAL ON SCROLL ===== */
+  const reveals = $$('.reveal');
+  const inViewport = el => {
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.95 && r.bottom > 0;
+  };
+  // Au chargement : révèle immédiatement tout ce qui est déjà dans le viewport
+  // (le reste est visible par défaut et s'anime en entrant à l'écran).
+  reveals.forEach(el => { if (inViewport(el)) el.classList.add('in'); });
   const revealObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
     });
-  }, { threshold: 0.12 });
-  $$('.reveal').forEach(el => revealObs.observe(el));
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+  reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
 
   /* ===== 05. PARALLAXE DOUCE ===== */
   const parallaxEls = $$('[data-parallax]');

@@ -150,18 +150,23 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 }
 .btn-solid:hover::after { transform: translateX(120%); }
 
-/* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(42px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
-.reveal.in { opacity: 1; transform: none; }
-.reveal.from-left { transform: translateX(-42px); }
-.reveal.from-right { transform: translateX(42px); }
-.reveal.from-left.in, .reveal.from-right.in { transform: none; }
-.d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; }
-.d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; }
-.d5 { transition-delay: .4s; }  .d6 { transition-delay: .48s; }
+/* Reveal on scroll — le contenu est VISIBLE par défaut ; l'animation d'entrée
+   n'est qu'un enrichissement déclenché par la classe .in. Ainsi, si le JS ne
+   passe pas (ou saute un élément), aucune section ne reste blanche. */
+.reveal { --rv-x: 0; --rv-y: 42px; }
+.reveal.from-left  { --rv-x: -42px; --rv-y: 0; }
+.reveal.from-right { --rv-x: 42px;  --rv-y: 0; }
+.reveal.in { animation: revealIn .9s var(--ease) both; }
+@keyframes revealIn {
+  from { opacity: 0; transform: translate(var(--rv-x), var(--rv-y)); }
+  to   { opacity: 1; transform: none; }
+}
+.d1 { animation-delay: .08s; } .d2 { animation-delay: .16s; }
+.d3 { animation-delay: .24s; } .d4 { animation-delay: .32s; }
+.d5 { animation-delay: .4s; }  .d6 { animation-delay: .48s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal.in { animation: none; }
   html { scroll-behavior: auto; }
 }
 
