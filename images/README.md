@@ -10,7 +10,8 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 | Nom exact du fichier | Où il apparaît | Visuel conseillé |
 |---|---|---|
 | `syfir-logo.png` | Logo dans la barre de navigation | L'emblème déesse-soleil seul (idéalement fond transparent) |
-| `syfir-hero.png` | Grand fond de la page d'accueil | Le visuel plage avec sachet et « LE COCKTAIL LIBRE ! » |
+| `syfir-hero.png` | Grand fond de la page d'accueil (secours) | Le visuel plage avec sachet et « LE COCKTAIL LIBRE ! » |
+| `syfir-planteur-hero.webp` | Grand fond de la page d'accueil (prioritaire) | Le sachet Syf Planteur en gros plan, format paysage — idéalement en `.webp` optimisé |
 | `syfir-planteur.png` | Carte « Syf Planteur™ » | Le sachet Saveur-Planteurs seul, en gros plan |
 | `syfir-danseuse.png` | Section « Notre marque » | La danseuse carnaval (cadrage vertical de préférence) |
 | `syfir-mobile.png` | Bannière « Votre été, partout » | Le sachet à la plage « Cocktail mobile » |
