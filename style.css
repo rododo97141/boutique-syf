@@ -1010,6 +1010,8 @@ html[data-theme="light"] nav.scrolled .nav-link:hover,
 html[data-theme="light"] nav.scrolled .nav-link.active { color: #221A10; }
 html[data-theme="light"] nav.scrolled .nav-link { color: rgba(34, 26, 16, .7); }
 html[data-theme="light"] nav.scrolled .nav-link-event { color: var(--gold-deep); }
+/* Suffixe doré du logo (« Événements » billetterie, « ™ » accueil) : lisible sur nav claire */
+html[data-theme="light"] nav.scrolled .nav-logo span { color: var(--gold-deep); }
 html[data-theme="light"] nav.scrolled .burger span { background: #221A10; }
 html[data-theme="light"] nav.scrolled .theme-btn { color: #221A10; border-color: rgba(184, 134, 11, .45); }
 html[data-theme="light"] .mobile-nav { background: rgba(250, 246, 238, .97); }
