@@ -1044,6 +1044,8 @@ html[data-theme="light"] .split-text strong { color: var(--gold-deep); }
 html[data-theme="light"] .accent-line { color: #221A10 !important; }
 html[data-theme="light"] .values span { color: var(--gold-deep); border-color: rgba(184, 134, 11, .4); }
 html[data-theme="light"] .values span:hover { background: rgba(212, 160, 23, .12); }
+html[data-theme="light"] .partner-chips span { color: #8A6508; border-color: rgba(184, 134, 11, .4); }
+html[data-theme="light"] .partner-chips span:hover { background: var(--gold-deep); color: #FFFFFF; }
 
 /* Où nous trouver */
 html[data-theme="light"] .place-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .28); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
