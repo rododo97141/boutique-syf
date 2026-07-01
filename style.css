@@ -1286,6 +1286,8 @@ html[data-theme="light"] .artist-more { color: var(--gold-deep); }
 .agenda-place { color: rgba(250,248,242,.62); font-size: .9rem; }
 .agenda-cta { flex-shrink: 0; font-family: var(--display); font-weight: 700; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sunset); transition: color .3s, transform .3s; }
 .agenda-cta:hover { color: var(--passion); transform: translateX(3px); }
+.agenda-empty { padding: 10px 0 2px; color: rgba(250, 248, 242, .6); }
+html[data-theme="light"] .agenda-empty { color: #8A7E6C; }
 
 /* ===== CARROUSEL DE LOGOS PARTENAIRES ===== */
 .logos-chips { margin-bottom: 6px; }

@@ -504,6 +504,21 @@ if (placeModal && placesGridEl) {
     toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
+  /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
+  const agendaRows = $$('.agenda-row');
+  if (agendaRows.length) {
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+    let upcoming = 0;
+    agendaRows.forEach(row => {
+      const d = row.dataset.date ? new Date(row.dataset.date + 'T00:00:00') : null;
+      const past = d && d < startOfToday;
+      row.hidden = past;
+      if (!past) upcoming++;
+    });
+    const agendaEmpty = $('#agendaEmpty');
+    if (agendaEmpty) agendaEmpty.hidden = upcoming > 0;
+  }
+
   /* ============================================================
      PAGE ÉVÉNEMENTS — billetterie & espace pro
   ============================================================ */
@@ -570,7 +585,9 @@ if (placeModal && placesGridEl) {
   const state = { filter: 'tous', city: '', sort: 'date', search: '' };
 
   const renderEvents = () => {
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
     let list = events.filter(ev =>
+      new Date(ev.date + 'T00:00:00') >= startOfToday &&   // masque les événements passés
       (state.filter === 'tous' || ev.type === state.filter || (state.filter === 'prive' && ev.prive)) &&
       (!state.city || ev.city === state.city) &&
       (!state.search || (ev.name + ' ' + ev.city + ' ' + ev.organizer).toLowerCase().includes(state.search))
