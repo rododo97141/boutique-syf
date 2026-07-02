@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SYFIR Smartboard — tableau de bord organisateur : ventes, événements, scan, équipe.">
+<title>Espace pro organisateur — SYFIR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-pro">
+
+<nav id="nav" class="nav-tickets">
+  <a href="evenements.html" class="nav-logo">SYFIR<span class="logo-suffix">Smartboard</span></a>
+  <div class="nav-actions">
+    <a class="btn btn-ghost btn-sm" href="evenements.html">← Billetterie</a>
+    <a class="btn btn-solid btn-sm" href="evenements.html#pro">+ Créer un événement</a>
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">🌗</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">☀️</span><span class="theme-opt-txt">Clair<small>Été doré</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="dash">
+  <!-- Sidebar -->
+  <aside class="dash-side">
+    <p class="dash-side-title">Organisateur</p>
+    <div class="dash-nav" id="dashNav" role="navigation" aria-label="Sections">
+      <button class="dash-link active" data-sec="overview"><span>📊</span> Vue d'ensemble</button>
+      <button class="dash-link" data-sec="events"><span>🎫</span> Mes événements</button>
+      <button class="dash-link" data-sec="sales"><span>💶</span> Ventes</button>
+      <button class="dash-link" data-sec="scan"><span>📲</span> Scan &amp; caisse</button>
+      <button class="dash-link" data-sec="team"><span>👥</span> Équipe</button>
+      <button class="dash-link" data-sec="settings"><span>⚙️</span> Paramètres</button>
+    </div>
+  </aside>
+
+  <!-- Contenu -->
+  <main class="dash-main">
+    <section class="dash-section active" id="sec-overview">
+      <div class="dash-h"><h1>Vue d'ensemble</h1><p>Vos performances en un coup d'œil.</p></div>
+      <div id="overviewBody"></div>
+    </section>
+
+    <section class="dash-section" id="sec-events">
+      <div class="dash-h"><h1>Mes événements</h1><p>Gérez les événements créés avec SYFIR Experience.</p></div>
+      <div id="proEventsList"></div>
+    </section>
+
+    <section class="dash-section" id="sec-sales">
+      <div class="dash-h"><h1>Ventes <span class="badge-soon">Bientôt disponible</span></h1><p>Le détail de vos ventes, palier par palier.</p></div>
+      <div class="dash-empty">
+        <div class="dash-empty-ic">📈</div>
+        <h3>Analytics de ventes en préparation</h3>
+        <p>Bientôt : courbes de ventes jour par jour, répartition par palier (Early Bird / Standard / VIP), taux de remplissage et export CSV.</p>
+      </div>
+    </section>
+
+    <section class="dash-section" id="sec-scan">
+      <div class="dash-h"><h1>Scan &amp; caisse <span class="badge-soon">Bientôt disponible</span></h1><p>Contrôle d'accès et encaissement le jour J.</p></div>
+      <div class="dash-empty">
+        <div class="dash-empty-ic">📲</div>
+        <h3>Application de scan à venir</h3>
+        <p>Bientôt : scan des QR codes à l'entrée, mode hors-ligne, caisse cash &amp; carte, et suivi des entrées en temps réel.</p>
+      </div>
+    </section>
+
+    <section class="dash-section" id="sec-team">
+      <div class="dash-h"><h1>Équipe <span class="badge-soon">Bientôt disponible</span></h1><p>Invitez votre staff et gérez les rôles.</p></div>
+      <div class="dash-empty">
+        <div class="dash-empty-ic">👥</div>
+        <h3>Aucun membre pour l'instant</h3>
+        <p>Bientôt : invitez des collaborateurs par email et attribuez des rôles (scan, caisse, administrateur, partenaire de vente).</p>
+      </div>
+    </section>
+
+    <section class="dash-section" id="sec-settings">
+      <div class="dash-h"><h1>Paramètres <span class="badge-soon">Bientôt disponible</span></h1><p>Informations, paiements et préférences.</p></div>
+      <div class="dash-cards">
+        <div class="dash-card"><h3>Informations organisateur</h3><p>Nom, logo, coordonnées et réseaux — bientôt éditables ici.</p></div>
+        <div class="dash-card"><h3>Banking &amp; paiements</h3><p>Compte de reversement et calendrier des virements — bientôt disponible.</p></div>
+        <div class="dash-card"><h3>Billetterie</h3><p>Paliers par défaut, frais de service, CGV — bientôt configurables.</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="events-data.js"></script>
+<script src="script.js"></script>
+<script src="espace-pro.js"></script>
+</body>
+</html>
