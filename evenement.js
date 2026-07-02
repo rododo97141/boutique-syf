@@ -151,15 +151,19 @@
 
   $('#edBuy').addEventListener('click', () => {
     const bought = tierQty.map((q, i) => q > 0 ? `${q}× ${S.TIERS_DEFAULT[i].name}` : null).filter(Boolean).join(', ');
+    const num = 'SYF-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 900 + 100);
     let mine = [];
     try { mine = JSON.parse(localStorage.getItem('syfir-tickets')) || []; } catch (e) { mine = []; }
-    mine.push({ event: ev.name, city: ev.city, date: ev.date, detail: bought });
+    mine.push({ event: ev.name, city: ev.city, date: ev.date, detail: bought, num });
     localStorage.setItem('syfir-tickets', JSON.stringify(mine));
     tiersBox.style.display = 'none'; foot.style.display = 'none';
     const ok = $('#edSuccess');
-    ok.textContent = `✦ Réservation confirmée : ${bought}. Retrouvez vos billets (QR codes) dans votre espace client.`;
+    let user = null; try { user = JSON.parse(localStorage.getItem('syfir-user')); } catch (err) { user = null; }
+    const prenom = ((user && user.name) || '').trim().split(/\s+/)[0] || '';
+    const count = tierQty.reduce((s2, q) => s2 + q, 0);
+    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie.`;
     ok.hidden = false;
-    toast('✦ Réservation confirmée !');
+    toast('🎉 C\'est dans la poche !');
   });
 
   $('#edGateBtn').addEventListener('click', () => {

@@ -1600,6 +1600,14 @@ html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep);
 }
 .aftermovie-frame { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius); }
 
+/* Billet : numéro unique, revente interdite, contact organisateur */
+.my-ticket-main small { display: block; }
+.ticket-num { color: var(--grey); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.ticket-contact { display: inline-block; margin-top: 6px; font-size: .8rem; color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.ticket-contact:hover { color: var(--sunset); }
+html[data-theme="light"] .ticket-num { color: #6E6353; }
+html[data-theme="light"] .ticket-contact { color: var(--gold-deep); }
+
 /* ===== BILLETTERIE OFFICIELLE SHOTGUN ===== */
 .shotgun-section { padding-bottom: 8px; }
 .shotgun-card {

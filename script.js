@@ -1031,15 +1031,21 @@ if (placeModal && placesGridEl) {
     renderTiers();
   });
 
+  // Numéro de billet unique (façon billetterie réelle)
+  const ticketNum = () => 'SYF-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 900 + 100);
+
   $('#tmBuy').addEventListener('click', () => {
     const bought = tierQty.map((q, i) => q > 0 ? `${q}× ${TIERS_DEFAULT[i].name}` : null).filter(Boolean).join(', ');
+    const count = tierQty.reduce((s, q) => s + q, 0);
+    const num = ticketNum();
     const myTickets = store.get('syfir-tickets', []);
-    myTickets.push({ event: currentEvent.name, city: currentEvent.city, date: currentEvent.date, detail: bought });
+    myTickets.push({ event: currentEvent.name, city: currentEvent.city, date: currentEvent.date, detail: bought, num });
     store.set('syfir-tickets', myTickets);
     $('#ticketTiers').style.display = 'none';
     $('#modalFoot').style.display = 'none';
     const ok = $('#tmSuccess');
-    ok.textContent = `✦ Réservation confirmée : ${bought}. Vos billets (QR codes) sont disponibles dans votre espace client.`;
+    const prenom = firstNameOf((store.get('syfir-user', null) || {}).name);
+    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace.`;
     ok.hidden = false;
     renderMyTickets();
   });
@@ -1080,7 +1086,12 @@ if (placeModal && placesGridEl) {
 
   const ticketRow = t => `
     <div class="my-ticket">
-      <div><strong>${t.event}</strong><small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small></div>
+      <div class="my-ticket-main">
+        <strong>${t.event}</strong>
+        <small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small>
+        <small class="ticket-num">N° ${t.num || '—'} · Revente interdite</small>
+        <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
+      </div>
       <span class="qr" aria-label="QR code">▣</span>
     </div>`;
 
