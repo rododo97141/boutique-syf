@@ -185,7 +185,11 @@
     <div class="cocktail-grid">
 
       <!-- Syf Planteur — image du sachet : déposer le fichier dans images/syfir-planteur.png -->
-      <article class="cocktail-card reveal d1">
+      <article class="cocktail-card reveal d1" tabindex="0" role="button" aria-label="Voir la fiche Syf Planteur"
+        data-name="Syf Planteur™" data-notes="Mangue • Passion • Ananas"
+        data-desc="L'esprit des tropiques dans un coucher de soleil liquide. Mangue mûre, passion acidulée et ananas rôti — le best-seller SYFIR."
+        data-photos="images/syfir-planteur.png|https://images.unsplash.com/photo-1546171753-97d7676e4602?w=900&q=80"
+        data-video="">
         <div class="cocktail-media">
           <img src="images/syfir-planteur.png"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&q=80'"
@@ -205,7 +209,11 @@
       </article>
 
       <!-- Syf Coral Breeze -->
-      <article class="cocktail-card reveal d2">
+      <article class="cocktail-card reveal d2" tabindex="0" role="button" aria-label="Voir la fiche Syf Coral Breeze"
+        data-name="Syf Coral Breeze™" data-notes="Agrumes • Hibiscus • Fruits rouges"
+        data-desc="Fraîcheur vibrante et énergie colorée. L'hibiscus infuse les agrumes, les fruits rouges signent la finale."
+        data-photos="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&q=80"
+        data-video="">
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Syf Coral Breeze — cocktail agrumes hibiscus fruits rouges" loading="lazy">
           <span class="cocktail-badge badge-coral">Vibrant</span>
@@ -223,7 +231,11 @@
       </article>
 
       <!-- Syf Golden Escape -->
-      <article class="cocktail-card reveal d3">
+      <article class="cocktail-card reveal d3" tabindex="0" role="button" aria-label="Voir la fiche Syf Golden Escape"
+        data-name="Syf Golden Escape™" data-notes="Citron vert • Passion • Fruits exotiques"
+        data-desc="Une invitation au voyage. Citron vert éclatant, passion généreuse et un bouquet de fruits exotiques dorés."
+        data-photos="https://images.unsplash.com/photo-1497534446932-c925b458314e?w=900&q=80"
+        data-video="">
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&q=80" alt="Syf Golden Escape — cocktail citron vert passion fruits exotiques" loading="lazy">
           <span class="cocktail-badge badge-gold">Édition Or</span>
@@ -860,6 +872,31 @@
       <div class="pm-serve" id="pmServe"></div>
       <p class="pm-desc" id="pmDesc"></p>
       <a class="pm-web" id="pmWeb" href="#" target="_blank" rel="noopener" hidden>Visiter le site →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modale fiche produit cocktail -->
+<div class="modal" id="cocktailModal">
+  <div class="modal-box cocktail-modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <!-- Galerie média reconstruite à chaque ouverture -->
+      <div class="ck-hero"></div>
+      <p class="modal-tag" id="ckNotes" style="margin-top:18px"></p>
+      <h3 id="ckName"></h3>
+      <p class="pm-desc" id="ckDesc"></p>
+      <div class="ck-formats">
+        <div class="ck-format">
+          <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80" alt="" loading="lazy">
+          <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
+        </div>
+        <div class="ck-format">
+          <img src="images/syfir-planteur.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=300&q=80'" alt="" loading="lazy">
+          <div><strong>🛍️ À emporter</strong><small>Sachet scellé signature</small></div>
+        </div>
+      </div>
+      <a class="btn btn-solid btn-full" href="#ou-trouver" data-close>Où le trouver</a>
     </div>
   </div>
 </div>

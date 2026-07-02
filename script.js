@@ -528,6 +528,44 @@
     });
   }
 
+  /* ===== 08a-ter-2. FICHE PRODUIT COCKTAIL (modale) ===== */
+  const cocktailModal = $('#cocktailModal');
+  if (cocktailModal) {
+    const ckHero = cocktailModal.querySelector('.ck-hero');
+    const openCocktail = card => {
+      const d = card.dataset;
+      buildMediaCarousel(ckHero, {
+        photos: d.photos || '', video: d.video || '', name: d.name || '',
+        videoInline: true, note: d.note || ''
+      });
+      $('#ckName').textContent = d.name || '';
+      $('#ckNotes').textContent = d.notes || '';
+      $('#ckDesc').textContent = d.desc || '';
+      cocktailModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeCocktail = () => {
+      cocktailModal.classList.remove('open');
+      document.body.style.overflow = '';
+      ckHero.querySelector('video')?.pause();
+    };
+    $$('.cocktail-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.serve-link')) return;   // le lien direct garde son rôle
+        openCocktail(card);
+      });
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCocktail(card); }
+      });
+    });
+    cocktailModal.addEventListener('click', e => {
+      if (e.target === cocktailModal || e.target.closest('[data-close]')) closeCocktail();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cocktailModal.classList.contains('open')) closeCocktail();
+    });
+  }
+
   /* ===== 08a-quater. CARROUSEL DE LOGOS PARTENAIRES ===== */
   const logosTrack = $('#logosTrack');
   const logosMarquee = $('#logosMarquee');
