@@ -258,6 +258,128 @@
     });
   });
 
+  /* ===== 08a-ter-0. CARROUSEL MÉDIA (cartes artistes + modale) =====
+     Standards carrousel (NN/g, web.dev) : scroll-snap natif = swipe tactile,
+     flèches ≥ 44 px, points indicateurs, PAS d'autoplay, clavier ←/→,
+     aria-roledescription, lazy-load des médias hors écran.
+     4 diapositives max : 3 photos + 1 vidéo (fin atteignable en 3 swipes). */
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false }) => {
+    const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
+    if (!list.length) return;
+
+    const videoSlide = video
+      ? (/youtube\.com|youtu\.be/.test(video)
+        ? `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
+             <button class="car-video-load" data-embed="${video}" type="button" aria-label="Lire la vidéo de ${name}">▶ Voir la vidéo</button>
+           </div>`
+        : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
+             <video controls preload="none" src="${video}" aria-label="Vidéo de ${name}"></video>
+           </div>`)
+      : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
+           <span class="car-soon-ic" aria-hidden="true">🎬</span>
+           <p>Vidéo bientôt disponible</p>
+         </div>`;
+
+    box.classList.add('media-car');
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-roledescription', 'carrousel');
+    box.setAttribute('aria-label', `Galerie de ${name}`);
+    box.tabIndex = 0;
+    box.innerHTML = `
+      <div class="car-track">
+        ${list.map((src, i) => `
+        <div class="car-slide" role="group" aria-roledescription="diapositive">
+          <img src="${src}" alt="${name} — photo ${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async">
+        </div>`).join('')}
+        ${videoSlide}
+      </div>
+      <button class="car-btn car-prev" type="button" aria-label="Média précédent">‹</button>
+      <button class="car-btn car-next" type="button" aria-label="Média suivant">›</button>
+      <div class="car-dots"></div>
+      ${badge ? `<span class="artist-badge">${badge}</span>` : ''}
+      ${playBtn ? `<button class="artist-play" type="button" aria-label="Écouter un extrait de ${name}">▶</button>` : ''}`;
+
+    const track = box.querySelector('.car-track');
+    const dotsBox = box.querySelector('.car-dots');
+    const prev = box.querySelector('.car-prev');
+    const next = box.querySelector('.car-next');
+    let index = 0;
+
+    const slides = () => [...track.children];
+    const refresh = () => {
+      const s = slides();
+      s.forEach((sl, i) => sl.setAttribute('aria-label', `${i + 1} sur ${s.length}`));
+      dotsBox.innerHTML = s.map((_, i) =>
+        `<button class="car-dot ${i === index ? 'on' : ''}" type="button" data-i="${i}" aria-label="Aller au média ${i + 1}" aria-current="${i === index}"></button>`).join('');
+      prev.disabled = index <= 0;
+      next.disabled = index >= s.length - 1;
+      const single = s.length < 2;
+      prev.hidden = next.hidden = dotsBox.hidden = single;
+    };
+    const go = i => {
+      index = Math.max(0, Math.min(i, slides().length - 1));
+      track.scrollTo({ left: index * track.clientWidth, behavior: reducedMotion ? 'auto' : 'smooth' });
+      refresh();
+    };
+
+    // Une photo qui ne charge pas disparaît proprement de la galerie
+    box.querySelectorAll('.car-slide img').forEach(img => {
+      img.addEventListener('error', () => {
+        img.closest('.car-slide')?.remove();
+        index = Math.min(index, slides().length - 1);
+        refresh();
+      });
+    });
+
+    // Swipe / défilement natif -> synchronise points et flèches
+    let tick = false;
+    track.addEventListener('scroll', () => {
+      if (tick) return;
+      tick = true;
+      requestAnimationFrame(() => {
+        const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+        if (i !== index) { index = i; refresh(); }
+        tick = false;
+      });
+    }, { passive: true });
+
+    prev.addEventListener('click', e => { e.stopPropagation(); go(index - 1); });
+    next.addEventListener('click', e => { e.stopPropagation(); go(index + 1); });
+    dotsBox.addEventListener('click', e => {
+      e.stopPropagation();
+      const d = e.target.closest('.car-dot');
+      if (d) go(+d.dataset.i);
+    });
+    box.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+    });
+    // Vidéo YouTube : façade — l'iframe ne se charge qu'au clic (perf + vie privée)
+    const loader = box.querySelector('.car-video-load');
+    loader?.addEventListener('click', e => {
+      e.stopPropagation();
+      const url = loader.dataset.embed + (loader.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
+      loader.closest('.car-slide').innerHTML =
+        `<iframe src="${url}" title="Vidéo de ${name}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    });
+
+    refresh();
+  };
+
+  // Les visuels des cartes artistes deviennent des galeries média
+  $$('.artist-card').forEach(card => {
+    const d = card.dataset;
+    const photoBox = card.querySelector('.artist-photo');
+    if (photoBox && d.photos) {
+      buildMediaCarousel(photoBox, {
+        photos: d.photos, video: d.video || '', name: d.name || '',
+        badge: d.badge || '', playBtn: true
+      });
+    }
+  });
+
   /* ===== 08a-ter. LECTEUR D'EXTRAITS + FICHE ARTISTE ===== */
   const audio = $('#previewAudio');
   let currentBtn = null;
@@ -292,7 +414,7 @@
   // Modale fiche artiste
   const artistModal = $('#artistModal');
   if (artistModal) {
-    const amImg = $('#amImg'), amBadge = $('#amBadge'), amRole = $('#amRole'),
+    const amHero = artistModal.querySelector('.am-hero'), amRole = $('#amRole'),
           amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
           amPlay = $('#amPlay'), amBar = artistModal.querySelector('.am-bar'),
           amBarFill = $('#amBarFill'), amTime = $('#amTime');
@@ -308,11 +430,11 @@
 
     const openArtist = card => {
       const d = card.dataset;
-      const [primary, fallback] = (d.img || '').split('|');
-      amImg.src = primary || fallback || '';
-      amImg.onerror = () => { amImg.onerror = null; if (fallback) amImg.src = fallback; };
-      amImg.alt = d.name || '';
-      amBadge.textContent = d.badge || '';
+      // Galerie média de la modale : mêmes photos/vidéo que la carte
+      buildMediaCarousel(amHero, {
+        photos: d.photos || d.img || '', video: d.video || '',
+        name: d.name || '', badge: d.badge || ''
+      });
       amRole.textContent = d.role || '';
       amName.textContent = d.name || '';
       amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
@@ -342,7 +464,10 @@
     };
     $$('.artist-card').forEach(card => {
       card.addEventListener('click', e => {
-        if (e.target.closest('[data-request]') || e.target.closest('.artist-play')) return;
+        // Les contrôles du carrousel et du lecteur n'ouvrent pas la modale
+        if (e.target.closest('[data-request]') || e.target.closest('.artist-play') ||
+            e.target.closest('.car-btn') || e.target.closest('.car-dot') ||
+            e.target.closest('.car-slide-video')) return;
         openArtist(card);
       });
     });

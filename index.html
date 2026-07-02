@@ -400,6 +400,8 @@
       <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
         data-name="DJ Solaris" data-role="House tropicale · Afro" data-badge="DJ résident"
         data-img="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80"
+        data-photos="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80|https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80"
+        data-video=""
         data-tags="Sunset sets,Beach party,Afro house"
         data-bio="Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend — une signature SYFIR depuis trois saisons."
         data-audio="audio/dj-solaris.wav"
@@ -423,6 +425,8 @@
       <article class="artist-card reveal d2" data-type="chant" data-cat="artiste"
         data-name="Maya Lumière" data-role="Soul · Pop solaire" data-badge="Artiste"
         data-img="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80"
+        data-photos="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80|https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=80"
+        data-video=""
         data-tags="Live acoustique,Rooftop,Soul"
         data-bio="Voix de velours et présence solaire, Maya Lumière transforme un rooftop en moment suspendu. Reprises soul et compositions pop ensoleillées, en formule acoustique ou avec band."
         data-audio="audio/maya-lumiere.wav"
@@ -446,6 +450,8 @@
       <article class="artist-card reveal d3" data-type="dj" data-cat="dj"
         data-name="DJ Brise" data-role="Deep house · Sunset" data-badge="DJ résident"
         data-img="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
+        data-photos="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80|https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80"
+        data-video=""
         data-tags="Apéro-mix,Plage,Deep house"
         data-bio="Le maître de l'apéro-mix. DJ Brise déroule une deep house caressante, parfaite pour les fins de journée les pieds dans le sable. Tempo doux, basses chaudes, transitions soyeuses."
         data-audio="audio/dj-brise.wav"
@@ -469,6 +475,8 @@
       <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
         data-name="NÉO" data-role="Électro · Carnaval" data-badge="DJ · Producteur"
         data-img="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80"
+        data-photos="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80|https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80"
+        data-video=""
         data-tags="Club,Headliner,Électro"
         data-bio="Producteur et tête d'affiche, NÉO fusionne électro et énergie carnaval. Drops massifs, percussions créoles : c'est le set qui fait basculer la soirée en mode club jusqu'au bout de la nuit."
         data-audio="audio/neo.wav"
@@ -818,10 +826,8 @@
   <div class="modal-box artist-modal-box">
     <button class="modal-close" data-close aria-label="Fermer">&times;</button>
     <div class="modal-body">
-      <div class="am-hero">
-        <img id="amImg" src="" alt="">
-        <span class="artist-badge" id="amBadge"></span>
-      </div>
+      <!-- Galerie média reconstruite à chaque ouverture par buildMediaCarousel -->
+      <div class="am-hero"></div>
       <p class="modal-tag" id="amRole" style="margin-top:18px"></p>
       <h3 id="amName"></h3>
       <div class="am-tags" id="amTags"></div>
