@@ -83,12 +83,13 @@ Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gat
 9. **L9** Fluidité (blanc banni, jonctions 140px), contraste AA 0 infraction, slogan, Prochains événements + CTA final, images Blue Lagoon/Marina réparées.
 10. **L10** Typo SOTY (h2 70px), or/océan, grain, compte à rebours réel + rareté Early Bird.
 11. **L11** Shotgun (carte kily-141 + TODO widget, démo étiquetée), confirmation « C'est dans la poche » (n° unique, revente interdite, contact), KPI comparatifs + Messages, ce HANDOFF.
+12. **L12** Fiches produit cocktails : cartes cliquables → modale (galerie carrousel réutilisée, formats verre/sachet avec visuels, CTA Où le trouver) ; **vidéo officielle client `videos/syf-planteur.mp4`** en 1re diapositive (muette en boucle + bouton son) ; emplacements `images/produits/syf-{planteur,coral,golden}-1/2.jpg` avec fallbacks et badge « Visuel officiel bientôt » (Coral/Golden). ⚠ Le Chromium du bac à sable n'a pas le codec H.264 : la vidéo ne se teste qu'en vrai navigateur.
 
 ## 7. TODO connus / en attente
 
 - [ ] **Widget Shotgun réel** : coller le code depuis Smartboard > Ma page > Widget dans `#shotgunWidget` (evenements.html, TODO commenté en place).
 - [ ] **Endpoint newsletter** : brancher Brevo/Mailchimp (TODO commenté dans script.js, section 09b-ter).
-- [ ] **Visuels client** : images/`syfir-*.png`, `artiste-*.png`, `equipe-*.png` (voir images/README.md) + vrais extraits audio + `data-video` des artistes + URL aftermovie (`VIDEO_ID`).
+- [ ] **Visuels client** : images/`syfir-*.png`, `artiste-*.png`, `equipe-*.png`, **photos produit `images/produits/`** (voir images/README.md) + vrais extraits audio + `data-video` des artistes + URL aftermovie (`VIDEO_ID`) + vidéos Coral/Golden.
 - [ ] **Bibliothèque de composants React `syfir-ui/` + /design-sync** : reportée par le superviseur, « remise en file après les lots site » (plan détaillé discuté : 10-15 composants depuis style.css, puis sync claude.ai/design).
 - [ ] Vrais profils streaming des artistes (data-attributes en place, boutons masqués tant que génériques).
 - [ ] PR #8 : à maintenir à jour au fil des lots (descriptif structuré par lot, liens preview par SHA).

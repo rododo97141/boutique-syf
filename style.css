@@ -2030,6 +2030,7 @@ html[data-theme="light"] .dash-empty { border-color: rgba(184, 134, 11, .3); }
   .artists-cta-link { display: inline-flex; align-items: center; min-height: 44px; }
   .theme-opt { min-height: 44px; }
   .fav-btn { width: 44px; height: 44px; }
+  .modal-close { width: 44px; height: 44px; }
   .artist-book, .band-book { display: inline-flex; align-items: center; min-height: 44px; }
   .team-contact { display: inline-flex; align-items: center; min-height: 44px; }
   /* Cases à cocher : la cible réelle est le label englobant (grand),
