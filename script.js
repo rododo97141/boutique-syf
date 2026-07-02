@@ -298,6 +298,14 @@
           amBarFill = $('#amBarFill'), amTime = $('#amTime');
     let modalSrc = '';
 
+    // Un vrai profil a un chemin au-delà de la racine (ex. /artist/xxx, /@handle) ;
+    // une page d'accueil générique (open.spotify.com, youtube.com…) est ignorée.
+    const isRealProfile = url => {
+      if (!url) return false;
+      try { return new URL(url).pathname.replace(/\/+$/, '').length > 1; }
+      catch { return false; }
+    };
+
     const openArtist = card => {
       const d = card.dataset;
       const [primary, fallback] = (d.img || '').split('|');
@@ -310,9 +318,17 @@
       amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
         .map(t => `<span>${t.trim()}</span>`).join('');
       amBio.textContent = d.bio || '';
-      $('#amSpotify').href = d.spotify || '#';
-      $('#amSoundcloud').href = d.soundcloud || '#';
-      $('#amYoutube').href = d.youtube || '#';
+      // Liens streaming : n'afficher que les vrais profils (pas les pages
+      // d'accueil génériques). Le data-attribute reste sur la carte.
+      let anyStream = false;
+      [['#amSpotify', d.spotify], ['#amSoundcloud', d.soundcloud], ['#amYoutube', d.youtube]].forEach(([sel, url]) => {
+        const el = $(sel);
+        const real = isRealProfile(url);
+        el.hidden = !real;
+        if (real) { el.href = url; anyStream = true; }
+      });
+      const amStream = $('#amStream');
+      if (amStream) amStream.hidden = !anyStream;
       modalSrc = d.audio || '';
       amBarFill.style.width = '0%'; amTime.textContent = '0:00';
       setPlayIcon(amPlay, false);
