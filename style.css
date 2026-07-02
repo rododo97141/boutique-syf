@@ -747,6 +747,7 @@ html[data-theme="light"] .next-arrow { color: #A04600; }
 .field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
 textarea { resize: vertical; }
 
+.form-note { margin: 0 0 20px; font-size: .92rem; font-weight: 600; color: var(--sunset); }
 .form-consent { display: flex; align-items: flex-start; gap: 10px; margin: 24px 0 28px; font-size: .88rem; color: rgba(250, 248, 242, .7); cursor: pointer; flex-wrap: wrap; }
 .form-consent input { accent-color: var(--sunset); width: 18px; height: 18px; margin-top: 2px; }
 .form-consent.invalid span:first-of-type { color: var(--error); }
@@ -1238,6 +1239,7 @@ html[data-theme="light"] .cocktail-notes, html[data-theme="light"] .serve-link,
 html[data-theme="light"] .artist-book,
 html[data-theme="light"] .agenda-cta, html[data-theme="light"] .team-contact { color: #A04600; }
 html[data-theme="light"] .legal-note { color: #635B4E; }
+html[data-theme="light"] .form-note { color: #A04600; }
 html[data-theme="light"] .footer-news label { color: var(--gold-deep); }
 html[data-theme="light"] .footer-news input { background: #FFFDF6; border-color: #E4D9C2; color: #221A10; }
 html[data-theme="light"] .footer-news input::placeholder { color: rgba(34, 26, 16, .35); }

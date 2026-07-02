@@ -282,10 +282,29 @@
 
   // « Booker » / « Rejoindre le line-up » → présélectionne le bon type
   // dans le formulaire partenaire et y fait défiler la page.
+  // Changer manuellement le type de demande efface la note de booking
+  $$('input[name="requestType"]').forEach(r => {
+    r.addEventListener('change', () => { const n = $('#formNote'); if (n) n.hidden = true; });
+  });
+
   $$('[data-request]').forEach(el => {
     el.addEventListener('click', () => {
       const radio = $(`input[name="requestType"][value="${el.dataset.request}"]`);
       if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
+      // Booking d'un talent précis : note (délai de réponse du management)
+      // + préremplissage du message, sans écraser ce que l'utilisateur a saisi
+      const host = el.closest('[data-book-note]');
+      const note = el.dataset.bookNote || host?.dataset.bookNote || '';
+      const bookName = el.dataset.bookName || host?.dataset.name || '';
+      const formNote = $('#formNote');
+      if (formNote) {
+        formNote.textContent = note ? '⏱ ' + note : '';
+        formNote.hidden = !note;
+      }
+      if (note && bookName) {
+        const msg = $('#pfMessage');
+        if (msg && !msg.value.trim()) msg.value = `Demande de booking — ${bookName}. Date, lieu et type d'événement : `;
+      }
       const form = $('#partnerForm');
       if (form) {
         const top = form.getBoundingClientRect().top + window.scrollY - 90;
@@ -523,6 +542,12 @@
         const listen = listenUrl(d);
         amListen.hidden = !listen;
         if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
+      }
+      // Le bouton « Booker cet artiste » porte la note de booking du talent
+      const amBook = artistModal.querySelector('.am-book');
+      if (amBook) {
+        if (d.bookNote) { amBook.dataset.bookNote = d.bookNote; amBook.dataset.bookName = d.name || ''; }
+        else { delete amBook.dataset.bookNote; delete amBook.dataset.bookName; }
       }
       artistModal.classList.add('open');
       document.body.style.overflow = 'hidden';
