@@ -1814,6 +1814,20 @@ html[data-theme="light"] .age-box .btn-ghost:hover { border-color: var(--gold-de
   transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast);
 }
 .car-video-load:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(212, 160, 23, .4); }
+/* Façade YouTube avec thumbnail : image couvrante, play rond centré, titre en bas */
+.car-video-yt { position: relative; }
+.car-video-yt img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.car-video-yt::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .5)); pointer-events: none; }
+.car-video-yt .car-video-load { position: relative; z-index: 2; width: 56px; height: 56px; min-height: 0; padding: 0; border-radius: 50%; justify-content: center; font-size: 1.05rem; }
+.car-video-title {
+  position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+  font-family: var(--display); font-size: .6rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--cream);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .7);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none; text-align: left;
+}
+.car-slide-video iframe { width: 100%; height: 100%; border: 0; display: block; }
 /* Vidéo inline (fiche produit) : muette en boucle + bouton son */
 .car-video-live { background: #000; }
 .car-video-live video { width: 100%; height: 100%; object-fit: cover; display: block; }

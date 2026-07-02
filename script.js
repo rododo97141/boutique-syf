@@ -301,7 +301,7 @@
      4 diapositives max : 3 photos + 1 vidéo (fin atteignable en 3 swipes). */
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false, videoInline = false, note = '' }) => {
+  const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false, videoInline = false, note = '', videoTitles = '' }) => {
     const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
     if (!list.length) return;
 
@@ -309,11 +309,21 @@
     // (locale d'abord, hotlink en secours) : le navigateur essaie dans l'ordre.
     const videoSources = video.split('|').map(s => s.trim()).filter(Boolean)
       .map(u => `<source src="${u}" type="video/mp4">`).join('');
+    // Plusieurs vidéos YouTube séparées par « | » = une façade lazy par vidéo
+    // (thumbnail i.ytimg.com + bouton play, l'iframe ne charge qu'au clic)
+    const titles = videoTitles.split('|').map(s => s.trim());
+    const ytSlides = urls => urls.map((u, i) => {
+      const id = (u.match(/embed\/([\w-]+)/) || [])[1] || '';
+      const title = titles[i] || `Vidéo de ${name}`;
+      return `<div class="car-slide car-slide-video car-video-yt" role="group" aria-roledescription="diapositive">
+          <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+          <button class="car-video-load" data-embed="${u}" data-title="${title}" type="button" aria-label="Lire : ${title}">▶</button>
+          <span class="car-video-title">${title}</span>
+        </div>`;
+    }).join('');
     const videoSlide = video
       ? (/youtube\.com|youtu\.be/.test(video)
-        ? `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
-             <button class="car-video-load" data-embed="${video}" type="button" aria-label="Lire la vidéo de ${name}">▶ Voir la vidéo</button>
-           </div>`
+        ? ytSlides(video.split('|').map(s => s.trim()).filter(Boolean))
         : (videoInline
           ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
                <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${name}">${videoSources}</video>
@@ -371,7 +381,8 @@
     };
 
     // Une photo qui ne charge pas disparaît proprement de la galerie
-    box.querySelectorAll('.car-slide img').forEach(img => {
+    // (les diapositives vidéo gardent leur façade même si le thumbnail échoue)
+    box.querySelectorAll('.car-slide:not(.car-slide-video) img').forEach(img => {
       img.addEventListener('error', () => {
         img.closest('.car-slide')?.remove();
         index = Math.min(index, slides().length - 1);
@@ -402,13 +413,14 @@
       if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
     });
-    // Vidéo YouTube : façade — l'iframe ne se charge qu'au clic (perf + vie privée)
-    const loader = box.querySelector('.car-video-load');
-    loader?.addEventListener('click', e => {
-      e.stopPropagation();
-      const url = loader.dataset.embed + (loader.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
-      loader.closest('.car-slide').innerHTML =
-        `<iframe src="${url}" title="Vidéo de ${name}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    // Vidéos YouTube : façades — l'iframe ne se charge qu'au clic (perf + vie privée)
+    box.querySelectorAll('.car-video-load').forEach(loader => {
+      loader.addEventListener('click', e => {
+        e.stopPropagation();
+        const url = loader.dataset.embed + (loader.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
+        loader.closest('.car-slide').innerHTML =
+          `<iframe src="${url}" title="${loader.dataset.title || `Vidéo de ${name}`}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+      });
     });
 
     // Bouton son de la vidéo inline (muette en boucle par défaut)
@@ -456,7 +468,8 @@
     if (photoBox && d.photos) {
       buildMediaCarousel(photoBox, {
         photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: !!listenUrl(d), note: d.note || ''
+        badge: d.badge || '', playBtn: !!listenUrl(d), note: d.note || '',
+        videoTitles: d.videoTitles || ''
       });
     }
   });
@@ -484,7 +497,8 @@
       // Galerie média de la modale : mêmes photos/vidéo que la carte
       buildMediaCarousel(amHero, {
         photos: d.photos || d.img || '', video: d.video || '',
-        name: d.name || '', badge: d.badge || '', note: d.note || ''
+        name: d.name || '', badge: d.badge || '', note: d.note || '',
+        videoTitles: d.videoTitles || ''
       });
       amRole.textContent = d.role || '';
       amName.textContent = d.name || '';
