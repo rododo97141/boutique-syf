@@ -786,6 +786,22 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .sort-label { display: flex; align-items: center; gap: 10px; font-size: .82rem; color: var(--grey); }
 
 /* Grille événements */
+/* Compteur d'événements à venir */
+.events-count { font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--passion); margin-bottom: 26px; }
+/* Groupement par jour, façon Shotgun */
+.events-days { display: flex; flex-direction: column; gap: 44px; }
+.day-head {
+  display: flex; align-items: baseline; gap: 12px;
+  font-family: var(--display); font-weight: 800; font-size: 1.15rem;
+  color: var(--cream); margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 200, 87, .18);
+}
+.day-head-label::first-letter { text-transform: uppercase; }
+.day-head-count {
+  font-family: var(--body); font-size: .72rem; font-weight: 700;
+  padding: 3px 11px; border-radius: 100px;
+  background: rgba(255, 200, 87, .14); color: var(--passion);
+}
 .events-grid { display: grid; gap: 28px; }
 .event-card {
   background: var(--ink-soft);
@@ -1114,6 +1130,9 @@ html[data-theme="light"] .event-card { background: #FFFFFF; border-color: rgba(2
 html[data-theme="light"] .event-card-meta, html[data-theme="light"] .event-price small { color: #6E6353; }
 html[data-theme="light"] .event-price strong { color: var(--gold-deep); }
 html[data-theme="light"] .event-genre { color: var(--gold-deep); border-color: rgba(184, 134, 11, .4); }
+html[data-theme="light"] .events-count { color: var(--gold-deep); }
+html[data-theme="light"] .day-head { color: #221A10; border-bottom-color: rgba(184, 134, 11, .28); }
+html[data-theme="light"] .day-head-count { background: rgba(212, 160, 23, .12); color: var(--gold-deep); }
 html[data-theme="light"] .event-organizer { color: #8A7E6C; border-top-color: rgba(34, 26, 16, .15); }
 html[data-theme="light"] .section-pro { background: linear-gradient(180deg, #F3ECDC, #FAF6EE); }
 html[data-theme="light"] .pro-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); }

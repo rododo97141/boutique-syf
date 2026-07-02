@@ -101,6 +101,9 @@
         <select id="cityFilter" aria-label="Filtrer par ville">
           <option value="">Toutes les villes</option>
         </select>
+        <select id="genreFilter" aria-label="Filtrer par genre musical">
+          <option value="">Tous les genres</option>
+        </select>
         <label class="sort-label">
           Trier :
           <select id="sortFilter" aria-label="Trier les événements">
@@ -111,8 +114,10 @@
       </div>
     </div>
 
-    <!-- Grille rendue par script.js -->
-    <div class="events-grid" id="eventsGrid"></div>
+    <p class="events-count reveal d2" id="eventCount"></p>
+
+    <!-- Événements groupés par jour, rendus par script.js -->
+    <div class="events-days" id="eventsGrid"></div>
     <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à votre recherche. Revenez vite, la programmation évolue chaque semaine. ✦</p>
   </div>
 </section>

@@ -603,8 +603,17 @@ if (placeModal && placesGridEl) {
       cities.map(c => `<option value="${c}" ${c === current ? 'selected' : ''}>${c}</option>`).join('');
   };
 
-  /* ===== 11. FILTRES / RECHERCHE / TRI ===== */
-  const state = { filter: 'tous', city: '', sort: 'date', search: '' };
+  const genreFilter = $('#genreFilter');
+  const refreshGenreOptions = () => {
+    if (!genreFilter) return;
+    const current = genreFilter.value;
+    const genres = [...new Set(events.flatMap(e => e.genres || []))].sort((a, b) => a.localeCompare(b, 'fr'));
+    genreFilter.innerHTML = '<option value="">Tous les genres</option>' +
+      genres.map(g => `<option value="${g}" ${g === current ? 'selected' : ''}>${g}</option>`).join('');
+  };
+
+  /* ===== 11. FILTRES / RECHERCHE / TRI / GROUPEMENT PAR JOUR ===== */
+  const state = { filter: 'tous', city: '', genre: '', sort: 'date', search: '' };
 
   const renderEvents = () => {
     const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
@@ -612,11 +621,32 @@ if (placeModal && placesGridEl) {
       new Date(ev.date + 'T00:00:00') >= startOfToday &&   // masque les événements passés
       (state.filter === 'tous' || ev.type === state.filter || (state.filter === 'prive' && ev.prive)) &&
       (!state.city || ev.city === state.city) &&
-      (!state.search || (ev.name + ' ' + ev.city + ' ' + ev.organizer).toLowerCase().includes(state.search))
+      (!state.genre || (ev.genres || []).some(g => g.toLowerCase() === state.genre.toLowerCase())) &&
+      (!state.search || (ev.name + ' ' + ev.city + ' ' + (ev.venue || '') + ' ' + ev.organizer).toLowerCase().includes(state.search))
     );
-    list.sort((a, b) => state.sort === 'prix' ? a.price - b.price : a.date.localeCompare(b.date));
-    eventsGrid.innerHTML = list.map(eventCardHTML).join('');
-    $('#noResults').hidden = list.length > 0;
+
+    // Compteur « X événements à venir »
+    const count = list.length;
+    $('#eventCount').textContent = count ? `${count} événement${count > 1 ? 's' : ''} à venir` : '';
+    $('#noResults').hidden = count > 0;
+
+    // Tri : jours dans l'ordre chronologique ; à l'intérieur d'un jour,
+    // par prix si demandé, sinon par heure de début.
+    list.sort((a, b) => a.date === b.date
+      ? (state.sort === 'prix' ? a.price - b.price : (a.time || '').localeCompare(b.time || ''))
+      : a.date.localeCompare(b.date));
+
+    // Groupement par jour, façon Shotgun
+    const groups = new Map();
+    list.forEach(ev => { if (!groups.has(ev.date)) groups.set(ev.date, []); groups.get(ev.date).push(ev); });
+    eventsGrid.innerHTML = [...groups.entries()].map(([date, evs]) => {
+      const d = new Date(date + 'T12:00:00');
+      const head = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+      return `<div class="day-group">
+        <h3 class="day-head"><span class="day-head-label">${head}</span><span class="day-head-count">${evs.length}</span></h3>
+        <div class="events-grid">${evs.map(eventCardHTML).join('')}</div>
+      </div>`;
+    }).join('');
   };
 
   $('#filterChips').addEventListener('click', e => {
@@ -628,10 +658,12 @@ if (placeModal && placesGridEl) {
     renderEvents();
   });
   cityFilter.addEventListener('change', () => { state.city = cityFilter.value; renderEvents(); });
+  genreFilter?.addEventListener('change', () => { state.genre = genreFilter.value; renderEvents(); });
   $('#sortFilter').addEventListener('change', e => { state.sort = e.target.value; renderEvents(); });
   $('#eventSearch')?.addEventListener('input', e => { state.search = e.target.value.trim().toLowerCase(); renderEvents(); });
 
   refreshCityOptions();
+  refreshGenreOptions();
   renderEvents();
 
   /* ===== 12. MODALE BILLETS ===== */
@@ -837,6 +869,7 @@ if (placeModal && placesGridEl) {
     store.set('syfir-pro-events', proEvents);
     events = [...baseEvents, ...proEvents];
     refreshCityOptions();
+    refreshGenreOptions();
     renderEvents();
 
     const total = $('#billingTotal').textContent;
