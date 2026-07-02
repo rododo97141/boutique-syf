@@ -716,6 +716,23 @@ if (placeModal && placesGridEl) {
     }, { threshold: 0.2 }).observe(ticketsHero);
   }
 
+  /* ===== 09b-2. AFTERMOVIE : façade lazy (accueil) =====
+     L'iframe YouTube ne se charge qu'au clic (performance / vie privée).
+     Tant que data-embed contient VIDEO_ID (placeholder), on informe
+     simplement que la vidéo arrive. */
+  const aftermovieBtn = $('#aftermovieBtn');
+  aftermovieBtn?.addEventListener('click', () => {
+    const embed = aftermovieBtn.dataset.embed || '';
+    if (!embed || embed.includes('VIDEO_ID')) {
+      showToast('🎬 L\'aftermovie arrive très bientôt !');
+      return;
+    }
+    const url = embed + (embed.includes('?') ? '&' : '?') + 'autoplay=1';
+    aftermovieBtn.closest('.aftermovie').innerHTML =
+      `<iframe class="aftermovie-frame" src="${url}" title="Aftermovie SYFIR"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  });
+
   /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
     form.addEventListener('submit', e => {
