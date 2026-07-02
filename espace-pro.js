@@ -78,6 +78,31 @@
           <span class="kpi-sub">${next ? new Date(next.date + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) : 'Aucun à venir'}</span>
         </div>
       </div>
+      ${(() => {
+        // Comparatifs simulés, stables sur la journée (graine = date + événements)
+        const dayKey = new Date().toISOString().slice(0, 10);
+        const g = seed(dayKey + pro.map(e => e.name).join(''));
+        const todaySold = 2 + (g % 14);
+        const yestSold = 2 + ((g >> 4) % 14);
+        const dSold = yestSold ? Math.round((todaySold - yestSold) / yestSold * 100) : 0;
+        const monthRev = Math.round(rev * (0.22 + (g % 30) / 100));
+        const lastMonthRev = Math.round(rev * (0.22 + ((g >> 6) % 30) / 100));
+        const dRev = lastMonthRev ? Math.round((monthRev - lastMonthRev) / lastMonthRev * 100) : 0;
+        const arrow = v => v >= 0 ? `<span class="kpi-delta up">▲ +${v}%</span>` : `<span class="kpi-delta down">▼ ${v}%</span>`;
+        return `
+      <div class="kpi-grid kpi-grid-compare">
+        <div class="kpi-card">
+          <span class="kpi-label">Billets aujourd'hui</span>
+          <strong class="kpi-value">${todaySold} ${arrow(dSold)}</strong>
+          <span class="kpi-sub">vs ${yestSold} hier</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Revenus du mois</span>
+          <strong class="kpi-value kpi-value-sm">${S.euro(monthRev)} ${arrow(dRev)}</strong>
+          <span class="kpi-sub">vs ${S.euro(lastMonthRev)} le mois dernier</span>
+        </div>
+      </div>`;
+      })()}
       <p class="dash-note">✦ Chiffres de ventes simulés pour la démo — ils seront connectés à la billetterie réelle.</p>`;
   };
 

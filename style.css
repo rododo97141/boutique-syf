@@ -1600,6 +1600,14 @@ html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep);
 }
 .aftermovie-frame { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius); }
 
+/* KPI comparatifs du Smartboard */
+.kpi-grid-compare { margin-top: 20px; }
+.kpi-delta { font-size: .68rem; font-weight: 700; vertical-align: 4px; letter-spacing: .04em; }
+.kpi-delta.up { color: var(--success); }
+.kpi-delta.down { color: var(--coral); }
+html[data-theme="light"] .kpi-delta.up { color: #2E7D42; }
+html[data-theme="light"] .kpi-delta.down { color: #B4451F; }
+
 /* Billet : numéro unique, revente interdite, contact organisateur */
 .my-ticket-main small { display: block; }
 .ticket-num { color: var(--grey); font-variant-numeric: tabular-nums; margin-top: 2px; }
