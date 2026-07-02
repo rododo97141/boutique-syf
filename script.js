@@ -716,6 +716,32 @@ if (placeModal && placesGridEl) {
     }, { threshold: 0.2 }).observe(ticketsHero);
   }
 
+  /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
+  $$('.footer-news').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const input = form.querySelector('input[type="email"]');
+      const msg = form.querySelector('.footer-news-msg');
+      const email = input.value.trim();
+      msg.hidden = false;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        msg.textContent = 'Entrez une adresse email valide.';
+        msg.classList.add('is-error');
+        input.focus();
+        return;
+      }
+      // TODO : brancher l'endpoint d'emailing (Brevo ou Mailchimp). Exemple Brevo :
+      // fetch('https://api.brevo.com/v3/contacts', {
+      //   method: 'POST',
+      //   headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ email, listIds: [ID_LISTE_SYFIR], updateEnabled: true })
+      // }).then(...)
+      msg.classList.remove('is-error');
+      msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
+      form.reset();
+    });
+  });
+
   /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
   const agendaRows = $$('.agenda-row');
   if (agendaRows.length) {

@@ -732,6 +732,24 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
    contraste renforcé (≥ 4.5:1) dans les deux thèmes */
 .footer-sante { color: rgba(250, 248, 242, .85) !important; font-weight: 600; margin-top: 4px; }
 
+/* Newsletter du footer */
+.footer-news { margin-top: 18px; max-width: 340px; }
+.footer-news label {
+  display: block; font-family: var(--display); font-size: .72rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--passion); margin-bottom: 10px;
+}
+.footer-news-row { display: flex; gap: 8px; }
+.footer-news input {
+  flex: 1; min-width: 0; min-height: 44px; padding: 10px 16px;
+  background: rgba(250, 248, 242, .06); border: 1px solid rgba(250, 248, 242, .18);
+  border-radius: 100px; color: var(--cream); font-size: .9rem;
+}
+.footer-news input::placeholder { color: rgba(250, 248, 242, .35); }
+.footer-news input:focus { outline: none; border-color: var(--passion); }
+.footer-news .btn { min-height: 44px; }
+.footer-news-msg { margin-top: 10px; font-size: .82rem; color: var(--success); }
+.footer-news-msg.is-error { color: var(--coral); }
+
 /* ===== 12. PAGE ÉVÉNEMENTS (billetterie) ===== */
 .nav-tickets { gap: 14px; }
 .ticket-search {
@@ -1140,6 +1158,11 @@ html[data-theme="light"] .footer-col h4 { color: var(--gold-deep); }
 html[data-theme="light"] .footer-bottom { border-top-color: rgba(34, 26, 16, .1); }
 html[data-theme="light"] .footer-bottom p { color: #8A7E6C; }
 html[data-theme="light"] .footer-sante { color: #4A4136 !important; }
+html[data-theme="light"] .footer-news label { color: var(--gold-deep); }
+html[data-theme="light"] .footer-news input { background: #FFFFFF; border-color: #E4D9C2; color: #221A10; }
+html[data-theme="light"] .footer-news input::placeholder { color: rgba(34, 26, 16, .35); }
+html[data-theme="light"] .footer-news-msg { color: #2E7D42; }
+html[data-theme="light"] .footer-news-msg.is-error { color: #C8323A; }
 
 /* Page Événements */
 html[data-theme="light"] nav.scrolled .btn-ghost { border-color: rgba(34, 26, 16, .35); color: #221A10; }
