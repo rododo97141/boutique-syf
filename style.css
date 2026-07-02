@@ -516,9 +516,10 @@ html[data-theme="light"] .theme-check { color: var(--gold-deep); }
   transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
 }
 .cocktail-card:hover { transform: translateY(-10px); box-shadow: 0 30px 70px rgba(255, 122, 0, .22); }
-.cocktail-media { position: relative; overflow: hidden; aspect-ratio: 7/5; }
-.cocktail-media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
-.cocktail-card:hover .cocktail-media img { transform: scale(1.08); }
+/* Cadrage uniforme 5:4, sujet centré (standard food delivery) */
+.cocktail-media { position: relative; overflow: hidden; aspect-ratio: 5 / 4; }
+.cocktail-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
+.cocktail-card:hover .cocktail-media img { transform: scale(1.03); }
 .cocktail-badge {
   position: absolute; top: 16px; left: 16px;
   font-family: var(--display); font-size: .65rem; font-weight: 800;
@@ -856,9 +857,9 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .event-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(26px); } }
 .event-card:hover { transform: translateY(-8px); border-color: rgba(255, 200, 87, .4); box-shadow: 0 26px 60px rgba(0, 0, 0, .45); }
-.event-card-media { position: relative; aspect-ratio: 16/10; overflow: hidden; }
-.event-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
-.event-card:hover .event-card-media img { transform: scale(1.07); }
+.event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
+.event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
+.event-card:hover .event-card-media img { transform: scale(1.03); }
 .event-date {
   position: absolute; top: 14px; left: 14px;
   background: var(--cream); color: var(--ink);
