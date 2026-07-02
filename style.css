@@ -47,6 +47,8 @@
   --nav-h: 72px;
   /* Or métallique SYFIR (lettrage doré du packaging) */
   --gold-metal: linear-gradient(160deg, #F6D87C 8%, #D4A017 38%, #B8860B 58%, #F0C84A 86%);
+  /* Grain de matière (noise SVG, ~3%) — appliqué aux fonds sombres uniquement */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1658,10 +1660,17 @@ html[data-theme="light"] .ed-related-card small { color: #6E6353; }
 }
 html[data-theme="light"] .tier-reco { border-color: rgba(184, 134, 11, .5); background: rgba(212, 160, 23, .07); }
 
+/* ===== GRAIN DE MATIÈRE (fonds sombres uniquement) ===== */
+html[data-theme="dark"] body { background-image: var(--noise); }
+html[data-theme="dark"] .section-dark { background-image: var(--noise); }
+html[data-theme="dark"] footer { background-image: var(--noise); }
+html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { background-image: var(--noise); }
+
 /* ===== PSYCHOLOGIE CHAUD/FROID : or chaud sur océan profond ===== */
 /* Communauté : bain d'océan profond réchauffé par un halo doré (sombre) */
 #communaute.section-dark {
   background:
+    var(--noise),
     radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 200, 87, .10), transparent 62%),
     radial-gradient(ellipse 70% 40% at 50% 100%, rgba(255, 122, 0, .08), transparent 60%),
     linear-gradient(180deg, #0C2438, var(--ocean-deep));
