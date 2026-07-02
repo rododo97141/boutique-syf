@@ -533,32 +533,10 @@ if (placeModal && placesGridEl) {
   const eventsGrid = $('#eventsGrid');
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
-  /* ===== 10. DONNÉES & RENDU ===== */
-  const TIERS_DEFAULT = [
-    { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8 },
-    { name: 'Standard', desc: 'Entrée + 1 cocktail SYFIR', mult: 1 },
-    { name: 'VIP Golden Hour', desc: 'Carré VIP + open cocktails', mult: 2.2 }
-  ];
-  const MONTHS = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUIN', 'JUIL', 'AOÛT', 'SEP', 'OCT', 'NOV', 'DÉC'];
-
-  const baseEvents = [
-    { id: 1, name: 'SYFIR Sunset Beach Party', type: 'beach', city: 'Sainte-Anne', venue: 'Plage de la Caravelle', date: '2026-07-04', time: '18:00', price: 25, genres: ['Afro house', 'Zouk'],
-      img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80', organizer: 'SYFIR Official', prive: false },
-    { id: 2, name: 'Golden Hour Rooftop', type: 'rooftop', city: 'Paris', venue: 'Le Perchoir', date: '2026-06-26', time: '19:00', price: 35, genres: ['Deep house', 'Soul'],
-      img: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80', organizer: 'SYFIR Official', prive: false },
-    { id: 3, name: 'Coral Night — Club Edition', type: 'club', city: 'Pointe-à-Pitre', venue: 'Club Azur', date: '2026-07-11', time: '23:00', price: 20, genres: ['Shatta', 'Dancehall'],
-      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80', organizer: 'Club Azur × SYFIR', prive: false },
-    { id: 4, name: 'SYFIR Tropical Festival', type: 'festival', city: 'Le Gosier', venue: 'Plage du Gosier', date: '2026-08-15', time: '16:00', price: 45, genres: ['Soca', 'Zouk', 'Afro house'],
-      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false },
-    { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', venue: 'Villa Gustavia', date: '2026-07-18', time: '21:00', price: 80, genres: ['House', 'Konpa'],
-      img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
-    { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', venue: 'Plage de Grande Anse', date: '2026-06-21', time: '12:00', price: 15, genres: ['Chill', 'Zouk'],
-      img: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=900&q=80', organizer: 'SYFIR Official', prive: false }
-  ];
-  // Les événements créés via l'espace pro sont conservés en local
-  let events = [...baseEvents, ...store.get('syfir-pro-events', [])];
-
-  const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
+  /* ===== 10. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
+  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel } = window.SYFIR;
+  // Événements de base + ceux créés via l'espace pro (localStorage)
+  let events = window.SYFIR.getAllEvents();
 
   // Fourchette de prix réelle, calculée depuis les paliers (ex. « 20 € – 55 € »)
   const TIER_MULTS = () => TIERS_DEFAULT.map(t => t.mult);
@@ -576,7 +554,7 @@ if (placeModal && placesGridEl) {
     const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
     const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
     return `
-    <article class="event-card" style="animation-delay:${i * 0.07}s">
+    <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${ev.name}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
         <img src="${ev.img}" alt="${ev.name}" loading="lazy">
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
@@ -702,9 +680,23 @@ if (placeModal && placesGridEl) {
     $('#modalFoot').style.display = unlocked ? '' : 'none';
   };
 
+  const openEventPage = card => {
+    if (card && card.dataset.id) location.href = `evenement.html?id=${encodeURIComponent(card.dataset.id)}`;
+  };
+  // Clavier : Entrée/Espace sur une carte ouvre sa fiche
+  eventsGrid.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList?.contains('event-card')) {
+      e.preventDefault();
+      openEventPage(e.target);
+    }
+  });
   eventsGrid.addEventListener('click', e => {
     const btn = e.target.closest('[data-tickets]');
-    if (!btn) return;
+    if (!btn) {
+      // Clic sur la carte (hors bouton Billets) -> fiche événement partageable
+      openEventPage(e.target.closest('.event-card'));
+      return;
+    }
     currentEvent = events.find(ev => ev.id === +btn.dataset.tickets);
     tierQty = TIERS_DEFAULT.map(() => 0);
     const d = new Date(currentEvent.date + 'T12:00:00');

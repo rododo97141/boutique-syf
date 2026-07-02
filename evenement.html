@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" id="metaDesc" content="Fiche événement SYFIR — billetterie officielle.">
+<title id="pageTitle">Événement — SYFIR</title>
+<!-- Open Graph (mis à jour dynamiquement selon l'événement) -->
+<meta property="og:type" content="event">
+<meta property="og:title" id="ogTitle" content="Événement — SYFIR">
+<meta property="og:description" id="ogDesc" content="Billetterie officielle SYFIR.">
+<meta property="og:image" id="ogImage" content="">
+<meta property="og:url" id="ogUrl" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Thème appliqué avant le rendu pour éviter tout flash -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-event">
+
+<!-- Navigation -->
+<nav id="nav" class="nav-tickets">
+  <a href="evenements.html" class="nav-logo">SYFIR<span class="logo-suffix">Événements</span></a>
+  <div class="nav-actions">
+    <a class="btn btn-ghost btn-sm" href="evenements.html">← Billetterie</a>
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">🌗</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">☀️</span><span class="theme-opt-txt">Clair<small>Été doré</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Fiche rendue par evenement.js -->
+<main id="eventDetail" class="event-detail" hidden></main>
+
+<!-- Événement introuvable -->
+<section id="eventNotFound" class="event-notfound" hidden>
+  <div class="container">
+    <p class="eyebrow">Oups</p>
+    <h1 class="h2">Cet <em>événement</em> est introuvable.</h1>
+    <p class="section-intro">Le lien est peut-être expiré, ou l'événement a été retiré de la programmation.</p>
+    <a href="evenements.html" class="btn btn-solid">← Retour à la billetterie</a>
+  </div>
+</section>
+
+<!-- JSON-LD injecté par evenement.js -->
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="events-data.js"></script>
+<script src="script.js"></script>
+<script src="evenement.js"></script>
+</body>
+</html>

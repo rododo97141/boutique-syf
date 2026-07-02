@@ -806,10 +806,11 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .event-card {
   background: var(--ink-soft);
   border: 1px solid rgba(250, 248, 242, .09);
-  border-radius: var(--radius); overflow: hidden;
+  border-radius: var(--radius); overflow: hidden; cursor: pointer;
   transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .4s;
   animation: cardIn .6s var(--ease) backwards;
 }
+.event-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(26px); } }
 .event-card:hover { transform: translateY(-8px); border-color: rgba(255, 200, 87, .4); box-shadow: 0 26px 60px rgba(0, 0, 0, .45); }
 .event-card-media { position: relative; aspect-ratio: 16/10; overflow: hidden; }
@@ -1427,6 +1428,51 @@ html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep);
 
 @media (prefers-reduced-motion: reduce) { .logos-track { animation: none; } }
 
+/* ===== FICHE ÉVÉNEMENT (evenement.html) ===== */
+.event-detail { padding-bottom: 80px; }
+.ed-hero { position: relative; width: 100%; height: clamp(240px, 44vh, 460px); overflow: hidden; background: var(--ocean-deep); }
+.ed-hero-img { width: 100%; height: 100%; object-fit: cover; }
+.ed-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 30%, rgba(17,17,17,.85)); }
+.ed-hero-tag {
+  position: absolute; left: 5vw; bottom: 20px; z-index: 2;
+  font-family: var(--display); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 100px; background: var(--gold-metal); color: var(--ink);
+}
+.ed-hero-tag.tag-prive { background: var(--ink); color: var(--coral); }
+.ed-body { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 34px; }
+.ed-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 6vw, 3rem); line-height: 1.08; text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 22px; }
+.ed-meta { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.ed-meta li { font-size: 1rem; color: rgba(250, 248, 242, .82); }
+.ed-meta .ed-date { text-transform: capitalize; }
+.ed-meta a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.ed-meta a:hover { color: var(--sunset); }
+.ed-genres { margin-bottom: 22px; }
+.ed-organizer { color: var(--grey); font-size: .95rem; margin-bottom: 26px; }
+.ed-organizer strong { color: rgba(250, 248, 242, .9); }
+.ed-share { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.ed-tickets { background: var(--ink-soft); border: 1px solid rgba(255, 200, 87, .16); border-radius: var(--radius); padding: 26px 24px; align-self: start; }
+.ed-tickets-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 18px; }
+.ed-foot { margin-top: 18px; }
+.ed-total { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.ed-total span { color: var(--grey); font-size: .9rem; text-transform: uppercase; letter-spacing: .1em; }
+.ed-total strong { font-family: var(--display); font-size: 1.5rem; color: var(--passion); }
+
+.event-notfound { min-height: 70vh; display: flex; align-items: center; text-align: center; }
+.event-notfound .container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.event-notfound .btn { margin-top: 20px; }
+
+/* Fiche — variante claire */
+html[data-theme="light"] .ed-meta li { color: #3a3125; }
+html[data-theme="light"] .ed-meta a { color: var(--gold-deep); }
+html[data-theme="light"] .ed-meta a:hover { color: var(--sunset); }
+html[data-theme="light"] .ed-organizer { color: #6E6353; }
+html[data-theme="light"] .ed-organizer strong { color: #221A10; }
+html[data-theme="light"] .ed-tickets { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); box-shadow: 0 10px 34px rgba(60, 45, 20, .08); }
+html[data-theme="light"] .ed-tickets-title { color: #221A10; }
+html[data-theme="light"] .ed-total span { color: #6E6353; }
+html[data-theme="light"] .ed-total strong { color: var(--gold-deep); }
+
 /* ===== 14. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {
@@ -1461,6 +1507,8 @@ html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep);
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
   .events-grid { grid-template-columns: repeat(3, 1fr); }
+  .ed-body { grid-template-columns: 1.55fr .9fr; gap: 56px; align-items: start; }
+  .ed-tickets { position: sticky; top: 96px; }
   .artists-grid { grid-template-columns: repeat(4, 1fr); }
   .bands-grid { grid-template-columns: repeat(3, 1fr); }
   .places-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
