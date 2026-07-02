@@ -7,7 +7,7 @@
   'use strict';
 
   const TIERS_DEFAULT = [
-    { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8 },
+    { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8, scarce: true },
     { name: 'Standard', desc: 'Entrée + 1 cocktail SYFIR', mult: 1, reco: true },
     { name: 'VIP Golden Hour', desc: 'Carré VIP + open cocktails', mult: 2.2 }
   ];
@@ -38,6 +38,14 @@
     const lo = ev.price * Math.min(...m), hi = ev.price * Math.max(...m);
     return lo === hi ? euro(lo) : `${euro(lo)} – ${euro(hi)}`;
   };
+  // Compte à rebours sobre : « Dans 2 j 14 h » / « Dans 3 h 12 min » / '' si passé
+  const countdownText = iso => {
+    const ms = new Date(iso) - Date.now();
+    if (ms <= 0) return '';
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    return d > 0 ? `Dans ${d} j ${h} h` : h > 0 ? `Dans ${h} h ${m} min` : `Dans ${m} min`;
+  };
+
   const mapsUrl = ev => 'https://www.google.com/maps/search/?api=1&query=' +
     encodeURIComponent([ev.venue, ev.city, 'Guadeloupe'].filter(Boolean).join(', '));
 
@@ -49,5 +57,5 @@
   const getAllEvents = () => [...baseEvents, ...getProEvents()];
   const getEvent = id => getAllEvents().find(e => String(e.id) === String(id));
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText };
 })();

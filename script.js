@@ -771,6 +771,17 @@ if (placeModal && placesGridEl) {
     }
   }
 
+  /* ===== 09b-5. COMPTE À REBOURS RÉEL (prochain événement, accueil) ===== */
+  const cdEls = $$('[data-countdown]');
+  if (cdEls.length && window.SYFIR) {
+    const tickCd = () => cdEls.forEach(el => {
+      const t = window.SYFIR.countdownText(el.dataset.countdown);
+      el.textContent = t ? '⏳ ' + t : '';
+    });
+    tickCd();
+    setInterval(tickCd, 60000);
+  }
+
   /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
   const agendaRows = $$('.agenda-row');
   if (agendaRows.length) {
@@ -933,7 +944,7 @@ if (placeModal && placesGridEl) {
   const renderTiers = () => {
     $('#ticketTiers').innerHTML = TIERS_DEFAULT.map((t, i) => `
       <div class="tier ${tierQty[i] > 0 ? 'has-qty' : ''} ${t.reco ? 'tier-reco' : ''}">
-        <div class="tier-info"><strong>${t.name}${t.reco ? ' <span class="tier-badge">Recommandé</span>' : ''}</strong><small>${t.desc}</small></div>
+        <div class="tier-info"><strong>${t.name}${t.reco ? ' <span class="tier-badge">Recommandé</span>' : ''}</strong><small${t.scarce ? ' class="tier-scarce"' : ''}>${t.desc}</small></div>
         <div class="tier-right">
           <span class="tier-price">${euro(currentEvent.price * t.mult)}</span>
           <div class="tier-qty">

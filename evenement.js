@@ -84,6 +84,7 @@
           <li>📅 <span class="ed-date">${dateLong}</span></li>
           ${ev.time ? `<li>🕘 ${S.fmtTime(ev.time)}</li>` : ''}
           <li><a href="${S.mapsUrl(ev)}" target="_blank" rel="noopener">📍 ${loc} ↗</a></li>
+          <li class="ed-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00" hidden></li>
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
         <p class="ed-organizer">Organisé par <strong>${ev.organizer}</strong></p>
@@ -120,7 +121,7 @@
   const renderTiers = () => {
     tiersBox.innerHTML = S.TIERS_DEFAULT.map((t, i) => `
       <div class="tier ${tierQty[i] > 0 ? 'has-qty' : ''} ${t.reco ? 'tier-reco' : ''}">
-        <div class="tier-info"><strong>${t.name}${t.reco ? ' <span class="tier-badge">Recommandé</span>' : ''}</strong><small>${t.desc}</small></div>
+        <div class="tier-info"><strong>${t.name}${t.reco ? ' <span class="tier-badge">Recommandé</span>' : ''}</strong><small${t.scarce ? ' class="tier-scarce"' : ''}>${t.desc}</small></div>
         <div class="tier-right">
           <span class="tier-price">${S.euro(ev.price * t.mult)}</span>
           <div class="tier-qty">
@@ -179,6 +180,18 @@
       toast('Copiez le lien depuis la barre d\'adresse.');
     }
   });
+
+  // Compte à rebours réel, sobre — masqué si l'événement est passé
+  const cdEl = detail.querySelector('.ed-countdown');
+  if (cdEl && S.countdownText) {
+    const tickCd = () => {
+      const t = S.countdownText(cdEl.dataset.countdown);
+      cdEl.hidden = !t;
+      if (t) cdEl.textContent = '⏳ ' + t;
+    };
+    tickCd();
+    setInterval(tickCd, 60000);
+  }
 
   showTickets(!ev.prive);
   renderTiers();

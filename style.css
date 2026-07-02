@@ -1659,6 +1659,12 @@ html[data-theme="light"] .ed-related-card small { color: #6E6353; }
   vertical-align: 2px;
 }
 html[data-theme="light"] .tier-reco { border-color: rgba(184, 134, 11, .5); background: rgba(212, 160, 23, .07); }
+/* Rareté réelle du Early Bird (déjà vraie dans les données) */
+.tier-scarce { color: var(--coral) !important; font-weight: 600; }
+html[data-theme="light"] .tier-scarce { color: #B4451F !important; }
+/* Compte à rebours de la fiche */
+.ed-countdown { font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--passion) !important; }
+html[data-theme="light"] .ed-countdown { color: var(--gold-deep) !important; }
 
 /* ===== GRAIN DE MATIÈRE (fonds sombres uniquement) ===== */
 html[data-theme="dark"] body { background-image: var(--noise); }
