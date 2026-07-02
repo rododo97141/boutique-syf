@@ -1658,6 +1658,22 @@ html[data-theme="light"] .ed-related-card small { color: #6E6353; }
 }
 html[data-theme="light"] .tier-reco { border-color: rgba(184, 134, 11, .5); background: rgba(212, 160, 23, .07); }
 
+/* ===== PSYCHOLOGIE CHAUD/FROID : or chaud sur océan profond ===== */
+/* Communauté : bain d'océan profond réchauffé par un halo doré (sombre) */
+#communaute.section-dark {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 200, 87, .10), transparent 62%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(255, 122, 0, .08), transparent 60%),
+    linear-gradient(180deg, #0C2438, var(--ocean-deep));
+}
+html[data-theme="light"] #communaute.section-dark { background: #F3ECDC; }
+/* Hero billetterie : voile teinté océan + or montant du bas */
+.tickets-hero .hero-veil {
+  background:
+    radial-gradient(ellipse at 50% 115%, rgba(255, 200, 87, .38), transparent 55%),
+    linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(7, 30, 48, .22) 45%, rgba(12, 12, 12, .55));
+}
+
 /* ===== AGE GATE 18+ ===== */
 .age-gate {
   position: fixed; inset: 0; z-index: 1200;
