@@ -31,7 +31,7 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 ### Groupes & équipe
 
 | `artiste-zenith.png` | Section Groupes — Zénith Brass | Fanfare / brass band |
-| `artiste-unity.png` | Section Groupes — Unity 141 (groupe réel) | Photo officielle du collectif (en attente — placeholder étiqueté en ligne) |
+| ~~`artiste-unity.png`~~ `artiste-unity.jpg` | Section Groupes — Unity 141 (groupe réel) | ✅ REÇUE (photo des 10 musiciens, compressée depuis images/originaux/) |
 | `equipe-camille.png` | Équipe — Camille Roussel | Portrait carré |
 | `equipe-yanis.png` | Équipe — Yanis Mercier | Portrait carré |
 | `equipe-lea.png` | Équipe — Léa Fontaine | Portrait carré |
@@ -65,9 +65,14 @@ garder le site rapide.
 
 | Fichier exact | Produit |
 |---|---|
-| `syf-planteur-1.jpg` / `syf-planteur-2.jpg` | 2 photos officielles du sachet Syf Planteur (fiche produit) |
-| `syf-coral-1.jpg` / `syf-coral-2.jpg` | Photos officielles Syf Coral Breeze |
-| `syf-golden-1.jpg` / `syf-golden-2.jpg` | Photos officielles Syf Golden Escape |
+| `syf-planteur-1.jpg` | ✅ REÇUE — sachet Planteur sur table en bois, plage (visuel principal + og:image du site) |
+| `syf-planteur-2.jpg` | ✅ REÇUE — flat lay du sachet entouré de fruits (galerie) |
+| `syf-planteur-3.jpg` | ✅ REÇUE — sachet + verre face à la plage (galerie) |
+| `syf-planteur-verre.jpg` | ✅ REÇUE — verre de Planteur, format « Sur place » |
+| `syf-coral-1.jpg` / `syf-coral-2.jpg` | Photos officielles Syf Coral Breeze (en attente) |
+| `syf-golden-1.jpg` / `syf-golden-2.jpg` | Photos officielles Syf Golden Escape (en attente) |
+
+Les originaux non compressés du client sont archivés dans `images/originaux/`.
 
 Tant qu'un fichier manque, la galerie retire sa diapositive et garde un
 visuel Unsplash de secours (badge « Visuel officiel bientôt » sur Coral

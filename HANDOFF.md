@@ -95,7 +95,7 @@ Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gat
 - [ ] **Visuels client** : images/`syfir-*.png`, `artiste-*.png`, `equipe-*.png`, **photos produit `images/produits/`** (voir images/README.md) + vrais extraits audio + `data-video` des artistes + URL aftermovie (`VIDEO_ID`) + vidéos Coral/Golden.
 - [ ] **Bibliothèque de composants React `syfir-ui/` + /design-sync** : reportée par le superviseur, « remise en file après les lots site » (plan détaillé discuté : 10-15 composants depuis style.css, puis sync claude.ai/design).
 - [ ] Vrais profils streaming des artistes (data-attributes en place, boutons masqués tant que génériques).
-- [ ] **Unity 141** : photo officielle `images/artiste-unity.png` (placeholder = thumbnail YouTube). Bio + contacts management (tél/email) VALIDÉS par le client.
+- [x] **Unity 141** : photo officielle reçue -> `images/artiste-unity.jpg`. Bio + contacts management VALIDÉS par le client. ⚠ Le sachet « fond marbre + logo doré » montré en chat n'a PAS été uploadé — le principal/og:image est le sachet table bois/plage (`syf-planteur-1.jpg`), échangeable en remplaçant ce seul fichier.
 - [ ] PR #8 : à maintenir à jour au fil des lots (descriptif structuré par lot, liens preview par SHA).
 
 ## 8. Conventions de contribution

@@ -44,6 +44,7 @@
   setAttr('#ogTitle', 'content', `${ev.name} — SYFIR`);
   setAttr('#ogDesc', 'content', shareText);
   setAttr('#ogImage', 'content', ev.img);
+  setAttr('#twImage', 'content', ev.img);
   setAttr('#ogUrl', 'content', location.href);
 
   // --- Données structurées JSON-LD MusicEvent (schema.org) ---
