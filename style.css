@@ -450,6 +450,36 @@ html[data-theme="light"] .theme-check { color: var(--gold-deep); }
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
+/* ===== PROCHAINS ÉVÉNEMENTS (conversion, accueil) ===== */
+.next-events { padding: 8px 0 80px; }
+.next-grid { display: grid; gap: 16px; margin-bottom: 32px; }
+.next-card {
+  display: flex; align-items: center; gap: 20px;
+  padding: 20px 24px; border-radius: var(--radius);
+  background: rgba(250, 248, 242, .04); border: 1px solid rgba(255, 200, 87, .16);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-fast);
+}
+.next-card:hover { transform: translateY(-3px); border-color: rgba(255, 200, 87, .45); }
+.next-date { flex-shrink: 0; width: 56px; text-align: center; line-height: 1.05; }
+.next-date strong { display: block; font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--passion); }
+.next-date small { font-size: .64rem; letter-spacing: .14em; color: var(--grey); text-transform: uppercase; }
+.next-info { flex: 1; min-width: 0; }
+.next-info > strong { display: block; font-family: var(--display); font-size: 1.02rem; text-transform: uppercase; letter-spacing: .02em; }
+.next-info > small { color: var(--grey); font-size: .85rem; }
+.next-countdown { display: block; margin-top: 4px; font-family: var(--display); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--passion); }
+.next-arrow { color: var(--sunset); font-size: 1.2rem; transition: transform var(--dur-fast) var(--ease); }
+.next-card:hover .next-arrow { transform: translateX(4px); }
+.next-cta { text-align: center; }
+html[data-theme="light"] .next-card { background: #FFFDF6; border-color: rgba(212, 160, 23, .25); box-shadow: 0 6px 22px rgba(60, 45, 20, .06); }
+html[data-theme="light"] .next-info > strong { color: #221A10; }
+html[data-theme="light"] .next-info > small, html[data-theme="light"] .next-date small { color: #6E6353; }
+html[data-theme="light"] .next-date strong, html[data-theme="light"] .next-countdown { color: var(--gold-deep); }
+html[data-theme="light"] .next-arrow { color: #A04600; }
+
+/* ===== CTA FINAL (avant footer) ===== */
+.final-cta { padding: 96px 0 104px; text-align: center; }
+.final-cta .btn { margin-top: 8px; }
+
 /* Marquee */
 .marquee {
   overflow: hidden; padding: 24px 0;

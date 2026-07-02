@@ -743,6 +743,34 @@ if (placeModal && placesGridEl) {
     });
   });
 
+  /* ===== 09b-quater. PROCHAINS ÉVÉNEMENTS (accueil, conversion) =====
+     3 prochaines dates réelles depuis la source partagée (events-data.js). */
+  const nextBox = $('#nextEvents');
+  if (nextBox && window.SYFIR) {
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+    const next3 = window.SYFIR.getAllEvents()
+      .filter(ev => !ev.prive && new Date(ev.date + 'T00:00:00') >= startOfToday)
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(0, 3);
+    if (!next3.length) {
+      nextBox.closest('.next-events').hidden = true;
+    } else {
+      nextBox.innerHTML = next3.map((ev, i) => {
+        const d = new Date(ev.date + 'T12:00:00');
+        return `
+        <a class="next-card" href="evenement.html?id=${ev.id}">
+          <span class="next-date"><strong>${d.getDate()}</strong><small>${window.SYFIR.MONTHS[d.getMonth()]}</small></span>
+          <span class="next-info">
+            <strong>${ev.name}</strong>
+            <small>${ev.time ? '🕘 ' + window.SYFIR.fmtTime(ev.time) + ' · ' : ''}📍 ${ev.city}</small>
+            ${i === 0 ? '<span class="next-countdown" data-countdown="' + ev.date + 'T' + (ev.time || '20:00') + ':00"></span>' : ''}
+          </span>
+          <span class="next-arrow" aria-hidden="true">→</span>
+        </a>`;
+      }).join('');
+    }
+  }
+
   /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
   const agendaRows = $$('.agenda-row');
   if (agendaRows.length) {
