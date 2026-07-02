@@ -34,15 +34,7 @@
     set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
   };
 
-  /* ===== 02. PRÉLOADER ===== */
-  const preloader = $('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      setTimeout(() => preloader.classList.add('done'), 600);
-    });
-    // Sécurité : on ne bloque jamais plus de 2,5 s
-    setTimeout(() => preloader.classList.add('done'), 2500);
-  }
+  /* (02. Préloader retiré au lot 8 — vitesse perçue > cérémonie) */
 
   /* ===== 03. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
   const nav = $('#nav');
@@ -96,9 +88,12 @@
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
   reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
 
-  /* ===== 05. PARALLAXE DOUCE ===== */
+  /* ===== 05. PARALLAXE DOUCE =====
+     Allégé (lot 8) : désactivé sous 768px — sur mobile, le défilement
+     reste natif, sans travail par frame. */
   const parallaxEls = $$('[data-parallax]');
-  if (parallaxEls.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (parallaxEls.length && !matchMedia('(prefers-reduced-motion: reduce)').matches
+      && matchMedia('(min-width: 768px)').matches) {
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (ticking) return;
@@ -116,18 +111,7 @@
     }, { passive: true });
   }
 
-  /* ===== 06. EFFET TILT PREMIUM ===== */
-  if (matchMedia('(hover: hover)').matches) {
-    $$('[data-tilt]').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = `perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-6px)`;
-      });
-      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-    });
-  }
+  /* (06. Effet tilt 3D retiré au lot 8 — gadget, le design doit disparaître) */
 
   /* ===== 07. TOAST ===== */
   const toast = $('#toast');

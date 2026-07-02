@@ -24,13 +24,7 @@
 </head>
 <body>
 
-<!-- ============================================================
-     PRELOADER — révélation de la marque
-============================================================ -->
-<div class="preloader" id="preloader">
-  <div class="preloader-logo">SYFIR<span>™</span></div>
-  <div class="preloader-tag">Le Cocktail Libre</div>
-</div>
+<!-- Préloader retiré (lot 8) : la vitesse perçue prime sur la cérémonie -->
 
 <!-- ============================================================
      NAVIGATION
@@ -134,7 +128,7 @@
         </div>
       </div>
       <div class="split-visual reveal from-right d3">
-        <figure class="visual-card" data-tilt>
+        <figure class="visual-card">
           <img src="images/syfir-danseuse.png"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80'"
                alt="L'esprit carnaval SYFIR" loading="lazy">
@@ -169,7 +163,7 @@
     <div class="cocktail-grid">
 
       <!-- Syf Planteur — image du sachet : déposer le fichier dans images/syfir-planteur.png -->
-      <article class="cocktail-card reveal d1" data-tilt>
+      <article class="cocktail-card reveal d1">
         <div class="cocktail-media">
           <img src="images/syfir-planteur.png"
                onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546171753-97d7676e4602?w=700&q=80'"
@@ -189,7 +183,7 @@
       </article>
 
       <!-- Syf Coral Breeze -->
-      <article class="cocktail-card reveal d2" data-tilt>
+      <article class="cocktail-card reveal d2">
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Syf Coral Breeze — cocktail agrumes hibiscus fruits rouges" loading="lazy">
           <span class="cocktail-badge badge-coral">Vibrant</span>
@@ -207,7 +201,7 @@
       </article>
 
       <!-- Syf Golden Escape -->
-      <article class="cocktail-card reveal d3" data-tilt>
+      <article class="cocktail-card reveal d3">
         <div class="cocktail-media">
           <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&q=80" alt="Syf Golden Escape — cocktail citron vert passion fruits exotiques" loading="lazy">
           <span class="cocktail-badge badge-gold">Édition Or</span>
@@ -307,43 +301,40 @@
 
     <p class="places-cta reveal">Vous souhaitez proposer SYFIR dans votre établissement ? <a href="#partenaires">Devenez partenaire →</a></p>
   </div>
-</section>
 
-<!-- ============================================================
-     ILS NOUS FONT CONFIANCE — carrousel de logos partenaires
-============================================================ -->
-<section id="confiance" class="section section-cream">
-  <div class="container">
-    <p class="eyebrow reveal">Ils nous font confiance</p>
-    <h2 class="h2 reveal d1">Le réseau <em>SYFIR</em>.</h2>
-    <p class="section-intro reveal d2">Bars, hôtels, beach clubs, médias et distributeurs : ils servent et soutiennent SYFIR. Filtrez par catégorie, cliquez pour découvrir.</p>
-
-    <div class="filter-chips logos-chips reveal d2" id="logoChips">
-      <button class="chip active" data-cat="tous">Tous</button>
-      <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
-      <button class="chip" data-cat="hotel">Hôtels</button>
-      <button class="chip" data-cat="beach">Beach clubs</button>
-      <button class="chip" data-cat="media">Médias</button>
-      <button class="chip" data-cat="distrib">Distributeurs</button>
+  <!-- « Ils nous font confiance » — fusionné ici (soustraction lot 8),
+       contenu intégral conservé, ancre #confiance maintenue -->
+  <div class="trust-merge" id="confiance">
+    <div class="container">
+      <h3 class="trust-title reveal">Ils nous font confiance — <em>le réseau SYFIR</em></h3>
+      <p class="trust-intro reveal d1">Bars, hôtels, beach clubs, médias et distributeurs : ils servent et soutiennent SYFIR. Filtrez par catégorie, cliquez pour découvrir.</p>
+      <div class="filter-chips logos-chips reveal d2" id="logoChips">
+        <button class="chip active" data-cat="tous">Tous</button>
+        <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
+        <button class="chip" data-cat="hotel">Hôtels</button>
+        <button class="chip" data-cat="beach">Beach clubs</button>
+        <button class="chip" data-cat="media">Médias</button>
+        <button class="chip" data-cat="distrib">Distributeurs</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Bandeau défilant (pause au survol) -->
-  <div class="logos-marquee reveal d3" id="logosMarquee">
-    <div class="logos-track" id="logosTrack">
-      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="Le Ti' Sable — Beach club"><span>Le Ti' Sable</span><small>Beach club</small></a>
-      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Sunset Lounge — Rooftop bar"><span>Sunset Lounge</span><small>Rooftop</small></a>
-      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Habitation Créole — Hôtel"><span>Habitation Créole</span><small>Hôtel</small></a>
-      <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="La Casa Coco — Bar de plage"><span>La Casa Coco</span><small>Bar de plage</small></a>
-      <a class="logo-tile" data-cat="media" href="#confiance" title="Tropik FM — Radio partenaire"><span>Tropik FM</span><small>Radio</small></a>
-      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Antilles Distrib — Distributeur"><span>Antilles Distrib</span><small>Distributeur</small></a>
-      <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Blue Lagoon — Beach club"><span>Blue Lagoon</span><small>Club</small></a>
-      <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Palm Resort — Hôtel"><span>Palm Resort</span><small>Hôtel</small></a>
-      <a class="logo-tile" data-cat="media" href="#confiance" title="Karaïb Mag — Magazine"><span>Karaïb Mag</span><small>Magazine</small></a>
-      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Sun Logistics — Distribution"><span>Sun Logistics</span><small>Distribution</small></a>
+    <!-- Bandeau défilant (pause au survol) -->
+    <div class="logos-marquee reveal d3" id="logosMarquee">
+      <div class="logos-track" id="logosTrack">
+        <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="Le Ti' Sable — Beach club"><span>Le Ti' Sable</span><small>Beach club</small></a>
+        <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Sunset Lounge — Rooftop bar"><span>Sunset Lounge</span><small>Rooftop</small></a>
+        <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Habitation Créole — Hôtel"><span>Habitation Créole</span><small>Hôtel</small></a>
+        <a class="logo-tile" data-cat="beach" href="#ou-trouver" title="La Casa Coco — Bar de plage"><span>La Casa Coco</span><small>Bar de plage</small></a>
+        <a class="logo-tile" data-cat="media" href="#confiance" title="Tropik FM — Radio partenaire"><span>Tropik FM</span><small>Radio</small></a>
+        <a class="logo-tile" data-cat="distrib" href="#confiance" title="Antilles Distrib — Distributeur"><span>Antilles Distrib</span><small>Distributeur</small></a>
+        <a class="logo-tile" data-cat="bar" href="#ou-trouver" title="Blue Lagoon — Beach club"><span>Blue Lagoon</span><small>Club</small></a>
+        <a class="logo-tile" data-cat="hotel" href="#ou-trouver" title="Palm Resort — Hôtel"><span>Palm Resort</span><small>Hôtel</small></a>
+        <a class="logo-tile" data-cat="media" href="#confiance" title="Karaïb Mag — Magazine"><span>Karaïb Mag</span><small>Magazine</small></a>
+        <a class="logo-tile" data-cat="distrib" href="#confiance" title="Sun Logistics — Distribution"><span>Sun Logistics</span><small>Distribution</small></a>
+      </div>
     </div>
+    <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
   </div>
-  <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
 </section>
 
 <!-- ============================================================
@@ -357,13 +348,13 @@
     <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals, soirées privées — réservez vos billets pour les expériences SYFIR, ou organisez la vôtre.</p>
 
     <div class="event-duo">
-      <a href="evenements.html" class="event-door reveal from-left d2" data-tilt>
+      <a href="evenements.html" class="event-door reveal from-left d2">
         <span class="event-door-tag">Espace client</span>
         <h3>Prendre mes billets</h3>
         <p>Accédez à la billetterie SYFIR : soirées, fêtes et événements ouverts au public.</p>
         <span class="event-door-cta">Voir les événements →</span>
       </a>
-      <a href="evenements.html#pro" class="event-door event-door-pro reveal from-right d3" data-tilt>
+      <a href="evenements.html#pro" class="event-door event-door-pro reveal from-right d3">
         <span class="event-door-tag">Espace professionnel</span>
         <h3>Organiser un événement</h3>
         <p>Créez votre événement public ou privé, gérez la billetterie et les options SYFIR Experience.</p>
