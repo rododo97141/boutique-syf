@@ -33,6 +33,13 @@
 <!-- Navigation -->
 <nav id="nav" class="nav-tickets">
   <a href="evenements.html" class="nav-logo">SYFIR<span class="logo-suffix">Événements</span></a>
+  <ul class="nav-links">
+    <li><a href="saveurs.html" class="nav-link">Saveurs</a></li>
+    <li><a href="index.html#ou-trouver" class="nav-link">Où nous trouver</a></li>
+    <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
+    <li><a href="communaute.html" class="nav-link">Communauté</a></li>
+    <li><a href="index.html#partenaires" class="nav-link">Devenir partenaire</a></li>
+  </ul>
   <div class="nav-actions">
     <a class="btn btn-ghost btn-sm" href="evenements.html">← Billetterie</a>
     <div class="theme-switch" id="themeSwitch">
@@ -44,8 +51,24 @@
         <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
       </div>
     </div>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Menu mobile plein écran (nav maquette) -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
+  <a href="index.html">Accueil</a>
+  <a href="saveurs.html">Saveurs</a>
+  <a href="index.html#ou-trouver">Où nous trouver</a>
+  <a href="evenements.html">Événements &amp; Fêtes</a>
+  <a href="communaute.html">Communauté</a>
+  <a href="index.html#partenaires">Devenir partenaire</a>
+  <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
+</div>
+
 
 <!-- Fiche rendue par evenement.js -->
 <main id="eventDetail" class="event-detail" hidden></main>
