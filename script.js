@@ -429,7 +429,7 @@
     if (photoBox && d.photos) {
       buildMediaCarousel(photoBox, {
         photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: true
+        badge: d.badge || '', playBtn: !!d.audio
       });
     }
   });
