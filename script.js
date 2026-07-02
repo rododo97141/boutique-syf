@@ -796,16 +796,31 @@ if (placeModal && placesGridEl) {
   const genreTags = ev => (ev.genres || []).slice(0, 3)
     .map(g => `<span class="event-genre">${g}</span>`).join('');
 
+  /* Favoris : exploration à coût zéro — un cœur par carte, conservé en
+     localStorage. Pas de compteur, pas d'artifice : juste une liste à soi. */
+  const getFavs = () => store.get('syfir-favs', []);
+  const isFav = id => getFavs().includes(id);
+  const toggleFav = id => {
+    const favs = getFavs();
+    const i = favs.indexOf(id);
+    if (i >= 0) favs.splice(i, 1); else favs.push(id);
+    store.set('syfir-favs', favs);
+    return i < 0;
+  };
+
   const eventCardHTML = (ev, i) => {
     const d = new Date(ev.date + 'T12:00:00');
     const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
     const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
+    const fav = isFav(ev.id);
     return `
     <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${ev.name}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
         <img src="${ev.img}" alt="${ev.name}" loading="lazy">
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
         <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
+        <button class="fav-btn ${fav ? 'on' : ''}" data-fav="${ev.id}" type="button"
+                aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">♥</button>
       </div>
       <div class="event-card-body">
         <h3>${ev.name}</h3>
@@ -938,6 +953,18 @@ if (placeModal && placesGridEl) {
     }
   });
   eventsGrid.addEventListener('click', e => {
+    // Cœur favori : bascule sans quitter la page
+    const favBtn = e.target.closest('[data-fav]');
+    if (favBtn) {
+      e.stopPropagation();
+      const added = toggleFav(+favBtn.dataset.fav);
+      favBtn.classList.toggle('on', added);
+      favBtn.setAttribute('aria-pressed', String(added));
+      favBtn.setAttribute('aria-label', added ? 'Retirer des favoris' : 'Ajouter aux favoris');
+      showToast(added ? '♥ Ajouté à vos favoris' : 'Retiré de vos favoris');
+      renderMyFavs();
+      return;
+    }
     const btn = e.target.closest('[data-tickets]');
     if (!btn) {
       // Clic sur la carte (hors bouton Billets) -> fiche événement partageable
@@ -1046,11 +1073,36 @@ if (placeModal && placesGridEl) {
       : `<p class="cart-empty">${ticketSub === 'past' ? 'Aucun billet passé.' : 'Aucun billet à venir. Réservez votre première soirée SYFIR !'}</p>`;
   };
 
+  /* Onglet Favoris : la liste à soi, reliée aux fiches */
+  const renderMyFavs = () => {
+    const box = $('#myFavs');
+    if (!box) return;
+    const favs = getFavs().map(id => events.find(ev => ev.id === id)).filter(Boolean);
+    box.innerHTML = favs.length
+      ? favs.map(ev => `
+        <div class="my-ticket my-fav">
+          <a href="evenement.html?id=${ev.id}">
+            <strong>${ev.name}</strong>
+            <small>${ev.city} · ${new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR')}</small>
+          </a>
+          <button class="fav-remove" data-unfav="${ev.id}" type="button" aria-label="Retirer ${ev.name} des favoris">✕</button>
+        </div>`).join('')
+      : '<p class="cart-empty">Aucun favori pour l\'instant. Touchez le ♥ d\'un événement pour le garder sous la main.</p>';
+  };
+  $('#myFavs')?.addEventListener('click', e => {
+    const btn = e.target.closest('[data-unfav]');
+    if (!btn) return;
+    toggleFav(+btn.dataset.unfav);
+    renderMyFavs();
+    renderEvents();   // resynchronise les cœurs de la grille
+  });
+
   const openClient = (e, tab) => {
     e?.preventDefault();
     switchTab(tab || 'tickets');
     renderAuthState();
     renderMyTickets();
+    renderMyFavs();
     openModal(clientModal);
   };
   $('#clientSpaceBtn')?.addEventListener('click', e => openClient(e));

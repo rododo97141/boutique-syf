@@ -182,4 +182,32 @@
 
   showTickets(!ev.prive);
   renderTiers();
+
+  /* --- « Vous aimerez aussi » : 3 événements à venir du même genre ou de
+     la même ville — exploration à coût zéro, sans autoplay ni compteur --- */
+  const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+  const sameVibe = o =>
+    (o.genres || []).some(g => (ev.genres || []).some(mine => mine.toLowerCase() === g.toLowerCase())) ||
+    o.city === ev.city;
+  const related = S.getAllEvents()
+    .filter(o => String(o.id) !== String(ev.id) && !o.prive &&
+                 new Date(o.date + 'T00:00:00') >= startOfToday && sameVibe(o))
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 3);
+
+  if (related.length) {
+    const sec = document.createElement('section');
+    sec.className = 'ed-related container';
+    sec.innerHTML = `
+      <h2 class="ed-related-title">Vous aimerez <em>aussi</em></h2>
+      <div class="ed-related-grid">
+        ${related.map(o => `
+        <a class="ed-related-card" href="evenement.html?id=${o.id}">
+          <span class="ed-related-media"><img src="${o.img}" alt="" loading="lazy"></span>
+          <strong>${o.name}</strong>
+          <small>${new Date(o.date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${o.city}</small>
+        </a>`).join('')}
+      </div>`;
+    detail.appendChild(sec);
+  }
 })();
