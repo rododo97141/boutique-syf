@@ -37,6 +37,12 @@
   /* (02. Préloader retiré au lot 8 — vitesse perçue > cérémonie) */
 
   /* ===== 03. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
+  // Anciennes ancres de l'accueil -> pages dédiées (transposition maquette).
+  // On ne redirige que si la cible n'existe pas sur la page courante.
+  const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'communaute.html' };
+  const movedTo = movedAnchors[location.hash];
+  if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
+
   const nav = $('#nav');
   const onScrollNav = () => nav && nav.classList.toggle('scrolled', window.scrollY > 40);
   window.addEventListener('scroll', onScrollNav, { passive: true });
