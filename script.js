@@ -528,6 +528,33 @@
     artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
   }
 
+  /* ===== 08a-ter-1b. FOND VIDÉO DU HERO (billetterie) =====
+     Vidéo d'ambiance (Pexels) injectée APRÈS l'événement load : le LCP reste
+     l'image de fond CSS actuelle (poster). Sources : fichier local d'abord
+     (videos/ambiance-sunset.mp4, à uploader), hotlink Pexels en secours.
+     prefers-reduced-motion ou Save-Data -> pas de vidéo, l'image reste. */
+  const heroVideoHost = $('.tickets-hero');
+  if (heroVideoHost && !reducedMotion && !navigator.connection?.saveData) {
+    addEventListener('load', () => {
+      const wrap = document.createElement('div');
+      wrap.className = 'hero-video';
+      wrap.setAttribute('aria-hidden', 'true');
+      wrap.innerHTML = `
+        <video muted loop autoplay playsinline preload="metadata" tabindex="-1">
+          <source src="videos/ambiance-sunset.mp4" type="video/mp4">
+          <source src="https://www.pexels.com/download/video/9640964/" type="video/mp4">
+        </video>`;
+      const v = wrap.querySelector('video');
+      // n'apparaît qu'une fois la lecture réellement lancée (sinon l'image reste)
+      v.addEventListener('playing', () => wrap.classList.add('on'), { once: true });
+      // l'échec de la DERNIÈRE source signifie qu'aucune vidéo n'est disponible
+      // (l'événement error d'une <source> ne remonte pas jusqu'au <video>)
+      wrap.querySelector('source:last-of-type').addEventListener('error', () => wrap.remove());
+      v.addEventListener('error', () => wrap.remove());
+      heroVideoHost.insertBefore(wrap, heroVideoHost.querySelector('.hero-veil'));
+    }, { once: true });
+  }
+
   /* ===== 08a-ter-2. FICHE PRODUIT COCKTAIL (modale) ===== */
   const cocktailModal = $('#cocktailModal');
   if (cocktailModal) {

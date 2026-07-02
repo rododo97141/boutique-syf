@@ -835,6 +835,12 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
     linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(17, 17, 17, .8)),
     url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80') center / cover no-repeat;
 }
+/* Fond vidéo d'ambiance (injecté par JS après load) : fondu d'apparition,
+   même voile sombre que l'image pour préserver la lisibilité du texte */
+.hero-video { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 600ms var(--ease); pointer-events: none; }
+.hero-video.on { opacity: 1; }
+.hero-video video { width: 100%; height: 100%; object-fit: cover; }
+.hero-video::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 30, 48, .55), rgba(17, 17, 17, .8)); }
 .tickets-title {
   font-family: var(--display); font-weight: 900;
   font-size: clamp(2.1rem, 7vw, 4.2rem); line-height: 1.08;
