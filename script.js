@@ -543,6 +543,28 @@
         amListen.hidden = !listen;
         if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
       }
+      // Contact direct du management : affiché uniquement si le talent l'a
+      // autorisé (data-contact-phone / data-contact-email sur la carte)
+      const amContact = $('#amContact');
+      if (amContact) {
+        const phone = $('#amPhone'), email = $('#amEmail');
+        const hasPhone = !!d.contactPhone, hasEmail = !!d.contactEmail;
+        phone.hidden = !hasPhone;
+        if (hasPhone) {
+          phone.href = 'tel:' + d.contactPhone;
+          phone.querySelector('.am-contact-value').textContent = d.contactPhoneDisplay || d.contactPhone;
+        }
+        email.hidden = !hasEmail;
+        if (hasEmail) {
+          email.href = 'mailto:' + d.contactEmail;
+          email.querySelector('.am-contact-value').textContent = d.contactEmail;
+        }
+        $('#amContactTitle').textContent = d.bookNote
+          ? 'Contact management · ' + d.bookNote.split('—')[0].trim()
+          : 'Contact management';
+        amContact.hidden = !(hasPhone || hasEmail);
+      }
+
       // Le bouton « Booker cet artiste » porte la note de booking du talent
       const amBook = artistModal.querySelector('.am-book');
       if (amBook) {

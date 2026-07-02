@@ -1433,6 +1433,26 @@ html[data-theme="light"] .ck-format small { color: #6E6353; }
 /* Player embarqué (SoundCloud) chargé au clic */
 .am-embed { margin: 24px 0 20px; }
 .am-embed iframe { display: block; width: 100%; border: 0; border-radius: 14px; }
+/* Contact direct du management (fiche artiste) */
+.am-contact {
+  margin: 0 0 20px; padding: 16px 20px;
+  border: 1px solid rgba(255, 200, 87, .22); border-radius: 14px;
+  background: rgba(255, 200, 87, .06);
+}
+.am-contact-title {
+  font-family: var(--display); font-weight: 800; font-size: .68rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(250, 248, 242, .75); margin-bottom: 10px;
+}
+.am-contact-link {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+  margin-right: 20px; font-weight: 600; color: var(--sunset);
+  text-decoration: none;
+}
+.am-contact-link:hover .am-contact-value { text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="light"] .am-contact { background: rgba(212, 160, 23, .07); border-color: rgba(184, 134, 11, .3); }
+html[data-theme="light"] .am-contact-title { color: #6E6353; }
+html[data-theme="light"] .am-contact-link { color: #A04600; }
 .am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 .am-stream-link {
   font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
