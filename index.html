@@ -424,7 +424,6 @@
         data-video=""
         data-tags="Sunset sets,Beach party,Afro house"
         data-bio="Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend — une signature SYFIR depuis trois saisons."
-        data-audio="audio/dj-solaris.wav"
         data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
           <img src="images/artiste-solaris.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=700&q=80'" alt="DJ Solaris aux platines" loading="lazy">
@@ -449,7 +448,6 @@
         data-video=""
         data-tags="Live acoustique,Rooftop,Soul"
         data-bio="Voix de velours et présence solaire, Maya Lumière transforme un rooftop en moment suspendu. Reprises soul et compositions pop ensoleillées, en formule acoustique ou avec band."
-        data-audio="audio/maya-lumiere.wav"
         data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
           <img src="images/artiste-maya.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80'" alt="Maya Lumière au chant" loading="lazy">
@@ -474,7 +472,6 @@
         data-video=""
         data-tags="Apéro-mix,Plage,Deep house"
         data-bio="Le maître de l'apéro-mix. DJ Brise déroule une deep house caressante, parfaite pour les fins de journée les pieds dans le sable. Tempo doux, basses chaudes, transitions soyeuses."
-        data-audio="audio/dj-brise.wav"
         data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
           <img src="images/artiste-brise.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=700&q=80'" alt="DJ Brise en sunset set" loading="lazy">
@@ -499,7 +496,6 @@
         data-video=""
         data-tags="Club,Headliner,Électro"
         data-bio="Producteur et tête d'affiche, NÉO fusionne électro et énergie carnaval. Drops massifs, percussions créoles : c'est le set qui fait basculer la soirée en mode club jusqu'au bout de la nuit."
-        data-audio="audio/neo.wav"
         data-spotify="https://open.spotify.com" data-soundcloud="https://soundcloud.com" data-youtube="https://youtube.com">
         <div class="artist-photo">
           <img src="images/artiste-neo.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=700&q=80'" alt="NÉO, DJ et producteur" loading="lazy">
@@ -943,12 +939,8 @@
       <div class="am-tags" id="amTags"></div>
       <p class="pm-desc" id="amBio"></p>
 
-      <!-- Lecteur d'extrait -->
-      <div class="am-player" id="amPlayer">
-        <button class="am-play" id="amPlay" type="button" aria-label="Lire / mettre en pause">▶</button>
-        <div class="am-bar"><div class="am-bar-fill" id="amBarFill"></div></div>
-        <span class="am-time" id="amTime">0:00</span>
-      </div>
+      <!-- Écoute : lien direct vers la vraie plateforme de l'artiste (aucun faux extrait) -->
+      <a class="am-listen" id="amListen" href="#" target="_blank" rel="noopener" hidden>▶ Écouter sur <span id="amListenName">YouTube</span></a>
 
       <div class="am-stream" id="amStream">
         <a class="am-stream-link" id="amSpotify" href="#" target="_blank" rel="noopener">Spotify</a>
@@ -960,8 +952,6 @@
   </div>
 </div>
 
-<!-- Élément audio global pour les extraits -->
-<audio id="previewAudio" preload="none"></audio>
 
 <!-- Bouton retour en haut -->
 <button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>

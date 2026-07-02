@@ -172,7 +172,7 @@ html[data-theme="light"] .section-cream::after { background: linear-gradient(0de
 .artist-book:active, .artists-cta-link:active, .theme-opt:active,
 .tickets-fab:active, .burger:active, .mobile-close:active,
 .car-video-load:active, .aftermovie-facade:active, .artist-play:active,
-.am-play:active, .fav-btn:active { transform: scale(.97); }
+.am-listen:active, .fav-btn:active { transform: scale(.97); }
 .car-btn:not(:disabled):active { transform: translateY(-50%) scale(.9); }
 .to-top.show:active { transform: scale(.9); }
 
@@ -1384,8 +1384,6 @@ html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
 }
 .artist-card:hover .artist-play { transform: none; opacity: 1; }
 .artist-play:hover { box-shadow: 0 12px 30px rgba(255, 122, 0, .5); }
-.artist-play.playing { transform: none; opacity: 1; animation: playPulse 1.6s ease infinite; }
-@keyframes playPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,200,87,.5); } 50% { box-shadow: 0 0 0 10px rgba(255,200,87,0); } }
 .artist-card { cursor: pointer; }
 .artist-more { font-size: .8rem; color: var(--passion); font-family: var(--display); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 html[data-theme="light"] .artist-more { color: var(--gold-deep); }
@@ -1413,22 +1411,15 @@ html[data-theme="light"] .ck-format small { color: #6E6353; }
 .am-hero img { width: 100%; height: 100%; object-fit: cover; }
 .am-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
 .am-tags span { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; padding: 4px 12px; border: 1px solid rgba(255, 200, 87, .3); border-radius: 100px; color: rgba(250, 248, 242, .8); }
-.am-player {
-  display: flex; align-items: center; gap: 14px;
-  margin: 24px 0 20px; padding: 16px 16px;
-  background: rgba(255, 200, 87, .07); border: 1px solid rgba(255, 200, 87, .2);
-  border-radius: 100px;
+.am-listen {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 24px 0 20px; padding: 12px 24px; min-height: 44px;
+  background: var(--gold-metal); color: var(--ink);
+  font-family: var(--display); font-weight: 800; font-size: .92rem;
+  text-transform: uppercase; letter-spacing: .06em; text-decoration: none;
+  border-radius: 100px; transition: transform var(--dur-fast), box-shadow var(--dur-fast);
 }
-.am-play {
-  width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%;
-  display: grid; place-items: center; border: none;
-  background: var(--gold-metal); color: var(--ink); font-size: 1rem;
-  transition: transform var(--dur-fast);
-}
-.am-play:hover { transform: scale(1.08); }
-.am-bar { flex: 1; height: 6px; border-radius: 100px; background: rgba(250, 248, 242, .18); overflow: hidden; cursor: pointer; }
-.am-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--sunset), var(--passion)); border-radius: 100px; }
-.am-time { font-size: .82rem; color: rgba(250, 248, 242, .65); font-variant-numeric: tabular-nums; min-width: 34px; }
+.am-listen:hover { transform: scale(1.04); box-shadow: 0 12px 30px rgba(255, 122, 0, .35); }
 .am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 .am-stream-link {
   font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
@@ -1563,9 +1554,6 @@ html[data-theme="light"] .roles-head p { color: #6E6353; }
 html[data-theme="light"] .role-pill { background: #FFFDF6; color: #221A10; border-color: rgba(184,134,11,.4); }
 html[data-theme="light"] .role-pill:hover { background: rgba(212,160,23,.1); }
 html[data-theme="light"] .am-tags span { border-color: rgba(184,134,11,.35); color: #6E6353; }
-html[data-theme="light"] .am-player { background: rgba(212,160,23,.08); border-color: rgba(184,134,11,.25); }
-html[data-theme="light"] .am-bar { background: rgba(34,26,16,.14); }
-html[data-theme="light"] .am-time { color: #6E6353; }
 html[data-theme="light"] .am-stream-link { border-color: rgba(184,134,11,.4); color: #221A10; }
 html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
 

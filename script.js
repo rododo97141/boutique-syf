@@ -422,6 +422,29 @@
     refresh();
   };
 
+  /* ===== 08a-ter. ÉCOUTE + FICHE ARTISTE =====
+     Aucun faux extrait : le bouton ▶ ouvre la vraie page de l'artiste
+     (YouTube/Spotify/SoundCloud) dans un nouvel onglet ; sans vraie
+     plateforme, pas de bouton. */
+
+  // Un vrai profil a un chemin au-delà de la racine (ex. /artist/xxx, /@handle) ;
+  // une page d'accueil générique (open.spotify.com, youtube.com…) est ignorée.
+  const isRealProfile = url => {
+    if (!url) return false;
+    try { return new URL(url).pathname.replace(/\/+$/, '').length > 1; }
+    catch { return false; }
+  };
+  const listenUrl = d => [d.youtube, d.spotify, d.soundcloud].find(isRealProfile) || '';
+  const platformName = url => {
+    try {
+      const h = new URL(url).hostname;
+      if (/youtube\.|youtu\.be/.test(h)) return 'YouTube';
+      if (/spotify/.test(h)) return 'Spotify';
+      if (/soundcloud/.test(h)) return 'SoundCloud';
+    } catch { /* URL invalide -> libellé générique */ }
+    return 'sa page';
+  };
+
   // Les visuels des cartes artistes deviennent des galeries média
   $$('.artist-card').forEach(card => {
     const d = card.dataset;
@@ -429,39 +452,19 @@
     if (photoBox && d.photos) {
       buildMediaCarousel(photoBox, {
         photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: !!d.audio
+        badge: d.badge || '', playBtn: !!listenUrl(d)
       });
     }
   });
 
-  /* ===== 08a-ter. LECTEUR D'EXTRAITS + FICHE ARTISTE ===== */
-  const audio = $('#previewAudio');
-  let currentBtn = null;
-  const fmt = s => { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
-  const setPlayIcon = (btn, playing) => {
-    if (!btn) return;
-    btn.textContent = playing ? '❚❚' : '▶';
-    btn.classList.toggle('playing', playing);
-  };
-  const stopCurrent = () => { setPlayIcon(currentBtn, false); currentBtn = null; };
-  const toggleAudio = (src, btn) => {
-    if (!audio || !src) { showToast('🎧 Extrait audio bientôt disponible'); return; }
-    if (currentBtn === btn && !audio.paused) { audio.pause(); return; }
-    if (!audio.src.endsWith(src)) { audio.src = src; }
-    if (currentBtn && currentBtn !== btn) setPlayIcon(currentBtn, false);
-    currentBtn = btn;
-    audio.play()
-      .then(() => setPlayIcon(btn, true))
-      .catch(() => { showToast('🎧 Extrait audio bientôt disponible'); stopCurrent(); });
-  };
-  audio?.addEventListener('pause', () => { if (currentBtn) setPlayIcon(currentBtn, false); });
-  audio?.addEventListener('ended', stopCurrent);
-
-  // Lecture rapide depuis la carte
-  $$('.artist-play').forEach(btn => {
+  // Écoute rapide depuis la carte : ouvre la plateforme dans un nouvel onglet
+  $$('.artist-card .artist-play').forEach(btn => {
+    const card = btn.closest('.artist-card');
+    const url = listenUrl(card.dataset);
+    btn.setAttribute('aria-label', `Écouter ${card.dataset.name || ''} sur ${platformName(url)} (nouvel onglet)`);
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      toggleAudio(btn.closest('.artist-card')?.dataset.audio, btn);
+      window.open(url, '_blank', 'noopener');
     });
   });
 
@@ -470,17 +473,7 @@
   if (artistModal) {
     const amHero = artistModal.querySelector('.am-hero'), amRole = $('#amRole'),
           amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
-          amPlay = $('#amPlay'), amBar = artistModal.querySelector('.am-bar'),
-          amBarFill = $('#amBarFill'), amTime = $('#amTime');
-    let modalSrc = '';
-
-    // Un vrai profil a un chemin au-delà de la racine (ex. /artist/xxx, /@handle) ;
-    // une page d'accueil générique (open.spotify.com, youtube.com…) est ignorée.
-    const isRealProfile = url => {
-      if (!url) return false;
-      try { return new URL(url).pathname.replace(/\/+$/, '').length > 1; }
-      catch { return false; }
-    };
+          amListen = $('#amListen'), amListenName = $('#amListenName');
 
     const openArtist = card => {
       const d = card.dataset;
@@ -505,16 +498,16 @@
       });
       const amStream = $('#amStream');
       if (amStream) amStream.hidden = !anyStream;
-      modalSrc = d.audio || '';
-      amBarFill.style.width = '0%'; amTime.textContent = '0:00';
-      setPlayIcon(amPlay, false);
+      // Bouton écoute : lien direct vers la vraie plateforme, sinon masqué
+      const listen = listenUrl(d);
+      amListen.hidden = !listen;
+      if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
       artistModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
     const closeArtist = () => {
       artistModal.classList.remove('open');
       document.body.style.overflow = '';
-      if (currentBtn === amPlay) audio?.pause();
     };
     $$('.artist-card').forEach(card => {
       card.addEventListener('click', e => {
@@ -532,18 +525,6 @@
       if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
     });
     artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
-    amPlay?.addEventListener('click', () => toggleAudio(modalSrc, amPlay));
-    audio?.addEventListener('timeupdate', () => {
-      if (currentBtn !== amPlay) return;
-      const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-      amBarFill.style.width = p + '%';
-      amTime.textContent = fmt(audio.currentTime);
-    });
-    amBar?.addEventListener('click', e => {
-      if (!audio.duration) return;
-      const r = amBar.getBoundingClientRect();
-      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
-    });
   }
 
   /* ===== 08a-ter-2. FICHE PRODUIT COCKTAIL (modale) ===== */

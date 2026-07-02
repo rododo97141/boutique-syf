@@ -34,7 +34,7 @@ derrière un simple `python3 -m http.server`.
 | `events-data.js` | **Source de données unique** `window.SYFIR` : baseEvents (6), TIERS_DEFAULT (Early Bird `scarce`, Standard `reco`, VIP), helpers (euro, fmtTime, priceRange, mapsUrl, countdownText, getAllEvents/getEvent + pro events localStorage). Chargé AVANT script.js sur les 4 pages |
 | `script.js` | Tout le reste (IIFE unique) : thème, age gate, reveal, carrousels média `buildMediaCarousel`, audio, favoris, newsletter, billetterie (rendu/filtres/modales/Mon espace/pro), FAB, to-top. ⚠️ `if (!eventsGrid) return;` sépare le code toutes-pages du code billetterie — tout code multi-pages doit être AVANT cette ligne |
 | `style.css` | Design system complet (~1900 lignes), sommaire en tête de fichier |
-| `audio/*.wav` | Extraits de démo générés (à remplacer par les vrais mixes, mêmes noms) |
+| ~~`audio/*.wav`~~ | Supprimés (lot 13) : aucun faux extrait — le bouton ▶ ouvre la vraie plateforme de l'artiste (YouTube/Spotify/SoundCloud) dans un nouvel onglet, masqué sinon |
 | `images/README.md` | Noms EXACTS des visuels que le client doit uploader (fallbacks Unsplash en place) |
 | `.claude/skills/expert-95/` | Skill projet du client (SKILL.md verbatim fourni par lui + memoire.md) — ne pas réécrire |
 | `apercu-syfir.html` | Snapshot autonome ancien (lot ~6) — PAS maintenu, ne pas s'y fier |
