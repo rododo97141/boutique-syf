@@ -1929,6 +1929,13 @@ html[data-theme="light"] .car-dot.on::after { background: var(--gold-light); }
 .page-hero { padding: 152px 0 8px; }
 .page-hero .h2 { margin-bottom: 16px; }
 .page-hero .section-intro { margin-bottom: 0; }
+/* Variante immersive océan profond (communauté) — reste sombre dans les deux thèmes */
+.page-hero-dark { background: var(--ocean-deep); padding: 176px 0 64px; }
+.page-hero-dark .tickets-title { color: var(--cream); margin-bottom: 20px; }
+.page-hero-dark .section-intro { color: rgba(250, 248, 242, .82); }
+html[data-theme="light"] .page-hero-dark .eyebrow-light { color: var(--passion); }
+/* Newsletter en section de page (communauté) */
+.news-section .footer-news.news-inline { margin-top: 8px; max-width: 480px; }
 
 /* Fiche — variante claire */
 html[data-theme="light"] .ed-meta li { color: #3a3125; }
