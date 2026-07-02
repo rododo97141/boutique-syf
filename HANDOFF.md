@@ -27,8 +27,8 @@ derrière un simple `python3 -m http.server`.
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, cocktails, Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, communauté (aftermovie façade + galerie), CTA final, footer |
-| `evenements.html` | Billetterie : hero, **section Billetterie officielle Shotgun** (carte-lien + `#shotgunWidget` TODO), billetterie **démo** (groupée par jour, filtres type/ville/genre, compteur, cœurs favoris), espace pro (formulaire création), modales (billets, Mon espace), FAB Billets |
+| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, cocktails, Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, communauté (vidéo d'ambiance Pexels + galerie), CTA final, footer |
+| `evenements.html` | Billetterie : hero (fond vidéo Pexels injecté après load), **section Billetterie officielle Shotgun** (carte-lien + `#shotgunWidget` TODO), billetterie **démo** (groupée par jour, filtres type/ville/genre, compteur, cœurs favoris), espace pro (formulaire création), modales (billets, Mon espace), FAB Billets |
 | `evenement.html` + `evenement.js` | Fiche partageable `?id=X` : SEO/OG/JSON-LD MusicEvent, Maps, partage (navigator.share/WhatsApp), tunnel billets, compte à rebours, « Vous aimerez aussi » |
 | `espace-pro.html` + `espace-pro.js` | Smartboard organisateur : sidebar (Vue d'ensemble avec KPI + comparatifs simulés déterministes, Mes événements dupliquer/supprimer, Ventes/Scan/Équipe/Messages/Paramètres en maquettes « Bientôt ») |
 | `events-data.js` | **Source de données unique** `window.SYFIR` : baseEvents (6), TIERS_DEFAULT (Early Bird `scarce`, Standard `reco`, VIP), helpers (euro, fmtTime, priceRange, mapsUrl, countdownText, getAllEvents/getEvent + pro events localStorage). Chargé AVANT script.js sur les 4 pages |
@@ -91,6 +91,7 @@ Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gat
 
 - [ ] **Widget Shotgun réel** : coller le code depuis Smartboard > Ma page > Widget dans `#shotgunWidget` (evenements.html, TODO commenté en place).
 - [ ] **Endpoint newsletter** : brancher Brevo/Mailchimp (TODO commenté dans script.js, section 09b-ter).
+- [ ] **Vidéos Pexels en hotlink (lot 14)** : le conteneur bloque pexels.com — déposer les fichiers `videos/ambiance-sunset.mp4` (9640964), `videos/prep-cocktail.mp4` (4747677), `videos/orange-juice.mp4` (5944773) en 720p H.264 ≤6 Mo pour remplacer le hotlink (source locale déjà première dans chaque `<video>`).
 - [ ] **Visuels client** : images/`syfir-*.png`, `artiste-*.png`, `equipe-*.png`, **photos produit `images/produits/`** (voir images/README.md) + vrais extraits audio + `data-video` des artistes + URL aftermovie (`VIDEO_ID`) + vidéos Coral/Golden.
 - [ ] **Bibliothèque de composants React `syfir-ui/` + /design-sync** : reportée par le superviseur, « remise en file après les lots site » (plan détaillé discuté : 10-15 composants depuis style.css, puis sync claude.ai/design).
 - [ ] Vrais profils streaming des artistes (data-attributes en place, boutons masqués tant que génériques).

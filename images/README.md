@@ -73,3 +73,20 @@ Tant qu'un fichier manque, la galerie retire sa diapositive et garde un
 visuel Unsplash de secours (badge « Visuel officiel bientôt » sur Coral
 et Golden). La vidéo officielle du Planteur est déjà en place :
 `videos/syf-planteur.mp4`.
+
+### Vidéos d'ambiance (dossier `videos/`) — crédit Pexels
+
+Sélection du superviseur sur [Pexels](https://www.pexels.com) (licence Pexels :
+usage commercial libre, attribution non obligatoire — créditée ici par propreté) :
+
+| Fichier à uploader | Vidéo Pexels (hotlink actif en attendant) | Usage |
+|---|---|---|
+| `videos/ambiance-sunset.mp4` | [pexels.com/video/9640964](https://www.pexels.com/video/9640964/) — toast au coucher de soleil | Fond du hero billetterie + section communauté |
+| `videos/prep-cocktail.mp4` | [pexels.com/video/4747677](https://www.pexels.com/video/4747677/) — préparation de cocktails au bar | Fiche produit Syf Coral Breeze |
+| `videos/orange-juice.mp4` | [pexels.com/video/5944773](https://www.pexels.com/video/5944773/) — orange piquée sur un verre | Fiche produit Syf Golden Escape |
+
+⚠️ Le réseau du conteneur de développement bloque pexels.com : les vidéos sont
+intégrées en **hotlink direct** (`pexels.com/download/video/<id>/`). Chaque
+`<video>` liste le fichier local en **première source** : déposez les .mp4
+ci-dessus dans `videos/` (720p H.264, ~6 Mo max, sans audio si possible) et
+ils prendront automatiquement le relais du hotlink.
