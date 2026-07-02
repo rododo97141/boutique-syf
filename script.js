@@ -204,6 +204,58 @@
   // En mode auto, on suit l'heure qui tourne
   setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
 
+  /* ===== 07c. AGE GATE 18+ =====
+     Marque d'alcool : vérification d'âge à l'entrée, affichée une seule
+     fois (localStorage), sur toutes les pages. Accessible : role=dialog,
+     focus initial, piège de focus, non fermable par Échap. */
+  if (!localStorage.getItem('syfir-age-ok')) {
+    const gate = document.createElement('div');
+    gate.className = 'age-gate';
+    gate.setAttribute('role', 'dialog');
+    gate.setAttribute('aria-modal', 'true');
+    gate.setAttribute('aria-labelledby', 'ageTitle');
+    gate.innerHTML = `
+      <div class="age-box">
+        <p class="age-logo">SYFIR<span>™</span></p>
+        <h2 id="ageTitle">Avez-vous 18 ans ?</h2>
+        <p class="age-sub">SYFIR est une marque de cocktails alcoolisés.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
+        <div class="age-actions">
+          <button class="btn btn-solid" id="ageYes" type="button">Oui, j'ai 18 ans ou plus</button>
+          <button class="btn btn-ghost" id="ageNo" type="button">Non, pas encore</button>
+        </div>
+        <p class="age-note">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+      </div>`;
+    document.body.appendChild(gate);
+    document.body.style.overflow = 'hidden';
+    const ageYes = gate.querySelector('#ageYes');
+    requestAnimationFrame(() => ageYes.focus());
+    // Piège de focus : Tab reste dans le dialogue
+    gate.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const f = [...gate.querySelectorAll('button, a')];
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    ageYes.addEventListener('click', () => {
+      localStorage.setItem('syfir-age-ok', '1');
+      gate.classList.add('age-out');
+      document.body.style.overflow = '';
+      setTimeout(() => gate.remove(), 450);
+    });
+    gate.querySelector('#ageNo').addEventListener('click', () => {
+      gate.querySelector('.age-box').innerHTML = `
+        <p class="age-logo">SYFIR<span>™</span></p>
+        <h2 id="ageTitle">À très vite ✦</h2>
+        <p class="age-sub">Ce site est réservé aux personnes majeures.<br>Pour s'informer sur l'alcool et être accompagné :</p>
+        <div class="age-actions">
+          <a class="btn btn-solid" href="https://www.alcool-info-service.fr" rel="noopener">alcool-info-service.fr</a>
+        </div>
+        <p class="age-note">L'abus d'alcool est dangereux pour la santé.</p>`;
+      gate.querySelector('a').focus();
+    });
+  }
+
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
   if (placeChips) {
