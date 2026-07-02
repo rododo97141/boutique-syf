@@ -728,6 +728,9 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .footer-col a:hover { color: var(--cream); transform: translateX(4px); }
 .footer-bottom { border-top: 1px solid rgba(250, 248, 242, .07); padding: 22px 5vw; text-align: center; }
 .footer-bottom p { font-size: .76rem; color: #777; }
+/* Mention sanitaire (loi Évin) : même taille que les autres mentions,
+   contraste renforcé (≥ 4.5:1) dans les deux thèmes */
+.footer-sante { color: rgba(250, 248, 242, .85) !important; font-weight: 600; margin-top: 4px; }
 
 /* ===== 12. PAGE ÉVÉNEMENTS (billetterie) ===== */
 .nav-tickets { gap: 14px; }
@@ -1136,6 +1139,7 @@ html[data-theme="light"] .footer-col a:hover { color: #221A10; }
 html[data-theme="light"] .footer-col h4 { color: var(--gold-deep); }
 html[data-theme="light"] .footer-bottom { border-top-color: rgba(34, 26, 16, .1); }
 html[data-theme="light"] .footer-bottom p { color: #8A7E6C; }
+html[data-theme="light"] .footer-sante { color: #4A4136 !important; }
 
 /* Page Événements */
 html[data-theme="light"] nav.scrolled .btn-ghost { border-color: rgba(34, 26, 16, .35); color: #221A10; }
