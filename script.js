@@ -305,6 +305,10 @@
     const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
     if (!list.length) return;
 
+    // Un fichier vidéo peut avoir plusieurs sources séparées par « | »
+    // (locale d'abord, hotlink en secours) : le navigateur essaie dans l'ordre.
+    const videoSources = video.split('|').map(s => s.trim()).filter(Boolean)
+      .map(u => `<source src="${u}" type="video/mp4">`).join('');
     const videoSlide = video
       ? (/youtube\.com|youtu\.be/.test(video)
         ? `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
@@ -312,11 +316,11 @@
            </div>`
         : (videoInline
           ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
-               <video src="${video}" muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${name}"></video>
+               <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${name}">${videoSources}</video>
                <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
              </div>`
           : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
-               <video controls preload="none" src="${video}" aria-label="Vidéo de ${name}"></video>
+               <video controls preload="none" aria-label="Vidéo de ${name}">${videoSources}</video>
              </div>`))
       : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
            <span class="car-soon-ic" aria-hidden="true">🎬</span>
