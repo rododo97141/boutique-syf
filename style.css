@@ -1410,6 +1410,10 @@ html[data-theme="light"] .agenda-empty { color: #8A7E6C; }
 }
 .tickets-fab:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(255, 122, 0, .55); }
 @keyframes fabIn { from { opacity: 0; transform: translateY(20px) scale(.9); } }
+/* Un seul CTA principal par écran : le FAB s'efface quand le hero
+   (qui porte déjà le CTA « Voir les événements ») est visible */
+.tickets-fab.fab-hidden { opacity: 0; visibility: hidden; transform: translateY(16px); pointer-events: none; }
+.tickets-fab { transition: transform .3s var(--ease), box-shadow .3s, opacity .3s, visibility .3s; }
 .to-top {
   position: fixed; right: 22px; bottom: 22px; z-index: 130;
   width: 48px; height: 48px; border-radius: 50%;
@@ -1648,6 +1652,32 @@ html[data-theme="light"] .dash-empty { border-color: rgba(184, 134, 11, .3); }
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {
   .nav-tickets .nav-actions .btn { display: none; }
+
+  /* Mobile-first : les reveals latéraux deviennent verticaux
+     (un translateX de 42px créait un débordement horizontal transitoire) */
+  .reveal.from-left, .reveal.from-right { --rv-x: 0; --rv-y: 42px; }
+
+  /* Cibles tactiles ≥ 44px (NN/g / WCAG 2.5.8) */
+  .theme-btn { width: 44px; height: 44px; }
+  .burger { min-width: 44px; min-height: 44px; padding: 10px; }
+  .nav-logo { min-height: 44px; align-items: center; }
+  .chip { min-height: 44px; padding: 12px 19px; }
+  .btn-sm { min-height: 44px; padding: 12px 22px; }
+  .filter-extra select { min-height: 44px; }
+  .qty-btn { width: 44px; height: 44px; }
+  .tab { min-height: 44px; }
+  .tabs { flex-wrap: wrap; }
+  .dash-link { min-height: 44px; }
+  .footer-col a { padding-block: 10px; min-width: 44px; }
+  .serve-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .agenda-cta { display: inline-flex; align-items: center; min-height: 44px; }
+  .artists-cta-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .theme-opt { min-height: 44px; }
+  .artist-book, .band-book { display: inline-flex; align-items: center; min-height: 44px; }
+  .team-contact { display: inline-flex; align-items: center; min-height: 44px; }
+  /* Cases à cocher : la cible réelle est le label englobant (grand),
+     on agrandit la case elle-même pour le confort du pouce */
+  .form-consent input, .opt-line input { width: 22px; height: 22px; }
 }
 
 /* Tablette */

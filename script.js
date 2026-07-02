@@ -653,6 +653,17 @@ if (placeModal && placesGridEl) {
     toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
+  /* ===== 09b-bis. FAB BILLETS : un seul CTA principal par écran =====
+     Le bouton flottant s'efface tant que le hero (et son CTA « Voir les
+     événements ») est à l'écran, puis réapparaît plus bas dans la page. */
+  const ticketsFab = $('#ticketsFab');
+  const ticketsHero = $('.tickets-hero');
+  if (ticketsFab && ticketsHero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(en => ticketsFab.classList.toggle('fab-hidden', en.isIntersecting));
+    }, { threshold: 0.2 }).observe(ticketsHero);
+  }
+
   /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
   const agendaRows = $$('.agenda-row');
   if (agendaRows.length) {
