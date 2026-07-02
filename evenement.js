@@ -119,8 +119,8 @@
 
   const renderTiers = () => {
     tiersBox.innerHTML = S.TIERS_DEFAULT.map((t, i) => `
-      <div class="tier ${tierQty[i] > 0 ? 'has-qty' : ''}">
-        <div class="tier-info"><strong>${t.name}</strong><small>${t.desc}</small></div>
+      <div class="tier ${tierQty[i] > 0 ? 'has-qty' : ''} ${t.reco ? 'tier-reco' : ''}">
+        <div class="tier-info"><strong>${t.name}${t.reco ? ' <span class="tier-badge">Recommandé</span>' : ''}</strong><small>${t.desc}</small></div>
         <div class="tier-right">
           <span class="tier-price">${S.euro(ev.price * t.mult)}</span>
           <div class="tier-qty">
