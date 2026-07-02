@@ -452,7 +452,7 @@
     if (photoBox && d.photos) {
       buildMediaCarousel(photoBox, {
         photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: !!listenUrl(d)
+        badge: d.badge || '', playBtn: !!listenUrl(d), note: d.note || ''
       });
     }
   });
@@ -480,7 +480,7 @@
       // Galerie média de la modale : mêmes photos/vidéo que la carte
       buildMediaCarousel(amHero, {
         photos: d.photos || d.img || '', video: d.video || '',
-        name: d.name || '', badge: d.badge || ''
+        name: d.name || '', badge: d.badge || '', note: d.note || ''
       });
       amRole.textContent = d.role || '';
       amName.textContent = d.name || '';
@@ -490,7 +490,8 @@
       // Liens streaming : n'afficher que les vrais profils (pas les pages
       // d'accueil génériques). Le data-attribute reste sur la carte.
       let anyStream = false;
-      [['#amSpotify', d.spotify], ['#amSoundcloud', d.soundcloud], ['#amYoutube', d.youtube]].forEach(([sel, url]) => {
+      [['#amSpotify', d.spotify], ['#amSoundcloud', d.soundcloud], ['#amYoutube', d.youtube],
+       ['#amInstagram', d.instagram], ['#amFacebook', d.facebook], ['#amTiktok', d.tiktok]].forEach(([sel, url]) => {
         const el = $(sel);
         const real = isRealProfile(url);
         el.hidden = !real;

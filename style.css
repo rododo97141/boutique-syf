@@ -1373,7 +1373,7 @@ html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
 
 /* Bouton lecture sur la carte artiste */
 .artist-play {
-  position: absolute; right: 14px; bottom: 14px;
+  position: absolute; right: 14px; bottom: 14px; z-index: 4; /* au-dessus des points du carrousel */
   width: 46px; height: 46px; border-radius: 50%;
   display: grid; place-items: center;
   background: var(--gold-metal); color: var(--ink);

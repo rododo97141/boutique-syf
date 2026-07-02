@@ -85,6 +85,8 @@ Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gat
 11. **L11** Shotgun (carte kily-141 + TODO widget, démo étiquetée), confirmation « C'est dans la poche » (n° unique, revente interdite, contact), KPI comparatifs + Messages, ce HANDOFF.
 12. **L12** Fiches produit cocktails : cartes cliquables → modale (galerie carrousel réutilisée, formats verre/sachet avec visuels, CTA Où le trouver) ; **vidéo officielle client `videos/syf-planteur.mp4`** en 1re diapositive (muette en boucle + bouton son) ; emplacements `images/produits/syf-{planteur,coral,golden}-1/2.jpg` avec fallbacks et badge « Visuel officiel bientôt » (Coral/Golden). ⚠ Le Chromium du bac à sable n'a pas le codec H.264 : la vidéo ne se teste qu'en vrai navigateur.
 
+13. **L13** Line-up réparé : groupes en .artist-card complètes (carrousel/fiche/filtre), faux .wav supprimés (écoute = vraie plateforme en nouvel onglet, sinon masqué), **Unity 141 (groupe réel, kompa — Guadeloupe)** ajouté avec ses vrais liens YouTube/Instagram/Facebook/TikTok, liens Instagram/Facebook/TikTok ajoutés à la fiche artiste, play au-dessus des points du carrousel (z-index).
+
 ## 7. TODO connus / en attente
 
 - [ ] **Widget Shotgun réel** : coller le code depuis Smartboard > Ma page > Widget dans `#shotgunWidget` (evenements.html, TODO commenté en place).
@@ -92,6 +94,7 @@ Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gat
 - [ ] **Visuels client** : images/`syfir-*.png`, `artiste-*.png`, `equipe-*.png`, **photos produit `images/produits/`** (voir images/README.md) + vrais extraits audio + `data-video` des artistes + URL aftermovie (`VIDEO_ID`) + vidéos Coral/Golden.
 - [ ] **Bibliothèque de composants React `syfir-ui/` + /design-sync** : reportée par le superviseur, « remise en file après les lots site » (plan détaillé discuté : 10-15 composants depuis style.css, puis sync claude.ai/design).
 - [ ] Vrais profils streaming des artistes (data-attributes en place, boutons masqués tant que génériques).
+- [ ] **Unity 141** : bio à faire valider par le client + photo officielle `images/artiste-unity.png` (placeholder étiqueté en ligne).
 - [ ] PR #8 : à maintenir à jour au fil des lots (descriptif structuré par lot, liens preview par SHA).
 
 ## 8. Conventions de contribution

@@ -31,6 +31,7 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 ### Groupes & équipe
 
 | `artiste-zenith.png` | Section Groupes — Zénith Brass | Fanfare / brass band |
+| `artiste-unity.png` | Section Groupes — Unity 141 (groupe réel) | Photo officielle du collectif (en attente — placeholder étiqueté en ligne) |
 | `equipe-camille.png` | Équipe — Camille Roussel | Portrait carré |
 | `equipe-yanis.png` | Équipe — Yanis Mercier | Portrait carré |
 | `equipe-lea.png` | Équipe — Léa Fontaine | Portrait carré |
