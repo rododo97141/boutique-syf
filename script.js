@@ -301,7 +301,7 @@
      4 diapositives max : 3 photos + 1 vidéo (fin atteignable en 3 swipes). */
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false }) => {
+  const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false, videoInline = false, note = '' }) => {
     const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
     if (!list.length) return;
 
@@ -310,9 +310,14 @@
         ? `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
              <button class="car-video-load" data-embed="${video}" type="button" aria-label="Lire la vidéo de ${name}">▶ Voir la vidéo</button>
            </div>`
-        : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
-             <video controls preload="none" src="${video}" aria-label="Vidéo de ${name}"></video>
-           </div>`)
+        : (videoInline
+          ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
+               <video src="${video}" muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${name}"></video>
+               <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
+             </div>`
+          : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
+               <video controls preload="none" src="${video}" aria-label="Vidéo de ${name}"></video>
+             </div>`))
       : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
            <span class="car-soon-ic" aria-hidden="true">🎬</span>
            <p>Vidéo bientôt disponible</p>
@@ -323,17 +328,18 @@
     box.setAttribute('aria-roledescription', 'carrousel');
     box.setAttribute('aria-label', `Galerie de ${name}`);
     box.tabIndex = 0;
+    const photoSlides = list.map((src, i) => `
+        <div class="car-slide" role="group" aria-roledescription="diapositive">
+          <img src="${src}" alt="${name} — photo ${i + 1}" loading="${i === 0 && !videoInline ? 'eager' : 'lazy'}" decoding="async">
+        </div>`).join('');
     box.innerHTML = `
       <div class="car-track">
-        ${list.map((src, i) => `
-        <div class="car-slide" role="group" aria-roledescription="diapositive">
-          <img src="${src}" alt="${name} — photo ${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async">
-        </div>`).join('')}
-        ${videoSlide}
+        ${videoInline && video ? videoSlide + photoSlides : photoSlides + videoSlide}
       </div>
       <button class="car-btn car-prev" type="button" aria-label="Média précédent">‹</button>
       <button class="car-btn car-next" type="button" aria-label="Média suivant">›</button>
       <div class="car-dots"></div>
+      ${note ? `<span class="car-note">${note}</span>` : ''}
       ${badge ? `<span class="artist-badge">${badge}</span>` : ''}
       ${playBtn ? `<button class="artist-play" type="button" aria-label="Écouter un extrait de ${name}">▶</button>` : ''}`;
 
@@ -399,6 +405,18 @@
       const url = loader.dataset.embed + (loader.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
       loader.closest('.car-slide').innerHTML =
         `<iframe src="${url}" title="Vidéo de ${name}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    });
+
+    // Bouton son de la vidéo inline (muette en boucle par défaut)
+    const soundBtn = box.querySelector('.car-sound');
+    soundBtn?.addEventListener('click', e => {
+      e.stopPropagation();
+      const v = soundBtn.parentElement.querySelector('video');
+      v.muted = !v.muted;
+      soundBtn.textContent = v.muted ? '🔇' : '🔊';
+      soundBtn.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
+      soundBtn.setAttribute('aria-pressed', String(!v.muted));
+      if (v.paused) v.play().catch(() => {});   // certains environnements n'ont pas le codec
     });
 
     refresh();

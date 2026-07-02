@@ -58,3 +58,17 @@ Si vos fichiers sont en `.jpg`, renommez-les simplement en `.png` avant l'upload
 Conseils : visez 1600 px de large pour `syfir-hero` et `syfir-mobile`,
 700-900 px pour les autres. Évitez les fichiers de plus de 2 Mo pour
 garder le site rapide.
+
+
+### Photos produit (dossier `images/produits/`)
+
+| Fichier exact | Produit |
+|---|---|
+| `syf-planteur-1.jpg` / `syf-planteur-2.jpg` | 2 photos officielles du sachet Syf Planteur (fiche produit) |
+| `syf-coral-1.jpg` / `syf-coral-2.jpg` | Photos officielles Syf Coral Breeze |
+| `syf-golden-1.jpg` / `syf-golden-2.jpg` | Photos officielles Syf Golden Escape |
+
+Tant qu'un fichier manque, la galerie retire sa diapositive et garde un
+visuel Unsplash de secours (badge « Visuel officiel bientôt » sur Coral
+et Golden). La vidéo officielle du Planteur est déjà en place :
+`videos/syf-planteur.mp4`.
