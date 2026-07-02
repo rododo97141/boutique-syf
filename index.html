@@ -592,13 +592,15 @@
         data-tags="Zouk,Rétro,Live"
         data-bio="Unity 141, c'est l'orchestre qui fait danser la Guadeloupe. Zouk, rétro et ambiance live — des fêtes patronales de Terre-de-Haut aux scènes de Marie-Galante, le collectif et ses voix enflamment chaque bal. Un mot d'ordre : l'unité par la musique."
         data-youtube="https://www.youtube.com/@unity1416"
+        data-soundcloud="https://soundcloud.com/user-393789233"
+        data-listen-embed="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-393789233/mix-zouk-live-unity-141"
         data-instagram="https://www.instagram.com/unity_141"
         data-facebook="https://www.facebook.com/Unity141"
         data-tiktok="https://www.tiktok.com/@unity_141">
         <div class="artist-photo">
           <img src="images/artiste-unity.png" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/UVYTuLruNK8/hqdefault.jpg'" alt="Unity 141 en live (visuel provisoire — thumbnail YouTube)" loading="lazy">
           <span class="artist-badge">Orchestre live</span>
-          <button class="artist-play" type="button" aria-label="Écouter Unity 141 sur YouTube">▶</button>
+          <button class="artist-play" type="button" aria-label="Écouter Unity 141 (mix SoundCloud dans la fiche)">▶</button>
         </div>
         <div class="artist-info">
           <h3>Unity 141</h3>
@@ -970,8 +972,10 @@
       <div class="am-tags" id="amTags"></div>
       <p class="pm-desc" id="amBio"></p>
 
-      <!-- Écoute : lien direct vers la vraie plateforme de l'artiste (aucun faux extrait) -->
+      <!-- Écoute : embed SoundCloud chargé au clic si l'artiste a un mix,
+           sinon lien direct vers sa vraie plateforme (aucun faux extrait) -->
       <a class="am-listen" id="amListen" href="#" target="_blank" rel="noopener" hidden>▶ Écouter sur <span id="amListenName">YouTube</span></a>
+      <div class="am-embed" id="amEmbed" hidden></div>
 
       <div class="am-stream" id="amStream">
         <a class="am-stream-link" id="amSpotify" href="#" target="_blank" rel="noopener">Spotify</a>

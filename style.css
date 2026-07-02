@@ -1389,6 +1389,8 @@ html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
   transition: transform var(--dur-med) var(--ease), opacity var(--dur-med), box-shadow var(--dur-fast);
 }
 .artist-card:hover .artist-play { transform: none; opacity: 1; }
+/* Écrans tactiles : pas de survol -> le bouton d'écoute reste visible */
+@media (hover: none) { .artist-play { transform: none; opacity: 1; } }
 .artist-play:hover { box-shadow: 0 12px 30px rgba(255, 122, 0, .5); }
 .artist-card { cursor: pointer; }
 .artist-more { font-size: .8rem; color: var(--passion); font-family: var(--display); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
@@ -1426,6 +1428,9 @@ html[data-theme="light"] .ck-format small { color: #6E6353; }
   border-radius: 100px; transition: transform var(--dur-fast), box-shadow var(--dur-fast);
 }
 .am-listen:hover { transform: scale(1.04); box-shadow: 0 12px 30px rgba(255, 122, 0, .35); }
+/* Player embarqué (SoundCloud) chargé au clic */
+.am-embed { margin: 24px 0 20px; }
+.am-embed iframe { display: block; width: 100%; border: 0; border-radius: 14px; }
 .am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 .am-stream-link {
   font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;

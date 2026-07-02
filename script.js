@@ -468,21 +468,10 @@
     if (photoBox && d.photos) {
       buildMediaCarousel(photoBox, {
         photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: !!listenUrl(d), note: d.note || '',
+        badge: d.badge || '', playBtn: !!(d.listenEmbed || listenUrl(d)), note: d.note || '',
         videoTitles: d.videoTitles || ''
       });
     }
-  });
-
-  // Écoute rapide depuis la carte : ouvre la plateforme dans un nouvel onglet
-  $$('.artist-card .artist-play').forEach(btn => {
-    const card = btn.closest('.artist-card');
-    const url = listenUrl(card.dataset);
-    btn.setAttribute('aria-label', `Écouter ${card.dataset.name || ''} sur ${platformName(url)} (nouvel onglet)`);
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      window.open(url, '_blank', 'noopener');
-    });
   });
 
   // Modale fiche artiste
@@ -490,7 +479,9 @@
   if (artistModal) {
     const amHero = artistModal.querySelector('.am-hero'), amRole = $('#amRole'),
           amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
-          amListen = $('#amListen'), amListenName = $('#amListenName');
+          amListen = $('#amListen'), amListenName = $('#amListenName'),
+          amEmbed = $('#amEmbed');
+    let modalEmbed = '';   // player embarqué (SoundCloud) de l'artiste affiché
 
     const openArtist = card => {
       const d = card.dataset;
@@ -517,10 +508,22 @@
       });
       const amStream = $('#amStream');
       if (amStream) amStream.hidden = !anyStream;
-      // Bouton écoute : lien direct vers la vraie plateforme, sinon masqué
-      const listen = listenUrl(d);
-      amListen.hidden = !listen;
-      if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
+      // Bouton écoute : mix embarqué (SoundCloud) chargé au clic si présent,
+      // sinon lien direct vers la vraie plateforme, sinon masqué
+      modalEmbed = d.listenEmbed || '';
+      amEmbed.hidden = true;
+      amEmbed.innerHTML = '';
+      if (modalEmbed) {
+        amListen.hidden = false;
+        // repli utile (clic molette / nouvel onglet) : la page du mix elle-même
+        const m = modalEmbed.match(/[?&]url=([^&]+)/);
+        amListen.href = m ? decodeURIComponent(m[1]) : modalEmbed;
+        amListenName.textContent = 'SoundCloud';
+      } else {
+        const listen = listenUrl(d);
+        amListen.hidden = !listen;
+        if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
+      }
       artistModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
@@ -544,6 +547,34 @@
       if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
     });
     artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
+
+    // Clic écoute : si l'artiste a un mix, le player se charge ICI, au clic
+    // seulement (aucune requête SoundCloud avant) ; sinon le lien s'ouvre normalement
+    amListen.addEventListener('click', e => {
+      if (!modalEmbed) return;
+      e.preventDefault();
+      amEmbed.innerHTML = `<iframe title="Mix de ${amName.textContent} (SoundCloud)" width="100%" height="166"
+        scrolling="no" allow="autoplay"
+        src="${modalEmbed}&auto_play=true&color=%23ff7a00"></iframe>`;
+      amEmbed.hidden = false;
+      amListen.hidden = true;
+    });
+
+    // Écoute rapide depuis la carte : mix -> ouvre la fiche avec le player ;
+    // sinon la vraie plateforme dans un nouvel onglet
+    $$('.artist-card .artist-play').forEach(btn => {
+      const card = btn.closest('.artist-card');
+      const d = card.dataset;
+      const url = listenUrl(d);
+      btn.setAttribute('aria-label', d.listenEmbed
+        ? `Écouter ${d.name || ''} (mix SoundCloud dans la fiche)`
+        : `Écouter ${d.name || ''} sur ${platformName(url)} (nouvel onglet)`);
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (d.listenEmbed) { openArtist(card); amListen.click(); }
+        else window.open(url, '_blank', 'noopener');
+      });
+    });
   }
 
   /* ===== 08a-ter-1b. FOND VIDÉO DU HERO (billetterie) =====
