@@ -170,6 +170,25 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-field">
+            <label for="evTime">Heure de début</label>
+            <input type="time" id="evTime">
+            <span class="field-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="evVenue">Lieu / salle</label>
+            <input type="text" id="evVenue" placeholder="Ex. Club Azur, Plage de la Caravelle…">
+            <span class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="evGenres">Genres musicaux <small>(jusqu'à 3, séparés par une virgule)</small></label>
+          <input type="text" id="evGenres" placeholder="Ex. zouk, shatta, afro house">
+          <span class="field-error"></span>
+        </div>
+
         <!-- Visibilité : public ou privé -->
         <fieldset class="visibility-switch">
           <legend>Visibilité de l'événement *</legend>

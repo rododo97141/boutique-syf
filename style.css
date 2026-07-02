@@ -816,10 +816,18 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .event-tag.tag-prive { background: var(--ink); color: var(--coral); }
 .event-card-body { padding: 22px 22px 26px; }
 .event-card-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 6px; }
-.event-card-meta { font-size: .85rem; color: var(--grey); margin-bottom: 16px; }
+.event-card-meta { font-size: .85rem; color: var(--grey); margin-bottom: 12px; }
+/* Tags de genre musical */
+.event-genres { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.event-genre {
+  font-family: var(--display); font-size: .62rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px;
+  color: var(--passion); border: 1px solid rgba(255, 200, 87, .3);
+}
 .event-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .event-price small { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--grey); }
-.event-price strong { font-family: var(--display); font-size: 1.2rem; color: var(--passion); }
+.event-price strong { font-family: var(--display); font-size: 1.1rem; color: var(--passion); white-space: nowrap; }
 .event-organizer { font-size: .74rem; color: var(--grey); margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(250, 248, 242, .1); }
 .no-results { text-align: center; color: var(--grey); font-family: var(--serif); font-style: italic; font-size: 1.1rem; padding: 40px 0; }
 
@@ -1105,6 +1113,7 @@ html[data-theme="light"] .sort-label { color: #6E6353; }
 html[data-theme="light"] .event-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .25); box-shadow: 0 6px 22px rgba(60, 45, 20, .07); }
 html[data-theme="light"] .event-card-meta, html[data-theme="light"] .event-price small { color: #6E6353; }
 html[data-theme="light"] .event-price strong { color: var(--gold-deep); }
+html[data-theme="light"] .event-genre { color: var(--gold-deep); border-color: rgba(184, 134, 11, .4); }
 html[data-theme="light"] .event-organizer { color: #8A7E6C; border-top-color: rgba(34, 26, 16, .15); }
 html[data-theme="light"] .section-pro { background: linear-gradient(180deg, #F3ECDC, #FAF6EE); }
 html[data-theme="light"] .pro-card { background: #FFFFFF; border-color: rgba(212, 160, 23, .3); }
