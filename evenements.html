@@ -34,8 +34,8 @@
   </div>
 
   <div class="nav-actions">
-    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Espace client</button>
-    <a class="btn btn-solid btn-sm" href="#pro">Espace pro</a>
+    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Mon profil</button>
+    <a class="btn btn-solid btn-sm" href="espace-pro.html">Espace pro</a>
     <div class="theme-switch" id="themeSwitch">
       <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
       <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
@@ -56,8 +56,9 @@
   <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
   <a href="index.html">← Retour au site SYFIR</a>
   <a href="#billetterie">Billetterie</a>
-  <a href="#pro">Espace professionnel</a>
-  <a href="#" id="clientSpaceBtnMobile">Espace client</a>
+  <a href="espace-pro.html">Espace pro organisateur</a>
+  <a href="#pro">Créer un événement</a>
+  <a href="#" id="clientSpaceBtnMobile">Mon profil</a>
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
 </div>
 
@@ -269,8 +270,8 @@
     <div class="footer-col">
       <h4>Billetterie</h4>
       <a href="#billetterie">Tous les événements</a>
-      <a href="#" id="footClientSpace">Espace client</a>
-      <a href="#pro">Espace professionnel</a>
+      <a href="#" id="footClientSpace">Mon profil</a>
+      <a href="espace-pro.html">Espace pro organisateur</a>
     </div>
     <div class="footer-col">
       <h4>SYFIR</h4>
@@ -331,15 +332,46 @@
   <div class="modal-box modal-box-sm">
     <button class="modal-close" data-close aria-label="Fermer">✕</button>
     <div class="modal-body">
-      <h3>Espace client</h3>
+      <h3 id="clientTitle">Mon espace</h3>
       <div class="tabs" id="clientTabs">
-        <button class="tab active" data-tab="login">Connexion</button>
-        <button class="tab" data-tab="register">Inscription</button>
-        <button class="tab" data-tab="tickets">Mes billets</button>
+        <button class="tab active" data-tab="tickets">Mes billets</button>
+        <button class="tab" data-tab="profile">Mon profil</button>
+        <button class="tab" data-tab="login" data-auth>Connexion</button>
+        <button class="tab" data-tab="register" data-auth>Inscription</button>
       </div>
 
+      <!-- Mes billets (défaut) -->
+      <div class="tab-panel active" id="panel-tickets">
+        <div class="subtabs" id="ticketSubtabs">
+          <button class="subtab active" data-sub="upcoming">À venir</button>
+          <button class="subtab" data-sub="past">Passés</button>
+        </div>
+        <div id="myTickets"></div>
+      </div>
+
+      <!-- Mon profil -->
+      <form class="tab-panel" id="panel-profile" novalidate>
+        <div class="form-field">
+          <label for="profName">Nom complet</label>
+          <input type="text" id="profName" placeholder="Prénom Nom" autocomplete="name">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profEmail">Email</label>
+          <input type="email" id="profEmail" placeholder="vous@exemple.com" autocomplete="email">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profCity">Ville</label>
+          <input type="text" id="profCity" placeholder="Pointe-à-Pitre" autocomplete="address-level2">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Enregistrer mon profil</button>
+        <button type="button" class="btn btn-ghost btn-full" id="logoutBtn" hidden>Se déconnecter</button>
+      </form>
+
       <!-- Connexion -->
-      <form class="tab-panel active" id="panel-login" novalidate>
+      <form class="tab-panel" id="panel-login" novalidate>
         <div class="form-field">
           <label for="clEmail">Email</label>
           <input type="email" id="clEmail" placeholder="vous@exemple.com">
@@ -372,11 +404,6 @@
         </div>
         <button type="submit" class="btn btn-solid btn-full">Créer mon compte</button>
       </form>
-
-      <!-- Mes billets -->
-      <div class="tab-panel" id="panel-tickets">
-        <div id="myTickets"><p class="cart-empty">Aucun billet pour l'instant. Vos réservations apparaîtront ici.</p></div>
-      </div>
     </div>
   </div>
 </div>

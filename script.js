@@ -763,32 +763,84 @@ if (placeModal && placesGridEl) {
     renderMyTickets();
   });
 
-  /* ===== 13. ESPACE CLIENT ===== */
+  /* ===== 13. MON PROFIL (espace membre : billets À venir/Passés, profil, auth) ===== */
   const clientModal = $('#clientModal');
-  const openClient = e => { e?.preventDefault(); openModal(clientModal); };
-  $('#clientSpaceBtn')?.addEventListener('click', openClient);
+  const clientBtn = $('#clientSpaceBtn');
+  let ticketSub = 'upcoming';
+
+  const getUser = () => store.get('syfir-user', null);
+  const isLogged = () => { const u = getUser(); return !!(u && u.name); };
+  const firstNameOf = name => (name || '').trim().split(/\s+/)[0] || '';
+
+  const switchTab = name => {
+    $$('#clientTabs .tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    $$('#clientModal .tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${name}`));
+  };
+
+  const renderAuthState = () => {
+    const logged = isLogged();
+    const u = getUser() || {};
+    if (clientBtn) {
+      if (logged) {
+        clientBtn.classList.add('is-logged');
+        clientBtn.innerHTML = `<span class="nav-avatar">${(firstNameOf(u.name)[0] || '?').toUpperCase()}</span>${firstNameOf(u.name)}`;
+      } else {
+        clientBtn.classList.remove('is-logged');
+        clientBtn.textContent = 'Mon profil';
+      }
+    }
+    // Connexion / Inscription seulement si déconnecté
+    $$('#clientTabs .tab[data-auth]').forEach(t => { t.hidden = logged; });
+    $('#profName').value = u.name || '';
+    $('#profEmail').value = u.email || '';
+    $('#profCity').value = u.city || '';
+    $('#logoutBtn').hidden = !logged;
+  };
+
+  const ticketRow = t => `
+    <div class="my-ticket">
+      <div><strong>${t.event}</strong><small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small></div>
+      <span class="qr" aria-label="QR code">▣</span>
+    </div>`;
+
+  const renderMyTickets = () => {
+    const all = store.get('syfir-tickets', []);
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+    const upcoming = all.filter(t => new Date(t.date + 'T00:00:00') >= startOfToday);
+    const past = all.filter(t => new Date(t.date + 'T00:00:00') < startOfToday);
+    $$('#ticketSubtabs .subtab').forEach(b => { b.dataset.count = b.dataset.sub === 'past' ? past.length : upcoming.length; });
+    const list = ticketSub === 'past' ? past : upcoming;
+    $('#myTickets').innerHTML = list.length
+      ? list.map(ticketRow).join('')
+      : `<p class="cart-empty">${ticketSub === 'past' ? 'Aucun billet passé.' : 'Aucun billet à venir. Réservez votre première soirée SYFIR !'}</p>`;
+  };
+
+  const openClient = (e, tab) => {
+    e?.preventDefault();
+    switchTab(tab || 'tickets');
+    renderAuthState();
+    renderMyTickets();
+    openModal(clientModal);
+  };
+  $('#clientSpaceBtn')?.addEventListener('click', e => openClient(e));
   $('#clientSpaceBtnMobile')?.addEventListener('click', e => { openClient(e); mobileNav?.classList.remove('open'); });
-  $('#footClientSpace')?.addEventListener('click', openClient);
+  $('#footClientSpace')?.addEventListener('click', e => openClient(e));
 
   $('#clientTabs').addEventListener('click', e => {
     const tab = e.target.closest('.tab');
-    if (!tab) return;
-    $$('.tab').forEach(t => t.classList.remove('active'));
-    $$('.tab-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    $(`#panel-${tab.dataset.tab}`).classList.add('active');
+    if (tab && !tab.hidden) switchTab(tab.dataset.tab);
+  });
+  $('#ticketSubtabs').addEventListener('click', e => {
+    const s = e.target.closest('.subtab');
+    if (!s) return;
+    ticketSub = s.dataset.sub;
+    $$('#ticketSubtabs .subtab').forEach(b => b.classList.toggle('active', b === s));
+    renderMyTickets();
   });
 
-  const renderMyTickets = () => {
-    const myTickets = store.get('syfir-tickets', []);
-    $('#myTickets').innerHTML = myTickets.length
-      ? myTickets.map(t => `
-        <div class="my-ticket">
-          <div><strong>${t.event}</strong><small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small></div>
-          <span class="qr" aria-label="QR code">▣</span>
-        </div>`).join('')
-      : '<p class="cart-empty">Aucun billet pour l\'instant. Vos réservations apparaîtront ici.</p>';
-  };
+  const login = user => { store.set('syfir-user', user); renderAuthState(); switchTab('tickets'); renderMyTickets(); };
+
+  renderAuthState();
   renderMyTickets();
 
   $('#panel-login').addEventListener('submit', e => {
@@ -796,7 +848,9 @@ if (placeModal && placesGridEl) {
     const okMail = check($('#clEmail'), validators.email);
     const okPass = check($('#clPass'), v => v.length >= 8 || '8 caractères minimum.');
     if (!okMail || !okPass) return;
-    closeModal(clientModal);
+    const email = $('#clEmail').value.trim();
+    const existing = getUser() || {};
+    login({ name: existing.name || email.split('@')[0], email, city: existing.city || '' });
     showToast('✦ Bienvenue dans votre espace SYFIR !');
   });
 
@@ -808,8 +862,24 @@ if (placeModal && placesGridEl) {
       check($('#rgPass'), v => v.length >= 8 || '8 caractères minimum.')
     ].every(Boolean);
     if (!ok) return;
-    closeModal(clientModal);
+    login({ name: $('#rgName').value.trim(), email: $('#rgEmail').value.trim(), city: '' });
     showToast('✦ Compte créé ! Bienvenue dans la communauté SYFIR.');
+  });
+
+  $('#panel-profile').addEventListener('submit', e => {
+    e.preventDefault();
+    const ok = [check($('#profName'), validators.name), check($('#profEmail'), validators.email)].every(Boolean);
+    if (!ok) return;
+    store.set('syfir-user', { name: $('#profName').value.trim(), email: $('#profEmail').value.trim(), city: $('#profCity').value.trim() });
+    renderAuthState();
+    showToast('✦ Profil enregistré.');
+  });
+
+  $('#logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('syfir-user');
+    renderAuthState();
+    switchTab('tickets');
+    showToast('À bientôt sur SYFIR !');
   });
 
   /* ===== 14. ESPACE PRO — création + facturation ===== */

@@ -984,6 +984,24 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 }
 .tab:hover { color: var(--cream); }
 .tab.active { color: var(--passion); border-bottom-color: var(--sunset); }
+.tab[hidden] { display: none; }
+/* Sous-onglets À venir / Passés (Mes billets) */
+.subtabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.subtab {
+  background: none; border: 1px solid rgba(255, 200, 87, .25); color: var(--grey);
+  font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: 7px 15px; border-radius: 100px; transition: background .3s, color .3s, border-color .3s;
+}
+.subtab:hover { color: var(--cream); }
+.subtab.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); color: var(--ink); border-color: transparent; }
+.subtab[data-count]::after { content: ' · ' attr(data-count); opacity: .7; }
+/* Avatar (initiale) dans la nav quand connecté */
+.nav-avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--gold-metal); color: var(--ink);
+  font-family: var(--display); font-weight: 800; font-size: .7rem; margin-right: 7px;
+}
 .tab-panel { display: none; }
 .tab-panel.active { display: block; animation: slideIn .4s var(--ease); }
 .tab-panel .form-field { margin-bottom: 16px; }
@@ -1156,6 +1174,9 @@ html[data-theme="light"] .tabs { border-bottom-color: rgba(34, 26, 16, .12); }
 html[data-theme="light"] .tab { color: #8A7E6C; }
 html[data-theme="light"] .tab:hover { color: #221A10; }
 html[data-theme="light"] .tab.active { color: var(--gold-deep); }
+html[data-theme="light"] .subtab { border-color: rgba(184, 134, 11, .4); color: #6E6353; }
+html[data-theme="light"] .subtab:hover { color: #221A10; }
+html[data-theme="light"] .subtab.active { color: var(--ink); }
 html[data-theme="light"] .gate-row input { background: #FAF6EE; border-color: #E4D9C2; color: #221A10; }
 html[data-theme="light"] .pm-desc { color: rgba(34, 26, 16, .8); }
 html[data-theme="light"] .pm-web { color: var(--gold-deep); }
