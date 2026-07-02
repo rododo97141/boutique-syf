@@ -769,22 +769,31 @@ if (placeModal && placesGridEl) {
     }, { threshold: 0.2 }).observe(ticketsHero);
   }
 
-  /* ===== 09b-2. AFTERMOVIE : façade lazy (accueil) =====
-     L'iframe YouTube ne se charge qu'au clic (performance / vie privée).
-     Tant que data-embed contient VIDEO_ID (placeholder), on informe
-     simplement que la vidéo arrive. */
-  const aftermovieBtn = $('#aftermovieBtn');
-  aftermovieBtn?.addEventListener('click', () => {
-    const embed = aftermovieBtn.dataset.embed || '';
-    if (!embed || embed.includes('VIDEO_ID')) {
-      showToast('🎬 L\'aftermovie arrive très bientôt !');
-      return;
+  /* ===== 09b-2. VIDÉO D'AMBIANCE (accueil, communauté) =====
+     Remplace la façade aftermovie en attendant le vrai film : vidéo Pexels
+     muette en boucle, lancée après load (lazy, preload=none + poster).
+     prefers-reduced-motion -> pas d'autoplay, contrôles natifs à la place. */
+  const ambianceBox = $('#ambianceBox');
+  if (ambianceBox) {
+    const v = ambianceBox.querySelector('video');
+    const sound = ambianceBox.querySelector('.car-sound');
+    if (reducedMotion) {
+      v.controls = true;
+      sound.hidden = true;   // les contrôles natifs gèrent déjà le son
+    } else {
+      addEventListener('load', () => { v.play().catch(() => {}); }, { once: true });
+      sound.addEventListener('click', () => {
+        v.muted = !v.muted;
+        sound.textContent = v.muted ? '🔇' : '🔊';
+        sound.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
+        sound.setAttribute('aria-pressed', String(!v.muted));
+        if (v.paused) v.play().catch(() => {});
+      });
+      // aucune source ne charge (fichier absent + réseau) -> on retire le
+      // bouton son, le poster/fond reste en place
+      v.querySelector('source:last-of-type').addEventListener('error', () => { sound.hidden = true; });
     }
-    const url = embed + (embed.includes('?') ? '&' : '?') + 'autoplay=1';
-    aftermovieBtn.closest('.aftermovie').innerHTML =
-      `<iframe class="aftermovie-frame" src="${url}" title="Aftermovie SYFIR"
-        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-  });
+  }
 
   /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
   $$('.footer-news').forEach(form => {

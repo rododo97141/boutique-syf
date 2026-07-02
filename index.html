@@ -804,20 +804,19 @@
     <h2 class="h2 reveal d1">Partagez <em>la couleur</em>.</h2>
     <p class="section-intro intro-light reveal d2">Identifiez <strong>#SYFIR</strong> et entrez dans la galerie.</p>
 
-    <!-- Aftermovie — façade lazy : l'iframe YouTube ne charge qu'au clic.
-         👉 Remplacez VIDEO_ID dans data-embed par l'identifiant YouTube de
-         votre aftermovie (ex. data-embed="https://www.youtube.com/embed/dQw4w9WgXcQ") -->
+    <!-- Vidéo d'ambiance (Pexels, licence libre) en attendant le VRAI aftermovie.
+         👉 Quand l'aftermovie YouTube sera prêt, remplacer ce bloc par la façade
+         lazy d'origine (voir l'historique git : bouton #aftermovieBtn + data-embed). -->
     <div class="aftermovie reveal d2">
-      <button class="aftermovie-facade" id="aftermovieBtn" type="button"
-              data-embed="https://www.youtube.com/embed/VIDEO_ID"
-              aria-label="Lire l'aftermovie SYFIR">
-        <img src="images/syfir-fete.png"
-             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&q=80'"
-             alt="" loading="lazy">
-        <span class="aftermovie-veil" aria-hidden="true"></span>
-        <span class="aftermovie-play" aria-hidden="true">▶</span>
-        <span class="aftermovie-label">Aftermovie — l'été SYFIR en 90 secondes</span>
-      </button>
+      <div class="ambiance-box" id="ambianceBox">
+        <video muted loop playsinline preload="none" poster="images/syfir-fete.png"
+               aria-label="Vidéo d'ambiance SYFIR — toast au coucher de soleil">
+          <source src="videos/ambiance-sunset.mp4" type="video/mp4">
+          <source src="https://www.pexels.com/download/video/9640964/" type="video/mp4">
+        </video>
+        <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
+        <span class="ambiance-label">Ambiance — l'aftermovie officiel arrive</span>
+      </div>
     </div>
   </div>
 
