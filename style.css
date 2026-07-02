@@ -2036,6 +2036,11 @@ html[data-theme="light"] .dash-empty { border-color: rgba(184, 134, 11, .3); }
   /* Cases à cocher : la cible réelle est le label englobant (grand),
      on agrandit la case elle-même pour le confort du pouce */
   .form-consent input, .opt-line input { width: 22px; height: 22px; }
+
+  /* Paliers de billets : libellé + badge + prix + quantité 44px ne tiennent pas
+     sur une seule ligne à 390px — la partie droite se replie dessous, alignée à droite */
+  .tier { flex-wrap: wrap; }
+  .tier-right { margin-left: auto; }
 }
 
 /* Tablette */
