@@ -1925,6 +1925,11 @@ html[data-theme="light"] .car-dot.on::after { background: var(--gold-light); }
 .event-notfound .container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .event-notfound .btn { margin-top: 20px; }
 
+/* ===== PAGES DÉDIÉES (saveurs.html, communaute.html) : hero sobre ===== */
+.page-hero { padding: 152px 0 8px; }
+.page-hero .h2 { margin-bottom: 16px; }
+.page-hero .section-intro { margin-bottom: 0; }
+
 /* Fiche — variante claire */
 html[data-theme="light"] .ed-meta li { color: #3a3125; }
 html[data-theme="light"] .ed-meta a { color: var(--gold-deep); }

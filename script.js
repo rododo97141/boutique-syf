@@ -42,14 +42,15 @@
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 
-  // Lien actif selon la section visible
+  // Lien actif selon la section visible — uniquement pour les liens-ancres :
+  // sur les pages dédiées (liens inter-pages), l'état actif est posé en dur dans le HTML
   const sections = $$('section[id], header[id]');
-  const navLinks = $$('.nav-link');
-  if (sections.length && navLinks.length) {
+  const hashNavLinks = $$('.nav-link').filter(l => (l.getAttribute('href') || '').startsWith('#'));
+  if (sections.length && hashNavLinks.length) {
     const spy = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
-        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
+        hashNavLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(s => spy.observe(s));
