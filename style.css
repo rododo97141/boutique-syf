@@ -1162,6 +1162,11 @@ html[data-theme="light"] .vis-opt small, html[data-theme="light"] .tier-info sma
 /* Modales */
 html[data-theme="light"] .modal-box { background: #FFFFFF; border-color: rgba(212, 160, 23, .35); }
 html[data-theme="light"] .modal-close { background: rgba(250, 246, 238, .9); color: #221A10; }
+/* Boutons fantômes sur surface claire (modale, fiche) : texte crème -> ancre sombre */
+html[data-theme="light"] .modal .btn-ghost,
+html[data-theme="light"] .event-detail .btn-ghost { border-color: rgba(34, 26, 16, .3); color: #221A10; }
+html[data-theme="light"] .modal .btn-ghost:hover,
+html[data-theme="light"] .event-detail .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
 html[data-theme="light"] .modal-meta { color: #6E6353; }
 html[data-theme="light"] .modal-tag { color: var(--gold-deep); }
 html[data-theme="light"] .tier { border-color: #E4D9C2; }
