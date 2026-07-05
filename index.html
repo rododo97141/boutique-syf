@@ -48,6 +48,7 @@
     <li><a href="#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
   <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Mon profil</button>
     <div class="theme-switch" id="themeSwitch">
       <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
       <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
@@ -72,6 +73,7 @@
   <a href="evenements.html">Événements &amp; Fêtes</a>
   <a href="actualite.html">Actualité</a>
   <a href="#partenaires">Devenir partenaire</a>
+  <a href="#" id="clientSpaceBtnMobile">Mon profil</a>
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
 </div>
 
@@ -904,6 +906,93 @@
   </div>
 </div>
 
+
+<!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
+<div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-box modal-box-sm">
+    <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    <div class="modal-body">
+      <h3 id="clientTitle">Mon espace</h3>
+      <div class="tabs" id="clientTabs">
+        <button class="tab active" data-tab="tickets">Mes billets</button>
+        <button class="tab" data-tab="favs">Favoris</button>
+        <button class="tab" data-tab="profile">Mon profil</button>
+        <button class="tab" data-tab="login" data-auth>Connexion</button>
+        <button class="tab" data-tab="register" data-auth>Inscription</button>
+      </div>
+
+      <!-- Mes billets (défaut) -->
+      <div class="tab-panel active" id="panel-tickets">
+        <div class="subtabs" id="ticketSubtabs">
+          <button class="subtab active" data-sub="upcoming">À venir</button>
+          <button class="subtab" data-sub="past">Passés</button>
+        </div>
+        <div id="myTickets"></div>
+      </div>
+
+      <!-- Favoris -->
+      <div class="tab-panel" id="panel-favs">
+        <div id="myFavs"></div>
+      </div>
+
+      <!-- Mon profil -->
+      <form class="tab-panel" id="panel-profile" novalidate>
+        <div class="form-field">
+          <label for="profName">Nom complet</label>
+          <input type="text" id="profName" placeholder="Prénom Nom" autocomplete="name">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profEmail">Email</label>
+          <input type="email" id="profEmail" placeholder="vous@exemple.com" autocomplete="email">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profCity">Ville</label>
+          <input type="text" id="profCity" placeholder="Pointe-à-Pitre" autocomplete="address-level2">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Enregistrer mon profil</button>
+        <button type="button" class="btn btn-ghost btn-full" id="logoutBtn" hidden>Se déconnecter</button>
+      </form>
+
+      <!-- Connexion -->
+      <form class="tab-panel" id="panel-login" novalidate>
+        <div class="form-field">
+          <label for="clEmail">Email</label>
+          <input type="email" id="clEmail" placeholder="vous@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="clPass">Mot de passe</label>
+          <input type="password" id="clPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Se connecter</button>
+      </form>
+
+      <!-- Inscription -->
+      <form class="tab-panel" id="panel-register" novalidate>
+        <div class="form-field">
+          <label for="rgName">Nom complet</label>
+          <input type="text" id="rgName" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgEmail">Email</label>
+          <input type="email" id="rgEmail" placeholder="vous@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgPass">Mot de passe (8 caractères min.)</label>
+          <input type="password" id="rgPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Créer mon compte</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- Bouton retour en haut -->
 <button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
