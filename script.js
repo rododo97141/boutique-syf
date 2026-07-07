@@ -39,7 +39,7 @@
   /* ===== 03. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
   // Anciennes ancres de l'accueil -> pages dédiées (transposition maquette).
   // On ne redirige que si la cible n'existe pas sur la page courante.
-  const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'medias.html' };
+  const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'actualite.html' };
   const movedTo = movedAnchors[location.hash];
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 

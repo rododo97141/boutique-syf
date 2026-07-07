@@ -28,8 +28,8 @@ derrière un simple `python3 -m http.server`.
 | Fichier | Rôle |
 |---|---|
 | `saveurs.html` | **Page dédiée cocktails (lot 16, maquette client)** : hero sobre + section Nos Cocktails Signature complète (3 cartes, fiches produit modale, galeries/vidéos, formats) — l'accueil n'a plus qu'un teaser |
-| `medias.html` (ex-`actualite.html`/`communaute.html`, deux stubs de redirection conservés) | **Page Médias (lots 16-17)** : hero océan profond XXL « Partagez la couleur. », section L'AMBIANCE (vidéo + galerie), `#moments` réservé en commentaire (futur feed), section newsletter |
-| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER médias (bandeau -> medias.html), CTA final, footer |
+| `actualite.html` (nom canonique ; stubs `medias.html` ET `communaute.html` redirigent vers elle) | **Page Actualité (lots 16-18)** : hero océan profond XXL « Partagez la couleur. », section L'AMBIANCE (vidéo + galerie), `#moments` réservé en commentaire (futur feed), section newsletter |
+| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER actualité (bandeau -> actualite.html), CTA final, footer |
 | `evenements.html` | Billetterie : hero (fond vidéo Pexels injecté après load), **section Billetterie officielle Shotgun RETIRÉE du rendu** (consigne client 02/07 — bloc conservé en commentaire HTML avec TODO `#shotgunWidget`, styles `.shotgun-*` conservés), billetterie **démo** (groupée par jour, filtres type/ville/genre, compteur, cœurs favoris), espace pro (formulaire création), modales (billets, Mon espace), FAB Billets |
 | `evenement.html` + `evenement.js` | Fiche partageable `?id=X` : SEO/OG/JSON-LD MusicEvent, Maps, partage (navigator.share/WhatsApp), tunnel billets, compte à rebours, « Vous aimerez aussi » |
 | `espace-pro.html` + `espace-pro.js` | Smartboard organisateur : sidebar (Vue d'ensemble avec KPI + comparatifs simulés déterministes, Mes événements dupliquer/supprimer, Ventes/Scan/Équipe/Messages/Paramètres en maquettes « Bientôt ») |
@@ -71,7 +71,7 @@ derrière un simple `python3 -m http.server`.
 `syfir-theme` (auto/light/dark) · `syfir-age-ok` · `syfir-user` ({name,email,city}) ·
 `syfir-tickets` ([{event,city,date,detail,num}]) · `syfir-favs` ([ids]) · `syfir-pro-events` ([événements créés]).
 Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gate bloque tout).
-Ancres déplacées : `index.html#cocktails` → `saveurs.html`, `index.html#communaute` → `medias.html` (stubs `communaute.html` ET `actualite.html` → `medias.html`) (redirection JS si la cible n'existe pas sur la page). Nav maquette 5 entrées sur toutes les pages (billetterie : entrées dans le menu mobile, la nav-recherche desktop est conservée).
+Ancres déplacées : `index.html#cocktails` → `saveurs.html`, `index.html#communaute` → `actualite.html` (stubs `medias.html` ET `communaute.html` → `actualite.html`) (redirection JS si la cible n'existe pas sur la page). Nav maquette 5 entrées sur toutes les pages (billetterie : entrées dans le menu mobile, la nav-recherche desktop est conservée).
 
 ## 6. Lots livrés (tous validés à l'écran par le superviseur)
 
