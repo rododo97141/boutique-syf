@@ -20,8 +20,13 @@ Le CSS existant (`style.css`) est la source de vérité des valeurs.
 | Sunset | `#FF7A00` |
 | Passion | `#FFC857` |
 
-**Typographies** : Montserrat 800–900 pour les titres, Plus Jakarta Sans pour le corps,
-Fraunces italique **réservé aux mots-clés émotionnels**.
+**Typographies** : **Syne 700–800 pour les titres** (identité — lot 22 : géométrique
+arty-festival dessinée pour un centre d'art, chasses larges et dessins singuliers du S/Y ;
+urbaine, estivale, premium accessible — choisie contre Bricolage Grotesque, plus commune
+dans son registre éditorial, et en remplacement de Montserrat, trop générique),
+Plus Jakarta Sans pour le corps, Fraunces italique **réservé aux mots-clés émotionnels**.
+Syne s'arrête à la graisse 800 (pas de 900) ; ses capitales étant larges,
+letter-spacing resserré : logo/footer `.12em`, nav `.06em`, boutons `.08em`.
 
 **Géométrie & motion** : rayon `18px` partout, grille `8px`,
 transitions `180ms` / `300ms` `cubic-bezier(.16,1,.3,1)` —

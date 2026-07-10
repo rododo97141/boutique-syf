@@ -60,7 +60,11 @@
   --grey: #8A8A8A;
   --error: #E5484D;
   --success: #46A758;
-  --display: 'Montserrat', sans-serif;
+  /* Police identitaire (lot 22) : Syne — géométrique arty-festival,
+     dessinée pour un centre d'art, chasses larges, détails singuliers
+     (Y, S) : urbaine, estivale, premium accessible. 700 par défaut,
+     800 pour le logo et le hero. Elle remplace Montserrat (trop commune). */
+  --display: 'Syne', sans-serif;
   --body: 'Plus Jakarta Sans', sans-serif;
   --serif: 'Fraunces', serif;
   --ease: cubic-bezier(.16, 1, .3, 1);
@@ -193,7 +197,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   font-family: var(--display);
   font-weight: 700;
   font-size: .82rem;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   padding: 16px 32px;
   border-radius: 100px;
@@ -315,7 +319,7 @@ nav.scrolled {
 }
 .nav-logo {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--display); font-weight: 900; font-size: 1.35rem; letter-spacing: .22em;
+  font-family: var(--display); font-weight: 800; font-size: 1.35rem; letter-spacing: .12em;
   color: var(--cream); flex-shrink: 0;
   transition: color var(--dur-fast) var(--ease);
 }
@@ -372,9 +376,11 @@ nav.scrolled {
 .nav-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
 .logo-suffix { font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: .02em; font-size: .62em !important; vertical-align: baseline !important; margin-left: 8px; }
 
-.nav-links { display: none; list-style: none; gap: 34px; }
+.nav-links { display: none; list-style: none; gap: 28px; }
 .nav-link {
-  font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  /* Syne a des chasses larges : corps et interlettrage resserrés, jamais de retour à la ligne */
+  font-size: .76rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  white-space: nowrap;
   color: rgba(var(--cream-rgb), .72);
   padding-bottom: 4px; position: relative; transition: color var(--dur-fast);
 }
@@ -388,6 +394,7 @@ nav.scrolled {
 .nav-link-event { color: var(--passion); }
 
 .nav-actions { display: flex; align-items: center; gap: 14px; }
+.nav-actions .btn { white-space: nowrap; } /* MON PROFIL sur une ligne (Syne est large) */
 
 /* Burger */
 .burger {
@@ -490,7 +497,7 @@ nav.scrolled {
 .hero-line { display: block; overflow: hidden; }
 .hero-line span {
   display: block;
-  font-family: var(--display); font-weight: 900;
+  font-family: var(--display); font-weight: 800;
   font-size: clamp(4rem, 17vw, 11.5rem);
   line-height: .95; letter-spacing: .12em; padding-left: .12em;
   background: linear-gradient(115deg, var(--cream) 25%, var(--passion) 55%, var(--sunset) 85%);
@@ -896,7 +903,7 @@ textarea { resize: vertical; }
 /* ===== 15. FOOTER ===== */
 footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion-rgb), .12); padding-top: 72px; }
 .footer-grid { display: grid; gap: 38px; padding-bottom: 52px; }
-.footer-logo { font-family: var(--display); font-weight: 900; font-size: 1.6rem; letter-spacing: .22em; margin-bottom: 16px; }
+.footer-logo { font-family: var(--display); font-weight: 800; font-size: 1.6rem; letter-spacing: .12em; margin-bottom: 16px; }
 .footer-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
 .footer-brand p { color: var(--grey); font-size: .92rem; }
 .footer-col { display: flex; flex-direction: column; gap: 12px; }
@@ -961,7 +968,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .hero-video video { width: 100%; height: 100%; object-fit: cover; }
 .hero-video::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--ocean-deep-rgb), .55), rgba(var(--ink-rgb), .8)); }
 .tickets-title {
-  font-family: var(--display); font-weight: 900;
+  font-family: var(--display); font-weight: 800;
   font-size: clamp(2.1rem, 7vw, 4.2rem); line-height: 1.08;
   text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 20px;
 }
@@ -1029,7 +1036,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   background: var(--cream); color: var(--ink);
   border-radius: 12px; padding: 8px 12px; text-align: center; line-height: 1.1;
 }
-.event-date strong { display: block; font-family: var(--display); font-size: 1.25rem; font-weight: 900; }
+.event-date strong { display: block; font-family: var(--display); font-size: 1.25rem; font-weight: 800; }
 .event-date small { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
 /* Hauteur de badge constante sur une même rangée de cartes */
 .event-tag, .artist-badge { min-height: 28px; display: inline-flex; align-items: center; }
@@ -1725,7 +1732,7 @@ html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { backgr
   box-shadow: 0 40px 90px rgba(var(--black-rgb), .5);
 }
 .age-logo {
-  font-family: var(--display); font-weight: 900; letter-spacing: .24em; font-size: 1.5rem;
+  font-family: var(--display); font-weight: 800; letter-spacing: .24em; font-size: 1.5rem;
   background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
   margin-bottom: 20px;
 }
