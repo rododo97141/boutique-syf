@@ -895,6 +895,27 @@ if (placeModal && placesGridEl) {
     }
   }
 
+  /* ===== 09b-2b. TILT 3D LÉGER (data-tilt : vitrines du sachet) =====
+     Perspective + rotateX/Y suivant le pointeur, 6° max, retour doux
+     180 ms. Souris uniquement : rien au tactile ni en reduced-motion. */
+  const tiltEls = $$('[data-tilt]');
+  if (tiltEls.length && !reducedMotion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    tiltEls.forEach(el => {
+      el.style.willChange = 'transform';
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;   // -.5 → .5
+        const y = (e.clientY - r.top) / r.height - .5;
+        el.style.transition = 'none'; // suivi immédiat sous le pointeur
+        el.style.transform = `perspective(800px) rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg)`;
+      });
+      el.addEventListener('pointerleave', () => {
+        el.style.transition = 'transform 180ms var(--ease)';
+        el.style.transform = '';
+      });
+    });
+  }
+
   /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
     form.addEventListener('submit', e => {
