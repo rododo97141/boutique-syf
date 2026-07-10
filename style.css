@@ -259,6 +259,10 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .reveal.from-left  { --rv-x: -42px; --rv-y: 0; }
 .reveal.from-right { --rv-x: 42px;  --rv-y: 0; }
 .reveal.in { animation: revealIn .9s var(--ease) both; }
+/* Filet de sécurité : après un saut programmatique (ancre, scrollIntoView),
+   l'animation peut caler sur sa frame « from » (fill both = opacity 0).
+   .in-done impose l'état final sans dépendre de l'animation. */
+.reveal.in-done { animation: none; opacity: 1; transform: none; }
 @keyframes revealIn {
   from { opacity: 0; transform: translate(var(--rv-x), var(--rv-y)); }
   to   { opacity: 1; transform: none; }
@@ -270,6 +274,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-fast: 1ms; --dur-med: 1ms; }
   .reveal.in { animation: none; }
+  .reveal.in-done { animation: none; }
   html { scroll-behavior: auto; }
 }
 
@@ -1256,6 +1261,21 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   border: 1px solid rgba(var(--passion-rgb), .16);
   border-radius: var(--radius); padding: 36px 32px;
 }
+.invest-title {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  text-transform: uppercase; letter-spacing: .01em; margin-bottom: 28px;
+}
+.invest-title em {
+  font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+#investisseurs { margin-top: 64px; scroll-margin-top: calc(var(--nav-h) + 24px); }
+.invest-quote {
+  margin: 28px 0 0; padding-left: 20px;
+  border-left: 2px solid rgba(var(--passion-rgb), .4);
+  font-family: var(--serif); font-style: italic; font-size: 1.05rem; line-height: 1.8;
+  color: rgba(var(--cream-rgb), .82);
+}
 .invest-args { display: grid; gap: 28px; }
 .invest-args strong {
   display: block; font-family: var(--display); font-weight: 800; font-size: .95rem;
@@ -1982,6 +2002,7 @@ html[data-theme="light"] .audience-mail { color: var(--sunset-ink); }
 html[data-theme="light"] .audience-mail:hover { color: var(--gold-ink); }
 html[data-theme="light"] .invest-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); }
 html[data-theme="light"] .invest-args strong { color: var(--gold-ink); }
+html[data-theme="light"] .invest-quote { color: rgba(var(--ink-warm-rgb), .85); border-left-color: rgba(var(--gold-deep-rgb), .5); }
 html[data-theme="light"] .invest-args p,
 html[data-theme="light"] .invest-cta p { color: rgba(var(--ink-warm-rgb), .8); }
 html[data-theme="light"] .invest-cta { border-top-color: rgba(var(--gold-rgb), .25); }

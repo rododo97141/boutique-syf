@@ -106,12 +106,43 @@
   // Au chargement : révèle immédiatement tout ce qui est déjà dans le viewport
   // (le reste est visible par défaut et s'anime en entrant à l'écran).
   reveals.forEach(el => { if (inViewport(el)) el.classList.add('in'); });
+  // L'état final ne doit JAMAIS dépendre de l'animation : après un saut
+  // programmatique (ancre partagée, scrollIntoView), Chrome peut laisser
+  // l'animation calée sur sa frame « from » (fill both = opacity 0) jusqu'au
+  // premier vrai scroll. animationend pose .in-done (opacity 1 garanti)…
+  reveals.forEach(el => el.addEventListener('animationend', () => el.classList.add('in-done'), { once: true }));
   const revealObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
     });
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
   reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
+
+  // …l'arrivée par ancre (chargement avec #hash ou hashchange) révèle
+  // directement ce qui est à l'écran — pas d'animation d'entrée sur un
+  // contenu que l'utilisateur vient chercher. Le défilement d'ancre étant
+  // LISSE (scroll-behavior: smooth), on attend sa fin réelle : scrollend,
+  // avec un repli minuté pour les navigateurs sans l'événement.
+  const revealSettle = () => reveals.forEach(el => {
+    if (inViewport(el)) { el.classList.add('in', 'in-done'); revealObs.unobserve(el); }
+  });
+  let anchorJump = !!location.hash;
+  const settleAfterJump = () => {
+    if (!anchorJump) return;
+    anchorJump = false;
+    requestAnimationFrame(revealSettle);
+  };
+  addEventListener('hashchange', () => { anchorJump = true; setTimeout(settleAfterJump, 900); });
+  if ('onscrollend' in window) addEventListener('scrollend', settleAfterJump, { passive: true });
+  if (anchorJump) addEventListener('load', () => setTimeout(settleAfterJump, 900), { once: true });
+
+  // …et un garde-fou rattrape tout élément marqué .in resté invisible
+  // malgré tout (animation calée) : réévalué au chargement.
+  addEventListener('load', () => setTimeout(() => {
+    $$('.reveal.in:not(.in-done)').forEach(el => {
+      if (inViewport(el) && parseFloat(getComputedStyle(el).opacity) < 1) el.classList.add('in-done');
+    });
+  }, 1600), { once: true });
 
   /* ===== 04. PARALLAXE DOUCE =====
      Allégé (lot 8) : désactivé sous 768px — sur mobile, le défilement
@@ -810,6 +841,7 @@ if (placeModal && placesGridEl) {
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
       collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
       distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
+      investisseur: { label: 'Structure / société *',        placeholder: 'Société, fonds, particulier…' },
       autre:        { label: 'Objet de ta demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
     $$('input[name="requestType"]', partnerForm).forEach(radio => {

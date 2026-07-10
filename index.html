@@ -688,7 +688,7 @@
 
     <div class="partner-chips reveal d2">
       <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
-      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span><span>Partenaires financiers · Investisseurs</span>
     </div>
 
     <!-- Formulaire intelligent -->
@@ -714,6 +714,10 @@
         <label class="choice-card">
           <input type="radio" name="requestType" value="distributeur">
           <span><strong>Devenir distributeur</strong><small>Distribution SYFIR régionale</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="investisseur">
+          <span><strong>Partenaire financier · Investisseur</strong><small>Vision long terme, création de valeur</small></span>
         </label>
         <label class="choice-card">
           <input type="radio" name="requestType" value="autre">
@@ -762,6 +766,31 @@
       <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
       <p class="form-success" id="formSuccess" hidden>✦ Merci ! Ta demande a bien été envoyée. L'équipe SYFIR te répond sous 48 h.</p>
     </form>
+
+    <!-- Partenaires & investisseurs — les 3 arguments du dossier fondateur,
+         sobre et sans chiffres. Le CTA présélectionne le formulaire ci-dessus. -->
+    <div class="invest-card reveal" id="investisseurs">
+      <h3 class="invest-title">Partenaires &amp; <em>investisseurs</em></h3>
+      <div class="invest-args">
+        <div>
+          <strong>Vision claire</strong>
+          <p>Une stratégie définie et des objectifs précis, portés par la fondatrice.</p>
+        </div>
+        <div>
+          <strong>Marque différenciante</strong>
+          <p>Un positionnement unique : le cocktail lifestyle en sachet, format liberté.</p>
+        </div>
+        <div>
+          <strong>Potentiel de croissance</strong>
+          <p>Un modèle pensé pour la scalabilité : événementiel, points de vente, nouvelles saveurs.</p>
+        </div>
+      </div>
+      <blockquote class="invest-quote">« Je ne cherche pas uniquement des investisseurs, mais des partenaires qui croient en la création de valeur sur le long terme. »</blockquote>
+      <div class="invest-cta">
+        <p>Le dossier complet se partage de vive voix.</p>
+        <a class="btn btn-solid" href="#partnerForm" data-request="investisseur">Prendre contact →</a>
+      </div>
+    </div>
   </div>
 </section>
 
