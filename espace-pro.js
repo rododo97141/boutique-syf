@@ -53,7 +53,7 @@
     const pro = S.getProEvents();
     const body = $('#overviewBody');
     if (!pro.length) {
-      body.innerHTML = emptyState('Pas encore de données', 'Créez votre premier événement avec SYFIR Experience : vos ventes et revenus s\'afficheront ici.', true);
+      body.innerHTML = emptyState('Pas encore de données', 'Crée ton premier événement avec SYFIR Experience : tes ventes et revenus s\'afficheront ici.', true);
       return;
     }
     let sold = 0, rev = 0;
@@ -110,7 +110,7 @@
     const pro = S.getProEvents();
     const box = $('#proEventsList');
     if (!pro.length) {
-      box.innerHTML = emptyState('Aucun événement créé', 'Vos événements créés via SYFIR Experience apparaîtront ici, avec leur statut et leurs ventes.', true);
+      box.innerHTML = emptyState('Aucun événement créé', 'Tes événements créés via SYFIR Experience apparaîtront ici, avec leur statut et leurs ventes.', true);
       return;
     }
     box.innerHTML = pro.slice().sort((a, b) => a.date.localeCompare(b.date)).map(ev => {

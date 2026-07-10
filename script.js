@@ -762,11 +762,11 @@ if (placeModal && placesGridEl) {
 
 /* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
   const validators = {
-    name: v => v.trim().length >= 2 || 'Indiquez votre nom complet.',
+    name: v => v.trim().length >= 2 || 'Indique ton nom complet.',
     email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Adresse email invalide.',
     phone: v => /^(\+?\d[\d\s.-]{8,14})$/.test(v.trim()) || 'Numéro de téléphone invalide.',
     required: v => v.trim().length > 0 || 'Ce champ est requis.',
-    message: v => v.trim().length >= 10 || 'Donnez-nous un peu plus de détails (10 caractères min.).'
+    message: v => v.trim().length >= 10 || 'Donne-nous un peu plus de détails (10 caractères min.).'
   };
 
   const setFieldState = (field, error) => {
@@ -786,12 +786,12 @@ if (placeModal && placesGridEl) {
   if (partnerForm) {
     // Le champ contextuel s'adapte au type de demande choisi
     const contextConfig = {
-      partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de votre lieu' },
+      partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
-      collaborateur:{ label: 'Votre rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
+      collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
       distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
-      autre:        { label: 'Objet de votre demande *',       placeholder: 'Presse, collaboration, idée…' }
+      autre:        { label: 'Objet de ta demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
     $$('input[name="requestType"]', partnerForm).forEach(radio => {
       radio.addEventListener('change', () => {
@@ -903,7 +903,7 @@ if (placeModal && placesGridEl) {
       const email = input.value.trim();
       msg.hidden = false;
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-        msg.textContent = 'Entrez une adresse email valide.';
+        msg.textContent = 'Entre une adresse email valide.';
         msg.classList.add('is-error');
         input.focus();
         return;
@@ -1059,7 +1059,7 @@ if (placeModal && placesGridEl) {
     const list = ticketSub === 'past' ? past : upcoming;
     $('#myTickets').innerHTML = list.length
       ? list.map(ticketRow).join('')
-      : `<p class="cart-empty">${ticketSub === 'past' ? 'Aucun billet passé.' : 'Aucun billet à venir. Réservez votre première soirée SYFIR !'}</p>`;
+      : `<p class="cart-empty">${ticketSub === 'past' ? 'Aucun billet passé.' : 'Aucun billet à venir. Réserve ta première soirée SYFIR !'}</p>`;
   };
 
   /* Onglet Favoris : la liste à soi, reliée aux fiches */
@@ -1076,7 +1076,7 @@ if (placeModal && placesGridEl) {
           </a>
           <button class="fav-remove" data-unfav="${ev.id}" type="button" aria-label="Retirer ${ev.name} des favoris">✕</button>
         </div>`).join('')
-      : '<p class="cart-empty">Aucun favori pour l\'instant. Touchez le ♥ d\'un événement pour le garder sous la main.</p>';
+      : '<p class="cart-empty">Aucun favori pour l\'instant. Touche le ♥ d\'un événement pour le garder sous la main.</p>';
   };
   $('#myFavs')?.addEventListener('click', e => {
     const btn = e.target.closest('[data-unfav]');
@@ -1126,7 +1126,7 @@ if (placeModal && placesGridEl) {
     const email = $('#clEmail').value.trim();
     const existing = getUser() || {};
     login({ name: existing.name || email.split('@')[0], email, city: existing.city || '' });
-    showToast('✦ Bienvenue dans votre espace SYFIR !');
+    showToast('✦ Bienvenue dans ton espace SYFIR !');
   });
 
   $('#panel-register').addEventListener('submit', e => {
@@ -1324,7 +1324,7 @@ if (placeModal && placesGridEl) {
       favBtn.classList.toggle('on', added);
       favBtn.setAttribute('aria-pressed', String(added));
       favBtn.setAttribute('aria-label', added ? 'Retirer des favoris' : 'Ajouter aux favoris');
-      showToast(added ? '♥ Ajouté à vos favoris' : 'Retiré de vos favoris');
+      showToast(added ? '♥ Ajouté à tes favoris' : 'Retiré de tes favoris');
       renderMyFavsHook?.();
       return;
     }
@@ -1360,7 +1360,7 @@ if (placeModal && placesGridEl) {
       showTicketArea(true);
       showToast('🔓 Accès débloqué — bienvenue !');
     } else {
-      $('#gateError').textContent = 'Code invalide. Vérifiez votre invitation.';
+      $('#gateError').textContent = 'Code invalide. Vérifie ton invitation.';
     }
   });
 
@@ -1420,9 +1420,9 @@ if (placeModal && placesGridEl) {
     const ok = [
       check($('#evName'), validators.required),
       check($('#evType'), validators.required),
-      check($('#evDate'), v => (v && new Date(v) >= new Date().setHours(0, 0, 0, 0)) || 'Choisissez une date à venir.'),
+      check($('#evDate'), v => (v && new Date(v) >= new Date().setHours(0, 0, 0, 0)) || 'Choisis une date à venir.'),
       check($('#evCity'), validators.required),
-      check($('#evPrice'), v => (v !== '' && +v >= 0) || 'Indiquez un prix valide.'),
+      check($('#evPrice'), v => (v !== '' && +v >= 0) || 'Indique un prix valide.'),
       !isPrivate || check($('#evCode'), v => v.trim().length >= 4 || 'Code de 4 caractères minimum.')
     ].every(Boolean);
     if (!ok) {
@@ -1450,7 +1450,7 @@ if (placeModal && placesGridEl) {
       price: +$('#evPrice').value,
       genres: ($('#evGenres').value || '').split(',').map(g => g.trim()).filter(Boolean).slice(0, 3),
       img: imgByType[$('#evType').value] || defaultImg,
-      organizer: 'Votre organisation × SYFIR',
+      organizer: 'Ton organisation × SYFIR',
       prive: isPrivate,
       code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
     };
@@ -1466,7 +1466,7 @@ if (placeModal && placesGridEl) {
     const total = $('#billingTotal').textContent;
     const success = $('#proSuccess');
     success.textContent = isPrivate
-      ? `✦ Événement privé créé ! Partagez le code « ${newEvent.code} » avec vos invités. Facturation : ${total} + 2,5 % par billet vendu.`
+      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. Facturation : ${total} + 2,5 % par billet vendu.`
       : `✦ Événement publié dans la billetterie SYFIR ! Facturation : ${total} + 2,5 % par billet vendu.`;
     success.hidden = false;
 

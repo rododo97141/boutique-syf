@@ -94,11 +94,12 @@
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
           <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">📅 Ajouter au calendrier</button>
         </div>
+        <p class="ed-share-note">Fais tourner — les meilleurs plans se partagent.</p>
       </div>
       <aside class="ed-tickets">
         <h2 class="ed-tickets-title">Billets</h2>
         <div class="private-gate" id="edGate" hidden>
-          <p>🔒 Événement privé. Entrez votre code d'accès :</p>
+          <p>🔒 Événement privé. Entre ton code d'accès :</p>
           <div class="gate-row">
             <input type="text" id="edGateCode" placeholder="CODE D'ACCÈS">
             <button class="btn btn-solid btn-sm" id="edGateBtn">Valider</button>
@@ -176,7 +177,7 @@
   $('#edGateBtn').addEventListener('click', () => {
     const code = $('#edGateCode').value.trim().toUpperCase();
     if (code && code === (ev.code || '').toUpperCase()) { showTickets(true); toast('🔓 Accès débloqué !'); }
-    else $('#edGateError').textContent = 'Code invalide. Vérifiez votre invitation.';
+    else $('#edGateError').textContent = 'Code invalide. Vérifie ton invitation.';
   });
 
   // --- Partage (navigator.share, sinon copie du lien) ---
@@ -186,9 +187,9 @@
       try { await navigator.share(data); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
       try { await navigator.clipboard.writeText(location.href); toast('🔗 Lien copié dans le presse-papier !'); }
-      catch (e) { toast('Copiez le lien depuis la barre d\'adresse.'); }
+      catch (e) { toast('Copie le lien depuis la barre d\'adresse.'); }
     } else {
-      toast('Copiez le lien depuis la barre d\'adresse.');
+      toast('Copie le lien depuis la barre d\'adresse.');
     }
   });
 
@@ -207,7 +208,7 @@
   showTickets(!ev.prive);
   renderTiers();
 
-  /* --- « Vous aimerez aussi » : 3 événements à venir du même genre ou de
+  /* --- « Tu aimeras aussi » : 3 événements à venir du même genre ou de
      la même ville — exploration à coût zéro, sans autoplay ni compteur --- */
   const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
   const sameVibe = o =>
@@ -223,7 +224,7 @@
     const sec = document.createElement('section');
     sec.className = 'ed-related container';
     sec.innerHTML = `
-      <h2 class="ed-related-title">Vous aimerez <em>aussi</em></h2>
+      <h2 class="ed-related-title">Tu aimeras <em>aussi</em></h2>
       <div class="ed-related-grid">
         ${related.map(o => `
         <a class="ed-related-card" href="evenement.html?id=${o.id}">

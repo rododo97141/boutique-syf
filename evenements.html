@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réservez vos billets ou organisez votre événement.">
+<meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réserve tes billets ou organise ton événement.">
 <!-- TODO : préfixer d'une URL absolue quand le domaine définitif sera connu -->
 <meta property="og:image" content="images/produits/syf-planteur-1.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -78,7 +78,7 @@
   <div class="hero-veil"></div>
   <div class="hero-inner">
     <p class="hero-kicker reveal">La billetterie officielle SYFIR</p>
-    <h1 class="tickets-title reveal d1">Vos prochains <em>souvenirs</em><br>commencent ici.</h1>
+    <h1 class="tickets-title reveal d1">Tes prochains <em>souvenirs</em><br>commencent ici.</h1>
     <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals et soirées privées — organisés par SYFIR et ses partenaires.</p>
     <div class="hero-cta reveal d3">
       <a href="#billetterie" class="btn btn-solid">Vivre un événement</a>
@@ -98,8 +98,8 @@
 <section id="officiel" class="section shotgun-section">
   <div class="container">
     <p class="eyebrow reveal">Billetterie officielle</p>
-    <h2 class="h2 reveal d1">Réservez sur <em>Shotgun</em></h2>
-    <p class="section-intro reveal d2">Les billets officiels des soirées SYFIR sont en vente sur notre page organisateur Shotgun, paiement sécurisé, billets directement sur votre téléphone.</p>
+    <h2 class="h2 reveal d1">Réserve sur <em>Shotgun</em></h2>
+    <p class="section-intro reveal d2">Les billets officiels des soirées SYFIR sont en vente sur notre page organisateur Shotgun, paiement sécurisé, billets directement sur ton téléphone.</p>
     <div id="shotgunWidget">
       <a class="shotgun-card reveal d2" href="https://shotgun.live/venues/kily-141" target="_blank" rel="noopener">
         <span class="shotgun-ic" aria-hidden="true">⚡</span>
@@ -154,7 +154,7 @@
 
     <!-- Événements groupés par jour, rendus par script.js -->
     <div class="events-days" id="eventsGrid"></div>
-    <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à votre recherche. Revenez vite, la programmation évolue chaque semaine. ✦</p>
+    <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à ta recherche. Reviens vite, la programmation évolue chaque semaine. ✦</p>
   </div>
 </section>
 
@@ -164,8 +164,8 @@
 <section id="pro" class="section section-pro">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Espace professionnel</p>
-    <h2 class="h2 reveal d1">Organisez avec <em>SYFIR Experience</em></h2>
-    <p class="section-intro intro-light reveal d2">Créez votre événement en quelques minutes. Chaque événement est facturé selon les options choisies. Privé avec code d'accès, ou ouvert au grand public : vous décidez.</p>
+    <h2 class="h2 reveal d1">Organise avec <em>SYFIR Experience</em></h2>
+    <p class="section-intro intro-light reveal d2">Crée ton événement en quelques minutes. Public ou privé, tu décides. On s'occupe du reste.</p>
 
     <div class="pro-layout">
       <!-- Formulaire de création -->
@@ -239,7 +239,7 @@
           </label>
           <label class="vis-opt">
             <input type="radio" name="evVisibility" value="prive">
-            <span><strong>🔒 Privé</strong><small>Accessible uniquement avec votre code</small></span>
+            <span><strong>🔒 Privé</strong><small>Accessible uniquement avec ton code</small></span>
           </label>
         </fieldset>
         <div class="form-field" id="privateCodeField" hidden>
@@ -278,7 +278,7 @@
           <ul>
             <li>✦ Billetterie en ligne clé en main, paiement sécurisé</li>
             <li>✦ Événement public visible par toute la communauté SYFIR</li>
-            <li>✦ Mode privé avec code d'accès pour vos invités</li>
+            <li>✦ Mode privé avec code d'accès pour tes invités</li>
             <li>✦ Facturation claire, à l'option, sans abonnement</li>
             <li>✦ Bar SYFIR, photographe &amp; communication en option</li>
             <li>✦ Tableau de bord ventes en temps réel</li>
@@ -302,9 +302,9 @@
       <div class="footer-logo">SYFIR<span>™</span></div>
       <p>Le Cocktail Libre™.<br>La billetterie des moments inoubliables.</p>
       <form class="footer-news" novalidate>
-        <label for="nlEmail">Recevez les prochaines soirées ✦</label>
+        <label for="nlEmail">Reçois les prochaines soirées ✦</label>
         <div class="footer-news-row">
-          <input type="email" id="nlEmail" name="email" placeholder="votre@email.com" autocomplete="email" required>
+          <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>
           <button class="btn btn-solid btn-sm" type="submit">S'inscrire</button>
         </div>
         <p class="footer-news-msg" role="status" hidden></p>
@@ -349,7 +349,7 @@
 
       <!-- Saisie du code pour événements privés -->
       <div class="private-gate" id="privateGate" hidden>
-        <p>🔒 Cet événement est privé. Entrez votre code d'accès :</p>
+        <p>🔒 Cet événement est privé. Entre ton code d'accès :</p>
         <div class="gate-row">
           <input type="text" id="gateCode" placeholder="CODE D'ACCÈS">
           <button class="btn btn-solid btn-sm" id="gateSubmit">Valider</button>
@@ -409,7 +409,7 @@
         </div>
         <div class="form-field">
           <label for="profEmail">Email</label>
-          <input type="email" id="profEmail" placeholder="vous@exemple.com" autocomplete="email">
+          <input type="email" id="profEmail" placeholder="toi@exemple.com" autocomplete="email">
           <span class="field-error"></span>
         </div>
         <div class="form-field">
@@ -425,7 +425,7 @@
       <form class="tab-panel" id="panel-login" novalidate>
         <div class="form-field">
           <label for="clEmail">Email</label>
-          <input type="email" id="clEmail" placeholder="vous@exemple.com">
+          <input type="email" id="clEmail" placeholder="toi@exemple.com">
           <span class="field-error"></span>
         </div>
         <div class="form-field">
@@ -445,7 +445,7 @@
         </div>
         <div class="form-field">
           <label for="rgEmail">Email</label>
-          <input type="email" id="rgEmail" placeholder="vous@exemple.com">
+          <input type="email" id="rgEmail" placeholder="toi@exemple.com">
           <span class="field-error"></span>
         </div>
         <div class="form-field">

@@ -1932,6 +1932,7 @@ html[data-theme="light"] .car-dot.on::after { background: var(--gold-light); }
 .ed-organizer { color: var(--grey); font-size: .95rem; margin-bottom: 28px; }
 .ed-organizer strong { color: rgba(250, 248, 242, .9); }
 .ed-share { display: flex; flex-wrap: wrap; gap: 12px; }
+.ed-share-note { margin: 12px 0 0; font-size: .9rem; font-family: var(--serif); font-style: italic; color: var(--grey); }
 
 .ed-tickets { background: var(--ink-soft); border: 1px solid rgba(255, 200, 87, .16); border-radius: var(--radius); padding: 28px 24px; align-self: start; }
 .ed-tickets-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 20px; }
@@ -2012,6 +2013,7 @@ html[data-theme="light"] .ed-meta a { color: var(--gold-deep); }
 html[data-theme="light"] .ed-meta a:hover { color: var(--sunset); }
 html[data-theme="light"] .ed-organizer { color: #6E6353; }
 html[data-theme="light"] .ed-organizer strong { color: #221A10; }
+html[data-theme="light"] .ed-share-note { color: #6E6353; }
 html[data-theme="light"] .ed-tickets { background: #FFFDF6; border-color: rgba(212, 160, 23, .3); box-shadow: 0 10px 34px rgba(60, 45, 20, .08); }
 html[data-theme="light"] .ed-tickets-title { color: #221A10; }
 html[data-theme="light"] .ed-total span { color: #6E6353; }
