@@ -1132,6 +1132,48 @@ if (placeModal && placesGridEl) {
   // Événements de base + ceux créés via l'espace pro (localStorage)
   let events = window.SYFIR.getAllEvents();
 
+  /* ===== 09b-4b. POUR TOI (accueil) — personnalisation locale =====
+     Équivalent statique honnête de l'adaptabilité : tout vient du
+     localStorage (billets, favoris), rien ne sort de l'appareil.
+     Premier visiteur : la section reste cachée. */
+  const forYouBox = $('#forYou');
+  if (forYouBox && window.SYFIR) {
+    const S = window.SYFIR;
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+    const upcoming = ev => new Date(ev.date + 'T00:00:00') >= startOfToday;
+    const all = S.getAllEvents();
+    const tickets = store.get('syfir-tickets', [])
+      .filter(t => new Date(t.date + 'T00:00:00') >= startOfToday)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    // le prochain événement où l'on a déjà son billet, en premier
+    const nextTicketEv = tickets.length
+      ? all.find(ev => ev.name === tickets[0].event && ev.date === tickets[0].date)
+      : null;
+    const favEvs = getFavs()
+      .map(id => all.find(ev => ev.id === id)).filter(Boolean)
+      .filter(upcoming).filter(ev => ev !== nextTicketEv)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    const items = [];
+    if (nextTicketEv) items.push({ ev: nextTicketEv, tag: '🎟 Ton billet est prêt' });
+    favEvs.slice(0, 3 - items.length).forEach(ev => items.push({ ev, tag: '♥ Dans tes favoris' }));
+    if (items.length) {
+      forYouBox.closest('#pour-toi').hidden = false;
+      forYouBox.innerHTML = items.map(({ ev, tag }) => {
+        const d = new Date(ev.date + 'T12:00:00');
+        return `
+        <a class="next-card" href="evenement.html?id=${ev.id}">
+          <span class="next-date"><strong>${d.getDate()}</strong><small>${S.MONTHS[d.getMonth()]}</small></span>
+          <span class="next-info">
+            <strong>${ev.name}</strong>
+            <small>${tag} · 📍 ${ev.city}</small>
+          </span>
+          <span class="next-arrow" aria-hidden="true">→</span>
+        </a>`;
+      }).join('');
+    }
+  }
+
+
   const openModal = m => { m.classList.add('open'); document.body.style.overflow = 'hidden'; };
   const closeModal = m => { m.classList.remove('open'); document.body.style.overflow = ''; };
   $$('.modal').forEach(m => {
@@ -1326,11 +1368,25 @@ if (placeModal && placesGridEl) {
   const genreTags = ev => (ev.genres || []).slice(0, 3)
     .map(g => `<span class="event-genre">${g}</span>`).join('');
 
+  /* Personnalisation locale : les genres des favoris de l'utilisateur.
+     Un événement « recommandé » partage un genre avec un favori sans être
+     lui-même déjà en favori. Tout reste dans le localStorage. */
+  const favGenres = () => {
+    const set = new Set();
+    getFavs().forEach(id => {
+      const ev = events.find(e => e.id === id);
+      (ev?.genres || []).forEach(g => set.add(g.toLowerCase()));
+    });
+    return set;
+  };
+  const isReco = (ev, fg) => !isFav(ev.id) && (ev.genres || []).some(g => fg.has(g.toLowerCase()));
+
   const eventCardHTML = (ev, i) => {
     const d = new Date(ev.date + 'T12:00:00');
     const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
     const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
     const fav = isFav(ev.id);
+    const reco = isReco(ev, favGenres());
     return `
     <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${ev.name}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
@@ -1342,6 +1398,7 @@ if (placeModal && placesGridEl) {
       </div>
       <div class="event-card-body">
         <h3>${ev.name}</h3>
+        ${reco ? '<p class="event-reco">✦ Recommandé pour toi</p>' : ''}
         <p class="event-card-meta">${when}</p>
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}
         <div class="event-card-foot">
@@ -1394,9 +1451,13 @@ if (placeModal && placesGridEl) {
       ? (state.sort === 'prix' ? a.price - b.price : (a.time || '').localeCompare(b.time || ''))
       : a.date.localeCompare(b.date));
 
-    // Groupement par jour, façon Shotgun
+    // Groupement par jour, façon Shotgun. À l'intérieur de chaque jour,
+    // les événements qui matchent les genres favoris remontent en tête
+    // (l'ordre chronologique des jours, lui, ne bouge jamais).
+    const fg = favGenres();
     const groups = new Map();
     list.forEach(ev => { if (!groups.has(ev.date)) groups.set(ev.date, []); groups.get(ev.date).push(ev); });
+    if (fg.size) groups.forEach(evs => evs.sort((a, b) => isReco(b, fg) - isReco(a, fg)));
     eventsGrid.innerHTML = [...groups.entries()].map(([date, evs]) => {
       const d = new Date(date + 'T12:00:00');
       const head = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
