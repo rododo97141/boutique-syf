@@ -1142,6 +1142,9 @@ footer { background: #0C0C0C; border-top: 1px solid rgba(255, 200, 87, .12); pad
 .my-ticket strong { display: block; font-size: .92rem; }
 .my-ticket small { color: var(--grey); }
 .my-ticket .qr { font-size: 1.6rem; }
+/* QR réel : fond blanc conservé dans les 2 thèmes (scannabilité) */
+.my-ticket .qr-code { flex-shrink: 0; background: #fff; border-radius: 8px; padding: 4px; line-height: 0; }
+.my-ticket .qr-code svg { width: 88px; height: 88px; display: block; }
 
 /* ===== 13. TOAST ===== */
 .toast {

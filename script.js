@@ -916,6 +916,126 @@ if (placeModal && placesGridEl) {
     });
   }
 
+  /* ===== 09b-2c. PWA : enregistrement du service worker =====
+     network-first sur le HTML, cache-first sur les assets (sw.js).
+     Échec silencieux (file://, vieux navigateurs, previews restrictives). */
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }, { once: true });
+  }
+
+  /* ===== 09b-2d. QR CODE — encodeur inline, zéro dépendance =====
+     QR byte mode, correction M, versions 1 à 6 (≈ 100 caractères max),
+     masque 0. Utilisé par les billets de « Mon espace » (payload
+     SYFIR|numéro|événement|date — terrain préparé pour Wallet).
+     Renvoie un <svg> prêt à injecter, ou null si le texte est trop long. */
+  const makeQR = text => {
+    const data = new TextEncoder().encode(text);
+    // [version, codewords de données, ECC/bloc, nb de blocs] — niveau M
+    const SPEC = [[1, 16, 10, 1], [2, 28, 16, 1], [3, 44, 26, 1], [4, 64, 18, 2], [5, 86, 24, 2], [6, 108, 16, 4]];
+    const spec = SPEC.find(s => data.length + 2 <= s[1]);
+    if (!spec) return null;
+    const [ver, totalCw, ecLen, nBlocks] = spec;
+    const size = 17 + ver * 4;
+
+    /* -- 1. flux de bits : mode 0100, longueur, données, terminateur, bourrage */
+    const bits = [];
+    const push = (v, n) => { for (let i = n - 1; i >= 0; i--) bits.push((v >> i) & 1); };
+    push(4, 4); push(data.length, 8);
+    data.forEach(b => push(b, 8));
+    push(0, Math.min(4, totalCw * 8 - bits.length));
+    while (bits.length % 8) bits.push(0);
+    const cw = [];
+    for (let i = 0; i < bits.length; i += 8) cw.push(bits.slice(i, i + 8).reduce((a, b) => a * 2 + b, 0));
+    for (let i = 0; cw.length < totalCw; i++) cw.push(i % 2 ? 0x11 : 0xEC);
+
+    /* -- 2. Reed-Solomon sur GF(256), polynôme 0x11D */
+    const EXP = new Array(510), LOG = new Array(256);
+    for (let i = 0, x = 1; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 256) x ^= 0x11D; }
+    for (let i = 255; i < 510; i++) EXP[i] = EXP[i - 255];
+    const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+    let gen = [1];
+    for (let i = 0; i < ecLen; i++) {
+      const ng = new Array(gen.length + 1).fill(0);
+      gen.forEach((g, j) => { ng[j] ^= g; ng[j + 1] ^= mul(g, EXP[i]); });
+      gen = ng;
+    }
+    const ecOf = block => {
+      const res = block.concat(new Array(ecLen).fill(0));
+      for (let i = 0; i < block.length; i++) {
+        const f = res[i];
+        if (f) gen.forEach((g, j) => { res[i + j] ^= mul(g, f); });
+      }
+      return res.slice(block.length);
+    };
+
+    /* -- 3. découpe en blocs égaux + entrelacement */
+    const bLen = totalCw / nBlocks;
+    const blocks = Array.from({ length: nBlocks }, (_, i) => cw.slice(i * bLen, (i + 1) * bLen));
+    const ecs = blocks.map(ecOf);
+    const seq = [];
+    for (let i = 0; i < bLen; i++) blocks.forEach(b => seq.push(b[i]));
+    for (let i = 0; i < ecLen; i++) ecs.forEach(b => seq.push(b[i]));
+
+    /* -- 4. matrice : motifs fonctionnels (null = cellule libre pour les données) */
+    const M = Array.from({ length: size }, () => new Array(size).fill(null));
+    const finder = (r, c) => {
+      for (let i = -1; i < 8; i++) for (let j = -1; j < 8; j++) {
+        if (r + i < 0 || r + i >= size || c + j < 0 || c + j >= size) continue;
+        const on = i >= 0 && i < 7 && j >= 0 && j < 7 &&
+          (i === 0 || i === 6 || j === 0 || j === 6 || (i >= 2 && i <= 4 && j >= 2 && j <= 4));
+        M[r + i][c + j] = on ? 1 : 0;
+      }
+    };
+    finder(0, 0); finder(0, size - 7); finder(size - 7, 0);
+    for (let i = 8; i < size - 8; i++) { M[6][i] = M[i][6] = (i % 2) ^ 1; }
+    if (ver >= 2) {                        // motif d'alignement (un seul jusqu'à v6)
+      const c = size - 7;
+      for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++)
+        M[c + i][c + j] = Math.max(Math.abs(i), Math.abs(j)) !== 1 ? 1 : 0;
+    }
+    M[size - 8][8] = 1;                    // module sombre
+    for (let i = 0; i < 9; i++) {          // zones réservées à l'info de format
+      if (i !== 6) { if (M[8][i] === null) M[8][i] = 0; if (M[i][8] === null) M[i][8] = 0; }
+      if (i < 8 && M[8][size - 1 - i] === null) M[8][size - 1 - i] = 0;
+      if (i < 7 && M[size - 1 - i][8] === null) M[size - 1 - i][8] = 0;
+    }
+
+    /* -- 5. placement zigzag + masque 0 ((r+c) % 2 === 0) */
+    const dataBits = [];
+    seq.forEach(b => { for (let i = 7; i >= 0; i--) dataBits.push((b >> i) & 1); });
+    let r = size - 1, dir = -1, k = 0;
+    for (let c = size - 1; c > 0; c -= 2) {
+      if (c === 6) c--;
+      while (true) {
+        for (const cc of [c, c - 1]) {
+          if (M[r][cc] === null) M[r][cc] = (dataBits[k++] || 0) ^ ((r + cc) % 2 === 0 ? 1 : 0);
+        }
+        r += dir;
+        if (r < 0 || r >= size) { r -= dir; dir = -dir; break; }
+      }
+    }
+
+    /* -- 6. info de format : niveau M (00) + masque 0, BCH 15,5 */
+    let fmt = 0 << 10;                     // 5 bits (00|000) placés en tête de 15
+    let rem = fmt;
+    for (let i = 14; i >= 10; i--) if (rem & (1 << i)) rem ^= 0x537 << (i - 10);
+    fmt = (fmt | rem) ^ 0x5412;
+    const f = i => (fmt >> i) & 1;
+    const A = [[8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 7], [8, 8], [7, 8], [5, 8], [4, 8], [3, 8], [2, 8], [1, 8], [0, 8]];
+    A.forEach(([rr, cc], i) => { M[rr][cc] = f(14 - i); });
+    for (let i = 0; i < 7; i++) M[size - 1 - i][8] = f(14 - i);
+    for (let i = 0; i < 8; i++) M[8][size - 1 - i] = f(i);
+
+    /* -- 7. SVG (zone calme de 4 modules, fond clair pour rester scannable) */
+    let d = '';
+    for (let rr = 0; rr < size; rr++) for (let cc = 0; cc < size; cc++)
+      if (M[rr][cc]) d += `M${cc + 4} ${rr + 4}h1v1h-1z`;
+    const vb = size + 8;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
+  };
+
   /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
     form.addEventListener('submit', e => {
@@ -1061,7 +1181,11 @@ if (placeModal && placesGridEl) {
     $('#logoutBtn').hidden = !logged;
   };
 
-  const ticketRow = t => `
+  const ticketRow = t => {
+    // QR réel généré côté client (terrain préparé pour Wallet) :
+    // payload lisible par n'importe quel scanner, zéro appel réseau.
+    const qr = makeQR(`SYFIR|${t.num || ''}|${t.event}|${t.date}`);
+    return `
     <div class="my-ticket">
       <div class="my-ticket-main">
         <strong>${t.event}</strong>
@@ -1069,8 +1193,11 @@ if (placeModal && placesGridEl) {
         <small class="ticket-num">N° ${t.num || '—'} · Revente interdite</small>
         <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
       </div>
-      <span class="qr" aria-label="QR code">▣</span>
+      ${qr
+        ? `<span class="qr qr-code" role="img" aria-label="QR code du billet ${t.num || ''}">${qr}</span>`
+        : '<span class="qr" aria-label="QR code">▣</span>'}
     </div>`;
+  };
 
   const renderMyTickets = () => {
     const all = store.get('syfir-tickets', []);
