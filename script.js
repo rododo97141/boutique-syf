@@ -1710,7 +1710,7 @@ if (placeModal && placesGridEl) {
       price: +$('#evPrice').value,
       genres: ($('#evGenres').value || '').split(',').map(g => g.trim()).filter(Boolean).slice(0, 3),
       img: imgByType[$('#evType').value] || defaultImg,
-      organizer: 'Ton organisation × SYFIR',
+      organizer: 'SYFIR Events',
       prive: isPrivate,
       code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
     };

@@ -59,6 +59,55 @@
     try { return JSON.parse(localStorage.getItem('syfir-pro-events')) || []; }
     catch { return []; }
   };
+
+  /* --- Migration douce des données locales (constats du test utilisateur).
+     Une seule passe par chargement, réécrit seulement si quelque chose change.
+     1. noms d'événements : majuscule initiale (« unity 141 » -> « Unity 141 »)
+     2. doublons de test « X (copie) » retirés quand l'original X existe
+        toujours à la même date (le bouton Dupliquer reste utilisable : une
+        copie modifiée — nom, date — n'est jamais touchée)
+     3. cartes complètes : heure par défaut 20:00, genre dérivé du type
+     4. placeholder d'organisateur -> « SYFIR Events »
+     5. billets sans numéro : numéro généré rétroactivement */
+  const migrateLocal = () => {
+    try {
+      const pro = JSON.parse(localStorage.getItem('syfir-pro-events')) || [];
+      let dirty = false;
+      pro.forEach(ev => {
+        const fixed = String(ev.name || '').trim();
+        const cap = fixed.charAt(0).toUpperCase() + fixed.slice(1);
+        if (cap !== ev.name) { ev.name = cap; dirty = true; }
+        if (!ev.time) { ev.time = '20:00'; dirty = true; }
+        if (!ev.genres || !ev.genres.length) { ev.genres = [typeLabel[ev.type] || 'Soirée']; dirty = true; }
+        if (/^(Ton|Votre) organisation × SYFIR$/.test(ev.organizer || '')) { ev.organizer = 'SYFIR Events'; dirty = true; }
+      });
+      // Nettoyage des doublons « (copie) » : UNE seule fois (drapeau), sinon
+      // le bouton Dupliquer verrait ses copies fraîches supprimées au rechargement
+      let cleaned = pro;
+      if (!localStorage.getItem('syfir-migr-1')) {
+        cleaned = pro.filter(ev => {
+          const m = String(ev.name || '').match(/^(.*) \(copie\)$/i);
+          if (!m) return true;
+          const twin = pro.find(o => o !== ev && o.name === m[1] && o.date === ev.date && o.city === ev.city);
+          if (twin) { dirty = true; return false; }
+          return true;
+        });
+        localStorage.setItem('syfir-migr-1', '1');
+      }
+      if (dirty) localStorage.setItem('syfir-pro-events', JSON.stringify(cleaned));
+
+      const tickets = JSON.parse(localStorage.getItem('syfir-tickets')) || [];
+      let tDirty = false;
+      tickets.forEach((t, i) => {
+        if (!t.num) {
+          t.num = 'SYF-' + Date.now().toString(36).toUpperCase() + '-' + (100 + (i * 37) % 900);
+          tDirty = true;
+        }
+      });
+      if (tDirty) localStorage.setItem('syfir-tickets', JSON.stringify(tickets));
+    } catch { /* stockage indisponible : rien à migrer */ }
+  };
+  migrateLocal();
   const getAllEvents = () => [...baseEvents, ...getProEvents()];
   const getEvent = id => getAllEvents().find(e => String(e.id) === String(id));
 
