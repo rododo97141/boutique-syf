@@ -5,6 +5,7 @@
 (function () {
   'use strict';
   const S = window.SYFIR;
+  const esc = S.escapeHtml;   // échappement HTML systématique
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
@@ -74,7 +75,7 @@
         </div>
         <div class="kpi-card">
           <span class="kpi-label">Prochain événement</span>
-          <strong class="kpi-value kpi-value-sm">${next ? next.name : '—'}</strong>
+          <strong class="kpi-value kpi-value-sm">${next ? esc(next.name) : '—'}</strong>
           <span class="kpi-sub">${next ? new Date(next.date + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) : 'Aucun à venir'}</span>
         </div>
       </div>
@@ -120,8 +121,8 @@
         <div class="pro-event-row">
           <div class="pro-event-info">
             <span class="pro-status ${st.cls}">${st.label}</span>
-            <strong>${ev.name}</strong>
-            <small>${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })} · ${ev.city} · ${s.sold} billets vendus</small>
+            <strong>${esc(ev.name)}</strong>
+            <small>${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })} · ${esc(ev.city)} · ${s.sold} billets vendus</small>
           </div>
           <div class="pro-event-actions">
             <a class="btn btn-ghost btn-sm" href="evenement.html?id=${ev.id}" target="_blank" rel="noopener">Voir la fiche ↗</a>

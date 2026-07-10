@@ -32,9 +32,10 @@
 
   const d = new Date(ev.date + 'T12:00:00');
   const dateLong = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const esc = S.escapeHtml;   // échappement HTML systématique
   const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
   const tag = ev.prive ? '🔒 Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
-  const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${g}</span>`).join('');
+  const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
   const shareText = `${ev.name} · ${dateLong}${ev.time ? ' · ' + S.fmtTime(ev.time) : ''} · ${loc}`;
 
   // --- SEO & aperçus sociaux ---
@@ -67,28 +68,28 @@
   };
   const ldScript = document.createElement('script');
   ldScript.type = 'application/ld+json';
-  ldScript.textContent = JSON.stringify(ld);
+  ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
   document.head.appendChild(ldScript);
 
   // --- Rendu de la fiche ---
   detail.hidden = false;
   detail.innerHTML = `
     <div class="ed-hero">
-      <img class="ed-hero-img" src="${ev.img}" alt="${ev.name}" fetchpriority="high">
+      <img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
     </div>
     <div class="ed-body container">
       <div class="ed-main">
         <p class="eyebrow">Billetterie SYFIR</p>
-        <h1 class="ed-title">${ev.name}</h1>
+        <h1 class="ed-title">${esc(ev.name)}</h1>
         <ul class="ed-meta">
           <li>📅 <span class="ed-date">${dateLong}</span></li>
           ${ev.time ? `<li>🕘 ${S.fmtTime(ev.time)}</li>` : ''}
-          <li><a href="${S.mapsUrl(ev)}" target="_blank" rel="noopener">📍 ${loc} ↗</a></li>
+          <li><a href="${esc(S.mapsUrl(ev))}" target="_blank" rel="noopener">📍 ${esc(loc)} ↗</a></li>
           <li class="ed-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00" hidden></li>
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
-        <p class="ed-organizer">Organisé par <strong>${ev.organizer}</strong></p>
+        <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong></p>
         <div class="ed-share">
           <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
@@ -228,9 +229,9 @@
       <div class="ed-related-grid">
         ${related.map(o => `
         <a class="ed-related-card" href="evenement.html?id=${o.id}">
-          <span class="ed-related-media"><img src="${o.img}" alt="" loading="lazy"></span>
-          <strong>${o.name}</strong>
-          <small>${new Date(o.date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${o.city}</small>
+          <span class="ed-related-media"><img src="${esc(o.img)}" alt="" loading="lazy"></span>
+          <strong>${esc(o.name)}</strong>
+          <small>${new Date(o.date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${esc(o.city)}</small>
         </a>`).join('')}
       </div>`;
     detail.appendChild(sec);

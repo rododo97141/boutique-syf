@@ -3,20 +3,39 @@
    script.js — Vanilla JS uniquement
    ------------------------------------------------------------
    Sommaire :
-   01. Helpers
-   02. Préloader
-   03. Navbar dynamique + menu mobile
-   04. Reveal on scroll
-   05. Parallaxe douce
-   06. Effet tilt premium (micro-interactions)
-   07. Toast
-   08. Où nous trouver : filtre des partenaires
-   09. Formulaire partenaire intelligent + validation
-   10. Page Événements : données & rendu
-   11. Page Événements : filtres / recherche / tri
-   12. Page Événements : modale billets (+ accès privé)
-   13. Page Événements : espace client (onglets, connexion)
-   14. Page Événements : espace pro (création + facturation)
+   01. HELPERS
+   02. NAVBAR DYNAMIQUE + MENU MOBILE
+   03. REVEAL ON SCROLL
+   04. PARALLAXE DOUCE
+   05. TOAST
+   06. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE
+   07. AGE GATE 18+
+   08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES
+   09. LINE-UP (artistes, DJs & groupes) : filtre + booking
+   10. CARROUSEL MÉDIA (cartes artistes + modale)
+   11. ÉCOUTE + FICHE ARTISTE
+   12. FOND VIDÉO DU HERO (billetterie)
+   13. FICHE PRODUIT COCKTAIL (modale)
+   14. CARROUSEL DE LOGOS PARTENAIRES
+   15. FICHE PARTENAIRE (modale)
+   16. FORMULAIRE PARTENAIRE INTELLIGENT
+   17. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages)
+   18. FAB BILLETS : un seul CTA principal par écran
+   19. VIDÉO D'AMBIANCE (accueil, communauté)
+   20. TILT 3D LÉGER (data-tilt : vitrines du sachet)
+   21. PWA : enregistrement du service worker
+   22. QR CODE — encodeur inline, zéro dépendance
+   23. NEWSLETTER (footer, toutes pages)
+   24. PROCHAINS ÉVÉNEMENTS (accueil, conversion)
+   25. COMPTE À REBOURS RÉEL (prochain événement, accueil)
+   26. AGENDA DES CONCERTS : masquer les dates passées (accueil)
+   27. FAVORIS + MODALES GÉNÉRIQUES (toutes pages)
+   28. POUR TOI (accueil) — personnalisation locale
+   29. MON PROFIL / MON ESPACE (toutes pages)
+   30. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR)
+   31. FILTRES / RECHERCHE / TRI / GROUPEMENT PAR JOUR
+   32. MODALE BILLETS
+   33. ESPACE PRO — création + facturation
 ============================================================ */
 
 (() => {
@@ -26,6 +45,7 @@
   const $  = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
+  const esc = window.SYFIR.escapeHtml;   // échappement HTML systématique
   const store = {
     get(key, fallback) {
       try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
@@ -34,9 +54,7 @@
     set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
   };
 
-  /* (02. Préloader retiré au lot 8 — vitesse perçue > cérémonie) */
-
-  /* ===== 03. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
+  /* ===== 02. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
   // Anciennes ancres de l'accueil -> pages dédiées (transposition maquette).
   // On ne redirige que si la cible n'existe pas sur la page courante.
   const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'actualite.html' };
@@ -79,7 +97,7 @@
     });
   });
 
-  /* ===== 04. REVEAL ON SCROLL ===== */
+  /* ===== 03. REVEAL ON SCROLL ===== */
   const reveals = $$('.reveal');
   const inViewport = el => {
     const r = el.getBoundingClientRect();
@@ -95,7 +113,7 @@
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
   reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
 
-  /* ===== 05. PARALLAXE DOUCE =====
+  /* ===== 04. PARALLAXE DOUCE =====
      Allégé (lot 8) : désactivé sous 768px — sur mobile, le défilement
      reste natif, sans travail par frame. */
   const parallaxEls = $$('[data-parallax]');
@@ -120,7 +138,7 @@
 
   /* (06. Effet tilt 3D retiré au lot 8 — gadget, le design doit disparaître) */
 
-  /* ===== 07. TOAST ===== */
+  /* ===== 05. TOAST ===== */
   const toast = $('#toast');
   let toastTimer;
   const showToast = msg => {
@@ -131,7 +149,7 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
-  /* ===== 07b. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
+  /* ===== 06. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
      Auto : clair le jour (7h-19h), sombre la nuit.
      Le choix est mémorisé et appliqué dès le <head> (script inline). */
   const themeSwitch = $('#themeSwitch');
@@ -195,7 +213,7 @@
   // En mode auto, on suit l'heure qui tourne
   setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
 
-  /* ===== 07c. AGE GATE 18+ =====
+  /* ===== 07. AGE GATE 18+ =====
      Marque d'alcool : vérification d'âge à l'entrée, affichée une seule
      fois (localStorage), sur toutes les pages. Accessible : role=dialog,
      focus initial, piège de focus, non fermable par Échap. */
@@ -266,7 +284,7 @@
     });
   }
 
-  /* ===== 08a-bis. LINE-UP (artistes, DJs & groupes) : filtre + booking ===== */
+  /* ===== 09. LINE-UP (artistes, DJs & groupes) : filtre + booking ===== */
   const artistChips = $('#artistChips');
   const lineupGrid = $('#lineupGrid');
   if (artistChips && lineupGrid) {
@@ -320,7 +338,7 @@
     });
   });
 
-  /* ===== 08a-ter-0. CARROUSEL MÉDIA (cartes artistes + modale) =====
+  /* ===== 10. CARROUSEL MÉDIA (cartes artistes + modale) =====
      Standards carrousel (NN/g, web.dev) : scroll-snap natif = swipe tactile,
      flèches ≥ 44 px, points indicateurs, PAS d'autoplay, clavier ←/→,
      aria-roledescription, lazy-load des médias hors écran.
@@ -340,7 +358,7 @@
     const titles = videoTitles.split('|').map(s => s.trim());
     const ytSlides = urls => urls.map((u, i) => {
       const id = (u.match(/embed\/([\w-]+)/) || [])[1] || '';
-      const title = titles[i] || `Vidéo de ${name}`;
+      const title = esc(titles[i] || `Vidéo de ${name}`);
       return `<div class="car-slide car-slide-video car-video-yt" role="group" aria-roledescription="diapositive">
           <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
           <button class="car-video-load" data-embed="${u}" data-title="${title}" type="button" aria-label="Lire : ${title}">▶</button>
@@ -352,11 +370,11 @@
         ? ytSlides(video.split('|').map(s => s.trim()).filter(Boolean))
         : (videoInline
           ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
-               <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${name}">${videoSources}</video>
+               <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
                <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
              </div>`
           : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
-               <video controls preload="none" aria-label="Vidéo de ${name}">${videoSources}</video>
+               <video controls preload="none" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
              </div>`))
       : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
            <span class="car-soon-ic" aria-hidden="true">🎬</span>
@@ -370,7 +388,7 @@
     box.tabIndex = 0;
     const photoSlides = list.map((src, i) => `
         <div class="car-slide" role="group" aria-roledescription="diapositive">
-          <img src="${src}" alt="${name} — photo ${i + 1}" loading="${i === 0 && !videoInline ? 'eager' : 'lazy'}" decoding="async">
+          <img src="${esc(src)}" alt="${esc(name)} — photo ${i + 1}" loading="${i === 0 && !videoInline ? 'eager' : 'lazy'}" decoding="async">
         </div>`).join('');
     box.innerHTML = `
       <div class="car-track">
@@ -379,9 +397,9 @@
       <button class="car-btn car-prev" type="button" aria-label="Média précédent">‹</button>
       <button class="car-btn car-next" type="button" aria-label="Média suivant">›</button>
       <div class="car-dots"></div>
-      ${note ? `<span class="car-note">${note}</span>` : ''}
-      ${badge ? `<span class="artist-badge">${badge}</span>` : ''}
-      ${playBtn ? `<button class="artist-play" type="button" aria-label="Écouter un extrait de ${name}">▶</button>` : ''}`;
+      ${note ? `<span class="car-note">${esc(note)}</span>` : ''}
+      ${badge ? `<span class="artist-badge">${esc(badge)}</span>` : ''}
+      ${playBtn ? `<button class="artist-play" type="button" aria-label="Écouter un extrait de ${esc(name)}">▶</button>` : ''}`;
 
     const track = box.querySelector('.car-track');
     const dotsBox = box.querySelector('.car-dots');
@@ -445,7 +463,7 @@
         e.stopPropagation();
         const url = loader.dataset.embed + (loader.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
         loader.closest('.car-slide').innerHTML =
-          `<iframe src="${url}" title="${loader.dataset.title || `Vidéo de ${name}`}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+          `<iframe src="${esc(url)}" title="${esc(loader.dataset.title || `Vidéo de ${name}`)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
       });
     });
 
@@ -464,7 +482,7 @@
     refresh();
   };
 
-  /* ===== 08a-ter. ÉCOUTE + FICHE ARTISTE =====
+  /* ===== 11. ÉCOUTE + FICHE ARTISTE =====
      Aucun faux extrait : le bouton ▶ ouvre la vraie page de l'artiste
      (YouTube/Spotify/SoundCloud) dans un nouvel onglet ; sans vraie
      plateforme, pas de bouton. */
@@ -520,7 +538,7 @@
       amRole.textContent = d.role || '';
       amName.textContent = d.name || '';
       amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
-        .map(t => `<span>${t.trim()}</span>`).join('');
+        .map(t => `<span>${esc(t.trim())}</span>`).join('');
       amBio.textContent = d.bio || '';
       // Liens streaming : n'afficher que les vrais profils (pas les pages
       // d'accueil génériques). Le data-attribute reste sur la carte.
@@ -607,9 +625,9 @@
     amListen.addEventListener('click', e => {
       if (!modalEmbed) return;
       e.preventDefault();
-      amEmbed.innerHTML = `<iframe title="Mix de ${amName.textContent} (SoundCloud)" width="100%" height="166"
+      amEmbed.innerHTML = `<iframe title="Mix de ${esc(amName.textContent)} (SoundCloud)" width="100%" height="166"
         scrolling="no" allow="autoplay"
-        src="${modalEmbed}&auto_play=true&color=%23ff7a00"></iframe>`;
+        src="${esc(modalEmbed)}&auto_play=true&color=%23ff7a00"></iframe>`;
       amEmbed.hidden = false;
       amListen.hidden = true;
     });
@@ -631,7 +649,7 @@
     });
   }
 
-  /* ===== 08a-ter-1b. FOND VIDÉO DU HERO (billetterie) =====
+  /* ===== 12. FOND VIDÉO DU HERO (billetterie) =====
      Vidéo d'ambiance (Pexels) injectée APRÈS l'événement load : le LCP reste
      l'image de fond CSS actuelle (poster). Sources : fichier local d'abord
      (videos/ambiance-sunset.mp4, à uploader), hotlink Pexels en secours.
@@ -659,7 +677,7 @@
     }, { once: true });
   }
 
-  /* ===== 08a-ter-2. FICHE PRODUIT COCKTAIL (modale) ===== */
+  /* ===== 13. FICHE PRODUIT COCKTAIL (modale) ===== */
   const cocktailModal = $('#cocktailModal');
   if (cocktailModal) {
     const ckHero = cocktailModal.querySelector('.ck-hero');
@@ -697,7 +715,7 @@
     });
   }
 
-  /* ===== 08a-quater. CARROUSEL DE LOGOS PARTENAIRES ===== */
+  /* ===== 14. CARROUSEL DE LOGOS PARTENAIRES ===== */
   const logosTrack = $('#logosTrack');
   const logosMarquee = $('#logosMarquee');
   if (logosTrack) {
@@ -727,7 +745,7 @@
     });
   }
 
-  /* ===== 08b. FICHE PARTENAIRE (modale) ===== */
+  /* ===== 15. FICHE PARTENAIRE (modale) ===== */
 const placeModal = document.querySelector('#placeModal');
 const placesGridEl = document.querySelector('#placesGrid');
 if (placeModal && placesGridEl) {
@@ -748,7 +766,7 @@ if (placeModal && placesGridEl) {
     if (photos.length) {
       pmImg.src = photos[0];
       pmImg.alt = document.querySelector('#pmTitle').textContent;
-      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${p}" type="button"><img src="${p}" alt="" loading="lazy"></button>`).join('');
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('');
     }
     placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
   });
@@ -761,7 +779,7 @@ if (placeModal && placesGridEl) {
   });
 }
 
-/* ===== 09. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
+/* ===== 16. FORMULAIRE PARTENAIRE INTELLIGENT ===== */
   const validators = {
     name: v => v.trim().length >= 2 || 'Indique ton nom complet.',
     email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Adresse email invalide.',
@@ -837,7 +855,7 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 09b. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages) ===== */
+  /* ===== 17. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages) ===== */
   const toTop = $('#toTop');
   const progress = $('#scrollProgress');
   if (toTop || progress) {
@@ -858,7 +876,7 @@ if (placeModal && placesGridEl) {
     toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  /* ===== 09b-bis. FAB BILLETS : un seul CTA principal par écran =====
+  /* ===== 18. FAB BILLETS : un seul CTA principal par écran =====
      Le bouton flottant s'efface tant que le hero (et son CTA « Voir les
      événements ») est à l'écran, puis réapparaît plus bas dans la page. */
   const ticketsFab = $('#ticketsFab');
@@ -869,7 +887,7 @@ if (placeModal && placesGridEl) {
     }, { threshold: 0.2 }).observe(ticketsHero);
   }
 
-  /* ===== 09b-2. VIDÉO D'AMBIANCE (accueil, communauté) =====
+  /* ===== 19. VIDÉO D'AMBIANCE (accueil, communauté) =====
      Remplace la façade aftermovie en attendant le vrai film : vidéo Pexels
      muette en boucle, lancée après load (lazy, preload=none + poster).
      prefers-reduced-motion -> pas d'autoplay, contrôles natifs à la place. */
@@ -895,7 +913,7 @@ if (placeModal && placesGridEl) {
     }
   }
 
-  /* ===== 09b-2b. TILT 3D LÉGER (data-tilt : vitrines du sachet) =====
+  /* ===== 20. TILT 3D LÉGER (data-tilt : vitrines du sachet) =====
      Perspective + rotateX/Y suivant le pointeur, 6° max, retour doux
      180 ms. Souris uniquement : rien au tactile ni en reduced-motion. */
   const tiltEls = $$('[data-tilt]');
@@ -916,7 +934,7 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 09b-2c. PWA : enregistrement du service worker =====
+  /* ===== 21. PWA : enregistrement du service worker =====
      network-first sur le HTML, cache-first sur les assets (sw.js).
      Échec silencieux (file://, vieux navigateurs, previews restrictives). */
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
@@ -925,7 +943,7 @@ if (placeModal && placesGridEl) {
     }, { once: true });
   }
 
-  /* ===== 09b-2d. QR CODE — encodeur inline, zéro dépendance =====
+  /* ===== 22. QR CODE — encodeur inline, zéro dépendance =====
      QR byte mode, correction M, versions 1 à 6 (≈ 100 caractères max),
      masque 0. Utilisé par les billets de « Mon espace » (payload
      SYFIR|numéro|événement|date — terrain préparé pour Wallet).
@@ -1036,7 +1054,7 @@ if (placeModal && placesGridEl) {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
   };
 
-  /* ===== 09b-ter. NEWSLETTER (footer, toutes pages) ===== */
+  /* ===== 23. NEWSLETTER (footer, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -1062,7 +1080,7 @@ if (placeModal && placesGridEl) {
     });
   });
 
-  /* ===== 09b-quater. PROCHAINS ÉVÉNEMENTS (accueil, conversion) =====
+  /* ===== 24. PROCHAINS ÉVÉNEMENTS (accueil, conversion) =====
      3 prochaines dates réelles depuis la source partagée (events-data.js). */
   const nextBox = $('#nextEvents');
   if (nextBox && window.SYFIR) {
@@ -1080,8 +1098,8 @@ if (placeModal && placesGridEl) {
         <a class="next-card" href="evenement.html?id=${ev.id}">
           <span class="next-date"><strong>${d.getDate()}</strong><small>${window.SYFIR.MONTHS[d.getMonth()]}</small></span>
           <span class="next-info">
-            <strong>${ev.name}</strong>
-            <small>${ev.time ? '🕘 ' + window.SYFIR.fmtTime(ev.time) + ' · ' : ''}📍 ${ev.city}</small>
+            <strong>${esc(ev.name)}</strong>
+            <small>${ev.time ? '🕘 ' + window.SYFIR.fmtTime(ev.time) + ' · ' : ''}📍 ${esc(ev.city)}</small>
             ${i === 0 ? '<span class="next-countdown" data-countdown="' + ev.date + 'T' + (ev.time || '20:00') + ':00"></span>' : ''}
           </span>
           <span class="next-arrow" aria-hidden="true">→</span>
@@ -1090,7 +1108,7 @@ if (placeModal && placesGridEl) {
     }
   }
 
-  /* ===== 09b-5. COMPTE À REBOURS RÉEL (prochain événement, accueil) ===== */
+  /* ===== 25. COMPTE À REBOURS RÉEL (prochain événement, accueil) ===== */
   const cdEls = $$('[data-countdown]');
   if (cdEls.length && window.SYFIR) {
     const tickCd = () => cdEls.forEach(el => {
@@ -1101,7 +1119,7 @@ if (placeModal && placesGridEl) {
     setInterval(tickCd, 60000);
   }
 
-  /* ===== 09c. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
+  /* ===== 26. AGENDA DES CONCERTS : masquer les dates passées (accueil) ===== */
   const agendaRows = $$('.agenda-row');
   if (agendaRows.length) {
     const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
@@ -1116,7 +1134,7 @@ if (placeModal && placesGridEl) {
     if (agendaEmpty) agendaEmpty.hidden = upcoming > 0;
   }
 
-  /* ===== 09d-bis. FAVORIS + MODALES GÉNÉRIQUES (toutes pages) ===== */
+  /* ===== 27. FAVORIS + MODALES GÉNÉRIQUES (toutes pages) ===== */
   /* Favoris : exploration à coût zéro — un cœur par carte, conservé en
      localStorage. Pas de compteur, pas d'artifice : juste une liste à soi. */
   const getFavs = () => store.get('syfir-favs', []);
@@ -1132,7 +1150,7 @@ if (placeModal && placesGridEl) {
   // Événements de base + ceux créés via l'espace pro (localStorage)
   let events = window.SYFIR.getAllEvents();
 
-  /* ===== 09b-4b. POUR TOI (accueil) — personnalisation locale =====
+  /* ===== 28. POUR TOI (accueil) — personnalisation locale =====
      Équivalent statique honnête de l'adaptabilité : tout vient du
      localStorage (billets, favoris), rien ne sort de l'appareil.
      Premier visiteur : la section reste cachée. */
@@ -1164,8 +1182,8 @@ if (placeModal && placesGridEl) {
         <a class="next-card" href="evenement.html?id=${ev.id}">
           <span class="next-date"><strong>${d.getDate()}</strong><small>${S.MONTHS[d.getMonth()]}</small></span>
           <span class="next-info">
-            <strong>${ev.name}</strong>
-            <small>${tag} · 📍 ${ev.city}</small>
+            <strong>${esc(ev.name)}</strong>
+            <small>${tag} · 📍 ${esc(ev.city)}</small>
           </span>
           <span class="next-arrow" aria-hidden="true">→</span>
         </a>`;
@@ -1181,7 +1199,7 @@ if (placeModal && placesGridEl) {
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal.open').forEach(closeModal); });
 
-  /* ===== 09e. MON PROFIL / MON ESPACE (toutes pages) =====
+  /* ===== 29. MON PROFIL / MON ESPACE (toutes pages) =====
      Billets, favoris, profil : le bouton et la modale existent désormais
      sur chaque page. La resynchronisation des cœurs de la grille
      billetterie passe par renderEventsHook (posé par evenements.html). */
@@ -1209,7 +1227,7 @@ if (placeModal && placesGridEl) {
     if (clientBtn) {
       if (logged) {
         clientBtn.classList.add('is-logged');
-        clientBtn.innerHTML = `<span class="nav-avatar">${(firstNameOf(u.name)[0] || '?').toUpperCase()}</span>${firstNameOf(u.name)}`;
+        clientBtn.innerHTML = `<span class="nav-avatar">${esc((firstNameOf(u.name)[0] || '?').toUpperCase())}</span>${esc(firstNameOf(u.name))}`;
       } else {
         clientBtn.classList.remove('is-logged');
         clientBtn.textContent = 'Mon profil';
@@ -1230,13 +1248,13 @@ if (placeModal && placesGridEl) {
     return `
     <div class="my-ticket">
       <div class="my-ticket-main">
-        <strong>${t.event}</strong>
-        <small>${t.city} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${t.detail}</small>
-        <small class="ticket-num">N° ${t.num || '—'} · Revente interdite</small>
+        <strong>${esc(t.event)}</strong>
+        <small>${esc(t.city)} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${esc(t.detail)}</small>
+        <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
       </div>
       ${qr
-        ? `<span class="qr qr-code" role="img" aria-label="QR code du billet ${t.num || ''}">${qr}</span>`
+        ? `<span class="qr qr-code" role="img" aria-label="QR code du billet ${esc(t.num || '')}">${qr}</span>`
         : '<span class="qr" aria-label="QR code">▣</span>'}
     </div>`;
   };
@@ -1262,10 +1280,10 @@ if (placeModal && placesGridEl) {
       ? favs.map(ev => `
         <div class="my-ticket my-fav">
           <a href="evenement.html?id=${ev.id}">
-            <strong>${ev.name}</strong>
-            <small>${ev.city} · ${new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR')}</small>
+            <strong>${esc(ev.name)}</strong>
+            <small>${esc(ev.city)} · ${new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR')}</small>
           </a>
-          <button class="fav-remove" data-unfav="${ev.id}" type="button" aria-label="Retirer ${ev.name} des favoris">✕</button>
+          <button class="fav-remove" data-unfav="${ev.id}" type="button" aria-label="Retirer ${esc(ev.name)} des favoris">✕</button>
         </div>`).join('')
       : '<p class="cart-empty">Aucun favori pour l\'instant. Touche le ♥ d\'un événement pour le garder sous la main.</p>';
   };
@@ -1355,7 +1373,7 @@ if (placeModal && placesGridEl) {
   const eventsGrid = $('#eventsGrid');
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
-  /* ===== 10. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
+  /* ===== 30. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
   const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel } = window.SYFIR;
   // Fourchette de prix réelle, calculée depuis les paliers (ex. « 20 € – 55 € »)
   const TIER_MULTS = () => TIERS_DEFAULT.map(t => t.mult);
@@ -1366,7 +1384,7 @@ if (placeModal && placesGridEl) {
   };
   const fmtTime = t => t ? t.replace(':', 'h') : '';   // 18:00 -> 18h00
   const genreTags = ev => (ev.genres || []).slice(0, 3)
-    .map(g => `<span class="event-genre">${g}</span>`).join('');
+    .map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
 
   /* Personnalisation locale : les genres des favoris de l'utilisateur.
      Un événement « recommandé » partage un genre avec un favori sans être
@@ -1388,24 +1406,24 @@ if (placeModal && placesGridEl) {
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
     return `
-    <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${ev.name}" style="animation-delay:${i * 0.07}s">
+    <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
-        <img src="${ev.img}" alt="${ev.name}" loading="lazy">
+        <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy">
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
         <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
         <button class="fav-btn ${fav ? 'on' : ''}" data-fav="${ev.id}" type="button"
                 aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">♥</button>
       </div>
       <div class="event-card-body">
-        <h3>${ev.name}</h3>
+        <h3>${esc(ev.name)}</h3>
         ${reco ? '<p class="event-reco">✦ Recommandé pour toi</p>' : ''}
-        <p class="event-card-meta">${when}</p>
+        <p class="event-card-meta">${esc(when)}</p>
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}
         <div class="event-card-foot">
           <span class="event-price"><small>Billets</small><strong>${priceRange(ev)}</strong></span>
           <button class="btn btn-solid btn-sm" data-tickets="${ev.id}">Billets</button>
         </div>
-        <p class="event-organizer">Organisé par ${ev.organizer}</p>
+        <p class="event-organizer">Organisé par ${esc(ev.organizer)}</p>
       </div>
     </article>`;
   };
@@ -1415,7 +1433,7 @@ if (placeModal && placesGridEl) {
     const current = cityFilter.value;
     const cities = [...new Set(events.map(e => e.city))].sort();
     cityFilter.innerHTML = '<option value="">Toutes les villes</option>' +
-      cities.map(c => `<option value="${c}" ${c === current ? 'selected' : ''}>${c}</option>`).join('');
+      cities.map(c => `<option value="${esc(c)}" ${c === current ? 'selected' : ''}>${esc(c)}</option>`).join('');
   };
 
   const genreFilter = $('#genreFilter');
@@ -1424,10 +1442,10 @@ if (placeModal && placesGridEl) {
     const current = genreFilter.value;
     const genres = [...new Set(events.flatMap(e => e.genres || []))].sort((a, b) => a.localeCompare(b, 'fr'));
     genreFilter.innerHTML = '<option value="">Tous les genres</option>' +
-      genres.map(g => `<option value="${g}" ${g === current ? 'selected' : ''}>${g}</option>`).join('');
+      genres.map(g => `<option value="${esc(g)}" ${g === current ? 'selected' : ''}>${esc(g)}</option>`).join('');
   };
 
-  /* ===== 11. FILTRES / RECHERCHE / TRI / GROUPEMENT PAR JOUR ===== */
+  /* ===== 31. FILTRES / RECHERCHE / TRI / GROUPEMENT PAR JOUR ===== */
   const state = { filter: 'tous', city: '', genre: '', sort: 'date', search: '' };
 
   const renderEvents = () => {
@@ -1486,7 +1504,7 @@ if (placeModal && placesGridEl) {
   refreshGenreOptions();
   renderEvents();
 
-  /* ===== 12. MODALE BILLETS ===== */
+  /* ===== 32. MODALE BILLETS ===== */
   const ticketModal = $('#ticketModal');
   let currentEvent = null;
   let tierQty = [];
@@ -1605,7 +1623,7 @@ if (placeModal && placesGridEl) {
   // La date en poche, l'événement dans l'agenda : .ics généré côté client
   $('#tmCalendar')?.addEventListener('click', () => window.SYFIR.downloadICS(currentEvent));
 
-  /* ===== 14. ESPACE PRO — création + facturation ===== */
+  /* ===== 33. ESPACE PRO — création + facturation ===== */
   const proForm = $('#proForm');
   const BASE_FEE = 49;
 

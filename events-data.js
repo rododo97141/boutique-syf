@@ -14,6 +14,11 @@
 
   const MONTHS = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUIN', 'JUIL', 'AOÛT', 'SEP', 'OCT', 'NOV', 'DÉC'];
 
+  // Échappement HTML systématique : toute donnée dynamique (localStorage,
+  // formulaires, data-attributes) passe par ici avant innerHTML.
+  const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
   const baseEvents = [
     { id: 1, name: 'SYFIR Sunset Beach Party', type: 'beach', city: 'Sainte-Anne', venue: 'Plage de la Caravelle', date: '2026-07-04', time: '18:00', price: 25, genres: ['Afro house', 'Zouk'],
       img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80', organizer: 'SYFIR Official', prive: false },
@@ -91,5 +96,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml };
 })();
