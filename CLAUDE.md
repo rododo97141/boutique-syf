@@ -20,13 +20,19 @@ Le CSS existant (`style.css`) est la source de vérité des valeurs.
 | Sunset | `#FF7A00` |
 | Passion | `#FFC857` |
 
-**Typographies** : **Syne 700–800 pour les titres** (identité — lot 22 : géométrique
-arty-festival dessinée pour un centre d'art, chasses larges et dessins singuliers du S/Y ;
-urbaine, estivale, premium accessible — choisie contre Bricolage Grotesque, plus commune
-dans son registre éditorial, et en remplacement de Montserrat, trop générique),
-Plus Jakarta Sans pour le corps, Fraunces italique **réservé aux mots-clés émotionnels**.
-Syne s'arrête à la graisse 800 (pas de 900) ; ses capitales étant larges,
-letter-spacing resserré : logo/footer `.12em`, nav `.06em`, boutons `.08em`.
+**Typographies — système à deux niveaux** :
+- **Unbounded 700–800 pour l'IDENTITÉ et les TITRES** (logo, hero, h2/titres de section,
+  titres de page, grands nombres/KPI, badges) — amendement fondateur du lot 22, critère
+  **« ère nouvelle + fraîcheur »** : display géométrique aux formes larges, rondes et
+  futuristes (bulles, gouttelettes) qui dit à la fois *nouveau monde* et *fraîcheur
+  tropicale premium*. Choisie sur captures comparées du hero et d'une carte contre
+  **Syne** (arty mais moins « nouveau monde »), **Bricolage Grotesque** (grotesque
+  éditoriale trop commune) et **Space Grotesk** (techy, neutre) ; remplace Montserrat.
+  Unbounded est large → interlettrage resserré (logo/footer `.04em`, hero `.02em`).
+- **Plus Jakarta Sans pour l'UI** (liens de nav, boutons) : plus étroite et lisible
+  « dans un bar » — l'identité Unbounded reste réservée aux titres, jamais en petit
+  texte fonctionnel. Corps de texte : Plus Jakarta Sans.
+- **Fraunces italique réservé aux mots-clés émotionnels** (accents des titres).
 
 **Géométrie & motion** : rayon `18px` partout, grille `8px`,
 transitions `180ms` / `300ms` `cubic-bezier(.16,1,.3,1)` —

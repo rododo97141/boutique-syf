@@ -60,11 +60,14 @@
   --grey: #8A8A8A;
   --error: #E5484D;
   --success: #46A758;
-  /* Police identitaire (lot 22) : Syne — géométrique arty-festival,
-     dessinée pour un centre d'art, chasses larges, détails singuliers
-     (Y, S) : urbaine, estivale, premium accessible. 700 par défaut,
-     800 pour le logo et le hero. Elle remplace Montserrat (trop commune). */
-  --display: 'Syne', sans-serif;
+  /* Police identitaire (lot 22, amendement fondateur : « ère nouvelle +
+     fraîcheur ») : Unbounded — display géométrique aux formes larges,
+     rondes et futuristes (bulles, gouttelettes) : sensation de nouveau
+     monde et de fraîcheur tropicale premium. Réservée à l'IDENTITÉ et
+     aux TITRES ; la nav et les boutons repassent en Plus Jakarta Sans
+     (lisibilité « dans un bar »). Comparée à Syne, Bricolage Grotesque
+     et Space Grotesk sur captures du hero et d'une carte. */
+  --display: 'Unbounded', sans-serif;
   --body: 'Plus Jakarta Sans', sans-serif;
   --serif: 'Fraunces', serif;
   --ease: cubic-bezier(.16, 1, .3, 1);
@@ -194,10 +197,10 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: var(--display);
+  font-family: var(--body);   /* UI : Plus Jakarta Sans, plus lisible que le display large */
   font-weight: 700;
   font-size: .82rem;
-  letter-spacing: .08em;
+  letter-spacing: .05em;
   text-transform: uppercase;
   padding: 16px 32px;
   border-radius: 100px;
@@ -319,7 +322,7 @@ nav.scrolled {
 }
 .nav-logo {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--display); font-weight: 800; font-size: 1.35rem; letter-spacing: .12em;
+  font-family: var(--display); font-weight: 800; font-size: 1.2rem; letter-spacing: .04em;
   color: var(--cream); flex-shrink: 0;
   transition: color var(--dur-fast) var(--ease);
 }
@@ -378,8 +381,9 @@ nav.scrolled {
 
 .nav-links { display: none; list-style: none; gap: 28px; }
 .nav-link {
-  /* Syne a des chasses larges : corps et interlettrage resserrés, jamais de retour à la ligne */
-  font-size: .76rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  /* UI : Plus Jakarta Sans (l'identité Unbounded reste aux titres) — lisible en un clin d'œil */
+  font-family: var(--body);
+  font-size: .82rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
   white-space: nowrap;
   color: rgba(var(--cream-rgb), .72);
   padding-bottom: 4px; position: relative; transition: color var(--dur-fast);
@@ -498,8 +502,8 @@ nav.scrolled {
 .hero-line span {
   display: block;
   font-family: var(--display); font-weight: 800;
-  font-size: clamp(4rem, 17vw, 11.5rem);
-  line-height: .95; letter-spacing: .12em; padding-left: .12em;
+  font-size: clamp(3.4rem, 15vw, 9.5rem);
+  line-height: .95; letter-spacing: .02em; padding-left: .04em;
   background: linear-gradient(115deg, var(--cream) 25%, var(--passion) 55%, var(--sunset) 85%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   transform: translateY(110%);
@@ -903,7 +907,7 @@ textarea { resize: vertical; }
 /* ===== 15. FOOTER ===== */
 footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion-rgb), .12); padding-top: 72px; }
 .footer-grid { display: grid; gap: 38px; padding-bottom: 52px; }
-.footer-logo { font-family: var(--display); font-weight: 800; font-size: 1.6rem; letter-spacing: .12em; margin-bottom: 16px; }
+.footer-logo { font-family: var(--display); font-weight: 800; font-size: 1.5rem; letter-spacing: .04em; margin-bottom: 16px; }
 .footer-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
 .footer-brand p { color: var(--grey); font-size: .92rem; }
 .footer-col { display: flex; flex-direction: column; gap: 12px; }
