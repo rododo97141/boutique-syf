@@ -532,6 +532,12 @@ nav.scrolled {
   font-family: var(--serif); font-style: italic; font-weight: 300;
   font-size: clamp(1.4rem, 3.6vw, 2.2rem); line-height: 1.75;
 }
+.manifesto-story {
+  margin-top: 28px;
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(1rem, 2.2vw, 1.2rem); line-height: 1.9;
+  color: rgba(var(--cream-rgb), .72);
+}
 .manifesto-sign {
   margin-top: 32px;
   font-family: var(--display); font-weight: 700; font-size: .78rem;
@@ -539,6 +545,21 @@ nav.scrolled {
   background: var(--gold-metal);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+
+/* ===== 06b. LA VISION (dossier fondateur, accueil) ===== */
+.vision-grid { display: grid; gap: 24px; margin-top: 48px; }
+.vision-card {
+  padding: 32px 28px;
+  background: rgba(var(--cream-rgb), .04);
+  border: 1px solid rgba(var(--passion-rgb), .14);
+  border-radius: var(--radius);
+}
+.vision-card h3 {
+  font-family: var(--display); font-weight: 800; font-size: 1.02rem;
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: 12px;
+  color: var(--passion);
+}
+.vision-card p { color: rgba(var(--cream-rgb), .75); font-size: .98rem; }
 
 /* ===== 07. PROCHAINS ÉVÉNEMENTS (conversion, accueil) ===== */
 .next-events { padding: 8px 0 80px; }
@@ -1918,6 +1939,10 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
    Règle du dépôt : toute nouvelle couleur doit exister ici aussi.
 ============================================================ */
 
+html[data-theme="light"] .manifesto-story { color: var(--taupe); }
+html[data-theme="light"] .vision-card { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); box-shadow: 0 10px 30px rgba(var(--shadow-warm-rgb), .06); }
+html[data-theme="light"] .vision-card h3 { color: var(--gold-ink); }
+html[data-theme="light"] .vision-card p { color: var(--taupe-ink); }
 html[data-theme="light"] .section-cream::before { background: linear-gradient(180deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
 html[data-theme="light"] .section-cream::after { background: linear-gradient(0deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
 html[data-theme="light"] .theme-menu { background: rgba(var(--surface-light-rgb), .97); border-color: rgba(var(--gold-deep-rgb), .28); box-shadow: 0 22px 60px rgba(var(--shadow-warm-rgb), .22); }
@@ -2248,6 +2273,7 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .ticket-search { display: flex; }
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
+  .vision-grid { grid-template-columns: repeat(3, 1fr); }
   .events-grid { grid-template-columns: repeat(3, 1fr); }
   .ed-body { grid-template-columns: 1.55fr .9fr; gap: 56px; align-items: start; }
   .ed-tickets { position: sticky; top: 96px; }
