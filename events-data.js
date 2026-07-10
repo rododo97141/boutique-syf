@@ -57,5 +57,39 @@
   const getAllEvents = () => [...baseEvents, ...getProEvents()];
   const getEvent = id => getAllEvents().find(e => String(e.id) === String(id));
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText };
+  // « Ajouter au calendrier » : fichier .ics généré côté client, compatible
+  // Apple/Google/Outlook. Heure locale flottante (événements locaux),
+  // durée par défaut 4 h si pas d'heure de fin connue.
+  const downloadICS = ev => {
+    const esc = s => String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+    const p = n => String(n).padStart(2, '0');
+    const start = new Date(`${ev.date}T${ev.time || '20:00'}:00`);
+    const end = new Date(start.getTime() + 4 * 36e5);
+    const local = x => `${x.getFullYear()}${p(x.getMonth() + 1)}${p(x.getDate())}T${p(x.getHours())}${p(x.getMinutes())}00`;
+    const now = new Date();
+    const stampUTC = `${now.getUTCFullYear()}${p(now.getUTCMonth() + 1)}${p(now.getUTCDate())}T${p(now.getUTCHours())}${p(now.getUTCMinutes())}${p(now.getUTCSeconds())}Z`;
+    const link = location.origin + location.pathname.replace(/[^/]*$/, '') + 'evenement.html?id=' + ev.id;
+    const lines = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//SYFIR//Billetterie//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `UID:syfir-${ev.id}-${(ev.date || '').replace(/-/g, '')}@syfir`,
+      `DTSTAMP:${stampUTC}`,
+      `DTSTART:${local(start)}`,
+      `DTEND:${local(end)}`,
+      `SUMMARY:${esc(ev.name)}`,
+      `LOCATION:${esc([ev.venue, ev.city].filter(Boolean).join(', '))}`,
+      `DESCRIPTION:${esc(`${typeLabel[ev.type] || 'Événement'} SYFIR — organisé par ${ev.organizer || 'SYFIR'}. Billets et infos : ${link}`)}`,
+      `URL:${link}`,
+      'END:VEVENT', 'END:VCALENDAR'
+    ];
+    const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (ev.name || 'evenement-syfir').toLowerCase().normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS };
 })();

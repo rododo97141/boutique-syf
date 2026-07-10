@@ -92,6 +92,7 @@
         <div class="ed-share">
           <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
+          <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">📅 Ajouter au calendrier</button>
         </div>
       </div>
       <aside class="ed-tickets">
@@ -110,6 +111,7 @@
           <button class="btn btn-solid btn-full" id="edBuy" disabled>Réserver mes billets</button>
         </div>
         <p class="form-success" id="edSuccess" hidden></p>
+        <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
       </aside>
     </div>`;
 
@@ -164,8 +166,12 @@
     const count = tierQty.reduce((s2, q) => s2 + q, 0);
     ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie.`;
     ok.hidden = false;
+    $('#edCalAfter').hidden = false;
     toast('🎉 C\'est dans la poche !');
   });
+
+  $('#edCalendar').addEventListener('click', () => S.downloadICS(ev));
+  $('#edCalAfter').addEventListener('click', () => S.downloadICS(ev));
 
   $('#edGateBtn').addEventListener('click', () => {
     const code = $('#edGateCode').value.trim().toUpperCase();

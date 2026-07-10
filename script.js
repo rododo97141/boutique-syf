@@ -1002,6 +1002,9 @@ if (placeModal && placesGridEl) {
      sur chaque page. La resynchronisation des cœurs de la grille
      billetterie passe par renderEventsHook (posé par evenements.html). */
   let renderEventsHook = null;
+  // Idem dans l'autre sens : la billetterie rafraîchit Mon espace via ces hooks
+  let renderMyTicketsHook = null;
+  let renderMyFavsHook = null;
   const clientModal = $('#clientModal');
   const clientBtn = $('#clientSpaceBtn');
   let ticketSub = 'upcoming';
@@ -1082,6 +1085,9 @@ if (placeModal && placesGridEl) {
     renderMyFavs();
     renderEventsHook?.();   // resynchronise les cœurs de la grille (billetterie)
   });
+
+  renderMyTicketsHook = renderMyTickets;
+  renderMyFavsHook = renderMyFavs;
 
   const openClient = (e, tab) => {
     e?.preventDefault();
@@ -1319,7 +1325,7 @@ if (placeModal && placesGridEl) {
       favBtn.setAttribute('aria-pressed', String(added));
       favBtn.setAttribute('aria-label', added ? 'Retirer des favoris' : 'Ajouter aux favoris');
       showToast(added ? '♥ Ajouté à vos favoris' : 'Retiré de vos favoris');
-      renderMyFavs();
+      renderMyFavsHook?.();
       return;
     }
     const btn = e.target.closest('[data-tickets]');
@@ -1339,6 +1345,7 @@ if (placeModal && placesGridEl) {
     const loc = [currentEvent.city, currentEvent.venue].filter(Boolean).join(' · ');
     $('#tmMeta').textContent = `📍 ${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
     $('#tmSuccess').hidden = true;
+    $('#tmCalendar').hidden = true;
     $('#gateError').textContent = '';
     $('#gateCode').value = '';
     showTicketArea(!currentEvent.prive);
@@ -1381,8 +1388,12 @@ if (placeModal && placesGridEl) {
     const prenom = firstNameOf((store.get('syfir-user', null) || {}).name);
     ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace.`;
     ok.hidden = false;
-    renderMyTickets();
+    $('#tmCalendar').hidden = false;
+    renderMyTicketsHook?.();
   });
+
+  // La date en poche, l'événement dans l'agenda : .ics généré côté client
+  $('#tmCalendar')?.addEventListener('click', () => window.SYFIR.downloadICS(currentEvent));
 
   /* ===== 14. ESPACE PRO — création + facturation ===== */
   const proForm = $('#proForm');
