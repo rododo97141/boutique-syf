@@ -7,15 +7,14 @@
 <meta property="og:title" content="SYFIR — Le Cocktail Libre™">
 <meta property="og:description" content="Plus qu'un cocktail. Une expérience. SYFIR accompagne les moments que l'on n'oublie jamais.">
 <!-- TODO : préfixer d'une URL absolue quand le domaine définitif sera connu -->
-<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:image" content="images/produits/syfir-pub-plage-1.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
+<meta name="twitter:image" content="images/produits/syfir-pub-plage-1.jpg">
 <title>SYFIR — Le Cocktail Libre™</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- LCP : le fond du hero est découvert dans le CSS — on le précharge dès le HTML.
-     TODO : pointer sur images/syfir-planteur-hero.webp quand le client l'aura uploadé. -->
-<link rel="preload" as="image" fetchpriority="high" href="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80">
+<!-- LCP : le fond du hero (photo officielle) est découvert dans le CSS — préchargé dès le HTML -->
+<link rel="preload" as="image" fetchpriority="high" href="images/produits/syfir-pub-plage-1.webp">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
 <script>
@@ -227,6 +226,12 @@
         <p>Portée par son fondateur — l'image, les partenariats, le cap. Une histoire sincère, une vision assumée, et l'envie de construire pas à pas.</p>
       </article>
     </div>
+    <figure class="vision-photo reveal">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-pub-duo.webp">
+        <img src="images/produits/syfir-pub-duo.jpg" alt="Deux cocktails SYFIR au coucher de soleil — l'instant partagé" loading="lazy" width="1086" height="1448">
+      </picture>
+    </figure>
   </div>
 </section>
 
@@ -255,7 +260,10 @@
       </a>
       <a class="cocktail-card cocktail-teaser reveal d2" href="saveurs.html" aria-label="Découvrir Syf Coral Breeze sur la page Saveurs">
         <div class="cocktail-media">
-          <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Syf Coral Breeze — cocktail agrumes hibiscus fruits rouges" loading="lazy">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syfir-coral-fruits-rouges.webp">
+            <img src="images/produits/syfir-coral-fruits-rouges.jpg" alt="Syf Coral Breeze — fruits rouges et sachet SYFIR" loading="lazy" width="1086" height="1448">
+          </picture>
           <span class="cocktail-badge badge-coral">Vibrant</span>
         </div>
         <div class="cocktail-body">
@@ -265,7 +273,10 @@
       </a>
       <a class="cocktail-card cocktail-teaser reveal d3" href="saveurs.html" aria-label="Découvrir Syf Golden Escape sur la page Saveurs">
         <div class="cocktail-media">
-          <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=700&q=80" alt="Syf Golden Escape — cocktail citron vert passion fruits exotiques" loading="lazy">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syfir-tropical-ananas.webp">
+            <img src="images/produits/syfir-tropical-ananas.jpg" alt="Syf Golden Escape — le sachet tropical ananas" loading="lazy" width="1029" height="1538">
+          </picture>
           <span class="cocktail-badge badge-gold">Édition Or</span>
         </div>
         <div class="cocktail-body">
@@ -275,7 +286,15 @@
       </a>
     </div>
 
-    <p class="teaser-cta reveal"><a href="saveurs.html" class="btn btn-solid btn-lg">Explorer les saveurs →</a></p>
+    <!-- La gamme complète (photo officielle) en vitrine, cliquable -->
+    <a class="teaser-banner teaser-banner-gamme reveal" href="saveurs.html" aria-label="Explorer les saveurs SYFIR">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp">
+        <img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme SYFIR — six saveurs" loading="lazy" width="1024" height="1024">
+      </picture>
+      <span class="teaser-banner-veil" aria-hidden="true"></span>
+      <span class="btn btn-solid teaser-banner-cta">Explorer les saveurs →</span>
+    </a>
     <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
   </div>
 </section>

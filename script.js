@@ -373,11 +373,11 @@
      Standards carrousel (NN/g, web.dev) : scroll-snap natif = swipe tactile,
      flèches ≥ 44 px, points indicateurs, PAS d'autoplay, clavier ←/→,
      aria-roledescription, lazy-load des médias hors écran.
-     4 diapositives max : 3 photos + 1 vidéo (fin atteignable en 3 swipes). */
+     6 diapositives max : 5 photos + 1 vidéo (galerie officielle du lot 22). */
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const buildMediaCarousel = (box, { photos = '', video = '', name = '', badge = '', playBtn = false, videoInline = false, note = '', videoTitles = '' }) => {
-    const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
+    const list = photos.split('|').map(s => s.trim()).filter(Boolean).slice(0, 5);
     if (!list.length) return;
 
     // Un fichier vidéo peut avoir plusieurs sources séparées par « | »
