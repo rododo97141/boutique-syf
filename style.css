@@ -578,8 +578,16 @@ html[data-theme="light"] .next-arrow { color: #A04600; }
 .cocktail-media { position: relative; overflow: hidden; aspect-ratio: 5 / 4; }
 .cocktail-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .cocktail-card:hover .cocktail-media img { transform: scale(1.03); }
+/* Appétit : voile chaud très léger sur le visuel produit (tons chauds
+   = intention d'achat mesurée en hausse) — 10 %, jamais criard */
+.cocktail-media::after,
+.ck-hero::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(160deg, var(--sunset), var(--passion));
+  opacity: .1; pointer-events: none;
+}
 .cocktail-badge {
-  position: absolute; top: 16px; left: 16px;
+  position: absolute; top: 16px; left: 16px; z-index: 2;
   font-family: var(--display); font-size: .65rem; font-weight: 800;
   letter-spacing: .18em; text-transform: uppercase;
   padding: 8px 16px; border-radius: 100px;

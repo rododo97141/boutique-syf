@@ -11,6 +11,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
 <title>Saveurs — SYFIR, Le Cocktail Libre™</title>
+<!-- LCP : 1re carte cocktail (visuel officiel) préchargée en WebP -->
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="images/produits/syf-planteur-1.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -101,8 +103,11 @@
         data-photos="images/produits/syf-planteur-1.jpg|images/produits/syf-planteur-2.jpg|images/produits/syf-planteur-3.jpg"
         data-video="videos/syf-planteur.mp4">
         <div class="cocktail-media">
-          <img src="images/produits/syf-planteur-1.jpg"
-               alt="Syf Planteur — le sachet signature SYFIR sur une table en bois face à la plage" fetchpriority="high">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syf-planteur-1.webp">
+            <img src="images/produits/syf-planteur-1.jpg"
+                 alt="Syf Planteur — le sachet signature SYFIR sur une table en bois face à la plage" fetchpriority="high">
+          </picture>
           <span class="cocktail-badge">Best-seller</span>
         </div>
         <div class="cocktail-body">
@@ -229,11 +234,17 @@
       <p class="pm-desc" id="ckDesc"></p>
       <div class="ck-formats">
         <div class="ck-format">
-          <img src="images/produits/syf-planteur-verre.jpg" alt="" loading="lazy">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syf-planteur-verre.webp">
+            <img src="images/produits/syf-planteur-verre.jpg" alt="" loading="lazy">
+          </picture>
           <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
         </div>
         <div class="ck-format">
-          <img src="images/produits/syf-planteur-1.jpg" alt="" loading="lazy">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syf-planteur-1.webp">
+            <img src="images/produits/syf-planteur-1.jpg" alt="" loading="lazy">
+          </picture>
           <div><strong>🛍️ À emporter</strong><small>Sachet scellé signature</small></div>
         </div>
       </div>
