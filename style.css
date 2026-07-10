@@ -1251,6 +1251,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 /* --- Espace pro : les 4 audiences (organisateurs / points de vente /
        ambassadeurs / partenaires-investisseurs) --- */
 .audience-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 56px; }
+.dash-open { margin-top: 20px; }
 .audience-nav .chip { text-decoration: none; }
 .audience-title {
   font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 3vw, 1.8rem);
