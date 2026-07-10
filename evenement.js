@@ -74,7 +74,7 @@
   detail.hidden = false;
   detail.innerHTML = `
     <div class="ed-hero">
-      <img class="ed-hero-img" src="${ev.img}" alt="${ev.name}">
+      <img class="ed-hero-img" src="${ev.img}" alt="${ev.name}" fetchpriority="high">
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
     </div>
     <div class="ed-body container">

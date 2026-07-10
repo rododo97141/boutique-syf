@@ -13,6 +13,9 @@
 <title>SYFIR — Le Cocktail Libre™</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- LCP : le fond du hero est découvert dans le CSS — on le précharge dès le HTML.
+     TODO : pointer sur images/syfir-planteur-hero.webp quand le client l'aura uploadé. -->
+<link rel="preload" as="image" fetchpriority="high" href="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
 <script>
@@ -85,8 +88,10 @@
   <div class="hero-veil"></div>
   <div class="gold-sweep"></div>
 
+  <!-- Premier écran volontairement minimal (jugement en 50 ms) :
+       UN message (le slogan) + UN CTA. Le kicker et le 2e bouton sont
+       retirés — la billetterie a sa place dans la nav et plus bas. -->
   <div class="hero-inner">
-    <p class="hero-kicker reveal">Cocktails premium &amp; expériences</p>
     <h1 class="hero-title">
       <span class="hero-line"><span>SYFIR</span></span>
     </h1>
@@ -94,7 +99,6 @@
     <p class="hero-tagline reveal d3">Goûte à la liberté.</p>
     <div class="hero-cta reveal d4">
       <a href="#saveurs-teaser" class="btn btn-gradient btn-lg">Découvrir l'expérience</a>
-      <a href="evenements.html" class="btn btn-ghost">Vivre un événement</a>
     </div>
   </div>
 

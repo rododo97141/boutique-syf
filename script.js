@@ -643,7 +643,8 @@
       wrap.className = 'hero-video';
       wrap.setAttribute('aria-hidden', 'true');
       wrap.innerHTML = `
-        <video muted loop autoplay playsinline preload="metadata" tabindex="-1">
+        <video muted loop autoplay playsinline preload="metadata" tabindex="-1"
+               poster="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80">
           <source src="videos/ambiance-sunset.mp4" type="video/mp4">
           <source src="https://www.pexels.com/download/video/9640964/" type="video/mp4">
         </video>`;
