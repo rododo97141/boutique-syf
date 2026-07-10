@@ -2300,6 +2300,68 @@ html[data-theme="light"] .badge-soon { background: rgba(var(--gold-rgb), .12); c
 html[data-theme="light"] .pro-status.st-past { background: rgba(var(--ink-warm-rgb), .08); color: var(--taupe-soft); }
 html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), .3); }
 
+/* ===== 39. FRAÎCHEUR VISIBLE — éclaboussures & gouttelettes (lot 22 D) =====
+   Science du lot : complexité visuelle BASSE, température émotionnelle HAUTE.
+   La fraîcheur en accents ciblés (Fukasawa), jamais en surcharge.
+   Tout est décoratif, désactivé sous prefers-reduced-motion. */
+.hero-splash {
+  position: absolute; z-index: 1; pointer-events: none;
+  left: 50%; top: 46%; transform: translate(-50%, -50%);
+  width: min(760px, 82vw); aspect-ratio: 520 / 320;
+  opacity: .26; mix-blend-mode: screen;
+}
+html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; }
+
+/* Condensation : gouttelettes de froid sur le visuel des cartes cocktail —
+   discrètes au repos, un peu plus vives au survol (le froid qui donne soif) */
+.cocktail-media::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(circle 3px at 18% 24%, rgba(var(--cream-rgb), .55), transparent 60%),
+    radial-gradient(circle 2px at 32% 62%, rgba(var(--cream-rgb), .45), transparent 60%),
+    radial-gradient(circle 4px at 70% 34%, rgba(var(--cream-rgb), .5), transparent 60%),
+    radial-gradient(circle 2px at 82% 70%, rgba(var(--cream-rgb), .4), transparent 60%),
+    radial-gradient(circle 3px at 54% 82%, rgba(var(--cream-rgb), .45), transparent 60%),
+    radial-gradient(circle 2px at 46% 14%, rgba(var(--cream-rgb), .4), transparent 60%);
+  opacity: .5; transition: opacity var(--dur-med) var(--ease);
+}
+.cocktail-card:hover .cocktail-media::before { opacity: .9; }
+
+/* Micro-splash au survol des CTA principaux : une giclée de gouttelettes
+   qui éclate puis retombe (une seule fois), 300ms, easing maison */
+.btn-solid::before, .btn-gradient::before {
+  content: ''; position: absolute; inset: -30%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(circle 5px at 24% 30%, rgba(var(--cream-rgb), .8), transparent 62%),
+    radial-gradient(circle 3px at 76% 26%, rgba(var(--cream-rgb), .7), transparent 62%),
+    radial-gradient(circle 4px at 66% 74%, rgba(var(--cream-rgb), .7), transparent 62%),
+    radial-gradient(circle 3px at 30% 72%, rgba(var(--cream-rgb), .6), transparent 62%),
+    radial-gradient(circle 2px at 50% 16%, rgba(var(--cream-rgb), .6), transparent 62%);
+  opacity: 0; transform: scale(.4);
+}
+@media (hover: hover) {
+  .btn-solid:hover::before, .btn-gradient:hover::before { animation: btnSplash var(--dur-med) var(--ease); }
+}
+@keyframes btnSplash {
+  0%   { opacity: 0; transform: scale(.4); }
+  35%  { opacity: .9; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+
+/* Séparateur de section léger : trois gouttes centrées (accent discret) */
+.splash-divider { display: flex; justify-content: center; gap: 10px; padding: 8px 0; }
+.splash-divider span {
+  width: 8px; height: 8px; border-radius: 50% 50% 50% 0;
+  background: linear-gradient(160deg, var(--passion), var(--sunset));
+  transform: rotate(45deg); opacity: .6;
+}
+.splash-divider span:nth-child(2) { width: 12px; height: 12px; opacity: .8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-solid:hover::before, .btn-gradient:hover::before { animation: none; }
+  .cocktail-card:hover .cocktail-media::before { transition: none; }
+}
+
 /* ===== 38. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {

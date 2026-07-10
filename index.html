@@ -91,6 +91,30 @@
   <div class="hero-veil"></div>
   <div class="gold-sweep"></div>
 
+  <!-- Fraîcheur visible (lot 22 D) : éclaboussure de jus organique derrière
+       le wordmark. Cercles fondus par un filtre « gooey », dégradé
+       sunset→passion→or, opacité maîtrisée. Décoratif : aria-hidden. -->
+  <svg class="hero-splash" viewBox="0 0 520 320" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="syfSplashGrad" cx="42%" cy="34%" r="72%">
+        <stop offset="0%" stop-color="var(--passion)"/>
+        <stop offset="52%" stop-color="var(--sunset)"/>
+        <stop offset="100%" stop-color="var(--gold)"/>
+      </radialGradient>
+      <filter id="syfSplashGoo"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="b"/>
+        <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"/></filter>
+    </defs>
+    <g fill="url(#syfSplashGrad)" filter="url(#syfSplashGoo)">
+      <ellipse cx="262" cy="164" rx="150" ry="88"/>
+      <circle cx="140" cy="150" r="66"/><circle cx="392" cy="152" r="72"/>
+      <circle cx="250" cy="96" r="54"/><circle cx="300" cy="228" r="54"/>
+      <circle cx="188" cy="220" r="48"/><circle cx="432" cy="200" r="36"/>
+      <circle cx="98" cy="180" r="32"/>
+      <circle cx="52" cy="96" r="15"/><circle cx="480" cy="92" r="13"/>
+      <circle cx="250" cy="300" r="11"/><circle cx="500" cy="252" r="8"/>
+    </g>
+  </svg>
+
   <!-- Premier écran volontairement minimal (jugement en 50 ms) :
        UN message (le slogan) + UN CTA. Le kicker et le 2e bouton sont
        retirés — la billetterie a sa place dans la nav et plus bas. -->
@@ -896,6 +920,7 @@
 ============================================================ -->
 <section class="final-cta">
   <div class="container">
+    <div class="splash-divider reveal" aria-hidden="true"><span></span><span></span><span></span></div>
     <h2 class="h2 reveal">Prêt à vivre <em>SYFIR</em> ?</h2>
     <p class="section-intro reveal d1">La prochaine fête n'attendra pas.</p>
     <a href="evenements.html" class="btn btn-solid btn-lg reveal d2">Réserver ma place</a>
