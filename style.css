@@ -1232,6 +1232,43 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .my-ticket .qr-code { flex-shrink: 0; background: var(--white); border-radius: 8px; padding: 4px; line-height: 0; }
 .my-ticket .qr-code svg { width: 88px; height: 88px; display: block; }
 
+/* --- Espace pro : les 4 audiences (organisateurs / points de vente /
+       ambassadeurs / partenaires-investisseurs) --- */
+.audience-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 56px; }
+.audience-nav .chip { text-decoration: none; }
+.audience-title {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 3vw, 1.8rem);
+  text-transform: uppercase; letter-spacing: .01em;
+  margin: 72px 0 24px; scroll-margin-top: calc(var(--nav-h) + 24px);
+}
+.audience-title em {
+  font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.audience-grid { display: grid; gap: 24px; }
+.audience-contact p { color: rgba(var(--cream-rgb), .78); font-size: .92rem; margin-bottom: 20px; }
+.audience-contact .btn { margin-bottom: 16px; }
+.audience-mail { display: block; font-size: .88rem; color: var(--passion); }
+.audience-mail:hover { color: var(--gold-light); }
+/* bloc investisseurs : sobre, zéro chiffre */
+.invest-card {
+  background: rgba(var(--cream-rgb), .04);
+  border: 1px solid rgba(var(--passion-rgb), .16);
+  border-radius: var(--radius); padding: 36px 32px;
+}
+.invest-args { display: grid; gap: 28px; }
+.invest-args strong {
+  display: block; font-family: var(--display); font-weight: 800; font-size: .95rem;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--passion); margin-bottom: 8px;
+}
+.invest-args p { color: rgba(var(--cream-rgb), .75); font-size: .95rem; }
+.invest-cta {
+  margin-top: 32px; padding-top: 28px;
+  border-top: 1px solid rgba(var(--passion-rgb), .14);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+}
+.invest-cta p { font-family: var(--serif); font-style: italic; color: rgba(var(--cream-rgb), .72); }
+
 /* ===== 17. TOAST ===== */
 .toast {
   position: fixed; bottom: 24px; left: 50%; z-index: 400;
@@ -1940,6 +1977,14 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
 ============================================================ */
 
 html[data-theme="light"] .manifesto-story { color: var(--taupe); }
+html[data-theme="light"] .audience-contact p { color: rgba(var(--ink-warm-rgb), .8); }
+html[data-theme="light"] .audience-mail { color: var(--sunset-ink); }
+html[data-theme="light"] .audience-mail:hover { color: var(--gold-ink); }
+html[data-theme="light"] .invest-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); }
+html[data-theme="light"] .invest-args strong { color: var(--gold-ink); }
+html[data-theme="light"] .invest-args p,
+html[data-theme="light"] .invest-cta p { color: rgba(var(--ink-warm-rgb), .8); }
+html[data-theme="light"] .invest-cta { border-top-color: rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] .vision-card { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); box-shadow: 0 10px 30px rgba(var(--shadow-warm-rgb), .06); }
 html[data-theme="light"] .vision-card h3 { color: var(--gold-ink); }
 html[data-theme="light"] .vision-card p { color: var(--taupe-ink); }
@@ -2274,6 +2319,8 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
   .vision-grid { grid-template-columns: repeat(3, 1fr); }
+  .audience-grid { grid-template-columns: repeat(3, 1fr); }
+  .invest-args { grid-template-columns: repeat(3, 1fr); gap: 36px; }
   .events-grid { grid-template-columns: repeat(3, 1fr); }
   .ed-body { grid-template-columns: 1.55fr .9fr; gap: 56px; align-items: start; }
   .ed-tickets { position: sticky; top: 96px; }
