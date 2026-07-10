@@ -1944,6 +1944,33 @@ html[data-theme="light"] .car-dot.on::after { background: var(--gold-light); }
 .event-notfound .container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .event-notfound .btn { margin-top: 20px; }
 
+/* ===== SCROLL-DRIVEN ANIMATIONS (actualite.html) — CSS pur, compositor only =====
+   La galerie L'Ambiance se révèle au fil du scroll (animation-timeline: view())
+   et le hero glisse en parallaxe léger (scroll()). Transform + opacity
+   uniquement (zéro travail main-thread), neutralisé sous reduced-motion,
+   ignoré par les navigateurs sans support (repli : rendu statique). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    #ambiance .insta-item {
+      animation: ambiance-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+    .page-hero-dark .container {
+      animation: hero-drift linear both;
+      animation-timeline: scroll();
+      animation-range: 0 480px;
+    }
+  }
+}
+@keyframes ambiance-rise {
+  from { opacity: .35; transform: translateY(24px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-drift {
+  to { transform: translateY(56px); opacity: .4; }
+}
+
 /* ===== TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées) ===== */
 /* Carte cocktail en lien simple (pas de fiche modale sur l'accueil) */
 a.cocktail-teaser { text-decoration: none; color: inherit; }
