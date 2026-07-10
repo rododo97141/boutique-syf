@@ -947,6 +947,9 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
 }
 .ticket-search:focus-within { border-color: var(--passion); box-shadow: 0 0 0 3px rgba(var(--passion-rgb), .12); }
+/* Variante dans la section billetterie (chantier C : la nav est identique
+   sur les 6 pages, la recherche vit avec les filtres qu'elle pilote) */
+.ticket-search-inline { display: flex; max-width: 520px; margin-bottom: 20px; }
 .ticket-search svg { width: 17px; height: 17px; color: var(--grey); flex-shrink: 0; }
 .ticket-search input { flex: 1; background: none; border: none; outline: none; color: var(--cream); font-size: .9rem; }
 .ticket-search input::placeholder { color: rgba(var(--cream-rgb), .35); }
@@ -2356,8 +2359,6 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
 @media (min-width: 1024px) {
   .nav-links { display: flex; }
   .burger { display: none; }
-  .page-events .burger { display: flex; }
-  .ticket-search { display: flex; }
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
   .vision-grid { grid-template-columns: repeat(3, 1fr); }
