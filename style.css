@@ -203,6 +203,25 @@ html[data-theme="light"] .section-cream::after { background: linear-gradient(0de
   html { scroll-behavior: auto; }
 }
 
+/* ===== VIEW TRANSITIONS (navigation entre pages, MPA cross-document) =====
+   Fondu doux 300ms (easing charte) + morphing du logo SYFIR d'une page à
+   l'autre. Les navigateurs sans support ignorent ces règles (repli
+   silencieux : navigation classique). */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease);
+}
+.nav-logo { view-transition-name: syfir-logo; }
+::view-transition-group(syfir-logo) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
 /* (03. Préloader retiré au lot 8) */
 
 /* ===== 04. NAVIGATION ===== */
