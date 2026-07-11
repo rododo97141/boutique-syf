@@ -173,6 +173,8 @@
     const count = tierQty.reduce((s2, q) => s2 + q, 0);
     ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie.`;
     ok.hidden = false;
+    ok.parentNode.querySelector('.ticket-peak')?.remove();
+    if (S.ticketPeakHTML) ok.insertAdjacentHTML('afterend', S.ticketPeakHTML({ num, event: ev.name, date: ev.date }));
     $('#edCalAfter').hidden = false;
     toast('🎉 C\'est dans la poche !');
   });

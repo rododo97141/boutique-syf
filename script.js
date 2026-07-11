@@ -1149,6 +1149,23 @@ if (placeModal && placesGridEl) {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
   };
 
+  // Pic émotionnel (R3) — la confirmation d'achat devient LE moment signature :
+  // onde or/sunset, le billet QR comme objet précieux, la signature « À très
+  // vite. — SYFIR ». Partagé par la billetterie et la fiche événement.
+  const ticketPeakHTML = ({ num, event, date }) => {
+    const qr = makeQR(`SYFIR|${num || ''}|${event}|${date}`);
+    return `
+      <div class="ticket-peak" role="group" aria-label="Billet confirmé">
+        <span class="ticket-peak-splash" aria-hidden="true"></span>
+        <div class="ticket-peak-card">
+          ${qr ? `<span class="qr-code" role="img" aria-label="QR code du billet ${esc(num || '')}">${qr}</span>` : ''}
+          <p class="ticket-peak-num">N° ${esc(num || '')}</p>
+        </div>
+        <p class="ticket-peak-sign">À très vite.<span>— SYFIR</span></p>
+      </div>`;
+  };
+  window.SYFIR.ticketPeakHTML = ticketPeakHTML;
+
   /* ===== 23. NEWSLETTER (footer + inline, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
     form.addEventListener('submit', async e => {
@@ -1721,6 +1738,8 @@ if (placeModal && placesGridEl) {
     const prenom = firstNameOf((store.get('syfir-user', null) || {}).name);
     ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace.`;
     ok.hidden = false;
+    ok.parentNode.querySelector('.ticket-peak')?.remove();
+    ok.insertAdjacentHTML('afterend', ticketPeakHTML({ num, event: currentEvent.name, date: currentEvent.date }));
     $('#tmCalendar').hidden = false;
     renderMyTicketsHook?.();
   });
