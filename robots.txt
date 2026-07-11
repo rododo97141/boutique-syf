@@ -1,0 +1,9 @@
+# SYFIR — Le Cocktail Libre™
+# Site public : tout est indexable. Un âge gate 18+ s'affiche côté client
+# (JS) mais ne bloque pas les robots — le contenu reste crawlable.
+User-agent: *
+Allow: /
+
+# TODO : remplacer le domaine ci-dessous par le domaine définitif
+# (ex. https://www.syfir.fr) avant la mise en ligne — cf. README.
+Sitemap: https://www.syfir.fr/sitemap.xml
