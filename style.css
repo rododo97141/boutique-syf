@@ -2609,3 +2609,20 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   .ticket-peak-splash { display: none; }
   .ticket-peak-card, .ticket-peak-sign { animation: none; }
 }
+
+/* La fin signée (R3) — ponctuation de marque en pied de chaque page :
+   wordmark Unbounded + « Goûte à la liberté. » en Fraunces italique or.
+   Même rythme partout (mémorisation par répétition élégante). */
+.brand-sign {
+  text-align: center; padding: 8px 20px 52px; margin-bottom: 48px;
+  border-bottom: 1px solid rgba(var(--passion-rgb), .12);
+}
+.brand-sign-mark {
+  font-family: var(--display); font-weight: 800; color: inherit;
+  font-size: clamp(2.6rem, 10vw, 6.5rem); letter-spacing: .04em; line-height: .95;
+}
+.brand-sign-slogan {
+  margin-top: 14px; font-family: var(--serif); font-style: italic;
+  font-size: clamp(1.2rem, 3.6vw, 1.9rem);
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
