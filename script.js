@@ -749,7 +749,7 @@
 
   // Accueil : la vidéo publicitaire officielle SYFIR (« la fraîcheur qu'on
   // voit » — mouvement dès le premier écran). Poster = photo LCP du hero.
-  injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.jpg');
+  injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.webp');
   // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
   injectHeroVideo($('.tickets-hero'), ['videos/ambiance-sunset.mp4', 'https://www.pexels.com/download/video/9640964/'],
     'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80');
