@@ -77,6 +77,7 @@
     <div class="ed-hero">
       <img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
+      ${(() => { const st = S.stockLabel(ev); return st ? `<span class="stock-badge ${st.cls} ed-stock">${st.text}</span>` : ''; })()}
     </div>
     <div class="ed-body container">
       <div class="ed-main">
@@ -110,7 +111,9 @@
         <div id="edTiers"></div>
         <div class="ed-foot" id="edFoot">
           <div class="ed-total"><span>Total</span><strong id="edTotal">${S.euro(0)}</strong></div>
-          <button class="btn btn-solid btn-full" id="edBuy" disabled>Réserver mes billets</button>
+          ${(() => { const st = S.stockLabel(ev); return st && st.soldOut
+            ? '<button class="btn btn-ghost btn-full" id="edBuy" type="button" disabled>Complet — plus de billets</button>'
+            : '<button class="btn btn-solid btn-full" id="edBuy" disabled>Réserver mes billets</button>'; })()}
         </div>
         <p class="form-success" id="edSuccess" hidden></p>
         <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
@@ -121,6 +124,7 @@
 
   // --- Tunnel billets (même logique que la modale de la billetterie) ---
   const tiersBox = $('#edTiers'), foot = $('#edFoot'), gate = $('#edGate');
+  const soldOut = !!(S.stockLabel(ev) && S.stockLabel(ev).soldOut);
   let tierQty = S.TIERS_DEFAULT.map(() => 0);
 
   const renderTiers = () => {
@@ -138,7 +142,8 @@
       </div>`).join('');
     const total = tierQty.reduce((s, q, i) => s + q * ev.price * S.TIERS_DEFAULT[i].mult, 0);
     $('#edTotal').textContent = S.euro(total);
-    $('#edBuy').disabled = total === 0;
+    // Complet : le bouton reste désactivé quoi qu'il arrive (rareté honnête)
+    $('#edBuy').disabled = soldOut || total === 0;
   };
 
   const showTickets = unlocked => {

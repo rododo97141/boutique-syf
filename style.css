@@ -1055,6 +1055,20 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   background: rgba(var(--ink-rgb), .8); color: var(--passion); backdrop-filter: blur(6px);
 }
 .event-tag.tag-prive { background: var(--ink); color: var(--coral); }
+/* Rareté honnête : badge d'état, affiché seulement si les données le disent */
+.stock-badge {
+  position: absolute; top: 14px; left: 14px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+}
+.stock-dernieres { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.stock-complet { background: rgba(var(--ink-rgb), .82); color: rgba(var(--cream-rgb), .9); border: 1px solid rgba(var(--cream-rgb), .3); }
+/* variante en ligne (carte accueil, pas de conteneur positionné) */
+.stock-inline { position: static; display: inline-block; margin-top: 6px; }
+.event-card.is-soldout .event-card-media img { filter: grayscale(.4) brightness(.82); }
+/* badge sur la fiche événement (hero) */
+.ed-stock { position: absolute; top: 16px; left: 16px; font-size: .66rem; }
 /* Alignement vertical d'une même rangée : le pied (prix/CTA) et
    l'organisateur restent calés en bas, quel que soit le nombre de
    lignes de tags au-dessus */
@@ -2053,6 +2067,7 @@ html[data-theme="light"] .next-info > small, html[data-theme="light"] .next-date
 html[data-theme="light"] .next-date strong, html[data-theme="light"] .next-countdown { color: var(--gold-deep); }
 html[data-theme="light"] .next-arrow { color: var(--sunset-ink); }
 html[data-theme="light"] .event-reco { color: var(--gold-deep); }
+html[data-theme="light"] .stock-complet { background: rgba(var(--ink-warm-rgb), .85); color: var(--cream); border-color: rgba(var(--cream-rgb), .25); }
 html[data-theme="light"] { --gold-deep: var(--gold-ink); }
 html[data-theme="light"] body { background: var(--cream-warm); color: var(--ink-warm); }
 html[data-theme="light"] nav.scrolled { background: rgba(var(--cream-warm-rgb), .88); box-shadow: 0 1px 0 rgba(var(--gold-rgb), .25); }

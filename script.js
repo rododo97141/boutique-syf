@@ -1130,6 +1130,7 @@ if (placeModal && placesGridEl) {
     } else {
       nextBox.innerHTML = next3.map((ev, i) => {
         const d = new Date(ev.date + 'T12:00:00');
+        const st = window.SYFIR.stockLabel(ev);
         return `
         <a class="next-card" href="evenement.html?id=${ev.id}">
           <span class="next-date"><strong>${d.getDate()}</strong><small>${window.SYFIR.MONTHS[d.getMonth()]}</small></span>
@@ -1137,6 +1138,7 @@ if (placeModal && placesGridEl) {
             <strong>${esc(ev.name)}</strong>
             <small>${ev.time ? '🕘 ' + window.SYFIR.fmtTime(ev.time) + ' · ' : ''}📍 ${esc(ev.city)}</small>
             ${i === 0 ? '<span class="next-countdown" data-countdown="' + ev.date + 'T' + (ev.time || '20:00') + ':00"></span>' : ''}
+            ${st ? `<span class="stock-badge ${st.cls} stock-inline">${st.text}</span>` : ''}
           </span>
           <span class="next-arrow" aria-hidden="true">→</span>
         </a>`;
@@ -1410,7 +1412,7 @@ if (placeModal && placesGridEl) {
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
   /* ===== 30. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
-  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel } = window.SYFIR;
+  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, stockLabel } = window.SYFIR;
   // Fourchette de prix réelle, calculée depuis les paliers (ex. « 20 € – 55 € »)
   const TIER_MULTS = () => TIERS_DEFAULT.map(t => t.mult);
   const priceRange = ev => {
@@ -1441,12 +1443,14 @@ if (placeModal && placesGridEl) {
     const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
+    const stock = stockLabel(ev);
     return `
-    <article class="event-card" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
+    <article class="event-card${stock && stock.soldOut ? ' is-soldout' : ''}" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
         <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy">
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
         <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
+        ${stock ? `<span class="stock-badge ${stock.cls}">${stock.text}</span>` : ''}
         <button class="fav-btn ${fav ? 'on' : ''}" data-fav="${ev.id}" type="button"
                 aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">♥</button>
       </div>
@@ -1457,7 +1461,9 @@ if (placeModal && placesGridEl) {
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}
         <div class="event-card-foot">
           <span class="event-price"><small>Billets</small><strong>${priceRange(ev)}</strong></span>
-          <button class="btn btn-solid btn-sm" data-tickets="${ev.id}">Billets</button>
+          ${stock && stock.soldOut
+            ? '<button class="btn btn-ghost btn-sm" type="button" disabled>Complet</button>'
+            : `<button class="btn btn-solid btn-sm" data-tickets="${ev.id}">Billets</button>`}
         </div>
         <p class="event-organizer">Organisé par ${esc(ev.organizer)}</p>
       </div>

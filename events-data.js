@@ -25,9 +25,9 @@
     { id: 2, name: 'Golden Hour Rooftop', type: 'rooftop', city: 'Paris', venue: 'Le Perchoir', date: '2026-06-26', time: '19:00', price: 35, genres: ['Deep house', 'Soul'],
       img: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80', organizer: 'SYFIR Official', prive: false },
     { id: 3, name: 'Coral Night — Club Edition', type: 'club', city: 'Pointe-à-Pitre', venue: 'Club Azur', date: '2026-07-11', time: '23:00', price: 20, genres: ['Shatta', 'Dancehall'],
-      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80', organizer: 'Club Azur × SYFIR', prive: false },
+      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80', organizer: 'Club Azur × SYFIR', prive: false, stock: 'dernieres' },
     { id: 4, name: 'SYFIR Tropical Festival', type: 'festival', city: 'Le Gosier', venue: 'Plage du Gosier', date: '2026-08-15', time: '16:00', price: 45, genres: ['Soca', 'Zouk', 'Afro house'],
-      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false },
+      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false, stock: 'complet' },
     { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', venue: 'Villa Gustavia', date: '2026-07-18', time: '21:00', price: 80, genres: ['House', 'Konpa'],
       img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
     { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', venue: 'Plage de Grande Anse', date: '2026-06-21', time: '12:00', price: 15, genres: ['Chill', 'Zouk'],
@@ -35,6 +35,15 @@
   ];
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
+
+  // Rareté HONNÊTE : n'affiche un état QUE si le champ `stock` de l'événement
+  // le dit (« complet » | « dernieres »). Aucune invention, aucun faux stock ;
+  // à brancher sur le vrai stock billetterie côté organisateur.
+  const stockLabel = ev => {
+    if (ev && ev.stock === 'complet') return { text: 'Complet', cls: 'stock-complet', soldOut: true };
+    if (ev && ev.stock === 'dernieres') return { text: 'Dernières places', cls: 'stock-dernieres', soldOut: false };
+    return null;
+  };
 
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
   const fmtTime = t => t ? t.replace(':', 'h') : '';
@@ -154,5 +163,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel };
 })();
