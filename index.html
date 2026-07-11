@@ -736,6 +736,7 @@
 
     <!-- Formulaire intelligent -->
     <form class="smart-form reveal d3" id="partnerForm" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
       <fieldset class="form-choice">
         <legend>Ta demande</legend>
         <label class="choice-card">
@@ -808,6 +809,7 @@
 
       <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
       <p class="form-success" id="formSuccess" hidden>✦ Merci ! Ta demande a bien été envoyée. L'équipe SYFIR te répond sous 48 h.</p>
+      <p class="form-error" id="formError" role="alert" hidden>Oups, l'envoi a échoué. Réessaie, ou écris-nous directement à contact@syfir.fr.</p>
     </form>
 
     <!-- Partenaires & investisseurs — les 3 arguments du dossier fondateur,
@@ -938,6 +940,7 @@
       <div class="footer-logo">SYFIR<span>™</span></div>
       <p>Le Cocktail Libre™.<br>Des instants de vie, des expériences —<br>et des cocktails premium pour les accompagner.</p>
       <form class="footer-news" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
         <label for="nlEmail">Reçois les prochaines soirées ✦</label>
         <div class="footer-news-row">
           <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>

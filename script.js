@@ -54,6 +54,29 @@
     set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
   };
 
+  /* ===== 01b. ENDPOINT DES FORMULAIRES (newsletter + partenaire) =====
+     Vide = mode démo : confirmation locale, AUCUN envoi réseau.
+     Pour brancher un vrai envoi, renseigner FORM_ENDPOINT :
+       • Formspree (le plus simple, zéro backend) :
+           'https://formspree.io/f/xxxxxxxx'  (crée le form sur formspree.io)
+       • Brevo / Mailchimp / autre : une URL qui accepte un POST JSON.
+     Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
+     invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
+  const FORM_ENDPOINT = '';
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const submitForm = async data => {
+    if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
+    if (!FORM_ENDPOINT) return { ok: true, demo: true };      // mode démo
+    try {
+      const r = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return { ok: r.ok };
+    } catch { return { ok: false }; }
+  };
+
   /* ===== 02. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
   // Anciennes ancres de l'accueil -> pages dédiées (transposition maquette).
   // On ne redirige que si la cible n'existe pas sur la page courante.
@@ -890,7 +913,7 @@ if (placeModal && placesGridEl) {
       });
     });
 
-    partnerForm.addEventListener('submit', e => {
+    partnerForm.addEventListener('submit', async e => {
       e.preventDefault();
       const consent = $('#pfConsent');
       const ok = [
@@ -901,12 +924,29 @@ if (placeModal && placesGridEl) {
         $('.invalid', partnerForm)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
-      partnerForm.reset();
-      $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
-      const success = $('#formSuccess');
-      success.hidden = false;
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+      const success = $('#formSuccess'), errorMsg = $('#formError');
+      const submitBtn = partnerForm.querySelector('button[type="submit"]');
+      const data = {
+        _gotcha: $('input[name="_gotcha"]', partnerForm)?.value || '',
+        type: $('input[name="requestType"]:checked', partnerForm)?.value,
+        name: $('#pfName').value.trim(), email: $('#pfEmail').value.trim(),
+        phone: $('#pfPhone').value.trim(), context: $('#pfContext').value.trim(),
+        message: $('#pfMessage').value.trim(), source: 'partenaire'
+      };
+      const label = submitBtn.textContent; submitBtn.disabled = true; submitBtn.textContent = 'Envoi…';
+      if (errorMsg) errorMsg.hidden = true;
+      const res = await submitForm(data);
+      submitBtn.disabled = false; submitBtn.textContent = label;
+      if (res.ok) {
+        partnerForm.reset();
+        $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+      } else if (errorMsg) {
+        errorMsg.hidden = false;
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
   }
 
@@ -1109,29 +1149,33 @@ if (placeModal && placesGridEl) {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
   };
 
-  /* ===== 23. NEWSLETTER (footer, toutes pages) ===== */
+  /* ===== 23. NEWSLETTER (footer + inline, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const input = form.querySelector('input[type="email"]');
       const msg = form.querySelector('.footer-news-msg');
+      const btn = form.querySelector('button[type="submit"]');
       const email = input.value.trim();
-      msg.hidden = false;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      const hp = form.querySelector('input[name="_gotcha"]')?.value || '';
+      msg.hidden = false; msg.classList.remove('is-error');
+      if (!emailRe.test(email)) {
         msg.textContent = 'Entre une adresse email valide.';
         msg.classList.add('is-error');
         input.focus();
         return;
       }
-      // TODO : brancher l'endpoint d'emailing (Brevo ou Mailchimp). Exemple Brevo :
-      // fetch('https://api.brevo.com/v3/contacts', {
-      //   method: 'POST',
-      //   headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, listIds: [ID_LISTE_SYFIR], updateEnabled: true })
-      // }).then(...)
-      msg.classList.remove('is-error');
-      msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
-      form.reset();
+      const label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = '…'; }
+      const res = await submitForm({ email, _gotcha: hp, source: 'newsletter' });
+      if (btn) { btn.disabled = false; btn.textContent = label; }
+      if (res.ok) {
+        msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
+        form.reset();
+      } else {
+        msg.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
+        msg.classList.add('is-error');
+      }
     });
   });
 

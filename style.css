@@ -887,6 +887,13 @@ textarea { resize: vertical; }
   background: rgba(var(--success-rgb), .12); border: 1px solid rgba(var(--success-rgb), .4);
   color: var(--success-light); animation: slideIn .5s var(--ease);
 }
+.form-error {
+  margin-top: 20px; padding: 16px 20px; border-radius: 12px;
+  background: rgba(var(--coral-rgb), .12); border: 1px solid rgba(var(--coral-rgb), .5);
+  color: var(--coral); animation: slideIn .5s var(--ease);
+}
+/* Honeypot anti-spam : hors écran, ignoré par l'humain, piégé pour les bots */
+.hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
 /* ===== 14. COMMUNAUTÉ — galerie Instagram ===== */
 .insta-grid {
