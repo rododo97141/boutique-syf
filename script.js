@@ -702,6 +702,25 @@
       wrap.querySelector('source:last-of-type').addEventListener('error', () => wrap.remove());
       v.addEventListener('error', () => wrap.remove());
       host.insertBefore(wrap, host.querySelector('.hero-veil'));
+
+      // Relance défensive de l'autoplay : certains navigateurs ignorent
+      // l'autoplay au chargement (readyState OK mais lecture non lancée).
+      // On (re)tente play() en silence — au chargement, puis à la première
+      // interaction utilisateur et au retour d'onglet. Si tout échoue, le
+      // poster reste (déjà le cas). Les écouteurs se retirent dès que ça joue.
+      const tryPlay = () => { const pr = v.play(); if (pr) pr.catch(() => {}); };
+      const kick = () => { if (!v.paused) return cleanup(); tryPlay(); };
+      const onVis = () => { if (!document.hidden) kick(); };
+      const events = ['pointerdown', 'touchstart', 'scroll', 'keydown'];
+      const cleanup = () => {
+        events.forEach(e => removeEventListener(e, kick));
+        document.removeEventListener('visibilitychange', onVis);
+      };
+      v.addEventListener('playing', cleanup, { once: true });
+      v.addEventListener('loadeddata', tryPlay, { once: true });
+      tryPlay();
+      events.forEach(e => addEventListener(e, kick, { passive: true, once: false }));
+      document.addEventListener('visibilitychange', onVis);
     }, { once: true });
   };
 
