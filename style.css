@@ -1929,6 +1929,43 @@ html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { backgr
   to { transform: translateY(56px); opacity: .4; }
 }
 
+/* ===== 33b. SCROLLYTELLING SAVEURS — « l'histoire du Planteur » (5 scènes) =====
+   CSS scroll-driven pur (compositor only), repli statique si non supporté
+   ou prefers-reduced-motion. Sobre : 5 scènes, pas 15. */
+.saveurs-story { background: var(--ocean-deep); overflow: hidden; }
+.story-track { list-style: none; max-width: 1080px; margin: 48px auto 0; padding: 0 6vw; display: grid; gap: 64px; }
+.story-scene {
+  display: grid; gap: 28px; align-items: center; position: relative;
+}
+.story-num {
+  font-family: var(--display); font-weight: 800; font-size: 1rem;
+  color: var(--passion); letter-spacing: .1em;
+}
+.story-media { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink-soft); }
+.story-media img { width: 100%; height: 100%; object-fit: cover; }
+.story-text h3 {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 3.4vw, 2rem);
+  line-height: 1.14; margin-bottom: 12px;
+}
+.story-text h3 em { font-family: var(--serif); font-style: italic; font-weight: 400;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.story-text p { color: rgba(var(--cream-rgb), .78); font-size: 1.02rem; max-width: 46ch; }
+@media (min-width: 760px) {
+  .story-scene { grid-template-columns: 1fr 1fr; gap: 48px; }
+  .story-scene:nth-child(even) .story-media { order: 2; }
+  .story-num { position: absolute; top: -8px; left: -4px; }
+  .story-scene:nth-child(even) .story-num { left: auto; right: -4px; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .story-scene { animation: story-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+  }
+}
+@keyframes story-rise {
+  from { opacity: .3; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ===== 34. TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées) ===== */
 /* Carte cocktail en lien simple (pas de fiche modale sur l'accueil) */
 a.cocktail-teaser { text-decoration: none; color: inherit; }
