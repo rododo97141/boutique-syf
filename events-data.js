@@ -44,11 +44,20 @@
     return lo === hi ? euro(lo) : `${euro(lo)} – ${euro(hi)}`;
   };
   // Compte à rebours sobre : « Dans 2 j 14 h » / « Dans 3 h 12 min » / '' si passé
+  // Urgence HONNÊTE basée sur la vraie date/heure : « J-3 », « J-1 »,
+  // « Ce soir », « Dans 3 h », « Dans 20 min ». Jamais de faux compteur.
   const countdownText = iso => {
-    const ms = new Date(iso) - Date.now();
-    if (ms <= 0) return '';
-    const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
-    return d > 0 ? `Dans ${d} j ${h} h` : h > 0 ? `Dans ${h} h ${m} min` : `Dans ${m} min`;
+    const target = new Date(iso), now = new Date();
+    const ms = target - now;
+    if (ms <= 0) return '';                       // passé (déjà masqué ailleurs)
+    const startOfDay = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const dayDiff = Math.round((startOfDay(target) - startOfDay(now)) / 864e5);
+    const h = Math.floor(ms / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    if (dayDiff >= 2) return `J-${dayDiff}`;
+    if (dayDiff === 1) return 'J-1';              // demain
+    if (h < 1) return `Dans ${m} min`;            // dernière heure : minutes précises
+    if (target.getHours() >= 18) return 'Ce soir';
+    return `Dans ${h} h`;
   };
 
   const mapsUrl = ev => 'https://www.google.com/maps/search/?api=1&query=' +
