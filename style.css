@@ -2523,3 +2523,29 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
   html { font-size: 17.5px; }
   .moments-track { padding-inline: calc((100vw - 1440px) / 2); }
 }
+
+/* ============================================================
+   40. IMMERSION (R3) — fil narratif sensoriel + micro-sensations
+   ============================================================ */
+
+/* Grade couleur du fond, en vignette (centre transparent = lecture intacte).
+   Statique par défaut ; anime la température au scroll si supporté + motion OK. */
+.ambience {
+  position: fixed; inset: 0; z-index: 40; pointer-events: none;
+  background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .08) 100%);
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ambience {
+      animation: ambient-grade linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes ambient-grade {
+  0%   { background: radial-gradient(115% 115% at 50% 45%, transparent 40%, rgba(var(--gold-rgb), .05) 100%); }   /* aube douce */
+  25%  { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .12) 100%); }   /* golden hour — saveurs */
+  50%  { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--sunset-rgb), .13) 100%); } /* sunset — événements */
+  75%  { background: radial-gradient(115% 115% at 50% 45%, transparent 36%, rgba(var(--ocean-deep-rgb), .20) 100%); } /* nuit océan — artistes */
+  100% { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .13) 100%); }   /* braise dorée — moments/fin */
+}
