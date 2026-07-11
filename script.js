@@ -1020,7 +1020,7 @@ if (placeModal && placesGridEl) {
         const x = (e.clientX - r.left) / r.width - .5;   // -.5 → .5
         const y = (e.clientY - r.top) / r.height - .5;
         el.style.transition = 'none'; // suivi immédiat sous le pointeur
-        el.style.transform = `perspective(800px) rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg)`;
+        el.style.transform = `perspective(800px) rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg) scale(1.02)`;
       });
       el.addEventListener('pointerleave', () => {
         el.style.transition = 'transform 180ms var(--ease)';

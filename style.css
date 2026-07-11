@@ -679,7 +679,8 @@ nav.scrolled {
   box-shadow: 0 12px 40px rgba(var(--ink-rgb), .1);
   transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
 }
-.cocktail-card:hover { transform: translateY(-10px); box-shadow: 0 30px 70px rgba(var(--sunset-rgb), .22); }
+/* Micro-sensation (R3) : la pochette « respire » — léger scale + ombre chaude */
+.cocktail-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 64px rgba(var(--sunset-rgb), .26); }
 /* Cadrage uniforme 5:4, sujet centré (standard food delivery) */
 .cocktail-media { position: relative; overflow: hidden; aspect-ratio: 5 / 4; }
 .cocktail-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
@@ -2423,6 +2424,7 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
 @media (prefers-reduced-motion: reduce) {
   .btn-solid:hover::before, .btn-gradient:hover::before { animation: none; }
   .cocktail-card:hover .cocktail-media::before { transition: none; }
+  .cocktail-card:hover, .cocktail-card:hover .cocktail-media img { transform: none; }
 }
 
 /* ===== 38. RESPONSIVE ===== */
