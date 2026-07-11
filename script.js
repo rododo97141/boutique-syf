@@ -22,7 +22,7 @@
    17. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages)
    18. FAB BILLETS : un seul CTA principal par écran
    19. VIDÉO D'AMBIANCE (accueil, communauté)
-   20. TILT 3D LÉGER (data-tilt : vitrines du sachet)
+   20. TILT 3D LÉGER (data-tilt : vitrines de la pochette)
    21. PWA : enregistrement du service worker
    22. QR CODE — encodeur inline, zéro dépendance
    23. NEWSLETTER (footer, toutes pages)
@@ -1008,7 +1008,7 @@ if (placeModal && placesGridEl) {
     }
   }
 
-  /* ===== 20. TILT 3D LÉGER (data-tilt : vitrines du sachet) =====
+  /* ===== 20. TILT 3D LÉGER (data-tilt : vitrines de la pochette) =====
      Perspective + rotateX/Y suivant le pointeur, 6° max, retour doux
      180 ms. Souris uniquement : rien au tactile ni en reduced-motion. */
   const tiltEls = $$('[data-tilt]');

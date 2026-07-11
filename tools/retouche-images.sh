@@ -56,9 +56,9 @@ retouche() {           # retouche <fichier source> <nom de sortie sans extension
 }
 
 # Correspondances originaux → produits (identifiées visuellement, cf. HANDOFF)
-retouche "$ORIG"/Generated*1_35PM-3.png  syf-planteur-1      # sachet seul, plage
+retouche "$ORIG"/Generated*1_35PM-3.png  syf-planteur-1      # pochette seule, plage
 retouche "$ORIG"/Generated*1_35PM-2.png  syf-planteur-2      # flat lay vu de dessus
-retouche "$ORIG"/ChatGPT*09_58_39.png    syf-planteur-3      # duo sachet + verre
+retouche "$ORIG"/ChatGPT*09_58_39.png    syf-planteur-3      # duo pochette + verre
 retouche "$ORIG"/ChatGPT*09_40_43.png    syf-planteur-verre  # verre seul
 
 # ============================================================

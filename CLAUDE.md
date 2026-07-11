@@ -69,6 +69,18 @@ transitions `180ms` / `300ms` `cubic-bezier(.16,1,.3,1)` —
   **jargon marketing interdit**.
 - Les textes doivent pouvoir être **lus à voix haute dans un bar sans sonner faux**.
 
+### Lexique de marque
+
+Le vocabulaire porte la valeur. **Ces mots sont la loi** ; tout nouveau texte
+(visible, `alt`, `aria-label`, meta, JSON-LD, README) les respecte.
+
+| Dire | Jamais | Pourquoi |
+|---|---|---|
+| **pochette** (LA pochette) | ~~sachet~~ | Évoque la maroquinerie, colle au visuel marbre-or, effet premium. **Féminin** : accorder (*la* pochette, scellé**e**, dorée, réell**e**, entouré**e**, prêt**es**) ; réécrire la formule pour qu'elle sonne (« le soleil **en pochette** », « la golden hour **en pochette** », « **La** pochette, format liberté »), jamais un chercher-remplacer mécanique. |
+
+> Seuls les **noms de fichiers** d'assets historiques peuvent garder `sachet`
+> (`syfir-sachet-*`) : ce sont des chemins, pas du texte de marque.
+
 ## 5. Boucle fermée
 
 1. **Lire ce fichier** avant toute modification.

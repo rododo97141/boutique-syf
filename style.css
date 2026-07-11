@@ -704,7 +704,7 @@ nav.scrolled {
 .cocktail-notes { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--sunset); margin: 8px 0 12px; }
 .cocktail-desc { font-family: var(--serif); font-style: italic; color: var(--grey-ink-2); margin-bottom: 20px; }
 
-/* Modes de dégustation : sur place (verre) / à emporter (sachet) */
+/* Modes de dégustation : sur place (verre) / à emporter (pochette) */
 .serve-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .serve-tag {
   font-size: .74rem; font-weight: 600; letter-spacing: .04em;

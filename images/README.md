@@ -10,13 +10,13 @@ s'affiche à sa place — aucune image cassée n'apparaîtra jamais.
 | Nom exact du fichier | Où il apparaît | Visuel conseillé |
 |---|---|---|
 | `syfir-logo.png` | Logo dans la barre de navigation | L'emblème déesse-soleil seul (idéalement fond transparent) |
-| `syfir-hero.png` | Grand fond de la page d'accueil (secours) | Le visuel plage avec sachet et « LE COCKTAIL LIBRE ! » |
-| `syfir-planteur-hero.webp` | Grand fond de la page d'accueil (prioritaire) | Le sachet Syf Planteur en gros plan, format paysage — idéalement en `.webp` optimisé |
-| `syfir-planteur.png` | Carte « Syf Planteur™ » | Le sachet Saveur-Planteurs seul, en gros plan |
+| `syfir-hero.png` | Grand fond de la page d'accueil (secours) | Le visuel plage avec pochette et « LE COCKTAIL LIBRE ! » |
+| `syfir-planteur-hero.webp` | Grand fond de la page d'accueil (prioritaire) | La pochette Syf Planteur en gros plan, format paysage — idéalement en `.webp` optimisé |
+| `syfir-planteur.png` | Carte « Syf Planteur™ » | La pochette Saveur-Planteurs seule, en gros plan |
 | `syfir-danseuse.png` | Section « Notre marque » | La danseuse carnaval (cadrage vertical de préférence) |
-| `syfir-mobile.png` | Bannière « Votre été, partout » | Le sachet à la plage « Cocktail mobile » |
+| `syfir-mobile.png` | Bannière « Votre été, partout » | La pochette à la plage « Cocktail mobile » |
 | `syfir-fete.png` | Galerie #SYFIR (1ʳᵉ photo) | Les amis qui trinquent (piscine, rooftop ou bateau) |
-| `syfir-flatlay.png` | Galerie #SYFIR (2ᵉ photo) | Le sachet vu de dessus entouré de fruits |
+| `syfir-flatlay.png` | Galerie #SYFIR (2ᵉ photo) | La pochette vue de dessus entourée de fruits |
 | `artiste-solaris.png` | Section Artistes & DJs — DJ Solaris | Portrait / DJ aux platines |
 | `artiste-kreyol.png` | Section Artistes & DJs — Kréyòl Sound System | Groupe en live |
 | `artiste-maya.png` | Section Artistes & DJs — Maya Lumière | Chanteuse au micro |
@@ -65,9 +65,9 @@ garder le site rapide.
 
 | Fichier exact | Produit |
 |---|---|
-| `syf-planteur-1.jpg` | ✅ REÇUE — sachet Planteur sur table en bois, plage (visuel principal + og:image du site) |
-| `syf-planteur-2.jpg` | ✅ REÇUE — flat lay du sachet entouré de fruits (galerie) |
-| `syf-planteur-3.jpg` | ✅ REÇUE — sachet + verre face à la plage (galerie) |
+| `syf-planteur-1.jpg` | ✅ REÇUE — pochette Planteur sur table en bois, plage (visuel principal + og:image du site) |
+| `syf-planteur-2.jpg` | ✅ REÇUE — flat lay de la pochette entourée de fruits (galerie) |
+| `syf-planteur-3.jpg` | ✅ REÇUE — pochette + verre face à la plage (galerie) |
 | `syf-planteur-verre.jpg` | ✅ REÇUE — verre de Planteur, format « Sur place » |
 | `syf-coral-1.jpg` / `syf-coral-2.jpg` | Photos officielles Syf Coral Breeze (en attente) |
 | `syf-golden-1.jpg` / `syf-golden-2.jpg` | Photos officielles Syf Golden Escape (en attente) |

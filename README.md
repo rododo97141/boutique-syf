@@ -1,6 +1,6 @@
 # SYFIR — Le Cocktail Libre™
 
-Site vitrine + billetterie de **SYFIR**, marque de cocktails premium en sachet
+Site vitrine + billetterie de **SYFIR**, marque de cocktails premium en pochette
 (univers Antilles/Guadeloupe : plage, carnaval, golden hour).
 
 **Stack** : HTML / CSS / JavaScript **vanilla**, zéro dépendance, zéro build.
