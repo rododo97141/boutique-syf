@@ -1485,6 +1485,80 @@ if (placeModal && placesGridEl) {
   });
   }
 
+  /* ===== LIGHTBOX MOMENTS (R3) — les vraies photos en plein écran =====
+     Toutes pages : clic/Entrée sur une photo -> plein écran ; flèches/swipe
+     pour naviguer, Échap ou fond pour fermer. Pour être DANS le moment.
+     Placé AVANT le garde billetterie pour tourner sur actualite.html. */
+  (function initLightbox() {
+    const grids = $$('.moments-grid, .insta-grid');
+    if (!grids.length) return;
+
+    const lb = document.createElement('div');
+    lb.className = 'lightbox'; lb.hidden = true;
+    lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo en plein écran');
+    lb.innerHTML =
+      '<button class="lightbox-close" type="button" aria-label="Fermer">✕</button>' +
+      '<button class="lightbox-nav lightbox-prev" type="button" aria-label="Photo précédente">‹</button>' +
+      '<figure class="lightbox-stage"><img class="lightbox-img" alt=""><figcaption class="lightbox-cap"></figcaption></figure>' +
+      '<button class="lightbox-nav lightbox-next" type="button" aria-label="Photo suivante">›</button>' +
+      '<p class="lightbox-count" aria-hidden="true"></p>';
+    document.body.appendChild(lb);
+
+    const lbImg = $('.lightbox-img', lb), lbCap = $('.lightbox-cap', lb), lbCount = $('.lightbox-count', lb);
+    let group = [], idx = 0, lastFocus = null;
+
+    const show = i => {
+      idx = (i + group.length) % group.length;
+      const img = group[idx];
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt || '';
+      lbCap.textContent = img.alt || '';
+      lbCount.textContent = (idx + 1) + ' / ' + group.length;
+    };
+    const open = (g, i) => {
+      group = g; lastFocus = document.activeElement;
+      lb.hidden = false; document.body.style.overflow = 'hidden';
+      show(i);
+      $('.lightbox-close', lb).focus();
+    };
+    const close = () => {
+      lb.hidden = true; document.body.style.overflow = '';
+      lbImg.removeAttribute('src');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    $('.lightbox-close', lb).addEventListener('click', close);
+    $('.lightbox-prev', lb).addEventListener('click', () => show(idx - 1));
+    $('.lightbox-next', lb).addEventListener('click', () => show(idx + 1));
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(idx - 1);
+      else if (e.key === 'ArrowRight') show(idx + 1);
+    });
+    let sx = 0;
+    lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    grids.forEach(grid => {
+      const imgs = $$('img', grid);
+      imgs.forEach((img, i) => {
+        const trig = img.closest('a') || img;
+        trig.style.cursor = 'zoom-in';
+        if (trig === img) { img.setAttribute('role', 'button'); img.setAttribute('tabindex', '0'); }
+        trig.addEventListener('click', e => { e.preventDefault(); open(imgs, i); });
+        if (trig === img) trig.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(imgs, i); }
+        });
+      });
+    });
+  })();
+
   /* ============================================================
      PAGE ÉVÉNEMENTS — billetterie & espace pro
   ============================================================ */

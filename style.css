@@ -2626,3 +2626,45 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   font-size: clamp(1.2rem, 3.6vw, 1.9rem);
   background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+
+/* Lightbox moments (R3) — les vraies photos en plein écran, pour être DANS
+   le moment. [hidden] gère l'affichage (cf. reset). */
+.lightbox {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(4, 8, 14, .94);
+  animation: lbFade .2s var(--ease);
+}
+@keyframes lbFade { from { opacity: 0; } }
+.lightbox-stage { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lightbox-img {
+  max-width: 92vw; max-height: 78vh; width: auto; height: auto; object-fit: contain;
+  border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+}
+.lightbox-cap { color: rgba(var(--cream-rgb), .8); font-size: .9rem; text-align: center; max-width: 60ch; }
+.lightbox-close, .lightbox-nav {
+  position: absolute; z-index: 1; display: grid; place-items: center;
+  width: 52px; height: 52px; border: none; border-radius: 50%;
+  background: rgba(var(--cream-rgb), .1); color: var(--cream);
+  font-size: 1.7rem; line-height: 1; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.lightbox-close { top: 20px; right: 20px; font-size: 1.3rem; }
+.lightbox-close:hover, .lightbox-nav:hover { background: rgba(var(--cream-rgb), .22); }
+.lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-prev:hover { transform: translateY(-50%) scale(1.06); }
+.lightbox-next:hover { transform: translateY(-50%) scale(1.06); }
+.lightbox-count {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  color: rgba(var(--cream-rgb), .6); font-size: .8rem; letter-spacing: .1em; font-family: var(--display);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox { animation: none; }
+  .lightbox-close, .lightbox-nav { transition: none; }
+}
+@media (max-width: 560px) {
+  .lightbox-prev { left: 8px; } .lightbox-next { right: 8px; }
+  .lightbox-close { top: 12px; right: 12px; }
+  .lightbox-img { max-height: 70vh; }
+}
