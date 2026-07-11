@@ -2549,3 +2549,22 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
   75%  { background: radial-gradient(115% 115% at 50% 45%, transparent 36%, rgba(var(--ocean-deep-rgb), .20) 100%); } /* nuit océan — artistes */
   100% { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .13) 100%); }   /* braise dorée — moments/fin */
 }
+
+/* Hero vivant (R3) — « Goûte à la liberté. » se forme mot par mot à l'arrivée,
+   comme un souvenir. Total ≤ 600 ms, une seule fois par session (cf. head).
+   Escapes : déjà vu -> instantané ; reduced-motion -> instantané. */
+.hero-tagline span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.5em);
+  animation: taglineWord .28s var(--ease) both;
+}
+.hero-tagline span:nth-child(1) { animation-delay: 0s;   }
+.hero-tagline span:nth-child(2) { animation-delay: .10s; }
+.hero-tagline span:nth-child(3) { animation-delay: .20s; }
+.hero-tagline span:nth-child(4) { animation-delay: .30s; }  /* fin à .58s */
+@keyframes taglineWord { to { opacity: 1; transform: none; } }
+html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-tagline span { animation: none; opacity: 1; transform: none; }
+}

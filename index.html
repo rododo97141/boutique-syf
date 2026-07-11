@@ -28,6 +28,12 @@
   var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
   document.documentElement.setAttribute('data-theme', mode);
   document.documentElement.setAttribute('data-theme-pref', pref);
+  // Hero vivant : le slogan se forme mot par mot, une seule fois par session.
+  // Déjà vu cette session -> on marque « seen » (affichage direct, aucun flash).
+  try {
+    if (sessionStorage.getItem('syfir-hero-seen')) document.documentElement.setAttribute('data-tagline-seen', '');
+    else sessionStorage.setItem('syfir-hero-seen', '1');
+  } catch (e) {}
 })();
 </script>
 <!-- Canonical (TODO : base d'URL à confirmer, cf. README/sitemap) -->
@@ -133,7 +139,7 @@
       <span class="hero-line"><span>SYFIR</span></span>
     </h1>
     <p class="hero-sub reveal d2">LE COCKTAIL LIBRE<sup>™</sup></p>
-    <p class="hero-tagline reveal d3">Goûte à la liberté.</p>
+    <p class="hero-tagline" aria-label="Goûte à la liberté."><span aria-hidden="true">Goûte</span> <span aria-hidden="true">à</span> <span aria-hidden="true">la</span> <span aria-hidden="true">liberté.</span></p>
     <div class="hero-cta reveal d4">
       <a href="#saveurs-teaser" class="btn btn-gradient btn-lg">Découvrir l'expérience</a>
     </div>
