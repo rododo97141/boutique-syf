@@ -130,6 +130,10 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* L'attribut [hidden] doit toujours l'emporter : sans ça, une règle
+   d'affichage (display:flex/grid) masque le hidden de l'UA et l'élément
+   reste visible (ex. le bloc « événement introuvable » sur une fiche valide). */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--body);
