@@ -680,33 +680,37 @@
     });
   }
 
-  /* ===== 12. FOND VIDÉO DU HERO (billetterie) =====
-     Vidéo d'ambiance (Pexels) injectée APRÈS l'événement load : le LCP reste
-     l'image de fond CSS actuelle (poster). Sources : fichier local d'abord
-     (videos/ambiance-sunset.mp4, à uploader), hotlink Pexels en secours.
+  /* ===== 12. FOND VIDÉO DU HERO (accueil + billetterie) =====
+     Vidéo injectée APRÈS l'événement load : le LCP reste l'image de fond CSS
+     (poster). N'apparaît qu'une fois la lecture réellement lancée ; si aucune
+     source ne décode (ex. environnement sans codec H.264), l'image reste.
      prefers-reduced-motion ou Save-Data -> pas de vidéo, l'image reste. */
-  const heroVideoHost = $('.tickets-hero');
-  if (heroVideoHost && !reducedMotion && !navigator.connection?.saveData) {
+  const injectHeroVideo = (host, sources, poster) => {
+    if (!host || reducedMotion || navigator.connection?.saveData) return;
     addEventListener('load', () => {
       const wrap = document.createElement('div');
       wrap.className = 'hero-video';
       wrap.setAttribute('aria-hidden', 'true');
       wrap.innerHTML = `
-        <video muted loop autoplay playsinline preload="metadata" tabindex="-1"
-               poster="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80">
-          <source src="videos/ambiance-sunset.mp4" type="video/mp4">
-          <source src="https://www.pexels.com/download/video/9640964/" type="video/mp4">
+        <video muted loop autoplay playsinline preload="metadata" tabindex="-1" poster="${poster}">
+          ${sources.map(s => `<source src="${s}" type="video/mp4">`).join('')}
         </video>`;
       const v = wrap.querySelector('video');
-      // n'apparaît qu'une fois la lecture réellement lancée (sinon l'image reste)
       v.addEventListener('playing', () => wrap.classList.add('on'), { once: true });
+      // l'événement error d'une <source> ne remonte pas jusqu'au <video> :
       // l'échec de la DERNIÈRE source signifie qu'aucune vidéo n'est disponible
-      // (l'événement error d'une <source> ne remonte pas jusqu'au <video>)
       wrap.querySelector('source:last-of-type').addEventListener('error', () => wrap.remove());
       v.addEventListener('error', () => wrap.remove());
-      heroVideoHost.insertBefore(wrap, heroVideoHost.querySelector('.hero-veil'));
+      host.insertBefore(wrap, host.querySelector('.hero-veil'));
     }, { once: true });
-  }
+  };
+
+  // Accueil : la vidéo publicitaire officielle SYFIR (« la fraîcheur qu'on
+  // voit » — mouvement dès le premier écran). Poster = photo LCP du hero.
+  injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.jpg');
+  // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
+  injectHeroVideo($('.tickets-hero'), ['videos/ambiance-sunset.mp4', 'https://www.pexels.com/download/video/9640964/'],
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80');
 
   /* ===== 13. FICHE PRODUIT COCKTAIL (modale) ===== */
   const cocktailModal = $('#cocktailModal');
