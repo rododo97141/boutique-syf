@@ -2805,3 +2805,66 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 .tv-hero-img { transition: transform var(--dur-med) var(--ease); }
 .tv-hero-slide:hover .tv-hero-img { transform: scale(1.03); }
 @media (prefers-reduced-motion: reduce) { .tv-hero-slide:hover .tv-hero-img { transform: none; } }
+
+/* ============================================================
+   43. NAV PILULE FLOTTANTE (R8-A) — logo | pilule centrale | icônes
+   ============================================================ */
+.nav-pill { display: none; }
+@media (min-width: 1024px) {
+  .nav-pill {
+    display: flex; align-items: center;
+    padding: 6px 10px; border-radius: 999px;
+    background: rgba(var(--cream-rgb), .07);
+    border: 1px solid rgba(var(--cream-rgb), .13);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+  .nav-pill .nav-links { display: flex; gap: 4px; margin: 0; padding: 0; }
+}
+.nav-item { position: relative; }
+.nav-pill .nav-link { padding: 8px 15px; border-radius: 999px; }
+.nav-pill .nav-link::after { display: none; }
+.nav-pill .nav-link:hover,
+.nav-pill .has-drop:focus-within > .nav-link,
+.nav-pill .nav-link.active { background: rgba(var(--cream-rgb), .13); color: var(--cream); }
+.nav-link-event { color: var(--passion); }
+/* Dropdowns (Saveurs, SYF TV) */
+.nav-drop {
+  position: absolute; top: calc(100% + 12px); left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 224px; padding: 8px; border-radius: 16px; z-index: 120;
+  background: rgba(var(--ocean-deep-rgb), .97);
+  border: 1px solid rgba(var(--passion-rgb), .18);
+  box-shadow: 0 22px 60px rgba(var(--black-rgb), .5);
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), visibility var(--dur-fast);
+}
+.has-drop:hover .nav-drop, .has-drop:focus-within .nav-drop {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0);
+}
+.nav-drop a {
+  display: block; padding: 10px 14px; border-radius: 10px; white-space: nowrap;
+  font-family: var(--body); font-size: .88rem; color: rgba(var(--cream-rgb), .82);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.nav-drop a:hover { background: rgba(var(--passion-rgb), .14); color: var(--cream); }
+/* Icônes à droite (recherche, profil) */
+.nav-icon {
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  background: none; border: 1.5px solid rgba(var(--passion-rgb), .32); color: var(--cream);
+  transition: transform var(--dur-fast) var(--ease), background var(--dur-fast), border-color var(--dur-fast);
+}
+.nav-icon:hover { transform: translateY(-2px); background: rgba(var(--passion-rgb), .12); border-color: var(--passion); }
+.nav-icon svg { display: block; }
+/* Profil connecté (l'avatar+nom injecté par JS) : la pilule s'élargit */
+#clientSpaceBtn.is-logged { width: auto; border-radius: 999px; padding: 0 15px 0 8px; gap: 4px;
+  font-family: var(--body); font-weight: 600; font-size: .85rem; }
+/* Nav compacte au scroll (reste flottante) */
+nav.scrolled { height: calc(var(--nav-h) - 8px); }
+/* Thème clair : pilule et icônes lisibles */
+html[data-theme="light"] .nav-pill { background: rgba(var(--ink-warm-rgb), .06); border-color: rgba(var(--ink-warm-rgb), .12); }
+html[data-theme="light"] .nav-pill .nav-link { color: rgba(var(--ink-warm-rgb), .75); }
+html[data-theme="light"] .nav-pill .nav-link:hover,
+html[data-theme="light"] .nav-pill .nav-link.active { background: rgba(var(--ink-warm-rgb), .1); color: var(--ink-warm); }
+html[data-theme="light"] .nav-icon { color: var(--ink-warm); border-color: rgba(var(--gold-rgb), .4); }

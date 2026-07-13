@@ -105,6 +105,8 @@
 
   const mobileNav = $('#mobileNav');
   $('#burgerBtn')?.addEventListener('click', () => mobileNav.classList.add('open'));
+  // La recherche ouvrira le méga-menu (pièce B) ; en attendant, le menu plein écran.
+  $('#searchBtn')?.addEventListener('click', () => mobileNav.classList.add('open'));
   $('#closeNav')?.addEventListener('click', () => mobileNav.classList.remove('open'));
   $$('a', mobileNav || document.createElement('div')).forEach(a =>
     a.addEventListener('click', () => mobileNav.classList.remove('open')));
@@ -1354,7 +1356,7 @@ if (placeModal && placesGridEl) {
         clientBtn.innerHTML = `<span class="nav-avatar">${esc((firstNameOf(u.name)[0] || '?').toUpperCase())}</span>${esc(firstNameOf(u.name))}`;
       } else {
         clientBtn.classList.remove('is-logged');
-        clientBtn.textContent = 'Mon profil';
+        clientBtn.innerHTML = '<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>';
       }
     }
     // Connexion / Inscription seulement si déconnecté

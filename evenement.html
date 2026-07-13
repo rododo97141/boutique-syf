@@ -40,45 +40,65 @@
 
 <!-- Navigation -->
 <nav id="nav">
-  <a href="index.html" class="nav-logo">
+  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
     <img width="34" height="34" src="images/syfir-logo.png" alt="" class="nav-emblem" onerror="this.remove()">
-    SYFIR<span>™</span>
+    SYFIR<span>&trade;</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="saveurs.html" class="nav-link">Saveurs</a></li>
-    <li><a href="index.html#ou-trouver" class="nav-link">Où nous trouver</a></li>
-    <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
-    <li><a href="syf-tv.html" class="nav-link">Syf TV</a></li>
-    <li><a href="index.html#partenaires" class="nav-link">Devenir partenaire</a></li>
-  </ul>
+  <div class="nav-pill">
+    <ul class="nav-links">
+      <li class="nav-item has-drop">
+        <a href="saveurs.html" class="nav-link" data-nav="saveurs">Saveurs</a>
+        <div class="nav-drop" role="menu" aria-label="Saveurs">
+          <a href="saveurs.html" role="menuitem">Toutes les pochettes</a>
+          <a href="saveurs.html#planteur" role="menuitem">Syf Planteur</a>
+          <a href="saveurs.html#coral" role="menuitem">Syf Coral Breeze</a>
+          <a href="saveurs.html#golden" role="menuitem">Syf Golden Escape</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event active" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
+      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item has-drop">
+        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYF TV</a>
+        <div class="nav-drop" role="menu" aria-label="SYF TV">
+          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
+          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
+          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="index.html#partenaires" class="nav-link" data-nav="partenaires">Devenir partenaire</a></li>
+    </ul>
+  </div>
   <div class="nav-actions">
-    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Mon profil</button>
+    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    </button>
+    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    </button>
     <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le thème" aria-haspopup="true" aria-expanded="false" title="Thème">🌗</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Thème" hidden>
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
         <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">🌗</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">✓</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">☀️</span><span class="theme-opt-txt">Clair<small>Été doré</small></span><span class="theme-check">✓</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">🌙</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">✓</span></button>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
       </div>
     </div>
-    <button class="burger" id="burgerBtn" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <!-- Menu mobile plein écran (nav maquette) -->
 <div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
-  <a href="index.html">Accueil</a>
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
+  <a href="index.html#accueil">Accueil</a>
   <a href="saveurs.html">Saveurs</a>
-  <a href="index.html#ou-trouver">Où nous trouver</a>
-  <a href="evenements.html">Événements &amp; Fêtes</a>
-  <a href="syf-tv.html">Syf TV</a>
+  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
+  <a href="index.html#artistes">Artistes</a>
+  <a href="syf-tv.html">SYF TV</a>
   <a href="index.html#partenaires">Devenir partenaire</a>
   <a href="#" id="clientSpaceBtnMobile">Mon profil</a>
-  <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
+  <div class="mobile-nav-foot">#SYFIR &mdash; Le Cocktail Libre&trade;</div>
 </div>
 
 
