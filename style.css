@@ -2721,3 +2721,38 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
    (.moment-shot est déjà 3:4 ; on aligne la galerie #SYFIR.) */
 .media-row-track .insta-item { aspect-ratio: 3 / 4; }
 .media-row-track figure { margin: 0; }
+
+/* ===== Cartes portrait 3:4 signature (R8 pattern 2) — image pleine carte,
+   dégradé sombre en bas, titre en overlay, hover zoom léger. Nos vraies photos. */
+.rb-card {
+  position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden;
+  border-radius: var(--radius); background: var(--ink-soft); color: var(--cream);
+  box-shadow: 0 12px 34px rgba(var(--black-rgb), .28);
+  transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
+}
+.rb-card-pic { position: absolute; inset: 0; }
+.rb-card-img { width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform var(--dur-med) var(--ease); }
+.rb-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(var(--black-rgb), .92) 4%, rgba(var(--black-rgb), .38) 34%, transparent 62%);
+}
+.rb-card-overlay { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 16px; }
+.rb-card-title { font-family: var(--display); font-weight: 800; font-size: 1.02rem; line-height: 1.14; letter-spacing: -.01em; color: var(--cream); }
+.rb-card-title sup { font-size: .5em; }
+.rb-card-sub { font-size: .8rem; color: rgba(var(--cream-rgb), .82); margin-top: 5px; }
+.rb-card:hover { transform: translateY(-4px); box-shadow: 0 22px 54px rgba(var(--sunset-rgb), .22); }
+.rb-card:hover .rb-card-img { transform: scale(1.05); }
+.rb-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .rb-card:hover { transform: none; }
+  .rb-card:hover .rb-card-img { transform: none; }
+}
+
+/* Badge de carte (base — enrichi au pattern 3) */
+.rb-badge {
+  display: inline-block; font-family: var(--display); font-weight: 700;
+  font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px; margin-bottom: 9px;
+  background: rgba(var(--gold-rgb), .92); color: var(--ink);
+}
