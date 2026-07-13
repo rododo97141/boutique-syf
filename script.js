@@ -103,13 +103,121 @@
     sections.forEach(s => spy.observe(s));
   }
 
-  const mobileNav = $('#mobileNav');
-  $('#burgerBtn')?.addEventListener('click', () => mobileNav.classList.add('open'));
-  // La recherche ouvrira le méga-menu (pièce B) ; en attendant, le menu plein écran.
-  $('#searchBtn')?.addEventListener('click', () => mobileNav.classList.add('open'));
-  $('#closeNav')?.addEventListener('click', () => mobileNav.classList.remove('open'));
-  $$('a', mobileNav || document.createElement('div')).forEach(a =>
-    a.addEventListener('click', () => mobileNav.classList.remove('open')));
+  /* ===== 44. MÉGA-MENU PLEIN ÉCRAN (R8-B) — sidebar + pochettes + envies +
+     recherche client-side. Ouvert par le burger et l'icône recherche. ===== */
+  (function initMega() {
+    const S = window.SYFIR;
+    const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" alt="${esc(alt)}"></picture>`;
+    const prods = [
+      ['saveurs.html#planteur', 'Syf Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syf Planteur sur marbre'],
+      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette SYFIR entourée de fruits'],
+      ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
+      ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
+    ];
+    const envies = [
+      ['evenements.html', 'Fête', 'images/produits/syfir-pub-duo.jpg'],
+      ['evenements.html', 'Plage', 'images/produits/syfir-pub-plage-1.jpg'],
+      ['index.html#artistes', 'Concert', 'images/artiste-unity.jpg'],
+      ['evenements.html', 'Privé', 'images/produits/syf-planteur-verre.jpg'],
+    ];
+    const idx = [
+      ['Accueil', 'index.html#accueil', 'marque hero'],
+      ['Toutes les pochettes', 'saveurs.html', 'saveurs cocktails pochette'],
+      ['Syf Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
+      ['Syf Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
+      ['Syf Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
+      ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
+      ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
+      ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
+      ['Devenir partenaire', 'index.html#partenaires', 'partenaire investisseur lieu ambassadeur'],
+    ];
+    if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
+
+    const mega = document.createElement('div');
+    mega.className = 'mega'; mega.id = 'megaMenu'; mega.hidden = true;
+    mega.setAttribute('role', 'dialog'); mega.setAttribute('aria-modal', 'true'); mega.setAttribute('aria-label', 'Menu SYFIR');
+    mega.innerHTML =
+      `<div class="mega-top">
+        <a class="mega-logo" href="index.html#accueil">SYFIR<span>™</span></a>
+        <div class="mega-search">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+          <input type="search" id="megaSearch" placeholder="Explore l'univers SYFIR" aria-label="Rechercher dans l'univers SYFIR" autocomplete="off">
+        </div>
+        <button class="mega-close" id="megaClose" type="button" aria-label="Fermer le menu">✕</button>
+      </div>
+      <div class="mega-body">
+        <div class="mega-side" role="navigation" aria-label="Rubriques">
+          <a href="index.html#accueil">Accueil</a>
+          <div class="mega-side-group">
+            <a class="mega-side-head" href="saveurs.html">Saveurs</a>
+            <a href="saveurs.html">Toutes les pochettes</a>
+            <a href="saveurs.html#planteur">Syf Planteur</a>
+            <a href="saveurs.html#coral">Syf Coral Breeze</a>
+            <a href="saveurs.html#golden">Syf Golden Escape</a>
+          </div>
+          <a href="evenements.html">Événements</a>
+          <a href="index.html#artistes">Artistes</a>
+          <a href="syf-tv.html">SYF TV</a>
+          <a href="espace-pro.html">Espace pro</a>
+        </div>
+        <div class="mega-content">
+          <div class="mega-results" id="megaResults" hidden></div>
+          <div class="mega-panels" id="megaPanels">
+            <section class="mega-row">
+              <div class="mega-row-head"><h3>Les pochettes SYFIR</h3><a href="saveurs.html">Afficher tout →</a></div>
+              <div class="mega-prod-grid">
+                ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
+              </div>
+            </section>
+            <section class="mega-row">
+              <div class="mega-row-head"><h3>Parcourir par envies</h3><a href="evenements.html">Afficher tout →</a></div>
+              <div class="mega-envies">
+                ${envies.map(([u, n, img]) => `<a class="mega-envie" href="${u}"><img src="${img}" loading="lazy" alt=""><span>${esc(n)}</span></a>`).join('')}
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(mega);
+
+    const search = $('#megaSearch', mega), results = $('#megaResults', mega), panels = $('#megaPanels', mega);
+    let lastFocus = null;
+    const doSearch = () => {
+      const q = search.value.trim().toLowerCase();
+      if (!q) { results.hidden = true; panels.hidden = false; results.innerHTML = ''; return; }
+      const hits = idx.filter(([t, , k]) => (t + ' ' + k).toLowerCase().includes(q)).slice(0, 8);
+      panels.hidden = true; results.hidden = false;
+      results.innerHTML = hits.length
+        ? hits.map(([t, u]) => `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong></a>`).join('')
+        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYF TV »…</p>`;
+    };
+    search.addEventListener('input', doSearch);
+
+    const open = (focusSearch) => {
+      lastFocus = document.activeElement;
+      mega.hidden = false; document.body.style.overflow = 'hidden';
+      (focusSearch ? search : $('.mega-close', mega)).focus();
+    };
+    const close = () => {
+      mega.hidden = true; document.body.style.overflow = '';
+      search.value = ''; doSearch();
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    $('#burgerBtn')?.addEventListener('click', () => open(false));
+    $('#searchBtn')?.addEventListener('click', () => open(true));
+    $('#megaClose', mega).addEventListener('click', close);
+    $$('a', mega).forEach(a => a.addEventListener('click', close));
+    mega.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab') return;
+      const f = $$('a, button, input', mega).filter(el => !el.disabled && el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  })();
 
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {
