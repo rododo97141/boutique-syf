@@ -2778,3 +2778,30 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   background: rgba(var(--black-rgb), .72); color: var(--cream);
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
+
+/* ===== Hero mosaïque SYF TV (R8 pattern 4) — carrousel de grandes cartes
+   portrait, flèches (via initRows) + swipe natif, scroll-snap centré. */
+.tv-hero { padding: 18px 0 6px; }
+.tv-hero-track { scroll-padding-inline: var(--row-gutter); }
+.tv-hero-track > .tv-hero-slide {
+  flex: 0 0 min(88vw, 560px); scroll-snap-align: center;
+  position: relative; height: min(76vh, 660px); min-height: 420px;
+  border-radius: 22px; overflow: hidden; background: var(--ink-soft);
+}
+.tv-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tv-hero-slide::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(var(--black-rgb), .92) 5%, rgba(var(--black-rgb), .32) 42%, transparent 68%);
+}
+.tv-hero-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(22px, 4vw, 40px); color: var(--cream); }
+.tv-hero-title {
+  font-family: var(--display); font-weight: 800; text-transform: none;
+  font-size: clamp(1.7rem, 4.6vw, 3.1rem); line-height: 1.04; letter-spacing: -.02em; margin: 10px 0 8px;
+}
+.tv-hero-title em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tv-hero-sub { color: rgba(var(--cream-rgb), .85); font-size: clamp(.95rem, 2.2vw, 1.15rem); max-width: 42ch; }
+.tv-hero-body .btn { margin-top: 16px; }
+.tv-hero-img { transition: transform var(--dur-med) var(--ease); }
+.tv-hero-slide:hover .tv-hero-img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .tv-hero-slide:hover .tv-hero-img { transform: none; } }

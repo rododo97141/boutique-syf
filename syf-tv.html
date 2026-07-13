@@ -86,13 +86,49 @@
 <main>
 
 <!-- ============================================================
-     HERO — océan profond, titre XXL (maquette client)
+     HERO MOSAÏQUE (R8) — carrousel de grandes cartes à la une :
+     branding, moment vedette, événement vedette. Flèches + swipe.
 ============================================================ -->
-<header class="page-hero page-hero-dark" id="haut">
-  <div class="container">
-    <p class="eyebrow eyebrow-light reveal">Syf TV</p>
-    <h1 class="tickets-title reveal d1">La chaîne des <em>moments</em>.</h1>
-    <p class="section-intro intro-light reveal d2">Ambiances, aftermovies, soirées — identifie <strong>#SYFIR</strong> et passe à l'antenne.</p>
+<header class="tv-hero" id="haut" aria-label="À la une — SYF TV">
+  <div class="media-row-wrap">
+    <button class="row-arrow row-prev" type="button" aria-label="À la une précédente" hidden>‹</button>
+    <div class="media-row-track tv-hero-track">
+      <article class="tv-hero-slide">
+        <picture class="rb-card-pic">
+          <source type="image/webp" srcset="images/produits/syfir-pub-plage-1.webp">
+          <img class="tv-hero-img" src="images/produits/syfir-pub-plage-1.jpg" alt="Golden hour SYFIR sur la plage" fetchpriority="high" width="1120" height="1400">
+        </picture>
+        <div class="tv-hero-body">
+          <p class="eyebrow eyebrow-light">Syf TV</p>
+          <h1 class="tv-hero-title">La chaîne des <em>moments</em>.</h1>
+          <p class="tv-hero-sub">Ambiances, aftermovies, soirées — identifie <strong>#SYFIR</strong> et passe à l'antenne.</p>
+        </div>
+      </article>
+      <article class="tv-hero-slide">
+        <picture class="rb-card-pic">
+          <source type="image/webp" srcset="images/produits/syfir-pub-duo.webp">
+          <img class="tv-hero-img" src="images/produits/syfir-pub-duo.jpg" alt="Deux cocktails SYFIR à la golden hour" loading="lazy" width="1120" height="1400">
+        </picture>
+        <div class="tv-hero-body">
+          <span class="rb-badge">Moment</span>
+          <h2 class="tv-hero-title">Golden hour, <em>deux verres</em>.</h2>
+          <p class="tv-hero-sub">La lumière tombe, la fête commence.</p>
+        </div>
+      </article>
+      <article class="tv-hero-slide">
+        <picture class="rb-card-pic">
+          <source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp">
+          <img class="tv-hero-img" src="images/produits/syfir-pub-plage-2.jpg" alt="SYFIR Tropical Festival — plage du Gosier" loading="lazy" width="1120" height="1400">
+        </picture>
+        <div class="tv-hero-body">
+          <span class="rb-badge rb-badge-festival">Festival</span>
+          <h2 class="tv-hero-title">SYFIR Tropical Festival</h2>
+          <p class="tv-hero-sub">📅 15 août · 📍 Le Gosier</p>
+          <a class="btn btn-solid" href="evenement.html?id=4">Réserver ma place →</a>
+        </div>
+      </article>
+    </div>
+    <button class="row-arrow row-next" type="button" aria-label="À la une suivante">›</button>
   </div>
 </header>
 
