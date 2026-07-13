@@ -77,6 +77,7 @@ Le vocabulaire porte la valeur. **Ces mots sont la loi** ; tout nouveau texte
 | Dire | Jamais | Pourquoi |
 |---|---|---|
 | **pochette** (LA pochette) | ~~sachet~~ | Évoque la maroquinerie, colle au visuel marbre-or, effet premium. **Féminin** : accorder (*la* pochette, scellé**e**, dorée, réell**e**, entouré**e**, prêt**es**) ; réécrire la formule pour qu'elle sonne (« le soleil **en pochette** », « la golden hour **en pochette** », « **La** pochette, format liberté »), jamais un chercher-remplacer mécanique. |
+| **Syf TV** (la page) | ~~Actualité~~ | La chaîne des moments SYFIR — angle éditorial « chaîne TV » assumé (ambiances, aftermovies, soirées). Graphie **Syf TV** ; en nav/eyebrow (capitales via CSS) s'affiche **SYF TV**. Fichier `syf-tv.html` (`actualite.html` ne subsiste qu'en stub de redirection). |
 
 > Seuls les **noms de fichiers** d'assets historiques peuvent garder `sachet`
 > (`syfir-sachet-*`) : ce sont des chemins, pas du texte de marque.

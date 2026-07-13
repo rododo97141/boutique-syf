@@ -9,7 +9,7 @@ PWA (manifest + service worker), deux thèmes (clair « été doré » / sombre
 « nuit festive »), conformité loi Évin (age gate 18+, mention sanitaire).
 
 Pages : `index.html` (marque) · `saveurs.html` (cocktails) · `evenements.html`
-(billetterie) · `evenement.html?id=X` (fiche partageable) · `actualite.html` ·
+(billetterie) · `evenement.html?id=X` (fiche partageable) · `syf-tv.html` (Syf TV) ·
 `espace-pro.html` (Smartboard organisateur).
 
 ---
@@ -74,7 +74,7 @@ Rien d'autre à configurer : le site est 100 % statique.
 ## 4. Structure
 
 ```
-index.html saveurs.html actualite.html          pages de marque
+index.html saveurs.html syf-tv.html            pages de marque
 evenements.html evenement.html espace-pro.html  billetterie + fiche + smartboard
 events-data.js   source unique window.SYFIR (événements, helpers)
 script.js        toute l'interactivité (thème, age gate, billetterie, formulaires, PWA, QR…)

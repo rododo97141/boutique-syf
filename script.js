@@ -80,7 +80,7 @@
   /* ===== 02. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
   // Anciennes ancres de l'accueil -> pages dédiées (transposition maquette).
   // On ne redirige que si la cible n'existe pas sur la page courante.
-  const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'actualite.html' };
+  const movedAnchors = { '#cocktails': 'saveurs.html', '#communaute': 'syf-tv.html' };
   const movedTo = movedAnchors[location.hash];
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 
@@ -1488,7 +1488,7 @@ if (placeModal && placesGridEl) {
   /* ===== LIGHTBOX MOMENTS (R3) — les vraies photos en plein écran =====
      Toutes pages : clic/Entrée sur une photo -> plein écran ; flèches/swipe
      pour naviguer, Échap ou fond pour fermer. Pour être DANS le moment.
-     Placé AVANT le garde billetterie pour tourner sur actualite.html. */
+     Placé AVANT le garde billetterie pour tourner sur syf-tv.html. */
   (function initLightbox() {
     const grids = $$('.moments-grid, .insta-grid');
     if (!grids.length) return;

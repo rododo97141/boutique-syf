@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" id="metaDesc" content="Fiche événement SYFIR — billetterie officielle.">
-<title id="pageTitle">Événement — SYFIR</title>
-<!-- Open Graph (mis à jour dynamiquement selon l'événement) -->
-<meta property="og:type" content="event">
-<meta property="og:title" id="ogTitle" content="Événement — SYFIR">
-<meta property="og:description" id="ogDesc" content="Billetterie officielle SYFIR.">
-<meta property="og:image" id="ogImage" content="images/produits/syf-planteur-1.jpg">
+<meta name="description" content="SYF TV — la chaîne des moments SYFIR. Ambiances, aftermovies et soirées de la communauté : identifie #SYFIR et passe à l'antenne.">
+<meta property="og:title" content="Syf TV — SYFIR, Le Cocktail Libre™">
+<meta property="og:description" content="La chaîne des moments SYFIR. Identifie #SYFIR et passe à l'antenne.">
+<!-- TODO : préfixer d'une URL absolue quand le domaine définitif sera connu -->
+<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" id="twImage" content="images/produits/syf-planteur-1.jpg">
-<meta property="og:url" id="ogUrl" content="">
+<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
+<title>Syf TV — SYFIR, Le Cocktail Libre™</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
@@ -20,7 +18,7 @@
      assure le texte en repli immédiat puis la bascule. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
-<!-- Thème appliqué avant le rendu pour éviter tout flash -->
+<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
 <script>
 (function () {
   var pref = localStorage.getItem('syfir-theme') || 'auto';
@@ -31,24 +29,28 @@
 })();
 </script>
 <!-- Canonical (TODO : base d'URL à confirmer, cf. README/sitemap) -->
-<link rel="canonical" href="https://www.syfir.fr/evenements.html">
+<link rel="canonical" href="https://www.syfir.fr/syf-tv.html">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#071E30">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="page-event">
+<body>
 
-<!-- Navigation -->
+<!-- ============================================================
+     NAVIGATION (maquette client)
+============================================================ -->
 <nav id="nav">
   <a href="index.html" class="nav-logo">
     <img width="34" height="34" src="images/syfir-logo.png" alt="" class="nav-emblem" onerror="this.remove()">
     SYFIR<span>™</span>
   </a>
+  <!-- Nav maquette client (5 entrées) : Saveurs · Où nous trouver ·
+       Événements & Fêtes · Communauté · Devenir partenaire -->
   <ul class="nav-links">
     <li><a href="saveurs.html" class="nav-link">Saveurs</a></li>
     <li><a href="index.html#ou-trouver" class="nav-link">Où nous trouver</a></li>
     <li><a href="evenements.html" class="nav-link nav-link-event">Événements &amp; Fêtes</a></li>
-    <li><a href="syf-tv.html" class="nav-link">Syf TV</a></li>
+    <li><a href="syf-tv.html" class="nav-link active">Syf TV</a></li>
     <li><a href="index.html#partenaires" class="nav-link">Devenir partenaire</a></li>
   </ul>
   <div class="nav-actions">
@@ -68,7 +70,7 @@
   </div>
 </nav>
 
-<!-- Menu mobile plein écran (nav maquette) -->
+<!-- Menu mobile plein écran -->
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
   <a href="index.html">Accueil</a>
@@ -81,22 +83,151 @@
   <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
 </div>
 
+<main>
 
-<!-- Fiche rendue par evenement.js -->
-<main id="eventDetail" class="event-detail" hidden></main>
-
-<!-- Événement introuvable -->
-<section id="eventNotFound" class="event-notfound" hidden>
+<!-- ============================================================
+     HERO — océan profond, titre XXL (maquette client)
+============================================================ -->
+<header class="page-hero page-hero-dark" id="haut">
   <div class="container">
-    <p class="eyebrow">Oups</p>
-    <h1 class="h2">Cet <em>événement</em> est introuvable.</h1>
-    <p class="section-intro">Le lien est peut-être expiré, ou l'événement a été retiré de la programmation.</p>
-    <a href="evenements.html" class="btn btn-solid">← Retour à la billetterie</a>
+    <p class="eyebrow eyebrow-light reveal">Syf TV</p>
+    <h1 class="tickets-title reveal d1">La chaîne des <em>moments</em>.</h1>
+    <p class="section-intro intro-light reveal d2">Ambiances, aftermovies, soirées — identifie <strong>#SYFIR</strong> et passe à l'antenne.</p>
+  </div>
+</header>
+
+<!-- ============================================================
+     L'AMBIANCE — vidéo + galerie de la communauté
+============================================================ -->
+<section id="ambiance" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">L'ambiance</p>
+    <h2 class="h2 reveal d1">La couleur, <em>en vrai</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Pas de mise en scène. Des soirées, des rires, du sable et des verres qui se lèvent.</p>
+
+    <!-- Vidéo d'ambiance (Pexels, licence libre) en attendant le VRAI aftermovie.
+         👉 Quand l'aftermovie YouTube sera prêt, remplacer ce bloc par la façade
+         lazy d'origine (voir l'historique git : bouton #aftermovieBtn + data-embed). -->
+    <div class="aftermovie reveal d2">
+      <div class="ambiance-box" id="ambianceBox">
+        <video muted loop playsinline preload="none" poster="images/syfir-fete.png"
+               aria-label="Vidéo d'ambiance SYFIR — toast au coucher de soleil">
+          <source src="videos/ambiance-sunset.mp4" type="video/mp4">
+          <source src="https://www.pexels.com/download/video/9640964/" type="video/mp4">
+        </video>
+        <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
+        <span class="ambiance-label">Ambiance — l'aftermovie officiel arrive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insta-grid">
+    <a class="insta-item reveal d1" href="#ambiance" aria-label="Photo communauté">
+      <img src="images/syfir-fete.png"
+           onerror="this.onerror=null;this.src='images/produits/syfir-pub-verre.jpg'"
+           alt="Amis qui trinquent avec des pochettes SYFIR" loading="lazy" width="1086" height="1448">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d2" href="#ambiance" aria-label="Photo communauté">
+      <img src="images/syfir-flatlay.png"
+           onerror="this.onerror=null;this.src='images/produits/syfir-studio-fruits.jpg'"
+           alt="Pochette SYFIR entourée de fruits frais" loading="lazy" width="1184" height="1184">
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d3" href="#ambiance" aria-label="Photo communauté">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-bar-bois.webp">
+        <img src="images/produits/syfir-bar-bois.jpg" alt="Pochette SYFIR sur une table de bar en bois" loading="lazy" width="1536" height="1536">
+      </picture>
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d4" href="#ambiance" aria-label="Photo communauté">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-moodboard.webp">
+        <img src="images/produits/syfir-moodboard.jpg" alt="L'univers SYFIR — visuel, pratique, plaisir immédiat" loading="lazy" width="1024" height="1024">
+      </picture>
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d5" href="#ambiance" aria-label="Photo communauté">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp">
+        <img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme SYFIR — six saveurs" loading="lazy" width="1024" height="1024">
+      </picture>
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
+    <a class="insta-item reveal d6" href="#ambiance" aria-label="Photo communauté">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-sachet-or-vide.webp">
+        <img src="images/produits/syfir-sachet-or-vide.jpg" alt="La pochette SYFIR dorée" loading="lazy" width="880" height="1216">
+      </picture>
+      <span class="insta-overlay">#SYFIR</span>
+    </a>
   </div>
 </section>
 
-<!-- JSON-LD injecté par evenement.js -->
+<!-- ============================================================
+     #MOMENTS — premières photos authentiques (lot 22). Le feed
+     communautaire #SYFIR complet se branchera sur cette grille.
+============================================================ -->
+<section id="moments" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Moments</p>
+    <h2 class="h2 reveal d1">Tes <em>moments</em> SYFIR.</h2>
+    <p class="section-intro reveal d2">Pris sur le vif, pochette en main. Identifie #SYFIR pour rejoindre la grille.</p>
+    <div class="moments-grid">
+      <figure class="moment-shot reveal d1">
+        <picture>
+          <source type="image/webp" srcset="images/produits/syfir-main-plage.webp">
+          <img src="images/produits/syfir-main-plage.jpg" alt="Une pochette SYFIR à la main, citron vert et menthe" loading="lazy" width="643" height="857">
+        </picture>
+      </figure>
+      <figure class="moment-shot reveal d2">
+        <picture>
+          <source type="image/webp" srcset="images/produits/syfir-main-citron.webp">
+          <img src="images/produits/syfir-main-citron.jpg" alt="Pochettes SYFIR à la main, prêtes à partager" loading="lazy" width="643" height="857">
+        </picture>
+      </figure>
+      <figure class="moment-shot reveal d3">
+        <picture>
+          <source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp">
+          <img src="images/produits/syfir-pub-plage-2.jpg" alt="Deux cocktails SYFIR au ponton, golden hour" loading="lazy" width="1086" height="1448">
+        </picture>
+      </figure>
+      <figure class="moment-shot reveal d4">
+        <picture>
+          <source type="image/webp" srcset="images/produits/syfir-pub-plage-3.webp">
+          <img src="images/produits/syfir-pub-plage-3.jpg" alt="Verre et pochette SYFIR entourés de fruits, plage" loading="lazy" width="1086" height="1448">
+        </picture>
+      </figure>
+    </div>
+  </div>
+</section>
 
+<!-- ============================================================
+     NEWSLETTER — rester dans la boucle
+============================================================ -->
+<section id="newsletter" class="section news-section">
+  <div class="container">
+    <p class="eyebrow reveal">Newsletter</p>
+    <h2 class="h2 reveal d1">Reste dans <em>la boucle</em>.</h2>
+    <p class="section-intro reveal d2">Sois prévenu avant tout le monde — les dates tombent ici d'abord.</p>
+    <form class="footer-news news-inline reveal d2" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+      <label for="nlEmailPage">Reçois les prochaines soirées ✦</label>
+      <div class="footer-news-row">
+        <input type="email" id="nlEmailPage" name="email" placeholder="ton@email.com" autocomplete="email" required>
+        <button class="btn btn-solid btn-sm" type="submit">Je m'inscris</button>
+      </div>
+      <p class="footer-news-msg" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
 <footer>
   <!-- La fin signée (R3) : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
@@ -151,8 +282,6 @@
     <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>
-
-<div class="toast" id="toast" role="status"></div>
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
 <div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
@@ -241,8 +370,13 @@
   </div>
 </div>
 
+<!-- Bouton retour en haut -->
+<button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
+
+<!-- Barre de progression de lecture -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <script src="events-data.js"></script>
 <script src="script.js"></script>
-<script src="evenement.js"></script>
 </body>
 </html>
