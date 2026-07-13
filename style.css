@@ -143,7 +143,10 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-::selection { background: var(--sunset); color: var(--ink); }
+/* Sélection de texte : voile or translucide (~25 %), jamais un marqueur opaque.
+   Sans couleur forcée -> le texte garde sa teinte, lisible clair ET sombre. */
+::selection { background: rgba(var(--gold-rgb), .25); }
+::-moz-selection { background: rgba(var(--gold-rgb), .25); }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button { font-family: inherit; cursor: pointer; }
