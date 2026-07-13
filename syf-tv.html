@@ -96,6 +96,34 @@
   </div>
 </header>
 
+<!-- Bloc événementiel rapatrié de l'accueil (R7) : SYF TV = la chaîne
+     des moments ET des dates. Pour toi (si profil) puis Prochaines dates. -->
+<!-- ============================================================
+     POUR TOI — personnalisation locale honnête : rempli par script.js
+     depuis le localStorage (billets + favoris). Premier visiteur :
+     la section reste hidden, rien ne change. Zéro tracking.
+============================================================ -->
+<section class="next-events" id="pour-toi" hidden>
+  <div class="container">
+    <p class="eyebrow reveal">Pour toi</p>
+    <h2 class="h2 reveal d1">Reprends <em>où tu en étais</em>.</h2>
+    <div class="next-grid" id="forYou"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCHAINS ÉVÉNEMENTS — conversion (3 dates réelles à venir)
+============================================================ -->
+<section class="next-events" id="prochains">
+  <div class="container">
+    <p class="eyebrow reveal">Prochaines dates</p>
+    <h2 class="h2 reveal d1">Trois dates. <em>Zéro excuse.</em></h2>
+    <p class="section-intro reveal d2">Réserve avant que ce soit complet — les Early Bird partent vite.</p>
+    <div class="next-grid" id="nextEvents"></div>
+    <p class="next-cta reveal d2"><a class="btn btn-solid btn-lg" href="evenements.html">Réserver ma place</a></p>
+  </div>
+</section>
+
 <!-- ============================================================
      L'AMBIANCE — vidéo + galerie de la communauté
 ============================================================ -->
@@ -199,6 +227,34 @@
           <img src="images/produits/syfir-pub-plage-3.jpg" alt="Verre et pochette SYFIR entourés de fruits, plage" loading="lazy" width="1086" height="1448">
         </picture>
       </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Passerelle billetterie, rapatriée de l'accueil (R7). -->
+<!-- ============================================================
+     ÉVÉNEMENTS & FÊTES — passerelle vers la billetterie
+============================================================ -->
+<section id="evenements" class="section section-event">
+  <div class="event-bg" data-parallax="0.2"></div>
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Événements &amp; Fêtes</p>
+    <h2 class="h2 reveal d1">Là où le moment<br>devient <em>une scène</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals, soirées privées — réserve tes billets pour les expériences SYFIR, ou organise la tienne.</p>
+
+    <div class="event-duo">
+      <a href="evenements.html" class="event-door reveal from-left d2">
+        <span class="event-door-tag">Espace client</span>
+        <h3>Prendre mes billets</h3>
+        <p>Accède à la billetterie SYFIR : soirées, fêtes et événements ouverts au public.</p>
+        <span class="event-door-cta">Choisir ma soirée →</span>
+      </a>
+      <a href="evenements.html#pro" class="event-door event-door-pro reveal from-right d3">
+        <span class="event-door-tag">Espace professionnel</span>
+        <h3>Organiser un événement</h3>
+        <p>Crée ton événement public ou privé, gère la billetterie et les options SYFIR Experience.</p>
+        <span class="event-door-cta">Créer mon événement →</span>
+      </a>
     </div>
   </div>
 </section>
