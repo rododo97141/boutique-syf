@@ -2756,3 +2756,25 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   padding: 4px 9px; border-radius: 999px; margin-bottom: 9px;
   background: rgba(var(--gold-rgb), .92); color: var(--ink);
 }
+
+/* ===== Métadonnées riches (R8 pattern 3) — badges catégorie colorés,
+   date·lieu, compte à rebours, durée vidéo. Façon chaîne TV. */
+.rb-badge-beach    { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.rb-badge-festival { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.rb-badge-club     { background: rgba(var(--passion-rgb), .95); color: var(--ink); }
+.rb-badge-rooftop  { background: rgba(var(--ocean-deep-rgb), .92); color: var(--cream); }
+.rb-badge-soiree   { background: rgba(var(--passion-rgb), .9); color: var(--ink); }
+.rb-badge-prive    { background: rgba(var(--black-rgb), .72); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .55); }
+.rb-card-sub { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rb-countdown {
+  display: inline-block; margin-top: 8px; font-family: var(--display); font-weight: 700;
+  font-size: .68rem; letter-spacing: .04em; color: var(--passion);
+}
+/* Durée média (badge coin haut-droit, ex. vidéos) */
+.rb-duration {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  font-family: var(--display); font-weight: 700; font-size: .62rem; letter-spacing: .03em;
+  padding: 3px 7px; border-radius: 6px;
+  background: rgba(var(--black-rgb), .72); color: var(--cream);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}

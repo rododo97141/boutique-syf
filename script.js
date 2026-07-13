@@ -1200,27 +1200,33 @@ if (placeModal && placesGridEl) {
      3 prochaines dates réelles depuis la source partagée (events-data.js). */
   const nextBox = $('#nextEvents');
   if (nextBox && window.SYFIR) {
+    const S = window.SYFIR;
     const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
-    const next3 = window.SYFIR.getAllEvents()
-      .filter(ev => !ev.prive && new Date(ev.date + 'T00:00:00') >= startOfToday)
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 3);
-    if (!next3.length) {
+    const upcoming = S.getAllEvents()
+      .filter(ev => new Date(ev.date + 'T00:00:00') >= startOfToday)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    if (!upcoming.length) {
       nextBox.closest('.next-events').hidden = true;
     } else {
-      nextBox.innerHTML = next3.map((ev, i) => {
+      // Carte riche façon chaîne TV : badge catégorie, date+lieu, compte à rebours.
+      const fallback = 'images/produits/syfir-pub-plage-1.jpg';
+      nextBox.innerHTML = upcoming.map(ev => {
         const d = new Date(ev.date + 'T12:00:00');
-        const st = window.SYFIR.stockLabel(ev);
+        const dateStr = d.getDate() + ' ' + S.MONTHS[d.getMonth()].toLowerCase();
+        const badge = ev.prive ? 'Privé 🔒' : (S.typeLabel[ev.type] || 'Soirée');
+        const badgeCls = ev.prive ? 'rb-badge-prive' : ('rb-badge-' + ev.type);
+        const st = S.stockLabel(ev);
+        const img = ev.img || fallback;
         return `
-        <a class="next-card" href="evenement.html?id=${ev.id}">
-          <span class="next-date"><strong>${d.getDate()}</strong><small>${window.SYFIR.MONTHS[d.getMonth()]}</small></span>
-          <span class="next-info">
-            <strong>${esc(ev.name)}</strong>
-            <small>${ev.time ? '🕘 ' + window.SYFIR.fmtTime(ev.time) + ' · ' : ''}📍 ${esc(ev.city)}</small>
-            ${i === 0 ? '<span class="next-countdown" data-countdown="' + ev.date + 'T' + (ev.time || '20:00') + ':00"></span>' : ''}
-            ${st ? `<span class="stock-badge ${st.cls} stock-inline">${st.text}</span>` : ''}
-          </span>
-          <span class="next-arrow" aria-hidden="true">→</span>
+        <a class="rb-card" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
+          <picture class="rb-card-pic"><img class="rb-card-img" src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}"></picture>
+          ${st ? `<span class="rb-duration">${esc(st.text)}</span>` : ''}
+          <div class="rb-card-overlay">
+            <span class="rb-badge ${badgeCls}">${esc(badge)}</span>
+            <h3 class="rb-card-title">${esc(ev.name)}</h3>
+            <p class="rb-card-sub">📅 ${dateStr} · 📍 ${esc(ev.city)}</p>
+            <span class="rb-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00"></span>
+          </div>
         </a>`;
       }).join('');
     }
