@@ -1559,6 +1559,28 @@ if (placeModal && placesGridEl) {
     });
   })();
 
+  /* ===== 42. STREAMING ROWS (R8) — flèches des rangées horizontales =====
+     Toutes pages. Scroll-snap natif (CSS) ; ici : flèches desktop qui font
+     défiler d'une « page », masquées aux extrémités. Swipe mobile = natif. */
+  (function initRows() {
+    $$('.media-row-wrap').forEach(wrap => {
+      const track = $('.media-row-track', wrap);
+      if (!track) return;
+      const prev = $('.row-prev', wrap), next = $('.row-next', wrap);
+      const step = () => Math.max(track.clientWidth * 0.85, 240);
+      prev && prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next && next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+      const update = () => {
+        const max = track.scrollWidth - track.clientWidth - 2;
+        if (prev) prev.hidden = track.scrollLeft <= 2;
+        if (next) next.hidden = track.scrollLeft >= max || max <= 0;
+      };
+      track.addEventListener('scroll', update, { passive: true });
+      addEventListener('resize', update);
+      update();
+    });
+  })();
+
   /* ============================================================
      PAGE ÉVÉNEMENTS — billetterie & espace pro
   ============================================================ */
