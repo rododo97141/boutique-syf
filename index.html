@@ -120,7 +120,13 @@
 <!-- ============================================================
      HERO — LE COCKTAIL LIBRE™
 ============================================================ -->
-<header class="hero" id="accueil">
+<!-- ============================================================
+     HERO CARROUSEL PLEIN ÉCRAN (R8-C) — slide 1 = branding (ancien hero),
+     puis événement vedette, pochette Planteur, SYF TV. Auto-rotation 6 s.
+============================================================ -->
+<section class="home-hero" aria-label="À la une — SYFIR">
+  <div class="home-hero-track" id="homeHero">
+  <header class="hh-slide hh-brand hero" id="accueil">
   <div class="hero-bg" data-parallax="0.25"></div>
   <div class="hero-veil"></div>
   <div class="gold-sweep"></div>
@@ -167,7 +173,42 @@
     <span class="scroll-hint-line"></span>
     <span>Explorer</span>
   </a>
-</header>
+  </header>
+
+  <section class="hh-slide" aria-label="Événement vedette">
+    <picture><source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp"><img class="hh-bg" src="images/produits/syfir-pub-plage-2.jpg" alt="SYFIR Tropical Festival — plage du Gosier" loading="lazy" width="1600" height="1000"></picture>
+    <div class="hh-content">
+      <div class="hh-meta"><span class="rb-badge rb-badge-festival">Festival</span><span>📅 15 août · 📍 Le Gosier</span></div>
+      <h2 class="hh-title">SYFIR Tropical <em>Festival</em></h2>
+      <p class="hh-desc">La plage devient scène. Soca, zouk, afro house — le rendez-vous de l'été SYFIR.</p>
+      <a class="btn btn-gradient btn-lg hh-cta" href="evenement.html?id=4">Consulte l'événement →</a>
+    </div>
+  </section>
+
+  <section class="hh-slide" aria-label="Pochette signature">
+    <picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img class="hh-bg" src="images/produits/syfir-planteur-marbre.jpg" alt="Pochette Syf Planteur sur marbre" loading="lazy" width="1600" height="1000"></picture>
+    <div class="hh-content">
+      <div class="hh-meta"><span class="rb-badge">Best-seller</span><span>La pochette signature</span></div>
+      <h2 class="hh-title">Syf <em>Planteur</em></h2>
+      <p class="hh-desc">Mangue mûre, passion acidulée, ananas rôti — le coucher de soleil liquide, en pochette.</p>
+      <a class="btn btn-gradient btn-lg hh-cta" href="saveurs.html#planteur">Découvrir la pochette →</a>
+    </div>
+  </section>
+
+  <section class="hh-slide" aria-label="SYF TV">
+    <picture><source type="image/webp" srcset="images/produits/syfir-pub-duo.webp"><img class="hh-bg" src="images/produits/syfir-pub-duo.jpg" alt="Deux cocktails SYFIR à la golden hour" loading="lazy" width="1600" height="1000"></picture>
+    <div class="hh-content">
+      <div class="hh-meta"><span class="rb-badge">Syf TV</span><span>La chaîne des moments</span></div>
+      <h2 class="hh-title">Passe à <em>l'antenne</em>.</h2>
+      <p class="hh-desc">Ambiances, aftermovies, soirées — les moments SYFIR, en continu.</p>
+      <a class="btn btn-gradient btn-lg hh-cta" href="syf-tv.html">Ouvrir SYF TV →</a>
+    </div>
+  </section>
+  </div>
+  <div class="hh-dots" id="hhDots"></div>
+  <button class="hh-arrow hh-prev" type="button" aria-label="Visuel précédent">‹</button>
+  <button class="hh-arrow hh-next" type="button" aria-label="Visuel suivant">›</button>
+</section>
 
 <!-- ============================================================
      MANIFESTO — on vend l'espérance, pas le produit

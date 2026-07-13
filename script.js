@@ -1697,6 +1697,33 @@ if (placeModal && placesGridEl) {
     });
   })();
 
+  /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
+     stoppée au survol / focus / onglet caché / reduced-motion. ===== */
+  (function initHomeHero() {
+    const hh = $('#homeHero');
+    if (!hh) return;
+    const slides = $$('.hh-slide', hh);
+    const dotsBox = $('#hhDots');
+    if (slides.length < 2 || !dotsBox) return;
+    let cur = 0, timer = null;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    dotsBox.innerHTML = slides.map((_, j) => `<button class="hh-dot${j === 0 ? ' on' : ''}" type="button" aria-label="Aller au visuel ${j + 1}"></button>`).join('');
+    const dots = $$('.hh-dot', dotsBox);
+    const sync = () => dots.forEach((d, j) => d.classList.toggle('on', j === cur));
+    const go = i => { cur = (i + slides.length) % slides.length; hh.scrollTo({ left: hh.clientWidth * cur, behavior: 'smooth' }); sync(); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const start = () => { if (reduced) return; stop(); timer = setInterval(() => go(cur + 1), 6000); };
+    const restart = () => { stop(); start(); };
+    dots.forEach((d, j) => d.addEventListener('click', () => { go(j); restart(); }));
+    $('.hh-prev')?.addEventListener('click', () => { go(cur - 1); restart(); });
+    $('.hh-next')?.addEventListener('click', () => { go(cur + 1); restart(); });
+    hh.addEventListener('scroll', () => { const i = Math.round(hh.scrollLeft / hh.clientWidth); if (i !== cur) { cur = i; sync(); } }, { passive: true });
+    hh.addEventListener('mouseenter', stop); hh.addEventListener('mouseleave', start);
+    hh.addEventListener('focusin', stop); hh.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    start();
+  })();
+
   /* ============================================================
      PAGE ÉVÉNEMENTS — billetterie & espace pro
   ============================================================ */

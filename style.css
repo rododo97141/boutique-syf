@@ -2945,3 +2945,41 @@ html[data-theme="light"] .mega { background: linear-gradient(160deg, #0a2233, #0
   .mega-side { flex: 0 0 240px; }
   .mega-content { flex: 1 1 auto; min-width: 0; }
 }
+
+/* ============================================================
+   45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil)
+   ============================================================ */
+.home-hero { position: relative; height: min(94vh, 920px); min-height: 560px; overflow: hidden; }
+.home-hero-track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.home-hero-track::-webkit-scrollbar { display: none; }
+.hh-slide { flex: 0 0 100%; scroll-snap-align: start; position: relative; height: 100%; overflow: hidden; }
+.home-hero .hero { min-height: 0; height: 100%; }
+.hh-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.hh-slide:not(.hh-brand)::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(var(--black-rgb), .9) 6%, rgba(var(--black-rgb), .22) 48%, rgba(var(--black-rgb), .28) 100%); }
+.hh-content { position: absolute; left: 0; bottom: 0; z-index: 2; max-width: 760px;
+  padding: clamp(26px, 6vw, 72px); padding-bottom: clamp(70px, 9vw, 116px); }
+.hh-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 16px;
+  color: rgba(var(--cream-rgb), .9); font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .04em; }
+.hh-title { font-family: var(--display); font-weight: 800; color: var(--cream);
+  font-size: clamp(2.4rem, 7vw, 5.2rem); line-height: .98; letter-spacing: -.02em; }
+.hh-title em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hh-desc { margin-top: 16px; color: rgba(var(--cream-rgb), .86); font-size: clamp(1rem, 2.1vw, 1.2rem); max-width: 46ch; line-height: 1.5; }
+.hh-cta { margin-top: 24px; }
+/* Pagination (bas gauche) */
+.hh-dots { position: absolute; left: clamp(26px, 6vw, 72px); bottom: clamp(26px, 4vw, 46px); z-index: 4; display: flex; gap: 10px; }
+.hh-dot { width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer; padding: 0;
+  background: rgba(var(--cream-rgb), .4); transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
+.hh-dot.on { background: var(--sunset); transform: scale(1.3); }
+/* Flèches */
+.hh-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 4;
+  width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: grid; place-items: center;
+  font-size: 1.9rem; line-height: 1; background: rgba(var(--black-rgb), .42); color: var(--cream);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); }
+.home-hero:hover .hh-arrow, .hh-arrow:focus-visible { opacity: 1; }
+.hh-arrow:hover { background: var(--sunset); color: var(--ink); }
+.hh-prev { left: 14px; } .hh-next { right: 14px; }
+@media (hover: none) { .hh-arrow { display: none; } }
