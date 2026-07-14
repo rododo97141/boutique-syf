@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Connecte-toi ou crée ton compte SYFIR pour vivre le meilleur de l'univers SYFIR.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<link rel="canonical" href="https://www.syfir.fr/compte.html">
+<meta name="theme-color" content="#071E30">
+<title>Mon compte — SYFIR, Le Cocktail Libre™</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="account">
+  <a class="account-back" href="index.html">← Retour au site</a>
+  <div class="account-card" role="dialog" aria-labelledby="acTitle">
+    <p class="account-logo">SYFIR<span>™</span></p>
+
+    <!-- Étape 1 : e-mail d'abord -->
+    <section id="stepEmail" class="account-step">
+      <h1 class="account-title" id="acTitle">Bienvenue</h1>
+      <p class="account-sub">Connecte-toi pour vivre le meilleur de SYFIR.</p>
+      <form id="emailForm" novalidate>
+        <label for="acEmail">E-mail</label>
+        <input type="email" id="acEmail" name="email" autocomplete="email" placeholder="ton@email.com" required>
+        <p class="account-err" id="acEmailErr" role="alert" hidden></p>
+        <button type="submit" class="btn btn-gradient btn-lg account-continue">Continuer</button>
+      </form>
+      <p class="account-alt"><button type="button" class="linklike" id="toSignup">Pas encore de compte ? <strong>Inscris-toi</strong></button></p>
+    </section>
+
+    <!-- Étape 2a : e-mail connu sur l'appareil -->
+    <section id="stepWelcome" class="account-step" hidden>
+      <h1 class="account-title">Content de te revoir<span id="wbName"></span> <span aria-hidden="true">✦</span></h1>
+      <p class="account-sub">Ton profil t'attend sur cet appareil.</p>
+      <button type="button" class="btn btn-gradient btn-lg account-continue" id="wbContinue">Entrer dans mon espace</button>
+      <p class="account-alt"><button type="button" class="linklike" id="wbOther">Ce n'est pas moi</button></p>
+    </section>
+
+    <!-- Étape 2b : inscription -->
+    <section id="stepSignup" class="account-step" hidden>
+      <h1 class="account-title">Crée ton compte</h1>
+      <p class="account-sub">Quelques infos, et tu fais partie de la communauté.</p>
+      <form id="signupForm" novalidate>
+        <label for="suName">Prénom</label>
+        <input type="text" id="suName" name="name" autocomplete="given-name" required>
+        <label for="suEmail">E-mail</label>
+        <input type="email" id="suEmail" name="email" autocomplete="email" required>
+        <label for="suCity">Commune <span class="account-opt">(optionnel)</span></label>
+        <input type="text" id="suCity" name="city" autocomplete="address-level2">
+        <label for="suBirth">Date de naissance</label>
+        <input type="date" id="suBirth" name="birth" required>
+        <p class="account-hint">Requis : SYFIR vend de l'alcool, réservé aux 18 ans et plus.</p>
+        <label class="account-check"><input type="checkbox" id="suNews"> <span>Reçois les prochaines soirées et nouveautés SYFIR.</span></label>
+        <p class="account-err" id="suErr" role="alert" hidden></p>
+        <button type="submit" class="btn btn-gradient btn-lg account-continue">Créer mon compte</button>
+      </form>
+      <p class="account-alt"><button type="button" class="linklike" id="toEmail">← J'ai déjà un compte</button></p>
+    </section>
+
+    <p class="account-device"><span aria-hidden="true">🔒</span> Ton profil est enregistré sur cet appareil.</p>
+  </div>
+</main>
+
+<script src="auth.js"></script>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var steps = { email: $('#stepEmail'), welcome: $('#stepWelcome'), signup: $('#stepSignup') };
+  function show(name) {
+    Object.keys(steps).forEach(function (k) { steps[k].hidden = (k !== name); });
+    var first = steps[name].querySelector('input, button');
+    if (first) first.focus();
+  }
+  function err(el, msg) {
+    if (!msg) { el.hidden = true; return; }
+    el.textContent = msg; el.hidden = false;
+  }
+  // Après connexion : ouvrir Mon espace au retour, revenir d'où l'on vient.
+  function enter() {
+    try { sessionStorage.setItem('syfir-open-espace', '1'); } catch (e) {}
+    var ref = document.referrer;
+    var back = (ref && ref.indexOf(location.origin) === 0 && ref.indexOf('compte.html') === -1) ? ref : 'index.html';
+    location.href = back;
+  }
+
+  // Étape 1 : e-mail
+  $('#emailForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#acEmail').value.trim();
+    if (!emailRe.test(email)) { err($('#acEmailErr'), 'Entre une adresse e-mail valide.'); $('#acEmail').focus(); return; }
+    err($('#acEmailErr'), '');
+    var res = window.SYFIR_AUTH.signIn(email);
+    if (res.ok) {
+      var prenom = (res.profile.name || '').trim().split(/\s+/)[0] || '';
+      $('#wbName').textContent = prenom ? ', ' + prenom : '';
+      show('welcome');
+    } else {
+      $('#suEmail').value = email;   // pré-remplit l'inscription
+      show('signup');
+    }
+  });
+  $('#toSignup').addEventListener('click', function () { show('signup'); });
+  $('#toEmail').addEventListener('click', function () { show('email'); });
+  $('#wbOther').addEventListener('click', function () { $('#acEmail').value = ''; show('email'); });
+  $('#wbContinue').addEventListener('click', enter);
+
+  // Étape 2b : inscription
+  $('#signupForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('#suName').value.trim();
+    var email = $('#suEmail').value.trim();
+    var birth = $('#suBirth').value;
+    if (!name) { err($('#suErr'), 'Ton prénom, s\'il te plaît.'); $('#suName').focus(); return; }
+    if (!emailRe.test(email)) { err($('#suErr'), 'Entre une adresse e-mail valide.'); $('#suEmail').focus(); return; }
+    if (!birth) { err($('#suErr'), 'Ta date de naissance est requise.'); $('#suBirth').focus(); return; }
+    if (!window.SYFIR_AUTH.isLegalAge(birth)) { err($('#suErr'), 'Désolé — l\'accès est réservé aux 18 ans et plus.'); $('#suBirth').focus(); return; }
+    err($('#suErr'), '');
+    var res = window.SYFIR_AUTH.signUp({ name: name, email: email, city: $('#suCity').value.trim(), birth: birth, newsletter: $('#suNews').checked });
+    if (!res.ok) { err($('#suErr'), res.reason === 'age' ? 'Réservé aux 18 ans et plus.' : 'Vérifie tes informations.'); return; }
+    enter();
+  });
+
+  // Si déjà connecté sur cet appareil, on accueille direct.
+  var existing = window.SYFIR_AUTH.getProfile();
+  if (existing) {
+    var p = (existing.name || '').trim().split(/\s+/)[0] || '';
+    $('#wbName').textContent = p ? ', ' + p : '';
+    show('welcome');
+  } else {
+    show('email');
+  }
+})();
+</script>
+</body>
+</html>

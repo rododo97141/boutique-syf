@@ -1473,6 +1473,7 @@ if (placeModal && placesGridEl) {
     $('#profEmail').value = u.email || '';
     $('#profCity').value = u.city || '';
     $('#logoutBtn').hidden = !logged;
+    const delBtn = $('#deleteProfileBtn'); if (delBtn) delBtn.hidden = !logged;
   };
 
   const ticketRow = t => {
@@ -1534,6 +1535,8 @@ if (placeModal && placesGridEl) {
 
   const openClient = (e, tab) => {
     e?.preventDefault();
+    // Pas de profil sur l'appareil -> parcours de connexion dédié (compte.html).
+    if (!(window.SYFIR_AUTH && window.SYFIR_AUTH.getProfile())) { location.href = 'compte.html'; return; }
     switchTab(tab || 'tickets');
     renderAuthState();
     renderMyTickets();
@@ -1594,11 +1597,37 @@ if (placeModal && placesGridEl) {
   });
 
   $('#logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('syfir-user');
+    (window.SYFIR_AUTH ? window.SYFIR_AUTH.signOut() : localStorage.removeItem('syfir-user'));
     renderAuthState();
     switchTab('tickets');
     showToast('À bientôt sur SYFIR !');
   });
+
+  // RGPD : « Supprimer mon profil » — injecté sous « Se déconnecter ».
+  const profilePanel = $('#panel-profile');
+  if (profilePanel && $('#logoutBtn') && !$('#deleteProfileBtn')) {
+    const del = document.createElement('button');
+    del.id = 'deleteProfileBtn'; del.type = 'button';
+    del.className = 'btn btn-ghost btn-full danger-link';
+    del.textContent = 'Supprimer mon profil';
+    del.hidden = !isLogged();
+    $('#logoutBtn').insertAdjacentElement('afterend', del);
+    del.addEventListener('click', () => {
+      if (!confirm('Supprimer ton profil de cet appareil ? Cette action est définitive.')) return;
+      (window.SYFIR_AUTH ? window.SYFIR_AUTH.deleteProfile() : localStorage.removeItem('syfir-user'));
+      renderAuthState();
+      switchTab('tickets');
+      showToast('Profil supprimé de cet appareil.');
+    });
+  }
+
+  // Retour depuis compte.html : ouvrir Mon espace automatiquement.
+  try {
+    if (sessionStorage.getItem('syfir-open-espace')) {
+      sessionStorage.removeItem('syfir-open-espace');
+      if (window.SYFIR_AUTH && window.SYFIR_AUTH.getProfile()) openClient();
+    }
+  } catch (e) {}
   }
 
   /* ===== LIGHTBOX MOMENTS (R3) — les vraies photos en plein écran =====

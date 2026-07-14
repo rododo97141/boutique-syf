@@ -2983,3 +2983,42 @@ html[data-theme="light"] .mega { background: linear-gradient(160deg, #0a2233, #0
 .hh-arrow:hover { background: var(--sunset); color: var(--ink); }
 .hh-prev { left: 14px; } .hh-next { right: 14px; }
 @media (hover: none) { .hh-arrow { display: none; } }
+
+/* ============================================================
+   46. PAGE COMPTE (R9) — écran pur centré, email-first
+   ============================================================ */
+.account { min-height: 100vh; display: grid; place-items: center; padding: 64px 20px 40px; position: relative;
+  background: radial-gradient(130% 120% at 50% -10%, var(--ocean) 0%, var(--ocean-deep) 62%); color: var(--cream); }
+html[data-theme="light"] .account { background: radial-gradient(130% 120% at 50% -10%, #fff 0%, var(--cream-warm) 70%); color: var(--ink-warm); }
+.account-back { position: absolute; top: 22px; left: 22px; font-size: .85rem; font-weight: 600; color: inherit; opacity: .72; transition: opacity var(--dur-fast); }
+.account-back:hover { opacity: 1; }
+.account-card { width: min(420px, 100%); text-align: center; }
+.account-logo { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: .04em; margin-bottom: 38px; }
+.account-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
+.account-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.5rem); letter-spacing: -.02em; line-height: 1.06; }
+.account-sub { margin: 12px 0 28px; opacity: .72; font-size: 1rem; }
+.account form { text-align: left; display: flex; flex-direction: column; }
+.account form label { font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; margin: 14px 0 6px; opacity: .82; }
+.account-opt { font-family: var(--body); font-weight: 400; text-transform: none; letter-spacing: 0; opacity: .6; }
+.account input[type="email"], .account input[type="text"], .account input[type="date"] {
+  width: 100%; padding: 14px 16px; border-radius: 12px; color: inherit;
+  background: rgba(var(--cream-rgb), .07); border: 1px solid rgba(var(--cream-rgb), .18);
+  font-family: var(--body); font-size: 1rem; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
+html[data-theme="light"] .account input { background: #fff; border-color: rgba(var(--ink-warm-rgb), .18); }
+.account input::placeholder { color: rgba(var(--cream-rgb), .4); }
+html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-warm-rgb), .4); }
+.account input:focus { outline: none; border-color: var(--sunset); box-shadow: 0 0 0 3px rgba(var(--sunset-rgb), .22); }
+.account-continue { width: 100%; margin-top: 24px; justify-content: center; }
+.account-hint { font-size: .8rem; opacity: .62; margin-top: 8px; }
+.account-check { display: flex; flex-direction: row; align-items: flex-start; gap: 10px;
+  text-transform: none; letter-spacing: 0; font-family: var(--body); font-weight: 400; font-size: .88rem; opacity: .88; margin: 18px 0 0; }
+.account-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--sunset); flex-shrink: 0; }
+.account-err { color: var(--sunset); font-weight: 600; font-size: .85rem; margin-top: 12px; }
+.account-alt { margin-top: 22px; font-size: .9rem; opacity: .78; }
+.linklike { background: none; border: none; color: inherit; font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 4px; }
+.linklike:hover { color: var(--sunset); }
+.linklike strong { color: var(--sunset); }
+.account-device { margin-top: 34px; font-size: .78rem; opacity: .56; }
+/* Bouton RGPD « supprimer mon profil » dans Mon espace */
+.danger-link { color: var(--sunset) !important; border-color: rgba(var(--sunset-rgb), .4) !important; margin-top: 8px; }
+.danger-link:hover { background: rgba(var(--sunset-rgb), .12) !important; }
