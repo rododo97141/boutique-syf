@@ -22,6 +22,24 @@
      getUser(), signOut() ; profil dans une table `profiles`.
    - Firebase : signInWithPopup(GoogleAuthProvider/OAuthProvider('apple.com')),
      onAuthStateChanged, Firestore pour le profil.
+
+   TODO — parcours d'inscription cible façon Nike (accounts.nike.com/join),
+   à implémenter côté Supabase quand un vrai backend sera branché. En mode
+   'local' aujourd'hui : PAS de mot de passe ni de code e-mail (honnêteté
+   technique). Le jour venu, le parcours devient, écran par écran :
+     1. E-mail        — l'utilisateur saisit son e-mail (déjà en place).
+     2. Code de vérif — supabase.auth.signInWithOtp({ email }) envoie un code ;
+        écran de saisie du code à 6 chiffres.
+     3. Renvoi temporisé — bouton « Renvoyer le code dans Xs » : décompte
+        (ex. 30s) désactivé, réactivé à 0, re-signInWithOtp au clic.
+     4. Compléter le profil — prénom, nom, date de naissance (18+), commune,
+        opt-in newsletter (le formulaire d'inscription actuel).
+     5. Mot de passe — supabase.auth.updateUser({ password }) avec règles
+        live à la Nike : 8 caractères min, au moins une majuscule, une
+        minuscule et un chiffre (même pattern « croix grise → coche verte »
+        que la validation e-mail/âge déjà en place sur compte.html).
+   L'interface publique ci-dessus (signUp/signIn/…) restera le point d'entrée ;
+   ces étapes s'orchestrent dans l'implémentation `supabase` et dans compte.html.
    ============================================================ */
 (function () {
   'use strict';

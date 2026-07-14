@@ -3010,7 +3010,7 @@ html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-war
 .account input:focus { outline: none; border-color: var(--sunset); box-shadow: 0 0 0 3px rgba(var(--sunset-rgb), .22); }
 .account-continue { width: 100%; margin-top: 24px; justify-content: center; }
 .account-hint { font-size: .8rem; opacity: .62; margin-top: 8px; }
-.account-check { display: flex; flex-direction: row; align-items: flex-start; gap: 10px;
+.account form label.account-check { display: flex; flex-direction: row; align-items: flex-start; gap: 10px;
   text-transform: none; letter-spacing: 0; font-family: var(--body); font-weight: 400; font-size: .88rem; opacity: .88; margin: 18px 0 0; }
 .account-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--sunset); flex-shrink: 0; }
 .account-err { color: var(--sunset); font-weight: 600; font-size: .85rem; margin-top: 12px; }
@@ -3022,3 +3022,29 @@ html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-war
 /* Bouton RGPD « supprimer mon profil » dans Mon espace */
 .danger-link { color: var(--sunset) !important; border-color: rgba(var(--sunset-rgb), .4) !important; margin-top: 8px; }
 .danger-link:hover { background: rgba(var(--sunset-rgb), .12) !important; }
+
+/* R9-bis — inscription façon Nike : champs côte à côte, date en 3 champs,
+   règles de validation en direct (croix grise → coche verte) */
+.account-row { display: flex; gap: 12px; }
+.account-field { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+.account-row-3 { gap: 8px; }
+.account-row-3 .account-field { flex: 1 1 0; }
+.account-birth { border: none; padding: 0; margin: 0; min-width: 0; }
+.account-birth legend { font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; margin: 14px 0 6px; opacity: .82; padding: 0; }
+.account select {
+  width: 100%; padding: 14px 16px; border-radius: 12px; color: inherit;
+  background: rgba(var(--cream-rgb), .07); border: 1px solid rgba(var(--cream-rgb), .18);
+  font-family: var(--body); font-size: 1rem; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
+html[data-theme="light"] .account select { background: #fff; border-color: rgba(var(--ink-warm-rgb), .18); }
+.account select:focus { outline: none; border-color: var(--sunset); box-shadow: 0 0 0 3px rgba(var(--sunset-rgb), .22); }
+.account-rules { list-style: none; margin: 8px 0 0; padding: 0; }
+.account-rules li { display: flex; align-items: center; gap: 8px; font-size: .82rem; opacity: .66; transition: opacity var(--dur-fast); }
+.account-rules li + li { margin-top: 5px; }
+.rule-ic { flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center;
+  background: rgba(var(--cream-rgb), .16); font-size: .62rem; line-height: 1; transition: background var(--dur-fast); }
+html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); }
+.rule-ic::before { content: "✕"; opacity: .7; }
+.account-rules li.ok { opacity: 1; }
+.account-rules li.ok .rule-ic { background: rgba(46, 160, 67, .95); color: #fff; }
+.account-rules li.ok .rule-ic::before { content: "✓"; opacity: 1; }
+.account-gift { margin-top: 10px; }
