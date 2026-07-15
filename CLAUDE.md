@@ -78,6 +78,7 @@ Le vocabulaire porte la valeur. **Ces mots sont la loi** ; tout nouveau texte
 |---|---|---|
 | **pochette** (LA pochette) | ~~sachet~~ | Évoque la maroquinerie, colle au visuel marbre-or, effet premium. **Féminin** : accorder (*la* pochette, scellé**e**, dorée, réell**e**, entouré**e**, prêt**es**) ; réécrire la formule pour qu'elle sonne (« le soleil **en pochette** », « la golden hour **en pochette** », « **La** pochette, format liberté »), jamais un chercher-remplacer mécanique. |
 | **Syf TV** (la page) | ~~Actualité~~ | La chaîne des moments SYFIR — angle éditorial « chaîne TV » assumé (ambiances, aftermovies, soirées). Graphie **Syf TV** ; en nav/eyebrow (capitales via CSS) s'affiche **SYF TV**. Fichier `syf-tv.html` (`actualite.html` ne subsiste qu'en stub de redirection). |
+| **Nos Signatures** (la vitrine saveurs de l'accueil) | ~~Nos Cocktails Signature~~ | Amendement R12 : le titre de la section cartes pochettes de l'accueil (accent Fraunces sur *Signatures*). Ne renomme ni la nav (**SAVEURS**, nom de la page), ni la page `saveurs.html`, ni la row du méga-menu (« Les pochettes SYFIR »). |
 
 > Seuls les **noms de fichiers** d'assets historiques peuvent garder `sachet`
 > (`syfir-sachet-*`) : ce sont des chemins, pas du texte de marque.
