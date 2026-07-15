@@ -185,8 +185,7 @@
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
     // on bascule en eager : le fetch part menu fermé, tout est décodé avant
     // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
-    // (R12 : même traitement pour les cartes du dropdown SAVEURS de la nav.)
-    const megaImgs = [...$$('.mega-prod-img img, .mega-envie img', mega), ...$$('.nav-drop-cards img')];
+    const megaImgs = $$('.mega-prod-img img, .mega-envie img', mega);
     megaImgs.forEach(im => {
       if (im.complete && im.naturalWidth) return;
       im.classList.add('img-fade');
