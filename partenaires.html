@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SYFIR — Saveurs. Trois cocktails signature : Syf Planteur, Coral Breeze, Golden Escape. Sur place dans le verre SYFIR ou à emporter en pochette scellée.">
-<meta property="og:title" content="Saveurs — SYFIR, Le Cocktail Libre™">
-<meta property="og:description" content="Trois recettes signature. Sur place ou à emporter. Goûte à la liberté.">
+<meta name="description" content="SYFIR EXPERIENCE — deviens partenaire : bars, clubs, beach clubs, hôtels, restaurants, artistes, distributeurs, investisseurs. Ton lieu, ton événement, ta scène. On apporte le reste.">
+<meta property="og:title" content="SYFIR EXPERIENCE — Devenir partenaire">
+<meta property="og:description" content="Ton lieu, ton événement, ta scène. On apporte le reste. Rejoins l'aventure SYFIR — Le Cocktail Libre™.">
 <!-- TODO : préfixer d'une URL absolue quand le domaine définitif sera connu -->
-<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:image" content="images/produits/syfir-pub-duo.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
-<title>Saveurs — SYFIR, Le Cocktail Libre™</title>
-<!-- LCP : 1re carte cocktail (visuel officiel) préchargée en WebP -->
-<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="images/produits/syfir-planteur-marbre.webp">
+<meta name="twitter:image" content="images/produits/syfir-pub-duo.jpg">
+<title>Devenir partenaire — SYFIR EXPERIENCE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
@@ -20,7 +18,6 @@
      assure le texte en repli immédiat puis la bascule. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
-<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
 <script>
 (function () {
   var pref = localStorage.getItem('syfir-theme') || 'auto';
@@ -31,15 +28,16 @@
 })();
 </script>
 <!-- Canonical (TODO : base d'URL à confirmer, cf. README/sitemap) -->
-<link rel="canonical" href="https://www.syfir.fr/saveurs.html">
+<link rel="canonical" href="https://www.syfir.fr/partenaires.html">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#071E30">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="ambience" aria-hidden="true"></div>
 
 <!-- ============================================================
-     NAVIGATION (maquette client)
+     NAVIGATION
 ============================================================ -->
 <nav id="nav">
   <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
@@ -49,7 +47,7 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link active" data-nav="saveurs">Saveurs</a>
+        <a href="saveurs.html" class="nav-link" data-nav="saveurs">Saveurs</a>
         <div class="nav-drop" role="menu" aria-label="Saveurs">
           <a href="saveurs.html" role="menuitem">Toutes les pochettes</a>
           <a href="saveurs.html#planteur" role="menuitem">Syf Planteur</a>
@@ -67,7 +65,7 @@
           <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
-      <li class="nav-item"><a href="partenaires.html" class="nav-link" data-nav="partenaires">Devenir partenaire</a></li>
+      <li class="nav-item"><a href="partenaires.html" class="nav-link" data-nav="partenaires" aria-current="page">Devenir partenaire</a></li>
     </ul>
   </div>
   <div class="nav-actions">
@@ -106,172 +104,130 @@
 <main>
 
 <!-- ============================================================
-     HERO SOBRE — Saveurs
+     HERO SOBRE — SYFIR EXPERIENCE
 ============================================================ -->
 <header class="page-hero" id="haut">
   <div class="container">
-    <p class="eyebrow reveal">Les saveurs</p>
-    <h1 class="h2 reveal d1">Saveurs <em>Signature</em>.</h1>
-    <p class="section-intro reveal d2">Deux façons de les vivre : <strong>sur place</strong>, servi dans le verre SYFIR — ou <strong>à emporter</strong>, dans notre pochette signature scellée. Goûte à la liberté.</p>
+    <p class="eyebrow reveal">Devenir partenaire</p>
+    <h1 class="h2 reveal d1">SYFIR <em>EXPERIENCE</em></h1>
+    <p class="section-intro reveal d2">Ton lieu, ton événement, ta scène. On apporte le reste.</p>
   </div>
 </header>
 
 <!-- ============================================================
-     NOS COCKTAILS — la grille (le titre vit dans le hero ci-dessus)
+     DEVENIR PARTENAIRE — audiences, formulaire, investisseurs
+     (page dédiée depuis R10 ; teaser sur l'accueil renvoie ici)
 ============================================================ -->
-<section id="cocktails" class="section section-cream">
+<section id="partenaires" class="section">
   <div class="container">
-
-    <div class="cocktail-grid">
-
-      <!-- Syf Planteur — visuels OFFICIELS du client (images/produits/, compressés depuis images/originaux/) -->
-      <article class="cocktail-card reveal d1" tabindex="0" role="button" aria-label="Voir la fiche Syf Planteur" data-tilt
-        data-name="Syf Planteur™" data-notes="Mangue • Passion • Ananas"
-        data-desc="L'esprit des tropiques dans un coucher de soleil liquide. Mangue mûre, passion acidulée, ananas rôti. Le best-seller qui a donné sa couleur à SYFIR."
-        data-photos="images/produits/syfir-planteur-marbre.jpg|images/produits/syfir-studio-fruits.jpg|images/produits/syfir-bar-bois.jpg|images/produits/syfir-sachet-fruits-blanc.jpg|images/produits/syfir-laniere-blanc.jpg"
-        data-video="videos/syf-planteur.mp4">
-        <div class="cocktail-media">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp">
-            <img src="images/produits/syfir-planteur-marbre.jpg"
-                 alt="Syf Planteur — la pochette réelle SYFIR sur socle de marbre" fetchpriority="high" width="864" height="1184">
-          </picture>
-          <span class="cocktail-badge">Best-seller</span>
-        </div>
-        <div class="cocktail-body">
-          <h3>Syf Planteur<sup>™</sup></h3>
-          <p class="cocktail-notes">Mangue • Passion • Ananas</p>
-          <p class="cocktail-desc">L'esprit des tropiques dans un coucher de soleil liquide. Mangue mûre, passion acidulée, ananas rôti. Le best-seller qui a donné sa couleur à SYFIR.</p>
-          <div class="serve-tags">
-            <span class="serve-tag">🥂 Sur place — verre</span>
-            <span class="serve-tag">🛍️ À emporter — pochette</span>
-          </div>
-          <a href="index.html#ou-trouver" class="serve-link">Où le trouver →</a>
-        </div>
-      </article>
-
-      <!-- Syf Coral Breeze -->
-      <article class="cocktail-card reveal d2" tabindex="0" role="button" aria-label="Voir la fiche Syf Coral Breeze"
-        data-name="Syf Coral Breeze™" data-notes="Agrumes • Hibiscus • Fruits rouges"
-        data-desc="Agrumes vifs, hibiscus, fruits rouges. La fraîcheur qui réveille la piste."
-        data-photos="images/produits/syfir-coral-fruits-rouges.jpg"
-        data-video="videos/prep-cocktail.mp4|https://www.pexels.com/download/video/4747677/">
-        <div class="cocktail-media">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-coral-fruits-rouges.webp">
-            <img src="images/produits/syfir-coral-fruits-rouges.jpg" alt="Syf Coral Breeze — fruits rouges et pochette SYFIR" loading="lazy" width="1086" height="1448">
-          </picture>
-          <span class="cocktail-badge badge-coral">Vibrant</span>
-        </div>
-        <div class="cocktail-body">
-          <h3>Syf Coral Breeze<sup>™</sup></h3>
-          <p class="cocktail-notes">Agrumes • Hibiscus • Fruits rouges</p>
-          <p class="cocktail-desc">Agrumes vifs, hibiscus, fruits rouges. La fraîcheur qui réveille la piste.</p>
-          <div class="serve-tags">
-            <span class="serve-tag">🥂 Sur place — verre</span>
-            <span class="serve-tag">🛍️ À emporter — pochette</span>
-          </div>
-          <a href="index.html#ou-trouver" class="serve-link">Où le trouver →</a>
-        </div>
-      </article>
-
-      <!-- Syf Golden Escape -->
-      <article class="cocktail-card reveal d3" tabindex="0" role="button" aria-label="Voir la fiche Syf Golden Escape"
-        data-name="Syf Golden Escape™" data-notes="Citron vert • Passion • Fruits exotiques"
-        data-desc="Citron vert, passion, fruits exotiques. La golden hour en pochette."
-        data-photos="images/produits/syfir-tropical-ananas.jpg"
-        data-video="videos/orange-juice.mp4|https://www.pexels.com/download/video/5944773/">
-        <div class="cocktail-media">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-tropical-ananas.webp">
-            <img src="images/produits/syfir-tropical-ananas.jpg" alt="Syf Golden Escape — la pochette tropicale ananas" loading="lazy" width="1029" height="1538">
-          </picture>
-          <span class="cocktail-badge badge-gold">Édition Or</span>
-        </div>
-        <div class="cocktail-body">
-          <h3>Syf Golden Escape<sup>™</sup></h3>
-          <p class="cocktail-notes">Citron vert • Passion • Fruits exotiques</p>
-          <p class="cocktail-desc">Citron vert, passion, fruits exotiques. La golden hour en pochette.</p>
-          <div class="serve-tags">
-            <span class="serve-tag">🥂 Sur place — verre</span>
-            <span class="serve-tag">🛍️ À emporter — pochette</span>
-          </div>
-          <a href="index.html#ou-trouver" class="serve-link">Où le trouver →</a>
-        </div>
-      </article>
+    <div class="partner-chips reveal d2">
+      <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span><span>Partenaires financiers · Investisseurs</span>
     </div>
 
-    <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
-  </div>
-</section>
+    <!-- Formulaire intelligent -->
+    <form class="smart-form reveal d3" id="partnerForm" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+      <fieldset class="form-choice">
+        <legend>Ta demande</legend>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="partenaire" checked>
+          <span><strong>Devenir partenaire</strong><small>Bars, hôtels, restaurants, clubs…</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="evenement">
+          <span><strong>Organiser un événement</strong><small>Privé ou ouvert au public</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="artiste">
+          <span><strong>Artiste · DJ · Groupe</strong><small>Joue sur les scènes SYFIR</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="collaborateur">
+          <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="distributeur">
+          <span><strong>Devenir distributeur</strong><small>Distribution SYFIR régionale</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="investisseur">
+          <span><strong>Partenaire financier · Investisseur</strong><small>Vision long terme, création de valeur</small></span>
+        </label>
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="autre">
+          <span><strong>Autre demande</strong><small>Presse, collaboration, idée…</small></span>
+        </label>
+      </fieldset>
 
-<!-- ============================================================
-     L'HISTOIRE DU PLANTEUR — scrollytelling sobre en 5 scènes
-     (fruits → pochette marbre → verre → plage → fête). CSS scroll-driven,
-     repli statique si non supporté ou prefers-reduced-motion.
-============================================================ -->
-<section id="story" class="saveurs-story section section-dark" aria-label="L'histoire du Syf Planteur">
-  <div class="container">
-    <p class="eyebrow eyebrow-light reveal">L'histoire du Planteur</p>
-    <h2 class="h2 reveal d1">Du fruit <em>à la fête</em>.</h2>
+      <!-- Note contextuelle (ex. booking d'un artiste précis), posée par script.js -->
+      <p class="form-note" id="formNote" hidden></p>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="pfName">Nom complet *</label>
+          <input type="text" id="pfName" name="name" autocomplete="name" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfEmail">Email *</label>
+          <input type="email" id="pfEmail" name="email" autocomplete="email" placeholder="toi@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfPhone">Téléphone *</label>
+          <input type="tel" id="pfPhone" name="phone" autocomplete="tel" placeholder="06 12 34 56 78">
+          <span class="field-error"></span>
+        </div>
+        <!-- Champ contextuel : change selon le type de demande -->
+        <div class="form-field" id="contextField">
+          <label for="pfContext">Nom de l'établissement *</label>
+          <input type="text" id="pfContext" name="context" placeholder="Le nom de ton lieu">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field form-field-full">
+          <label for="pfMessage">Ton projet *</label>
+          <textarea id="pfMessage" name="message" rows="4" placeholder="Parle-nous de ta vision…"></textarea>
+          <span class="field-error"></span>
+        </div>
+      </div>
+
+      <label class="form-consent">
+        <input type="checkbox" id="pfConsent" name="consent">
+        <span>J'accepte d'être recontacté(e) par l'équipe SYFIR. *</span>
+        <span class="field-error"></span>
+      </label>
+
+      <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
+      <p class="form-success" id="formSuccess" hidden>✦ Merci ! Ta demande a bien été envoyée. L'équipe SYFIR te répond sous 48 h.</p>
+      <p class="form-error" id="formError" role="alert" hidden>Oups, l'envoi a échoué. Réessaie, ou écris-nous directement à contact@syfir.fr.</p>
+    </form>
+
+    <!-- Partenaires & investisseurs — les 3 arguments du dossier fondateur,
+         sobre et sans chiffres. Le CTA présélectionne le formulaire ci-dessus. -->
+    <div class="invest-card reveal" id="investisseurs">
+      <h3 class="invest-title">Partenaires &amp; <em>investisseurs</em></h3>
+      <div class="invest-args">
+        <div>
+          <strong>Vision claire</strong>
+          <p>Une stratégie définie et des objectifs précis, portés par le fondateur.</p>
+        </div>
+        <div>
+          <strong>Marque différenciante</strong>
+          <p>Un positionnement unique : le cocktail lifestyle en pochette, format liberté.</p>
+        </div>
+        <div>
+          <strong>Potentiel de croissance</strong>
+          <p>Un modèle pensé pour la scalabilité : événementiel, points de vente, nouvelles saveurs.</p>
+        </div>
+      </div>
+      <blockquote class="invest-quote">« Je ne cherche pas uniquement des investisseurs, mais des partenaires qui croient en la création de valeur sur le long terme. »</blockquote>
+      <div class="invest-cta">
+        <p>Le dossier complet se partage de vive voix.</p>
+        <a class="btn btn-solid" href="#partnerForm" data-request="investisseur">Prendre contact →</a>
+      </div>
+    </div>
   </div>
-  <ol class="story-track">
-    <li class="story-scene">
-      <span class="story-num" aria-hidden="true">01</span>
-      <figure class="story-media">
-        <picture><source type="image/webp" srcset="images/produits/syfir-studio-fruits.webp">
-          <img src="images/produits/syfir-studio-fruits.jpg" alt="Fruits frais — mangue, passion, ananas" loading="lazy" width="1184" height="1184"></picture>
-      </figure>
-      <div class="story-text">
-        <h3>Tout commence par le fruit.</h3>
-        <p>Mangue mûre, passion acidulée, ananas rôti — choisis pour le goût, pas pour la photo.</p>
-      </div>
-    </li>
-    <li class="story-scene">
-      <span class="story-num" aria-hidden="true">02</span>
-      <figure class="story-media">
-        <picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp">
-          <img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette Syf Planteur scellée sur marbre" loading="lazy" width="864" height="1184"></picture>
-      </figure>
-      <div class="story-text">
-        <h3>On le scelle dans la pochette.</h3>
-        <p>Le format liberté : mobile, prêt à te suivre là où ça se passe.</p>
-      </div>
-    </li>
-    <li class="story-scene">
-      <span class="story-num" aria-hidden="true">03</span>
-      <figure class="story-media">
-        <picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp">
-          <img src="images/produits/syfir-pub-verre.jpg" alt="Le Planteur servi sur glace dans le verre SYFIR" loading="lazy" width="1086" height="1448"></picture>
-      </figure>
-      <div class="story-text">
-        <h3>Sur glace, il prend vie.</h3>
-        <p>Servi dans le verre SYFIR, ou tel quel à emporter — c'est toi qui choisis.</p>
-      </div>
-    </li>
-    <li class="story-scene">
-      <span class="story-num" aria-hidden="true">04</span>
-      <figure class="story-media">
-        <picture><source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp">
-          <img src="images/produits/syfir-pub-plage-2.jpg" alt="Deux cocktails SYFIR au ponton, coucher de soleil" loading="lazy" width="1086" height="1448"></picture>
-      </figure>
-      <div class="story-text">
-        <h3>Là où ça se passe.</h3>
-        <p>Plage, rooftop, golden hour — le Planteur voyage avec toi.</p>
-      </div>
-    </li>
-    <li class="story-scene">
-      <span class="story-num" aria-hidden="true">05</span>
-      <figure class="story-media">
-        <picture><source type="image/webp" srcset="images/produits/syfir-pub-duo.webp">
-          <img src="images/produits/syfir-pub-duo.jpg" alt="Deux verres SYFIR levés — l'instant partagé" loading="lazy" width="1086" height="1448"></picture>
-      </figure>
-      <div class="story-text">
-        <h3>Et ça se partage.</h3>
-        <p>Un instant, deux verres, la liberté de trinquer. Goûte à la liberté.</p>
-      </div>
-    </li>
-  </ol>
 </section>
 
 </main>
@@ -334,36 +290,7 @@
   </div>
 </footer>
 
-<!-- Modale fiche produit cocktail -->
-<div class="modal" id="cocktailModal">
-  <div class="modal-box cocktail-modal-box">
-    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
-    <div class="modal-body">
-      <!-- Galerie média reconstruite à chaque ouverture -->
-      <div class="ck-hero"></div>
-      <p class="modal-tag" id="ckNotes" style="margin-top:18px"></p>
-      <h3 id="ckName"></h3>
-      <p class="pm-desc" id="ckDesc"></p>
-      <div class="ck-formats">
-        <div class="ck-format">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syf-planteur-verre.webp">
-            <img width="1086" height="1448" src="images/produits/syf-planteur-verre.jpg" alt="" loading="lazy">
-          </picture>
-          <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
-        </div>
-        <div class="ck-format">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syf-planteur-1.webp">
-            <img width="864" height="1152" src="images/produits/syf-planteur-1.jpg" alt="" loading="lazy">
-          </picture>
-          <div><strong>🛍️ À emporter</strong><small>Pochette scellée signature</small></div>
-        </div>
-      </div>
-      <a class="btn btn-solid btn-full" href="index.html#ou-trouver" data-close>Où le trouver</a>
-    </div>
-  </div>
-</div>
+<div class="toast" id="toast" role="status"></div>
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
 <div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
@@ -451,12 +378,6 @@
     </div>
   </div>
 </div>
-
-<!-- Bouton retour en haut -->
-<button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
-
-<!-- Barre de progression de lecture -->
-<div class="scroll-progress" id="scrollProgress"></div>
 
 <script src="events-data.js"></script>
 <script src="auth.js"></script>

@@ -3048,3 +3048,9 @@ html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); 
 .account-rules li.ok .rule-ic { background: rgba(46, 160, 67, .95); color: #fff; }
 .account-rules li.ok .rule-ic::before { content: "✓"; opacity: 1; }
 .account-gift { margin-top: 10px; }
+
+/* R10 — teaser SYFIR EXPERIENCE sur l'accueil (le bloc complet vit dans
+   partenaires.html). Centré, court, élégant. */
+.partner-teaser { text-align: center; }
+.partner-teaser .section-intro { margin-left: auto; margin-right: auto; max-width: 44ch; }
+.partner-teaser-cta { margin-top: 28px; }

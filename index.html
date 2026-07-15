@@ -36,6 +36,17 @@
   } catch (e) {}
 })();
 </script>
+<!-- R10 : la section partenaires est devenue partenaires.html. Les liens
+     partagés vers l'ancienne ancre sont redirigés (sous-ancre conservée),
+     avant tout rendu pour éviter un saut visible. -->
+<script>
+(function () {
+  var h = location.hash;
+  if (h === '#partenaires' || h === '#partnerForm' || h === '#investisseurs') {
+    location.replace('partenaires.html' + (h === '#partenaires' ? '' : h));
+  }
+})();
+</script>
 <!-- Canonical (TODO : base d'URL à confirmer, cf. README/sitemap) -->
 <link rel="canonical" href="https://www.syfir.fr/index.html">
 <link rel="manifest" href="manifest.webmanifest">
@@ -79,7 +90,7 @@
           <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
-      <li class="nav-item"><a href="index.html#partenaires" class="nav-link" data-nav="partenaires">Devenir partenaire</a></li>
+      <li class="nav-item"><a href="partenaires.html" class="nav-link" data-nav="partenaires">Devenir partenaire</a></li>
     </ul>
   </div>
   <div class="nav-actions">
@@ -110,7 +121,7 @@
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
   <a href="index.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYF TV</a>
-  <a href="index.html#partenaires">Devenir partenaire</a>
+  <a href="partenaires.html">Devenir partenaire</a>
   <a href="#" id="clientSpaceBtnMobile">Mon profil</a>
   <div class="mobile-nav-foot">#SYFIR &mdash; Le Cocktail Libre&trade;</div>
 </div>
@@ -376,7 +387,7 @@
     </div>
     <p class="no-results" id="noPlaces" hidden>Aucun partenaire dans cette catégorie pour le moment — la famille SYFIR s'agrandit chaque mois. ✦</p>
 
-    <p class="places-cta reveal">Tu veux proposer SYFIR dans ton établissement ? <a href="#partenaires">Deviens partenaire →</a></p>
+    <p class="places-cta reveal">Tu veux proposer SYFIR dans ton établissement ? <a href="partenaires.html">Deviens partenaire →</a></p>
   </div>
 
   <!-- « Ils nous font confiance » — fusionné ici (soustraction lot 8),
@@ -671,121 +682,16 @@
 </section>
 
 <!-- ============================================================
-     DEVENIR PARTENAIRE — SYFIR EXPERIENCE
+     SYFIR EXPERIENCE — teaser (R10)
+     Le bloc complet (audiences, formulaire, investisseurs) vit désormais
+     dans partenaires.html. Ici : un teaser court qui garde le fil narratif.
 ============================================================ -->
-<section id="partenaires" class="section">
+<section class="section partner-teaser">
   <div class="container">
     <p class="eyebrow reveal">Devenir partenaire</p>
     <h2 class="h2 reveal d1">SYFIR <em>EXPERIENCE</em></h2>
-    <p class="section-intro reveal d2">Ton lieu, ton événement, ta scène. On apporte le reste.</p>
-
-    <div class="partner-chips reveal d2">
-      <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
-      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span><span>Partenaires financiers · Investisseurs</span>
-    </div>
-
-    <!-- Formulaire intelligent -->
-    <form class="smart-form reveal d3" id="partnerForm" novalidate>
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
-      <fieldset class="form-choice">
-        <legend>Ta demande</legend>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="partenaire" checked>
-          <span><strong>Devenir partenaire</strong><small>Bars, hôtels, restaurants, clubs…</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="evenement">
-          <span><strong>Organiser un événement</strong><small>Privé ou ouvert au public</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="artiste">
-          <span><strong>Artiste · DJ · Groupe</strong><small>Joue sur les scènes SYFIR</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="collaborateur">
-          <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="distributeur">
-          <span><strong>Devenir distributeur</strong><small>Distribution SYFIR régionale</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="investisseur">
-          <span><strong>Partenaire financier · Investisseur</strong><small>Vision long terme, création de valeur</small></span>
-        </label>
-        <label class="choice-card">
-          <input type="radio" name="requestType" value="autre">
-          <span><strong>Autre demande</strong><small>Presse, collaboration, idée…</small></span>
-        </label>
-      </fieldset>
-
-      <!-- Note contextuelle (ex. booking d'un artiste précis), posée par script.js -->
-      <p class="form-note" id="formNote" hidden></p>
-
-      <div class="form-grid">
-        <div class="form-field">
-          <label for="pfName">Nom complet *</label>
-          <input type="text" id="pfName" name="name" autocomplete="name" placeholder="Prénom Nom">
-          <span class="field-error"></span>
-        </div>
-        <div class="form-field">
-          <label for="pfEmail">Email *</label>
-          <input type="email" id="pfEmail" name="email" autocomplete="email" placeholder="toi@exemple.com">
-          <span class="field-error"></span>
-        </div>
-        <div class="form-field">
-          <label for="pfPhone">Téléphone *</label>
-          <input type="tel" id="pfPhone" name="phone" autocomplete="tel" placeholder="06 12 34 56 78">
-          <span class="field-error"></span>
-        </div>
-        <!-- Champ contextuel : change selon le type de demande -->
-        <div class="form-field" id="contextField">
-          <label for="pfContext">Nom de l'établissement *</label>
-          <input type="text" id="pfContext" name="context" placeholder="Le nom de ton lieu">
-          <span class="field-error"></span>
-        </div>
-        <div class="form-field form-field-full">
-          <label for="pfMessage">Ton projet *</label>
-          <textarea id="pfMessage" name="message" rows="4" placeholder="Parle-nous de ta vision…"></textarea>
-          <span class="field-error"></span>
-        </div>
-      </div>
-
-      <label class="form-consent">
-        <input type="checkbox" id="pfConsent" name="consent">
-        <span>J'accepte d'être recontacté(e) par l'équipe SYFIR. *</span>
-        <span class="field-error"></span>
-      </label>
-
-      <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
-      <p class="form-success" id="formSuccess" hidden>✦ Merci ! Ta demande a bien été envoyée. L'équipe SYFIR te répond sous 48 h.</p>
-      <p class="form-error" id="formError" role="alert" hidden>Oups, l'envoi a échoué. Réessaie, ou écris-nous directement à contact@syfir.fr.</p>
-    </form>
-
-    <!-- Partenaires & investisseurs — les 3 arguments du dossier fondateur,
-         sobre et sans chiffres. Le CTA présélectionne le formulaire ci-dessus. -->
-    <div class="invest-card reveal" id="investisseurs">
-      <h3 class="invest-title">Partenaires &amp; <em>investisseurs</em></h3>
-      <div class="invest-args">
-        <div>
-          <strong>Vision claire</strong>
-          <p>Une stratégie définie et des objectifs précis, portés par le fondateur.</p>
-        </div>
-        <div>
-          <strong>Marque différenciante</strong>
-          <p>Un positionnement unique : le cocktail lifestyle en pochette, format liberté.</p>
-        </div>
-        <div>
-          <strong>Potentiel de croissance</strong>
-          <p>Un modèle pensé pour la scalabilité : événementiel, points de vente, nouvelles saveurs.</p>
-        </div>
-      </div>
-      <blockquote class="invest-quote">« Je ne cherche pas uniquement des investisseurs, mais des partenaires qui croient en la création de valeur sur le long terme. »</blockquote>
-      <div class="invest-cta">
-        <p>Le dossier complet se partage de vive voix.</p>
-        <a class="btn btn-solid" href="#partnerForm" data-request="investisseur">Prendre contact →</a>
-      </div>
-    </div>
+    <p class="section-intro reveal d2">Ton lieu, ton événement, ta scène. On apporte le reste — bars, clubs, hôtels, artistes, distributeurs, investisseurs.</p>
+    <p class="partner-teaser-cta reveal d3"><a class="btn btn-solid btn-lg" href="partenaires.html">Deviens partenaire →</a></p>
   </div>
 </section>
 
@@ -980,7 +886,7 @@
       <h4>Artistes &amp; équipe</h4>
       <a href="#artistes">Artistes, DJs &amp; groupes</a>
       <a href="#agenda">Agenda des concerts</a>
-      <a href="#partenaires">Devenir partenaire</a>
+      <a href="partenaires.html">Devenir partenaire</a>
       <a href="#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">

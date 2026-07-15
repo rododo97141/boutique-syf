@@ -130,7 +130,7 @@
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
-      ['Devenir partenaire', 'index.html#partenaires', 'partenaire investisseur lieu ambassadeur'],
+      ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
     ];
     if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
 
@@ -478,13 +478,25 @@
 
   $$('[data-request]').forEach(el => {
     el.addEventListener('click', () => {
-      const radio = $(`input[name="requestType"][value="${el.dataset.request}"]`);
-      if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
       // Booking d'un talent précis : note (délai de réponse du management)
       // + préremplissage du message, sans écraser ce que l'utilisateur a saisi
       const host = el.closest('[data-book-note]');
+      const type = el.dataset.request;
       const note = el.dataset.bookNote || host?.dataset.bookNote || '';
       const bookName = el.dataset.bookName || host?.dataset.name || '';
+
+      // R10 : le formulaire vit dans partenaires.html. Sur une page qui ne le
+      // contient pas (accueil, artistes…), on transmet l'intention et on
+      // redirige ; partenaires.html l'applique au chargement.
+      const form = $('#partnerForm');
+      if (!form) {
+        try { sessionStorage.setItem('syfir-partner-intent', JSON.stringify({ type, note, bookName })); } catch (e) {}
+        location.href = 'partenaires.html#partnerForm';
+        return;
+      }
+
+      const radio = $(`input[name="requestType"][value="${type}"]`);
+      if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
       const formNote = $('#formNote');
       if (formNote) {
         formNote.textContent = note ? '⏱ ' + note : '';
@@ -494,11 +506,8 @@
         const msg = $('#pfMessage');
         if (msg && !msg.value.trim()) msg.value = `Demande de booking — ${bookName}. Date, lieu et type d'événement : `;
       }
-      const form = $('#partnerForm');
-      if (form) {
-        const top = form.getBoundingClientRect().top + window.scrollY - 90;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
+      const top = form.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 
@@ -1058,6 +1067,29 @@ if (placeModal && placesGridEl) {
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
+
+    // R10 : intention transmise depuis une autre page (Booker, Rejoindre le
+    // line-up, rôles…) — on présélectionne le type, pose la note/le message,
+    // puis on défile jusqu'au formulaire.
+    try {
+      const raw = sessionStorage.getItem('syfir-partner-intent');
+      if (raw) {
+        sessionStorage.removeItem('syfir-partner-intent');
+        const intent = JSON.parse(raw) || {};
+        const radio = intent.type && $(`input[name="requestType"][value="${intent.type}"]`);
+        if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
+        if ($('#formNote')) {
+          $('#formNote').textContent = intent.note ? '⏱ ' + intent.note : '';
+          $('#formNote').hidden = !intent.note;
+        }
+        if (intent.note && intent.bookName) {
+          const msg = $('#pfMessage');
+          if (msg && !msg.value.trim()) msg.value = `Demande de booking — ${intent.bookName}. Date, lieu et type d'événement : `;
+        }
+        const top = partnerForm.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    } catch (e) {}
   }
 
   /* ===== 17. RETOUR EN HAUT + BARRE DE PROGRESSION (toutes pages) ===== */
