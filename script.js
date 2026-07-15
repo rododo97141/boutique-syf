@@ -222,7 +222,8 @@
       search.value = ''; doSearch();
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
-    $('#burgerBtn')?.addEventListener('click', () => open(false));
+    // R17 : le burger ouvre désormais le menu mobile de navigation (#mobileNav,
+    // cf. initMobileNav) ; l'icône loupe garde le méga-menu « Recherche ».
     $('#searchBtn')?.addEventListener('click', () => open(true));
     $('#megaClose', mega).addEventListener('click', close);
     $$('a', mega).forEach(a => a.addEventListener('click', close));
@@ -246,6 +247,24 @@
       if (link) { e.stopPropagation(); link.focus(); link.blur(); }
     });
   });
+
+  // R17 : le menu mobile plein écran (#mobileNav) était orphelin — le burger
+  // ouvrait le méga-menu « Recherche » et personne n'ouvrait ce menu de nav.
+  // On le rebranche : burger -> #mobileNav ; Échap / lien / croix ferment.
+  (function initMobileNav() {
+    const menu = document.getElementById('mobileNav');
+    const burger = document.getElementById('burgerBtn');
+    if (!menu || !burger) return;
+    const close = () => { menu.classList.remove('open'); document.body.style.overflow = ''; burger.setAttribute('aria-expanded', 'false'); };
+    const open = () => { menu.classList.add('open'); document.body.style.overflow = 'hidden'; burger.setAttribute('aria-expanded', 'true'); const f = menu.querySelector('a, button:not(.mobile-close)'); if (f) f.focus(); };
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-haspopup', 'true');
+    burger.addEventListener('click', () => menu.classList.contains('open') ? close() : open());
+    menu.querySelector('#closeNav')?.addEventListener('click', close);
+    $$('a', menu).forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { close(); burger.focus(); } });
+    window.__syfirCloseMobileNav = close;
+  })();
 
   // R15 : dropdown NOTRE GAMME pleine largeur (façon maison de luxe).
   // Le panneau est sorti de la pilule (son backdrop-filter piège les
@@ -1630,8 +1649,12 @@ if (placeModal && placesGridEl) {
 
   const openClient = (e, tab) => {
     e?.preventDefault();
-    // Pas de profil sur l'appareil -> parcours de connexion dédié (compte.html).
-    if (!(window.SYFIR_AUTH && window.SYFIR_AUTH.getProfile())) { location.href = 'compte.html'; return; }
+    // R17 : un invité qui a déjà des billets ou des favoris peut consulter
+    // Mon espace (ses données locales) sans compte. Sans profil NI données,
+    // on l'envoie vers le parcours de connexion dédié (compte.html).
+    const hasProfile = window.SYFIR_AUTH && window.SYFIR_AUTH.getProfile();
+    const hasLocalData = store.get('syfir-tickets', []).length || store.get('syfir-favs', []).length;
+    if (!hasProfile && !hasLocalData) { location.href = 'compte.html'; return; }
     switchTab(tab || 'tickets');
     renderAuthState();
     renderMyTickets();
@@ -1639,7 +1662,7 @@ if (placeModal && placesGridEl) {
     openModal(clientModal);
   };
   $('#clientSpaceBtn')?.addEventListener('click', e => openClient(e));
-  $('#clientSpaceBtnMobile')?.addEventListener('click', e => { openClient(e); mobileNav?.classList.remove('open'); });
+  $('#clientSpaceBtnMobile')?.addEventListener('click', e => { openClient(e); });
   $('#footClientSpace')?.addEventListener('click', e => openClient(e));
 
   $('#clientTabs').addEventListener('click', e => {
@@ -1730,7 +1753,13 @@ if (placeModal && placesGridEl) {
      pour naviguer, Échap ou fond pour fermer. Pour être DANS le moment.
      Placé AVANT le garde billetterie pour tourner sur syf-tv.html. */
   (function initLightbox() {
-    const grids = $$('.moments-grid, .insta-grid');
+    // Galeries photo : les grilles historiques + les rangées streaming (R8)
+    // qui contiennent de vraies photos (.moment-shot). On EXCLUT les rangées
+    // de cartes-liens (.rb-card) qui mènent à des pages, pas à un plein écran.
+    const grids = [
+      ...$$('.moments-grid, .insta-grid'),
+      ...$$('.media-row-track').filter(t => t.querySelector('.moment-shot'))
+    ];
     if (!grids.length) return;
 
     const lb = document.createElement('div');
