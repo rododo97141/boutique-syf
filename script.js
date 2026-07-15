@@ -159,6 +159,7 @@
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
           <a href="syf-tv.html">SYF TV</a>
+          <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
         </div>
         <div class="mega-content">
