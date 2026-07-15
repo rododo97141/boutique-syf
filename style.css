@@ -3084,8 +3084,10 @@ html[data-theme="light"] .nav-drop-lux {
    — dont le backdrop-filter piégeait le position:fixed — pour couvrir toute
    la largeur du viewport (cf. initLuxDrop). */
 .nav-drop-lux.open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+/* R18 : échelle réduite pour un rendu plus chic (esprit Hennessy) —
+   vignettes plus compactes (~240px), plus d'air autour, panneau plus bas. */
 .nav-lux-inner {
-  max-width: 1120px; margin: 0 auto; padding: 30px 5vw 36px;
+  max-width: 980px; margin: 0 auto; padding: 24px 5vw 28px;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
 }
 .nav-lux-item { display: block; }
@@ -3097,9 +3099,9 @@ html[data-theme="light"] .nav-lux-pic { background: rgba(var(--ink-warm-rgb), .0
 .nav-lux-pic img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
 .nav-lux-item:hover .nav-lux-pic img, .nav-lux-item:focus-visible .nav-lux-pic img { transform: scale(1.05); }
 .nav-lux-label {
-  display: block; margin-top: 16px; padding-bottom: 3px;
-  font-family: var(--display); font-weight: 700; font-size: .82rem;
-  letter-spacing: .18em; text-transform: uppercase; text-align: center;
+  display: block; margin-top: 14px; padding-bottom: 3px;
+  font-family: var(--display); font-weight: 600; font-size: .72rem;
+  letter-spacing: .22em; text-transform: uppercase; text-align: center;
   color: var(--cream); position: relative;
 }
 html[data-theme="light"] .nav-lux-label { color: var(--ink); }
