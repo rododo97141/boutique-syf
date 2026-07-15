@@ -50,10 +50,23 @@
     <ul class="nav-links">
       <li class="nav-item has-drop">
         <a href="saveurs.html" class="nav-link active" data-nav="saveurs">Notre Gamme</a>
-        <div class="nav-drop" role="menu" aria-label="Notre Gamme">
-          <a href="saveurs.html" role="menuitem">Toute notre gamme</a>
-          <a href="saveurs.html#cocktails" role="menuitem">Nos cocktails</a>
-          <a href="saveurs.html#signatures" role="menuitem">Nos signatures</a>
+        <!-- R15 : panneau pleine largeur façon maison de luxe (Hennessy) —
+             vignette paysage + libellé capitales, 3 catégories -->
+        <div class="nav-drop nav-drop-lux" role="menu" aria-label="Notre Gamme">
+          <div class="nav-lux-inner">
+            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="" loading="lazy" width="1024" height="1024"></picture></span>
+              <span class="nav-lux-label">Toute notre gamme</span>
+            </a>
+            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="" loading="lazy" width="1086" height="1448"></picture></span>
+              <span class="nav-lux-label">Nos cocktails</span>
+            </a>
+            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="" loading="lazy" width="864" height="1184"></picture></span>
+              <span class="nav-lux-label">Nos signatures</span>
+            </a>
+          </div>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>

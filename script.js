@@ -185,7 +185,8 @@
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
     // on bascule en eager : le fetch part menu fermé, tout est décodé avant
     // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
-    const megaImgs = $$('.mega-prod-img img, .mega-envie img', mega);
+    // (R15 : + les vignettes du dropdown NOTRE GAMME pleine largeur.)
+    const megaImgs = [...$$('.mega-prod-img img, .mega-envie img', mega), ...$$('.nav-lux-pic img')];
     megaImgs.forEach(im => {
       if (im.complete && im.naturalWidth) return;
       im.classList.add('img-fade');
@@ -244,6 +245,41 @@
       if (link) { e.stopPropagation(); link.focus(); link.blur(); }
     });
   });
+
+  // R15 : dropdown NOTRE GAMME pleine largeur (façon maison de luxe).
+  // Le panneau est sorti de la pilule (son backdrop-filter piège les
+  // position:fixed) et placé juste après <nav> pour couvrir toute la
+  // largeur ; ouverture survol + focus, fermeture Échap / clic dehors.
+  (function initLuxDrop() {
+    const panel = document.querySelector('.nav-drop-lux');
+    if (!panel) return;
+    const item = panel.closest('.has-drop');
+    if (!item) return;
+    const link = item.querySelector('.nav-link');
+    const navEl = document.getElementById('nav') || document.body;
+    navEl.insertAdjacentElement('afterend', panel);
+    let t;
+    const isOpen = () => panel.classList.contains('open');
+    const open = () => { clearTimeout(t); panel.classList.add('open'); if (link) link.setAttribute('aria-expanded', 'true'); };
+    const close = () => { panel.classList.remove('open'); if (link) link.setAttribute('aria-expanded', 'false'); };
+    const closeSoon = () => { clearTimeout(t); t = setTimeout(close, 140); };
+    const leftBoth = e => !item.contains(e.relatedTarget) && !panel.contains(e.relatedTarget);
+    item.addEventListener('mouseenter', open);
+    item.addEventListener('mouseleave', closeSoon);
+    panel.addEventListener('mouseenter', open);
+    panel.addEventListener('mouseleave', closeSoon);
+    item.addEventListener('focusin', open);
+    item.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
+    panel.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
+    if (link) {
+      link.setAttribute('aria-haspopup', 'true');
+      link.setAttribute('aria-expanded', 'false');
+      link.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); open(); const f = panel.querySelector('a'); if (f) f.focus(); } });
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) { close(); if (link) link.focus(); } });
+    document.addEventListener('click', e => { if (isOpen() && !panel.contains(e.target) && !item.contains(e.target)) close(); });
+    $$('a', panel).forEach(a => a.addEventListener('click', close));
+  })();
 
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {
