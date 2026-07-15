@@ -181,6 +181,22 @@
       </div>`;
     document.body.appendChild(mega);
 
+    // R11 : le menu est display:none au chargement, donc ses images lazy ne
+    // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
+    // on bascule en eager : le fetch part menu fermé, tout est décodé avant
+    // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
+    const megaImgs = $$('.mega-prod-img img, .mega-envie img', mega);
+    megaImgs.forEach(im => {
+      if (im.complete && im.naturalWidth) return;
+      im.classList.add('img-fade');
+      const inFn = () => im.classList.add('img-in');
+      im.addEventListener('load', inFn, { once: true });
+      im.addEventListener('error', inFn, { once: true });
+    });
+    const warmMega = () => megaImgs.forEach(im => { im.loading = 'eager'; im.decoding = 'async'; });
+    if ('requestIdleCallback' in window) requestIdleCallback(warmMega, { timeout: 4000 });
+    else setTimeout(warmMega, 2500);
+
     const search = $('#megaSearch', mega), results = $('#megaResults', mega), panels = $('#megaPanels', mega);
     let lastFocus = null;
     const doSearch = () => {

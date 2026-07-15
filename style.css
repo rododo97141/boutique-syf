@@ -3054,3 +3054,8 @@ html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); 
 .partner-teaser { text-align: center; }
 .partner-teaser .section-intro { margin-left: auto; margin-right: auto; max-width: 44ch; }
 .partner-teaser-cta { margin-top: 28px; }
+
+/* R11 — visuels du méga-menu : préchargés à l'idle (script.js) ; micro-fade
+   à l'arrivée pour les retardataires, jamais de carte vide qui « pope ». */
+.mega .img-fade { opacity: 0; }
+.mega .img-fade.img-in { opacity: 1; transition: opacity var(--dur-med) var(--ease); }
