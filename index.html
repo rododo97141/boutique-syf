@@ -73,11 +73,24 @@
     <ul class="nav-links">
       <li class="nav-item has-drop">
         <a href="saveurs.html" class="nav-link" data-nav="saveurs">Saveurs</a>
-        <div class="nav-drop" role="menu" aria-label="Saveurs">
-          <a href="saveurs.html" role="menuitem">Toutes les pochettes</a>
-          <a href="saveurs.html#planteur" role="menuitem">Syf Planteur</a>
-          <a href="saveurs.html#coral" role="menuitem">Syf Coral Breeze</a>
-          <a href="saveurs.html#golden" role="menuitem">Syf Golden Escape</a>
+        <!-- R12 : panneau en cartes façon Red Bull — « Nos Signatures » -->
+        <div class="nav-drop nav-drop-cards" role="menu" aria-label="Saveurs — Nos Signatures">
+          <p class="nav-drop-title">Nos <em>Signatures</em></p>
+          <div class="nav-drop-grid">
+            <a class="nav-prod" href="saveurs.html#planteur" role="menuitem">
+              <span class="nav-prod-img"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="" loading="lazy" width="1086" height="1448"></picture></span>
+              <span class="nav-prod-name">Syf Planteur</span>
+            </a>
+            <a class="nav-prod" href="saveurs.html#coral" role="menuitem">
+              <span class="nav-prod-img"><picture><source type="image/webp" srcset="images/produits/syfir-sachet-fruits-blanc.webp"><img src="images/produits/syfir-sachet-fruits-blanc.jpg" alt="" loading="lazy" width="1086" height="1448"></picture></span>
+              <span class="nav-prod-name">Syf Coral Breeze</span>
+            </a>
+            <a class="nav-prod" href="saveurs.html#golden" role="menuitem">
+              <span class="nav-prod-img"><picture><source type="image/webp" srcset="images/produits/syfir-tropical-ananas.webp"><img src="images/produits/syfir-tropical-ananas.jpg" alt="" loading="lazy" width="1029" height="1538"></picture></span>
+              <span class="nav-prod-name">Syf Golden Escape</span>
+            </a>
+            <a class="nav-drop-all" href="saveurs.html" role="menuitem">Toutes les pochettes →</a>
+          </div>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
@@ -298,41 +311,15 @@
   </div>
   <div class="container">
 
-    <!-- R12 : le bouton « Explorer les saveurs » devient les cartes pochettes
-         claires (style méga-menu) — pack shot sur fond crème, hover zoom,
-         chaque carte mène directement à sa saveur. -->
-    <div class="saveur-cards">
-      <a class="saveur-card reveal d1" href="saveurs.html#planteur">
-        <span class="saveur-card-img">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp">
-            <img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette Syf Planteur sur marbre" loading="lazy" width="1086" height="1448">
-          </picture>
-        </span>
-        <span class="saveur-card-name">Syf Planteur<sup>™</sup></span>
-        <span class="saveur-card-notes">Mangue • Passion • Ananas</span>
-      </a>
-      <a class="saveur-card reveal d2" href="saveurs.html#coral">
-        <span class="saveur-card-img">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-sachet-fruits-blanc.webp">
-            <img src="images/produits/syfir-sachet-fruits-blanc.jpg" alt="La pochette Syf Coral Breeze entourée de fruits" loading="lazy" width="1086" height="1448">
-          </picture>
-        </span>
-        <span class="saveur-card-name">Syf Coral Breeze<sup>™</sup></span>
-        <span class="saveur-card-notes">Agrumes • Hibiscus • Fruits rouges</span>
-      </a>
-      <a class="saveur-card reveal d3" href="saveurs.html#golden">
-        <span class="saveur-card-img">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-sachet-or-vide.webp">
-            <img src="images/produits/syfir-sachet-or-vide.jpg" alt="La pochette dorée Syf Golden Escape" loading="lazy" width="1086" height="1448">
-          </picture>
-        </span>
-        <span class="saveur-card-name">Syf Golden Escape<sup>™</sup></span>
-        <span class="saveur-card-notes">Citron vert • Passion • Fruits exotiques</span>
-      </a>
-    </div>
+    <!-- La gamme complète (photo officielle) en vitrine, cliquable -->
+    <a class="teaser-banner teaser-banner-gamme reveal" href="saveurs.html" aria-label="Explorer les saveurs SYFIR">
+      <picture>
+        <source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp">
+        <img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme SYFIR — six saveurs" loading="lazy" width="1024" height="1024">
+      </picture>
+      <span class="teaser-banner-veil" aria-hidden="true"></span>
+      <span class="btn btn-solid teaser-banner-cta">Explorer les saveurs →</span>
+    </a>
     <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
   </div>
 </section>

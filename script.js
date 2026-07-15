@@ -185,7 +185,8 @@
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
     // on bascule en eager : le fetch part menu fermé, tout est décodé avant
     // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
-    const megaImgs = $$('.mega-prod-img img, .mega-envie img', mega);
+    // (R12 : même traitement pour les cartes du dropdown SAVEURS de la nav.)
+    const megaImgs = [...$$('.mega-prod-img img, .mega-envie img', mega), ...$$('.nav-drop-cards img')];
     megaImgs.forEach(im => {
       if (im.complete && im.naturalWidth) return;
       im.classList.add('img-fade');
@@ -234,6 +235,16 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
   })();
+
+  // R12 : Échap referme les dropdowns de la nav (ils s'ouvrent au
+  // hover/focus-within — rendre le focus au lien parent les replie).
+  $$('.has-drop').forEach(item => {
+    item.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      const link = $('.nav-link', item);
+      if (link) { e.stopPropagation(); link.focus(); link.blur(); }
+    });
+  });
 
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {

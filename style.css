@@ -3057,26 +3057,35 @@ html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); 
 
 /* R11 — visuels du méga-menu : préchargés à l'idle (script.js) ; micro-fade
    à l'arrivée pour les retardataires, jamais de carte vide qui « pope ». */
-.mega .img-fade { opacity: 0; }
-.mega .img-fade.img-in { opacity: 1; transition: opacity var(--dur-med) var(--ease); }
+.mega .img-fade, .nav-drop-cards .img-fade { opacity: 0; }
+.mega .img-fade.img-in, .nav-drop-cards .img-fade.img-in { opacity: 1; transition: opacity var(--dur-med) var(--ease); }
 
-/* R12 — « le bouton saveur devient la carte » : sur l'accueil, le CTA banner
-   « Explorer les saveurs » laisse place aux cartes pochettes claires du
-   méga-menu — pack shot sur fond crème, titre Unbounded, hover zoom ; le
-   crème et l'encre restent fixes dans les deux thèmes (carte produit). */
-.saveur-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
-.saveur-card { display: block; border-radius: 18px; overflow: hidden; background: var(--cream);
-  border: 1px solid rgba(var(--black-rgb), .08); box-shadow: 0 8px 24px rgba(var(--black-rgb), .08);
+/* R12 corrigé — le dropdown SAVEURS de la nav passe de la liste texte au
+   panneau EN CARTES façon Red Bull « Boissons énergisantes » : mini-cartes
+   produit claires (pack shot, nom dessous, hover zoom léger), titre
+   « Nos Signatures », entrée « Toutes les pochettes ». Mêmes mécanique et
+   accessibilité que .nav-drop (hover / focus-within) ; le menu mobile
+   reste en liste. Crème/encre fixes dans les deux thèmes (carte produit). */
+.nav-drop-cards { min-width: 440px; padding: 14px;
+  /* ancré au bord gauche de l'entrée (façon Red Bull) : jamais rogné par
+     le viewport, contrairement au centrage du .nav-drop de base */
+  left: 0; transform: translateX(0) translateY(6px); }
+.has-drop:hover .nav-drop-cards, .has-drop:focus-within .nav-drop-cards { transform: translateX(0) translateY(0); }
+.nav-drop-title { margin: 2px 4px 10px; font-family: var(--display); font-weight: 700;
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .78); }
+.nav-drop-title em { font-family: 'Fraunces', serif; font-style: italic; text-transform: none;
+  letter-spacing: 0; font-size: .92rem; color: var(--passion); }
+.nav-drop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.nav-drop-cards .nav-prod { display: block; padding: 0; border-radius: 14px; overflow: hidden;
+  background: var(--cream); white-space: normal;
   transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
-.saveur-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(var(--black-rgb), .28); }
-.saveur-card-img { display: grid; place-items: center; aspect-ratio: 1; padding: 14px; overflow: hidden; }
-.saveur-card-img img { width: 100%; height: 100%; object-fit: contain; transition: transform var(--dur-med) var(--ease); }
-.saveur-card:hover .saveur-card-img img { transform: scale(1.06); }
-.saveur-card-name { display: block; padding: 12px 14px 2px; font-family: var(--display); font-weight: 700; font-size: .88rem; color: var(--ink); text-align: center; }
-.saveur-card-notes { display: block; padding: 2px 14px 16px; font-size: .72rem; letter-spacing: .02em; color: var(--ink); opacity: .62; text-align: center; }
-@media (max-width: 560px) {
-  .saveur-cards { gap: 10px; }
-  .saveur-card-name { font-size: .68rem; padding: 10px 6px 2px; }
-  .saveur-card-notes { font-size: .58rem; padding: 2px 6px 12px; }
-  .saveur-card-img { padding: 8px; }
-}
+.nav-drop-cards .nav-prod:hover { background: var(--cream); transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(var(--black-rgb), .45); }
+.nav-prod-img { display: grid; place-items: center; aspect-ratio: 1; padding: 8px; overflow: hidden; background: var(--cream); }
+.nav-prod-img img { width: 100%; height: 100%; object-fit: contain; transition: transform var(--dur-med) var(--ease); }
+.nav-prod:hover .nav-prod-img img { transform: scale(1.05); }
+.nav-prod-name { display: block; padding: 6px 8px 10px; font-family: var(--display); font-weight: 700;
+  font-size: .64rem; color: var(--ink); text-align: center; }
+.nav-drop-cards .nav-drop-all { grid-column: 1 / -1; text-align: center; margin-top: 2px;
+  font-weight: 600; color: var(--passion); }
+.nav-drop-cards .nav-drop-all:hover { color: var(--cream); }
