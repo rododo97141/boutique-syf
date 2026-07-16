@@ -89,6 +89,12 @@
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 
+  // R21-A : onglet caché -> met en pause les animations d'ambiance (Ken Burns
+  // du hero) via une classe globale ; économise CPU/batterie en arrière-plan.
+  const onTabVis = () => document.body.classList.toggle('tab-hidden', document.hidden);
+  document.addEventListener('visibilitychange', onTabVis);
+  onTabVis();
+
   // Lien actif selon la section visible — uniquement pour les liens-ancres :
   // sur les pages dédiées (liens inter-pages), l'état actif est posé en dur dans le HTML
   const sections = $$('section[id], header[id]');

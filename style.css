@@ -630,6 +630,10 @@ nav.scrolled {
 .lead { font-size: 1.15rem; margin-bottom: 20px; color: var(--cream); }
 .split-text p { color: rgba(var(--cream-rgb), .72); margin-bottom: 16px; }
 .split-text strong { color: var(--passion); }
+/* R21-A : confort de lecture — prose longue bornée à ~65-75 caractères
+   (manifesto, marque/vision, descriptions). N'affecte pas les titres. */
+.lead, .split-text p, .vision-card p, .invest-args p { max-width: 70ch; }
+.manifesto-lines, .manifesto-story { max-width: 62ch; margin-left: auto; margin-right: auto; }
 .accent-line {
   font-family: var(--serif); font-style: italic; font-size: 1.2rem;
   color: var(--cream) !important;
@@ -683,7 +687,7 @@ nav.scrolled {
   transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
 }
 /* Micro-sensation (R3) : la pochette « respire » — léger scale + ombre chaude */
-.cocktail-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 64px rgba(var(--sunset-rgb), .26); }
+.cocktail-card:hover { transform: translateY(-8px) scale(1.02) rotate(.6deg); box-shadow: 0 40px 80px rgba(var(--black-rgb), .35); }
 /* Cadrage uniforme 5:4, sujet centré (standard food delivery) */
 .cocktail-media { position: relative; overflow: hidden; aspect-ratio: 5 / 4; }
 .cocktail-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
@@ -1049,7 +1053,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 }
 .event-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(26px); } }
-.event-card:hover { transform: translateY(-8px); border-color: rgba(var(--passion-rgb), .4); box-shadow: 0 26px 60px rgba(var(--black-rgb), .45); }
+.event-card:hover { transform: translateY(-10px) rotate(.6deg); border-color: rgba(var(--passion-rgb), .4); box-shadow: 0 40px 80px rgba(var(--black-rgb), .35); }
 .event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
 .event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .event-card:hover .event-card-media img { transform: scale(1.03); }
@@ -2741,8 +2745,11 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 .rb-card-title { font-family: var(--display); font-weight: 800; font-size: 1.02rem; line-height: 1.14; letter-spacing: -.01em; color: var(--cream); }
 .rb-card-title sup { font-size: .5em; }
 .rb-card-sub { font-size: .8rem; color: rgba(var(--cream-rgb), .82); margin-top: 5px; }
-.rb-card:hover { transform: translateY(-4px); box-shadow: 0 22px 54px rgba(var(--sunset-rgb), .22); }
+.rb-card:hover { transform: translateY(-8px) rotate(.6deg); box-shadow: 0 40px 80px rgba(var(--black-rgb), .35); }
 .rb-card:hover .rb-card-img { transform: scale(1.05); }
+@media (prefers-reduced-motion: reduce) {
+  .rb-card:hover, .event-card:hover, .rb-card:hover .rb-card-img { transform: none; }
+}
 .rb-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .rb-card:hover { transform: none; }
@@ -2814,10 +2821,12 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   .nav-pill {
     display: flex; align-items: center;
     padding: 6px 10px; border-radius: 999px;
-    background: rgba(var(--cream-rgb), .07);
-    border: 1px solid rgba(var(--cream-rgb), .13);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    backdrop-filter: blur(16px) saturate(160%);
+    /* R21-A : verre dépoli renforcé (esprit Apple / maison de luxe) */
+    background: rgba(var(--cream-rgb), .05);
+    border: 1px solid rgba(255, 255, 255, .08);
+    -webkit-backdrop-filter: blur(18px) saturate(165%);
+    backdrop-filter: blur(18px) saturate(165%);
+    box-shadow: 0 8px 30px rgba(var(--black-rgb), .18), inset 0 1px 0 rgba(255, 255, 255, .06);
   }
   .nav-pill .nav-links { display: flex; gap: 4px; margin: 0; padding: 0; }
 }
@@ -2863,7 +2872,8 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 /* Nav compacte au scroll (reste flottante) */
 nav.scrolled { height: calc(var(--nav-h) - 8px); }
 /* Thème clair : pilule et icônes lisibles */
-html[data-theme="light"] .nav-pill { background: rgba(var(--ink-warm-rgb), .06); border-color: rgba(var(--ink-warm-rgb), .12); }
+html[data-theme="light"] .nav-pill { background: rgba(255, 255, 255, .45); border-color: rgba(255, 255, 255, .55);
+  box-shadow: 0 8px 30px rgba(var(--ink-warm-rgb), .12), inset 0 1px 0 rgba(255, 255, 255, .6); }
 html[data-theme="light"] .nav-pill .nav-link { color: rgba(var(--ink-warm-rgb), .75); }
 html[data-theme="light"] .nav-pill .nav-link:hover,
 html[data-theme="light"] .nav-pill .nav-link.active { background: rgba(var(--ink-warm-rgb), .1); color: var(--ink-warm); }
@@ -2956,6 +2966,14 @@ html[data-theme="light"] .mega { background: linear-gradient(160deg, #0a2233, #0
 .hh-slide { flex: 0 0 100%; scroll-snap-align: start; position: relative; height: 100%; overflow: hidden; }
 .home-hero .hero { min-height: 0; height: 100%; }
 .hh-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+/* R21-A : Ken Burns très lent sur les slides IMAGE du carrousel (pas la
+   vidéo de la slide branding). Coupé si reduced-motion, mis en pause quand
+   l'onglet est caché (body.tab-hidden posé par script.js). */
+@keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.03) translateY(-1.6%); } }
+.hh-slide:not(.hh-brand) .hh-bg { transform-origin: 50% 45%; will-change: transform;
+  animation: kenburns 20s ease-in-out infinite alternate; }
+body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .hh-slide:not(.hh-brand) .hh-bg { animation: none; } }
 .hh-slide:not(.hh-brand)::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(to top, rgba(var(--black-rgb), .9) 6%, rgba(var(--black-rgb), .22) 48%, rgba(var(--black-rgb), .28) 100%); }
 .hh-content { position: absolute; left: 0; bottom: 0; z-index: 2; max-width: 760px;
