@@ -634,6 +634,12 @@ nav.scrolled {
    (manifesto, marque/vision, descriptions). N'affecte pas les titres. */
 .lead, .split-text p, .vision-card p, .invest-args p { max-width: 70ch; }
 .manifesto-lines, .manifesto-story { max-width: 62ch; margin-left: auto; margin-right: auto; }
+/* R21-B : sections de contenu hors premier écran rendues à la demande
+   (le navigateur saute leur rendu tant qu'elles sont hors-vue). « auto »
+   mémorise la taille réelle une fois rendue → pas de saut au re-scroll.
+   Appliqué aux sections SANS rangée mesurée par JS (arrows), pour ne rien
+   casser. */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 800px; }
 .accent-line {
   font-family: var(--serif); font-style: italic; font-size: 1.2rem;
   color: var(--cream) !important;

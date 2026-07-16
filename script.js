@@ -113,7 +113,7 @@
      recherche client-side. Ouvert par le burger et l'icône recherche. ===== */
   (function initMega() {
     const S = window.SYFIR;
-    const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" alt="${esc(alt)}"></picture>`;
+    const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
       ['saveurs.html#planteur', 'Syf Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syf Planteur sur marbre'],
       ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette SYFIR entourée de fruits'],
@@ -180,7 +180,7 @@
             <section class="mega-row">
               <div class="mega-row-head"><h3>Parcourir par envies</h3><a href="evenements.html">Afficher tout →</a></div>
               <div class="mega-envies">
-                ${envies.map(([u, n, img]) => `<a class="mega-envie" href="${u}"><img src="${img}" loading="lazy" alt=""><span>${esc(n)}</span></a>`).join('')}
+                ${envies.map(([u, n, img]) => `<a class="mega-envie" href="${u}"><img src="${img}" loading="lazy" decoding="async" alt=""><span>${esc(n)}</span></a>`).join('')}
               </div>
             </section>
           </div>
@@ -1050,7 +1050,7 @@ if (placeModal && placesGridEl) {
     if (photos.length) {
       pmImg.src = photos[0];
       pmImg.alt = document.querySelector('#pmTitle').textContent;
-      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('');
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button"><img src="${esc(p)}" alt="" loading="lazy" decoding="async"></button>`).join('');
     }
     placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
   });
@@ -1449,7 +1449,7 @@ if (placeModal && placesGridEl) {
         const img = ev.img || fallback;
         return `
         <a class="rb-card" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
-          <picture class="rb-card-pic"><img class="rb-card-img" src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}"></picture>
+          <picture class="rb-card-pic"><img class="rb-card-img" src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}"></picture>
           ${st ? `<span class="rb-duration">${esc(st.text)}</span>` : ''}
           <div class="rb-card-overlay">
             <span class="rb-badge ${badgeCls}">${esc(badge)}</span>
@@ -1925,7 +1925,7 @@ if (placeModal && placesGridEl) {
     return `
     <article class="event-card${stock && stock.soldOut ? ' is-soldout' : ''}" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
-        <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy">
+        <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy" decoding="async">
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
         <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
         ${stock ? `<span class="stock-badge ${stock.cls}">${stock.text}</span>` : ''}
