@@ -34,7 +34,15 @@
     { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', venue: 'Villa Gustavia', date: '2026-08-01', time: '21:00', price: 80, genres: ['House', 'Konpa'],
       img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
     { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', venue: 'Plage de Grande Anse', date: '2026-07-19', time: '12:00', price: 15, genres: ['Chill', 'Zouk'],
-      img: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=900&q=80', organizer: 'SYFIR Official', prive: false }
+      img: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=900&q=80', organizer: 'SYFIR Official', prive: false },
+    /* --- Éditions passées (démo preuve sociale) : dates révolues -> section
+       « Les éditions passées ». Photos locales pour un rendu fiable hors-ligne. --- */
+    { id: 7, name: 'SYFIR Beach Opening', type: 'beach', city: 'Sainte-Anne', venue: 'Plage de Bois Jolan', date: '2026-06-14', time: '17:00', price: 20, genres: ['Afro house', 'Zouk'],
+      img: 'images/produits/syfir-pub-plage-1.jpg', organizer: 'SYFIR Official', prive: false },
+    { id: 8, name: 'Golden Hour — Rooftop #1', type: 'rooftop', city: 'Le Gosier', venue: 'Rooftop La Verdure', date: '2026-06-28', time: '19:00', price: 30, genres: ['Deep house', 'Soul'],
+      img: 'images/produits/syfir-pub-duo.jpg', organizer: 'SYFIR Official', prive: false },
+    { id: 9, name: 'Coral Night — Édition #1', type: 'club', city: 'Pointe-à-Pitre', venue: 'Club Azur', date: '2026-05-31', time: '23:00', price: 20, genres: ['Shatta', 'Dancehall'],
+      img: 'images/produits/syfir-pub-plage-2.jpg', organizer: 'Club Azur × SYFIR', prive: false }
   ];
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };

@@ -2134,6 +2134,38 @@ if (placeModal && placesGridEl) {
   refreshGenreOptions();
   renderEvents();
 
+  /* ===== 31b. LES ÉDITIONS PASSÉES (R24-1) — preuve sociale =====
+     Les événements dont la date est révolue basculent en cartes compactes
+     « Revivre en images » vers SYF TV. Section masquée s'il n'y a rien. */
+  (function renderPastEvents() {
+    const grid = $('#pastGrid');
+    const section = $('#archives');
+    if (!grid || !section) return;
+    const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0);
+    const past = events
+      .filter(ev => new Date(ev.date + 'T00:00:00') < startOfToday && !ev.prive)
+      .sort((a, b) => b.date.localeCompare(a.date));   // plus récent d'abord
+    if (!past.length) { section.hidden = true; return; }
+    section.hidden = false;
+    grid.innerHTML = past.map(ev => {
+      const d = new Date(ev.date + 'T12:00:00');
+      const when = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
+      return `
+      <article class="past-card">
+        <div class="past-media">
+          <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy" decoding="async">
+          <span class="past-badge">Terminé</span>
+        </div>
+        <div class="past-body">
+          <h3>${esc(ev.name)}</h3>
+          <p class="past-meta">${esc(when)} · ${esc(loc)}</p>
+          <a class="past-recap" href="syf-tv.html#moments">▷ Revivre en images</a>
+        </div>
+      </article>`;
+    }).join('');
+  })();
+
   /* ===== 32. MODALE BILLETS ===== */
   const ticketModal = $('#ticketModal');
   let currentEvent = null;
