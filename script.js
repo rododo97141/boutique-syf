@@ -1942,6 +1942,30 @@ if (placeModal && placesGridEl) {
     });
   })();
 
+  /* ===== 44. RANGÉE « À REGARDER » (R23-4, SYF TV) — façades cliquables :
+     l'iframe YouTube / le lecteur SoundCloud / la vidéo locale ne se chargent
+     qu'au clic (perf + vie privée). Aucun autoplay avant action de l'utilisateur. */
+  (function initReplays() {
+    const track = $('#replayTrack');
+    if (!track) return;
+    track.addEventListener('click', e => {
+      const btn = e.target.closest('.replay-play');
+      if (!btn) return;
+      const card = btn.closest('.replay-card');
+      const thumb = card.querySelector('.replay-thumb');
+      const title = esc(card.querySelector('.replay-title')?.textContent || 'Vidéo SYFIR');
+      const kind = card.dataset.kind;
+      if (kind === 'yt') {
+        const src = card.dataset.embed + (card.dataset.embed.includes('?') ? '&' : '?') + 'autoplay=1';
+        thumb.innerHTML = `<iframe src="${esc(src)}" title="${title}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+      } else if (kind === 'sc') {
+        thumb.innerHTML = `<iframe title="${title} (SoundCloud)" allow="autoplay" scrolling="no" src="${esc(card.dataset.embed)}&auto_play=true&color=%23ff7a00"></iframe>`;
+      } else {
+        thumb.innerHTML = `<video controls autoplay playsinline preload="metadata" aria-label="${title}"><source src="${esc(card.dataset.src)}" type="video/mp4"></video>`;
+      }
+    });
+  })();
+
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
      stoppée au survol / focus / onglet caché / reduced-motion. ===== */
   (function initHomeHero() {

@@ -201,6 +201,72 @@
 <!-- ============================================================
      L'AMBIANCE — vidéo + galerie de la communauté
 ============================================================ -->
+<!-- ============================================================
+     À REGARDER — rangée streaming (façon Red Bull TV) :
+     le film SYFIR + les lives Unity 141 (façades YouTube) + le mix SoundCloud.
+     Façades : l'iframe/vidéo ne se charge qu'au clic (perf + vie privée).
+============================================================ -->
+<section id="replays" class="section section-dark replay-section">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">SYF TV</p>
+    <h2 class="h2 reveal d1">À <em>regarder</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Le film, les lives, le son. Appuie sur play — ça commence maintenant.</p>
+  </div>
+  <div class="media-row-wrap">
+    <button class="row-arrow row-prev" type="button" aria-label="Vidéos précédentes" hidden>‹</button>
+    <div class="media-row-track" id="replayTrack">
+
+      <article class="replay-card" data-kind="video" data-src="videos/syfir-pub-video.mp4">
+        <div class="replay-thumb">
+          <picture><source type="image/webp" srcset="images/produits/syfir-pub-plage-1.webp">
+            <img src="images/produits/syfir-pub-plage-1.jpg" alt="Le film SYFIR — golden hour sur la plage" loading="lazy" decoding="async" width="1120" height="1400"></picture>
+          <button class="replay-play" type="button" aria-label="Lire : Le film SYFIR">▶</button>
+          <span class="replay-badge replay-badge-film">Film</span>
+        </div>
+        <div class="replay-meta"><span class="replay-kicker">SYFIR</span><h3 class="replay-title">Le film — Goûte à la liberté</h3></div>
+      </article>
+
+      <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/UVYTuLruNK8">
+        <div class="replay-thumb">
+          <img src="https://i.ytimg.com/vi/UVYTuLruNK8/hqdefault.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — Live fête de la pêche à Terre-de-Haut" loading="lazy" decoding="async" width="480" height="360">
+          <button class="replay-play" type="button" aria-label="Lire : Live fête de la pêche, Terre-de-Haut">▶</button>
+          <span class="replay-badge replay-badge-replay">Replay</span>
+        </div>
+        <div class="replay-meta"><span class="replay-kicker">Unity 141 · Live</span><h3 class="replay-title">Live fête de la pêche — Terre-de-Haut</h3></div>
+      </article>
+
+      <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/94N9rC4bIGg">
+        <div class="replay-thumb">
+          <img src="https://i.ytimg.com/vi/94N9rC4bIGg/hqdefault.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — Live du 10 juin avec Danday Danday" loading="lazy" decoding="async" width="480" height="360">
+          <button class="replay-play" type="button" aria-label="Lire : Live du 10 juin avec Danday Danday">▶</button>
+          <span class="replay-badge replay-badge-replay">Replay</span>
+        </div>
+        <div class="replay-meta"><span class="replay-kicker">Unity 141 · Live</span><h3 class="replay-title">Live du 10 juin — Danday Danday</h3></div>
+      </article>
+
+      <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/sP6-aWgghGY">
+        <div class="replay-thumb">
+          <img src="https://i.ytimg.com/vi/sP6-aWgghGY/hqdefault.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — live en concert" loading="lazy" decoding="async" width="480" height="360">
+          <button class="replay-play" type="button" aria-label="Lire : Live Unity 141">▶</button>
+          <span class="replay-badge replay-badge-replay">Replay</span>
+        </div>
+        <div class="replay-meta"><span class="replay-kicker">Unity 141 · Live</span><h3 class="replay-title">Live Unity 141</h3></div>
+      </article>
+
+      <article class="replay-card replay-card-audio" data-kind="sc" data-embed="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-393789233/mix-zouk-live-unity-141">
+        <div class="replay-thumb">
+          <img src="images/artiste-unity.jpg" alt="Unity 141 — mix zouk sur SoundCloud" loading="lazy" decoding="async" width="1142" height="1600">
+          <button class="replay-play" type="button" aria-label="Écouter : Mix Zouk Live Unity 141">▶</button>
+          <span class="replay-badge replay-badge-mix">Mix</span>
+        </div>
+        <div class="replay-meta"><span class="replay-kicker">Unity 141 · SoundCloud</span><h3 class="replay-title">Mix Zouk Live</h3></div>
+      </article>
+
+    </div>
+    <button class="row-arrow row-next" type="button" aria-label="Vidéos suivantes">›</button>
+  </div>
+</section>
+
 <section id="ambiance" class="section section-dark">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">L'ambiance</p>

@@ -2929,6 +2929,50 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 .media-row-track .insta-item { aspect-ratio: 3 / 4; }
 .media-row-track figure { margin: 0; }
 
+/* Rangée « À regarder » — cartes vidéo/audio paysage 16:9 (façon Red Bull TV) (R23-4) */
+.replay-section .media-row-track > .replay-card { flex: 0 0 clamp(268px, 84vw, 344px); }
+.replay-card {
+  scroll-snap-align: start; display: flex; flex-direction: column; gap: 12px;
+  border-radius: var(--radius); background: transparent;
+}
+.replay-thumb {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius);
+  background: var(--ink-soft); box-shadow: 0 14px 34px rgba(var(--black-rgb), .34);
+}
+.replay-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
+.replay-card:hover .replay-thumb img { transform: scale(1.05); }
+.replay-thumb iframe, .replay-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; }
+.replay-card-audio .replay-thumb iframe { object-fit: contain; }
+.replay-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer;
+  display: grid; place-items: center; font-size: 1.2rem; padding-left: 4px;
+  background: linear-gradient(120deg, var(--sunset), var(--passion)); color: var(--ink);
+  box-shadow: 0 8px 24px rgba(var(--sunset-rgb), .5);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast);
+}
+.replay-play:hover { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 12px 32px rgba(var(--sunset-rgb), .65); }
+.replay-play:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+.replay-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-family: var(--display); font-weight: 700; font-size: .6rem; letter-spacing: .12em;
+  text-transform: uppercase; padding: 5px 11px; border-radius: 100px;
+  background: rgba(var(--ocean-deep-rgb), .78); color: var(--cream);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.replay-badge-replay { color: var(--passion); }
+.replay-badge-mix { color: var(--gold-light); }
+.replay-badge-film { color: var(--cream); background: rgba(var(--sunset-rgb), .8); }
+.replay-meta { padding: 0 2px; }
+.replay-kicker {
+  display: block; font-family: var(--display); font-weight: 700; font-size: .62rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--passion); margin-bottom: 5px;
+}
+.replay-title { font-family: var(--body); font-weight: 600; font-size: .96rem; line-height: 1.32; margin: 0; color: var(--cream); }
+@media (prefers-reduced-motion: reduce) {
+  .replay-thumb img, .replay-card:hover .replay-thumb img { transition: none; transform: none; }
+}
+
 /* ===== Cartes portrait 3:4 signature (R8 pattern 2) — image pleine carte,
    dégradé sombre en bas, titre en overlay, hover zoom léger. Nos vraies photos. */
 .rb-card {
