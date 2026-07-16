@@ -519,6 +519,14 @@
 
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
+  const mapPins = $$('.map-pin');
+  const syncPins = type => {
+    mapPins.forEach(pin => {
+      const match = type === 'tous' || pin.dataset.type === type;
+      pin.classList.toggle('pin-off', !match);
+      pin.setAttribute('tabindex', match ? '0' : '-1');
+    });
+  };
   if (placeChips) {
     placeChips.addEventListener('click', e => {
       const chip = e.target.closest('.chip');
@@ -533,6 +541,34 @@
         if (show) visible++;
       });
       $('#noPlaces').hidden = visible > 0;
+      syncPins(type);
+    });
+  }
+
+  /* Store locator : clic/clavier sur un pin -> surligne + scrolle la carte partenaire */
+  const locatorMap = $('#locatorMap');
+  if (locatorMap && mapPins.length) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const activatePin = pin => {
+      const card = document.getElementById(pin.dataset.target);
+      if (!card) return;
+      if (card.hidden) placeChips?.querySelector('[data-place="tous"]')?.click();
+      $$('.place-card').forEach(c => c.classList.remove('place-card--pinned'));
+      mapPins.forEach(p => p.classList.remove('pin-selected'));
+      pin.classList.add('pin-selected');
+      card.classList.add('place-card--pinned');
+      card.setAttribute('tabindex', '-1');
+      card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      card.focus({ preventScroll: true });
+      setTimeout(() => card.classList.remove('place-card--pinned'), 2600);
+    };
+    locatorMap.addEventListener('click', e => {
+      const pin = e.target.closest('.map-pin');
+      if (pin && !pin.classList.contains('pin-off')) activatePin(pin);
+    });
+    locatorMap.addEventListener('keydown', e => {
+      const pin = e.target.closest('.map-pin');
+      if (pin && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); activatePin(pin); }
     });
   }
 

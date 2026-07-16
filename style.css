@@ -740,6 +740,68 @@ nav.scrolled {
 .legal-note { margin-top: 44px; text-align: center; font-size: .76rem; color: var(--grey-soft); }
 
 /* ===== 11. OÙ NOUS TROUVER — partenaires & lieux ===== */
+
+/* Store locator — carte Guadeloupe SVG custom */
+.locator-map {
+  margin: 30px 0 6px; padding: 10px 24px 4px;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .06), transparent 60%),
+    rgba(var(--ocean-deep-rgb), .35);
+  border: 1px solid rgba(var(--gold-rgb), .16);
+}
+.gwada-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.gwada-land, .gwada-isle { pointer-events: none; }  /* décor : seuls les pins captent les événements */
+.gwada-land {
+  fill: rgba(var(--gold-rgb), .07);
+  stroke: var(--gold); stroke-width: 2.4; stroke-linejoin: round;
+  filter: drop-shadow(0 4px 14px rgba(var(--gold-rgb), .22));
+}
+.gwada-isle { fill: rgba(var(--gold-rgb), .10); stroke: rgba(var(--gold-rgb), .4); stroke-width: 1.4; }
+
+.map-pin { cursor: pointer; outline: none; }
+.pin-hit { fill: transparent; }
+.pin-art { transform-origin: 0 0; transition: transform var(--dur-med) var(--ease); }
+.pin-mark { fill: var(--sunset); stroke: var(--cream); stroke-width: 1.4; filter: drop-shadow(0 3px 5px rgba(var(--black-rgb), .4)); }
+.pin-core { fill: var(--cream); }
+.pin-label {
+  font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .01em;
+  text-anchor: middle; fill: var(--cream);
+  paint-order: stroke; stroke: var(--ocean-deep); stroke-width: 5px; stroke-linejoin: round;
+  opacity: 0; pointer-events: none; transition: opacity var(--dur-fast);
+}
+.pin-label-end { text-anchor: end; }
+.pin-label-start { text-anchor: start; }
+.map-pin:hover .pin-art, .map-pin:focus-visible .pin-art { transform: scale(1.22); }
+.map-pin:hover .pin-mark, .map-pin:focus-visible .pin-mark { fill: var(--passion); }
+.map-pin:hover .pin-label, .map-pin:focus-visible .pin-label { opacity: 1; }
+.map-pin:focus-visible .pin-mark { stroke: var(--passion); stroke-width: 2.6; }
+.map-pin.pin-selected .pin-mark { fill: var(--passion); }
+.map-pin.pin-selected .pin-label { opacity: 1; }
+.map-pin.pin-off { opacity: .25; }
+.map-pin.pin-off .pin-label { opacity: 0 !important; }
+.locator-hint { text-align: center; font-size: .82rem; color: rgba(var(--cream-rgb), .62); margin: 6px 0 12px; font-style: italic; }
+
+/* Carte partenaire surlignée par un pin */
+.place-card--pinned {
+  border-color: var(--passion) !important;
+  box-shadow: 0 0 0 2px var(--passion), 0 20px 46px rgba(var(--black-rgb), .38);
+  animation: pinnedPulse 1.4s var(--ease) 2;
+}
+@keyframes pinnedPulse { 0%, 100% { box-shadow: 0 0 0 2px var(--passion), 0 20px 46px rgba(var(--black-rgb), .38); } 50% { box-shadow: 0 0 0 4px rgba(var(--passion-rgb), .5), 0 24px 56px rgba(var(--black-rgb), .45); } }
+.place-card--pinned:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .place-card--pinned { animation: none; }
+  .pin-art { transition: none; }
+}
+/* La carte reste un panneau océan sombre dans les 2 thèmes (identité) */
+html[data-theme="light"] .locator-map {
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .10), transparent 60%),
+    var(--ocean-deep);
+  border-color: rgba(var(--gold-rgb), .3);
+}
+
 .places-grid { display: grid; gap: 18px; margin-top: 36px; }
 .place-card {
   display: flex; align-items: center; gap: 18px;
