@@ -16,7 +16,7 @@
 #   4. redimension 1600 px max, export JPEG q82 + WebP q80 (strip)
 #
 # Usage : bash tools/retouche-images.sh   (depuis la racine du dépôt)
-# Dépendance : ImageMagick 6+ (convert / identify)
+# Dépendance : ImageMagick 6 (convert) ou 7 (magick) — détecté automatiquement.
 # ============================================================
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -25,7 +25,11 @@ ORIG="images/originaux"
 OUT="images/produits"
 TARGET_MEAN=0.52   # luminance moyenne commune (0..1)
 
-command -v convert >/dev/null || { echo "ImageMagick requis (apt-get install imagemagick)"; exit 1; }
+# ImageMagick 7 fournit la commande « magick » ; la 6 « convert » / « identify ».
+# Détection automatique pour marcher avec les deux.
+if command -v magick >/dev/null; then IM="magick"; IDENTIFY="magick identify";
+elif command -v convert >/dev/null; then IM="convert"; IDENTIFY="identify";
+else echo "ImageMagick requis (apt-get install imagemagick, ou 'magick' pour la v7)"; exit 1; fi
 
 retouche() {           # retouche <fichier source> <nom de sortie sans extension>
   local src="$1" name="$2"
@@ -33,12 +37,12 @@ retouche() {           # retouche <fichier source> <nom de sortie sans extension
 
   # -- 1. recadrage 3:4 centré
   local W H CW CH
-  W=$(identify -format '%w' "$src"); H=$(identify -format '%h' "$src")
+  W=$($IDENTIFY -format '%w' "$src"); H=$($IDENTIFY -format '%h' "$src")
   if [ $((W * 4)) -gt $((H * 3)) ]; then CH=$H; CW=$((H * 3 / 4)); else CW=$W; CH=$((W * 4 / 3)); fi
 
   # -- 2. facteur de luminosité vers la moyenne commune, borné
   local MEAN FACTOR
-  MEAN=$(convert "$src" -colorspace gray -format '%[fx:mean]' info:)
+  MEAN=$($IM "$src" -colorspace gray -format '%[fx:mean]' info:)
   FACTOR=$(awk -v m="$MEAN" -v t="$TARGET_MEAN" 'BEGIN {
     f = t / m; if (f < 0.92) f = 0.92; if (f > 1.10) f = 1.10; printf "%.4f", f }')
 
@@ -50,8 +54,8 @@ retouche() {           # retouche <fichier source> <nom de sortie sans extension
     -channel R -evaluate multiply 1.04 -channel B -evaluate multiply 0.96 +channel
     -resize '1600x1600>' -strip
   )
-  convert "$src" "${CHAIN[@]}" -quality 82 "$OUT/$name.jpg"
-  convert "$src" "${CHAIN[@]}" -quality 80 "$OUT/$name.webp"
+  $IM "$src" "${CHAIN[@]}" -quality 82 "$OUT/$name.jpg"
+  $IM "$src" "${CHAIN[@]}" -quality 80 "$OUT/$name.webp"
   printf '✓ %-22s %s×%s → %s (moyenne %.2f, facteur %s)\n' "$name" "$W" "$H" "${CW}x${CH}" "$MEAN" "$FACTOR"
 }
 
@@ -73,13 +77,13 @@ webp() {               # webp <fichier jpg dans images/produits> [crop34]
   local CHAIN=(-resize '1600x1600>' -strip)
   if [ "${2:-}" = "crop34" ]; then
     local W H CW CH
-    W=$(identify -format '%w' "$src"); H=$(identify -format '%h' "$src")
+    W=$($IDENTIFY -format '%w' "$src"); H=$($IDENTIFY -format '%h' "$src")
     if [ $((W * 4)) -gt $((H * 3)) ]; then CH=$H; CW=$((H * 3 / 4)); else CW=$W; CH=$((W * 4 / 3)); fi
     # resserre encore de 13 % : les coins de l'interface débordent du 3:4
     CHAIN=(-gravity center -crop "${CW}x${CH}+0+0" +repage -gravity center -crop 87%x87%+0+0 +repage "${CHAIN[@]}")
-    convert "$src" "${CHAIN[@]}" -quality 82 "$OUT/$name.jpg"
+    $IM "$src" "${CHAIN[@]}" -quality 82 "$OUT/$name.jpg"
   fi
-  convert "$src" "${CHAIN[@]}" -quality 80 "$OUT/$name.webp"
+  $IM "$src" "${CHAIN[@]}" -quality 80 "$OUT/$name.webp"
   echo "webp OK: $name"
 }
 
