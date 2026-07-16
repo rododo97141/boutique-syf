@@ -25,7 +25,9 @@
   h2{font-family:"Fraunces",serif;font-weight:400;font-size:1.35rem;margin:2.1em 0 .4em;color:#fff}
   p,li{color:#e7e1da}.muted{color:var(--muted)}
   ul{padding-left:1.1em}li{margin:.25em 0}
-  .todo{background:rgba(255,200,87,.10);border:1px dashed rgba(255,200,87,.5);color:var(--passion);padding:2px 8px;border-radius:6px;font-size:.92em;font-weight:600;white-space:nowrap}
+  .todo{background:rgba(255,200,87,.10);border:1px dashed rgba(255,200,87,.5);color:var(--passion);padding:2px 8px;border-radius:6px;font-size:.92em;font-weight:600;overflow-wrap:anywhere}
+  td code,td{overflow-wrap:anywhere}
+  .table-scroll{overflow-x:auto}
   .note{margin-top:14px;padding:14px 16px;border-left:3px solid var(--sunset);background:rgba(255,122,0,.07);border-radius:0 10px 10px 0}
   table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95rem}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -61,6 +63,7 @@
     <p>Le site fonctionne aujourd'hui <strong>sans compte serveur</strong>. Les informations que tu renseignes
       sont enregistrées <strong>uniquement dans le stockage local (<code>localStorage</code>) de ton navigateur</strong>,
       sur ton appareil. Elles ne sont ni transmises, ni consultées à distance, ni partagées.</p>
+    <div class="table-scroll">
     <table>
       <tr><th>Donnée (clé locale)</th><th>Contenu</th><th>Finalité</th></tr>
       <tr><td><code>syfir-theme</code></td><td>Préférence de thème (clair / sombre / auto)</td><td>Réafficher ton apparence choisie</td></tr>
@@ -68,6 +71,7 @@
       <tr><td><code>syfir-age-ok</code></td><td>Confirmation « j'ai 18 ans ou plus »</td><td>Ne pas redemander la vérification d'âge (loi Évin)</td></tr>
       <tr><td><code>syfir-tickets</code> · <code>syfir-favs</code></td><td>Billets de <em>démonstration</em> et favoris</td><td>Retrouver tes billets démo et tes coups de cœur</td></tr>
     </table>
+    </div>
     <p class="muted">Base légale : ton consentement, matérialisé par la saisie sur cet appareil. Aucune de ces
       données n'est une donnée « serveur » : elle disparaît si tu vides le stockage de ton navigateur.</p>
 
