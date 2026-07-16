@@ -48,6 +48,16 @@ python3 -m http.server 8899
 
 Rien d'autre à configurer : le site est 100 % statique.
 
+### Domaine
+
+> ⚠️ **Le domaine `https://www.syfir.fr` est un placeholder — il n'est PAS
+> encore acheté.** Il est écrit en dur dans les `<link rel="canonical">` des
+> **8 pages** (index, saveurs, syf-tv, evenements, evenement, espace-pro,
+> partenaires, compte), dans `sitemap.xml` et dans les `og:image`/`twitter:image`.
+> **Si le domaine final diffère**, remplacer cette seule valeur partout
+> (un chercher-remplacer global de `https://www.syfir.fr` suffit). Un commentaire
+> le rappelle en tête de chaque page.
+
 ### Domaine personnalisé (optionnel)
 
 1. **Settings → Pages → Custom domain** : saisir le domaine (ex. `www.syfir.fr`),
@@ -63,7 +73,7 @@ Rien d'autre à configurer : le site est 100 % statique.
 
 | Quoi | Où | Détail |
 |---|---|---|
-| **Domaine définitif** | `robots.txt`, `sitemap.xml`, `<link rel="canonical">` des 6 pages, `og:image`/`twitter:image` | Remplacer le placeholder `https://www.syfir.fr` par le vrai domaine (une seule valeur, plusieurs fichiers). |
+| **Domaine définitif** (pas encore acheté) | `robots.txt`, `sitemap.xml`, `<link rel="canonical">` des 8 pages, `og:image`/`twitter:image` | Remplacer le placeholder `https://www.syfir.fr` par le vrai domaine (une seule valeur, plusieurs fichiers). Cf. §Domaine ci-dessus. |
 | **Formulaires** | `FORM_ENDPOINT` en tête de `script.js` | Vide = mode démo (aucun envoi). Renseigner un endpoint **Formspree** (`https://formspree.io/f/xxxx`, le plus simple) ou **Brevo/Mailchimp** pour recevoir newsletter + demandes partenaires. Honeypot anti-spam déjà en place. |
 | **Vidéos locales** | `videos/` | `syfir-pub-video.mp4` (hero) est en place. Optionnel : `ambiance-sunset.mp4` / `prep-cocktail.mp4` / `orange-juice.mp4` remplacent les hotlinks Pexels (voir `images/README.md`). |
 | **Visuels manquants** | `images/`, `images/produits/` | Photos Coral/Golden officielles, portraits équipe/artistes — noms exacts dans `images/README.md`. Des fallbacks Unsplash s'affichent en attendant. |
