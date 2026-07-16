@@ -1238,15 +1238,30 @@ if (placeModal && placesGridEl) {
     toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  /* ===== 18. FAB BILLETS : un seul CTA principal par écran =====
-     Le bouton flottant s'efface tant que le hero (et son CTA « Voir les
-     événements ») est à l'écran, puis réapparaît plus bas dans la page. */
+  /* ===== 18. FAB BILLETS STICKY (modèle We Love Green) =====
+     Pilule flottante discrète : apparaît après 600px de scroll, s'efface
+     quand le footer est visible. Clic = scroll doux vers la billetterie
+     (evenements.html) ou le panneau billets de la fiche (evenement.html). */
   const ticketsFab = $('#ticketsFab');
-  const ticketsHero = $('.tickets-hero');
-  if (ticketsFab && ticketsHero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      entries.forEach(en => ticketsFab.classList.toggle('fab-hidden', en.isIntersecting));
-    }, { threshold: 0.2 }).observe(ticketsHero);
+  if (ticketsFab) {
+    const footEl = document.querySelector('footer');
+    let footerVisible = false;
+    const syncFab = () => {
+      const show = window.scrollY > 600 && !footerVisible;
+      ticketsFab.classList.toggle('fab-hidden', !show);
+    };
+    if (footEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(es => { footerVisible = es.some(e => e.isIntersecting); syncFab(); }, { threshold: 0 }).observe(footEl);
+    }
+    window.addEventListener('scroll', syncFab, { passive: true });
+    syncFab();
+    ticketsFab.addEventListener('click', e => {
+      const tgt = ticketsFab.dataset.target ? document.querySelector(ticketsFab.dataset.target) : null;
+      if (tgt) {
+        e.preventDefault();
+        tgt.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      }
+    });
   }
 
   /* ===== 19. VIDÉO D'AMBIANCE (accueil, communauté) =====
