@@ -402,6 +402,19 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
 
+  /* Partage natif (WhatsApp/SMS… en mobile) avec repli copie du lien + toast.
+     Essentiel en Guadeloupe où tout passe par WhatsApp. */
+  const shareLink = async ({ title, text, url }) => {
+    if (navigator.share) {
+      try { await navigator.share({ title, text, url }); } catch (e) { /* partage annulé */ }
+    } else if (navigator.clipboard) {
+      try { await navigator.clipboard.writeText(url); showToast('🔗 Lien copié'); }
+      catch (e) { showToast('Copie le lien depuis la barre d\'adresse.'); }
+    } else {
+      showToast('Copie le lien depuis la barre d\'adresse.');
+    }
+  };
+
   /* ===== 06. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
      Auto : clair le jour (7h-19h), sombre la nuit.
      Le choix est mémorisé et appliqué dès le <head> (script inline). */
@@ -1658,7 +1671,10 @@ if (placeModal && placesGridEl) {
         <strong>${esc(t.event)}</strong>
         <small>${esc(t.city)} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${esc(t.detail)}</small>
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
-        <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
+        <div class="ticket-actions">
+          <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
+          <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
+        </div>
       </div>
       ${qr
         ? `<span class="qr qr-code" role="img" aria-label="QR code du billet ${esc(t.num || '')}">${qr}</span>`
@@ -1700,6 +1716,24 @@ if (placeModal && placesGridEl) {
     toggleFav(+btn.dataset.unfav);
     renderMyFavs();
     renderEventsHook?.();   // resynchronise les cœurs de la grille (billetterie)
+  });
+
+  /* Partager un billet depuis Mon espace : titre + date + URL de la fiche */
+  $('#myTickets')?.addEventListener('click', e => {
+    const btn = e.target.closest('.ticket-share');
+    if (!btn) return;
+    const id = btn.dataset.shareId;
+    const url = id
+      ? new URL('evenement.html?id=' + id, location.href).href
+      : new URL('evenements.html', location.href).href;
+    const d = btn.dataset.shareDate;
+    const dateTxt = d ? new Date(d + 'T12:00:00').toLocaleDateString('fr-FR') : '';
+    const title = btn.dataset.shareTitle || 'un événement SYFIR';
+    shareLink({
+      title: 'SYFIR — ' + title,
+      text: title + (dateTxt ? ' · ' + dateTxt : '') + ' — on se voit là-bas ✦',
+      url
+    });
   });
 
   renderMyTicketsHook = renderMyTickets;
@@ -2180,7 +2214,7 @@ if (placeModal && placesGridEl) {
     const count = tierQty.reduce((s, q) => s + q, 0);
     const num = ticketNum();
     const myTickets = store.get('syfir-tickets', []);
-    myTickets.push({ event: currentEvent.name, city: currentEvent.city, date: currentEvent.date, detail: bought, num });
+    myTickets.push({ id: currentEvent.id, event: currentEvent.name, city: currentEvent.city, date: currentEvent.date, detail: bought, num });
     store.set('syfir-tickets', myTickets);
     $('#ticketTiers').style.display = 'none';
     $('#modalFoot').style.display = 'none';

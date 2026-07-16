@@ -1709,8 +1709,19 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 /* Billet : numéro unique, revente interdite, contact organisateur */
 .my-ticket-main small { display: block; }
 .ticket-num { color: var(--grey); font-variant-numeric: tabular-nums; margin-top: 2px; }
-.ticket-contact { display: inline-block; margin-top: 6px; font-size: .8rem; color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.ticket-contact { display: inline-block; font-size: .8rem; color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
 .ticket-contact:hover { color: var(--sunset); }
+.ticket-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 8px; }
+.ticket-share {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 34px; padding: 6px 14px; border-radius: 100px;
+  font-family: var(--body); font-weight: 600; font-size: .8rem;
+  background: rgba(var(--sunset-rgb), .14); color: var(--passion);
+  border: 1px solid rgba(var(--sunset-rgb), .35); cursor: pointer;
+  transition: background var(--dur-fast), transform var(--dur-fast) var(--ease);
+}
+.ticket-share:hover { background: rgba(var(--sunset-rgb), .24); transform: translateY(-1px); }
+html[data-theme="light"] .ticket-share { color: var(--sunset-ink); border-color: rgba(var(--sunset-rgb), .4); }
 
 /* ===== 26. BILLETTERIE OFFICIELLE SHOTGUN ===== */
 .shotgun-section { padding-bottom: 8px; }

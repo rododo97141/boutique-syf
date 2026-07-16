@@ -164,7 +164,7 @@
     const num = 'SYF-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 900 + 100);
     let mine = [];
     try { mine = JSON.parse(localStorage.getItem('syfir-tickets')) || []; } catch (e) { mine = []; }
-    mine.push({ event: ev.name, city: ev.city, date: ev.date, detail: bought, num });
+    mine.push({ id: ev.id, event: ev.name, city: ev.city, date: ev.date, detail: bought, num });
     localStorage.setItem('syfir-tickets', JSON.stringify(mine));
     tiersBox.style.display = 'none'; foot.style.display = 'none';
     const ok = $('#edSuccess');
