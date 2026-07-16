@@ -95,3 +95,16 @@ intégrées en **hotlink direct** (`pexels.com/download/video/<id>/`). Chaque
 `<video>` liste le fichier local en **première source** : déposez les .mp4
 ci-dessus dans `videos/` (720p H.264, ~6 Mo max, sans audio si possible) et
 ils prendront automatiquement le relais du hotlink.
+
+## Rapatriement des images Unsplash (R20)
+
+Des photos de démo (artistes fictifs, événements, lieux) sont encore servies
+depuis `images.unsplash.com`. Pour supprimer toute dépendance externe :
+
+```bash
+bash tools/rapatrier-unsplash.sh   # nécessite un réseau ouvert vers unsplash
+```
+
+Le script télécharge chaque photo dans `images/ext/` (JPEG + WebP) et réécrit
+les URLs du dépôt. Dans le sandbox de dev, `images.unsplash.com` est bloqué
+(egress 403) : lancer depuis une machine au réseau ouvert, puis committer.
