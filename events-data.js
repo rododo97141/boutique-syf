@@ -30,7 +30,22 @@
     { id: 3, name: 'Coral Night — Club Edition', type: 'club', city: 'Pointe-à-Pitre', venue: 'Club Azur', date: '2026-07-22', time: '23:00', price: 20, genres: ['Shatta', 'Dancehall'],
       img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80', organizer: 'Club Azur × SYFIR', prive: false, stock: 'dernieres' },
     { id: 4, name: 'SYFIR Tropical Festival', type: 'festival', city: 'Le Gosier', venue: 'Plage du Gosier', date: '2026-08-15', time: '16:00', price: 45, genres: ['Soca', 'Zouk', 'Afro house'],
-      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false, stock: 'complet' },
+      img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80', organizer: 'SYFIR Official', prive: false, stock: 'complet',
+      // Line-up multi-jours (modèle We Love Green) — artistes liés aux fiches (#artiste-<slug>)
+      lineup: [
+        { day: 'Vendredi 15 août', acts: [
+          { name: 'DJ Solaris', slug: 'solaris', img: 'images/artiste-solaris.png' },
+          { name: 'Kréyòl Sound System', slug: 'kreyol', img: 'images/artiste-kreyol.png' },
+          { name: 'NÉO', slug: 'neo', img: 'images/artiste-neo.png' },
+          { name: 'Maya Lumière', slug: 'maya', img: 'images/artiste-maya.png' }
+        ] },
+        { day: 'Samedi 16 août', acts: [
+          { name: 'DJ Brise', slug: 'brise', img: 'images/artiste-brise.png' },
+          { name: 'Los Tropicanos', slug: 'tropicanos', img: 'images/artiste-tropicanos.png' },
+          { name: 'Zénith Brass', slug: 'zenith', img: 'images/artiste-zenith.png' },
+          { name: 'Unity 141', slug: 'unity', img: 'images/artiste-unity.jpg' }
+        ] }
+      ] },
     { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', venue: 'Villa Gustavia', date: '2026-08-01', time: '21:00', price: 80, genres: ['House', 'Konpa'],
       img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
     { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', venue: 'Plage de Grande Anse', date: '2026-07-19', time: '12:00', price: 15, genres: ['Chill', 'Zouk'],

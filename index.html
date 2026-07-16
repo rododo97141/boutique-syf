@@ -506,6 +506,7 @@
 
     <div class="artists-grid" id="lineupGrid">
       <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
+        id="artiste-solaris" data-dates="4"
         data-name="DJ Solaris" data-role="House tropicale · Afro" data-badge="DJ résident"
         data-img="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80"
         data-photos="images/artiste-solaris.png|https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=900&q=80|https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80"
@@ -530,6 +531,7 @@
       </article>
 
       <article class="artist-card reveal d2" data-type="chant" data-cat="artiste"
+        id="artiste-maya" data-dates="4"
         data-name="Maya Lumière" data-role="Soul · Pop solaire" data-badge="Artiste"
         data-img="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80"
         data-photos="images/artiste-maya.png|https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=900&q=80|https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=80"
@@ -554,6 +556,7 @@
       </article>
 
       <article class="artist-card reveal d3" data-type="dj" data-cat="dj"
+        id="artiste-brise" data-dates="4"
         data-name="DJ Brise" data-role="Deep house · Sunset" data-badge="DJ résident"
         data-img="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
         data-photos="images/artiste-brise.png|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80|https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80"
@@ -578,6 +581,7 @@
       </article>
 
       <article class="artist-card reveal d1" data-type="dj" data-cat="dj"
+        id="artiste-neo" data-dates="4"
         data-name="NÉO" data-role="Électro · Carnaval" data-badge="DJ · Producteur"
         data-img="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80"
         data-photos="images/artiste-neo.png|https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=900&q=80|https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80"
@@ -602,6 +606,7 @@
       </article>
 
       <article class="artist-card reveal d2" data-type="groupe" data-cat="groupe"
+        id="artiste-kreyol" data-dates="4"
         data-name="Kréyòl Sound System" data-role="Zouk · Dancehall · Konpa" data-badge="Groupe musical"
         data-img="images/artiste-kreyol.png|https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=900&q=80"
         data-photos="images/artiste-kreyol.png|https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=900&q=80|https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80"
@@ -624,6 +629,7 @@
       </article>
 
       <article class="artist-card reveal d3" data-type="groupe" data-cat="groupe"
+        id="artiste-tropicanos" data-dates="4"
         data-name="Los Tropicanos" data-role="Salsa · Latino · Cumbia" data-badge="Groupe musical"
         data-img="images/artiste-tropicanos.png|https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=80"
         data-photos="images/artiste-tropicanos.png|https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=80|https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80"
@@ -646,6 +652,7 @@
       </article>
 
       <article class="artist-card reveal d1" data-type="groupe" data-cat="groupe"
+        id="artiste-zenith" data-dates="4"
         data-name="Zénith Brass" data-role="Brass band · Funk · Carnaval" data-badge="Groupe musical"
         data-img="images/artiste-zenith.png|https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=900&q=80"
         data-photos="images/artiste-zenith.png|https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=900&q=80|https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80"
@@ -669,6 +676,7 @@
 
       <!-- Unity 141 — groupe RÉEL (bio, contacts et photo officiels, validés par le client) -->
       <article class="artist-card reveal d2" data-type="groupe" data-cat="groupe"
+        id="artiste-unity" data-dates="4"
         data-name="Unity 141" data-role="Kompa · Zouk · Bouyon" data-badge="Orchestre live"
         data-book-note="Réponse sous 24h — management Unity 141"
         data-contact-phone="+590690945474" data-contact-phone-display="0690 94 54 74"
@@ -1000,6 +1008,12 @@
       <h3 id="amName"></h3>
       <div class="am-tags" id="amTags"></div>
       <p class="pm-desc" id="amBio"></p>
+
+      <!-- Prochaines dates de l'artiste (réciproque du line-up festival) -->
+      <div class="am-dates" id="amDates" hidden>
+        <h4 class="am-dates-title">Prochaines dates</h4>
+        <div class="am-dates-list" id="amDatesList"></div>
+      </div>
 
       <!-- Écoute : embed SoundCloud chargé au clic si l'artiste a un mix,
            sinon lien direct vers sa vraie plateforme (aucun faux extrait) -->

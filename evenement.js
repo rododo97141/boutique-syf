@@ -38,6 +38,25 @@
   const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
   const shareText = `${ev.name} · ${dateLong}${ev.time ? ' · ' + S.fmtTime(ev.time) : ''} · ${loc}`;
 
+  // Line-up groupé par jour (festival multi-artistes) — photos cliquables vers les fiches artistes
+  const lineupHtml = (ev.lineup && ev.lineup.length) ? `
+    <section class="ed-lineup container" aria-label="Line-up">
+      <h2 class="ed-lineup-title">Line-up</h2>
+      ${ev.lineup.map(day => `
+        <div class="lineup-day">
+          <h3 class="lineup-day-head">${esc(day.day)}</h3>
+          <ul class="lineup-acts">
+            ${day.acts.map(a => `
+              <li class="lineup-act">
+                <a href="index.html#artiste-${esc(a.slug)}" aria-label="Voir la fiche de ${esc(a.name)}">
+                  <span class="lineup-photo"><img src="${esc(a.img)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></span>
+                  <span class="lineup-name">${esc(a.name)}</span>
+                </a>
+              </li>`).join('')}
+          </ul>
+        </div>`).join('')}
+    </section>` : '';
+
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
   document.getElementById('pageTitle').textContent = `${ev.name} — SYFIR Événements`;
@@ -63,7 +82,9 @@
     description: `${tag} SYFIR à ${ev.city}${ev.venue ? ' — ' + ev.venue : ''}. ${(ev.genres || []).join(', ')}`,
     location: { '@type': 'Place', name: ev.venue || ev.city, address: { '@type': 'PostalAddress', addressLocality: ev.city, addressCountry: 'GP' } },
     offers: { '@type': 'AggregateOffer', priceCurrency: 'EUR', lowPrice: lowP, highPrice: highP, availability: 'https://schema.org/InStock', url: location.href },
-    performer: { '@type': 'MusicGroup', name: 'SYFIR' },
+    performer: (ev.lineup && ev.lineup.length)
+      ? ev.lineup.flatMap(day => day.acts).map(a => ({ '@type': 'MusicGroup', name: a.name }))
+      : { '@type': 'MusicGroup', name: 'SYFIR' },
     organizer: { '@type': 'Organization', name: ev.organizer, url: location.origin }
   };
   const ldScript = document.createElement('script');
@@ -118,7 +139,8 @@
         <p class="form-success" id="edSuccess" hidden></p>
         <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
       </aside>
-    </div>`;
+    </div>
+    ${lineupHtml}`;
 
   $('#edWhatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' — ' + location.href);
 

@@ -851,6 +851,20 @@
       amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
         .map(t => `<span>${esc(t.trim())}</span>`).join('');
       amBio.textContent = d.bio || '';
+      // Prochaines dates (réciproque du line-up festival) : l'artiste renvoie
+      // vers les fiches événements où il joue (data-dates = ids séparés par ",")
+      const amDates = $('#amDates'), amDatesList = $('#amDatesList');
+      if (amDates && amDatesList) {
+        const evs = (d.dates || '').split(',').map(s => s.trim()).filter(Boolean)
+          .map(id => window.SYFIR.getEvent(id)).filter(Boolean);
+        if (evs.length) {
+          amDatesList.innerHTML = evs.map(ev => {
+            const dt = new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+            return `<a class="am-date" href="evenement.html?id=${ev.id}"><span class="am-date-when">${esc(dt)}</span><span class="am-date-name">${esc(ev.name)} · ${esc(ev.city)}</span></a>`;
+          }).join('');
+          amDates.hidden = false;
+        } else { amDates.hidden = true; }
+      }
       // Liens streaming : n'afficher que les vrais profils (pas les pages
       // d'accueil génériques). Le data-attribute reste sur la carte.
       let anyStream = false;
@@ -930,6 +944,16 @@
       if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
     });
     artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
+
+    // Deep-link : #artiste-<slug> (depuis le line-up d'un festival) ouvre la fiche
+    const openFromHash = () => {
+      const m = location.hash.match(/^#artiste-[\w-]+$/);
+      if (!m) return;
+      const card = document.getElementById(location.hash.slice(1));
+      if (card) openArtist(card);
+    };
+    openFromHash();
+    addEventListener('hashchange', openFromHash);
 
     // Clic écoute : si l'artiste a un mix, le player se charge ICI, au clic
     // seulement (aucune requête SoundCloud avant) ; sinon le lien s'ouvre normalement
