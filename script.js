@@ -137,6 +137,7 @@
       ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
       ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
+      ['FAQ', 'faq.html', 'questions fréquentes aide pochette degré alcool où acheter conservation billets âge'],
     ];
     if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
 
