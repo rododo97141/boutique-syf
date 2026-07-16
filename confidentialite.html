@@ -43,44 +43,58 @@
 
     <p class="eyebrow">Vos données</p>
     <h1>Politique de <i>confidentialité</i></h1>
-    <p class="updated">Dernière mise à jour : <span class="todo">[À COMPLÉTER — date]</span></p>
+    <p class="updated">Dernière mise à jour : 16 juillet 2026</p>
 
     <div class="note">
-      ⚠️ <strong>Modèle à compléter.</strong> Cette politique décrit le traitement des données personnelles
-      conformément au RGPD. Adaptez-la aux traitements réellement effectués (formulaire de contact, billetterie,
-      newsletter…) avant mise en ligne.
+      🔒 <strong>En clair :</strong> en l'état actuel, SYFIR est un site vitrine. <strong>Aucune donnée
+      personnelle n'est envoyée à un serveur, aucun cookie tiers, aucun traceur publicitaire.</strong>
+      Ce que tu saisis (thème, profil, billets de démonstration) reste <strong>sur ton appareil</strong>,
+      dans le stockage local de ton navigateur, et n'en sort pas.
     </div>
 
     <h2>1. Responsable du traitement</h2>
-    <p>Le responsable du traitement des données est <span class="todo">[À COMPLÉTER — raison sociale]</span>,
-      joignable à <a href="mailto:contact@syfir.fr">contact@syfir.fr</a>.</p>
+    <p>Le responsable du traitement est
+      <span class="todo">[À COMPLÉTER PAR LE FONDATEUR — raison sociale et adresse]</span>,
+      joignable à <span class="todo">[À COMPLÉTER PAR LE FONDATEUR — email de contact]</span>.</p>
 
-    <h2>2. Données collectées et finalités</h2>
+    <h2>2. Quelles données, et où elles vivent</h2>
+    <p>Le site fonctionne aujourd'hui <strong>sans compte serveur</strong>. Les informations que tu renseignes
+      sont enregistrées <strong>uniquement dans le stockage local (<code>localStorage</code>) de ton navigateur</strong>,
+      sur ton appareil. Elles ne sont ni transmises, ni consultées à distance, ni partagées.</p>
     <table>
-      <tr><th>Donnée</th><th>Finalité</th><th>Base légale</th></tr>
-      <tr><td>Nom, email, téléphone (formulaire « Devenir partenaire »)</td><td>Répondre à la demande de contact</td><td>Consentement</td></tr>
-      <tr><td>Données de commande / billetterie</td><td>Gérer la vente et l'accès aux événements</td><td>Exécution du contrat</td></tr>
-      <tr><td><span class="todo">[À COMPLÉTER — autres données]</span></td><td><span class="todo">[À COMPLÉTER]</span></td><td><span class="todo">[À COMPLÉTER]</span></td></tr>
+      <tr><th>Donnée (clé locale)</th><th>Contenu</th><th>Finalité</th></tr>
+      <tr><td><code>syfir-theme</code></td><td>Préférence de thème (clair / sombre / auto)</td><td>Réafficher ton apparence choisie</td></tr>
+      <tr><td><code>syfir-user</code></td><td>Profil : prénom, nom, e-mail, commune, date de naissance, choix newsletter</td><td>Personnaliser « Mon espace » sur cet appareil</td></tr>
+      <tr><td><code>syfir-age-ok</code></td><td>Confirmation « j'ai 18 ans ou plus »</td><td>Ne pas redemander la vérification d'âge (loi Évin)</td></tr>
+      <tr><td><code>syfir-tickets</code> · <code>syfir-favs</code></td><td>Billets de <em>démonstration</em> et favoris</td><td>Retrouver tes billets démo et tes coups de cœur</td></tr>
     </table>
+    <p class="muted">Base légale : ton consentement, matérialisé par la saisie sur cet appareil. Aucune de ces
+      données n'est une donnée « serveur » : elle disparaît si tu vides le stockage de ton navigateur.</p>
 
     <h2>3. Durée de conservation</h2>
-    <p>Les données sont conservées pour la durée nécessaire aux finalités ci-dessus, puis archivées ou supprimées.
-      <span class="todo">[À COMPLÉTER — durées précises, ex. 3 ans pour les prospects]</span>.</p>
+    <p>Ces informations sont conservées <strong>jusqu'à ce que tu les supprimes toi-même</strong> :
+      via le bouton <strong>« Supprimer mon profil »</strong> dans « Mon espace », en te déconnectant,
+      ou en vidant les données de site de ton navigateur. Il n'existe aucune copie sur un serveur.</p>
 
-    <h2>4. Destinataires</h2>
-    <p>Les données sont destinées à l'équipe SYFIR et, le cas échéant, à ses sous-traitants
-      (<span class="todo">[À COMPLÉTER — prestataire de paiement, hébergeur, outil d'emailing…]</span>).
-      Elles ne sont jamais vendues à des tiers.</p>
+    <h2>4. Destinataires et transferts</h2>
+    <p>En l'état, <strong>aucune donnée n'est transmise à un tiers</strong> : pas de serveur SYFIR, pas de
+      sous-traitant, pas de régie publicitaire. Rien n'est vendu ni partagé.</p>
+    <p class="muted">À noter pour plus tard : le jour où un formulaire (partenaires, newsletter) sera relié à un
+      prestataire d'envoi, ou une vraie billetterie/un compte serveur mis en place, cette page devra être
+      complétée pour décrire ces destinataires et leurs durées de conservation.</p>
 
-    <h2>5. Vos droits</h2>
-    <p>Conformément au RGPD, vous disposez des droits d'accès, de rectification, d'effacement, de limitation,
-      d'opposition et de portabilité de vos données. Pour les exercer, écrivez à
-      <a href="mailto:contact@syfir.fr">contact@syfir.fr</a>. Vous pouvez aussi introduire une réclamation
-      auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
+    <h2>5. Cookies et traceurs</h2>
+    <p><strong>Le site ne dépose aucun cookie et n'utilise aucun traceur</strong> : ni cookie tiers, ni mesure
+      d'audience, ni pixel publicitaire. Le seul stockage utilisé est le <code>localStorage</code> décrit
+      ci-dessus — ce n'est pas un cookie et il n'est jamais envoyé au serveur. Aucune bannière de consentement
+      n'est donc requise en l'état.</p>
 
-    <h2>6. Cookies</h2>
-    <p>Le site utilise <span class="todo">[À COMPLÉTER — cookies strictement nécessaires uniquement, ou mesure d'audience avec consentement]</span>.
-      Vous pouvez configurer votre navigateur pour refuser les cookies non essentiels.</p>
+    <h2>6. Vos droits</h2>
+    <p>Conformément au RGPD, tu disposes des droits d'accès, de rectification, d'effacement, de limitation,
+      d'opposition et de portabilité. Comme tes données vivent sur ton appareil, tu les exerces directement :
+      les consulter et les modifier dans « Mon espace », les effacer via « Supprimer mon profil ». Pour toute
+      question, écris à <span class="todo">[À COMPLÉTER PAR LE FONDATEUR — email de contact]</span>. Tu peux aussi
+      introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
 
     <footer class="legal">
       <p>L'abus d'alcool est dangereux pour la santé, à consommer avec modération. Vente interdite aux mineurs.</p>
