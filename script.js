@@ -122,7 +122,7 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['Notre Gamme', 'saveurs.html', 'saveurs collection cocktails pochettes toutes'],
+      ['Collection Syf', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
       ['Syf Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
       ['Syf Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
       ['Syf Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
@@ -150,7 +150,7 @@
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">Notre Gamme</a>
+            <a class="mega-side-head" href="saveurs.html">Collection Syf</a>
             <a href="saveurs.html">Toutes les pochettes</a>
             <a href="saveurs.html#planteur">Syf Planteur</a>
             <a href="saveurs.html#coral">Syf Coral Breeze</a>
