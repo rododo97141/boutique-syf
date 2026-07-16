@@ -2142,6 +2142,52 @@ html[data-theme="light"] .ritual-card { background: var(--surface-light); border
 @keyframes faqReveal { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 html[data-theme="light"] .faq-item { border-color: rgba(var(--shadow-warm-rgb), .16); }
 
+/* Bientôt dans la collection — teaser silhouettes mystère (R23-3) */
+.coming-grid {
+  list-style: none; margin: 40px 0 30px; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 640px;
+}
+.coming-card { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.coming-silhouette {
+  position: relative; width: 100%; aspect-ratio: 3 / 4; border-radius: var(--radius);
+  display: grid; place-items: center; overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .10), transparent 60%),
+    rgba(var(--cream-rgb), .04);
+  border: 1px dashed rgba(var(--gold-rgb), .3);
+}
+.pouch-svg { width: 46%; height: auto; }
+.pouch-body { fill: rgba(var(--gold-rgb), .16); stroke: rgba(var(--gold-rgb), .45); stroke-width: 2; }
+.pouch-zip { fill: rgba(var(--gold-rgb), .4); }
+.pouch-hole { fill: none; stroke: rgba(var(--gold-rgb), .45); stroke-width: 2; }
+.coming-q {
+  position: absolute; font-family: var(--display); font-weight: 800; font-size: 2rem;
+  color: var(--passion); text-shadow: 0 2px 12px rgba(var(--ocean-deep-rgb), .7);
+}
+.coming-silhouette::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(var(--cream-rgb), .12) 50%, transparent 65%);
+  transform: translateX(-100%); animation: comingShine 3.4s var(--ease) infinite;
+}
+@keyframes comingShine { 0% { transform: translateX(-100%); } 55%, 100% { transform: translateX(100%); } }
+.coming-badge {
+  font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--passion);
+  padding: 5px 14px; border-radius: 100px; border: 1px solid rgba(var(--passion-rgb), .4);
+  background: rgba(var(--passion-rgb), .08);
+}
+.coming-cta { margin-top: 8px; color: rgba(var(--cream-rgb), .82); }
+.coming-cta a { color: var(--passion); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.coming-cta a:hover { color: var(--sunset); }
+@media (prefers-reduced-motion: reduce) { .coming-silhouette::after { animation: none; display: none; } }
+@media (max-width: 520px) {
+  .coming-grid { gap: 12px; }
+  .coming-q { font-size: 1.5rem; }
+}
+html[data-theme="light"] .coming-silhouette { background: radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .14), transparent 60%), var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .35); }
+html[data-theme="light"] .coming-cta { color: var(--grey-ink); }
+html[data-theme="light"] .coming-cta a { color: var(--sunset-ink); }
+
 /* ===== 34. TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées) ===== */
 /* Carte cocktail en lien simple (pas de fiche modale sur l'accueil) */
 a.cocktail-teaser { text-decoration: none; color: inherit; }
