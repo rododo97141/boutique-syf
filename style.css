@@ -2053,6 +2053,45 @@ html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { backgr
   to { opacity: 1; transform: none; }
 }
 
+/* L'art de la pochette — 3 rituels (R22-2) */
+.ritual-grid {
+  list-style: none; margin: 40px 0 0; padding: 0;
+  display: grid; gap: 22px; grid-template-columns: 1fr;
+}
+.ritual-card {
+  border-radius: var(--radius); overflow: hidden;
+  background: rgba(var(--ink-rgb), .03);
+  border: 1px solid rgba(var(--ink-rgb), .08);
+  transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease), border-color var(--dur-med);
+}
+.ritual-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(var(--gold-rgb), .5);
+  box-shadow: 0 30px 60px rgba(var(--shadow-warm-rgb), .18);
+}
+.ritual-media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink-soft); }
+.ritual-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease); }
+.ritual-card:hover .ritual-media img { transform: scale(1.06); }
+.ritual-num {
+  position: absolute; top: 12px; left: 16px;
+  font-family: var(--display); font-weight: 800; font-size: 2.1rem; line-height: 1;
+  color: var(--cream); letter-spacing: .02em;
+  text-shadow: 0 2px 14px rgba(var(--ocean-deep-rgb), .8);
+}
+.ritual-text { padding: 20px 22px 24px; }
+.ritual-text h3 {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: 1.06rem; letter-spacing: .02em; margin: 0 0 8px;
+}
+.ritual-text p { color: var(--grey-ink); font-size: .98rem; line-height: 1.55; margin: 0; max-width: 42ch; }
+@media (min-width: 720px) {
+  .ritual-grid { grid-template-columns: repeat(3, 1fr); gap: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ritual-media img, .ritual-card:hover .ritual-media img { transition: none; transform: none; }
+}
+html[data-theme="light"] .ritual-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .22); }
+
 /* ===== 34. TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées) ===== */
 /* Carte cocktail en lien simple (pas de fiche modale sur l'accueil) */
 a.cocktail-teaser { text-decoration: none; color: inherit; }
