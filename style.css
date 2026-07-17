@@ -22,8 +22,7 @@
    17. TOAST
    18. BANNIÈRE COCKTAIL MOBILE
    19. ARTISTES & DJs
-   20. MODALE FICHE PRODUIT COCKTAIL
-   21. MODALE FICHE ARTISTE
+   20. GALERIE & FORMATS PRODUIT (réutilisés par la page produit dédiée)
    22. CARROUSEL DE LOGOS PARTENAIRES (fusionné dans Où nous trouver)
    23. ÉQUIPE & COLLABORATEURS
    24. RETOUR EN HAUT + PROGRESSION
@@ -33,7 +32,7 @@
    28. GRAIN DE MATIÈRE (fonds sombres uniquement)
    29. PSYCHOLOGIE CHAUD/FROID : or chaud sur océan profond
    30. AGE GATE 18+
-   31. CARROUSEL MÉDIA (cartes artistes + modale)
+   31. CARROUSEL MÉDIA (cartes artistes + page produit)
    32. FICHE ÉVÉNEMENT (evenement.html)
    33. SCROLL-DRIVEN ANIMATIONS (actualite.html) — CSS pur, compositor only
    34. TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées)
@@ -269,7 +268,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .artist-book:active, .artists-cta-link:active, .theme-opt:active,
 .tickets-fab:active, .burger:active, .mobile-close:active,
 .car-video-load:active, .artist-play:active,
-.am-listen:active, .fav-btn:active { transform: scale(.97); }
+.fav-btn:active { transform: scale(.97); }
 .car-btn:not(:disabled):active { transform: translateY(-50%) scale(.9); }
 .to-top.show:active { transform: scale(.9); }
 
@@ -1599,8 +1598,7 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .artist-card { cursor: pointer; }
 .artist-more { font-size: .8rem; color: var(--passion); font-family: var(--display); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 
-/* ===== 20. MODALE FICHE PRODUIT COCKTAIL ===== */
-.cocktail-modal-box { max-width: 560px; }
+/* ===== 20. GALERIE & FORMATS PRODUIT (réutilisés par la page produit dédiée) ===== */
 .cocktail-card:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 .ck-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 5 / 4; background: var(--ocean-deep); }
 .ck-formats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0 20px; }
@@ -1630,7 +1628,6 @@ html[data-theme="light"] .ck-sub-note, html[data-theme="light"] .ing-role { colo
 html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); border-color: rgba(var(--gold-deep-rgb), .25); }
 
 /* Sélecteur de saveurs (R27-3) — circuler dans la gamme depuis la fiche */
-.ck-sub-sel { margin-top: 22px; }
 .ck-selector { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .ck-selector::-webkit-scrollbar { display: none; }
 .ck-sel-item {
@@ -1770,50 +1767,6 @@ html[data-theme="light"] .ar-book-note { color: var(--taupe); }
 .world-card:hover .world-go { color: var(--passion); }
 @media (prefers-reduced-motion: reduce) { .world-card, .world-card img { transition: none; } .world-card:hover, .world-card:hover img { transform: none; } }
 
-/* ===== 21. MODALE FICHE ARTISTE ===== */
-.artist-modal-box { max-width: 540px; }
-.am-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--ocean-deep); }
-.am-hero img { width: 100%; height: 100%; object-fit: cover; }
-.am-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
-.am-tags span { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; padding: 4px 12px; border: 1px solid rgba(var(--passion-rgb), .3); border-radius: 100px; color: rgba(var(--cream-rgb), .8); }
-.am-listen {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin: 24px 0 20px; padding: 12px 24px; min-height: 44px;
-  background: var(--gold-metal); color: var(--ink);
-  font-family: var(--display); font-weight: 800; font-size: .92rem;
-  text-transform: uppercase; letter-spacing: .06em; text-decoration: none;
-  border-radius: 100px; transition: transform var(--dur-fast), box-shadow var(--dur-fast);
-}
-.am-listen:hover { transform: scale(1.04); box-shadow: 0 12px 30px rgba(var(--sunset-rgb), .35); }
-/* Player embarqué (SoundCloud) chargé au clic */
-.am-embed { margin: 24px 0 20px; }
-.am-embed iframe { display: block; width: 100%; border: 0; border-radius: 14px; }
-/* Contact direct du management (fiche artiste) */
-.am-contact {
-  margin: 0 0 20px; padding: 16px 20px;
-  border: 1px solid rgba(var(--passion-rgb), .22); border-radius: 14px;
-  background: rgba(var(--passion-rgb), .06);
-}
-.am-contact-title {
-  font-family: var(--display); font-weight: 800; font-size: .68rem;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: rgba(var(--cream-rgb), .75); margin-bottom: 10px;
-}
-.am-contact-link {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
-  margin-right: 20px; font-weight: 600; color: var(--sunset);
-  text-decoration: none;
-}
-.am-contact-link:hover .am-contact-value { text-decoration: underline; text-underline-offset: 3px; }
-
-.am-stream { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-.am-stream-link {
-  font-family: var(--display); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  padding: 8px 16px; border-radius: 100px; border: 1.5px solid rgba(var(--passion-rgb), .35); color: var(--cream);
-  transition: border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
-}
-.am-stream-link:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
-.am-book { margin-top: 4px; }
 
 /* Agenda des concerts */
 .agenda { background: rgba(var(--cream-rgb), .03); border: 1px solid rgba(var(--passion-rgb), .16); border-radius: var(--radius); padding: 28px 32px; }
@@ -2102,7 +2055,7 @@ html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { backgr
 .age-box .btn-ghost { backdrop-filter: none; -webkit-backdrop-filter: none; }
 .age-note { font-size: .72rem; color: rgba(var(--cream-rgb), .62); }
 
-/* ===== 31. CARROUSEL MÉDIA (cartes artistes + modale) ===== */
+/* ===== 31. CARROUSEL MÉDIA (cartes artistes + page produit) ===== */
 .media-car { position: relative; }
 .media-car:focus-visible { outline: 2px solid var(--passion); outline-offset: 3px; }
 .car-track {
@@ -2868,9 +2821,6 @@ html[data-theme="light"] .artist-more { color: var(--gold-deep); }
 html[data-theme="light"] .ck-format { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); }
 html[data-theme="light"] .ck-format strong { color: var(--ink-warm); }
 html[data-theme="light"] .ck-format small { color: var(--taupe); }
-html[data-theme="light"] .am-contact { background: rgba(var(--gold-rgb), .07); border-color: rgba(var(--gold-deep-rgb), .3); }
-html[data-theme="light"] .am-contact-title { color: var(--taupe); }
-html[data-theme="light"] .am-contact-link { color: var(--sunset-ink); }
 html[data-theme="light"] .agenda-empty { color: var(--taupe-soft); }
 html[data-theme="light"] .trust-title { color: var(--ink-warm); }
 html[data-theme="light"] .trust-intro { color: var(--taupe); }
@@ -2895,9 +2845,6 @@ html[data-theme="light"] .roles-head h3 { color: var(--ink-warm); }
 html[data-theme="light"] .roles-head p { color: var(--taupe); }
 html[data-theme="light"] .role-pill { background: var(--surface-light); color: var(--ink-warm); border-color: rgba(var(--gold-deep-rgb), .4); }
 html[data-theme="light"] .role-pill:hover { background: rgba(var(--gold-rgb), .1); }
-html[data-theme="light"] .am-tags span { border-color: rgba(var(--gold-deep-rgb), .35); color: var(--taupe); }
-html[data-theme="light"] .am-stream-link { border-color: rgba(var(--gold-deep-rgb), .4); color: var(--ink-warm); }
-html[data-theme="light"] .am-stream-link:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
 html[data-theme="light"] .kpi-delta.up { color: var(--success-deep); }
 html[data-theme="light"] .kpi-delta.down { color: var(--terracotta); }
 html[data-theme="light"] .ticket-num { color: var(--taupe); }
@@ -3469,21 +3416,6 @@ html[data-theme="light"] .past-recap { color: var(--sunset-ink); }
 .lineup-name { font-family: var(--display); font-weight: 700; font-size: .82rem; letter-spacing: .02em; }
 @media (prefers-reduced-motion: reduce) { .lineup-photo { transition: none; } .lineup-act a:hover .lineup-photo { transform: none; } }
 
-/* Prochaines dates dans la fiche artiste (réciproque) */
-.am-dates { margin: 18px 0 6px; }
-.am-dates-title { font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--passion); margin: 0 0 10px; }
-.am-dates-list { display: flex; flex-direction: column; gap: 8px; }
-.am-date {
-  display: flex; align-items: baseline; gap: 12px; padding: 10px 14px; border-radius: 12px;
-  background: rgba(var(--cream-rgb), .05); border: 1px solid rgba(var(--cream-rgb), .1);
-  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast) var(--ease);
-}
-.am-date:hover { border-color: var(--passion); background: rgba(var(--passion-rgb), .08); transform: translateX(3px); }
-.am-date-when { font-family: var(--display); font-weight: 700; font-size: .82rem; color: var(--passion); flex-shrink: 0; }
-.am-date-name { font-size: .9rem; color: rgba(var(--cream-rgb), .84); }
-html[data-theme="light"] .am-date { background: rgba(var(--shadow-warm-rgb), .05); border-color: rgba(var(--shadow-warm-rgb), .14); }
-html[data-theme="light"] .am-date-when { color: var(--sunset-ink); }
-html[data-theme="light"] .am-date-name { color: var(--ink); }
 
 /* ===== Cartes portrait 3:4 signature (R8 pattern 2) — image pleine carte,
    dégradé sombre en bas, titre en overlay, hover zoom léger. Nos vraies photos. */
