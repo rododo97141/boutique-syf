@@ -285,6 +285,22 @@ html[data-theme="light"] :where(a, button, input, select, textarea, [tabindex], 
   box-shadow: 0 0 0 4px rgba(var(--gold-deep-rgb), .22);
 }
 
+/* R38-5 : transitions d'ÉTAT homogènes. Baseline en :where() (spécificité 0) :
+   tout élément interactif adoucit ses changements de couleur/fond/bordure et
+   l'apparition de l'anneau de focus au MÊME rythme (180ms, easing maison).
+   Aucune transform ici → pas d'animation inattendue ; les composants qui
+   déclarent déjà leur transition (btn, cartes, champs…) gardent la leur.
+   Sous reduced-motion, on neutralise pour rester cohérent avec la règle 4. */
+:where(a, button, summary, label, .chip, .tab, .role-pill, .theme-opt, .fav-btn,
+  .qty-btn, [role="menuitem"], [role="tab"], [role="menuitemradio"]) {
+  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(a, button, summary, label, .chip, .tab, .role-pill, .theme-opt, .fav-btn,
+    .qty-btn, [role="menuitem"], [role="tab"], [role="menuitemradio"]) { transition: none; }
+}
+
 /* Skip-link « Aller au contenu » — masqué jusqu'au focus clavier (R24-3) */
 .skip-link {
   position: fixed; top: 10px; left: 10px; z-index: 1300;
