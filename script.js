@@ -1094,6 +1094,21 @@
               </li>`).join('')}
           </ul>` : '';
       }
+      // Les deux façons : pochette du produit (à emporter) + verre SYFIR (sur place)
+      const fmtBox = $('#ckFormats');
+      if (fmtBox) {
+        const pochette = (d.photos || '').split('|')[0] || 'images/produits/syfir-planteur-marbre.jpg';
+        const verre = 'images/produits/syf-planteur-verre.jpg';
+        fmtBox.innerHTML = `
+          <div class="ck-format">
+            ${picHTML(verre, 'alt="Servi sur glace dans le verre SYFIR" loading="lazy" decoding="async" width="1086" height="1448"')}
+            <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
+          </div>
+          <div class="ck-format">
+            ${picHTML(pochette, `alt="La pochette ${esc(d.name || 'SYFIR')} scellée" loading="lazy" decoding="async"`)}
+            <div><strong>🛍️ À emporter</strong><small>Pochette scellée signature</small></div>
+          </div>`;
+      }
       cocktailModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
