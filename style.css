@@ -1683,6 +1683,63 @@ html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
 }
 @media (prefers-reduced-motion: reduce) { .pd-gallery { view-transition-name: none; } }
 
+/* ============================================================
+   FICHE ARTISTE DÉDIÉE (artiste.html?id=X) — R35
+   Troisième pilier des pages dédiées. Réutilise .pd-h2 / .event-genre /
+   .badge-demo ; motif goutte via .eyebrow.
+============================================================ */
+.artist-detail { padding: calc(var(--nav-h) + var(--util-h) + 14px) 0 40px; }
+@media (max-width: 639px) { .artist-detail { padding-top: calc(var(--nav-h) + 14px); } }
+.ar-top { display: grid; gap: 34px; align-items: start; }
+@media (min-width: 860px) { .ar-top { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 44px; } }
+.ar-photo { min-width: 0; border-radius: var(--radius); overflow: hidden; background: var(--ocean-deep); view-transition-name: artist-hero; box-shadow: 0 18px 44px rgba(var(--black-rgb), .32); }
+.ar-photo img, .ar-photo picture { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .ar-photo { view-transition-name: none; } }
+.ar-intro { min-width: 0; }
+.ar-name { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5.5vw, 3.4rem); line-height: 1.02; letter-spacing: .01em; margin: 8px 0 6px; color: var(--cream); }
+html[data-theme="light"] .ar-name { color: var(--ink-warm); }
+.ar-role { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: .82rem; color: var(--gold); margin: 0 0 14px; }
+.ar-genres { margin-bottom: 18px; }
+.ar-bio { color: rgba(var(--cream-rgb), .82); line-height: 1.6; max-width: 56ch; margin: 0 0 18px; }
+html[data-theme="light"] .ar-bio { color: var(--grey-ink); }
+.ar-socials { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 18px; }
+.ar-socials a { font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--passion); text-decoration: none; }
+.ar-socials a:hover { color: var(--sunset); }
+.ar-share { display: flex; flex-wrap: wrap; gap: 10px; }
+.ar-demo-note { margin-top: 16px; font-size: .78rem; color: var(--grey); max-width: 52ch; }
+html[data-theme="light"] .ar-demo-note { color: var(--taupe); }
+.ar-section { margin-top: 46px; }
+/* Embeds : façades locales, iframe au clic */
+.ar-embeds { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 14px; }
+.ar-embed { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; cursor: pointer; background: var(--ocean-deep); }
+.ar-embed img, .ar-embed picture { width: 100%; height: 100%; object-fit: cover; }
+.ar-embed::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(var(--black-rgb), .78)); pointer-events: none; }
+.ar-embed-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 50%; border: none; cursor: pointer; z-index: 2;
+  background: rgba(var(--gold-rgb), .92); color: var(--ink); font-size: 1.1rem; display: grid; place-items: center; transition: transform var(--dur-fast) var(--ease); }
+.ar-embed:hover .ar-embed-play { transform: translate(-50%, -50%) scale(1.08); }
+.ar-embed-title { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2; color: var(--cream); font-size: .78rem; font-weight: 600; line-height: 1.3; }
+.ar-embed-live { cursor: default; }
+.ar-embed-live iframe { width: 100%; height: 100%; border: 0; }
+.ar-embed-audio { aspect-ratio: auto; min-height: 166px; }
+.ar-embed-audio.ar-embed-live { aspect-ratio: auto; }
+@media (prefers-reduced-motion: reduce) { .ar-embed:hover .ar-embed-play { transform: translate(-50%, -50%); } }
+/* Prochaines dates : liens latéraux vers les événements */
+.ar-dates { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.ar-date { display: grid; gap: 3px; padding: 16px 18px; border-radius: 14px; text-decoration: none;
+  background: rgba(var(--gold-rgb), .06); border: 1px solid rgba(var(--gold-rgb), .2); transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
+.ar-date:hover { border-color: rgba(var(--gold-rgb), .55); transform: translateY(-2px); }
+.ar-date-when { font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+.ar-date-name { font-family: var(--display); font-weight: 700; color: var(--cream); }
+html[data-theme="light"] .ar-date-name { color: var(--ink-warm); }
+.ar-date-loc { font-size: .82rem; color: var(--grey); }
+.ar-date-go { font-size: .78rem; color: var(--passion); margin-top: 4px; }
+html[data-theme="light"] .ar-date-loc { color: var(--taupe); }
+@media (prefers-reduced-motion: reduce) { .ar-date:hover { transform: none; } }
+/* Booking */
+.ar-booking { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.ar-book-note { margin-top: 12px; font-size: .82rem; color: var(--grey); }
+html[data-theme="light"] .ar-book-note { color: var(--taupe); }
+
 /* Notre savoir-faire (R33-1) — l'artisan derrière le produit, façon maison.
    Sur section-cream (toujours claire) : texte sombre, beaucoup d'air. */
 .sf-grid { display: grid; gap: 40px; align-items: center; margin-top: 20px; }
