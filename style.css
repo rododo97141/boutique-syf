@@ -896,7 +896,7 @@ html[data-theme="light"] .locator-map {
   position: absolute; inset: -12% 0;
   background:
     linear-gradient(180deg, rgba(var(--ink-rgb), .82), rgba(var(--ocean-deep-rgb), .85)),
-    url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1800&q=80') center / cover no-repeat;
+    url('images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg') center / cover no-repeat;
   will-change: transform;
 }
 .section-event .container { position: relative; z-index: 2; }
@@ -1075,7 +1075,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .tickets-hero-bg {
   background:
     linear-gradient(180deg, rgba(var(--ocean-deep-rgb), .55), rgba(var(--ink-rgb), .8)),
-    url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80') center / cover no-repeat;
+    url('images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg') center / cover no-repeat;
 }
 /* Fond vidéo d'ambiance (injecté par JS après load) : fondu d'apparition,
    même voile sombre que l'image pour préserver la lisibilité du texte */
@@ -1451,7 +1451,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   background:
     linear-gradient(180deg, rgba(var(--ocean-deep-rgb), .55), rgba(var(--ink-rgb), .65)),
     url('images/syfir-mobile.png') center / cover no-repeat,
-    url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1800&q=80') center / cover no-repeat;
+    url('images/ext/unsplash-photo-1519046904884-53103b34b206.jpg') center / cover no-repeat;
   will-change: transform;
 }
 .mobile-banner .container { position: relative; z-index: 2; }
@@ -1709,7 +1709,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   position: relative; width: 100%; aspect-ratio: 16 / 9;
   border: 1px solid rgba(var(--passion-rgb), .2); border-radius: var(--radius);
   overflow: hidden; background:
-    var(--ocean-deep) url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&q=80') center / cover no-repeat;
+    var(--ocean-deep) url('images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg') center / cover no-repeat;
 }
 .ambiance-box video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ambiance-label {

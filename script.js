@@ -46,6 +46,15 @@
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
   const esc = window.SYFIR.escapeHtml;   // échappement HTML systématique
+  /* <picture> webp+jpg pour les images locales (R25) : le WebP n'est proposé
+     que pour images/ext/ et images/produits/ (WebP garanti à côté du JPEG) ;
+     sinon repli <img> simple (ex. .png sans WebP). */
+  const picHTML = (src, attrs = '') => {
+    const w = /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
+    return w
+      ? `<picture><source type="image/webp" srcset="${esc(w)}"><img src="${esc(src)}" ${attrs}></picture>`
+      : `<img src="${esc(src)}" ${attrs}>`;
+  };
   const store = {
     get(key, fallback) {
       try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
@@ -719,7 +728,7 @@
     box.tabIndex = 0;
     const photoSlides = list.map((src, i) => `
         <div class="car-slide" role="group" aria-roledescription="diapositive">
-          <img src="${esc(src)}" alt="${esc(name)} — photo ${i + 1}" loading="${i === 0 && !videoInline ? 'eager' : 'lazy'}" decoding="async">
+          ${picHTML(src, `alt="${esc(name)} — photo ${i + 1}" loading="${i === 0 && !videoInline ? 'eager' : 'lazy'}" decoding="async"`)}
         </div>`).join('');
     box.innerHTML = `
       <div class="car-track">
@@ -1053,7 +1062,7 @@
   injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.webp');
   // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
   injectHeroVideo($('.tickets-hero'), ['videos/ambiance-sunset.mp4', 'https://www.pexels.com/download/video/9640964/'],
-    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=80');
+    'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
 
   /* ===== 13. FICHE PRODUIT COCKTAIL (modale) ===== */
   const cocktailModal = $('#cocktailModal');
@@ -1144,7 +1153,7 @@ if (placeModal && placesGridEl) {
     if (photos.length) {
       pmImg.src = photos[0];
       pmImg.alt = document.querySelector('#pmTitle').textContent;
-      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button"><img src="${esc(p)}" alt="" loading="lazy" decoding="async"></button>`).join('');
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button">${picHTML(p, 'alt="" loading="lazy" decoding="async"')}</button>`).join('');
     }
     placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
   });
@@ -2079,7 +2088,7 @@ if (placeModal && placesGridEl) {
     return `
     <article class="event-card${stock && stock.soldOut ? ' is-soldout' : ''}" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
-        <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy" decoding="async">
+        ${picHTML(ev.img, `alt="${esc(ev.name)}" loading="lazy" decoding="async"`)}
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
         <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
         ${stock ? `<span class="stock-badge ${stock.cls}">${stock.text}</span>` : ''}
@@ -2198,7 +2207,7 @@ if (placeModal && placesGridEl) {
       return `
       <article class="past-card">
         <div class="past-media">
-          <img src="${esc(ev.img)}" alt="${esc(ev.name)}" loading="lazy" decoding="async">
+          ${picHTML(ev.img, `alt="${esc(ev.name)}" loading="lazy" decoding="async"`)}
           <span class="past-badge">Terminé</span>
         </div>
         <div class="past-body">
@@ -2367,14 +2376,14 @@ if (placeModal && placesGridEl) {
     }
 
     const imgByType = {
-      beach: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=80',
-      rooftop: 'https://images.unsplash.com/photo-1496337589254-7e19d01cec44?w=900&q=80',
-      festival: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80',
-      club: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&q=80',
-      soiree: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80'
+      beach: 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg',
+      rooftop: 'images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg',
+      festival: 'images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg',
+      club: 'images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg',
+      soiree: 'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg'
     };
     // Image de secours si un nouveau type n'a pas encore de visuel dédié
-    const defaultImg = 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=900&q=80';
+    const defaultImg = 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg';
     const newEvent = {
       id: Date.now(),
       name: $('#evName').value.trim(),

@@ -33,6 +33,8 @@
   const d = new Date(ev.date + 'T12:00:00');
   const dateLong = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   const esc = S.escapeHtml;   // échappement HTML systématique
+  // WebP local là où il est garanti (images/ext, images/produits) — cf. R25
+  const webpOf = src => /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
   const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
   const tag = ev.prive ? '🔒 Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
   const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
@@ -96,7 +98,9 @@
   detail.hidden = false;
   detail.innerHTML = `
     <div class="ed-hero">
-      <img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">
+      ${(() => { const w = webpOf(ev.img); return w
+        ? `<picture><source type="image/webp" srcset="${esc(w)}"><img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high"></picture>`
+        : `<img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">`; })()}
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
       ${(() => { const st = S.stockLabel(ev); return st ? `<span class="stock-badge ${st.cls} ed-stock">${st.text}</span>` : ''; })()}
     </div>
