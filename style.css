@@ -78,6 +78,11 @@
   --nav-h: 72px;
   /* Or métallique SYFIR (lettrage doré du packaging) */
   --gold-metal: linear-gradient(160deg, #F6D87C 8%, #D4A017 38%, #B8860B 58%, #F0C84A 86%);
+  /* Argent/ombre métallique — la « nuit » du motif goutte (R30) */
+  --silver-metal: linear-gradient(160deg, #E9ECF0 8%, #AEB5BE 38%, #7C838C 58%, #CDD3DA 86%);
+  /* Remplissage du motif GOUTTE, piloté par le thème (or le jour, argent la nuit).
+     Base = thème sombre ; surchargé en clair plus bas. Une seule forme partout. */
+  --drop-fill: var(--silver-metal);
   /* Grain de matière (noise SVG, ~3%) — appliqué aux fonds sombres uniquement */
   --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
   /* --- Triplets RGB des couleurs de base (pour rgba(var(--x-rgb), a)) --- */
@@ -165,6 +170,14 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   margin-bottom: 16px;
 }
 .eyebrow-light { color: var(--passion); }
+/* Motif GOUTTE (R30) : l'accent de l'eyebrow devient une goutte unique, or le
+   jour / argent la nuit (var(--drop-fill)). Une seule forme dans tout le site. */
+.eyebrow::before {
+  content: ""; display: inline-block; vertical-align: baseline;
+  width: 8px; height: 8px; margin-right: 9px;
+  background: var(--drop-fill);
+  border-radius: 50% 50% 50% 0; transform: rotate(45deg) translateY(-1px);
+}
 
 .h2 {
   font-family: var(--display);
@@ -2595,7 +2608,7 @@ html[data-theme="light"] .next-date strong, html[data-theme="light"] .next-count
 html[data-theme="light"] .next-arrow { color: var(--sunset-ink); }
 html[data-theme="light"] .event-reco { color: var(--gold-deep); }
 html[data-theme="light"] .stock-complet { background: rgba(var(--ink-warm-rgb), .85); color: var(--cream); border-color: rgba(var(--cream-rgb), .25); }
-html[data-theme="light"] { --gold-deep: var(--gold-ink); }
+html[data-theme="light"] { --gold-deep: var(--gold-ink); --drop-fill: var(--gold-metal); }
 html[data-theme="light"] body { background: var(--cream-warm); color: var(--ink-warm); }
 html[data-theme="light"] nav.scrolled { background: rgba(var(--cream-warm-rgb), .88); box-shadow: 0 1px 0 rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] nav.scrolled .nav-logo,
@@ -2858,13 +2871,12 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
    discrètes au repos, un peu plus vives au survol (le froid qui donne soif) */
 .cocktail-media::before {
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  /* Condensation allégée (R30) : 6 -> 3 gouttes. On retire autant qu'on ajoute
+     ailleurs (accent eyebrow) pour que la densité visuelle n'augmente pas. */
   background:
-    radial-gradient(circle 3px at 18% 24%, rgba(var(--cream-rgb), .55), transparent 60%),
-    radial-gradient(circle 2px at 32% 62%, rgba(var(--cream-rgb), .45), transparent 60%),
-    radial-gradient(circle 4px at 70% 34%, rgba(var(--cream-rgb), .5), transparent 60%),
-    radial-gradient(circle 2px at 82% 70%, rgba(var(--cream-rgb), .4), transparent 60%),
-    radial-gradient(circle 3px at 54% 82%, rgba(var(--cream-rgb), .45), transparent 60%),
-    radial-gradient(circle 2px at 46% 14%, rgba(var(--cream-rgb), .4), transparent 60%);
+    radial-gradient(circle 3px at 20% 26%, rgba(var(--cream-rgb), .5), transparent 60%),
+    radial-gradient(circle 4px at 72% 34%, rgba(var(--cream-rgb), .5), transparent 60%),
+    radial-gradient(circle 3px at 54% 78%, rgba(var(--cream-rgb), .45), transparent 60%);
   opacity: .5; transition: opacity var(--dur-med) var(--ease);
 }
 .cocktail-card:hover .cocktail-media::before { opacity: .9; }
@@ -2890,14 +2902,15 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
   100% { opacity: 0; transform: scale(1.15); }
 }
 
-/* Séparateur de section léger : trois gouttes centrées (accent discret) */
-.splash-divider { display: flex; justify-content: center; gap: 10px; padding: 8px 0; }
+/* Séparateur de section : la MÊME goutte que l'eyebrow, or/argent selon le
+   thème (R30). Trois gouttes centrées, la médiane un peu plus pleine. */
+.splash-divider { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 8px 0; }
 .splash-divider span {
   width: 8px; height: 8px; border-radius: 50% 50% 50% 0;
-  background: linear-gradient(160deg, var(--passion), var(--sunset));
-  transform: rotate(45deg); opacity: .6;
+  background: var(--drop-fill);
+  transform: rotate(45deg); opacity: .55;
 }
-.splash-divider span:nth-child(2) { width: 12px; height: 12px; opacity: .8; }
+.splash-divider span:nth-child(2) { width: 12px; height: 12px; opacity: .85; }
 
 @media (prefers-reduced-motion: reduce) {
   .btn-solid:hover::before, .btn-gradient:hover::before { animation: none; }
