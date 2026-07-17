@@ -2323,6 +2323,101 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
 .dash-card h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 1rem; margin-bottom: 8px; }
 .dash-card p { color: var(--grey); font-size: .9rem; }
 
+/* ===== PORTAIL DISTRIBUTEUR (R26-A) ===== */
+.badge-demo { font-family: var(--body); font-size: .58rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; background: rgba(var(--gold-rgb), .16); color: var(--gold-light); vertical-align: middle; }
+.portail-kpis { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 26px; }
+.portail-tabs { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid rgba(var(--cream-rgb), .12); margin-bottom: 24px; }
+.portail-tab {
+  font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em;
+  background: none; border: none; color: rgba(var(--cream-rgb), .6); cursor: pointer;
+  padding: 12px 6px; position: relative; min-height: 44px;
+}
+.portail-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold-metal); transform: scaleX(0); transition: transform var(--dur-fast) var(--ease); }
+.portail-tab:hover { color: var(--cream); }
+.portail-tab.active { color: var(--cream); }
+.portail-tab.active::after { transform: scaleX(1); }
+.portail-panel { animation: slideIn .35s var(--ease); }
+.portail-panel[hidden] { display: none; }
+.portail-intro { color: var(--grey); margin-bottom: 20px; }
+.portail-h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1.1rem; letter-spacing: .02em; margin: 6px 0 16px; }
+
+/* Challenge gamifié */
+.challenge-banner {
+  border-radius: var(--radius); padding: 28px 26px; margin-bottom: 26px;
+  background: linear-gradient(120deg, rgba(var(--sunset-rgb), .22), rgba(var(--gold-rgb), .14)), var(--ink-soft);
+  border: 1px solid rgba(var(--sunset-rgb), .3);
+}
+.challenge-tag { font-family: var(--display); font-weight: 700; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--passion); }
+.challenge-tag em { font-style: normal; color: rgba(var(--cream-rgb), .7); }
+.challenge-banner h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 10px 0 8px; }
+.challenge-banner p { color: rgba(var(--cream-rgb), .8); max-width: 60ch; margin: 0 0 10px; }
+.challenge-count strong { font-family: var(--display); font-weight: 800; font-size: 1.3rem; color: var(--passion); }
+.challenge-banner .btn { margin-top: 10px; }
+
+/* Formation */
+.formation-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.formation-card {
+  display: flex; flex-direction: column; gap: 6px; padding: 22px; border-radius: 14px;
+  background: var(--ink-soft); border: 1px solid rgba(var(--passion-rgb), .14); text-align: left;
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+}
+a.formation-card { color: inherit; }
+a.formation-ready:hover { transform: translateY(-5px); border-color: var(--passion); box-shadow: 0 20px 44px rgba(var(--black-rgb), .3); }
+.formation-ic { font-size: 1.7rem; }
+.formation-card strong { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: .96rem; letter-spacing: .02em; }
+.formation-card small { color: var(--grey); font-size: .84rem; }
+.formation-cta { font-family: var(--body); font-weight: 600; font-size: .82rem; color: var(--passion); margin-top: 6px; }
+.formation-soon { opacity: .72; }
+.formation-soon .badge-soon { align-self: flex-start; margin-top: 6px; }
+
+/* Catalogue grossiste */
+.catalog-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.catalog-card { border-radius: var(--radius); overflow: hidden; background: var(--ink-soft); border: 1px solid rgba(var(--passion-rgb), .14); display: flex; flex-direction: column; }
+.catalog-media { aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink); }
+.catalog-media img { width: 100%; height: 100%; object-fit: cover; }
+.catalog-body { padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 6px; }
+.catalog-body h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; }
+.catalog-body p { color: var(--grey); font-size: .86rem; margin: 0 0 8px; }
+.catalog-body .btn { margin-top: auto; }
+
+/* Mes commandes */
+.order-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 18px; border-radius: 12px; background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--cream-rgb), .1); margin-bottom: 10px; }
+.order-row-main strong { font-family: var(--display); font-weight: 700; display: block; }
+.order-row-main small { color: var(--grey); font-size: .82rem; }
+.order-status { font-family: var(--display); font-weight: 700; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--passion); flex-shrink: 0; }
+.order-note { color: var(--grey); font-size: .88rem; margin-bottom: 16px; }
+.order-todo { color: var(--grey); font-size: .78rem; font-style: italic; margin-top: 12px; }
+
+/* Bulle d'aide flottante */
+.help-bubble { position: fixed; right: 22px; bottom: 22px; z-index: 300; }
+.help-toggle {
+  width: 54px; height: 54px; border-radius: 50%; border: none; cursor: pointer;
+  font-family: var(--display); font-weight: 800; font-size: 1.4rem; color: var(--ink);
+  background: var(--gold-metal); box-shadow: 0 12px 30px rgba(var(--gold-rgb), .4);
+  transition: transform var(--dur-fast) var(--ease);
+}
+.help-toggle:hover { transform: scale(1.08); }
+.help-pop {
+  position: absolute; right: 0; bottom: 66px; width: 260px; padding: 18px;
+  border-radius: 16px; background: var(--ink-soft); border: 1px solid rgba(var(--gold-rgb), .3);
+  box-shadow: 0 20px 50px rgba(var(--black-rgb), .45); display: flex; flex-direction: column; gap: 8px;
+  animation: slideIn .25s var(--ease);
+}
+.help-pop[hidden] { display: none; }
+.help-pop-title { font-family: var(--display); font-weight: 700; font-size: .96rem; margin: 0; }
+.help-pop-text { color: rgba(var(--cream-rgb), .75); font-size: .84rem; margin: 0 0 4px; }
+.help-pop-link { display: block; padding: 9px 12px; border-radius: 10px; background: rgba(var(--cream-rgb), .05); color: var(--passion); font-weight: 600; font-size: .86rem; }
+.help-pop-link:hover { background: rgba(var(--passion-rgb), .12); }
+@media (prefers-reduced-motion: reduce) { .portail-panel, .help-pop, .challenge-banner { animation: none; } }
+
+html[data-theme="light"] .badge-demo { background: rgba(var(--gold-rgb), .16); color: var(--gold-deep); }
+html[data-theme="light"] .portail-tab { color: var(--taupe); }
+html[data-theme="light"] .portail-tab.active, html[data-theme="light"] .portail-tab:hover { color: var(--ink-warm); }
+html[data-theme="light"] .challenge-banner, html[data-theme="light"] .formation-card, html[data-theme="light"] .catalog-card { background: var(--surface-light); }
+html[data-theme="light"] .challenge-banner p, html[data-theme="light"] .formation-card small, html[data-theme="light"] .catalog-body p { color: var(--grey-ink); }
+html[data-theme="light"] .help-pop { background: var(--surface-light); }
+html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
+
 /* Espace pro — variante claire */
 
 

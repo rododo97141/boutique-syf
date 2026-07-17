@@ -116,6 +116,7 @@
     <p class="dash-side-title">Organisateur</p>
     <div class="dash-nav" id="dashNav" role="navigation" aria-label="Sections">
       <button class="dash-link active" data-sec="overview"><span>📊</span> Vue d'ensemble</button>
+      <button class="dash-link" data-sec="portail"><span>🛒</span> Portail distributeur</button>
       <button class="dash-link" data-sec="events"><span>🎫</span> Mes événements</button>
       <button class="dash-link" data-sec="sales"><span>💶</span> Ventes</button>
       <button class="dash-link" data-sec="scan"><span>📲</span> Scan &amp; caisse</button>
@@ -130,6 +131,73 @@
     <section class="dash-section active" id="sec-overview">
       <div class="dash-h"><h1>Vue d'ensemble</h1><p>Tes performances en un coup d'œil.</p></div>
       <div id="overviewBody"></div>
+    </section>
+
+    <!-- ============================================================
+         PORTAIL DISTRIBUTEUR (transposition myHerbalife, démo honnête)
+    ============================================================ -->
+    <section class="dash-section" id="sec-portail">
+      <div class="dash-h"><h1>Portail distributeur <span class="badge-demo">démo</span></h1><p>Ton espace revendeur SYFIR : performances, catalogue et commandes.</p></div>
+
+      <!-- 1. Bandeau KPI perso -->
+      <div class="portail-kpis" id="portailKpis" aria-label="Tes indicateurs du mois"></div>
+
+      <!-- 2. Onglets -->
+      <div class="portail-tabs" role="tablist" aria-label="Portail distributeur">
+        <button class="portail-tab active" role="tab" aria-selected="true" data-ptab="featured">À la une</button>
+        <button class="portail-tab" role="tab" aria-selected="false" data-ptab="catalog">Catalogue</button>
+        <button class="portail-tab" role="tab" aria-selected="false" data-ptab="orders">Mes commandes</button>
+      </div>
+
+      <!-- Onglet À la une -->
+      <div class="portail-panel active" id="ptab-featured" role="tabpanel">
+        <!-- 3. Challenge gamifié -->
+        <div class="challenge-banner">
+          <div class="challenge-text">
+            <span class="challenge-tag">Challenge SYFIR · <em>lancement bientôt</em></span>
+            <h3>Deviens ambassadeur de l'été.</h3>
+            <p>Fais goûter, fais découvrir, fais grimper ton volume. Le premier challenge ambassadeurs SYFIR arrive — sois dans les premiers.</p>
+            <p class="challenge-count"><strong id="challengeCount">—</strong> ambassadeurs déjà inscrits <span class="badge-demo">démo</span></p>
+            <a class="btn btn-solid" href="mailto:media@syfir.fr?subject=Programme%20ambassadeurs%20SYFIR&amp;body=Salut%20SYFIR%2C%20je%20veux%20participer%20au%20Challenge%20ambassadeurs.%20Voici%20mon%20profil%20%3A">Je participe →</a>
+          </div>
+        </div>
+
+        <!-- 4. Formation -->
+        <div class="formation-block">
+          <h3 class="portail-h3">Formation &amp; supports</h3>
+          <div class="formation-grid">
+            <a class="formation-card formation-ready" href="art-de-servir.html" target="_blank" rel="noopener">
+              <span class="formation-ic" aria-hidden="true">📄</span>
+              <strong>L'art de servir SYFIR</strong>
+              <small>One-pager prêt à imprimer (PDF)</small>
+              <span class="formation-cta">Ouvrir · Imprimer →</span>
+            </a>
+            <div class="formation-card formation-soon">
+              <span class="formation-ic" aria-hidden="true">🎒</span>
+              <strong>Kit distributeur</strong>
+              <small>Argumentaire, visuels, tarifs pros</small>
+              <span class="badge-soon">Bientôt disponible</span>
+            </div>
+            <div class="formation-card formation-soon">
+              <span class="formation-ic" aria-hidden="true">🎬</span>
+              <strong>Vidéos de formation</strong>
+              <small>Gestes, conservation, service</small>
+              <span class="badge-soon">Bientôt disponible</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Onglet Catalogue -->
+      <div class="portail-panel" id="ptab-catalog" role="tabpanel" hidden>
+        <p class="portail-intro">Passe commande en gros pour ton établissement. Tarifs pros communiqués sur devis.</p>
+        <div class="catalog-grid" id="portailCatalog"></div>
+      </div>
+
+      <!-- Onglet Mes commandes -->
+      <div class="portail-panel" id="ptab-orders" role="tabpanel" hidden>
+        <div id="portailOrders"></div>
+      </div>
     </section>
 
     <section class="dash-section" id="sec-events">
@@ -241,6 +309,45 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Modale de commande grossiste (portail distributeur) -->
+<div class="modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-box modal-box-sm">
+    <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    <div class="modal-body">
+      <p class="modal-tag">Commande grossiste</p>
+      <h3 id="orderProduct">Commande SYFIR</h3>
+      <p class="order-note">Sans vente en ligne pour l'instant : ta demande part par e-mail à l'équipe pro, pré-remplie. On te recontacte avec le tarif.</p>
+      <form id="orderForm" novalidate>
+        <div class="form-field">
+          <label for="orderQty">Quantité (cartons de 12)</label>
+          <input type="number" id="orderQty" min="1" value="5" inputmode="numeric">
+        </div>
+        <div class="form-field">
+          <label for="orderPlace">Ton établissement</label>
+          <input type="text" id="orderPlace" placeholder="Nom du bar / boutique">
+        </div>
+        <div class="form-field">
+          <label for="orderCity">Commune</label>
+          <input type="text" id="orderCity" placeholder="Le Gosier, Sainte-Anne…" autocomplete="address-level2">
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Envoyer ma demande ✉</button>
+        <p class="order-todo">✦ Démo : ouvre ton client mail pré-rempli (endpoint de commande à brancher).</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bulle d'aide flottante (espace pro) -->
+<div class="help-bubble" id="helpBubble">
+  <button class="help-toggle" id="helpToggle" type="button" aria-expanded="false" aria-controls="helpPop" aria-label="Besoin d'aide ?">?</button>
+  <div class="help-pop" id="helpPop" role="dialog" aria-label="Besoin d'aide" hidden>
+    <p class="help-pop-title">Un coup de main ?</p>
+    <p class="help-pop-text">L'équipe SYFIR répond aux pros et distributeurs.</p>
+    <a class="help-pop-link" href="mailto:pro@syfir.fr?subject=Aide%20espace%20pro%20SYFIR">✉ pro@syfir.fr</a>
+    <a class="help-pop-link" href="faq.html">❓ Voir la FAQ</a>
+  </div>
+</div>
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
 <div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
