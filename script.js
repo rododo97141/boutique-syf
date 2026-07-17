@@ -72,10 +72,28 @@
      Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
      invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
   const FORM_ENDPOINT = '';
+  // Contact réel PUBLIC (présent sur le site) : sert de repli honnête tant que
+  // la transmission en ligne n'est pas branchée. Rien d'inventé.
+  const CONTACT_EMAIL = 'contact@syfir.fr';
+  // Message VRAI en mode démo : ne jamais laisser croire qu'une donnée a été
+  // transmise tant que FORM_ENDPOINT est vide (R29-1). La saisie est conservée
+  // en local pour ne rien perdre ; on invite à écrire directement.
+  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt — en attendant, écris-nous directement à ' + CONTACT_EMAIL + '.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  // Conserve toute soumission en mode démo (aucun envoi réseau possible) pour
+  // ne rien perdre : historique local horodaté, plafonné à 50 entrées.
+  const persistDemoSubmission = data => {
+    try {
+      const key = 'syfir-form-submissions';
+      const log = JSON.parse(localStorage.getItem(key)) || [];
+      const { _gotcha, ...clean } = data || {};
+      log.push({ ...clean, at: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(log.slice(-50)));
+    } catch { /* stockage indisponible : on n'échoue pas pour autant */ }
+  };
   const submitForm = async data => {
     if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
-    if (!FORM_ENDPOINT) return { ok: true, demo: true };      // mode démo
+    if (!FORM_ENDPOINT) { persistDemoSubmission(data); return { ok: true, demo: true }; }  // mode démo : garde en local, aucun envoi
     try {
       const r = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -84,6 +102,15 @@
       });
       return { ok: r.ok };
     } catch { return { ok: false }; }
+  };
+  // Bandeau discret « démo — transmission bientôt active » près d'un bouton
+  // d'envoi, uniquement tant qu'aucun endpoint réel n'est branché.
+  const addDemoNote = btn => {
+    if (FORM_ENDPOINT || !btn || btn.parentNode?.querySelector('.form-demo-note')) return;
+    const note = document.createElement('span');
+    note.className = 'form-demo-note';
+    note.textContent = 'démo — transmission bientôt active';
+    btn.insertAdjacentElement('afterend', note);
   };
 
   /* ===== 02. NAVBAR DYNAMIQUE + MENU MOBILE ===== */
@@ -1177,6 +1204,7 @@ if (placeModal && placesGridEl) {
 
   const partnerForm = $('#partnerForm');
   if (partnerForm) {
+    addDemoNote(partnerForm.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
     // Le champ contextuel s'adapte au type de demande choisi
     const contextConfig = {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
@@ -1237,9 +1265,16 @@ if (placeModal && placesGridEl) {
       if (res.ok) {
         partnerForm.reset();
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
+        // Mode démo : message VRAI (rien n'a été transmis) + contact réel
+        if (res.demo) {
+          success.innerHTML = '✦ ' + esc(DEMO_FORM_MSG).replace(CONTACT_EMAIL, '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a>');
+          showToast('✦ Demande enregistrée sur cet appareil');
+        } else {
+          success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
+          showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+        }
         success.hidden = false;
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
       } else if (errorMsg) {
         errorMsg.hidden = false;
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1503,6 +1538,7 @@ if (placeModal && placesGridEl) {
 
   /* ===== 23. NEWSLETTER (footer + inline, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
+    addDemoNote(form.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const input = form.querySelector('input[type="email"]');
@@ -1522,7 +1558,10 @@ if (placeModal && placesGridEl) {
       const res = await submitForm({ email, _gotcha: hp, source: 'newsletter' });
       if (btn) { btn.disabled = false; btn.textContent = label; }
       if (res.ok) {
-        msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
+        // Mode démo : on n'a rien transmis — message vrai, saisie gardée en local
+        msg.textContent = res.demo
+          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt — d\'ici là, écris-nous à ' + CONTACT_EMAIL + '.'
+          : '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
         form.reset();
       } else {
         msg.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';

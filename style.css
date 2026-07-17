@@ -1049,6 +1049,9 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .footer-news .btn { min-height: 44px; }
 .footer-news-msg { margin-top: 12px; font-size: .82rem; color: var(--success); }
 .footer-news-msg.is-error { color: var(--coral); }
+/* Bandeau démo honnête près d'un bouton d'envoi (R29-1) — discret, jamais criard */
+.form-demo-note { display: block; margin-top: 8px; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); opacity: .8; }
+html[data-theme="light"] .form-demo-note { color: var(--taupe); }
 
 /* ===== 16. PAGE ÉVÉNEMENTS (billetterie) ===== */
 .nav-tickets { gap: 14px; }

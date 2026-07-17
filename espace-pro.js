@@ -229,7 +229,7 @@
         ? orders.slice().reverse().map(o => `
           <div class="order-row">
             <div class="order-row-main"><strong>${esc(o.product)}</strong><small>${esc(o.qty)} carton${o.qty > 1 ? 's' : ''} · ${esc(o.place || '—')} · ${esc(o.city || '—')}</small></div>
-            <span class="order-status">Demande envoyée</span>
+            <span class="order-status">À finaliser dans ton mail</span>
           </div>`).join('')
         : emptyState('Aucune commande', 'Passe ta première commande depuis le Catalogue : elle apparaîtra ici, avec son statut.', false);
     };
