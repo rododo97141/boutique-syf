@@ -130,7 +130,7 @@
         <span class="ed-past-badge">Édition terminée</span>
         <h2 class="ed-tickets-title">C'était SYFIR.</h2>
         <p class="ed-past-text">Cette soirée est passée — merci à celles et ceux qui étaient là. La prochaine se prépare déjà.</p>
-        <a class="btn btn-solid btn-full" id="edRecap" href="syf-tv.html#moments">▷ Revivre en images</a>
+        <a class="btn btn-solid btn-full" id="edRecap" href="syf-tv.html#moments"${ev.recap && ev.recap.length ? ` data-recap="${ev.id}"` : ''}>▷ Revivre en images</a>
         <a class="btn btn-ghost btn-full" href="evenements.html">Voir les prochaines dates</a>
       </aside>` : `
       <aside class="ed-tickets">

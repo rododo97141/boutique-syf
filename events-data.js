@@ -53,11 +53,14 @@
     /* --- Éditions passées (démo preuve sociale) : dates révolues -> section
        « Les éditions passées ». Photos locales pour un rendu fiable hors-ligne. --- */
     { id: 7, name: 'SYFIR Beach Opening', type: 'beach', city: 'Sainte-Anne', venue: 'Plage de Bois Jolan', date: '2026-06-14', time: '17:00', price: 20, genres: ['Afro house', 'Zouk'],
-      img: 'images/produits/syfir-pub-plage-1.jpg', organizer: 'SYFIR Official', prive: false },
+      img: 'images/produits/syfir-pub-plage-1.jpg', organizer: 'SYFIR Official', prive: false,
+      recap: ['images/produits/syfir-pub-plage-1.jpg', 'images/produits/syfir-pub-plage-2.jpg', 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg', 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg', 'images/ext/unsplash-photo-1526481280693-3bfa7568e0f3.jpg'] },
     { id: 8, name: 'Golden Hour — Rooftop #1', type: 'rooftop', city: 'Le Gosier', venue: 'Rooftop La Verdure', date: '2026-06-28', time: '19:00', price: 30, genres: ['Deep house', 'Soul'],
-      img: 'images/produits/syfir-pub-duo.jpg', organizer: 'SYFIR Official', prive: false },
+      img: 'images/produits/syfir-pub-duo.jpg', organizer: 'SYFIR Official', prive: false,
+      recap: ['images/produits/syfir-pub-duo.jpg', 'images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg', 'images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg', 'images/ext/unsplash-photo-1566417713940-fe7c737a9ef2.jpg'] },
     { id: 9, name: 'Coral Night — Édition #1', type: 'club', city: 'Pointe-à-Pitre', venue: 'Club Azur', date: '2026-05-31', time: '23:00', price: 20, genres: ['Shatta', 'Dancehall'],
-      img: 'images/produits/syfir-pub-plage-2.jpg', organizer: 'Club Azur × SYFIR', prive: false }
+      img: 'images/produits/syfir-pub-plage-2.jpg', organizer: 'Club Azur × SYFIR', prive: false,
+      recap: ['images/produits/syfir-pub-plage-2.jpg', 'images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg', 'images/ext/unsplash-photo-1493676304819-0d7a8d026dcf.jpg', 'images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'] }
   ];
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };

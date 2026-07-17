@@ -2019,6 +2019,67 @@ if (placeModal && placesGridEl) {
     });
   })();
 
+  /* ===== 44b. RECAP « REVIVRE EN IMAGES » (R25-3) — lightbox par édition passée.
+     Délégation globale sur [data-recap] : marche sur la billetterie (archives)
+     ET sur la fiche d'un événement terminé. Focus piégé, clavier, swipe. */
+  (function initRecap() {
+    const S = window.SYFIR;
+    if (!S) return;
+    let lb, imgEl, capEl, countEl, prevBtn, nextBtn, photos = [], idx = 0, lastFocus = null;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const build = () => {
+      lb = document.createElement('div');
+      lb.className = 'recap-lb'; lb.hidden = true;
+      lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'Revivre en images');
+      lb.innerHTML =
+        `<button class="recap-close" type="button" aria-label="Fermer">✕</button>
+         <button class="recap-nav recap-prev" type="button" aria-label="Photo précédente">‹</button>
+         <figure class="recap-stage"><img class="recap-img" alt="" decoding="async"><figcaption class="recap-cap"></figcaption></figure>
+         <button class="recap-nav recap-next" type="button" aria-label="Photo suivante">›</button>
+         <span class="recap-count" aria-hidden="true"></span>`;
+      document.body.appendChild(lb);
+      imgEl = lb.querySelector('.recap-img'); capEl = lb.querySelector('.recap-cap');
+      countEl = lb.querySelector('.recap-count'); prevBtn = lb.querySelector('.recap-prev'); nextBtn = lb.querySelector('.recap-next');
+      lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.recap-close')) close(); });
+      prevBtn.addEventListener('click', () => show(idx - 1));
+      nextBtn.addEventListener('click', () => show(idx + 1));
+      document.addEventListener('keydown', e => {
+        if (lb.hidden) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') show(idx - 1);
+        else if (e.key === 'ArrowRight') show(idx + 1);
+      });
+      let sx = 0;
+      lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1)); }, { passive: true });
+    };
+    const show = i => {
+      idx = (i + photos.length) % photos.length;
+      imgEl.src = photos[idx];
+      countEl.textContent = `${idx + 1} / ${photos.length}`;
+      const multi = photos.length > 1;
+      prevBtn.hidden = !multi; nextBtn.hidden = !multi;
+    };
+    const openRecap = ev => {
+      if (!lb) build();
+      photos = ev.recap || [];
+      if (!photos.length) return;
+      capEl.textContent = `${ev.name} — ${new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}`;
+      imgEl.alt = `Revivre : ${ev.name}`;
+      lastFocus = document.activeElement;
+      lb.hidden = false; document.body.style.overflow = 'hidden';
+      show(0);
+      lb.querySelector('.recap-close').focus();
+    };
+    const close = () => { lb.hidden = true; document.body.style.overflow = ''; lastFocus?.focus?.(); };
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-recap]');
+      if (!t) return;
+      const ev = S.getEvent(t.dataset.recap);
+      if (ev && ev.recap && ev.recap.length) { e.preventDefault(); openRecap(ev); }
+    });
+  })();
+
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
      stoppée au survol / focus / onglet caché / reduced-motion. ===== */
   (function initHomeHero() {
@@ -2213,7 +2274,7 @@ if (placeModal && placesGridEl) {
         <div class="past-body">
           <h3>${esc(ev.name)}</h3>
           <p class="past-meta">${esc(when)} · ${esc(loc)}</p>
-          <a class="past-recap" href="syf-tv.html#moments">▷ Revivre en images</a>
+          <a class="past-recap" href="syf-tv.html#moments"${ev.recap && ev.recap.length ? ` data-recap="${ev.id}"` : ''}>▷ Revivre en images</a>
         </div>
       </article>`;
     }).join('');

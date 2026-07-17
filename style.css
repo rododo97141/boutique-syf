@@ -2916,6 +2916,38 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   .lightbox-img { max-height: 70vh; }
 }
 
+/* Recap « Revivre en images » (R25-3) — lightbox par édition passée */
+.recap-lb {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(4, 8, 14, .94); animation: lbFade .2s var(--ease);
+}
+.recap-lb[hidden] { display: none; }
+.recap-stage { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.recap-img { max-width: 92vw; max-height: 78vh; width: auto; height: auto; object-fit: contain; border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+.recap-cap { color: rgba(var(--cream-rgb), .82); font-size: .92rem; text-align: center; font-family: var(--display); font-weight: 700; letter-spacing: .02em; }
+.recap-close, .recap-nav {
+  position: absolute; z-index: 1; display: grid; place-items: center;
+  width: 52px; height: 52px; border: none; border-radius: 50%;
+  background: rgba(var(--cream-rgb), .1); color: var(--cream);
+  font-size: 1.7rem; line-height: 1; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.recap-close { top: 20px; right: 20px; font-size: 1.3rem; }
+.recap-close:hover, .recap-nav:hover { background: rgba(var(--cream-rgb), .22); }
+.recap-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+.recap-next { right: 20px; top: 50%; transform: translateY(-50%); }
+.recap-prev:hover { transform: translateY(-50%) scale(1.06); }
+.recap-next:hover { transform: translateY(-50%) scale(1.06); }
+.recap-nav[hidden] { display: none; }
+.recap-count { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: rgba(var(--cream-rgb), .6); font-size: .8rem; letter-spacing: .1em; font-family: var(--display); }
+@media (prefers-reduced-motion: reduce) { .recap-lb { animation: none; } .recap-close, .recap-nav { transition: none; } }
+@media (max-width: 560px) {
+  .recap-prev { left: 8px; } .recap-next { right: 8px; }
+  .recap-close { top: 12px; right: 12px; }
+  .recap-img { max-height: 70vh; }
+}
+
 /* ============================================================
    42. STREAMING ROWS (R8) — rangées horizontales façon média
    (scroll-snap natif, zéro dépendance ; flèches au survol desktop,
