@@ -1657,6 +1657,16 @@ html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
 }
 @media (prefers-reduced-motion: reduce) { .pd-gallery { view-transition-name: none; } }
 
+/* Notre savoir-faire (R33-1) — l'artisan derrière le produit, façon maison.
+   Sur section-cream (toujours claire) : texte sombre, beaucoup d'air. */
+.sf-grid { display: grid; gap: 40px; align-items: center; margin-top: 20px; }
+@media (min-width: 860px) { .sf-grid { grid-template-columns: 1.05fr .95fr; gap: 56px; } }
+.sf-lead { font-size: clamp(1.15rem, 2.6vw, 1.5rem); line-height: 1.5; font-weight: 600; color: var(--ink-warm); margin: 10px 0 18px; max-width: 40ch; }
+.sf-body { color: var(--grey-ink); line-height: 1.6; margin: 0 0 16px; max-width: 44ch; }
+.sf-sign { font-family: var(--serif); font-style: italic; color: var(--gold-deep); font-size: 1.05rem; margin: 0; }
+.sf-visual { max-width: 460px; margin: 0; }
+@media (min-width: 860px) { .sf-visual { justify-self: end; } }
+
 /* Passerelle « Enter the world » (R27-5) — vers les univers SYFIR */
 .world-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 38px; }
 .world-card {
