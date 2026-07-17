@@ -859,196 +859,36 @@
   window.SYFIR.buildMediaCarousel = buildMediaCarousel;
   window.SYFIR.picHTML = picHTML;
 
-  /* ===== 11. ÉCOUTE + FICHE ARTISTE =====
-     Aucun faux extrait : le bouton ▶ ouvre la vraie page de l'artiste
-     (YouTube/Spotify/SoundCloud) dans un nouvel onglet ; sans vraie
-     plateforme, pas de bouton. */
-
-  // Un vrai profil a un chemin au-delà de la racine (ex. /artist/xxx, /@handle) ;
-  // une page d'accueil générique (open.spotify.com, youtube.com…) est ignorée.
-  const isRealProfile = url => {
-    if (!url) return false;
-    try { return new URL(url).pathname.replace(/\/+$/, '').length > 1; }
-    catch { return false; }
+  /* ===== 11. FICHE ARTISTE — la carte mène à sa page dédiée (R35) =====
+     Les modales artistes sont remplacées par de vraies pages partageables /
+     indexables (artiste.html?id=X). Le clic (et le bouton ▶) redirige. */
+  const goArtist = card => {
+    const slug = (card.id || '').replace(/^artiste-/, '');
+    if (!slug) return;
+    const media = card.querySelector('.artist-photo picture, .artist-photo img');
+    if (media && !reducedMotion) media.style.viewTransitionName = 'artist-hero';
+    location.href = 'artiste.html?id=' + encodeURIComponent(slug);
   };
-  const listenUrl = d => [d.youtube, d.spotify, d.soundcloud].find(isRealProfile) || '';
-  const platformName = url => {
-    try {
-      const h = new URL(url).hostname;
-      if (/youtube\.|youtu\.be/.test(h)) return 'YouTube';
-      if (/spotify/.test(h)) return 'Spotify';
-      if (/soundcloud/.test(h)) return 'SoundCloud';
-    } catch { /* URL invalide -> libellé générique */ }
-    return 'sa page';
-  };
-
-  // Les visuels des cartes artistes deviennent des galeries média
   $$('.artist-card').forEach(card => {
-    const d = card.dataset;
-    const photoBox = card.querySelector('.artist-photo');
-    if (photoBox && d.photos) {
-      buildMediaCarousel(photoBox, {
-        photos: d.photos, video: d.video || '', name: d.name || '',
-        badge: d.badge || '', playBtn: !!(d.listenEmbed || listenUrl(d)), note: d.note || '',
-        videoTitles: d.videoTitles || ''
-      });
+    card.style.cursor = 'pointer';
+    if (!card.getAttribute('role')) card.setAttribute('role', 'link');
+    if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Voir la fiche de ' + (card.dataset.name || "l'artiste"));
+    card.addEventListener('click', () => goArtist(card));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goArtist(card); } });
+    const play = card.querySelector('.artist-play');
+    if (play) {
+      play.setAttribute('aria-label', 'Voir la fiche de ' + (card.dataset.name || "l'artiste"));
+      play.addEventListener('click', e => { e.stopPropagation(); goArtist(card); });
     }
   });
-
-  // Modale fiche artiste
-  const artistModal = $('#artistModal');
-  if (artistModal) {
-    const amHero = artistModal.querySelector('.am-hero'), amRole = $('#amRole'),
-          amName = $('#amName'), amTags = $('#amTags'), amBio = $('#amBio'),
-          amListen = $('#amListen'), amListenName = $('#amListenName'),
-          amEmbed = $('#amEmbed');
-    let modalEmbed = '';   // player embarqué (SoundCloud) de l'artiste affiché
-
-    const openArtist = card => {
-      const d = card.dataset;
-      // Galerie média de la modale : mêmes photos/vidéo que la carte
-      buildMediaCarousel(amHero, {
-        photos: d.photos || d.img || '', video: d.video || '',
-        name: d.name || '', badge: d.badge || '', note: d.note || '',
-        videoTitles: d.videoTitles || ''
-      });
-      amRole.textContent = d.role || '';
-      amName.textContent = d.name || '';
-      amTags.innerHTML = (d.tags || '').split(',').filter(Boolean)
-        .map(t => `<span>${esc(t.trim())}</span>`).join('');
-      amBio.textContent = d.bio || '';
-      // Prochaines dates (réciproque du line-up festival) : l'artiste renvoie
-      // vers les fiches événements où il joue (data-dates = ids séparés par ",")
-      const amDates = $('#amDates'), amDatesList = $('#amDatesList');
-      if (amDates && amDatesList) {
-        const evs = (d.dates || '').split(',').map(s => s.trim()).filter(Boolean)
-          .map(id => window.SYFIR.getEvent(id)).filter(Boolean);
-        if (evs.length) {
-          amDatesList.innerHTML = evs.map(ev => {
-            const dt = new Date(ev.date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-            return `<a class="am-date" href="evenement.html?id=${ev.id}"><span class="am-date-when">${esc(dt)}</span><span class="am-date-name">${esc(ev.name)} · ${esc(ev.city)}</span></a>`;
-          }).join('');
-          amDates.hidden = false;
-        } else { amDates.hidden = true; }
-      }
-      // Liens streaming : n'afficher que les vrais profils (pas les pages
-      // d'accueil génériques). Le data-attribute reste sur la carte.
-      let anyStream = false;
-      [['#amSpotify', d.spotify], ['#amSoundcloud', d.soundcloud], ['#amYoutube', d.youtube],
-       ['#amInstagram', d.instagram], ['#amFacebook', d.facebook], ['#amTiktok', d.tiktok]].forEach(([sel, url]) => {
-        const el = $(sel);
-        const real = isRealProfile(url);
-        el.hidden = !real;
-        if (real) { el.href = url; anyStream = true; }
-      });
-      const amStream = $('#amStream');
-      if (amStream) amStream.hidden = !anyStream;
-      // Bouton écoute : mix embarqué (SoundCloud) chargé au clic si présent,
-      // sinon lien direct vers la vraie plateforme, sinon masqué
-      modalEmbed = d.listenEmbed || '';
-      amEmbed.hidden = true;
-      amEmbed.innerHTML = '';
-      if (modalEmbed) {
-        amListen.hidden = false;
-        // repli utile (clic molette / nouvel onglet) : la page du mix elle-même
-        const m = modalEmbed.match(/[?&]url=([^&]+)/);
-        amListen.href = m ? decodeURIComponent(m[1]) : modalEmbed;
-        amListenName.textContent = 'SoundCloud';
-      } else {
-        const listen = listenUrl(d);
-        amListen.hidden = !listen;
-        if (listen) { amListen.href = listen; amListenName.textContent = platformName(listen); }
-      }
-      // Contact direct du management : affiché uniquement si le talent l'a
-      // autorisé (data-contact-phone / data-contact-email sur la carte)
-      const amContact = $('#amContact');
-      if (amContact) {
-        const phone = $('#amPhone'), email = $('#amEmail');
-        const hasPhone = !!d.contactPhone, hasEmail = !!d.contactEmail;
-        phone.hidden = !hasPhone;
-        if (hasPhone) {
-          phone.href = 'tel:' + d.contactPhone;
-          phone.querySelector('.am-contact-value').textContent = d.contactPhoneDisplay || d.contactPhone;
-        }
-        email.hidden = !hasEmail;
-        if (hasEmail) {
-          email.href = 'mailto:' + d.contactEmail;
-          email.querySelector('.am-contact-value').textContent = d.contactEmail;
-        }
-        $('#amContactTitle').textContent = d.bookNote
-          ? 'Contact management · ' + d.bookNote.split('—')[0].trim()
-          : 'Contact management';
-        amContact.hidden = !(hasPhone || hasEmail);
-      }
-
-      // Le bouton « Booker cet artiste » porte la note de booking du talent
-      const amBook = artistModal.querySelector('.am-book');
-      if (amBook) {
-        if (d.bookNote) { amBook.dataset.bookNote = d.bookNote; amBook.dataset.bookName = d.name || ''; }
-        else { delete amBook.dataset.bookNote; delete amBook.dataset.bookName; }
-      }
-      artistModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
-    const closeArtist = () => {
-      artistModal.classList.remove('open');
-      document.body.style.overflow = '';
-    };
-    $$('.artist-card').forEach(card => {
-      card.addEventListener('click', e => {
-        // Les contrôles du carrousel et du lecteur n'ouvrent pas la modale
-        if (e.target.closest('[data-request]') || e.target.closest('.artist-play') ||
-            e.target.closest('.car-btn') || e.target.closest('.car-dot') ||
-            e.target.closest('.car-slide-video')) return;
-        openArtist(card);
-      });
-    });
-    artistModal.addEventListener('click', e => {
-      if (e.target === artistModal || e.target.closest('[data-close]')) closeArtist();
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && artistModal.classList.contains('open')) closeArtist();
-    });
-    artistModal.querySelector('.am-book')?.addEventListener('click', closeArtist);
-
-    // Deep-link : #artiste-<slug> (depuis le line-up d'un festival) ouvre la fiche
-    const openFromHash = () => {
-      const m = location.hash.match(/^#artiste-[\w-]+$/);
-      if (!m) return;
-      const card = document.getElementById(location.hash.slice(1));
-      if (card) openArtist(card);
-    };
-    openFromHash();
-    addEventListener('hashchange', openFromHash);
-
-    // Clic écoute : si l'artiste a un mix, le player se charge ICI, au clic
-    // seulement (aucune requête SoundCloud avant) ; sinon le lien s'ouvre normalement
-    amListen.addEventListener('click', e => {
-      if (!modalEmbed) return;
-      e.preventDefault();
-      amEmbed.innerHTML = `<iframe title="Mix de ${esc(amName.textContent)} (SoundCloud)" width="100%" height="166"
-        scrolling="no" allow="autoplay"
-        src="${esc(modalEmbed)}&auto_play=true&color=%23ff7a00"></iframe>`;
-      amEmbed.hidden = false;
-      amListen.hidden = true;
-    });
-
-    // Écoute rapide depuis la carte : mix -> ouvre la fiche avec le player ;
-    // sinon la vraie plateforme dans un nouvel onglet
-    $$('.artist-card .artist-play').forEach(btn => {
-      const card = btn.closest('.artist-card');
-      const d = card.dataset;
-      const url = listenUrl(d);
-      btn.setAttribute('aria-label', d.listenEmbed
-        ? `Écouter ${d.name || ''} (mix SoundCloud dans la fiche)`
-        : `Écouter ${d.name || ''} sur ${platformName(url)} (nouvel onglet)`);
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        if (d.listenEmbed) { openArtist(card); amListen.click(); }
-        else window.open(url, '_blank', 'noopener');
-      });
-    });
-  }
+  // Deep-link : #artiste-<slug> (anciens liens / line-up) -> page artiste dédiée
+  const artistFromHash = () => {
+    const m = location.hash.match(/^#artiste-([\w-]+)$/);
+    if (m) location.replace('artiste.html?id=' + encodeURIComponent(m[1]));
+  };
+  artistFromHash();
+  addEventListener('hashchange', artistFromHash);
 
   /* ===== 12. FOND VIDÉO DU HERO (accueil + billetterie) =====
      Vidéo injectée APRÈS l'événement load : le LCP reste l'image de fond CSS

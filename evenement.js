@@ -52,7 +52,7 @@
           <ul class="lineup-acts">
             ${day.acts.map(a => `
               <li class="lineup-act">
-                <a href="index.html#artiste-${esc(a.slug)}" aria-label="Voir la fiche de ${esc(a.name)}">
+                <a href="artiste.html?id=${esc(a.slug)}" aria-label="Voir la fiche de ${esc(a.name)}">
                   <span class="lineup-photo"><img src="${esc(a.img)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></span>
                   <span class="lineup-name">${esc(a.name)}</span>
                 </a>

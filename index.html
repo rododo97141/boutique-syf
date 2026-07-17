@@ -1013,46 +1013,6 @@
 </div>
 
 <!-- Modale fiche artiste -->
-<div class="modal" id="artistModal">
-  <div class="modal-box artist-modal-box">
-    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
-    <div class="modal-body">
-      <!-- Galerie média reconstruite à chaque ouverture par buildMediaCarousel -->
-      <div class="am-hero"></div>
-      <p class="modal-tag" id="amRole" style="margin-top:18px"></p>
-      <h3 id="amName"></h3>
-      <div class="am-tags" id="amTags"></div>
-      <p class="pm-desc" id="amBio"></p>
-
-      <!-- Prochaines dates de l'artiste (réciproque du line-up festival) -->
-      <div class="am-dates" id="amDates" hidden>
-        <h4 class="am-dates-title">Prochaines dates</h4>
-        <div class="am-dates-list" id="amDatesList"></div>
-      </div>
-
-      <!-- Écoute : embed SoundCloud chargé au clic si l'artiste a un mix,
-           sinon lien direct vers sa vraie plateforme (aucun faux extrait) -->
-      <a class="am-listen" id="amListen" href="#" target="_blank" rel="noopener" hidden>▶ Écouter sur <span id="amListenName">YouTube</span></a>
-      <div class="am-embed" id="amEmbed" hidden></div>
-
-      <div class="am-stream" id="amStream">
-        <a class="am-stream-link" id="amSpotify" href="#" target="_blank" rel="noopener">Spotify</a>
-        <a class="am-stream-link" id="amSoundcloud" href="#" target="_blank" rel="noopener">SoundCloud</a>
-        <a class="am-stream-link" id="amYoutube" href="#" target="_blank" rel="noopener">YouTube</a>
-        <a class="am-stream-link" id="amInstagram" href="#" target="_blank" rel="noopener">Instagram</a>
-        <a class="am-stream-link" id="amFacebook" href="#" target="_blank" rel="noopener">Facebook</a>
-        <a class="am-stream-link" id="amTiktok" href="#" target="_blank" rel="noopener">TikTok</a>
-      </div>
-      <!-- Contact direct du management (uniquement si le talent l'a autorisé) -->
-      <div class="am-contact" id="amContact" hidden>
-        <p class="am-contact-title" id="amContactTitle">Contact management</p>
-        <a class="am-contact-link" id="amPhone" href="#"><span aria-hidden="true">📞</span> <span class="am-contact-value"></span></a>
-        <a class="am-contact-link" id="amEmail" href="#"><span aria-hidden="true">✉️</span> <span class="am-contact-value"></span></a>
-      </div>
-      <button class="btn btn-solid btn-full am-book" data-request="artiste" type="button">Booker cet artiste</button>
-    </div>
-  </div>
-</div>
 
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
