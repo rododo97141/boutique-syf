@@ -27,6 +27,9 @@
     if (notFound) notFound.hidden = false;
     const t = document.getElementById('pageTitle');
     if (t) t.textContent = 'Événement introuvable — SYFIR';
+    // Aucun billet à vendre ici : on retire le bouton flottant « Billets »
+    // (sinon il pointerait vers une billetterie inexistante au scroll).
+    document.getElementById('ticketsFab')?.remove();
     return;
   }
 
