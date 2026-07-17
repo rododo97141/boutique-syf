@@ -32,6 +32,8 @@
 
   const d = new Date(ev.date + 'T12:00:00');
   const dateLong = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  // Événement passé : la date de fin de journée est révolue -> état « terminé »
+  const isPast = new Date(ev.date + 'T23:59:59') < new Date();
   const esc = S.escapeHtml;   // échappement HTML systématique
   // WebP local là où il est garanti (images/ext, images/produits) — cf. R25
   const webpOf = src => /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
@@ -123,6 +125,14 @@
         </div>
         <p class="ed-share-note">Fais tourner — les meilleurs plans se partagent.</p>
       </div>
+      ${isPast ? `
+      <aside class="ed-tickets ed-tickets-past">
+        <span class="ed-past-badge">Édition terminée</span>
+        <h2 class="ed-tickets-title">C'était SYFIR.</h2>
+        <p class="ed-past-text">Cette soirée est passée — merci à celles et ceux qui étaient là. La prochaine se prépare déjà.</p>
+        <a class="btn btn-solid btn-full" id="edRecap" href="syf-tv.html#moments">▷ Revivre en images</a>
+        <a class="btn btn-ghost btn-full" href="evenements.html">Voir les prochaines dates</a>
+      </aside>` : `
       <aside class="ed-tickets">
         <h2 class="ed-tickets-title">Billets</h2>
         <div class="private-gate" id="edGate" hidden>
@@ -142,12 +152,17 @@
         </div>
         <p class="form-success" id="edSuccess" hidden></p>
         <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
-      </aside>
+      </aside>`}
     </div>
     ${lineupHtml}`;
 
   $('#edWhatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' — ' + location.href);
 
+  // Événement passé : pas de tunnel d'achat — état « terminé » + « Revivre en images »
+  if (isPast) {
+    $('#edCalendar')?.remove();   // « Ajouter au calendrier » n'a pas de sens pour une date révolue
+    document.getElementById('ticketsFab')?.remove();   // pas de bouton billets sticky sur une édition terminée
+  } else {
   // --- Tunnel billets (même logique que la modale de la billetterie) ---
   const tiersBox = $('#edTiers'), foot = $('#edFoot'), gate = $('#edGate');
   const soldOut = !!(S.stockLabel(ev) && S.stockLabel(ev).soldOut);
@@ -214,7 +229,11 @@
     else $('#edGateError').textContent = 'Code invalide. Vérifie ton invitation.';
   });
 
-  // --- Partage (navigator.share, sinon copie du lien) ---
+  showTickets(!ev.prive);
+  renderTiers();
+  }   // --- fin du tunnel billets (événement à venir uniquement) ---
+
+  // --- Partage (navigator.share, sinon copie du lien) — toutes les fiches ---
   $('#edShare').addEventListener('click', async () => {
     const data = { title: `SYFIR — ${ev.name}`, text: shareText, url: location.href };
     if (navigator.share) {
@@ -238,9 +257,6 @@
     tickCd();
     setInterval(tickCd, 60000);
   }
-
-  showTickets(!ev.prive);
-  renderTiers();
 
   /* --- « Tu aimeras aussi » : 3 événements à venir du même genre ou de
      la même ville — exploration à coût zéro, sans autoplay ni compteur --- */
