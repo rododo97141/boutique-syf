@@ -1109,6 +1109,25 @@
             <div><strong>🛍️ À emporter</strong><small>Pochette scellée signature</small></div>
           </div>`;
       }
+      // Sélecteur de saveurs : les 3 signatures + les silhouettes « Bientôt »
+      const selBox = $('#ckSelector');
+      if (selBox) {
+        const items = $$('.cocktail-card').map(c => {
+          const cd = c.dataset;
+          const short = (cd.name || '').replace(/^Syf\s+/i, '').replace(/™/g, '').trim();
+          const thumb = (cd.photos || '').split('|')[0] || '';
+          const on = c.id === card.id;
+          return `<button class="ck-sel-item${on ? ' active' : ''}" type="button" data-sel-id="${esc(c.id)}"${on ? ' aria-current="true"' : ''}>
+            <span class="ck-sel-thumb">${picHTML(thumb, `alt="" loading="lazy" decoding="async"`)}</span>
+            <span class="ck-sel-name">${esc(short)}</span>
+          </button>`;
+        }).join('');
+        const soon = [1, 2].map(() => `<button class="ck-sel-item ck-sel-soon" type="button" data-sel-soon aria-label="Bientôt dans la collection">
+            <span class="ck-sel-thumb ck-sel-pouch" aria-hidden="true">?</span>
+            <span class="ck-sel-name">Bientôt</span>
+          </button>`).join('');
+        selBox.innerHTML = items + soon;
+      }
       cocktailModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
@@ -1131,6 +1150,18 @@
     });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && cocktailModal.classList.contains('open')) closeCocktail();
+    });
+    // Sélecteur de saveurs : circuler dans la gamme sans fermer la fiche
+    $('#ckSelector')?.addEventListener('click', e => {
+      const item = e.target.closest('.ck-sel-item');
+      if (!item) return;
+      if (item.hasAttribute('data-sel-soon')) {
+        closeCocktail();
+        document.getElementById('bientot')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        return;
+      }
+      const target = document.getElementById(item.dataset.selId);
+      if (target) { ckHero.querySelector('video')?.pause(); openCocktail(target); cocktailModal.scrollTop = 0; }
     });
   }
 
