@@ -99,6 +99,21 @@
   ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
   document.head.appendChild(ldScript);
 
+  // --- Fil d'Ariane structuré (R39-B) : Accueil > Événements > cet événement ---
+  const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
+  const crumbLd = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${CANON_BASE}/index.html` },
+      { '@type': 'ListItem', position: 2, name: 'Événements', item: `${CANON_BASE}/evenements.html` },
+      { '@type': 'ListItem', position: 3, name: ev.name, item: `${CANON_BASE}/evenement.html?id=${encodeURIComponent(ev.id)}` }
+    ]
+  };
+  const crumbScript = document.createElement('script');
+  crumbScript.type = 'application/ld+json';
+  crumbScript.textContent = JSON.stringify(crumbLd).replace(/</g, '\\u003C');
+  document.head.appendChild(crumbScript);
+
   // --- Rendu de la fiche ---
   detail.hidden = false;
   detail.innerHTML = `

@@ -275,6 +275,10 @@
     $('#searchBtn')?.addEventListener('click', () => open(true));
     $('#megaClose', mega).addEventListener('click', close);
     $$('a', mega).forEach(a => a.addEventListener('click', close));
+    // R39-B : lien profond de recherche (?q=) — rend le SearchAction du JSON-LD
+    // WebSite honnête (la recherche existe et est adressable par URL).
+    const qDeep = new URLSearchParams(location.search).get('q');
+    if (qDeep) { open(true); search.value = qDeep; doSearch(); }
     mega.addEventListener('keydown', e => {
       if (e.key === 'Escape') { close(); return; }
       if (e.key !== 'Tab') return;

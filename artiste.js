@@ -49,6 +49,20 @@
   ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C');
   document.head.appendChild(ldScript);
 
+  // --- Fil d'Ariane structuré (R39-B) : Accueil > Les artistes > cet artiste ---
+  const crumbLd = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${CANON_BASE}/index.html` },
+      { '@type': 'ListItem', position: 2, name: 'Les artistes', item: `${CANON_BASE}/index.html#artistes` },
+      { '@type': 'ListItem', position: 3, name: a.name, item: `${CANON_BASE}/artiste.html?id=${encodeURIComponent(a.id)}` }
+    ]
+  };
+  const crumbScript = document.createElement('script');
+  crumbScript.type = 'application/ld+json';
+  crumbScript.textContent = JSON.stringify(crumbLd).replace(/</g, '\\u003C');
+  document.head.appendChild(crumbScript);
+
   const webpOf = src => /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
   const genresHtml = (a.genres || []).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
 

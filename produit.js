@@ -56,6 +56,20 @@
   ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
   document.head.appendChild(ldScript);
 
+  // --- Fil d'Ariane structuré (R39-B) : Accueil > Collection Syf > cette signature ---
+  const crumbLd = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${CANON_BASE}/index.html` },
+      { '@type': 'ListItem', position: 2, name: 'Collection Syf', item: `${CANON_BASE}/saveurs.html` },
+      { '@type': 'ListItem', position: 3, name: cleanName, item: `${CANON_BASE}/produit.html?id=${encodeURIComponent(p.id)}` }
+    ]
+  };
+  const crumbScript = document.createElement('script');
+  crumbScript.type = 'application/ld+json';
+  crumbScript.textContent = JSON.stringify(crumbLd).replace(/</g, '\\u003C');
+  document.head.appendChild(crumbScript);
+
   // --- « Ce qu'il y a dedans » : fruits publiés + rôle gustatif (aucune allégation) ---
   const ingHtml = (p.ingredients && p.ingredients.length) ? `
     <section class="pd-section container">
