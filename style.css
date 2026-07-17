@@ -3707,6 +3707,9 @@ html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-war
 .linklike:hover { color: var(--sunset); }
 .linklike strong { color: var(--sunset); }
 .account-device { margin-top: 34px; font-size: .78rem; opacity: .56; }
+/* Mention sanitaire loi Évin sur la page compte (CLAUDE.md règle 2) — R31-5 */
+.account-sante { max-width: 420px; margin: 22px auto 0; text-align: center; font-size: .68rem; line-height: 1.4; color: var(--grey); opacity: .8; }
+html[data-theme="light"] .account-sante { color: var(--taupe); }
 /* Bouton RGPD « supprimer mon profil » dans Mon espace */
 .danger-link { color: var(--sunset) !important; border-color: rgba(var(--sunset-rgb), .4) !important; margin-top: 8px; }
 .danger-link:hover { background: rgba(var(--sunset-rgb), .12) !important; }
