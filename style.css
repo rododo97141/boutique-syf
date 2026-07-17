@@ -3201,8 +3201,15 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
   box-shadow: 0 18px 50px rgba(var(--sunset-rgb), .24), 0 0 0 1px rgba(var(--gold-rgb), .18);
   animation: peakCard .5s cubic-bezier(.16, 1, .3, 1) both;
 }
-.ticket-peak-card .qr-code { line-height: 0; }
+/* R38-3 : le QR se pose comme un objet précieux — révélé juste APRÈS la carte
+   (fade + scale doux) avec une brève efflorescence dorée qui se retire. Une fois. */
+.ticket-peak-card .qr-code { line-height: 0; animation: peakQR .55s cubic-bezier(.16, 1, .3, 1) .18s both; }
 .ticket-peak-card .qr-code svg { width: 140px; height: 140px; display: block; border-radius: 6px; }
+@keyframes peakQR {
+  0%   { opacity: 0; transform: scale(.86); filter: drop-shadow(0 0 0 rgba(var(--gold-rgb), 0)); }
+  55%  { opacity: 1; filter: drop-shadow(0 0 13px rgba(var(--gold-rgb), .5)); }
+  100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 0 rgba(var(--gold-rgb), 0)); }
+}
 .ticket-peak-num {
   font-family: var(--display); font-weight: 700; font-size: .68rem;
   letter-spacing: .08em; color: var(--ink);
@@ -3217,7 +3224,7 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 .ticket-peak-sign span { display: block; font-size: .62em; letter-spacing: .22em; margin-top: 4px; }
 @media (prefers-reduced-motion: reduce) {
   .ticket-peak-splash { display: none; }
-  .ticket-peak-card, .ticket-peak-sign { animation: none; }
+  .ticket-peak-card, .ticket-peak-sign, .ticket-peak-card .qr-code { animation: none; }
 }
 
 /* La fin signée (R3) — ponctuation de marque en pied de chaque page :
