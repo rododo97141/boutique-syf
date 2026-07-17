@@ -694,13 +694,14 @@
     const videoSources = video.split('|').map(s => s.trim()).filter(Boolean)
       .map(u => `<source src="${u}" type="video/mp4">`).join('');
     // Plusieurs vidéos YouTube séparées par « | » = une façade lazy par vidéo
-    // (thumbnail i.ytimg.com + bouton play, l'iframe ne charge qu'au clic)
+    // (miniature LOCALE images/ext/yt-<id>.jpg + bouton play ; l'iframe ne
+    //  charge qu'au clic — zéro requête externe tant qu'on ne lit pas)
     const titles = videoTitles.split('|').map(s => s.trim());
     const ytSlides = urls => urls.map((u, i) => {
       const id = (u.match(/embed\/([\w-]+)/) || [])[1] || '';
       const title = esc(titles[i] || `Vidéo de ${name}`);
       return `<div class="car-slide car-slide-video car-video-yt" role="group" aria-roledescription="diapositive">
-          <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+          <img src="images/ext/yt-${id}.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="" loading="lazy" decoding="async">
           <button class="car-video-load" data-embed="${u}" data-title="${title}" type="button" aria-label="Lire : ${title}">▶</button>
           <span class="car-video-title">${title}</span>
         </div>`;
@@ -1065,7 +1066,7 @@
   // voit » — mouvement dès le premier écran). Poster = photo LCP du hero.
   injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.webp');
   // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
-  injectHeroVideo($('.tickets-hero'), ['videos/ambiance-sunset.mp4', 'https://www.pexels.com/download/video/9640964/'],
+  injectHeroVideo($('.tickets-hero'), ['videos/syfir-pub-video.mp4'],
     'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
