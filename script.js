@@ -2144,6 +2144,7 @@ if (placeModal && placesGridEl) {
       </div>
       <div class="event-card-body">
         <h3>${esc(ev.name)}</h3>
+        ${ev.blurb ? `<p class="event-blurb">${esc(ev.blurb)}</p>` : ''}
         ${reco ? '<p class="event-reco">✦ Recommandé pour toi</p>' : ''}
         <p class="event-card-meta">${esc(when)}</p>
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}

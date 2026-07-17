@@ -110,6 +110,7 @@
       <div class="ed-main">
         <p class="eyebrow">Billetterie SYFIR</p>
         <h1 class="ed-title">${esc(ev.name)}</h1>
+        ${ev.blurb ? `<p class="ed-blurb">${esc(ev.blurb)}</p>` : ''}
         <ul class="ed-meta">
           <li>📅 <span class="ed-date">${dateLong}</span></li>
           ${ev.time ? `<li>🕘 ${S.fmtTime(ev.time)}</li>` : ''}
