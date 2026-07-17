@@ -260,11 +260,33 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .car-btn:not(:disabled):active { transform: translateY(-50%) scale(.9); }
 .to-top.show:active { transform: scale(.9); }
 
-/* Focus clavier cohérent partout (les règles spécifiques existantes priment) */
-:where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid var(--passion);
+/* Focus clavier cohérent partout — outline OR maison + anneau, lisible sur
+   les 2 thèmes (les règles spécifiques existantes priment). (R24-3) */
+:where(a, button, input, select, textarea, [tabindex], summary, details):focus-visible {
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(var(--gold-rgb), .28);
 }
+html[data-theme="light"] :where(a, button, input, select, textarea, [tabindex], summary, details):focus-visible {
+  outline-color: var(--gold-deep);
+  box-shadow: 0 0 0 4px rgba(var(--gold-deep-rgb), .22);
+}
+
+/* Skip-link « Aller au contenu » — masqué jusqu'au focus clavier (R24-3) */
+.skip-link {
+  position: fixed; top: 10px; left: 10px; z-index: 1300;
+  transform: translateY(-160%); transition: transform var(--dur-fast) var(--ease);
+  background: var(--gold-metal); color: var(--ink);
+  font-family: var(--display); font-weight: 700; font-size: .82rem; letter-spacing: .04em;
+  padding: 12px 20px; border-radius: 100px; box-shadow: 0 10px 30px rgba(var(--black-rgb), .4);
+  text-decoration: none;
+}
+.skip-link:focus { transform: translateY(0); outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Nav : page active (aria-current) — l'état visuel du pill vient déjà de .active ;
+   ici on ne fait qu'un rappel discret dans le menu mobile. */
+.mobile-nav a[aria-current="page"] { color: var(--passion); }
 
 /* Reveal on scroll — le contenu est VISIBLE par défaut ; l'animation d'entrée
    n'est qu'un enrichissement déclenché par la classe .in. Ainsi, si le JS ne

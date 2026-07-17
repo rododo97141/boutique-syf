@@ -37,6 +37,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-events">
+<a class="skip-link" href="#main">Aller au contenu</a>
 
 <!-- ============================================================
      NAVIGATION BILLETTERIE
@@ -114,7 +115,7 @@
   <div class="mobile-nav-foot">#SYFIR &mdash; Le Cocktail Libre&trade;</div>
 </div>
 
-<main>
+<main id="main">
 
 <!-- ============================================================
      HERO BILLETTERIE
@@ -639,7 +640,7 @@
 <!-- Bouton billets flottant, toujours visible -->
 <a href="#billetterie" class="tickets-fab fab-hidden" id="ticketsFab" data-target="#billetterie" aria-label="Voir les billets">🎟 Billets</a>
 
-<div class="toast" id="toast" role="status"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <script src="events-data.js"></script>
 <script src="auth.js"></script>

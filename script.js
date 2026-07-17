@@ -319,6 +319,15 @@
     });
   });
 
+  // Skip-link « Aller au contenu » : déplace aussi le FOCUS vers le contenu
+  // principal (le smooth-scroll ci-dessus ne fait que défiler). (R24-3)
+  $$('.skip-link').forEach(a => {
+    a.addEventListener('click', () => {
+      const t = document.getElementById(a.getAttribute('href').slice(1));
+      if (t) { t.setAttribute('tabindex', '-1'); t.focus(); }
+    });
+  });
+
   /* ===== 03. REVEAL ON SCROLL ===== */
   const reveals = $$('.reveal');
   const inViewport = el => {
@@ -401,6 +410,17 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
   };
+
+  /* aria-current sur la nav de la page active (a11y, R24-3). L'état visuel
+     du pill vient déjà de .active ; ici on ajoute la sémantique. */
+  document.querySelector('.nav-link.active')?.setAttribute('aria-current', 'page');
+  (() => {
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.mobile-nav a[href]').forEach(a => {
+      const href = a.getAttribute('href').split('#')[0].split('/').pop();
+      if (href === path) a.setAttribute('aria-current', 'page');
+    });
+  })();
 
   /* Partage natif (WhatsApp/SMS… en mobile) avec repli copie du lien + toast.
      Essentiel en Guadeloupe où tout passe par WhatsApp. */

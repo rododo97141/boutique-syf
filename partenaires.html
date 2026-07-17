@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Aller au contenu</a>
 <div class="ambience" aria-hidden="true"></div>
 
 <!-- ============================================================
@@ -114,7 +115,7 @@
   <div class="mobile-nav-foot">#SYFIR &mdash; Le Cocktail Libre&trade;</div>
 </div>
 
-<main>
+<main id="main">
 
 <!-- ============================================================
      HERO SOBRE — SYFIR EXPERIENCE
@@ -304,7 +305,7 @@
   </div>
 </footer>
 
-<div class="toast" id="toast" role="status"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
 <div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">

@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-pro">
+<a class="skip-link" href="#main">Aller au contenu</a>
 
 <nav id="nav">
   <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
@@ -125,7 +126,7 @@
   </aside>
 
   <!-- Contenu -->
-  <main class="dash-main">
+  <main id="main" class="dash-main">
     <section class="dash-section active" id="sec-overview">
       <div class="dash-h"><h1>Vue d'ensemble</h1><p>Tes performances en un coup d'œil.</p></div>
       <div id="overviewBody"></div>
@@ -239,7 +240,7 @@
   </div>
 </footer>
 
-<div class="toast" id="toast" role="status"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
 <div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
