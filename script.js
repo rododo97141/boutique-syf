@@ -952,12 +952,11 @@
       if (media && !reducedMotion) media.style.viewTransitionName = 'product-hero';
       location.href = 'produit.html?id=' + encodeURIComponent(card.id);
     };
+    // A11y (R39) : le titre est le vrai lien focusable (clavier) ; le clic sur
+    // la carte reste une commodité SOURIS et laisse les liens agir nativement.
     card.addEventListener('click', e => {
-      if (e.target.closest('.serve-link')) return;   // le lien direct garde son rôle
+      if (e.target.closest('a')) return;   // lien titre / « Où le trouver » : navigation native
       goToProduct();
-    });
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToProduct(); }
     });
   });
 
@@ -1600,10 +1599,31 @@ if (placeModal && placesGridEl) {
   }
 
 
-  const openModal = m => { m.classList.add('open'); document.body.style.overflow = 'hidden'; };
-  const closeModal = m => { m.classList.remove('open'); document.body.style.overflow = ''; };
+  /* R39-A : gestion réelle du focus des modales — focus entrant, piégeage du
+     Tab, restitution du focus à la fermeture. (Le mega-menu et l'age gate
+     avaient déjà leur piège ; les modales billets/profil/lieu ne l'avaient pas.) */
+  let modalLastFocus = null;
+  const modalFocusables = m => [...m.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')].filter(el => el.offsetParent !== null);
+  const openModal = m => {
+    modalLastFocus = document.activeElement;
+    m.classList.add('open'); document.body.style.overflow = 'hidden';
+    // Focus après application de la transition visibility (hidden→visible) : un
+    // simple rAF est parfois trop tôt (élément pas encore focusable).
+    setTimeout(() => { const f = modalFocusables(m); (f[0] || m).focus(); }, 60);
+  };
+  const closeModal = m => {
+    m.classList.remove('open'); document.body.style.overflow = '';
+    if (modalLastFocus && modalLastFocus.focus) { modalLastFocus.focus(); modalLastFocus = null; }
+  };
   $$('.modal').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) closeModal(m); });
+    m.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const f = modalFocusables(m); if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal.open').forEach(closeModal); });
 
@@ -1887,6 +1907,13 @@ if (placeModal && placesGridEl) {
       if (e.key === 'Escape') close();
       else if (e.key === 'ArrowLeft') show(idx - 1);
       else if (e.key === 'ArrowRight') show(idx + 1);
+      else if (e.key === 'Tab') {   // R39-A : piégeage du focus dans la lightbox
+        const f = [...lb.querySelectorAll('button')].filter(el => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
     let sx = 0;
     lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
