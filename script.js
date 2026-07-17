@@ -821,6 +821,10 @@
 
     refresh();
   };
+  // Exposé pour la page produit dédiée (produit.js) — même galerie que la
+  // fiche modale, sans dupliquer la logique (R28).
+  window.SYFIR.buildMediaCarousel = buildMediaCarousel;
+  window.SYFIR.picHTML = picHTML;
 
   /* ===== 11. ÉCOUTE + FICHE ARTISTE =====
      Aucun faux extrait : le bouton ▶ ouvre la vraie page de l'artiste
@@ -1064,106 +1068,25 @@
   injectHeroVideo($('.tickets-hero'), ['videos/ambiance-sunset.mp4', 'https://www.pexels.com/download/video/9640964/'],
     'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
 
-  /* ===== 13. FICHE PRODUIT COCKTAIL (modale) ===== */
-  const cocktailModal = $('#cocktailModal');
-  if (cocktailModal) {
-    const ckHero = cocktailModal.querySelector('.ck-hero');
-    const openCocktail = card => {
-      const d = card.dataset;
-      buildMediaCarousel(ckHero, {
-        photos: d.photos || '', video: d.video || '', name: d.name || '',
-        videoInline: true, note: d.note || ''
-      });
-      $('#ckName').textContent = d.name || '';
-      $('#ckNotes').textContent = d.notes || '';
-      $('#ckDesc').textContent = d.desc || '';
-      // « Ce qu'il y a dedans » : les fruits publiés + leur rôle gustatif (aucune allégation)
-      const ingBox = $('#ckIngredients');
-      if (ingBox) {
-        const ings = (d.ingredients || '').split(';').map(s => s.trim()).filter(Boolean)
-          .map(s => s.split('|'));
-        ingBox.innerHTML = ings.length ? `
-          <h4 class="ck-sub">Ce qu'il y a dedans</h4>
-          <p class="ck-sub-note">Les fruits sont visibles dans la pochette — voilà notre transparence.</p>
-          <ul class="ing-grid">
-            ${ings.map(([name, emoji, role]) => `
-              <li class="ing-card">
-                <span class="ing-emoji" aria-hidden="true">${esc(emoji || '•')}</span>
-                <strong class="ing-name">${esc(name || '')}</strong>
-                <span class="ing-role">${esc(role || '')}</span>
-              </li>`).join('')}
-          </ul>` : '';
-      }
-      // Les deux façons : pochette du produit (à emporter) + verre SYFIR (sur place)
-      const fmtBox = $('#ckFormats');
-      if (fmtBox) {
-        const pochette = (d.photos || '').split('|')[0] || 'images/produits/syfir-planteur-marbre.jpg';
-        const verre = 'images/produits/syf-planteur-verre.jpg';
-        fmtBox.innerHTML = `
-          <div class="ck-format">
-            ${picHTML(verre, 'alt="Servi sur glace dans le verre SYFIR" loading="lazy" decoding="async" width="1086" height="1448"')}
-            <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
-          </div>
-          <div class="ck-format">
-            ${picHTML(pochette, `alt="La pochette ${esc(d.name || 'SYFIR')} scellée" loading="lazy" decoding="async"`)}
-            <div><strong>🛍️ À emporter</strong><small>Pochette scellée signature</small></div>
-          </div>`;
-      }
-      // Sélecteur de saveurs : les 3 signatures + les silhouettes « Bientôt »
-      const selBox = $('#ckSelector');
-      if (selBox) {
-        const items = $$('.cocktail-card').map(c => {
-          const cd = c.dataset;
-          const short = (cd.name || '').replace(/^Syf\s+/i, '').replace(/™/g, '').trim();
-          const thumb = (cd.photos || '').split('|')[0] || '';
-          const on = c.id === card.id;
-          return `<button class="ck-sel-item${on ? ' active' : ''}" type="button" data-sel-id="${esc(c.id)}"${on ? ' aria-current="true"' : ''}>
-            <span class="ck-sel-thumb">${picHTML(thumb, `alt="" loading="lazy" decoding="async"`)}</span>
-            <span class="ck-sel-name">${esc(short)}</span>
-          </button>`;
-        }).join('');
-        const soon = [1, 2].map(() => `<button class="ck-sel-item ck-sel-soon" type="button" data-sel-soon aria-label="Bientôt dans la collection">
-            <span class="ck-sel-thumb ck-sel-pouch" aria-hidden="true">?</span>
-            <span class="ck-sel-name">Bientôt</span>
-          </button>`).join('');
-        selBox.innerHTML = items + soon;
-      }
-      cocktailModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
+  /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
+     Les modales de fiche produit sont remplacées par de vraies pages
+     partageables/indexables (produit.html?id=X). Le clic redirige. */
+  $$('.cocktail-card').forEach(card => {
+    const goToProduct = () => {
+      if (!card.id) return;
+      // View Transition : nomme le visuel source -> morph vers le hero produit
+      const media = card.querySelector('.cocktail-media picture, .cocktail-media img');
+      if (media && !reducedMotion) media.style.viewTransitionName = 'product-hero';
+      location.href = 'produit.html?id=' + encodeURIComponent(card.id);
     };
-    const closeCocktail = () => {
-      cocktailModal.classList.remove('open');
-      document.body.style.overflow = '';
-      ckHero.querySelector('video')?.pause();
-    };
-    $$('.cocktail-card').forEach(card => {
-      card.addEventListener('click', e => {
-        if (e.target.closest('.serve-link')) return;   // le lien direct garde son rôle
-        openCocktail(card);
-      });
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCocktail(card); }
-      });
+    card.addEventListener('click', e => {
+      if (e.target.closest('.serve-link')) return;   // le lien direct garde son rôle
+      goToProduct();
     });
-    cocktailModal.addEventListener('click', e => {
-      if (e.target === cocktailModal || e.target.closest('[data-close]')) closeCocktail();
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToProduct(); }
     });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && cocktailModal.classList.contains('open')) closeCocktail();
-    });
-    // Sélecteur de saveurs : circuler dans la gamme sans fermer la fiche
-    $('#ckSelector')?.addEventListener('click', e => {
-      const item = e.target.closest('.ck-sel-item');
-      if (!item) return;
-      if (item.hasAttribute('data-sel-soon')) {
-        closeCocktail();
-        document.getElementById('bientot')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-        return;
-      }
-      const target = document.getElementById(item.dataset.selId);
-      if (target) { ckHero.querySelector('video')?.pause(); openCocktail(target); cocktailModal.scrollTop = 0; }
-    });
-  }
+  });
 
   /* ===== 14. CARROUSEL DE LOGOS PARTENAIRES ===== */
   const logosTrack = $('#logosTrack');

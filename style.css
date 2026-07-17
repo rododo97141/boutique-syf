@@ -1594,6 +1594,37 @@ html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); bor
 html[data-theme="light"] .ck-sel-name { color: var(--taupe); }
 html[data-theme="light"] .ck-sel-item.active .ck-sel-name { color: var(--ink-warm); }
 
+/* ============================================================
+   PAGE PRODUIT DÉDIÉE (produit.html?id=X) — R28-1
+   Chaque signature = une vraie page indexable et partageable.
+   Réutilise .ck-hero / .ing-grid / .ck-formats / .ck-selector / .faq-*.
+============================================================ */
+.product-detail { padding: 104px 0 40px; }
+.pd-top { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 34px; align-items: center; }
+.pd-hero { min-width: 0; }
+.pd-gallery { view-transition-name: product-hero; aspect-ratio: 4 / 5; }
+.pd-intro { min-width: 0; }
+.pd-title { font-family: var(--display); font-weight: 800; letter-spacing: .01em; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.02; margin: 8px 0 6px; }
+.pd-notes { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .74rem; color: var(--gold); margin: 0 0 14px; }
+.pd-desc { color: var(--cream-dim, var(--grey)); font-size: 1.02rem; line-height: 1.55; max-width: 46ch; margin: 0 0 18px; }
+.pd-serve { margin: 0 0 18px; }
+.pd-share { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.pd-legal { font-size: .72rem; color: var(--grey); margin: 0; }
+.pd-section { margin-top: 44px; }
+.pd-h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.35rem, 3.4vw, 2rem); line-height: 1.05; margin: 0 0 6px; }
+.pd-h2 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--gold); }
+.pd-section .ing-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-top: 14px; }
+.pd-formats { max-width: 560px; }
+.pd-where { max-width: 320px; margin-top: 4px; }
+.pd-selector { justify-content: flex-start; }
+.pd-selector .ck-sel-item { text-decoration: none; }
+html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
+@media (max-width: 860px) {
+  .pd-top { grid-template-columns: 1fr; gap: 22px; }
+  .pd-gallery { aspect-ratio: 5 / 4; max-width: 520px; }
+}
+@media (prefers-reduced-motion: reduce) { .pd-gallery { view-transition-name: none; } }
+
 /* Passerelle « Enter the world » (R27-5) — vers les univers SYFIR */
 .world-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 38px; }
 .world-card {
