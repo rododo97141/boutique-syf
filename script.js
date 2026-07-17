@@ -121,7 +121,12 @@
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 
   const nav = $('#nav');
-  const onScrollNav = () => nav && nav.classList.toggle('scrolled', window.scrollY > 40);
+  const utilBar = document.getElementById('utilBar');
+  const onScrollNav = () => {
+    const s = window.scrollY > 40;
+    if (nav) nav.classList.toggle('scrolled', s);
+    if (utilBar) utilBar.classList.toggle('scrolled', s);   // barre institutionnelle : se replie au scroll (R33-2)
+  };
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 

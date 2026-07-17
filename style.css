@@ -348,6 +348,32 @@ html[data-theme="light"] :where(a, button, input, select, textarea, [tabindex], 
 
 /* (03. Préloader retiré au lot 8) */
 
+/* ===== 04b. BARRE UTILITAIRE INSTITUTIONNELLE (R33-2, modèle LVMH top bar) =====
+   Fine barre tout en haut : liens vers l'existant uniquement (Investisseurs,
+   Nous rejoindre, Contact). Se replie au scroll ; masquée en mobile (les liens
+   passent dans le menu mobile). */
+:root { --util-h: 34px; }
+.util-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: var(--util-h);
+  display: flex; align-items: center; justify-content: flex-end; gap: 24px;
+  padding: 0 5vw; background: var(--ocean-deep); border-bottom: 1px solid rgba(var(--gold-rgb), .16);
+  transition: transform var(--dur-med) var(--ease);
+}
+.util-bar a {
+  font-family: var(--body); font-size: .68rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(var(--cream-rgb), .78); text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+.util-bar a:hover, .util-bar a:focus-visible { color: var(--gold-light); }
+.util-bar.scrolled { transform: translateY(-100%); }
+/* Décale la nav sous la barre uniquement là où la barre existe (pas d'espace vide ailleurs) */
+body:has(.util-bar) nav { top: var(--util-h); }
+body:has(.util-bar) nav.scrolled { top: 0; }
+.mobile-nav-util { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--cream-rgb), .12); }
+.mobile-nav-util a { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(var(--cream-rgb), .72); }
+@media (max-width: 639px) { .util-bar { display: none; } body:has(.util-bar) nav { top: 0; } }
+@media (prefers-reduced-motion: reduce) { .util-bar { transition: none; } }
+
 /* ===== 04. NAVIGATION ===== */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
