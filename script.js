@@ -2133,6 +2133,24 @@ if (placeModal && placesGridEl) {
     start();
   })();
 
+  /* ===== MICRO-MOMENT GOUTTE (R30-3) — l'image du désert : une seule goutte
+     dorée qui se forme et tombe UNE fois par session sur le hero (600ms),
+     jamais en boucle, jamais sous reduced-motion. Rare, donc précieuse. */
+  (function dropMoment() {
+    const hero = $('#homeHero') || $('.hero#accueil');
+    if (!hero) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try {
+      if (sessionStorage.getItem('syfir-drop-seen')) return;
+      sessionStorage.setItem('syfir-drop-seen', '1');
+    } catch (e) { /* stockage indisponible : on joue la goutte une fois quand même */ }
+    const d = document.createElement('span');
+    d.className = 'drop-moment';
+    d.setAttribute('aria-hidden', 'true');
+    d.addEventListener('animationend', () => d.remove(), { once: true });
+    hero.appendChild(d);
+  })();
+
   /* ============================================================
      PAGE ÉVÉNEMENTS — billetterie & espace pro
   ============================================================ */
