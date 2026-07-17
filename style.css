@@ -1555,6 +1555,20 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .ck-format strong { display: block; font-size: .88rem; }
 .ck-format small { color: var(--grey); font-size: .76rem; }
 
+/* « Ce qu'il y a dedans » — transparence sensorielle (R27-1) */
+.ck-sub { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: .82rem; letter-spacing: .06em; margin: 22px 0 4px; }
+.ck-sub-note { color: var(--grey); font-size: .8rem; margin: 0 0 14px; }
+.ing-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ing-card {
+  display: grid; grid-template-columns: 40px 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center;
+  padding: 12px 14px; border-radius: 12px; background: rgba(var(--gold-rgb), .06); border: 1px solid rgba(var(--gold-rgb), .18);
+}
+.ing-emoji { grid-row: 1 / 3; font-size: 1.5rem; text-align: center; }
+.ing-name { font-family: var(--display); font-weight: 700; font-size: .9rem; }
+.ing-role { color: var(--grey); font-size: .82rem; line-height: 1.35; }
+html[data-theme="light"] .ck-sub-note, html[data-theme="light"] .ing-role { color: var(--grey-ink); }
+html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); border-color: rgba(var(--gold-deep-rgb), .25); }
+
 /* ===== 21. MODALE FICHE ARTISTE ===== */
 .artist-modal-box { max-width: 540px; }
 .am-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--ocean-deep); }

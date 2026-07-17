@@ -1077,6 +1077,23 @@
       $('#ckName').textContent = d.name || '';
       $('#ckNotes').textContent = d.notes || '';
       $('#ckDesc').textContent = d.desc || '';
+      // « Ce qu'il y a dedans » : les fruits publiés + leur rôle gustatif (aucune allégation)
+      const ingBox = $('#ckIngredients');
+      if (ingBox) {
+        const ings = (d.ingredients || '').split(';').map(s => s.trim()).filter(Boolean)
+          .map(s => s.split('|'));
+        ingBox.innerHTML = ings.length ? `
+          <h4 class="ck-sub">Ce qu'il y a dedans</h4>
+          <p class="ck-sub-note">Les fruits sont visibles dans la pochette — voilà notre transparence.</p>
+          <ul class="ing-grid">
+            ${ings.map(([name, emoji, role]) => `
+              <li class="ing-card">
+                <span class="ing-emoji" aria-hidden="true">${esc(emoji || '•')}</span>
+                <strong class="ing-name">${esc(name || '')}</strong>
+                <span class="ing-role">${esc(role || '')}</span>
+              </li>`).join('')}
+          </ul>` : '';
+      }
       cocktailModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
