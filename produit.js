@@ -84,7 +84,7 @@
         </div>
         <div class="ck-format">
           ${pic(p.photos[0], `alt="La pochette ${esc(cleanName)} scellée" loading="lazy" decoding="async"`)}
-          <div><strong>🛍️ À emporter</strong><small>Pochette scellée signature</small></div>
+          <div><strong>🛍️ À emporter</strong><small>Scellée — elle te suit partout</small></div>
         </div>
       </div>
       <a class="btn btn-solid btn-full pd-where" href="index.html#ou-trouver">Où le trouver</a>
