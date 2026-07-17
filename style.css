@@ -2977,6 +2977,23 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
   100% { opacity: 0; transform: scale(1.15); }
 }
 
+/* R38-1 : onde GOUTTE diffusée DEPUIS LE POINT DE CLIC des CTA principaux.
+   Complète le splash de survol (centré) par un retour tactile localisé — l'eau
+   qui s'écarte là où le doigt touche. Or clair, <300ms, discrète, jamais criarde.
+   Injectée par JS avec taille/position en ligne ; retirée à la fin. */
+.cta-ripple {
+  position: absolute; z-index: 0; pointer-events: none; border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(circle, rgba(var(--cream-rgb), .5), rgba(var(--gold-light-rgb), .28) 45%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: ctaRipple 280ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+@keyframes ctaRipple {
+  0%   { opacity: .55; transform: translate(-50%, -50%) scale(0); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .cta-ripple { display: none !important; } }
+
 /* Micro-moment (R30-3) : UNE goutte dorée qui se forme puis tombe, une seule
    fois par session (l'image du désert : rare, précieuse). 600ms, jamais en
    boucle, injectée par JS et retirée à la fin ; jamais sous reduced-motion.

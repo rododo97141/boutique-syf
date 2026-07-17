@@ -1253,6 +1253,26 @@ if (placeModal && placesGridEl) {
     }, { once: true });
   }
 
+  /* ===== 21b. R38-1 : onde « goutte » au point de clic des CTA principaux =====
+     Retour tactile localisé (l'eau qui s'écarte sous le doigt), <300ms, discret.
+     Coupé sous prefers-reduced-motion. Activation clavier → onde centrée. */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-solid, .btn-gradient');
+      if (!btn || btn.disabled) return;
+      const r = btn.getBoundingClientRect();
+      const d = Math.max(r.width, r.height) * 2;
+      // clic souris/tactile : point réel ; activation clavier (clientX/Y=0) : centre
+      const cx = e.clientX ? e.clientX - r.left : r.width / 2;
+      const cy = e.clientY ? e.clientY - r.top : r.height / 2;
+      const s = document.createElement('span');
+      s.className = 'cta-ripple';
+      s.style.cssText = `width:${d}px;height:${d}px;left:${cx}px;top:${cy}px`;
+      btn.appendChild(s);
+      s.addEventListener('animationend', () => s.remove(), { once: true });
+    });
+  }
+
   /* ===== 22. QR CODE — encodeur inline, zéro dépendance =====
      QR byte mode, correction M, versions 1 à 6 (≈ 100 caractères max),
      masque 0. Utilisé par les billets de « Mon espace » (payload
