@@ -1173,6 +1173,10 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 }
 .stock-dernieres { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
 .stock-complet { background: rgba(var(--ink-rgb), .82); color: rgba(var(--cream-rgb), .9); border: 1px solid rgba(var(--cream-rgb), .3); }
+/* Badges d'ACTION positifs (R28-2) — le badge dit toujours l'action possible */
+.stock-dispo { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.stock-open { background: rgba(var(--cream-rgb), .94); color: #071E30; border: 1px solid rgba(var(--gold-rgb), .45); }
+.stock-invite { background: rgba(var(--ink-rgb), .82); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .5); }
 /* variante en ligne (carte accueil, pas de conteneur positionné) */
 .stock-inline { position: static; display: inline-block; margin-top: 6px; }
 .event-card.is-soldout .event-card-media img { filter: grayscale(.4) brightness(.82); }

@@ -104,7 +104,7 @@
         ? `<picture><source type="image/webp" srcset="${esc(w)}"><img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high"></picture>`
         : `<img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">`; })()}
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
-      ${(() => { const st = S.stockLabel(ev); return st ? `<span class="stock-badge ${st.cls} ed-stock">${st.text}</span>` : ''; })()}
+      ${(() => { if (isPast) return ''; const st = S.stockLabel(ev); return st ? `<span class="stock-badge ${st.cls} ed-stock">${st.text}</span>` : ''; })()}
     </div>
     <div class="ed-body container">
       <div class="ed-main">

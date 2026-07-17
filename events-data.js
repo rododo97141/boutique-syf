@@ -49,7 +49,7 @@
     { id: 5, name: 'Villa Privée — Édition Or', type: 'prive', city: 'Saint-Barthélemy', venue: 'Villa Gustavia', date: '2026-08-01', time: '21:00', price: 80, genres: ['House', 'Konpa'],
       img: 'images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg', organizer: 'Hôte privé × SYFIR', prive: true, code: 'SYFIR2026' },
     { id: 6, name: 'Pique-nique Golden Escape', type: 'beach', city: 'Deshaies', venue: 'Plage de Grande Anse', date: '2026-07-19', time: '12:00', price: 15, genres: ['Chill', 'Zouk'],
-      img: 'images/ext/unsplash-photo-1526481280693-3bfa7568e0f3.jpg', organizer: 'SYFIR Official', prive: false },
+      img: 'images/ext/unsplash-photo-1526481280693-3bfa7568e0f3.jpg', organizer: 'SYFIR Official', prive: false, ticketing: 'inscription' },
     /* --- Éditions passées (démo preuve sociale) : dates révolues -> section
        « Les éditions passées ». Photos locales pour un rendu fiable hors-ligne. --- */
     { id: 7, name: 'SYFIR Beach Opening', type: 'beach', city: 'Sainte-Anne', venue: 'Plage de Bois Jolan', date: '2026-06-14', time: '17:00', price: 20, genres: ['Afro house', 'Zouk'],
@@ -65,13 +65,21 @@
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
 
-  // Rareté HONNÊTE : n'affiche un état QUE si le champ `stock` de l'événement
-  // le dit (« complet » | « dernieres »). Aucune invention, aucun faux stock ;
-  // à brancher sur le vrai stock billetterie côté organisateur.
+  // Badge d'ACTION (modèle page événements Red Bull) : le badge dit TOUJOURS
+  // l'action possible pour le visiteur. Rareté honnête d'abord (pilotée par le
+  // vrai champ `stock` : « complet » | « dernieres »), puis état positif par
+  // défaut selon le mode de billetterie (`ticketing`) :
+  //   • « Sur invitation »        → événement privé (code d'accès)
+  //   • « Inscriptions ouvertes » → ticketing: 'inscription' (entrée sur inscription)
+  //   • « Billets disponibles »   → défaut (billetterie ouverte)
+  // Aucune invention de stock ; à brancher sur le vrai stock côté organisateur.
   const stockLabel = ev => {
-    if (ev && ev.stock === 'complet') return { text: 'Complet', cls: 'stock-complet', soldOut: true };
-    if (ev && ev.stock === 'dernieres') return { text: 'Dernières places', cls: 'stock-dernieres', soldOut: false };
-    return null;
+    if (!ev) return null;
+    if (ev.stock === 'complet') return { text: 'Complet', cls: 'stock-complet', soldOut: true, action: false };
+    if (ev.stock === 'dernieres') return { text: 'Dernières places', cls: 'stock-dernieres', soldOut: false, action: true };
+    if (ev.prive) return { text: 'Sur invitation', cls: 'stock-invite', soldOut: false, action: true };
+    if (ev.ticketing === 'inscription') return { text: 'Inscriptions ouvertes', cls: 'stock-open', soldOut: false, action: true };
+    return { text: 'Billets disponibles', cls: 'stock-dispo', soldOut: false, action: true };
   };
 
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
