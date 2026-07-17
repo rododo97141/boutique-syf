@@ -1273,6 +1273,51 @@ if (placeModal && placesGridEl) {
     });
   }
 
+  /* ===== 21c. R38-4 : count-up doux des chiffres (KPI Smartboard, Company Facts) =====
+     À l'entrée dans le viewport, le nombre monte de 0 à sa valeur (easeOutCubic,
+     ~850ms). N'anime QUE le nœud texte de tête → les enfants (flèches colorées
+     .kpi-delta) restent intacts. Ignore le non-numérique et les années seules.
+     prefers-reduced-motion : valeur finale directe, aucun mouvement. */
+  const countUp = (root) => {
+    root = root || document;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fmt = (n, d) => (d ? n.toFixed(d).replace('.', ',') : Math.round(n).toString());
+    root.querySelectorAll('.kpi-value, .fact-num').forEach(el => {
+      if (el.dataset.counted) return;
+      const node = el.firstChild;
+      if (!node || node.nodeType !== 3) { el.dataset.counted = '1'; return; }  // pas de nœud texte en tête
+      const txt = node.nodeValue;
+      const m = txt.match(/-?\d(?:[\d\u00a0\u202f]*\d)?(?:[.,]\d+)?/);
+      if (!m) { el.dataset.counted = '1'; return; }
+      const raw = m[0];
+      const target = parseFloat(raw.replace(/[\u00a0\u202f]/g, '').replace(',', '.'));
+      if (!isFinite(target)) { el.dataset.counted = '1'; return; }
+      const decimals = /[.,]\d/.test(raw) ? raw.replace(/.*[.,]/, '').length : 0;
+      const prefix = txt.slice(0, m.index), suffix = txt.slice(m.index + raw.length);
+      // année seule (ex. « 2026 ») : pas d'odomètre disgracieux
+      if (decimals === 0 && target >= 1900 && target <= 2100 && !prefix.trim() && !suffix.trim()) { el.dataset.counted = '1'; return; }
+      el.dataset.counted = '1';
+      const set = v => { node.nodeValue = prefix + fmt(v, decimals) + suffix; };
+      if (reduce) return;   // la valeur finale est déjà affichée
+      const io = new IntersectionObserver((ents, obs) => {
+        ents.forEach(e => {
+          if (!e.isIntersecting) return;
+          obs.disconnect();
+          const dur = 850, t0 = performance.now();
+          const tick = now => {
+            const p = Math.min(1, (now - t0) / dur);
+            set(target * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(tick); else set(target);
+          };
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: .4 });
+      io.observe(el);
+    });
+  };
+  window.SYFIR.countUp = countUp;
+  countUp(document);   // Company Facts statiques (partenaires) ; KPIs dynamiques → rappel dans espace-pro.js
+
   /* ===== 22. QR CODE — encodeur inline, zéro dépendance =====
      QR byte mode, correction M, versions 1 à 6 (≈ 100 caractères max),
      masque 0. Utilisé par les billets de « Mon espace » (payload

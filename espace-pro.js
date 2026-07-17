@@ -263,4 +263,9 @@
     document.addEventListener('click', e => { if (!e.target.closest('#helpBubble')) setOpen(false); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
   })();
+
+  /* R38-4 : count-up doux des KPI du Smartboard (rendus dynamiquement ci-dessus).
+     L'utilitaire (script.js) n'anime que le nœud texte → flèches .kpi-delta
+     intactes ; reduced-motion → valeur finale directe. */
+  if (S && S.countUp) S.countUp(document);
 })();
