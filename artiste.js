@@ -126,6 +126,7 @@
           : `<img src="${esc(a.photo)}" alt="${esc(a.name)}" fetchpriority="high" width="900" height="1200">`; })()}
       </div>
       <div class="ar-intro">
+        <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="index.html#artistes">← Les artistes</a></nav>
         <p class="eyebrow">Artiste${a.demo ? '' : ' · SYFIR'}</p>
         <h1 class="ar-name">${esc(a.name)}${a.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</h1>
         <p class="ar-role">${esc(a.role)}</p>

@@ -1687,6 +1687,25 @@ html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
 ============================================================ */
 .artist-detail { padding: calc(var(--nav-h) + var(--util-h) + 14px) 0 40px; }
 @media (max-width: 639px) { .artist-detail { padding-top: calc(var(--nav-h) + 14px); } }
+
+/* Fil d'Ariane discret — retour élégant vers la section, identique sur les
+   trois fiches (événement / produit / artiste). Cible tactile ≥44px. */
+/* Neutralise le `nav { position: fixed }` global : ce <nav> est en flux normal. */
+.fiche-crumb { position: static; height: auto; margin: 0 0 4px; padding: 0; background: none; box-shadow: none; z-index: auto; }
+.fiche-crumb a {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 44px; padding: 4px 2px;
+  font-family: var(--body); font-size: .82rem; font-weight: 600;
+  letter-spacing: .01em; text-decoration: none;
+  color: rgba(var(--cream-rgb), .6);
+  transition: color var(--dur-fast) var(--ease), gap var(--dur-fast) var(--ease);
+}
+.fiche-crumb a:hover, .fiche-crumb a:focus-visible { color: var(--passion); gap: 10px; }
+html[data-theme="light"] .fiche-crumb a { color: rgba(var(--ink-warm-rgb), .58); }
+html[data-theme="light"] .fiche-crumb a:hover,
+html[data-theme="light"] .fiche-crumb a:focus-visible { color: var(--gold-deep); }
+@media (prefers-reduced-motion: reduce) { .fiche-crumb a { transition: color var(--dur-fast) var(--ease); } }
+@media (prefers-reduced-motion: reduce) { .fiche-crumb a:hover, .fiche-crumb a:focus-visible { gap: 7px; } }
 .ar-top { display: grid; gap: 34px; align-items: start; }
 @media (min-width: 860px) { .ar-top { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 44px; } }
 .ar-photo { min-width: 0; border-radius: var(--radius); overflow: hidden; background: var(--ocean-deep); view-transition-name: artist-hero; box-shadow: 0 18px 44px rgba(var(--black-rgb), .32); }

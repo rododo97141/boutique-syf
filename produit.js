@@ -136,6 +136,7 @@
     <div class="pd-top container">
       <div class="pd-hero"><div class="ck-hero pd-gallery"></div></div>
       <div class="pd-intro">
+        <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="saveurs.html">← Collection Syf</a></nav>
         <p class="eyebrow">La collection</p>
         <h1 class="pd-title">${esc(cleanName)}</h1>
         <p class="pd-notes">${esc(p.notes)}</p>

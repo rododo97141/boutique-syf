@@ -108,6 +108,7 @@
     </div>
     <div class="ed-body container">
       <div class="ed-main">
+        <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="evenements.html">← Tous les événements</a></nav>
         <p class="eyebrow">Billetterie SYFIR</p>
         <h1 class="ed-title">${esc(ev.name)}</h1>
         ${ev.blurb ? `<p class="ed-blurb">${esc(ev.blurb)}</p>` : ''}
