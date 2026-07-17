@@ -118,7 +118,7 @@
           <li class="ed-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00" hidden></li>
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
-        <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong></p>
+        <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong>${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</p>
         <div class="ed-share">
           <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>

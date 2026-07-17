@@ -62,6 +62,11 @@
       img: 'images/produits/syfir-pub-plage-2.jpg', organizer: 'Club Azur × SYFIR', prive: false,
       recap: ['images/produits/syfir-pub-plage-2.jpg', 'images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg', 'images/ext/unsplash-photo-1493676304819-0d7a8d026dcf.jpg', 'images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'] }
   ];
+  // Honnêteté (R29-3) : ces événements sont des EXEMPLES de démonstration (lieux,
+  // prix et stocks fictifs). On les marque « Exemple » pour qu'un visiteur ne les
+  // prenne pas pour une offre réelle. Un vrai événement publié via l'espace pro
+  // (getProEvents) ne porte PAS ce drapeau.
+  baseEvents.forEach(e => { e.demo = true; });
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
 

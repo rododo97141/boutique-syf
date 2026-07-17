@@ -1598,7 +1598,7 @@ if (placeModal && placesGridEl) {
           <div class="rb-card-overlay">
             <span class="rb-badge ${badgeCls}">${esc(badge)}</span>
             <h3 class="rb-card-title">${esc(ev.name)}</h3>
-            <p class="rb-card-sub">📅 ${dateStr} · 📍 ${esc(ev.city)}</p>
+            <p class="rb-card-sub">📅 ${dateStr} · 📍 ${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
             <span class="rb-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00"></span>
           </div>
         </a>`;
@@ -2194,7 +2194,7 @@ if (placeModal && placesGridEl) {
             ? '<button class="btn btn-ghost btn-sm" type="button" disabled>Complet</button>'
             : `<button class="btn btn-solid btn-sm" data-tickets="${ev.id}">Billets</button>`}
         </div>
-        <p class="event-organizer">Organisé par ${esc(ev.organizer)}</p>
+        <p class="event-organizer">Organisé par ${esc(ev.organizer)}${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</p>
       </div>
     </article>`;
   };
@@ -2299,7 +2299,7 @@ if (placeModal && placesGridEl) {
           <span class="past-badge">Terminé</span>
         </div>
         <div class="past-body">
-          <h3>${esc(ev.name)}</h3>
+          <h3>${esc(ev.name)}${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</h3>
           <p class="past-meta">${esc(when)} · ${esc(loc)}</p>
           <a class="past-recap" href="syf-tv.html#moments"${ev.recap && ev.recap.length ? ` data-recap="${ev.id}"` : ''}>▷ Revivre en images</a>
         </div>
