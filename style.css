@@ -509,10 +509,9 @@ nav.scrolled {
      L'overlay sombre assure la lisibilité, façon composant Hero. */
   background:
     linear-gradient(180deg, rgba(var(--black-rgb), .35), rgba(var(--black-rgb), .5)),
-    url('images/syfir-planteur-hero.webp') center / cover no-repeat,
     url('images/produits/syfir-pub-plage-1.webp') center / cover no-repeat;
-  /* couche 1 : visuel hero dédié (à uploader, README) ; couche 2 : photo
-     officielle pub plage (lot 22) — plus aucun visuel générique */
+  /* Photo officielle pub plage (lot 22). Un visuel hero dédié pourra être
+     ajouté en 1re couche s'il est un jour fourni (cf. README). */
   will-change: transform;
 }
 .hero-veil {
@@ -1074,8 +1073,8 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .footer-news-msg { margin-top: 12px; font-size: .82rem; color: var(--success); }
 .footer-news-msg.is-error { color: var(--coral); }
 /* Bandeau démo honnête près d'un bouton d'envoi (R29-1) — discret, jamais criard */
-.form-demo-note { display: block; margin-top: 8px; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); opacity: .8; }
-html[data-theme="light"] .form-demo-note { color: var(--taupe); }
+.form-demo-note { display: block; margin-top: 8px; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(var(--cream-rgb), .82); }
+html[data-theme="light"] .form-demo-note { color: var(--grey-ink); }
 
 /* ===== 16. PAGE ÉVÉNEMENTS (billetterie) ===== */
 .nav-tickets { gap: 14px; }
@@ -1484,7 +1483,6 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
   position: absolute; inset: -12% 0;
   background:
     linear-gradient(180deg, rgba(var(--ocean-deep-rgb), .55), rgba(var(--ink-rgb), .65)),
-    url('images/syfir-mobile.png') center / cover no-repeat,
     url('images/ext/unsplash-photo-1519046904884-53103b34b206.jpg') center / cover no-repeat;
   will-change: transform;
 }
