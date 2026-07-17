@@ -50,13 +50,17 @@ Rien d'autre à configurer : le site est 100 % statique.
 
 ### Domaine
 
-> ⚠️ **Le domaine `https://www.syfir.fr` est un placeholder — il n'est PAS
-> encore acheté.** Il est écrit en dur dans les `<link rel="canonical">` des
-> **8 pages** (index, saveurs, syf-tv, evenements, evenement, espace-pro,
-> partenaires, compte), dans `sitemap.xml` et dans les `og:image`/`twitter:image`.
-> **Si le domaine final diffère**, remplacer cette seule valeur partout
-> (un chercher-remplacer global de `https://www.syfir.fr` suffit). Un commentaire
-> le rappelle en tête de chaque page.
+> ✅ **Les URL absolues déclarent l'adresse RÉELLEMENT CONTRÔLÉE :
+> `https://rododo97141.github.io/boutique-syf` (déploiement GitHub Pages actif).**
+> On ne déclare plus le placeholder `https://www.syfir.fr` — un domaine non
+> possédé peut être racheté par un tiers, ce qui casserait le référencement.
+> Cette URL est utilisée partout : `<link rel="canonical">`, `og:url`,
+> `og:image`/`twitter:image`, JSON-LD, `sitemap.xml`, `robots.txt`.
+>
+> **Une fois `syfir.fr` acheté**, basculer cette seule base d'URL partout
+> (un chercher-remplacer global de `https://rododo97141.github.io/boutique-syf`
+> → `https://www.syfir.fr` suffit). Un commentaire le rappelle en tête de chaque
+> page. Sur la page produit, la base vit dans `CANON_BASE` (produit.js).
 
 ### Domaine personnalisé (optionnel)
 
@@ -73,7 +77,7 @@ Rien d'autre à configurer : le site est 100 % statique.
 
 | Quoi | Où | Détail |
 |---|---|---|
-| **Domaine définitif** (pas encore acheté) | `robots.txt`, `sitemap.xml`, `<link rel="canonical">` des 8 pages, `og:image`/`twitter:image` | Remplacer le placeholder `https://www.syfir.fr` par le vrai domaine (une seule valeur, plusieurs fichiers). Cf. §Domaine ci-dessus. |
+| **Domaine définitif** (`syfir.fr` pas encore acheté) | `robots.txt`, `sitemap.xml`, `<link rel="canonical">`, `og:image`/`twitter:image`, `CANON_BASE` (produit.js) | Les URL pointent aujourd'hui vers l'adresse contrôlée `https://rododo97141.github.io/boutique-syf`. Une fois `syfir.fr` acheté, basculer cette base partout (une seule valeur, plusieurs fichiers). Cf. §Domaine ci-dessus. |
 | **Formulaires** | `FORM_ENDPOINT` en tête de `script.js` | Vide = mode démo (aucun envoi). Renseigner un endpoint **Formspree** (`https://formspree.io/f/xxxx`, le plus simple) ou **Brevo/Mailchimp** pour recevoir newsletter + demandes partenaires. Honeypot anti-spam déjà en place. |
 | **Vidéos locales** | `videos/` | `syfir-pub-video.mp4` (hero) est en place. Optionnel : `ambiance-sunset.mp4` / `prep-cocktail.mp4` / `orange-juice.mp4` remplacent les hotlinks Pexels (voir `images/README.md`). |
 | **Visuels manquants** | `images/`, `images/produits/` | Photos Coral/Golden officielles, portraits équipe/artistes — noms exacts dans `images/README.md`. Des fallbacks Unsplash s'affichent en attendant. |

@@ -23,11 +23,12 @@
     return;
   }
 
-  // Domaine canonique cible (à basculer une fois syfir.fr acheté)
-  const CANON_BASE = 'https://www.syfir.fr';
+  // URL de base réellement contrôlée (GitHub Pages) ; basculer vers syfir.fr une fois acheté
+  const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
   const cleanName = p.name.replace(/™/g, '').trim();
   const shareText = `${cleanName} — ${p.notes}. Collection Syf, SYFIR.`;
-  const absImg = (() => { try { return new URL(p.ogImage, location.href).href; } catch (e) { return p.ogImage; } })();
+  // Image absolue déterministe (URL canonique contrôlée), indépendante de l'hôte d'accès
+  const absImg = `${CANON_BASE}/${p.ogImage}`;
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
