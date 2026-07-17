@@ -1594,6 +1594,26 @@ html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); bor
 html[data-theme="light"] .ck-sel-name { color: var(--taupe); }
 html[data-theme="light"] .ck-sel-item.active .ck-sel-name { color: var(--ink-warm); }
 
+/* Passerelle « Enter the world » (R27-5) — vers les univers SYFIR */
+.world-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 38px; }
+.world-card {
+  position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius);
+  background: var(--ink-soft); color: var(--cream); box-shadow: 0 14px 36px rgba(var(--black-rgb), .3);
+  transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
+}
+.world-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease); }
+.world-card:hover { transform: translateY(-8px); box-shadow: 0 34px 70px rgba(var(--black-rgb), .42); }
+.world-card:hover img { transform: scale(1.06); }
+.world-overlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+  padding: 22px; background: linear-gradient(to top, rgba(var(--ocean-deep-rgb), .9) 12%, rgba(var(--ocean-deep-rgb), .1) 55%, transparent);
+}
+.world-kicker { font-family: var(--display); font-weight: 700; font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--passion); }
+.world-overlay strong { font-family: var(--display); font-weight: 800; font-size: 1.15rem; line-height: 1.15; }
+.world-go { font-family: var(--body); font-weight: 600; font-size: .86rem; color: rgba(var(--cream-rgb), .82); margin-top: 6px; }
+.world-card:hover .world-go { color: var(--passion); }
+@media (prefers-reduced-motion: reduce) { .world-card, .world-card img { transition: none; } .world-card:hover, .world-card:hover img { transform: none; } }
+
 /* ===== 21. MODALE FICHE ARTISTE ===== */
 .artist-modal-box { max-width: 540px; }
 .am-hero { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--ocean-deep); }
