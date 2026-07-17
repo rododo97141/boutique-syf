@@ -2133,8 +2133,15 @@ html[data-theme="light"] .ed-blurb { color: var(--ink-warm); }
 .ed-meta a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
 .ed-meta a:hover { color: var(--sunset); }
 .ed-genres { margin-bottom: 24px; }
-.ed-organizer { color: var(--grey); font-size: .95rem; margin-bottom: 28px; }
+.ed-organizer { color: var(--grey); font-size: .95rem; margin-bottom: 10px; }
 .ed-organizer strong { color: rgba(var(--cream-rgb), .9); }
+/* Lien latéral contextuel (R31-3) — réseau, pas pyramide : la fiche événement
+   pointe vers la Collection servie sur place. Discret. */
+.ed-crosslink { color: var(--grey); font-size: .92rem; margin: 0 0 24px; }
+.ed-crosslink a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+.ed-crosslink a:hover { color: var(--sunset); }
+html[data-theme="light"] .ed-crosslink { color: var(--taupe); }
+html[data-theme="light"] .ed-crosslink a { color: var(--gold-deep); }
 .ed-share { display: flex; flex-wrap: wrap; gap: 12px; }
 .ed-share-note { margin: 12px 0 0; font-size: .9rem; font-family: var(--serif); font-style: italic; color: var(--grey); }
 
