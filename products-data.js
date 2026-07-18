@@ -17,9 +17,9 @@
       name: 'Syprium Planteur™',
       short: 'Planteur',
       notes: 'Mangue • Passion • Ananas',
-      badge: 'Best-seller',
+      badge: 'Signature',
       badgeCls: '',
-      desc: "L'esprit des tropiques dans un coucher de soleil liquide. Mangue mûre, passion acidulée, ananas rôti. Le best-seller qui a donné sa couleur à SYFIR.",
+      desc: "Mangue mûre, passion acidulée, ananas rôti — notre recette Planteur signature.",
       ingredients: [
         ['Mangue mûre', '🥭', 'la rondeur solaire qui ouvre la première gorgée'],
         ['Passion acidulée', '💛', 'le twist vif qui réveille le palais'],
@@ -63,7 +63,7 @@
       ingredients: [
         ['Citron vert', '🍋', 'la vivacité tranchante qui lance la gorgée'],
         ['Passion', '💛', 'le cœur exotique acidulé'],
-        ['Fruits exotiques', '🥥', "l'évasion sucrée de la golden hour"]
+        ['Fruits exotiques', '🥥', "finale douce sur les fruits exotiques"]
       ],
       photos: ['images/produits/syfir-tropical-ananas.jpg'],
       video: 'videos/syfir-pub-video.mp4',
