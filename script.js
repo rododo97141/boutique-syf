@@ -1,5 +1,5 @@
 /* ============================================================
-   SYFIR — Le Cocktail Libre™
+   SYFIR
    script.js — Vanilla JS uniquement
    ------------------------------------------------------------
    Sommaire :
@@ -74,11 +74,10 @@
   const FORM_ENDPOINT = '';
   // Contact réel PUBLIC (présent sur le site) : sert de repli honnête tant que
   // la transmission en ligne n'est pas branchée. Rien d'inventé.
-  const CONTACT_EMAIL = 'contact@syfir.fr';
   // Message VRAI en mode démo : ne jamais laisser croire qu'une donnée a été
   // transmise tant que FORM_ENDPOINT est vide (R29-1). La saisie est conservée
-  // en local pour ne rien perdre ; on invite à écrire directement.
-  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt — en attendant, écris-nous directement à ' + CONTACT_EMAIL + '.';
+  // en local pour ne rien perdre.
+  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   // Conserve toute soumission en mode démo (aucun envoi réseau possible) pour
   // ne rien perdre : historique local horodaté, plafonné à 50 entrées.
@@ -178,7 +177,7 @@
       ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
       ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
       ['Nous rejoindre', 'partenaires.html#partnerForm', 'recrutement emploi carrière rejoindre équipe candidature partenaire la maison institutionnel'],
-      ['Contact', 'mailto:contact@syfir.fr', 'contact email courriel écrire nous joindre la maison institutionnel'],
+      ['Contact', 'partenaires.html#partnerForm', 'contact formulaire écrire nous joindre la maison institutionnel'],
       ['FAQ', 'faq.html', 'questions fréquentes aide pochette degré alcool où acheter conservation billets âge'],
     ];
     if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
@@ -214,7 +213,7 @@
             <span class="mega-side-head">La Maison</span>
             <a href="partenaires.html#investisseurs">Investisseurs</a>
             <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-            <a href="mailto:contact@syfir.fr">Contact</a>
+            <a href="partenaires.html#partnerForm">Contact</a>
           </div>
         </div>
         <div class="mega-content">
@@ -1122,7 +1121,7 @@ if (placeModal && placesGridEl) {
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
         // Mode démo : message VRAI (rien n'a été transmis) + contact réel
         if (res.demo) {
-          success.innerHTML = '✦ ' + esc(DEMO_FORM_MSG).replace(CONTACT_EMAIL, '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a>');
+          success.textContent = '✦ ' + DEMO_FORM_MSG;
           showToast('✦ Demande enregistrée sur cet appareil');
         } else {
           success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
@@ -1480,7 +1479,7 @@ if (placeModal && placesGridEl) {
       if (res.ok) {
         // Mode démo : on n'a rien transmis — message vrai, saisie gardée en local
         msg.textContent = res.demo
-          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt — d\'ici là, écris-nous à ' + CONTACT_EMAIL + '.'
+          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt.'
           : '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
         form.reset();
       } else {
@@ -2290,7 +2289,8 @@ if (placeModal && placesGridEl) {
             <button class="qty-btn" data-tier="${i}" data-delta="1" aria-label="Plus">+</button>
           </div>
         </div>
-      </div>`).join('');
+      </div>`).join('')
+      + '<p class="tier-note">Le billet donne accès à l\'événement. Boissons en vente séparément sur place.</p>';
     const total = tierQty.reduce((s, q, i) => s + q * currentEvent.price * TIERS_DEFAULT[i].mult, 0);
     $('#tmTotal').textContent = euro(total);
     $('#tmBuy').disabled = total === 0;

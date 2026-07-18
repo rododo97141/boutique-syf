@@ -835,7 +835,7 @@ nav.scrolled {
 }
 .serve-link:hover { transform: translateX(5px); color: var(--gold); }
 
-.legal-note { margin-top: 44px; text-align: center; font-size: .76rem; color: var(--grey-soft); }
+.legal-note { margin-top: 44px; text-align: center; font-size: .9rem; font-weight: 700; color: var(--taupe-ink); }
 
 /* ===== 11. OÙ NOUS TROUVER — partenaires & lieux ===== */
 
@@ -1106,7 +1106,7 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .footer-bottom p { font-size: .76rem; color: var(--grey-mid); }
 /* Mention sanitaire (loi Évin) : même taille que les autres mentions,
    contraste renforcé (≥ 4.5:1) dans les deux thèmes */
-.footer-sante { color: rgba(var(--cream-rgb), .85) !important; font-weight: 600; margin-top: 4px; }
+.footer-sante { color: rgba(var(--cream-rgb), .85) !important; font-weight: 700; margin-top: 4px; }
 
 /* Newsletter du footer */
 .footer-news { margin-top: 20px; max-width: 340px; }
@@ -1418,6 +1418,9 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .tier-price { font-family: var(--display); font-weight: 800; color: var(--passion); white-space: nowrap; }
 .tier-qty { display: flex; align-items: center; gap: 9px; }
 .tier-qty output { min-width: 20px; text-align: center; font-weight: 700; }
+.tier-note { font-size: .82rem; color: var(--grey); margin-top: 10px; }
+/* R53 : mention de marque discrète « Le Cocktail Libre™ » rattachée au produit Sirium (sur section-cream, toujours claire) */
+.brand-tm { text-align: center; font-size: .78rem; color: var(--grey-ink); margin-top: 12px; }
 .modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .modal-foot .cart-total { margin-bottom: 0; }
 
@@ -1697,7 +1700,8 @@ html[data-theme="light"] .ck-sel-item.active .ck-sel-name { color: var(--ink-war
 .pd-desc { color: var(--cream-dim, var(--grey)); font-size: 1.02rem; line-height: 1.55; max-width: 46ch; margin: 0 0 18px; }
 .pd-serve { margin: 0 0 18px; }
 .pd-share { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-.pd-legal { font-size: .72rem; color: var(--grey); margin: 0; }
+/* R53 : mention sanitaire — pd-legal est sur fond SOMBRE en thème sombre → encre claire max lisibilité ; en thème clair la surcharge .legal-note (taupe-ink sur crème) prend le relais */
+.pd-legal { font-size: .9rem; color: rgba(var(--cream-rgb), .95); margin: 0; }
 .pd-section { margin-top: 44px; }
 .pd-h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.35rem, 3.4vw, 2rem); line-height: 1.05; margin: 0 0 6px; }
 .pd-h2 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--gold); }
@@ -2809,7 +2813,7 @@ html[data-theme="light"] .footer-sante { color: var(--taupe-ink) !important; }
 html[data-theme="light"] .cocktail-notes, html[data-theme="light"] .serve-link,
 html[data-theme="light"] .artist-book,
 html[data-theme="light"] .agenda-cta, html[data-theme="light"] .team-contact { color: var(--sunset-ink); }
-html[data-theme="light"] .legal-note { color: var(--taupe-deep); }
+html[data-theme="light"] .legal-note { color: var(--taupe-ink); }
 html[data-theme="light"] .form-note { color: var(--sunset-ink); }
 html[data-theme="light"] .footer-news label { color: var(--gold-deep); }
 html[data-theme="light"] .footer-news input { background: var(--surface-light); border-color: var(--sand-line); color: var(--ink-warm); }
