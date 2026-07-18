@@ -119,7 +119,7 @@
         </details>
         <details class="faq-item">
           <summary><span class="faq-q">Sur place ou à emporter, quelle différence&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-          <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à vivre où tu veux. Même saveur, deux formats.</p></div>
+          <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à boire où tu veux. Même saveur, deux formats.</p></div>
         </details>
       </div>
       <p class="faq-foot">D'autres questions&nbsp;? <a href="faq.html">Voir toute la FAQ →</a></p>

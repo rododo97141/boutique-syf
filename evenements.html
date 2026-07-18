@@ -333,24 +333,24 @@
           <span class="field-error"></span>
         </div>
 
-        <!-- Options facturées -->
-        <fieldset class="options-list">
-          <legend>Options SYFIR Experience <small>(facturées par événement)</small></legend>
-          <label class="opt-line"><input type="checkbox" data-cost="49" checked disabled><span>Billetterie en ligne &amp; QR codes</span><strong>49 €</strong></label>
-          <label class="opt-line"><input type="checkbox" data-cost="79" class="ev-option"><span>Mise en avant page d'accueil</span><strong>79 €</strong></label>
-          <label class="opt-line"><input type="checkbox" data-cost="129" class="ev-option"><span>Scan d'entrée &amp; contrôle d'accès</span><strong>129 €</strong></label>
-          <label class="opt-line"><input type="checkbox" data-cost="299" class="ev-option"><span>Bar à cocktails Sirium sur place</span><strong>299 €</strong></label>
-          <label class="opt-line"><input type="checkbox" data-cost="159" class="ev-option"><span>Photographe golden hour</span><strong>159 €</strong></label>
-          <label class="opt-line"><input type="checkbox" data-cost="89" class="ev-option"><span>Campagne réseaux #SYFIR</span><strong>89 €</strong></label>
+        <!-- Deux catalogues séparés : SYFIR (événementiel) / Sirium (fourniture produit) -->
+        <fieldset class="options-list options-syfir">
+          <legend>Nos services SYFIR <small>(événementiel — sur devis)</small></legend>
+          <p class="options-intro">SYFIR organise, met en avant et sécurise ton événement.</p>
+          <label class="opt-line"><input type="checkbox" checked disabled><span>Billetterie en ligne &amp; QR codes</span><strong>sur devis</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Mise en avant page d'accueil</span><strong>sur devis</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Scan d'entrée &amp; contrôle d'accès</span><strong>sur devis</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Photographe golden hour</span><strong>sur devis</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Campagne réseaux #SYFIR</span><strong>sur devis</strong></label>
         </fieldset>
 
-        <!-- Facturation en direct -->
-        <div class="billing-box" aria-live="polite">
-          <div class="billing-line"><span>Création + billetterie</span><span>49,00 €</span></div>
-          <div class="billing-line" id="billingOptions"><span>Options sélectionnées</span><span>0,00 €</span></div>
-          <div class="billing-line billing-note"><span>Commission billetterie</span><span>2,5 % / billet vendu</span></div>
-          <div class="billing-total"><span>Facturation estimée</span><strong id="billingTotal">49,00 €</strong></div>
-        </div>
+        <fieldset class="options-list options-sirium">
+          <legend>Nos services Sirium <small>(fourniture produit — sur devis)</small></legend>
+          <p class="options-intro">Sirium fournit le produit sur place, bar compris.</p>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Bar à cocktails Sirium sur place</span><strong>sur devis</strong></label>
+        </fieldset>
+
+        <p class="options-devis-note">Chaque prestation est établie sur devis, selon ton événement.</p>
 
         <button type="submit" class="btn btn-solid btn-lg btn-full">Créer l'événement</button>
         <p class="form-success" id="proSuccess" hidden></p>
@@ -364,8 +364,8 @@
             <li>✦ Billetterie en ligne clé en main, paiement sécurisé</li>
             <li>✦ Événement public visible par toute la communauté SYFIR</li>
             <li>✦ Mode privé avec code d'accès pour tes invités</li>
-            <li>✦ Facturation claire, à l'option, sans abonnement</li>
-            <li>✦ Bar SYFIR, photographe &amp; communication en option</li>
+            <li>✦ Devis clair, à la prestation, sans abonnement</li>
+            <li>✦ Bar Sirium, photographe &amp; communication en option</li>
             <li>✦ Tableau de bord ventes en temps réel</li>
           </ul>
           <a class="btn btn-ghost btn-sm dash-open" href="espace-pro.html">Ouvrir mon Smartboard →</a>
@@ -396,7 +396,7 @@
         <ul>
           <li>✦ Un produit que tes clients remarquent avant même de le goûter</li>
           <li>✦ Une marque différenciante, univers estival et festif clé en main</li>
-          <li>✦ Animations possibles : bar SYFIR, soirées communes, visibilité croisée</li>
+          <li>✦ Prestations possibles : bar Sirium sur place, soirées co-organisées</li>
         </ul>
       </div>
       <div class="pro-card audience-contact reveal d3">
@@ -473,7 +473,7 @@
   <div class="container footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">SYFIR<span>™</span></div>
-      <p>Le Cocktail Libre™.<br>Des instants de vie, des expériences —<br>et des cocktails premium pour les accompagner.</p>
+      <p>Le Cocktail Libre™.<br>Des instants de vie, des expériences —<br>et tout un univers pour les vivre.</p>
       <form class="footer-news" novalidate>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
         <label for="nlEmail">Reçois les prochaines soirées ✦</label>

@@ -2396,7 +2396,6 @@ if (placeModal && placesGridEl) {
 
   /* ===== 33. ESPACE PRO — création + facturation ===== */
   const proForm = $('#proForm');
-  const BASE_FEE = 49;
 
   // Le champ "code privé" n'apparaît que si l'événement est privé
   $$('input[name="evVisibility"]').forEach(r => {
@@ -2404,14 +2403,6 @@ if (placeModal && placesGridEl) {
       $('#privateCodeField').hidden = r.value !== 'prive' || !r.checked;
     });
   });
-
-  // Facturation estimée mise à jour en direct
-  const updateBilling = () => {
-    const optsTotal = $$('.ev-option:checked').reduce((s, c) => s + +c.dataset.cost, 0);
-    $('#billingOptions').lastElementChild.textContent = euro(optsTotal);
-    $('#billingTotal').textContent = euro(BASE_FEE + optsTotal);
-  };
-  $$('.ev-option').forEach(c => c.addEventListener('change', updateBilling));
 
   proForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -2462,17 +2453,15 @@ if (placeModal && placesGridEl) {
     refreshGenreOptions();
     renderEvents();
 
-    const total = $('#billingTotal').textContent;
     const success = $('#proSuccess');
     success.textContent = isPrivate
-      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. Facturation : ${total} + 2,5 % par billet vendu.`
-      : `✦ Événement publié dans la billetterie SYFIR ! Facturation : ${total} + 2,5 % par billet vendu.`;
+      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. On te recontacte avec un devis pour les prestations choisies.`
+      : `✦ Événement publié dans la billetterie SYFIR ! On te recontacte avec un devis pour les prestations choisies.`;
     success.hidden = false;
 
     proForm.reset();
     $$('.invalid', proForm).forEach(el => el.classList.remove('invalid'));
     $('#privateCodeField').hidden = true;
-    updateBilling();
     showToast('✦ Événement créé avec succès !');
     document.getElementById('billetterie').scrollIntoView({ behavior: 'smooth' });
   });
