@@ -111,7 +111,7 @@
       <div class="faq-list">
         <details class="faq-item" open>
           <summary><span class="faq-q">Qu'est-ce qu'une pochette Sirium&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-          <div class="faq-a"><p>Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, format liberté. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux. Le soleil en pochette.</p></div>
+          <div class="faq-a"><p>Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, refermable et transportable. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux.</p></div>
         </details>
         <details class="faq-item">
           <summary><span class="faq-q">Comment conserver une pochette&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
@@ -119,7 +119,7 @@
         </details>
         <details class="faq-item">
           <summary><span class="faq-q">Sur place ou à emporter, quelle différence&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-          <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à vivre où tu veux. Même saveur, deux libertés.</p></div>
+          <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à vivre où tu veux. Même saveur, deux formats.</p></div>
         </details>
       </div>
       <p class="faq-foot">D'autres questions&nbsp;? <a href="faq.html">Voir toute la FAQ →</a></p>
