@@ -21,7 +21,7 @@
       badgeCls: '',
       desc: "Mangue mûre, passion acidulée, ananas rôti — notre recette Planteur signature.",
       ingredients: [
-        ['Mangue mûre', '🥭', 'la rondeur mûre qui ouvre la première gorgée'],
+        ['Mangue mûre', '🥭', 'la rondeur douce qui ouvre la première gorgée'],
         ['Passion acidulée', '💛', 'le twist vif qui réveille le palais'],
         ['Ananas rôti', '🍍', 'la profondeur dorée en fin de bouche']
       ],
@@ -63,7 +63,7 @@
       ingredients: [
         ['Citron vert', '🍋', 'la vivacité tranchante qui lance la gorgée'],
         ['Passion', '💛', 'le cœur exotique acidulé'],
-        ['Fruits exotiques', '🥥', "finale douce sur les fruits exotiques"]
+        ['Fruits exotiques', '🥥', 'la douceur sucrée en finale']
       ],
       photos: ['images/produits/syfir-tropical-ananas.jpg'],
       video: 'videos/syfir-pub-video.mp4',
