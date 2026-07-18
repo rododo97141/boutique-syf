@@ -175,11 +175,7 @@
     if (kpis) kpis.innerHTML = `
       <div class="kpi-card"><span class="kpi-label">Ventes du mois</span><strong class="kpi-value">${S.euro(ventesMois)}</strong><span class="kpi-sub">cumul distributeur</span></div>
       <div class="kpi-card"><span class="kpi-label">Pochettes vendues</span><strong class="kpi-value">${billets}</strong><span class="kpi-sub">ce mois-ci</span></div>
-      <div class="kpi-card"><span class="kpi-label">Volume</span><strong class="kpi-value">${volume}</strong><span class="kpi-sub">points SYFIR</span></div>`;
-
-    // Compteur challenge (démo, stable)
-    const cc = $('#challengeCount');
-    if (cc) cc.textContent = 120 + (g % 90);
+      <div class="kpi-card"><span class="kpi-label">Volume</span><strong class="kpi-value">${volume}</strong><span class="kpi-sub">unités écoulées</span></div>`;
 
     // 2. Onglets
     const tabs = $$('.portail-tab');
