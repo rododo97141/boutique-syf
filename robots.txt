@@ -1,4 +1,4 @@
-# SYFIR — Le Cocktail Libre™
+# SYFIR
 # Site public : tout est indexable. Un âge gate 18+ s'affiche côté client
 # (JS) mais ne bloque pas les robots — le contenu reste crawlable.
 User-agent: *
