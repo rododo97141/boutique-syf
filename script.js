@@ -157,7 +157,7 @@
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
       ['saveurs.html#planteur', 'Syprium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syprium Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette SYFIR entourée de fruits'],
+      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette Syprium entourée de fruits'],
       ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
       ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
     ];
