@@ -221,7 +221,7 @@
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes SYFIR</h3><a href="saveurs.html">Afficher tout →</a></div>
+              <div class="mega-row-head"><h3>Les pochettes Sirium</h3><a href="saveurs.html">Afficher tout →</a></div>
               <div class="mega-prod-grid">
                 ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
               </div>

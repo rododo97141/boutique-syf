@@ -141,7 +141,7 @@
   const selectorHtml = `
     <section class="pd-section container">
       <h2 class="pd-h2">Toute la <em>gamme</em></h2>
-      <div class="ck-selector pd-selector" role="group" aria-label="Naviguer dans la Sirium cocktail">${selItems}${selSoon}</div>
+      <div class="ck-selector pd-selector" role="group" aria-label="Naviguer dans la collection Sirium">${selItems}${selSoon}</div>
     </section>`;
 
   // --- Rendu de la fiche ---

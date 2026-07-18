@@ -9,7 +9,7 @@ PWA (manifest + service worker), deux thèmes (clair « été doré » / sombre
 « nuit festive »), conformité loi Évin (age gate 18+, mention sanitaire).
 
 Pages : `index.html` (marque) · `saveurs.html` (cocktails) · `evenements.html`
-(billetterie) · `evenement.html?id=X` (fiche partageable) · `syf-tv.html` (Syf TV) ·
+(billetterie) · `evenement.html?id=X` (fiche partageable) · `syf-tv.html` (SYFIR TV) ·
 `espace-pro.html` (Smartboard organisateur).
 
 ---

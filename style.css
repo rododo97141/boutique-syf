@@ -2995,7 +2995,7 @@ html[data-theme="light"] body:has(.ar-top) .nav-logo { color: var(--ink-warm); }
 html[data-theme="light"] body:has(.page-hero:not(.page-hero-dark)) .nav-logo span,
 html[data-theme="light"] body:has(.pd-top) .nav-logo span,
 html[data-theme="light"] body:has(.ar-top) .nav-logo span { color: var(--gold-deep); }
-/* Nav-logo sur héros IMAGE plein cadre (accueil, Syf TV, fiche événement) : le
+/* Nav-logo sur héros IMAGE plein cadre (accueil, SYFIR TV, fiche événement) : le
    contraste sur image n'est pas mesurable par axe → garde-fou VISUEL. Ombre
    douce pour rester lisible sur zones claires comme sombres, 2 thèmes. Retirée
    quand la nav devient opaque au scroll (fond plat). */
@@ -3624,7 +3624,7 @@ html[data-theme="light"] .past-recap { color: var(--sunset-ink); }
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
 
-/* ===== Hero mosaïque SYF TV (R8 pattern 4) — carrousel de grandes cartes
+/* ===== Hero mosaïque SYFIR TV (R8 pattern 4) — carrousel de grandes cartes
    portrait, flèches (via initRows) + swipe natif, scroll-snap centré. */
 .tv-hero { padding: 18px 0 6px; }
 .tv-hero-track { scroll-padding-inline: var(--row-gutter); }
@@ -3675,7 +3675,7 @@ html[data-theme="light"] .past-recap { color: var(--sunset-ink); }
 .nav-pill .has-drop:focus-within > .nav-link,
 .nav-pill .nav-link.active { background: rgba(var(--cream-rgb), .13); color: var(--cream); }
 .nav-link-event { color: var(--passion); }
-/* Dropdowns (Saveurs, SYF TV) */
+/* Dropdowns (Saveurs, SYFIR TV) */
 .nav-drop {
   position: absolute; top: calc(100% + 12px); left: 50%;
   transform: translateX(-50%) translateY(6px);
