@@ -240,9 +240,9 @@
       const orders = readOrders();
       orders.push({ product, qty, place, city, date: dayKey });
       try { localStorage.setItem('syfir-orders', JSON.stringify(orders)); } catch { /* stockage indisponible */ }
-      // mailto pré-rempli vers l'équipe pro
-      const body = `Bonjour SYFIR,%0D%0A%0D%0AJe souhaite commander en gros :%0D%0A- Produit : ${encodeURIComponent(product)}%0D%0A- Quantité : ${qty} carton(s) de 12%0D%0A- Établissement : ${encodeURIComponent(place || 'à préciser')}%0D%0A- Commune : ${encodeURIComponent(city || 'à préciser')}%0D%0A%0D%0AMerci de me communiquer le tarif pro.`;
-      location.href = `mailto:pro@syfir.fr?subject=${encodeURIComponent('Commande grossiste — ' + product)}&body=${body}`;
+      // Le formulaire de contact vit sur partenaires.html — on transmet l'intention (distributeur) et on redirige.
+      try { sessionStorage.setItem('syfir-partner-intent', JSON.stringify({ type: 'distributeur' })); } catch (e) { /* stockage indisponible */ }
+      location.href = 'partenaires.html#partnerForm';
       closeOrder();
       renderOrders();
       toast('✉ Demande de commande prête dans ton mail');

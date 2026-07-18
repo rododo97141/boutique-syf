@@ -1692,7 +1692,7 @@ if (placeModal && placesGridEl) {
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <div class="ticket-actions">
           <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
-          <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
+          <a class="ticket-contact" href="partenaires.html#partnerForm">✉ Contacter l'organisateur</a>
         </div>
       </div>
       ${qr
