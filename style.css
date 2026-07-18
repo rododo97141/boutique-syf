@@ -368,6 +368,14 @@ html[data-theme="light"] :where(a, button, input, select, textarea, [tabindex], 
    Nous rejoindre, Contact). Se replie au scroll ; masquée en mobile (les liens
    passent dans le menu mobile). */
 :root { --util-h: 34px; }
+/* R47 : hauteur d'en-tête unifiée — source UNIQUE de tous les offsets sous
+   l'en-tête. Dépend de la présence RÉELLE de la barre utilitaire :
+   - défaut (pages SANS .util-bar : espace-pro, compte) → juste la nav ;
+   - pages AVEC .util-bar (≥640) → barre + nav ;
+   - <640, .util-bar masquée et nav repasse à top:0 → juste la nav. */
+:root { --header-h: var(--nav-h); }
+body:has(.util-bar) { --header-h: calc(var(--util-h) + var(--nav-h)); }
+@media (max-width: 639px) { body:has(.util-bar) { --header-h: var(--nav-h); } }
 .util-bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: var(--util-h);
   display: flex; align-items: center; justify-content: flex-end; gap: 24px;
@@ -1461,7 +1469,7 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .audience-title {
   font-family: var(--display); font-weight: 800; font-size: clamp(1.3rem, 3vw, 1.8rem);
   text-transform: uppercase; letter-spacing: .01em;
-  margin: 72px 0 24px; scroll-margin-top: calc(var(--nav-h) + 24px);
+  margin: 72px 0 24px; scroll-margin-top: calc(var(--header-h) + 24px);
 }
 .audience-title em {
   font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
@@ -1486,7 +1494,7 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
   font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
   background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-#investisseurs { margin-top: 64px; scroll-margin-top: calc(var(--nav-h) + 24px); }
+#investisseurs { margin-top: 64px; scroll-margin-top: calc(var(--header-h) + 24px); }
 .invest-quote {
   margin: 28px 0 0; padding-left: 20px;
   border-left: 2px solid rgba(var(--passion-rgb), .4);
@@ -1705,8 +1713,7 @@ html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
    Troisième pilier des pages dédiées. Réutilise .pd-h2 / .event-genre /
    .badge-demo ; motif goutte via .eyebrow.
 ============================================================ */
-.artist-detail { padding: calc(var(--nav-h) + var(--util-h) + 14px) 0 40px; }
-@media (max-width: 639px) { .artist-detail { padding-top: calc(var(--nav-h) + 14px); } }
+.artist-detail { padding: calc(var(--header-h) + 14px) 0 40px; }
 
 /* Fil d'Ariane discret — retour élégant vers la section, identique sur les
    trois fiches (événement / produit / artiste). Cible tactile ≥44px. */
@@ -2481,7 +2488,7 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
    Rythme unique : --nav-h (72px) + 80px (une section) en haut, 8px en bas
    (la section suivante apporte ses 80px). Les deux heros partagent
    exactement cette géométrie ; seule la couleur/le fond change. */
-.page-hero { padding: calc(var(--nav-h) + 80px) 0 8px; }
+.page-hero { padding: calc(var(--header-h) + 80px) 0 8px; }
 .page-hero .h2,
 .page-hero .tickets-title { margin-bottom: 16px; }
 .page-hero .section-intro { margin-bottom: 0; }
@@ -2504,7 +2511,7 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
   box-shadow: 0 1px 0 rgba(var(--passion-rgb), .14);
 }
 
-.dash { padding-top: var(--nav-h); min-height: 100vh; }
+.dash { padding-top: var(--header-h); min-height: 100vh; }
 .dash-side { padding: 24px 5vw 4px; }
 .dash-side-title { font-family: var(--display); font-size: .66rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--grey); margin-bottom: 12px; }
 .dash-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
@@ -3199,7 +3206,7 @@ html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; 
   .ed-body { grid-template-columns: 1.55fr .9fr; gap: 56px; align-items: start; }
   .ed-tickets { position: sticky; top: 96px; }
   .dash { display: grid; grid-template-columns: 258px 1fr; }
-  .dash-side { position: sticky; top: var(--nav-h); align-self: start; height: calc(100vh - var(--nav-h)); padding: 32px 24px; border-right: 1px solid rgba(var(--passion-rgb), .12); }
+  .dash-side { position: sticky; top: var(--header-h); align-self: start; height: calc(100vh - var(--header-h)); padding: 32px 24px; border-right: 1px solid rgba(var(--passion-rgb), .12); }
   .dash-nav { flex-direction: column; overflow: visible; }
   .dash-link { width: 100%; }
   .dash-main { padding: 36px 44px 92px; }
@@ -3921,7 +3928,7 @@ html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); 
    vignette paysage + libellé capitales dessous. Deux thèmes : océan sombre /
    crème clair. Ouverture au survol + focus (clavier), Échap referme. */
 .nav-drop-lux {
-  position: fixed; left: 0; right: 0; top: var(--nav-h);
+  position: fixed; left: 0; right: 0; top: var(--header-h);
   width: auto; min-width: 0; max-width: none;
   padding: 0; border-radius: 0; border: none; border-top: 1px solid rgba(var(--cream-rgb), .1);
   transform: translateY(8px);
