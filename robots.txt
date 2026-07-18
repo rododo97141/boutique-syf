@@ -1,0 +1,9 @@
+# SYFIR — Le Cocktail Libre™
+# Site public : tout est indexable. Un âge gate 18+ s'affiche côté client
+# (JS) mais ne bloque pas les robots — le contenu reste crawlable.
+User-agent: *
+Allow: /
+
+# URL réellement contrôlée (déploiement GitHub Pages actif).
+# Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine.
+Sitemap: https://rododo97141.github.io/boutique-syf/sitemap.xml

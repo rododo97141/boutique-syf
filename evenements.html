@@ -3,44 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réservez vos billets ou organisez votre événement.">
+<meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réserve tes billets ou organise ton événement.">
+<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="SYFIR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
 <title>SYFIR Événements — Billetterie &amp; Espace Pro</title>
+<!-- LCP : fond du hero billetterie découvert dans le CSS — préchargé dès le HTML -->
+<link rel="preload" as="image" fetchpriority="high" href="images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
+     plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
+     assure le texte en repli immédiat puis la bascule. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
+<link rel="canonical" href="https://rododo97141.github.io/boutique-syf/evenements.html">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="images/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">
+<meta name="theme-color" content="#071E30">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-events">
+<a class="skip-link" href="#main">Aller au contenu</a>
 
 <!-- ============================================================
      NAVIGATION BILLETTERIE
 ============================================================ -->
-<nav id="nav" class="nav-tickets">
-  <a href="index.html" class="nav-logo">SYFIR<span class="logo-suffix">Événements</span></a>
 
-  <div class="ticket-search">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input type="search" id="eventSearch" placeholder="Rechercher une soirée, une ville, un festival…" aria-label="Rechercher un événement">
+<nav id="nav">
+  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
+    SYFIR<span>&trade;</span>
+  </a>
+  <div class="nav-pill">
+    <ul class="nav-links">
+      <li class="nav-item has-drop">
+        <a href="saveurs.html" class="nav-link" data-nav="saveurs">Collection Syf</a>
+        <!-- panneau pleine largeur façon maison de luxe (Hennessy) —
+             vignette paysage + libellé capitales, 3 catégories -->
+        <div class="nav-drop nav-drop-lux" role="menu" aria-label="Collection Syf">
+          <div class="nav-lux-inner">
+            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme Syprium — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
+              <span class="nav-lux-label">Toute la collection</span>
+            </a>
+            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail Syprium servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
+              <span class="nav-lux-label">Nos cocktails</span>
+            </a>
+            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
+              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette Syprium Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
+              <span class="nav-lux-label">Nos signatures</span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event active" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
+      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item has-drop">
+        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYF TV</a>
+        <div class="nav-drop" role="menu" aria-label="SYF TV">
+          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
+          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
+          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+        </div>
+      </li>
+    </ul>
   </div>
-
   <div class="nav-actions">
-    <button class="btn btn-ghost btn-sm" id="clientSpaceBtn">Espace client</button>
-    <a class="btn btn-solid btn-sm" href="#pro">Espace pro</a>
-    <button class="burger" id="burgerBtn" aria-label="Menu">
-      <span></span><span></span><span></span>
+    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
     </button>
+    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    </button>
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
+      </div>
+    </div>
+    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <!-- Menu mobile -->
 <div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" id="closeNav" aria-label="Fermer">✕</button>
-  <a href="index.html">← Retour au site SYFIR</a>
-  <a href="#billetterie">Billetterie</a>
-  <a href="#pro">Espace professionnel</a>
-  <a href="#" id="clientSpaceBtnMobile">Espace client</a>
-  <div class="mobile-nav-foot">#SYFIR — Le Cocktail Libre™</div>
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
+  <a href="index.html#accueil">Accueil</a>
+  <a href="saveurs.html">Collection Syf</a>
+  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
+  <a href="index.html#artistes">Artistes</a>
+  <a href="syf-tv.html">SYF TV</a>
+  <a href="partenaires.html">Devenir partenaire</a>
+  <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
+    <div class="mobile-nav-util">
+    <a href="partenaires.html#investisseurs">Investisseurs</a>
+    <a href="partenaires.html#partnerForm">Nous rejoindre</a>
+    <a href="mailto:contact@syfir.fr">Contact</a>
+  </div>
+  <div class="mobile-nav-foot">#SYFIR &mdash; Le Cocktail Libre&trade;</div>
 </div>
+
+<main id="main">
 
 <!-- ============================================================
      HERO BILLETTERIE
@@ -50,24 +133,56 @@
   <div class="hero-veil"></div>
   <div class="hero-inner">
     <p class="hero-kicker reveal">La billetterie officielle SYFIR</p>
-    <h1 class="tickets-title reveal d1">Vos prochains <em>souvenirs</em><br>commencent ici.</h1>
+    <h1 class="tickets-title reveal d1">Tes prochains <em>souvenirs</em><br>commencent ici.</h1>
     <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals et soirées privées — organisés par SYFIR et ses partenaires.</p>
     <div class="hero-cta reveal d3">
-      <a href="#billetterie" class="btn btn-solid">Voir les événements</a>
+      <a href="#billetterie" class="btn btn-solid">Vivre un événement</a>
       <a href="#pro" class="btn btn-ghost">Organiser le mien</a>
     </div>
   </div>
 </header>
 
 <!-- ============================================================
-     BILLETTERIE — filtres + grille d'événements
+     BILLETTERIE OFFICIELLE Shotgun : SECTION RETIRÉE DU RENDU
+     (consigne client 02/07). Pour réactiver : décommenter ce bloc.
+     TODO widget : coller le code depuis Smartboard > Ma page > Widget
+     à la place du contenu de #shotgunWidget (la carte-lien sert
+     d'accès en attendant). Les styles .shotgun-* sont conservés
+     dans style.css.
+
+<section id="officiel" class="section shotgun-section">
+  <div class="container">
+    <p class="eyebrow reveal">Billetterie officielle</p>
+    <h2 class="h2 reveal d1">Réserve sur <em>Shotgun</em></h2>
+    <p class="section-intro reveal d2">Les billets officiels des soirées SYFIR sont en vente sur notre page organisateur Shotgun, paiement sécurisé, billets directement sur ton téléphone.</p>
+    <div id="shotgunWidget">
+      <a class="shotgun-card reveal d2" href="https://shotgun.live/venues/kily-141" target="_blank" rel="noopener">
+        <span class="shotgun-ic" aria-hidden="true">⚡</span>
+        <span class="shotgun-txt">
+          <strong>SYFIR sur Shotgun</strong>
+          <small>Tous nos événements officiels, en vente maintenant</small>
+        </span>
+        <span class="shotgun-cta">Ouvrir la billetterie ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+============================================================ -->
+
+<!-- ============================================================
+     BILLETTERIE — filtres + grille d'événements (démo)
 ============================================================ -->
 <section id="billetterie" class="section section-tickets">
   <div class="container">
     <p class="eyebrow reveal">Billetterie</p>
-    <h2 class="h2 reveal d1">Événements <em>à l'affiche</em></h2>
+    <h2 class="h2 reveal d1">Événements <em>à l'affiche</em> <span class="badge-demo">Démo</span></h2>
 
     <!-- Filtres -->
+    <div class="ticket-search ticket-search-inline reveal d2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="eventSearch" placeholder="Rechercher une soirée, une ville, un festival…" aria-label="Rechercher un événement">
+    </div>
+
     <div class="filters reveal d2">
       <div class="filter-chips" id="filterChips">
         <button class="chip active" data-filter="tous">Tous</button>
@@ -75,11 +190,15 @@
         <button class="chip" data-filter="rooftop">Rooftop</button>
         <button class="chip" data-filter="festival">Festival</button>
         <button class="chip" data-filter="club">Club</button>
+        <button class="chip" data-filter="soiree">Soirée</button>
         <button class="chip" data-filter="prive">Soirée privée 🔒</button>
       </div>
       <div class="filter-extra">
         <select id="cityFilter" aria-label="Filtrer par ville">
           <option value="">Toutes les villes</option>
+        </select>
+        <select id="genreFilter" aria-label="Filtrer par genre musical">
+          <option value="">Tous les genres</option>
         </select>
         <label class="sort-label">
           Trier :
@@ -91,9 +210,25 @@
       </div>
     </div>
 
-    <!-- Grille rendue par script.js -->
-    <div class="events-grid" id="eventsGrid"></div>
-    <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à votre recherche. Revenez vite, la programmation évolue chaque semaine. ✦</p>
+    <p class="events-count reveal d2" id="eventCount"></p>
+
+    <!-- Événements groupés par jour, rendus par script.js -->
+    <div class="events-days" id="eventsGrid"></div>
+    <p class="no-results" id="noResults" hidden>Aucun événement ne correspond à ta recherche. Reviens vite, la programmation évolue chaque semaine. ✦</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     LES ÉDITIONS PASSÉES — preuve sociale (modèle We Love Green).
+     Les événements dont la date est révolue basculent ici automatiquement.
+     Rendu par script.js (#pastGrid) ; masqué s'il n'y a rien à montrer.
+============================================================ -->
+<section id="archives" class="section section-dark past-section" hidden>
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Déjà vécu</p>
+    <h2 class="h2 reveal d1">Les éditions <em>passées</em>.</h2>
+    <p class="section-intro intro-light reveal d2">La preuve que ça se passe pour de vrai. Revis les moments — et prépare-toi pour la prochaine.</p>
+    <div class="past-grid" id="pastGrid"></div>
   </div>
 </section>
 
@@ -103,8 +238,19 @@
 <section id="pro" class="section section-pro">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Espace professionnel</p>
-    <h2 class="h2 reveal d1">Organisez avec <em>SYFIR Experience</em></h2>
-    <p class="section-intro intro-light reveal d2">Créez votre événement en quelques minutes. Chaque événement est facturé selon les options choisies. Privé avec code d'accès, ou ouvert au grand public : vous décidez.</p>
+    <h2 class="h2 reveal d1">Quatre façons de<br><em>travailler avec SYFIR</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Organisateur, lieu, ambassadeur ou investisseur — chacun sa porte.</p>
+    <!-- div+role : le sélecteur global « nav » stylise la barre fixe du site -->
+    <div class="audience-nav reveal d2" role="navigation" aria-label="Audiences de l'espace pro">
+      <a class="chip" href="#pro-orga">🎟 Organisateurs</a>
+      <a class="chip" href="#pro-lieux">🍹 Points de vente</a>
+      <a class="chip" href="#pro-ambassadeurs">📣 Ambassadeurs</a>
+      <a class="chip" href="#pro-invest">🤝 Partenaires &amp; investisseurs</a>
+    </div>
+
+    <!-- ---- Audience 1 : ORGANISATEURS (l'existant, inchangé) ---- -->
+    <h3 class="audience-title reveal" id="pro-orga">Organisateurs — <em>SYFIR Experience</em></h3>
+    <p class="section-intro intro-light reveal">Crée ton événement en quelques minutes. Public ou privé, tu décides. On s'occupe du reste.</p>
 
     <div class="pro-layout">
       <!-- Formulaire de création -->
@@ -125,7 +271,8 @@
               <option value="beach">Beach Party</option>
               <option value="rooftop">Rooftop</option>
               <option value="festival">Festival</option>
-              <option value="club">Club</option>
+              <option value="club">Club</option>     
+              <option value="soiree">Soirée</option>
             </select>
             <span class="field-error"></span>
           </div>
@@ -149,6 +296,25 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-field">
+            <label for="evTime">Heure de début</label>
+            <input type="time" id="evTime">
+            <span class="field-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="evVenue">Lieu / salle</label>
+            <input type="text" id="evVenue" placeholder="Ex. Club Azur, Plage de la Caravelle…">
+            <span class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="evGenres">Genres musicaux <small>(jusqu'à 3, séparés par une virgule)</small></label>
+          <input type="text" id="evGenres" placeholder="Ex. zouk, shatta, afro house">
+          <span class="field-error"></span>
+        </div>
+
         <!-- Visibilité : public ou privé -->
         <fieldset class="visibility-switch">
           <legend>Visibilité de l'événement *</legend>
@@ -158,7 +324,7 @@
           </label>
           <label class="vis-opt">
             <input type="radio" name="evVisibility" value="prive">
-            <span><strong>🔒 Privé</strong><small>Accessible uniquement avec votre code</small></span>
+            <span><strong>🔒 Privé</strong><small>Accessible uniquement avec ton code</small></span>
           </label>
         </fieldset>
         <div class="form-field" id="privateCodeField" hidden>
@@ -192,56 +358,165 @@
 
       <!-- Avantages pro -->
       <aside class="pro-aside reveal from-right d3">
-        <div class="pro-card" data-tilt>
+        <div class="pro-card">
           <h4>Pourquoi organiser avec SYFIR ?</h4>
           <ul>
             <li>✦ Billetterie en ligne clé en main, paiement sécurisé</li>
             <li>✦ Événement public visible par toute la communauté SYFIR</li>
-            <li>✦ Mode privé avec code d'accès pour vos invités</li>
+            <li>✦ Mode privé avec code d'accès pour tes invités</li>
             <li>✦ Facturation claire, à l'option, sans abonnement</li>
             <li>✦ Bar SYFIR, photographe &amp; communication en option</li>
             <li>✦ Tableau de bord ventes en temps réel</li>
           </ul>
+          <a class="btn btn-ghost btn-sm dash-open" href="espace-pro.html">Ouvrir mon Smartboard →</a>
         </div>
-        <div class="pro-card pro-card-img" data-tilt>
-          <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=700&q=80" alt="Concert organisé avec SYFIR" loading="lazy">
-          <p>« Notre rooftop affichait complet en 4 jours. »<br><small>— Léa M., organisatrice partenaire</small></p>
+        <div class="pro-card pro-card-img">
+          <picture>
+            <source type="image/webp" srcset="images/produits/syfir-lanieres-orange-noir.webp">
+            <img src="images/produits/syfir-lanieres-orange-noir.jpg" alt="Les lanières SYFIR orange et noires" loading="lazy" decoding="async" width="1024" height="1024">
+          </picture>
+          <p>La lanière SYFIR — l'accessoire des équipes<br><small>sur le terrain, scan et service mains libres.</small></p>
         </div>
       </aside>
     </div>
+
+    <!-- ---- Audience 2 : POINTS DE VENTE (bars, clubs, plages, revendeurs pilotes) ---- -->
+    <h3 class="audience-title reveal" id="pro-lieux">Deviens <em>point de vente</em> SYFIR</h3>
+    <div class="audience-grid">
+      <div class="pro-card reveal d1">
+        <h4>Les formats</h4>
+        <ul>
+          <li>🥂 <strong>Sur place</strong> — servi au verre, prêt pour la piste</li>
+          <li>🛍️ <strong>À emporter</strong> — la pochette scellée signature, mobile et photogénique</li>
+          <li>🍹 Trois recettes signature, Syprium Planteur™ en tête</li>
+        </ul>
+      </div>
+      <div class="pro-card reveal d2">
+        <h4>Ce que ton lieu y gagne</h4>
+        <ul>
+          <li>✦ Un produit que tes clients remarquent avant même de le goûter</li>
+          <li>✦ Une marque différenciante, univers estival et festif clé en main</li>
+          <li>✦ Animations possibles : bar SYFIR, soirées communes, visibilité croisée</li>
+        </ul>
+      </div>
+      <div class="pro-card audience-contact reveal d3">
+        <h4>On en parle ?</h4>
+        <p>Bars, clubs, plages, hôtels, revendeurs pilotes : raconte-nous ton lieu, on revient vers toi.</p>
+        <a class="btn btn-solid" href="partenaires.html">Proposer mon établissement →</a>
+        <a class="audience-mail" href="mailto:pro@syfir.fr?subject=Point%20de%20vente%20SYFIR">✉ pro@syfir.fr</a>
+      </div>
+    </div>
+
+    <!-- ---- Audience 3 : AMBASSADEURS ---- -->
+    <h3 class="audience-title reveal" id="pro-ambassadeurs">Rejoins les <em>ambassadeurs</em></h3>
+    <div class="audience-grid">
+      <div class="pro-card reveal d1">
+        <h4>Le programme</h4>
+        <ul>
+          <li>📣 Tu vis les événements SYFIR et tu les racontes à ta façon</li>
+          <li>📱 Contenus spontanés, vrais, faits pour être partagés</li>
+          <li>🎫 Accès aux soirées et aux nouveautés avant tout le monde</li>
+        </ul>
+      </div>
+      <div class="pro-card reveal d2">
+        <h4>Ce que tu y gagnes</h4>
+        <ul>
+          <li>✦ Visibilité : mise en avant sur nos réseaux et nos événements</li>
+          <li>✦ Dotations : produits SYFIR et invitations pour tes proches</li>
+          <li>✦ Une communauté qui monte, et ta place dedans</li>
+        </ul>
+      </div>
+      <div class="pro-card audience-contact reveal d3">
+        <h4>Ta candidature</h4>
+        <p>DJ, créateur·rice de contenu, hôte·sse d'ambiance ou simplement fan de la première heure : présente-toi.</p>
+        <a class="btn btn-solid" href="partenaires.html">Devenir ambassadeur →</a>
+        <a class="audience-mail" href="mailto:media@syfir.fr?subject=Programme%20ambassadeurs%20SYFIR">✉ media@syfir.fr</a>
+      </div>
+    </div>
+
+    <!-- ---- Audience 4 : PARTENAIRES & INVESTISSEURS (sobre, zéro chiffre inventé) ---- -->
+    <h3 class="audience-title reveal" id="pro-invest">Partenaires &amp; <em>investisseurs</em></h3>
+    <div class="invest-card reveal d1">
+      <div class="invest-args">
+        <div>
+          <strong>Une vision claire</strong>
+          <p>Une marque lifestyle née d'une conviction : on ne cherche plus seulement à boire, on cherche à ressentir. Un cap assumé, porté par son fondateur.</p>
+        </div>
+        <div>
+          <strong>Une marque différenciante</strong>
+          <p>La pochette comme format liberté — mobile, instantané, photogénique. Un produit qui se remarque avant même d'être goûté.</p>
+        </div>
+        <div>
+          <strong>Un potentiel de croissance</strong>
+          <p>Un modèle pensé pour s'étendre : produits, événements, licences de marque. Une génération mobile et connectée comme premier public.</p>
+        </div>
+      </div>
+      <div class="invest-cta">
+        <p>Le dossier complet se partage de vive voix.</p>
+        <a class="btn btn-solid" href="mailto:pro@syfir.fr?subject=Partenariat%20%2F%20investissement%20SYFIR">Prendre contact →</a>
+      </div>
+    </div>
   </div>
 </section>
+
+</main>
 
 <!-- ============================================================
      FOOTER
 ============================================================ -->
 <footer>
+  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
+  <div class="brand-sign">
+    <p class="brand-sign-mark">SYFIR</p>
+    <p class="brand-sign-slogan">Goûte à la liberté.</p>
+  </div>
   <div class="container footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">SYFIR<span>™</span></div>
-      <p>SYFIR Événements.<br>La billetterie des moments inoubliables.</p>
+      <p>Le Cocktail Libre™.<br>Des instants de vie, des expériences —<br>et des cocktails premium pour les accompagner.</p>
+      <form class="footer-news" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+        <label for="nlEmail">Reçois les prochaines soirées ✦</label>
+        <div class="footer-news-row">
+          <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>
+          <button class="btn btn-solid btn-sm" type="submit">S'inscrire</button>
+        </div>
+        <p class="footer-news-msg" role="status" hidden></p>
+      </form>
     </div>
     <div class="footer-col">
-      <h4>Billetterie</h4>
-      <a href="#billetterie">Tous les événements</a>
-      <a href="#" id="footClientSpace">Espace client</a>
-      <a href="#pro">Espace professionnel</a>
+      <h3>Explorer</h3>
+      <a href="index.html#marque">Notre marque</a>
+      <a href="saveurs.html">Nos Cocktails</a>
+      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="index.html#confiance">Ils nous font confiance</a>
+      <a href="evenements.html">Événements &amp; Fêtes</a>
+      <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h4>SYFIR</h4>
-      <a href="index.html">Le site de la marque</a>
-      <a href="index.html#cocktails">Nos Cocktails</a>
-      <a href="index.html#partenaires">Devenir partenaire</a>
+      <h3>Artistes &amp; équipe</h3>
+      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="index.html#agenda">Agenda des concerts</a>
+      <a href="partenaires.html">Devenir partenaire</a>
+      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
-      <h4>Légal</h4>
-      <a href="#">CGV billetterie</a>
-      <a href="#">Mentions légales</a>
-      <a href="#">Confidentialité</a>
+      <h3>Syf TV</h3>
+      <a href="syf-tv.html">#SYFIR</a>
+      <a href="syf-tv.html">Instagram</a>
+      <a href="syf-tv.html">TikTok</a>
+    </div>
+    <div class="footer-col">
+      <h3>Légal</h3>
+      <a href="faq.html">FAQ</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="cgv.html">CGV</a>
+      <a href="confidentialite.html">Confidentialité</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 SYFIR Événements. — L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+    <p>© 2026 SYFIR. Tous droits réservés.</p>
+    <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>
 
@@ -251,7 +526,7 @@
 <div class="modal" id="ticketModal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="modal-box">
     <button class="modal-close" data-close aria-label="Fermer">✕</button>
-    <div class="modal-media"><img id="tmImage" src="" alt=""></div>
+    <div class="modal-media"><img width="400" height="300" id="tmImage" src="" alt=""></div>
     <div class="modal-body">
       <span class="modal-tag" id="tmTag"></span>
       <h3 id="tmTitle"></h3>
@@ -259,7 +534,7 @@
 
       <!-- Saisie du code pour événements privés -->
       <div class="private-gate" id="privateGate" hidden>
-        <p>🔒 Cet événement est privé. Entrez votre code d'accès :</p>
+        <p>🔒 Cet événement est privé. Entre ton code d'accès :</p>
         <div class="gate-row">
           <input type="text" id="gateCode" placeholder="CODE D'ACCÈS">
           <button class="btn btn-solid btn-sm" id="gateSubmit">Valider</button>
@@ -275,6 +550,7 @@
         <button class="btn btn-solid" id="tmBuy" disabled>Réserver mes billets</button>
       </div>
       <p class="form-success" id="tmSuccess" hidden></p>
+      <button class="btn btn-ghost btn-full" id="tmCalendar" type="button" hidden>📅 Ajouter au calendrier</button>
     </div>
   </div>
 </div>
@@ -286,18 +562,55 @@
   <div class="modal-box modal-box-sm">
     <button class="modal-close" data-close aria-label="Fermer">✕</button>
     <div class="modal-body">
-      <h3>Espace client</h3>
+      <h3 id="clientTitle">Mon espace</h3>
       <div class="tabs" id="clientTabs">
-        <button class="tab active" data-tab="login">Connexion</button>
-        <button class="tab" data-tab="register">Inscription</button>
-        <button class="tab" data-tab="tickets">Mes billets</button>
+        <button class="tab active" data-tab="tickets">Mes billets</button>
+        <button class="tab" data-tab="favs">Favoris</button>
+        <button class="tab" data-tab="profile">Mon profil</button>
+        <button class="tab" data-tab="login" data-auth>Connexion</button>
+        <button class="tab" data-tab="register" data-auth>Inscription</button>
       </div>
 
+      <!-- Mes billets (défaut) -->
+      <div class="tab-panel active" id="panel-tickets">
+        <div class="subtabs" id="ticketSubtabs">
+          <button class="subtab active" data-sub="upcoming">À venir</button>
+          <button class="subtab" data-sub="past">Passés</button>
+        </div>
+        <div id="myTickets"></div>
+      </div>
+
+      <!-- Favoris -->
+      <div class="tab-panel" id="panel-favs">
+        <div id="myFavs"></div>
+      </div>
+
+      <!-- Mon profil -->
+      <form class="tab-panel" id="panel-profile" novalidate>
+        <div class="form-field">
+          <label for="profName">Nom complet</label>
+          <input type="text" id="profName" placeholder="Prénom Nom" autocomplete="name">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profEmail">Email</label>
+          <input type="email" id="profEmail" placeholder="toi@exemple.com" autocomplete="email">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profCity">Ville</label>
+          <input type="text" id="profCity" placeholder="Pointe-à-Pitre" autocomplete="address-level2">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Enregistrer mon profil</button>
+        <button type="button" class="btn btn-ghost btn-full" id="logoutBtn" hidden>Se déconnecter</button>
+      </form>
+
       <!-- Connexion -->
-      <form class="tab-panel active" id="panel-login" novalidate>
+      <form class="tab-panel" id="panel-login" novalidate>
         <div class="form-field">
           <label for="clEmail">Email</label>
-          <input type="email" id="clEmail" placeholder="vous@exemple.com">
+          <input type="email" id="clEmail" placeholder="toi@exemple.com">
           <span class="field-error"></span>
         </div>
         <div class="form-field">
@@ -317,7 +630,7 @@
         </div>
         <div class="form-field">
           <label for="rgEmail">Email</label>
-          <input type="email" id="rgEmail" placeholder="vous@exemple.com">
+          <input type="email" id="rgEmail" placeholder="toi@exemple.com">
           <span class="field-error"></span>
         </div>
         <div class="form-field">
@@ -327,18 +640,18 @@
         </div>
         <button type="submit" class="btn btn-solid btn-full">Créer mon compte</button>
       </form>
-
-      <!-- Mes billets -->
-      <div class="tab-panel" id="panel-tickets">
-        <div id="myTickets"><p class="cart-empty">Aucun billet pour l'instant. Vos réservations apparaîtront ici.</p></div>
-      </div>
     </div>
   </div>
 </div>
 
 <!-- Toast notification -->
-<div class="toast" id="toast" role="status"></div>
+<!-- Bouton billets flottant, toujours visible -->
+<a href="#billetterie" class="tickets-fab fab-hidden" id="ticketsFab" data-target="#billetterie" aria-label="Voir les billets">🎟 Billets</a>
 
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script src="events-data.js"></script>
+<script src="auth.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
