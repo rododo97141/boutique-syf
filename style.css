@@ -2306,6 +2306,12 @@ html[data-theme="light"] .ed-past-text { color: var(--grey-ink); }
   .story-num { position: absolute; top: -8px; left: -4px; }
   .story-scene:nth-child(even) .story-num { left: auto; right: -4px; }
 }
+/* Contraste AA : sous 760px, .story-num est en flux sur fond clair (or vif
+   illisible, 1.30) → encre or en thème clair mobile. Au-delà, la passion reste
+   (position absolue, contraste OK). Numéro décoratif (aria-hidden) mais net. */
+@media (max-width: 759px) {
+  html[data-theme="light"] .story-num { color: var(--gold-ink); }
+}
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .story-scene { animation: story-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
