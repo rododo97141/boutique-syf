@@ -154,8 +154,8 @@
     const S = window.SYFIR;
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
-      ['saveurs.html#planteur', 'Syprium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syprium Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette Syprium entourée de fruits'],
+      ['saveurs.html#planteur', 'Sirium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Sirium Planteur sur marbre'],
+      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette Sirium entourée de fruits'],
       ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
       ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
     ];
@@ -167,13 +167,13 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['Collection Syf', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['Syprium Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['Syprium Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['Syprium Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['Sirium cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
+      ['Sirium Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
+      ['Sirium Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
+      ['Sirium Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
-      ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
+      ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
       ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
       ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
@@ -199,15 +199,15 @@
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">Collection Syf</a>
+            <a class="mega-side-head" href="saveurs.html">Sirium cocktail</a>
             <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">Syprium Planteur</a>
-            <a href="saveurs.html#coral">Syprium Coral Breeze</a>
-            <a href="saveurs.html#golden">Syprium Golden Escape</a>
+            <a href="saveurs.html#planteur">Sirium Planteur</a>
+            <a href="saveurs.html#coral">Sirium Coral Breeze</a>
+            <a href="saveurs.html#golden">Sirium Golden Escape</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
-          <a href="syf-tv.html">SYF TV</a>
+          <a href="syf-tv.html">SYFIR TV</a>
           <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
           <div class="mega-side-group">
@@ -263,7 +263,7 @@
       panels.hidden = true; results.hidden = false;
       results.innerHTML = hits.length
         ? hits.map(([t, u]) => `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong></a>`).join('')
-        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYF TV »…</p>`;
+        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYFIR TV »…</p>`;
     };
     search.addEventListener('input', doSearch);
 
@@ -1969,7 +1969,7 @@ if (placeModal && placesGridEl) {
     });
   })();
 
-  /* ===== 44. RANGÉE « À REGARDER » (R23-4, SYF TV) — façades cliquables :
+  /* ===== 44. RANGÉE « À REGARDER » (R23-4, SYFIR TV) — façades cliquables :
      l'iframe YouTube / le lecteur SoundCloud / la vidéo locale ne se chargent
      qu'au clic (perf + vie privée). Aucun autoplay avant action de l'utilisateur. */
   (function initReplays() {
@@ -2243,7 +2243,7 @@ if (placeModal && placesGridEl) {
 
   /* ===== 31b. LES ÉDITIONS PASSÉES (R24-1) — preuve sociale =====
      Les événements dont la date est révolue basculent en cartes compactes
-     « Revivre en images » vers SYF TV. Section masquée s'il n'y a rien. */
+     « Revivre en images » vers SYFIR TV. Section masquée s'il n'y a rien. */
   (function renderPastEvents() {
     const grid = $('#pastGrid');
     const section = $('#archives');

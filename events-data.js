@@ -8,7 +8,7 @@
 
   const TIERS_DEFAULT = [
     { name: 'Early Bird', desc: 'Quantité limitée', mult: 0.8, scarce: true },
-    { name: 'Standard', desc: 'Entrée + 1 cocktail Syprium', mult: 1, reco: true },
+    { name: 'Standard', desc: 'Entrée + 1 cocktail Sirium', mult: 1, reco: true },
     { name: 'VIP Golden Hour', desc: 'Carré VIP + open cocktails', mult: 2.2 }
   ];
 
