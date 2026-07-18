@@ -121,11 +121,9 @@
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 
   const nav = $('#nav');
-  const utilBar = document.getElementById('utilBar');
   const onScrollNav = () => {
     const s = window.scrollY > 40;
     if (nav) nav.classList.toggle('scrolled', s);
-    if (utilBar) utilBar.classList.toggle('scrolled', s);   // barre institutionnelle : se replie au scroll (R33-2)
   };
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
@@ -178,6 +176,9 @@
       ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
       ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
+      ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
+      ['Nous rejoindre', 'partenaires.html#partnerForm', 'recrutement emploi carrière rejoindre équipe candidature partenaire la maison institutionnel'],
+      ['Contact', 'mailto:contact@syfir.fr', 'contact email courriel écrire nous joindre la maison institutionnel'],
       ['FAQ', 'faq.html', 'questions fréquentes aide pochette degré alcool où acheter conservation billets âge'],
     ];
     if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
@@ -209,6 +210,12 @@
           <a href="syf-tv.html">SYF TV</a>
           <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
+          <div class="mega-side-group">
+            <span class="mega-side-head">La Maison</span>
+            <a href="partenaires.html#investisseurs">Investisseurs</a>
+            <a href="partenaires.html#partnerForm">Nous rejoindre</a>
+            <a href="mailto:contact@syfir.fr">Contact</a>
+          </div>
         </div>
         <div class="mega-content">
           <div class="mega-results" id="megaResults" hidden></div>
