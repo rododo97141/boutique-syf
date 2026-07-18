@@ -156,7 +156,7 @@
     const S = window.SYFIR;
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
-      ['saveurs.html#planteur', 'Syf Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syf Planteur sur marbre'],
+      ['saveurs.html#planteur', 'Syprium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syprium Planteur sur marbre'],
       ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette SYFIR entourée de fruits'],
       ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
       ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
@@ -170,9 +170,9 @@
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
       ['Collection Syf', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['Syf Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['Syf Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['Syf Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['Syprium Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
+      ['Syprium Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
+      ['Syprium Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
@@ -200,9 +200,9 @@
           <div class="mega-side-group">
             <a class="mega-side-head" href="saveurs.html">Collection Syf</a>
             <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">Syf Planteur</a>
-            <a href="saveurs.html#coral">Syf Coral Breeze</a>
-            <a href="saveurs.html#golden">Syf Golden Escape</a>
+            <a href="saveurs.html#planteur">Syprium Planteur</a>
+            <a href="saveurs.html#coral">Syprium Coral Breeze</a>
+            <a href="saveurs.html#golden">Syprium Golden Escape</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>

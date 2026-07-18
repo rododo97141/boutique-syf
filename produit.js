@@ -48,7 +48,7 @@
     name: cleanName,
     image: [absImg],
     description: p.desc,
-    brand: { '@type': 'Brand', name: 'SYFIR' },
+    brand: { '@type': 'Brand', name: 'Syprium' },
     category: 'Cocktail'
   };
   const ldScript = document.createElement('script');
@@ -93,8 +93,8 @@
       <h2 class="pd-h2">Les deux <em>façons</em></h2>
       <div class="ck-formats pd-formats">
         <div class="ck-format">
-          ${pic(verre, 'alt="Servi sur glace dans le verre SYFIR" loading="lazy" decoding="async" width="1086" height="1448"')}
-          <div><strong>🥂 Sur place</strong><small>Servi dans le verre SYFIR</small></div>
+          ${pic(verre, 'alt="Servi sur glace au verre" loading="lazy" decoding="async" width="1086" height="1448"')}
+          <div><strong>🥂 Sur place</strong><small>Servi au verre</small></div>
         </div>
         <div class="ck-format">
           ${pic(p.photos[0], `alt="La pochette ${esc(cleanName)} scellée" loading="lazy" decoding="async"`)}
@@ -110,7 +110,7 @@
       <h2 class="pd-h2">Questions <em>produit</em></h2>
       <div class="faq-list">
         <details class="faq-item" open>
-          <summary><span class="faq-q">Qu'est-ce qu'une pochette SYFIR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+          <summary><span class="faq-q">Qu'est-ce qu'une pochette Syprium&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
           <div class="faq-a"><p>Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, format liberté. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux. Le soleil en pochette.</p></div>
         </details>
         <details class="faq-item">
@@ -119,7 +119,7 @@
         </details>
         <details class="faq-item">
           <summary><span class="faq-q">Sur place ou à emporter, quelle différence&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-          <div class="faq-a"><p>Sur place, ton cocktail est servi dans le verre SYFIR chez nos partenaires. À emporter, c'est la pochette scellée, à vivre où tu veux. Même saveur, deux libertés.</p></div>
+          <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à vivre où tu veux. Même saveur, deux libertés.</p></div>
         </details>
       </div>
       <p class="faq-foot">D'autres questions&nbsp;? <a href="faq.html">Voir toute la FAQ →</a></p>

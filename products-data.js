@@ -14,7 +14,7 @@
   const products = [
     {
       id: 'planteur',
-      name: 'Syf Planteur™',
+      name: 'Syprium Planteur™',
       short: 'Planteur',
       notes: 'Mangue • Passion • Ananas',
       badge: 'Best-seller',
@@ -37,7 +37,7 @@
     },
     {
       id: 'coral',
-      name: 'Syf Coral Breeze™',
+      name: 'Syprium Coral Breeze™',
       short: 'Coral Breeze',
       notes: 'Agrumes • Hibiscus • Fruits rouges',
       badge: 'Vibrant',
@@ -54,7 +54,7 @@
     },
     {
       id: 'golden',
-      name: 'Syf Golden Escape™',
+      name: 'Syprium Golden Escape™',
       short: 'Golden Escape',
       notes: 'Citron vert • Passion • Fruits exotiques',
       badge: 'Édition Or',
