@@ -1421,6 +1421,40 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .tier-note { font-size: .82rem; color: var(--grey); margin-top: 10px; }
 /* R53 : mention de marque discrète « Le Cocktail Libre™ » rattachée au produit Sirium (sur section-cream, toujours claire) */
 .brand-tm { text-align: center; font-size: .78rem; color: var(--grey-ink); margin-top: 12px; }
+
+/* ============================================================
+   R55 — Pages légales migrées sur le système du site (bi-thème)
+============================================================ */
+.legal-page { padding: calc(var(--header-h) + 40px) 0 64px; }
+.legal-wrap { max-width: 840px; }
+.legal-back { display: inline-block; font-size: .9rem; color: var(--grey); margin-bottom: 22px; }
+.legal-back:hover { color: var(--passion); }
+.legal-page h1 { margin: 6px 0 4px; }
+.legal-updated { color: var(--grey); font-size: .9rem; margin: 0 0 20px; }
+.legal-page h2 { font-family: var(--display); font-weight: 700; font-size: 1.3rem; letter-spacing: -.01em; margin: 2em 0 .5em; }
+.legal-page p, .legal-page li, .legal-page dd, .legal-page td, .legal-page th { line-height: 1.65; }
+.legal-page p, .legal-page li { margin: 0 0 .6em; }
+.legal-page a { color: var(--sunset); text-decoration: none; }
+.legal-page a:hover { text-decoration: underline; }
+/* liens en plein texte : soulignés (distinguables autrement que par la couleur — WCAG 1.4.1) */
+.legal-page p a, .legal-page li a, .legal-page dd a, .legal-page td a { text-decoration: underline; }
+.legal-page dl { margin: 0; }
+.legal-page dt { font-weight: 700; margin-top: 14px; }
+.legal-page dd { margin: 2px 0 0; }
+.legal-page ul { padding-left: 1.15em; }
+.legal-muted { color: var(--grey); }
+.legal-box { margin: 18px 0; padding: 14px 16px; border-left: 3px solid var(--sunset); background: rgba(var(--sunset-rgb), .08); border-radius: 0 12px 12px 0; }
+.legal-box-age { border-left-color: var(--gold); background: rgba(var(--gold-rgb), .10); font-weight: 600; }
+.legal-todo { background: rgba(var(--gold-rgb), .16); border: 1px dashed rgba(var(--gold-rgb), .5); color: var(--passion); padding: 2px 8px; border-radius: 6px; font-size: .9em; font-weight: 700; overflow-wrap: anywhere; }
+.legal-table-scroll { overflow-x: auto; margin-top: 12px; }
+.legal-page table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.legal-page th, .legal-page td { text-align: left; padding: 10px 12px; border-bottom: 1px solid rgba(var(--passion-rgb), .16); vertical-align: top; overflow-wrap: anywhere; }
+.legal-page th { font-weight: 700; }
+.legal-page code { font-size: .92em; background: rgba(var(--passion-rgb), .10); padding: 1px 5px; border-radius: 5px; }
+.legal-pills { margin-top: 10px; }
+.legal-pills a { display: inline-block; margin: 0 16px 8px 0; }
+html[data-theme="light"] .legal-page a { color: var(--gold-ink); }
+html[data-theme="light"] .legal-todo { color: var(--gold-ink); }
 .modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .modal-foot .cart-total { margin-bottom: 0; }
 
