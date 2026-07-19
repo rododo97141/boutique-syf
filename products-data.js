@@ -2,7 +2,7 @@
    SYFIR — Données produits partagées (source unique)
    Utilisé par la page produit dédiée (produit.html?id=X).
    Étend window.SYFIR (créé par events-data.js).
-   Lexique CLAUDE.md : « pochette » (féminin), « Collection Syf ».
+   Lexique CLAUDE.md : « pochette » (féminin), « AVYR cocktail ».
 ============================================================ */
 (function () {
   'use strict';
@@ -14,14 +14,14 @@
   const products = [
     {
       id: 'planteur',
-      name: 'Syprium Planteur™',
+      name: 'AVYR Planteur™',
       short: 'Planteur',
       notes: 'Mangue • Passion • Ananas',
       badge: 'Signature',
       badgeCls: '',
       desc: "Mangue mûre, passion acidulée, ananas rôti — notre recette Planteur signature.",
       ingredients: [
-        ['Mangue mûre', '🥭', 'la rondeur solaire qui ouvre la première gorgée'],
+        ['Mangue mûre', '🥭', 'la rondeur douce qui ouvre la première gorgée'],
         ['Passion acidulée', '💛', 'le twist vif qui réveille le palais'],
         ['Ananas rôti', '🍍', 'la profondeur dorée en fin de bouche']
       ],
@@ -37,15 +37,15 @@
     },
     {
       id: 'coral',
-      name: 'Syprium Coral Breeze™',
+      name: 'AVYR Coral Breeze™',
       short: 'Coral Breeze',
       notes: 'Agrumes • Hibiscus • Fruits rouges',
       badge: 'Vibrant',
       badgeCls: 'badge-coral',
-      desc: 'Agrumes vifs, hibiscus, fruits rouges. La fraîcheur qui réveille la piste.',
+      desc: 'Agrumes vifs, hibiscus, fruits rouges. Robe corail, attaque acidulée, finale fraîche.',
       ingredients: [
         ['Agrumes', '🍊', "l'éclat zesté qui claque à l'entrée"],
-        ['Hibiscus', '🌺', "la note florale qui colore l'instant"],
+        ['Hibiscus', '🌺', "la note florale au nez"],
         ['Fruits rouges', '🍓', 'la douceur acidulée qui prolonge la fraîcheur']
       ],
       photos: ['images/produits/syfir-coral-fruits-rouges.jpg'],
@@ -54,16 +54,16 @@
     },
     {
       id: 'golden',
-      name: 'Syprium Golden Escape™',
+      name: 'AVYR Golden Escape™',
       short: 'Golden Escape',
       notes: 'Citron vert • Passion • Fruits exotiques',
       badge: 'Édition Or',
       badgeCls: 'badge-gold',
-      desc: 'Citron vert, passion, fruits exotiques. La golden hour en pochette.',
+      desc: 'Citron vert, passion, fruits exotiques. Robe dorée, nez exotique, finale acidulée sur le citron vert.',
       ingredients: [
         ['Citron vert', '🍋', 'la vivacité tranchante qui lance la gorgée'],
         ['Passion', '💛', 'le cœur exotique acidulé'],
-        ['Fruits exotiques', '🥥', "finale douce sur les fruits exotiques"]
+        ['Fruits exotiques', '🥥', 'la douceur sucrée en finale']
       ],
       photos: ['images/produits/syfir-tropical-ananas.jpg'],
       video: 'videos/syfir-pub-video.mp4',

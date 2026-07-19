@@ -6,7 +6,7 @@
    Nom de cache VERSIONNÉ : incrémenter SYFIR_CACHE à chaque release
    pour invalider proprement l'ancien cache.
 ============================================================ */
-const SYFIR_CACHE = 'syfir-v1';
+const SYFIR_CACHE = 'syfir-v2';
 
 self.addEventListener('install', () => self.skipWaiting());
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   SYFIR — Le Cocktail Libre™
+   SYFIR
    script.js — Vanilla JS uniquement
    ------------------------------------------------------------
    Sommaire :
@@ -74,11 +74,10 @@
   const FORM_ENDPOINT = '';
   // Contact réel PUBLIC (présent sur le site) : sert de repli honnête tant que
   // la transmission en ligne n'est pas branchée. Rien d'inventé.
-  const CONTACT_EMAIL = 'contact@syfir.fr';
   // Message VRAI en mode démo : ne jamais laisser croire qu'une donnée a été
   // transmise tant que FORM_ENDPOINT est vide (R29-1). La saisie est conservée
-  // en local pour ne rien perdre ; on invite à écrire directement.
-  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt — en attendant, écris-nous directement à ' + CONTACT_EMAIL + '.';
+  // en local pour ne rien perdre.
+  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   // Conserve toute soumission en mode démo (aucun envoi réseau possible) pour
   // ne rien perdre : historique local horodaté, plafonné à 50 entrées.
@@ -154,8 +153,8 @@
     const S = window.SYFIR;
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
-      ['saveurs.html#planteur', 'Syprium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Syprium Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette Syprium entourée de fruits'],
+      ['saveurs.html#planteur', 'AVYR Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette AVYR Planteur sur marbre'],
+      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette AVYR entourée de fruits'],
       ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
       ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
     ];
@@ -167,18 +166,18 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['Collection Syf', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['Syprium Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['Syprium Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['Syprium Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['AVYR cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
+      ['AVYR Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
+      ['AVYR Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
+      ['AVYR Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
-      ['SYF TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
+      ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
       ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
       ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
       ['Nous rejoindre', 'partenaires.html#partnerForm', 'recrutement emploi carrière rejoindre équipe candidature partenaire la maison institutionnel'],
-      ['Contact', 'mailto:contact@syfir.fr', 'contact email courriel écrire nous joindre la maison institutionnel'],
+      ['Contact', 'partenaires.html#partnerForm', 'contact formulaire écrire nous joindre la maison institutionnel'],
       ['FAQ', 'faq.html', 'questions fréquentes aide pochette degré alcool où acheter conservation billets âge'],
     ];
     if (S) S.getAllEvents().forEach(ev => idx.push([ev.name, 'evenement.html?id=' + ev.id, ev.city + ' ' + (S.typeLabel[ev.type] || '') + ' événement soirée']));
@@ -199,29 +198,29 @@
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">Collection Syf</a>
+            <a class="mega-side-head" href="saveurs.html">AVYR cocktail</a>
             <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">Syprium Planteur</a>
-            <a href="saveurs.html#coral">Syprium Coral Breeze</a>
-            <a href="saveurs.html#golden">Syprium Golden Escape</a>
+            <a href="saveurs.html#planteur">AVYR Planteur</a>
+            <a href="saveurs.html#coral">AVYR Coral Breeze</a>
+            <a href="saveurs.html#golden">AVYR Golden Escape</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
-          <a href="syf-tv.html">SYF TV</a>
+          <a href="syf-tv.html">SYFIR TV</a>
           <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
           <div class="mega-side-group">
             <span class="mega-side-head">La Maison</span>
             <a href="partenaires.html#investisseurs">Investisseurs</a>
             <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-            <a href="mailto:contact@syfir.fr">Contact</a>
+            <a href="partenaires.html#partnerForm">Contact</a>
           </div>
         </div>
         <div class="mega-content">
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes SYFIR</h3><a href="saveurs.html">Afficher tout →</a></div>
+              <div class="mega-row-head"><h3>Les pochettes AVYR</h3><a href="saveurs.html">Afficher tout →</a></div>
               <div class="mega-prod-grid">
                 ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
               </div>
@@ -263,7 +262,7 @@
       panels.hidden = true; results.hidden = false;
       results.innerHTML = hits.length
         ? hits.map(([t, u]) => `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong></a>`).join('')
-        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYF TV »…</p>`;
+        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYFIR TV »…</p>`;
     };
     search.addEventListener('input', doSearch);
 
@@ -1122,7 +1121,7 @@ if (placeModal && placesGridEl) {
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
         // Mode démo : message VRAI (rien n'a été transmis) + contact réel
         if (res.demo) {
-          success.innerHTML = '✦ ' + esc(DEMO_FORM_MSG).replace(CONTACT_EMAIL, '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a>');
+          success.textContent = '✦ ' + DEMO_FORM_MSG;
           showToast('✦ Demande enregistrée sur cet appareil');
         } else {
           success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
@@ -1480,7 +1479,7 @@ if (placeModal && placesGridEl) {
       if (res.ok) {
         // Mode démo : on n'a rien transmis — message vrai, saisie gardée en local
         msg.textContent = res.demo
-          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt — d\'ici là, écris-nous à ' + CONTACT_EMAIL + '.'
+          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt.'
           : '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
         form.reset();
       } else {
@@ -1693,7 +1692,7 @@ if (placeModal && placesGridEl) {
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <div class="ticket-actions">
           <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
-          <a class="ticket-contact" href="mailto:booking@syfir.fr?subject=${encodeURIComponent('Billet ' + (t.num || '') + ' — ' + t.event)}">✉ Contacter l'organisateur</a>
+          <a class="ticket-contact" href="partenaires.html#partnerForm">✉ Contacter l'organisateur</a>
         </div>
       </div>
       ${qr
@@ -1969,7 +1968,7 @@ if (placeModal && placesGridEl) {
     });
   })();
 
-  /* ===== 44. RANGÉE « À REGARDER » (R23-4, SYF TV) — façades cliquables :
+  /* ===== 44. RANGÉE « À REGARDER » (R23-4, SYFIR TV) — façades cliquables :
      l'iframe YouTube / le lecteur SoundCloud / la vidéo locale ne se chargent
      qu'au clic (perf + vie privée). Aucun autoplay avant action de l'utilisateur. */
   (function initReplays() {
@@ -2243,7 +2242,7 @@ if (placeModal && placesGridEl) {
 
   /* ===== 31b. LES ÉDITIONS PASSÉES (R24-1) — preuve sociale =====
      Les événements dont la date est révolue basculent en cartes compactes
-     « Revivre en images » vers SYF TV. Section masquée s'il n'y a rien. */
+     « Revivre en images » vers SYFIR TV. Section masquée s'il n'y a rien. */
   (function renderPastEvents() {
     const grid = $('#pastGrid');
     const section = $('#archives');
@@ -2290,7 +2289,8 @@ if (placeModal && placesGridEl) {
             <button class="qty-btn" data-tier="${i}" data-delta="1" aria-label="Plus">+</button>
           </div>
         </div>
-      </div>`).join('');
+      </div>`).join('')
+      + '<p class="tier-note">Le billet donne accès à l\'événement. Boissons en vente séparément sur place.</p>';
     const total = tierQty.reduce((s, q, i) => s + q * currentEvent.price * TIERS_DEFAULT[i].mult, 0);
     $('#tmTotal').textContent = euro(total);
     $('#tmBuy').disabled = total === 0;
@@ -2396,7 +2396,6 @@ if (placeModal && placesGridEl) {
 
   /* ===== 33. ESPACE PRO — création + facturation ===== */
   const proForm = $('#proForm');
-  const BASE_FEE = 49;
 
   // Le champ "code privé" n'apparaît que si l'événement est privé
   $$('input[name="evVisibility"]').forEach(r => {
@@ -2404,14 +2403,6 @@ if (placeModal && placesGridEl) {
       $('#privateCodeField').hidden = r.value !== 'prive' || !r.checked;
     });
   });
-
-  // Facturation estimée mise à jour en direct
-  const updateBilling = () => {
-    const optsTotal = $$('.ev-option:checked').reduce((s, c) => s + +c.dataset.cost, 0);
-    $('#billingOptions').lastElementChild.textContent = euro(optsTotal);
-    $('#billingTotal').textContent = euro(BASE_FEE + optsTotal);
-  };
-  $$('.ev-option').forEach(c => c.addEventListener('change', updateBilling));
 
   proForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -2462,17 +2453,15 @@ if (placeModal && placesGridEl) {
     refreshGenreOptions();
     renderEvents();
 
-    const total = $('#billingTotal').textContent;
     const success = $('#proSuccess');
     success.textContent = isPrivate
-      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. Facturation : ${total} + 2,5 % par billet vendu.`
-      : `✦ Événement publié dans la billetterie SYFIR ! Facturation : ${total} + 2,5 % par billet vendu.`;
+      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. On te recontacte avec un devis pour les prestations choisies.`
+      : `✦ Événement publié dans la billetterie SYFIR ! On te recontacte avec un devis pour les prestations choisies.`;
     success.hidden = false;
 
     proForm.reset();
     $$('.invalid', proForm).forEach(el => el.classList.remove('invalid'));
     $('#privateCodeField').hidden = true;
-    updateBilling();
     showToast('✦ Événement créé avec succès !');
     document.getElementById('billetterie').scrollIntoView({ behavior: 'smooth' });
   });

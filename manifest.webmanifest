@@ -1,7 +1,7 @@
 {
-  "name": "SYFIR — Le Cocktail Libre™",
+  "name": "SYFIR — Expériences & événements en Guadeloupe",
   "short_name": "SYFIR",
-  "description": "Cocktails premium & expériences événementielles. Goûte à la liberté.",
+  "description": "Expériences et événements en Guadeloupe : festivals, soirées, artistes et billetterie.",
   "lang": "fr",
   "start_url": "index.html",
   "scope": ".",
