@@ -188,9 +188,9 @@
     // 3. Catalogue (les 3 signatures)
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" alt="${esc(alt)}" loading="lazy" decoding="async" width="864" height="1184"></picture>`;
     const CATALOG = [
-      { name: 'Sirium Planteur', desc: 'Mangue mûre, passion, ananas rôti', base: 'images/produits/syfir-planteur-marbre' },
-      { name: 'Sirium Coral Breeze', desc: 'Agrumes, hibiscus, fruits rouges', base: 'images/produits/syfir-coral-fruits-rouges' },
-      { name: 'Sirium Golden Escape', desc: 'Citron vert, passion, fruits exotiques', base: 'images/produits/syfir-tropical-ananas' }
+      { name: 'AVYR Planteur', desc: 'Mangue mûre, passion, ananas rôti', base: 'images/produits/syfir-planteur-marbre' },
+      { name: 'AVYR Coral Breeze', desc: 'Agrumes, hibiscus, fruits rouges', base: 'images/produits/syfir-coral-fruits-rouges' },
+      { name: 'AVYR Golden Escape', desc: 'Citron vert, passion, fruits exotiques', base: 'images/produits/syfir-tropical-ananas' }
     ];
     const catBox = $('#portailCatalog');
     if (catBox) catBox.innerHTML = CATALOG.map(c => `

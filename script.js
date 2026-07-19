@@ -153,8 +153,8 @@
     const S = window.SYFIR;
     const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
     const prods = [
-      ['saveurs.html#planteur', 'Sirium Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette Sirium Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette Sirium entourée de fruits'],
+      ['saveurs.html#planteur', 'AVYR Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette AVYR Planteur sur marbre'],
+      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette AVYR entourée de fruits'],
       ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
       ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
     ];
@@ -166,10 +166,10 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['Sirium cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['Sirium Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['Sirium Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['Sirium Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['AVYR cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
+      ['AVYR Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
+      ['AVYR Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
+      ['AVYR Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
@@ -198,11 +198,11 @@
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">Sirium cocktail</a>
+            <a class="mega-side-head" href="saveurs.html">AVYR cocktail</a>
             <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">Sirium Planteur</a>
-            <a href="saveurs.html#coral">Sirium Coral Breeze</a>
-            <a href="saveurs.html#golden">Sirium Golden Escape</a>
+            <a href="saveurs.html#planteur">AVYR Planteur</a>
+            <a href="saveurs.html#coral">AVYR Coral Breeze</a>
+            <a href="saveurs.html#golden">AVYR Golden Escape</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -220,7 +220,7 @@
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes Sirium</h3><a href="saveurs.html">Afficher tout →</a></div>
+              <div class="mega-row-head"><h3>Les pochettes AVYR</h3><a href="saveurs.html">Afficher tout →</a></div>
               <div class="mega-prod-grid">
                 ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
               </div>

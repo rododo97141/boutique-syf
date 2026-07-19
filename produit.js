@@ -26,13 +26,13 @@
   // URL de base réellement contrôlée (GitHub Pages) ; basculer vers syfir.fr une fois acheté
   const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
   const cleanName = p.name.replace(/™/g, '').trim();
-  const shareText = `${cleanName} — ${p.notes}. Sirium cocktail, SYFIR.`;
+  const shareText = `${cleanName} — ${p.notes}. AVYR cocktail, SYFIR.`;
   // Image absolue déterministe (URL canonique contrôlée), indépendante de l'hôte d'accès
   const absImg = `${CANON_BASE}/${p.ogImage}`;
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
-  document.getElementById('pageTitle').textContent = `${cleanName} — Sirium cocktail, SYFIR`;
+  document.getElementById('pageTitle').textContent = `${cleanName} — AVYR cocktail, SYFIR`;
   setAttr('#metaDesc', 'content', `${p.desc}`);
   setAttr('#ogTitle', 'content', `${cleanName} — SYFIR`);
   setAttr('#ogDesc', 'content', shareText);
@@ -48,7 +48,7 @@
     name: cleanName,
     image: [absImg],
     description: p.desc,
-    brand: { '@type': 'Brand', name: 'Sirium' },
+    brand: { '@type': 'Brand', name: 'AVYR' },
     category: 'Cocktail'
   };
   const ldScript = document.createElement('script');
@@ -56,12 +56,12 @@
   ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
   document.head.appendChild(ldScript);
 
-  // --- Fil d'Ariane structuré (R39-B) : Accueil > Sirium cocktail > cette signature ---
+  // --- Fil d'Ariane structuré (R39-B) : Accueil > AVYR cocktail > cette signature ---
   const crumbLd = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${CANON_BASE}/index.html` },
-      { '@type': 'ListItem', position: 2, name: 'Sirium cocktail', item: `${CANON_BASE}/saveurs.html` },
+      { '@type': 'ListItem', position: 2, name: 'AVYR cocktail', item: `${CANON_BASE}/saveurs.html` },
       { '@type': 'ListItem', position: 3, name: cleanName, item: `${CANON_BASE}/produit.html?id=${encodeURIComponent(p.id)}` }
     ]
   };
@@ -110,7 +110,7 @@
       <h2 class="pd-h2">Questions <em>produit</em></h2>
       <div class="faq-list">
         <details class="faq-item" open>
-          <summary><span class="faq-q">Qu'est-ce qu'une pochette Sirium&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+          <summary><span class="faq-q">Qu'est-ce qu'une pochette AVYR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
           <div class="faq-a"><p>Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, refermable et transportable. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux.</p></div>
         </details>
         <details class="faq-item">
@@ -141,7 +141,7 @@
   const selectorHtml = `
     <section class="pd-section container">
       <h2 class="pd-h2">Toute la <em>gamme</em></h2>
-      <div class="ck-selector pd-selector" role="group" aria-label="Naviguer dans la collection Sirium">${selItems}${selSoon}</div>
+      <div class="ck-selector pd-selector" role="group" aria-label="Naviguer dans la collection AVYR">${selItems}${selSoon}</div>
     </section>`;
 
   // --- Rendu de la fiche ---
@@ -150,7 +150,7 @@
     <div class="pd-top container">
       <div class="pd-hero"><div class="ck-hero pd-gallery"></div></div>
       <div class="pd-intro">
-        <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="saveurs.html">← Sirium cocktail</a></nav>
+        <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="saveurs.html">← AVYR cocktail</a></nav>
         <p class="eyebrow">La collection</p>
         <h1 class="pd-title">${esc(cleanName)}</h1>
         <p class="pd-notes">${esc(p.notes)}</p>

@@ -2,7 +2,7 @@
    SYFIR — Données produits partagées (source unique)
    Utilisé par la page produit dédiée (produit.html?id=X).
    Étend window.SYFIR (créé par events-data.js).
-   Lexique CLAUDE.md : « pochette » (féminin), « Sirium cocktail ».
+   Lexique CLAUDE.md : « pochette » (féminin), « AVYR cocktail ».
 ============================================================ */
 (function () {
   'use strict';
@@ -14,7 +14,7 @@
   const products = [
     {
       id: 'planteur',
-      name: 'Sirium Planteur™',
+      name: 'AVYR Planteur™',
       short: 'Planteur',
       notes: 'Mangue • Passion • Ananas',
       badge: 'Signature',
@@ -37,7 +37,7 @@
     },
     {
       id: 'coral',
-      name: 'Sirium Coral Breeze™',
+      name: 'AVYR Coral Breeze™',
       short: 'Coral Breeze',
       notes: 'Agrumes • Hibiscus • Fruits rouges',
       badge: 'Vibrant',
@@ -54,7 +54,7 @@
     },
     {
       id: 'golden',
-      name: 'Sirium Golden Escape™',
+      name: 'AVYR Golden Escape™',
       short: 'Golden Escape',
       notes: 'Citron vert • Passion • Fruits exotiques',
       badge: 'Édition Or',
