@@ -1018,7 +1018,7 @@ if (placeModal && placesGridEl) {
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
       collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
-      distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
+      'distributeur-avyr': { label: 'Zone de distribution *',    placeholder: 'Région, département, île…' },
       investisseur: { label: 'Structure / société *',        placeholder: 'Société, fonds, particulier…' },
       autre:        { label: 'Objet de ta demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
@@ -1087,6 +1087,15 @@ if (placeModal && placesGridEl) {
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
+
+    // R78 : lien direct partageable depuis l'espace AVYR
+    // (partenaires.html?type=distributeur-avyr#partnerForm) — présélectionne
+    // le type sans écraser le choix si l'utilisateur en change ensuite.
+    const urlType = new URLSearchParams(location.search).get('type');
+    if (urlType) {
+      const urlRadio = $(`input[name="requestType"][value="${urlType}"]`);
+      if (urlRadio) { urlRadio.checked = true; urlRadio.dispatchEvent(new Event('change')); }
+    }
 
     // R10 : intention transmise depuis une autre page (Booker, Rejoindre le
     // line-up, rôles…) — on présélectionne le type, pose la note/le message,
