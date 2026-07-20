@@ -195,6 +195,11 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 }
 
 .section { padding: 80px 0; position: relative; }
+/* R78 : ancre de défilement générique pour toute section ciblée par un lien
+   #id (ex. avyr.html#contact) — évite qu'elle atterrisse sous l'en-tête
+   fixe (nav seule, ou bandeau AVYR + nav). Les règles plus spécifiques
+   déjà en place (ex. #investisseurs) restent prioritaires. */
+main section[id] { scroll-margin-top: calc(var(--header-h) + 24px); }
 /* Jonctions clair/sombre adoucies : fondu de 140px en haut et en bas */
 .section-cream { background: var(--cream); color: var(--ink); position: relative; }
 .section-cream::before, .section-cream::after {
@@ -396,6 +401,57 @@ body:has(.util-bar) nav.scrolled { top: 0; }
 .mobile-nav-util a { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(var(--cream-rgb), .72); }
 @media (max-width: 639px) { .util-bar { display: none; } body:has(.util-bar) nav { top: 0; } }
 @media (prefers-reduced-motion: reduce) { .util-bar { transition: none; } }
+
+/* ===== 04c. BANDEAU AVYR (R78) — signale l'espace AVYR (avyr.html,
+   avyr-univers.html, saveurs.html, avyr-format.html, avyr-professionnels.html,
+   avyr-partenaires.html), palette produit distincte de la nav SYFIR en
+   dessous (inchangée). Même mécanique que .util-bar (repli au scroll,
+   masqué <640px, liens dans le menu mobile). */
+:root { --avyr-bar-h: 46px; }
+body:has(.avyr-bar) { --header-h: calc(var(--avyr-bar-h) + var(--nav-h)); }
+@media (max-width: 639px) { body:has(.avyr-bar) { --header-h: var(--nav-h); } }
+.avyr-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: var(--avyr-bar-h);
+  display: flex; align-items: center; gap: 22px; padding: 0 5vw;
+  background: var(--ink-warm); border-bottom: 1px solid rgba(var(--gold-rgb), .35);
+  transition: transform var(--dur-med) var(--ease);
+}
+.avyr-bar-mark {
+  font-family: var(--display); font-weight: 800; font-size: .92rem; letter-spacing: .06em;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
+  flex-shrink: 0;
+}
+.avyr-bar-links { display: flex; align-items: center; gap: 20px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+.avyr-bar-links::-webkit-scrollbar { display: none; }
+.avyr-bar-links a {
+  font-family: var(--body); font-size: .74rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  color: rgba(var(--cream-rgb), .78); white-space: nowrap; transition: color var(--dur-fast) var(--ease);
+}
+.avyr-bar-links a:hover, .avyr-bar-links a.active, .avyr-bar-links a:focus-visible { color: var(--gold-light); }
+.avyr-bar-cta {
+  flex-shrink: 0; font-family: var(--display); font-weight: 700; font-size: .74rem;
+  letter-spacing: .05em; text-transform: uppercase;
+  padding: 9px 20px; border-radius: 100px; background: var(--gold-metal); color: var(--ink);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.avyr-bar-cta:hover, .avyr-bar-cta:focus-visible { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(var(--gold-rgb), .4); }
+.avyr-bar.scrolled { transform: translateY(-100%); }
+body:has(.avyr-bar) nav { top: var(--avyr-bar-h); }
+body:has(.avyr-bar) nav.scrolled { top: 0; }
+html[data-theme="light"] .avyr-bar { background: var(--surface-light); border-bottom-color: rgba(var(--gold-deep-rgb), .3); }
+html[data-theme="light"] .avyr-bar-links a { color: var(--grey-ink); }
+html[data-theme="light"] .avyr-bar-links a:hover, html[data-theme="light"] .avyr-bar-links a.active { color: var(--gold-ink); }
+html[data-theme="light"] .avyr-bar-cta { color: var(--ink); }
+.mobile-nav-avyr { display: flex; flex-direction: column; gap: 4px; margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--cream-rgb), .12); }
+.mobile-nav-avyr-label {
+  font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: 6px;
+}
+.mobile-nav-avyr a { font-size: .95rem; }
+.mobile-nav-avyr-cta { color: var(--gold-light) !important; font-weight: 700; }
+@media (max-width: 639px) { .avyr-bar { display: none; } body:has(.avyr-bar) nav { top: 0; } }
+@media (prefers-reduced-motion: reduce) { .avyr-bar, .avyr-bar-cta { transition: none; } }
 
 /* ===== 04. NAVIGATION ===== */
 nav {

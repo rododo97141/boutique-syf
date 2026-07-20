@@ -120,9 +120,11 @@
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 
   const nav = $('#nav');
+  const avyrBar = $('.avyr-bar');
   const onScrollNav = () => {
     const s = window.scrollY > 40;
     if (nav) nav.classList.toggle('scrolled', s);
+    if (avyrBar) avyrBar.classList.toggle('scrolled', s);
   };
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
