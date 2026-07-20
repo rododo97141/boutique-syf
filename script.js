@@ -199,6 +199,7 @@
           <a href="index.html#accueil">Accueil</a>
           <div class="mega-side-group">
             <a class="mega-side-head" href="saveurs.html">AVYR cocktail</a>
+            <span class="mega-side-tag">Marque partenaire</span>
             <a href="saveurs.html">Toutes les pochettes</a>
             <a href="saveurs.html#planteur">AVYR Planteur</a>
             <a href="saveurs.html#coral">AVYR Coral Breeze</a>
@@ -220,7 +221,7 @@
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes AVYR</h3><a href="saveurs.html">Afficher tout →</a></div>
+              <div class="mega-row-head"><h3>Les pochettes AVYR <span class="mega-row-tag">partenaire</span></h3><a href="saveurs.html">Afficher tout →</a></div>
               <div class="mega-prod-grid">
                 ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
               </div>
