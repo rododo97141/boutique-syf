@@ -138,7 +138,6 @@
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
         <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong>${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</p>
-        <p class="ed-crosslink">🍹 Sur place, on sirote nos cocktails AVYR — <a href="saveurs.html">voir les pochettes</a>.</p>
         <div class="ed-share">
           <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
