@@ -1413,7 +1413,7 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .tier:hover { border-color: rgba(var(--passion-rgb), .4); }
 .tier.has-qty { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .07); }
 .tier-info strong { display: block; font-size: .95rem; }
-.tier-info small { color: var(--grey); }
+.tier-info small { color: #A8A8A8; }
 .tier-right { display: flex; align-items: center; gap: 14px; }
 .tier-price { font-family: var(--display); font-weight: 800; color: var(--passion); white-space: nowrap; }
 .tier-qty { display: flex; align-items: center; gap: 9px; }
