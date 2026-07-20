@@ -151,13 +151,6 @@
      recherche client-side. Ouvert par le burger et l'icône recherche. ===== */
   (function initMega() {
     const S = window.SYFIR;
-    const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
-    const prods = [
-      ['saveurs.html#planteur', 'AVYR Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette AVYR Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette AVYR entourée de fruits'],
-      ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
-      ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
-    ];
     const envies = [
       ['evenements.html', 'Fête', 'images/produits/syfir-pub-duo.jpg'],
       ['evenements.html', 'Plage', 'images/produits/syfir-pub-plage-1.jpg'],
@@ -166,10 +159,8 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['AVYR cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['AVYR Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['AVYR Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['AVYR Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['L\'Écosystème', 'partenaires.html', 'partenaires reseau bars clubs organisateurs prestataires'],
+      ['AVYR', 'partenaires.html#eco-avyr', 'marque cocktails partenaire pochette saveurs'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
@@ -197,13 +188,16 @@
       <div class="mega-body">
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
+          <!-- R78 : remplace l'ancien groupe produit AVYR — SYFIR ne vend pas
+               les produits de ses partenaires, ce groupe liste le réseau. -->
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">AVYR cocktail</a>
-            <span class="mega-side-tag">Marque partenaire</span>
-            <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">AVYR Planteur</a>
-            <a href="saveurs.html#coral">AVYR Coral Breeze</a>
-            <a href="saveurs.html#golden">AVYR Golden Escape</a>
+            <a class="mega-side-head" href="partenaires.html">L'Écosystème</a>
+            <a href="partenaires.html#eco-avyr">AVYR</a>
+            <a href="partenaires.html#eco-bars">Bars et Restaurants</a>
+            <a href="partenaires.html#eco-clubs">Clubs et Beach Clubs</a>
+            <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
+            <a href="partenaires.html#eco-prestataires">Prestataires</a>
+            <a href="partenaires.html#eco-autres">Autres partenaires</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -221,12 +215,6 @@
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes AVYR <span class="mega-row-tag">partenaire</span></h3><a href="saveurs.html">Afficher tout →</a></div>
-              <div class="mega-prod-grid">
-                ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
-              </div>
-            </section>
-            <section class="mega-row">
               <div class="mega-row-head"><h3>Parcourir par envies</h3><a href="evenements.html">Afficher tout →</a></div>
               <div class="mega-envies">
                 ${envies.map(([u, n, img]) => `<a class="mega-envie" href="${u}"><img src="${img}" loading="lazy" decoding="async" alt=""><span>${esc(n)}</span></a>`).join('')}
@@ -241,8 +229,7 @@
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
     // on bascule en eager : le fetch part menu fermé, tout est décodé avant
     // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
-    // (R15 : + les vignettes du dropdown NOTRE GAMME pleine largeur.)
-    const megaImgs = [...$$('.mega-prod-img img, .mega-envie img', mega), ...$$('.nav-lux-pic img')];
+    const megaImgs = [...$$('.mega-envie img', mega)];
     megaImgs.forEach(im => {
       if (im.complete && im.naturalWidth) return;
       im.classList.add('img-fade');
@@ -323,41 +310,6 @@
     $$('a', menu).forEach(a => a.addEventListener('click', close));
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { close(); burger.focus(); } });
     window.__syfirCloseMobileNav = close;
-  })();
-
-  // R15 : dropdown NOTRE GAMME pleine largeur (façon maison de luxe).
-  // Le panneau est sorti de la pilule (son backdrop-filter piège les
-  // position:fixed) et placé juste après <nav> pour couvrir toute la
-  // largeur ; ouverture survol + focus, fermeture Échap / clic dehors.
-  (function initLuxDrop() {
-    const panel = document.querySelector('.nav-drop-lux');
-    if (!panel) return;
-    const item = panel.closest('.has-drop');
-    if (!item) return;
-    const link = item.querySelector('.nav-link');
-    const navEl = document.getElementById('nav') || document.body;
-    navEl.insertAdjacentElement('afterend', panel);
-    let t;
-    const isOpen = () => panel.classList.contains('open');
-    const open = () => { clearTimeout(t); panel.classList.add('open'); if (link) link.setAttribute('aria-expanded', 'true'); };
-    const close = () => { panel.classList.remove('open'); if (link) link.setAttribute('aria-expanded', 'false'); };
-    const closeSoon = () => { clearTimeout(t); t = setTimeout(close, 140); };
-    const leftBoth = e => !item.contains(e.relatedTarget) && !panel.contains(e.relatedTarget);
-    item.addEventListener('mouseenter', open);
-    item.addEventListener('mouseleave', closeSoon);
-    panel.addEventListener('mouseenter', open);
-    panel.addEventListener('mouseleave', closeSoon);
-    item.addEventListener('focusin', open);
-    item.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
-    panel.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
-    if (link) {
-      link.setAttribute('aria-haspopup', 'true');
-      link.setAttribute('aria-expanded', 'false');
-      link.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); open(); const f = panel.querySelector('a'); if (f) f.focus(); } });
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) { close(); if (link) link.focus(); } });
-    document.addEventListener('click', e => { if (isOpen() && !panel.contains(e.target) && !item.contains(e.target)) close(); });
-    $$('a', panel).forEach(a => a.addEventListener('click', close));
   })();
 
   // Smooth scroll avec décalage de navbar (ancres internes)
