@@ -2698,11 +2698,11 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .maison-story p { color: rgba(var(--cream-rgb), .82); font-size: 1.02rem; line-height: 1.6; margin: 0 0 12px; }
 .maison-story em { font-family: var(--serif); font-style: italic; background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .maison-univers { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 24px; }
-.maison-univers-single { grid-template-columns: repeat(auto-fit, minmax(200px, 320px)); margin-top: 0; }
 .univers-card {
   display: flex; flex-direction: column; gap: 4px; padding: 22px; border-radius: var(--radius);
   background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--cream-rgb), .1); color: inherit;
   transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+  scroll-margin-top: calc(var(--header-h) + 24px);
 }
 .univers-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
 .univers-ic { font-size: 1.7rem; }
