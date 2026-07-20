@@ -564,7 +564,7 @@
       <div class="age-box">
         <p class="age-logo">SYFIR<span>™</span></p>
         <h2 id="ageTitle">Avez-vous 18 ans ?</h2>
-        <p class="age-sub">SYFIR est une marque de cocktails alcoolisés.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
+        <p class="age-sub">AVYR est une marque de cocktails alcoolisés, servie lors des événements SYFIR.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
         <div class="age-actions">
           <button class="btn btn-solid" id="ageYes" type="button">Oui, j'ai 18 ans ou plus</button>
           <button class="btn btn-ghost" id="ageNo" type="button">Non, pas encore</button>
@@ -1021,7 +1021,7 @@ if (placeModal && placesGridEl) {
     if (photos.length) {
       pmImg.src = photos[0];
       pmImg.alt = document.querySelector('#pmTitle').textContent;
-      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button">${picHTML(p, 'alt="" loading="lazy" decoding="async"')}</button>`).join('');
+      pmThumbs.innerHTML = photos.map((p, i) => `<button class="pm-thumb${i === 0 ? ' active' : ''}" data-src="${esc(p)}" type="button" aria-label="Photo ${i + 1} sur ${photos.length}">${picHTML(p, 'alt="" loading="lazy" decoding="async"')}</button>`).join('');
     }
     placeModal.classList.add('open'); document.body.style.overflow = 'hidden';
   });
