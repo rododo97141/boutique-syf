@@ -2782,6 +2782,28 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .engagement-ic { font-size: 1.6rem; }
 .engagement-card strong { display: block; font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: .98rem; letter-spacing: .02em; margin: 8px 0 8px; }
 .engagement-card p { color: rgba(var(--cream-rgb), .78); font-size: .94rem; line-height: 1.55; margin: 0; max-width: 52ch; }
+
+/* ===== R81.4 — L'ÉCOSYSTÈME (accueil) : catégories, pas des partenaires
+   confirmés. Cartes honnêtes (icône générique + rôle + CTA formulaire). ===== */
+.eco-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 28px; }
+.eco-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 24px; border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--cream-rgb), .1);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+}
+.eco-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
+.eco-ic { font-size: 1.7rem; }
+.eco-card h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: .98rem; letter-spacing: .02em; margin: 4px 0 0; }
+.eco-card p { color: rgba(var(--cream-rgb), .72); font-size: .9rem; line-height: 1.55; margin: 0; }
+.eco-card p em { font-style: italic; color: rgba(var(--cream-rgb), .6); }
+.eco-cta { align-self: flex-start; margin-top: auto; padding-top: 8px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast), transform var(--dur-fast); }
+.eco-cta:hover { color: var(--passion); transform: translateX(3px); }
+.official-partners { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(var(--cream-rgb), .1); }
+html[data-theme="light"] .eco-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
+html[data-theme="light"] .eco-card p { color: var(--taupe); }
+html[data-theme="light"] .eco-card p em { color: var(--grey-ink); }
+html[data-theme="light"] .eco-cta { color: var(--sunset-ink); }
+html[data-theme="light"] .official-partners { border-color: rgba(var(--gold-rgb), .2); }
 @media (prefers-reduced-motion: reduce) { .univers-card { transition: none; } }
 html[data-theme="light"] .fact-card, html[data-theme="light"] .univers-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] .fact-label, html[data-theme="light"] .univers-card small { color: var(--grey-ink); }
@@ -3249,6 +3271,7 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .footer-col a { padding-block: 12px; min-width: 44px; }
   .serve-link { display: inline-flex; align-items: center; min-height: 44px; }
   .agenda-cta { display: inline-flex; align-items: center; min-height: 44px; }
+  .eco-cta { display: inline-flex; align-items: center; min-height: 44px; }
   .artists-cta-link { display: inline-flex; align-items: center; min-height: 44px; }
   .theme-opt { min-height: 44px; }
   .fav-btn { width: 44px; height: 44px; }
