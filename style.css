@@ -610,13 +610,14 @@ nav.scrolled {
 }
 .hero-bg {
   position: absolute; inset: -12% 0;
-  /* Visuel produit (Planteur) en priorité, visuels de secours ensuite.
+  /* R81 (reconstruction) : images/produits/syfir-pub-plage-1.webp montrait en
+     réalité des pochettes AVYR au premier plan (malgré son nom de fichier) —
+     remplacée par un visuel plage/golden hour sans aucun produit visible,
+     cohérent avec l'identité SYFIR (plateforme d'événements, pas la boisson).
      L'overlay sombre assure la lisibilité, façon composant Hero. */
   background:
     linear-gradient(180deg, rgba(var(--black-rgb), .35), rgba(var(--black-rgb), .5)),
-    url('images/produits/syfir-pub-plage-1.webp') center / cover no-repeat;
-  /* Photo officielle pub plage (lot 22). Un visuel hero dédié pourra être
-     ajouté en 1re couche s'il est un jour fourni (cf. README). */
+    url('images/ext/unsplash-photo-1507525428034-b723cf961d3e.webp') center / cover no-repeat;
   will-change: transform;
 }
 .hero-veil {
