@@ -1000,6 +1000,17 @@ html[data-theme="light"] .locator-map {
 }
 .place-card { cursor: pointer; }
 .place-card::after { content: 'Voir la fiche →'; position: absolute; bottom: 10px; right: 14px; font-family: var(--display); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--passion); opacity: 0; transition: opacity var(--dur-fast); }
+/* R81.5 : partenaire réel sans modale/photo — pas de fausse affordance
+   « Voir la fiche » ni curseur pointeur, la carte n'ouvre rien au clic. */
+.place-card-real { cursor: default; }
+.place-card-real::after { content: none; }
+.place-card-real:hover { transform: none; background: rgba(var(--cream-rgb), .04); }
+.place-note { font-size: .88rem; color: rgba(var(--cream-rgb), .78); margin: 10px 0; }
+.place-insta { font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast); }
+.place-insta:hover { color: var(--passion); }
+html[data-theme="light"] .place-card-real:hover { background: var(--surface-light); }
+html[data-theme="light"] .place-note { color: var(--taupe); }
+html[data-theme="light"] .place-insta { color: var(--sunset-ink); }
 .place-card { position: relative; }
 .place-card:hover::after { opacity: 1; }
 
@@ -2799,11 +2810,25 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .eco-cta { align-self: flex-start; margin-top: auto; padding-top: 8px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast), transform var(--dur-fast); }
 .eco-cta:hover { color: var(--passion); transform: translateX(3px); }
 .official-partners { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(var(--cream-rgb), .1); }
+/* R81.5 — premier partenaire officiel réel : carte simple, sans les
+   affordances de fiche/modale (aucune photo fournie, pas de fiche à ouvrir). */
+.official-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.official-card { display: flex; align-items: flex-start; gap: 16px; padding: 22px; border-radius: var(--radius); background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--passion-rgb), .16); }
+.official-ic { font-size: 1.6rem; flex-shrink: 0; }
+.official-card h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; margin: 0 0 4px; }
+.official-role { font-size: .84rem; color: rgba(var(--cream-rgb), .66); margin: 0 0 10px; }
+.official-link { font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast); }
+.official-link:hover { color: var(--passion); }
+.official-more { margin-top: 18px; font-style: italic; color: rgba(var(--cream-rgb), .55); font-size: .92rem; }
 html[data-theme="light"] .eco-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] .eco-card p { color: var(--taupe); }
 html[data-theme="light"] .eco-card p em { color: var(--grey-ink); }
 html[data-theme="light"] .eco-cta { color: var(--sunset-ink); }
 html[data-theme="light"] .official-partners { border-color: rgba(var(--gold-rgb), .2); }
+html[data-theme="light"] .official-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
+html[data-theme="light"] .official-role { color: var(--taupe); }
+html[data-theme="light"] .official-link { color: var(--sunset-ink); }
+html[data-theme="light"] .official-more { color: var(--taupe); }
 @media (prefers-reduced-motion: reduce) { .univers-card { transition: none; } }
 html[data-theme="light"] .fact-card, html[data-theme="light"] .univers-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] .fact-label, html[data-theme="light"] .univers-card small { color: var(--grey-ink); }
