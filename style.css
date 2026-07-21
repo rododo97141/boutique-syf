@@ -2816,7 +2816,12 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .official-card { display: flex; align-items: flex-start; gap: 16px; padding: 22px; border-radius: var(--radius); background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--passion-rgb), .16); }
 .official-ic { font-size: 1.6rem; flex-shrink: 0; }
 .official-card h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; margin: 0 0 4px; }
-.official-role { font-size: .84rem; color: rgba(var(--cream-rgb), .66); margin: 0 0 10px; }
+.official-role { font-size: .84rem; color: rgba(var(--cream-rgb), .66); margin: 0 0 6px; }
+.official-note { font-size: .84rem; color: rgba(var(--cream-rgb), .78); margin: 0 0 10px; }
+/* R81.6 : mention nommée d'un partenaire réel dans une carte-catégorie
+   générique, sans retirer l'exemple d'entrée existant. */
+.univers-note { grid-column: 1 / -1; font-size: .86rem; color: rgba(var(--cream-rgb), .78); margin: -6px 0 0; }
+.univers-note strong { font-weight: 700; }
 .official-link { font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast); }
 .official-link:hover { color: var(--passion); }
 .official-more { margin-top: 18px; font-style: italic; color: rgba(var(--cream-rgb), .55); font-size: .92rem; }
