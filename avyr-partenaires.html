@@ -150,6 +150,117 @@
   </div>
 </section>
 
+<!-- ============================================================
+     OÙ TROUVER AVYR — store locator (repris de l'ancien accueil
+     SYFIR #ou-trouver, retextualisé en marque autonome AVYR, R79)
+============================================================ -->
+<section id="points-de-vente" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Où trouver AVYR</p>
+    <h2 class="h2 reveal d1">Les cocktails AVYR<br>chez <em>nos partenaires</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Les cocktails AVYR se trouvent là où ça se passe. Bars, plages, rooftops — filtre, trouve, goûte.</p>
+
+    <!-- Store locator : carte Guadeloupe custom SVG (zéro dépendance) -->
+    <figure class="locator-map reveal d2" id="locatorMap">
+      <svg viewBox="0 0 760 470" role="group" aria-labelledby="mapTitle mapDesc" class="gwada-svg">
+        <title id="mapTitle">Carte de la Guadeloupe</title>
+        <desc id="mapDesc">Nos 8 points de vente partenaires répartis sur Grande-Terre et Basse-Terre. Chaque pin ouvre la fiche du lieu.</desc>
+        <!-- Basse-Terre (aile ouest) -->
+        <path class="gwada-land" d="M400 235 C380 208 358 174 320 158 C284 143 248 139 218 150 C177 165 148 197 139 236 C129 281 150 331 191 361 C221 383 256 386 277 365 C301 341 300 300 331 275 C361 250 388 249 400 235 Z"/>
+        <!-- Grande-Terre (aile est) -->
+        <path class="gwada-land" d="M400 235 C405 196 441 161 501 150 C561 142 631 151 666 181 C691 206 680 241 650 259 C610 283 560 285 520 280 C480 275 445 285 425 275 C405 264 398 250 400 235 Z"/>
+        <!-- îlots décoratifs (sans pin) -->
+        <circle class="gwada-isle" cx="690" cy="405" r="20"/>
+        <circle class="gwada-isle" cx="470" cy="425" r="9"/>
+        <circle class="gwada-isle" cx="430" cy="440" r="6"/>
+
+        <g class="map-pin" data-type="bar" data-target="place-sunset" tabindex="0" role="button" aria-label="Sunset Lounge, rooftop bar à Pointe-à-Pitre" transform="translate(414 240)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label" y="-34">Sunset Lounge</text>
+        </g>
+        <g class="map-pin" data-type="bar" data-target="place-casacoco" tabindex="0" role="button" aria-label="La Casa Coco, bar de plage au Gosier" transform="translate(455 263)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label" y="-34">La Casa Coco</text>
+        </g>
+        <g class="map-pin" data-type="hotel" data-target="place-karibea" tabindex="0" role="button" aria-label="Karibea Beach Resort, hôtel au Gosier" transform="translate(507 254)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label" y="-34">Karibea Beach Resort</text>
+        </g>
+        <g class="map-pin" data-type="beach" data-target="place-tisable" tabindex="0" role="button" aria-label="Le Ti' Sable, beach club à Sainte-Anne" transform="translate(570 243)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label" y="-34">Le Ti' Sable</text>
+        </g>
+        <g class="map-pin" data-type="restaurant" data-target="place-habitation" tabindex="0" role="button" aria-label="L'Habitation Créole, restaurant à Saint-François" transform="translate(634 206)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label pin-label-end" y="-34">L'Habitation Créole</text>
+        </g>
+        <g class="map-pin" data-type="beach" data-target="place-bluelagoon" tabindex="0" role="button" aria-label="Blue Lagoon, beach club à Deshaies" transform="translate(216 173)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label" y="-34">Blue Lagoon</text>
+        </g>
+        <g class="map-pin" data-type="boutique" data-target="place-comptoir" tabindex="0" role="button" aria-label="Le Comptoir des Îles, boutique à Basse-Terre" transform="translate(182 319)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label pin-label-start" y="-34">Le Comptoir des Îles</text>
+        </g>
+        <g class="map-pin" data-type="restaurant" data-target="place-marina" tabindex="0" role="button" aria-label="Le Marina Café, bar-restaurant à Gourbeyre" transform="translate(218 347)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label pin-label-start" y="-34">Le Marina Café</text>
+        </g>
+      </svg>
+      <figcaption class="locator-hint">Touche un pin pour voir le lieu · les filtres allument les points correspondants</figcaption>
+    </figure>
+
+    <div class="filter-chips reveal d2" id="placeChips">
+      <button class="chip active" data-place="tous">Tous</button>
+      <button class="chip" data-place="bar">Bars</button>
+      <button class="chip" data-place="restaurant">Restaurants</button>
+      <button class="chip" data-place="beach">Beach clubs</button>
+      <button class="chip" data-place="hotel">Hôtels</button>
+      <button class="chip" data-place="boutique">Boutiques</button>
+    </div>
+
+    <div class="places-grid" id="placesGrid">
+
+      <article class="place-card reveal d1" id="place-tisable" data-type="beach" data-desc="Les pieds dans le sable fin de Bois Jolan, Le Ti' Sable est une adresse de Sainte-Anne. Transats face au lagon, ambiance lounge au coucher du soleil et cocktails AVYR servis dans le verre ou en pochette à emporter." data-photos="images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1519046904884-53103b34b206.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1519046904884-53103b34b206.jpg" alt="Le Ti' Sable — beach club à Sainte-Anne" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Beach club</span><h3>Le Ti' Sable <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Plage de Bois Jolan — Sainte-Anne</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d2" id="place-casacoco" data-type="bar" data-desc="Sur la célèbre plage de la Datcha au Gosier, La Casa Coco mêle esprit guinguette tropicale et énergie festive. Musique live, transats colorés et cocktails AVYR à savourer face à la mer ou à emporter pour la plage." data-photos="images/ext/unsplash-photo-1551024709-8f23befc6f87.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1551024709-8f23befc6f87.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1551024709-8f23befc6f87.jpg" alt="La Casa Coco — bar de plage au Gosier" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Bar de plage</span><h3>La Casa Coco <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Plage de la Datcha — Le Gosier</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d3" id="place-sunset" data-type="bar" data-desc="Perché au cœur de Pointe-à-Pitre, le Sunset Lounge offre une vue panoramique sur la ville et la baie. Ambiance feutrée, DJ sets au crépuscule et carte de cocktails AVYR servis exclusivement sur place dans le verre signature." data-photos="images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1414235077428-338989a2e8c0.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg" alt="Sunset Lounge — rooftop bar à Pointe-à-Pitre" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Rooftop bar</span><h3>Sunset Lounge <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Centre-ville — Pointe-à-Pitre</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+      <article class="place-card reveal d4" id="place-habitation" data-type="restaurant" data-desc="À Saint-François, L'Habitation Créole met à l'honneur la cuisine antillaise dans un cadre végétal. En accord avec ses plats signatures, le restaurant propose les cocktails AVYR servis sur place pour prolonger l'expérience." data-photos="images/ext/unsplash-photo-1517248135467-4c7edcad34c4.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1517248135467-4c7edcad34c4.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1517248135467-4c7edcad34c4.jpg" alt="L'Habitation Créole — restaurant à Saint-François" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Restaurant</span><h3>L'Habitation Créole <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Avenue de l'Europe — Saint-François</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+      <article class="place-card reveal d1" id="place-karibea" data-type="hotel" data-desc="Face au lagon de la Pointe de la Verdure au Gosier, le Karibea Beach Resort accueille ses hôtes dans un cadre balnéaire. Cocktails AVYR disponibles au bar de la piscine et de la plage, sur place ou à emporter." data-photos="images/ext/unsplash-photo-1571003123894-1f0594d2b5d9.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1571003123894-1f0594d2b5d9.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1571003123894-1f0594d2b5d9.jpg" alt="Karibea Beach Resort — hôtel au Gosier" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Hôtel</span><h3>Karibea Beach Resort <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Pointe de la Verdure — Le Gosier</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d2" id="place-comptoir" data-type="boutique" data-desc="Au cœur de Basse-Terre, Le Comptoir des Îles est une épicerie fine dédiée aux saveurs locales. On y retrouve les pochettes AVYR signature à emporter, parfaites pour prolonger l'esprit des tropiques chez soi ou en pique-nique." data-photos="images/ext/unsplash-photo-1488459716781-31db52582fe9.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1488459716781-31db52582fe9.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1488459716781-31db52582fe9.jpg" alt="Le Comptoir des Îles — boutique à Basse-Terre" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Boutique</span><h3>Le Comptoir des Îles <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Rue de la République — Basse-Terre</p><div class="place-serve"><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d3" id="place-bluelagoon" data-type="beach" data-desc="Sur la plage de Grande Anse à Deshaies, Blue Lagoon est un beach club au sable doré et aux eaux turquoise. Parasols, paillotes et cocktails AVYR servis sur place ou en pochette pour profiter du soleil les pieds dans l'eau." data-photos="images/ext/unsplash-photo-1519046904884-53103b34b206.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1519046904884-53103b34b206.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1519046904884-53103b34b206.jpg" onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'" alt="Blue Lagoon — beach club à Deshaies" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Beach club</span><h3>Blue Lagoon <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Plage de Grande Anse — Deshaies</p><div class="place-serve"><span>🥂 Sur place</span><span>🛍️ À emporter</span></div></div>
+      </article>
+
+      <article class="place-card reveal d4" id="place-marina" data-type="restaurant" data-desc="Amarré à la Marina de Rivière-Sens à Gourbeyre, Le Marina Café marie cuisine de la mer et ambiance nautique décontractée. Vue sur les bateaux, terrasse au coucher du soleil et cocktails AVYR servis sur place." data-photos="images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg">
+        <div class="place-thumb"><picture><source type="image/webp" srcset="images/ext/unsplash-photo-1414235077428-338989a2e8c0.webp"><img width="192" height="192" src="images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg" onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg'" alt="Le Marina Café — bar-restaurant à Gourbeyre" loading="lazy" decoding="async"></picture></div>
+        <div class="place-body"><span class="place-type">Bar-restaurant</span><h3>Le Marina Café <span class="badge-demo">Exemple</span></h3><p class="place-loc">📍 Marina de Rivière-Sens — Gourbeyre</p><div class="place-serve"><span>🥂 Sur place</span></div></div>
+      </article>
+
+    </div>
+    <p class="no-results" id="noPlaces" hidden>Aucun partenaire dans cette catégorie pour le moment — la famille AVYR s'agrandit chaque mois. ✦</p>
+
+    <p class="places-cta reveal">Tu veux proposer AVYR dans ton établissement ? <a href="partenaires.html?type=distributeur-avyr#partnerForm">Deviens partenaire →</a></p>
+    <p class="legal-note reveal">Les lieux marqués « Exemple » illustrent le fonctionnement du localisateur — la liste réelle des points de vente AVYR s'enrichit à mesure que le réseau se déploie.</p>
+  </div>
+</section>
+
 <!-- Carte réciproque — SYFIR n'est pas propriétaire d'AVYR, mais son
      partenaire événementiel (texte suggéré par Kily) -->
 <section id="partenaire-syfir" class="section section-dark">
@@ -212,6 +323,25 @@
     <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>
+
+<!-- Modale fiche partenaire (déplacée depuis index.html avec la grille #placesGrid, R79) -->
+<div class="modal" id="placeModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close aria-label="Fermer">&times;</button>
+    <div class="modal-body">
+      <div class="pm-gallery">
+        <div class="pm-main"><img width="700" height="394" id="pmMainImg" src="" alt=""></div>
+        <div class="pm-thumbs" id="pmThumbs"></div>
+      </div>
+      <p class="modal-tag" id="pmType" style="margin-top:18px"></p>
+      <h3 id="pmTitle"></h3>
+      <p class="modal-meta" id="pmLoc"></p>
+      <div class="pm-serve" id="pmServe"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <a class="pm-web" id="pmWeb" href="#" target="_blank" rel="noopener" hidden>Visiter le site →</a>
+    </div>
+  </div>
+</div>
 
 <script src="events-data.js"></script>
 <script src="auth.js"></script>

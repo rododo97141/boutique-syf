@@ -1929,8 +1929,7 @@ html[data-theme="light"] .ar-book-note { color: var(--taupe); }
 .agenda-cta:hover { color: var(--passion); transform: translateX(3px); }
 .agenda-empty { padding: 12px 0 2px; color: rgba(var(--cream-rgb), .6); }
 
-/* ===== 22. CARROUSEL DE LOGOS PARTENAIRES (fusionné dans Où nous trouver) ===== */
-.trust-merge { margin-top: 56px; }
+/* ===== 22. CARROUSEL DE LOGOS PARTENAIRES ===== */
 .trust-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 8px; }
 .trust-title em { font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none;
   background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
