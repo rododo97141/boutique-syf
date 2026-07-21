@@ -1844,7 +1844,7 @@ if (placeModal && placesGridEl) {
     lb.innerHTML =
       '<button class="lightbox-close" type="button" aria-label="Fermer">✕</button>' +
       '<button class="lightbox-nav lightbox-prev" type="button" aria-label="Photo précédente">‹</button>' +
-      '<figure class="lightbox-stage"><img class="lightbox-img" alt=""><figcaption class="lightbox-cap"></figcaption></figure>' +
+      '<figure class="lightbox-stage"><img class="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt=""><figcaption class="lightbox-cap"></figcaption></figure>' +
       '<button class="lightbox-nav lightbox-next" type="button" aria-label="Photo suivante">›</button>' +
       '<p class="lightbox-count" aria-hidden="true"></p>';
     document.body.appendChild(lb);
@@ -1971,7 +1971,7 @@ if (placeModal && placesGridEl) {
       lb.innerHTML =
         `<button class="recap-close" type="button" aria-label="Fermer">✕</button>
          <button class="recap-nav recap-prev" type="button" aria-label="Photo précédente">‹</button>
-         <figure class="recap-stage"><img class="recap-img" alt="" decoding="async"><figcaption class="recap-cap"></figcaption></figure>
+         <figure class="recap-stage"><img class="recap-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" decoding="async"><figcaption class="recap-cap"></figcaption></figure>
          <button class="recap-nav recap-next" type="button" aria-label="Photo suivante">›</button>
          <span class="recap-count" aria-hidden="true"></span>`;
       document.body.appendChild(lb);
