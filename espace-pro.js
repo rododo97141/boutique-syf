@@ -245,7 +245,7 @@
       location.href = 'partenaires.html#partnerForm';
       closeOrder();
       renderOrders();
-      toast('✉ Demande de commande prête dans ton mail');
+      toast('✦ Demande enregistrée — direction le formulaire de contact pour la finaliser');
     });
     renderOrders();
   })();

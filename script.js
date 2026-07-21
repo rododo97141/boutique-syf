@@ -2417,10 +2417,13 @@ if (placeModal && placesGridEl) {
     refreshGenreOptions();
     renderEvents();
 
+    // Honnêteté (R80-4) : ce formulaire ne collecte aucun contact (nom/email/téléphone),
+    // donc pas de promesse de rappel ici — le devis sur les prestations se demande via
+    // le formulaire de contact (partenaires.html#partnerForm).
     const success = $('#proSuccess');
     success.textContent = isPrivate
-      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. On te recontacte avec un devis pour les prestations choisies.`
-      : `✦ Événement publié dans la billetterie SYFIR ! On te recontacte avec un devis pour les prestations choisies.`;
+      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. Pour un devis sur les prestations choisies, écris-nous via le formulaire de contact.`
+      : `✦ Événement publié dans la billetterie SYFIR ! Pour un devis sur les prestations choisies, écris-nous via le formulaire de contact.`;
     success.hidden = false;
 
     proForm.reset();
