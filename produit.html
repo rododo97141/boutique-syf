@@ -11,7 +11,7 @@
 <meta property="og:description" id="ogDesc" content="Une signature de la collection AVYR.">
 <meta property="og:image" id="ogImage" content="images/produits/syfir-planteur-marbre.jpg">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="SYFIR">
+<meta property="og:site_name" content="AVYR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" id="twImage" content="images/produits/syfir-planteur-marbre.jpg">
 <meta property="og:url" id="ogUrl" content="">
@@ -43,6 +43,24 @@
 </head>
 <body>
 <a class="skip-link" href="#productDetail">Aller au contenu</a>
+
+<!-- ============================================================
+     BANDEAU AVYR — signale l'espace AVYR, distinct de la nav SYFIR
+     ci-dessous (inchangée). R80.3 : produit.html intégré à l'espace
+     AVYR (présentation uniquement informative, aucune vente en ligne).
+============================================================ -->
+<div class="avyr-bar" role="navigation" aria-label="Espace AVYR">
+  <a class="avyr-bar-mark" href="avyr.html">AVYR</a>
+  <div class="avyr-bar-links">
+    <a href="avyr.html">Accueil</a>
+    <a href="avyr-univers.html">L'univers AVYR</a>
+    <a href="saveurs.html" class="active">Cocktails et Saveurs</a>
+    <a href="avyr-format.html">Le Format</a>
+    <a href="avyr-professionnels.html">Professionnels</a>
+    <a href="avyr-partenaires.html">Partenaires</a>
+  </div>
+  <a class="avyr-bar-cta" href="avyr.html#contact">Contact</a>
+</div>
 
 <!-- Navigation -->
 
@@ -113,6 +131,16 @@
     <a href="partenaires.html#partnerForm">Nous rejoindre</a>
     <a href="partenaires.html#partnerForm">Contact</a>
   </div>
+  <div class="mobile-nav-avyr">
+    <p class="mobile-nav-avyr-label">Espace AVYR</p>
+    <a href="avyr.html">Accueil</a>
+    <a href="avyr-univers.html">L'univers AVYR</a>
+    <a href="saveurs.html">Cocktails et Saveurs</a>
+    <a href="avyr-format.html">Le Format</a>
+    <a href="avyr-professionnels.html">Professionnels</a>
+    <a href="avyr-partenaires.html">Partenaires</a>
+    <a href="avyr.html#contact" class="mobile-nav-avyr-cta">Contact</a>
+  </div>
   <div class="mobile-nav-foot">#SYFIR</div>
 </div>
 
@@ -132,48 +160,49 @@
 <!-- JSON-LD injecté par produit.js -->
 
 <footer>
-  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
-    <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">AVYR cocktail.</p>
+    <p class="brand-sign-mark">AVYR</p>
+    <p class="brand-sign-slogan">La marque de cocktails indépendante.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
-      <div class="footer-logo">SYFIR<span>™</span></div>
-      <p>Des instants de vie, des expériences —<br>et tout un univers pour les vivre.</p>
+      <div class="footer-logo">AVYR</div>
+      <p>Une marque indépendante de cocktails, pensée pour les lieux, les professionnels et les expériences en mouvement.</p>
+      <form class="footer-news" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+        <label for="nlEmail">Reçois les nouveautés AVYR ✦</label>
+        <div class="footer-news-row">
+          <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>
+          <button class="btn btn-solid btn-sm" type="submit">S'inscrire</button>
+        </div>
+        <p class="footer-news-msg" role="status" hidden></p>
+      </form>
     </div>
     <div class="footer-col">
-      <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">AVYR cocktail</a>
-      <a href="avyr-partenaires.html#points-de-vente">Où nous trouver</a>
-      <a href="index.html#confiance">Ils nous font confiance</a>
-      <a href="evenements.html">Événements &amp; Fêtes</a>
-      <a href="espace-pro.html">Espace pro — Smartboard</a>
+      <h3>L'espace AVYR</h3>
+      <a href="avyr-univers.html">L'univers AVYR</a>
+      <a href="saveurs.html">Cocktails et Saveurs</a>
+      <a href="avyr-format.html">Le Format</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
-      <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
-    </div>
-    <div class="footer-col">
-      <h3>SYFIR TV</h3>
-      <a href="syf-tv.html">#SYFIR</a>
-      <a href="syf-tv.html">Instagram</a>
-      <a href="syf-tv.html">TikTok</a>
+      <h3>Professionnels</h3>
+      <a href="avyr-professionnels.html">Professionnels</a>
+      <a href="avyr-partenaires.html">Partenaires</a>
+      <a href="avyr.html#contact">Contact</a>
     </div>
     <div class="footer-col">
       <h3>Légal</h3>
-      <a href="faq.html">FAQ</a>
       <a href="mentions-legales.html">Mentions légales</a>
       <a href="cgv.html">CGV</a>
       <a href="confidentialite.html">Confidentialité</a>
     </div>
+    <div class="footer-col">
+      <h3>Ailleurs</h3>
+      <a href="partenaires.html">Découvrir l'écosystème SYFIR →</a>
+    </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 SYFIR. Tous droits réservés.</p>
+    <p>© 2026 AVYR. Tous droits réservés.</p>
     <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>

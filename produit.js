@@ -19,22 +19,22 @@
   if (!p) {
     if (notFound) notFound.hidden = false;
     const t = document.getElementById('pageTitle');
-    if (t) t.textContent = 'Signature introuvable — SYFIR';
+    if (t) t.textContent = 'Signature introuvable — AVYR';
     return;
   }
 
   // URL de base réellement contrôlée (GitHub Pages) ; basculer vers syfir.fr une fois acheté
   const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
   const cleanName = p.name.replace(/™/g, '').trim();
-  const shareText = `${cleanName} — ${p.notes}. AVYR cocktail, SYFIR.`;
+  const shareText = `${cleanName} — ${p.notes}. AVYR cocktail.`;
   // Image absolue déterministe (URL canonique contrôlée), indépendante de l'hôte d'accès
   const absImg = `${CANON_BASE}/${p.ogImage}`;
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
-  document.getElementById('pageTitle').textContent = `${cleanName} — AVYR cocktail, SYFIR`;
+  document.getElementById('pageTitle').textContent = `${cleanName} — AVYR cocktail`;
   setAttr('#metaDesc', 'content', `${p.desc}`);
-  setAttr('#ogTitle', 'content', `${cleanName} — SYFIR`);
+  setAttr('#ogTitle', 'content', `${cleanName} — AVYR`);
   setAttr('#ogDesc', 'content', shareText);
   setAttr('#ogImage', 'content', p.ogImage);
   setAttr('#twImage', 'content', p.ogImage);
@@ -194,7 +194,7 @@
     clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3200);
   };
   $('#pdShare')?.addEventListener('click', async () => {
-    const data = { title: `SYFIR — ${cleanName}`, text: shareText, url: location.href };
+    const data = { title: `${cleanName} — AVYR`, text: shareText, url: location.href };
     if (navigator.share) {
       try { await navigator.share(data); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
