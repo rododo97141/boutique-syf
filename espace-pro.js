@@ -232,7 +232,7 @@
 
     $('#orderForm')?.addEventListener('submit', e => {
       e.preventDefault();
-      const product = orderModal.dataset.product || 'SYFIR';
+      const product = orderModal.dataset.product || 'AVYR';
       const qty = Math.max(1, parseInt($('#orderQty').value, 10) || 1);
       const place = $('#orderPlace').value.trim();
       const city = $('#orderCity').value.trim();
@@ -240,8 +240,8 @@
       const orders = readOrders();
       orders.push({ product, qty, place, city, date: dayKey });
       try { localStorage.setItem('syfir-orders', JSON.stringify(orders)); } catch { /* stockage indisponible */ }
-      // Le formulaire de contact vit sur partenaires.html — on transmet l'intention (distributeur) et on redirige.
-      try { sessionStorage.setItem('syfir-partner-intent', JSON.stringify({ type: 'distributeur' })); } catch (e) { /* stockage indisponible */ }
+      // Le formulaire de contact vit sur partenaires.html — on transmet l'intention (distributeur AVYR) et on redirige.
+      try { sessionStorage.setItem('syfir-partner-intent', JSON.stringify({ type: 'distributeur-avyr' })); } catch (e) { /* stockage indisponible */ }
       location.href = 'partenaires.html#partnerForm';
       closeOrder();
       renderOrders();
