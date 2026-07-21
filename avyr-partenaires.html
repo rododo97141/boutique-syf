@@ -161,17 +161,47 @@
     <p class="section-intro intro-light reveal d2">Le réseau de points de vente AVYR se construit — bars, plages, rooftops.</p>
 
     <!-- ============================================================
-         R80.1 final : les données du localisateur (carte, filtres,
-         grille de 8 lieux) ont été retirées du HTML publié — aucune
-         n'était un partenaire réel validé. Conservées à des fins de
-         développement dans dev/demo-data-partenaires.md (non chargé en
-         production, ne pas y ajouter de lien depuis une page publiée).
+         R81.5 : premier point de vente AVYR réel (accord explicite du
+         restaurateur). Les 8 lieux de démonstration restent uniquement
+         dans dev/demo-data-partenaires.md, non réintégrés ici.
+         Pin positionné par approximation linéaire des coordonnées GPS
+         (16.011229, -61.671204) sur cette carte SVG stylisée — la carte
+         n'est pas une projection géographique exacte, donc ce placement
+         est une estimation visuelle raisonnable, pas un pointage
+         cartographique certifié. À vérifier visuellement par le
+         fondateur si une précision plus fine est nécessaire.
+         Pas d'adresse de rue (sources publiques divergentes) : seule la
+         commune et un repère public sont affichés, conformément à la
+         consigne. Mode de service limité à « Sur place » — à valider.
     ============================================================ -->
+    <figure class="locator-map reveal d2" id="locatorMap">
+      <svg viewBox="0 0 760 470" role="group" aria-labelledby="mapTitle mapDesc" class="gwada-svg">
+        <title id="mapTitle">Carte de la Guadeloupe</title>
+        <desc id="mapDesc">Notre premier point de vente partenaire AVYR, à Gourbeyre en Basse-Terre.</desc>
+        <path class="gwada-land" d="M400 235 C380 208 358 174 320 158 C284 143 248 139 218 150 C177 165 148 197 139 236 C129 281 150 331 191 361 C221 383 256 386 277 365 C301 341 300 300 331 275 C361 250 388 249 400 235 Z"/>
+        <path class="gwada-land" d="M400 235 C405 196 441 161 501 150 C561 142 631 151 666 181 C691 206 680 241 650 259 C610 283 560 285 520 280 C480 275 445 285 425 275 C405 264 398 250 400 235 Z"/>
+        <circle class="gwada-isle" cx="690" cy="405" r="20"/>
+        <circle class="gwada-isle" cx="470" cy="425" r="9"/>
+        <circle class="gwada-isle" cx="430" cy="440" r="6"/>
 
-    <!-- État public par défaut tant qu'aucun partenaire réel n'est confirmé -->
-    <div class="state-empty reveal d2">
-      <span class="state-empty-mark" aria-hidden="true">✦</span>
-      <p class="state-empty-text">Les premiers points partenaires AVYR seront prochainement annoncés.</p>
+        <g class="map-pin" data-type="restaurant" data-target="place-bassinbleu" tabindex="0" role="button" aria-label="Les Délices du Bassin Bleu, restaurant à Gourbeyre" transform="translate(226 322)">
+          <circle class="pin-hit" cy="-12" r="22"/><g class="pin-art"><path class="pin-mark" d="M0 0 C-6 -9 -9 -13 -9 -17 A9 9 0 1 1 9 -17 C9 -13 6 -9 0 0 Z"/><circle class="pin-core" cy="-17" r="3.2"/></g><text class="pin-label pin-label-start" y="-34">Les Délices du Bassin Bleu</text>
+        </g>
+      </svg>
+      <figcaption class="locator-hint">Touche le pin pour voir le lieu.</figcaption>
+    </figure>
+
+    <div class="places-grid" id="placesGrid">
+      <article class="place-card place-card-real" id="place-bassinbleu" data-type="restaurant">
+        <div class="place-body">
+          <span class="place-type">Restaurant</span>
+          <h3>Les Délices du Bassin Bleu</h3>
+          <p class="place-loc">📍 Gourbeyre — à l'entrée du sentier du Bassin Bleu</p>
+          <div class="place-serve"><span>🥂 Sur place</span></div>
+          <p class="place-note">Cocktails AVYR servis sur place.</p>
+          <a class="place-insta" href="https://www.instagram.com/les_delices_du_bassin_bleu/" target="_blank" rel="noopener">Instagram →</a>
+        </div>
+      </article>
     </div>
 
     <p class="places-cta reveal">Tu veux proposer AVYR dans ton établissement ? <a href="partenaires.html?type=distributeur-avyr#partnerForm">Deviens partenaire →</a></p>
