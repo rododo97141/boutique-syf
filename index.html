@@ -307,41 +307,11 @@
   </div>
 
   <!-- ============================================================
-       R80.2 : aucun des logos ci-dessous n'est un partenaire réel
-       validé (données de démonstration). Filtres + marquee restent
-       disponibles pour le développement mais masqués par défaut en
-       public. Pour réactiver : retirer l'attribut « hidden » une fois
-       de vrais partenaires confirmés y figurent.
+       R80.1 final : les données des logos (filtres, bandeau défilant)
+       ont été retirées du HTML publié — aucun n'était un partenaire
+       réel validé. Conservées à des fins de développement dans
+       dev/demo-data-partenaires.md (non chargé en production).
   ============================================================ -->
-  <div class="confiance-demo" hidden>
-  <div class="container">
-    <div class="filter-chips logos-chips reveal d2" id="logoChips">
-      <button class="chip active" data-cat="tous">Tous</button>
-      <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
-      <button class="chip" data-cat="hotel">Hôtels</button>
-      <button class="chip" data-cat="beach">Beach clubs</button>
-      <button class="chip" data-cat="media">Médias</button>
-      <button class="chip" data-cat="distrib">Distributeurs</button>
-    </div>
-  </div>
-
-  <!-- Bandeau défilant (pause au survol) -->
-  <div class="logos-marquee reveal d3" id="logosMarquee">
-    <div class="logos-track" id="logosTrack">
-      <a class="logo-tile" data-cat="beach" href="avyr-partenaires.html#points-de-vente" title="Le Ti' Sable — Beach club"><span>Le Ti' Sable</span><small>Beach club</small></a>
-      <a class="logo-tile" data-cat="bar" href="avyr-partenaires.html#points-de-vente" title="Sunset Lounge — Rooftop bar"><span>Sunset Lounge</span><small>Rooftop</small></a>
-      <a class="logo-tile" data-cat="hotel" href="avyr-partenaires.html#points-de-vente" title="Habitation Créole — Hôtel"><span>Habitation Créole</span><small>Hôtel</small></a>
-      <a class="logo-tile" data-cat="beach" href="avyr-partenaires.html#points-de-vente" title="La Casa Coco — Bar de plage"><span>La Casa Coco</span><small>Bar de plage</small></a>
-      <a class="logo-tile" data-cat="media" href="#confiance" title="Tropik FM — Radio partenaire"><span>Tropik FM</span><small>Radio</small></a>
-      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Antilles Distrib — Distributeur"><span>Antilles Distrib</span><small>Distributeur</small></a>
-      <a class="logo-tile" data-cat="bar" href="avyr-partenaires.html#points-de-vente" title="Blue Lagoon — Beach club"><span>Blue Lagoon</span><small>Club</small></a>
-      <a class="logo-tile" data-cat="hotel" href="avyr-partenaires.html#points-de-vente" title="Palm Resort — Hôtel"><span>Palm Resort</span><small>Hôtel</small></a>
-      <a class="logo-tile" data-cat="media" href="#confiance" title="Karaïb Mag — Magazine"><span>Karaïb Mag</span><small>Magazine</small></a>
-      <a class="logo-tile" data-cat="distrib" href="#confiance" title="Sun Logistics — Distribution"><span>Sun Logistics</span><small>Distribution</small></a>
-    </div>
-  </div>
-  <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
-  </div>
 
   <div class="state-empty reveal d2">
     <span class="state-empty-mark" aria-hidden="true">✦</span>
