@@ -303,7 +303,18 @@
 <section id="confiance" class="section section-dark">
   <div class="container">
     <h3 class="trust-title reveal">Ils nous font confiance — <em>le réseau SYFIR</em></h3>
-    <p class="trust-intro reveal d1">Bars, hôtels, beach clubs, médias et distributeurs : ils servent et soutiennent SYFIR. Filtre par catégorie, clique pour découvrir.</p>
+    <p class="trust-intro reveal d1">Bars, hôtels, beach clubs, médias et distributeurs : le réseau de partenaires SYFIR se construit.</p>
+  </div>
+
+  <!-- ============================================================
+       R80.2 : aucun des logos ci-dessous n'est un partenaire réel
+       validé (données de démonstration). Filtres + marquee restent
+       disponibles pour le développement mais masqués par défaut en
+       public. Pour réactiver : retirer l'attribut « hidden » une fois
+       de vrais partenaires confirmés y figurent.
+  ============================================================ -->
+  <div class="confiance-demo" hidden>
+  <div class="container">
     <div class="filter-chips logos-chips reveal d2" id="logoChips">
       <button class="chip active" data-cat="tous">Tous</button>
       <button class="chip" data-cat="bar">Bars &amp; Clubs</button>
@@ -330,6 +341,12 @@
     </div>
   </div>
   <p class="no-results logos-empty container" id="noLogos" hidden>Aucun partenaire dans cette catégorie pour l'instant. ✦</p>
+  </div>
+
+  <div class="state-empty reveal d2">
+    <span class="state-empty-mark" aria-hidden="true">✦</span>
+    <p class="state-empty-text">Le réseau de partenaires SYFIR sera bientôt présenté ici.</p>
+  </div>
 </section>
 
 <!-- ============================================================

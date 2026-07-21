@@ -1347,6 +1347,12 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .event-organizer { font-size: .74rem; color: var(--grey); margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(var(--cream-rgb), .1); }
 .no-results { text-align: center; color: var(--grey); font-family: var(--serif); font-style: italic; font-size: 1.1rem; padding: 40px 0; }
 
+/* R80.1/R80.2 : état vide premium — remplace des données de démonstration
+   masquées, tant qu'aucune donnée réelle n'est confirmée. */
+.state-empty { text-align: center; padding: 56px 24px; }
+.state-empty-mark { display: block; font-family: var(--display); font-weight: 800; font-size: 1.5rem; line-height: 1; margin-bottom: 16px; background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.state-empty-text { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--grey); max-width: 46ch; margin: 0 auto; }
+
 /* Espace pro */
 .section-pro { background: linear-gradient(180deg, var(--ocean-deep), var(--ocean-night)); }
 .pro-layout { display: grid; gap: 36px; }
@@ -2874,6 +2880,7 @@ html[data-theme="light"] .places-cta { color: var(--taupe); }
 html[data-theme="light"] .places-cta a { color: var(--gold-deep); }
 html[data-theme="light"] .places-cta a:hover { color: var(--sunset); }
 html[data-theme="light"] .no-results { color: var(--taupe-soft); }
+html[data-theme="light"] .state-empty-text { color: var(--taupe-soft); }
 html[data-theme="light"] .chip { border-color: rgba(var(--ink-warm-rgb), .25); color: rgba(var(--ink-warm-rgb), .7); }
 html[data-theme="light"] .chip:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
 html[data-theme="light"] .chip.active { color: var(--ink); }
