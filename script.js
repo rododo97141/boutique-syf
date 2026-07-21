@@ -64,7 +64,10 @@
   };
 
   /* ===== 01b. ENDPOINT DES FORMULAIRES (newsletter + partenaire) =====
-     Vide = mode démo : confirmation locale, AUCUN envoi réseau.
+     Vide = mode démo : transmission désactivée, AUCUN envoi réseau, AUCUN
+     stockage local automatique des données saisies (R80.1 final). Les
+     valeurs restent uniquement dans les champs du formulaire, le temps de
+     la session — rien n'est écrit dans localStorage.
      Pour brancher un vrai envoi, renseigner FORM_ENDPOINT :
        • Formspree (le plus simple, zéro backend) :
            'https://formspree.io/f/xxxxxxxx'  (crée le form sur formspree.io)
@@ -72,27 +75,14 @@
      Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
      invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
   const FORM_ENDPOINT = '';
-  // Contact réel PUBLIC (présent sur le site) : sert de repli honnête tant que
-  // la transmission en ligne n'est pas branchée. Rien d'inventé.
-  // Message VRAI en mode démo : ne jamais laisser croire qu'une donnée a été
-  // transmise tant que FORM_ENDPOINT est vide (R29-1). La saisie est conservée
-  // en local pour ne rien perdre.
-  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt.';
+  // Message VRAI tant que FORM_ENDPOINT est vide : ne jamais laisser croire
+  // qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1 final —
+  // plus de sauvegarde locale automatique, les champs gardent juste la saisie).
+  const DEMO_FORM_MSG = 'L\'envoi en ligne n\'est pas encore actif. Tes informations restent dans ce formulaire, sur cet écran — rien n\'est enregistré ni transmis.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  // Conserve toute soumission en mode démo (aucun envoi réseau possible) pour
-  // ne rien perdre : historique local horodaté, plafonné à 50 entrées.
-  const persistDemoSubmission = data => {
-    try {
-      const key = 'syfir-form-submissions';
-      const log = JSON.parse(localStorage.getItem(key)) || [];
-      const { _gotcha, ...clean } = data || {};
-      log.push({ ...clean, at: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(log.slice(-50)));
-    } catch { /* stockage indisponible : on n'échoue pas pour autant */ }
-  };
   const submitForm = async data => {
     if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
-    if (!FORM_ENDPOINT) { persistDemoSubmission(data); return { ok: true, demo: true }; }  // mode démo : garde en local, aucun envoi
+    if (!FORM_ENDPOINT) return { ok: false, demo: true };     // mode démo : transmission désactivée, aucun stockage
     try {
       const r = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -1071,17 +1061,17 @@ if (placeModal && placesGridEl) {
       if (errorMsg) errorMsg.hidden = true;
       const res = await submitForm(data);
       submitBtn.disabled = false; submitBtn.textContent = label;
-      if (res.ok) {
+      if (res.demo) {
+        // Transmission désactivée (R80.1 final) : rien n'est stocké ni envoyé —
+        // la saisie reste visible dans le formulaire, pas de reset.
+        success.textContent = '✦ ' + DEMO_FORM_MSG;
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (res.ok) {
         partnerForm.reset();
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
-        // Mode démo : message VRAI (rien n'a été transmis) + contact réel
-        if (res.demo) {
-          success.textContent = '✦ ' + DEMO_FORM_MSG;
-          showToast('✦ Demande enregistrée sur cet appareil');
-        } else {
-          success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
-          showToast('✦ Demande envoyée à l\'équipe SYFIR !');
-        }
+        success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
+        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
         success.hidden = false;
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else if (errorMsg) {
@@ -1440,11 +1430,12 @@ if (placeModal && placesGridEl) {
       if (btn) { btn.disabled = true; btn.textContent = '…'; }
       const res = await submitForm({ email, _gotcha: hp, source: 'newsletter' });
       if (btn) { btn.disabled = false; btn.textContent = label; }
-      if (res.ok) {
-        // Mode démo : on n'a rien transmis — message vrai, saisie gardée en local
-        msg.textContent = res.demo
-          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt.'
-          : '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
+      if (res.demo) {
+        // Transmission désactivée (R80.1 final) : rien n'est stocké ni envoyé —
+        // l'email reste visible dans le champ, pas de reset.
+        msg.textContent = '✦ ' + DEMO_FORM_MSG;
+      } else if (res.ok) {
+        msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
         form.reset();
       } else {
         msg.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
