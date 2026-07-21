@@ -2751,7 +2751,8 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
   display: flex; flex-direction: column; gap: 6px; padding: 26px 22px; border-radius: var(--radius);
   background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--gold-rgb), .2); text-align: center;
 }
-.fact-num { font-family: var(--display); font-weight: 800; font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1;
+.fact-num { font-family: var(--display); font-weight: 800; font-size: clamp(1.15rem, 3.4vw, 2.1rem); line-height: 1.1;
+  overflow-wrap: break-word;
   background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .fact-label { font-family: var(--body); font-size: .82rem; color: rgba(var(--cream-rgb), .7); letter-spacing: .02em; }
 .maison-h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1.1rem; letter-spacing: .04em; margin: 42px 0 14px; }
