@@ -158,8 +158,17 @@
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Où trouver AVYR</p>
     <h2 class="h2 reveal d1">Les cocktails AVYR<br>chez <em>nos partenaires</em>.</h2>
-    <p class="section-intro intro-light reveal d2">Les cocktails AVYR se trouvent là où ça se passe. Bars, plages, rooftops — filtre, trouve, goûte.</p>
+    <p class="section-intro intro-light reveal d2">Le réseau de points de vente AVYR se construit — bars, plages, rooftops.</p>
 
+    <!-- ============================================================
+         R80.1 : le localisateur (carte + filtres + grille de lieux) reste
+         disponible pour le développement mais n'est plus affiché par défaut
+         en public — aucun des 8 lieux n'est un partenaire réel validé.
+         Pour réactiver : retirer l'attribut « hidden » ci-dessous une fois
+         de vrais partenaires confirmés y figurent (et retirer les badges
+         « Exemple » au fil de leur validation réelle).
+    ============================================================ -->
+    <div class="locator-demo" hidden>
     <!-- Store locator : carte Guadeloupe custom SVG (zéro dépendance) -->
     <figure class="locator-map reveal d2" id="locatorMap">
       <svg viewBox="0 0 760 470" role="group" aria-labelledby="mapTitle mapDesc" class="gwada-svg">
@@ -255,9 +264,15 @@
 
     </div>
     <p class="no-results" id="noPlaces" hidden>Aucun partenaire dans cette catégorie pour le moment — la famille AVYR s'agrandit chaque mois. ✦</p>
+    </div>
+
+    <!-- État public par défaut tant qu'aucun partenaire réel n'est confirmé -->
+    <div class="state-empty reveal d2">
+      <span class="state-empty-mark" aria-hidden="true">✦</span>
+      <p class="state-empty-text">Les premiers points partenaires AVYR seront prochainement annoncés.</p>
+    </div>
 
     <p class="places-cta reveal">Tu veux proposer AVYR dans ton établissement ? <a href="partenaires.html?type=distributeur-avyr#partnerForm">Deviens partenaire →</a></p>
-    <p class="legal-note reveal">Les lieux marqués « Exemple » illustrent le fonctionnement du localisateur — la liste réelle des points de vente AVYR s'enrichit à mesure que le réseau se déploie.</p>
   </div>
 </section>
 
