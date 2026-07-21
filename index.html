@@ -151,11 +151,16 @@
 <main id="main">
 
 <!-- ============================================================
-     HERO — LE COCKTAIL LIBRE™
+     HERO — SYFIR, PLATEFORME D'ÉVÉNEMENTS ET DE RENCONTRES
+     R81 (reconstruction) : SYFIR n'est plus présenté comme une marque de
+     cocktails. Le premier écran parle événementiel, billetterie, artistes,
+     écosystème de partenaires — AVYR est une marque partenaire parmi
+     d'autres, présentée plus bas (#saveurs-teaser), jamais ici.
 ============================================================ -->
 <!-- ============================================================
-     HERO CARROUSEL PLEIN ÉCRAN — slide 1 = branding (ancien hero),
-     puis événement vedette, pochette Planteur, SYFIR TV. Auto-rotation 6 s.
+     HERO CARROUSEL PLEIN ÉCRAN — slide 1 = identité SYFIR,
+     puis événements/billetterie, artistes, écosystème, SYFIR TV.
+     Auto-rotation 6 s.
 ============================================================ -->
 <section class="home-hero" aria-label="À la une — SYFIR">
   <div class="home-hero-track" id="homeHero">
@@ -164,45 +169,21 @@
   <div class="hero-veil"></div>
   <div class="gold-sweep"></div>
 
-  <!-- Fraîcheur visible : éclaboussure de jus organique derrière
-       le wordmark. Cercles fondus par un filtre « gooey », dégradé
-       sunset→passion→or, opacité maîtrisée. Décoratif : aria-hidden. -->
-  <svg class="hero-splash" viewBox="0 0 520 320" aria-hidden="true" focusable="false">
-    <defs>
-      <radialGradient id="syfSplashGrad" cx="42%" cy="34%" r="72%">
-        <stop offset="0%" stop-color="var(--passion)"/>
-        <stop offset="52%" stop-color="var(--sunset)"/>
-        <stop offset="100%" stop-color="var(--gold)"/>
-      </radialGradient>
-      <filter id="syfSplashGoo"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="b"/>
-        <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"/></filter>
-    </defs>
-    <g fill="url(#syfSplashGrad)" filter="url(#syfSplashGoo)">
-      <ellipse cx="262" cy="164" rx="150" ry="88"/>
-      <circle cx="140" cy="150" r="66"/><circle cx="392" cy="152" r="72"/>
-      <circle cx="250" cy="96" r="54"/><circle cx="300" cy="228" r="54"/>
-      <circle cx="188" cy="220" r="48"/><circle cx="432" cy="200" r="36"/>
-      <circle cx="98" cy="180" r="32"/>
-      <circle cx="52" cy="96" r="15"/><circle cx="480" cy="92" r="13"/>
-      <circle cx="250" cy="300" r="11"/><circle cx="500" cy="252" r="8"/>
-    </g>
-  </svg>
-
   <!-- Premier écran volontairement minimal (jugement en 50 ms) :
-       UN message (le slogan) + UN CTA. Le kicker et le 2e bouton sont
-       retirés — la billetterie a sa place dans la nav et plus bas. -->
+       UN message (le slogan) + deux CTA (billetterie / écosystème). -->
   <div class="hero-inner">
     <h1 class="hero-title">
       <span class="hero-line"><span>SYFIR</span></span>
     </h1>
-    <p class="hero-sub reveal d2">LE COCKTAIL LIBRE<sup>™</sup></p>
+    <p class="hero-sub reveal d2">ÉVÉNEMENTS · ARTISTES · RENCONTRES</p>
     <p class="hero-tagline"><span>Goûte</span> <span>à</span> <span>la</span> <span>liberté.</span></p>
     <div class="hero-cta reveal d4">
-      <a href="#saveurs-teaser" class="btn btn-gradient btn-lg">Entrer dans l'univers</a>
+      <a href="evenements.html" class="btn btn-gradient btn-lg">Découvrir les événements</a>
+      <a href="partenaires.html" class="btn btn-ghost btn-lg">Explorer l'écosystème</a>
     </div>
   </div>
 
-  <a href="#marque" class="scroll-hint" aria-label="Défiler">
+  <a href="#prochains" class="scroll-hint" aria-label="Défiler">
     <span class="scroll-hint-line"></span>
     <span>Explorer</span>
   </a>

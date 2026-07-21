@@ -3130,17 +3130,10 @@ html[data-theme="light"] .badge-soon { background: rgba(var(--gold-rgb), .12); c
 html[data-theme="light"] .pro-status.st-past { background: rgba(var(--ink-warm-rgb), .08); color: var(--taupe-soft); }
 html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), .3); }
 
-/* ===== 39. FRAÎCHEUR VISIBLE — éclaboussures & gouttelettes (lot 22 D) =====
+/* ===== 39. FRAÎCHEUR VISIBLE — gouttelettes (lot 22 D) =====
    Science du lot : complexité visuelle BASSE, température émotionnelle HAUTE.
    La fraîcheur en accents ciblés (Fukasawa), jamais en surcharge.
    Tout est décoratif, désactivé sous prefers-reduced-motion. */
-.hero-splash {
-  position: absolute; z-index: 1; pointer-events: none;
-  left: 50%; top: 46%; transform: translate(-50%, -50%);
-  width: min(760px, 82vw); aspect-ratio: 520 / 320;
-  opacity: .26; mix-blend-mode: screen;
-}
-html[data-theme="light"] .hero-splash { opacity: .34; mix-blend-mode: multiply; }
 
 /* Condensation : gouttelettes de froid sur le visuel des cartes cocktail —
    discrètes au repos, un peu plus vives au survol (le froid qui donne soif) */
