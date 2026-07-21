@@ -101,7 +101,7 @@
           <div><strong>🛍️ À emporter</strong><small>Scellée — elle te suit partout</small></div>
         </div>
       </div>
-      <a class="btn btn-solid btn-full pd-where" href="index.html#ou-trouver">Où le trouver</a>
+      <a class="btn btn-solid btn-full pd-where" href="avyr-partenaires.html#points-de-vente">Où le trouver</a>
     </section>`;
 
   // --- FAQ produit inline (accordéon natif, identique à la Collection) ---
