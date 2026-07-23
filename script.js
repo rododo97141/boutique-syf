@@ -509,7 +509,7 @@
       <div class="age-box">
         <p class="age-logo">SYFIR<span>™</span></p>
         <h2 id="ageTitle">Avez-vous 18 ans ?</h2>
-        <p class="age-sub">AVYR est une marque de cocktails alcoolisés, servie lors des événements SYFIR.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
+        <p class="age-sub">SYFIR rassemble des soirées, festivals et expériences où de l'alcool peut être proposé par les lieux et marques partenaires.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
         <div class="age-actions">
           <button class="btn btn-solid" id="ageYes" type="button">Oui, j'ai 18 ans ou plus</button>
           <button class="btn btn-ghost" id="ageNo" type="button">Non, pas encore</button>
