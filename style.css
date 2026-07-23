@@ -2818,9 +2818,10 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .official-card h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; margin: 0 0 4px; }
 .official-role { font-size: .84rem; color: rgba(var(--cream-rgb), .66); margin: 0 0 6px; }
 .official-note { font-size: .84rem; color: rgba(var(--cream-rgb), .78); margin: 0 0 10px; }
-/* R81.6 : mention nommée d'un partenaire réel dans une carte-catégorie
-   générique, sans retirer l'exemple d'entrée existant. */
-.univers-note { grid-column: 1 / -1; font-size: .86rem; color: rgba(var(--cream-rgb), .78); margin: -6px 0 0; }
+/* R81.6 : mention nommée d'un partenaire réel, rattachée à sa carte-catégorie
+   (eco-bars) plutôt qu'en pleine largeur — R81.7 point 2. */
+.univers-card-link { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
+.univers-note { font-size: .86rem; color: rgba(var(--cream-rgb), .78); margin: 8px 0 0; padding-top: 10px; border-top: 1px dashed rgba(var(--cream-rgb), .18); }
 .univers-note strong { font-weight: 700; }
 .official-link { font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast); }
 .official-link:hover { color: var(--passion); }
@@ -2834,6 +2835,11 @@ html[data-theme="light"] .official-card { background: var(--surface-light); bord
 html[data-theme="light"] .official-role { color: var(--taupe); }
 html[data-theme="light"] .official-link { color: var(--sunset-ink); }
 html[data-theme="light"] .official-more { color: var(--taupe); }
+/* R81.7 : .official-note et .univers-note n'avaient pas de surcharge thème
+   clair (contrairement à .place-note) — même mécanisme (var(--taupe)) que
+   .place-note, contraste vérifié par calcul (voir rapport). */
+html[data-theme="light"] .official-note { color: var(--taupe); }
+html[data-theme="light"] .univers-note { color: var(--taupe); border-top-color: rgba(var(--gold-rgb), .25); }
 @media (prefers-reduced-motion: reduce) { .univers-card { transition: none; } }
 html[data-theme="light"] .fact-card, html[data-theme="light"] .univers-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
 html[data-theme="light"] .fact-label, html[data-theme="light"] .univers-card small { color: var(--grey-ink); }
