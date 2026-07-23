@@ -31,7 +31,7 @@
     {
       id: 'solaris', name: 'DJ Solaris', role: 'House tropicale · Afro', badge: 'DJ résident',
       genres: ['House tropicale', 'Afro', 'Sunset sets'], photo: 'images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg', demo: true, dates: [4],
-      bio: "Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend — une signature SYFIR depuis trois saisons."
+      bio: "Figure des sunsets antillais, DJ Solaris fait dialoguer house tropicale et rythmes afro. Ses sets montent avec le soleil qui descend."
     },
     {
       id: 'maya', name: 'Maya Lumière', role: 'Soul · Pop solaire', badge: 'Artiste',
