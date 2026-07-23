@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AVYR — site autonome. URL réellement contrôlée (sous-dossier du
+     déploiement GitHub Pages actif) tant que le domaine propre n'est pas
+     acheté — cf. avyr-site/README.md. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/index.html</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/univers.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/collection.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/produit.html?id=planteur</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/produit.html?id=coral</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/produit.html?id=golden</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/format.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/professionnels.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/points-de-vente.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/mentions-legales.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/cgv.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/avyr-site/confidentialite.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+</urlset>

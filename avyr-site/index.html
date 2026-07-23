@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AVYR, marque de cocktails indépendante. Trois recettes signature en pochette scellée, servies au verre ou à emporter. Espace pro pour bars, restaurants et clubs.">
+<meta property="og:title" content="AVYR — Cocktails pour les professionnels">
+<meta property="og:description" content="Une marque indépendante de cocktails, pensée pour les lieux et les professionnels. Découvre l'univers, le format et l'espace pro AVYR.">
+<meta property="og:image" content="images/produits/syfir-planteur-marbre.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="AVYR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="images/produits/syfir-planteur-marbre.jpg">
+<title>AVYR — Cocktails pour les professionnels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<!-- Thème appliqué avant le rendu : auto = clair le jour (7h-19h), sombre la nuit -->
+<script>
+(function () {
+  var pref = localStorage.getItem('syfir-theme') || 'auto';
+  var h = new Date().getHours();
+  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
+  document.documentElement.setAttribute('data-theme', mode);
+  document.documentElement.setAttribute('data-theme-pref', pref);
+})();
+</script>
+<!-- Site autonome AVYR — URL provisoire tant que le domaine officiel n'est
+     pas encore acheté (cf. avyr-site/README.md). -->
+<link rel="canonical" href="https://rododo97141.github.io/boutique-syf/avyr-site/index.html">
+<link rel="icon" type="image/svg+xml" href="images/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">
+<meta name="theme-color" content="#221A10">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+<div class="ambience" aria-hidden="true"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo" aria-label="AVYR — accueil">AVYR</a>
+  <div class="nav-pill">
+    <ul class="nav-links">
+      <li class="nav-item"><a href="index.html" class="nav-link active" data-nav="accueil">Accueil</a></li>
+      <li class="nav-item"><a href="univers.html" class="nav-link" data-nav="univers">L'univers</a></li>
+      <li class="nav-item"><a href="collection.html" class="nav-link" data-nav="collection">Collection</a></li>
+      <li class="nav-item"><a href="format.html" class="nav-link" data-nav="format">Le Format</a></li>
+      <li class="nav-item"><a href="professionnels.html" class="nav-link" data-nav="pro">Professionnels</a></li>
+      <li class="nav-item"><a href="points-de-vente.html" class="nav-link" data-nav="points">Points de vente</a></li>
+    </ul>
+  </div>
+  <div class="nav-actions">
+    <div class="theme-switch" id="themeSwitch">
+      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
+        <p class="theme-menu-title">Apparence</p>
+        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
+        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
+      </div>
+    </div>
+    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
+  <a href="index.html">Accueil</a>
+  <a href="univers.html">L'univers</a>
+  <a href="collection.html">Collection</a>
+  <a href="format.html">Le Format</a>
+  <a href="professionnels.html">Professionnels</a>
+  <a href="points-de-vente.html">Points de vente</a>
+  <div class="mobile-nav-util">
+    <a href="../partenaires.html" target="_blank" rel="noopener">Écosystème SYFIR ↗</a>
+  </div>
+  <div class="mobile-nav-foot">#AVYR</div>
+</div>
+
+<main id="main">
+
+<header class="page-hero" id="haut">
+  <div class="container">
+    <p class="eyebrow reveal">Marque partenaire indépendante</p>
+    <h1 class="h2 reveal d1">AVYR<br><em>Cocktails pour les professionnels</em></h1>
+    <p class="section-intro reveal d2">Une marque indépendante de cocktails, pensée pour les lieux, les professionnels et les expériences en mouvement. AVYR développe son propre site, distinct de tout espace événementiel partenaire.</p>
+  </div>
+</header>
+
+<section id="explorer" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Explorer</p>
+    <h2 class="h2 reveal d1">L'espace <em>AVYR</em></h2>
+    <div class="maison-univers reveal d2" aria-label="Explorer l'espace AVYR">
+      <a class="univers-card" href="univers.html"><span class="univers-num" aria-hidden="true">01</span><strong>L'univers AVYR</strong><small>Histoire, savoir-faire et composition</small></a>
+      <a class="univers-card" href="collection.html"><span class="univers-num" aria-hidden="true">02</span><strong>Collection</strong><small>Les trois recettes signature</small></a>
+      <a class="univers-card" href="format.html"><span class="univers-num" aria-hidden="true">03</span><strong>Le Format</strong><small>La pochette scellée, en détail</small></a>
+      <a class="univers-card" href="professionnels.html"><span class="univers-num" aria-hidden="true">04</span><strong>Professionnels</strong><small>Bars, restaurants, clubs, revendeurs</small></a>
+      <a class="univers-card" href="points-de-vente.html"><span class="univers-num" aria-hidden="true">05</span><strong>Points de vente</strong><small>Où trouver AVYR</small></a>
+    </div>
+    <p class="legal-note reveal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs.</p>
+  </div>
+</section>
+
+<section id="contact" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Contact</p>
+    <h2 class="h2 reveal d1">Tu es un <em>professionnel</em> ?</h2>
+    <p class="section-intro intro-light reveal d2">Bar, restaurant, club, revendeur ou distributeur : écris-nous, on revient vers toi.</p>
+    <form class="avyr-contact-form reveal d3" novalidate>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+      <div class="form-field">
+        <label for="cName">Ton nom</label>
+        <input type="text" id="cName" name="name" required>
+      </div>
+      <div class="form-field">
+        <label for="cEmail">Ton email</label>
+        <input type="email" id="cEmail" name="email" autocomplete="email" required>
+      </div>
+      <div class="form-field">
+        <label for="cMsg">Ton établissement, ta demande</label>
+        <textarea id="cMsg" name="message" rows="4"></textarea>
+      </div>
+      <button class="btn btn-solid btn-lg" type="submit">Envoyer →</button>
+      <p class="avyr-contact-msg" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="brand-sign">
+    <p class="brand-sign-mark">AVYR</p>
+    <p class="brand-sign-slogan">La marque de cocktails indépendante.</p>
+  </div>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">AVYR</div>
+      <p>Une marque indépendante de cocktails, pensée pour les lieux, les professionnels et les expériences en mouvement.</p>
+      <form class="footer-news" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+        <label for="nlEmail">Reçois les nouveautés AVYR ✦</label>
+        <div class="footer-news-row">
+          <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>
+          <button class="btn btn-solid btn-sm" type="submit">S'inscrire</button>
+        </div>
+        <p class="footer-news-msg" role="status" hidden></p>
+      </form>
+    </div>
+    <div class="footer-col">
+      <h3>L'espace AVYR</h3>
+      <a href="univers.html">L'univers</a>
+      <a href="collection.html">Collection</a>
+      <a href="format.html">Le Format</a>
+    </div>
+    <div class="footer-col">
+      <h3>Professionnels</h3>
+      <a href="professionnels.html">Professionnels</a>
+      <a href="points-de-vente.html">Points de vente</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h3>Légal</h3>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="cgv.html">CGV</a>
+      <a href="confidentialite.html">Confidentialité</a>
+    </div>
+    <div class="footer-col">
+      <h3>Ailleurs</h3>
+      <a href="../partenaires.html" target="_blank" rel="noopener">Écosystème SYFIR ↗</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AVYR. Tous droits réservés.</p>
+    <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<script src="products-data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

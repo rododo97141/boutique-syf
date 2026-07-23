@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="L'art de servir AVYR : le one-pager distributeur — formats sur place au verre ou en pochette, conservation, dosage et conseils de dégustation.">
+<meta name="robots" content="noindex">
+<title>L'art de servir AVYR — one-pager distributeur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --ocean:#071E30; --gold:#D4A017; --gold-light:#F0C84A; --sunset:#FF7A00;
+    --gold-ink:#7E5C06; --sunset-ink:#A64300;
+    --ink:#111; --cream:#FAF8F2; --grey:#5a5550;
+    --display:'Unbounded',sans-serif; --body:'Plus Jakarta Sans',sans-serif; --serif:'Fraunces',serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e8e6df;color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .toolbar{position:sticky;top:0;display:flex;gap:12px;align-items:center;justify-content:center;padding:12px;background:var(--ocean);color:var(--cream);z-index:2}
+  .toolbar p{margin:0;font-size:.86rem;opacity:.85}
+  .btn-print{font-family:var(--display);font-weight:700;font-size:.82rem;letter-spacing:.04em;border:none;cursor:pointer;
+    padding:11px 22px;border-radius:100px;color:var(--ink);
+    background:linear-gradient(120deg,var(--sunset),var(--gold-light));}
+  .sheet{
+    width:210mm;max-width:calc(100% - 24px);min-height:297mm;margin:20px auto;padding:20mm 18mm;background:var(--cream);
+    box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;
+  }
+  .sheet::before{content:'';position:absolute;inset:0;border:2px solid rgba(212,160,23,.25);margin:8mm;pointer-events:none}
+  header.head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--gold);padding-bottom:14px;gap:12px;flex-wrap:wrap}
+  .logo{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:.04em}
+  .logo b{background:linear-gradient(160deg,var(--gold-light),var(--gold) 55%,#B8860B);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sunset-ink);text-align:right}
+  h1{font-family:var(--display);font-weight:800;font-size:2rem;line-height:1.05;margin:26px 0 6px}
+  h1 i{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold-ink)}
+  .intro{color:var(--grey);max-width:60ch;margin:0 0 26px}
+  .rituals{display:grid;gap:18px}
+  .ritual{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start;padding:16px 18px;border:1px solid rgba(17,17,17,.1);border-radius:14px;background:#fff}
+  .rnum{font-family:var(--display);font-weight:800;font-size:1.8rem;color:var(--gold-ink);line-height:1}
+  .ritual h3{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:1.02rem;margin:0 0 6px}
+  .ritual p{margin:0;color:#333}
+  .tips{margin-top:24px;padding:16px 18px;border-left:3px solid var(--sunset);background:rgba(255,122,0,.06);border-radius:0 10px 10px 0}
+  .tips h4{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--sunset-ink)}
+  .tips ul{margin:0;padding-left:1.1em;color:#333}
+  footer.foot{position:absolute;left:18mm;right:18mm;bottom:16mm;border-top:1px solid rgba(17,17,17,.15);padding-top:10px;display:flex;justify-content:space-between;gap:12px;font-size:.72rem;color:var(--grey)}
+  .foot .slogan{font-family:var(--serif);font-style:italic;color:var(--gold-ink)}
+  .sante{text-align:center;font-size:.7rem;color:var(--grey);margin-top:8px}
+  @media (max-width:700px){
+    .sheet{padding:28px 20px;min-height:auto}
+    .sheet::before{margin:10px}
+    header.head{justify-content:flex-start}
+    .eyebrow{text-align:left}
+    h1{font-size:1.5rem}
+    footer.foot{position:static;left:auto;right:auto;bottom:auto;margin-top:24px;flex-direction:column;gap:6px;text-align:center}
+  }
+  @media print{
+    body{background:#fff}
+    .toolbar{display:none}
+    .sheet{width:auto;max-width:none;min-height:auto;margin:0;padding:14mm;box-shadow:none}
+    @page{size:A4;margin:0}
+  }
+</style>
+<link rel="icon" type="image/svg+xml" href="images/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">
+</head>
+<body>
+  <div class="toolbar">
+    <p>Support distributeur AVYR — prêt à imprimer ou enregistrer en PDF.</p>
+    <button class="btn-print" type="button" onclick="window.print()">🖨️ Imprimer / PDF</button>
+  </div>
+
+  <div class="sheet">
+    <header class="head">
+      <span class="logo"><b>AVYR</b></span>
+      <span class="eyebrow">Formation distributeur<br>L'art de servir</span>
+    </header>
+
+    <h1>L'art de la <i>pochette</i>.</h1>
+    <p class="intro">La même pochette, trois rituels. Sers-la comme il faut, et chaque client repart avec le bon souvenir. Voici les trois façons officielles de vivre une pochette AVYR.</p>
+
+    <div class="rituals">
+      <div class="ritual">
+        <span class="rnum">01</span>
+        <div>
+          <h3>Glacée à la plage</h3>
+          <p>Deux heures au congélateur. On secoue, on plante la paille, on s'allonge. Le soleil en pochette, format liberté.</p>
+        </div>
+      </div>
+      <div class="ritual">
+        <span class="rnum">02</span>
+        <div>
+          <h3>Au verre</h3>
+          <p>Sur glace pilée, avec des fruits frais. La pochette passe au verre et l'instant devient une scène.</p>
+        </div>
+      </div>
+      <div class="ritual">
+        <span class="rnum">03</span>
+        <div>
+          <h3>En cocktail signé</h3>
+          <p>La base idéale d'une création maison. Un trait d'agrume, une feuille de menthe — chaque établissement invente sa variante.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips">
+      <h4>Les réflexes du bon service</h4>
+      <ul>
+        <li>Toujours servir bien frais — la fraîcheur, c'est la signature.</li>
+        <li>Garnir de fruits frais : couleur, arôme et fraîcheur en bouche.</li>
+        <li>Rappeler l'essentiel : à consommer avec modération, jamais avant 18 ans.</li>
+      </ul>
+    </div>
+
+    <footer class="foot">
+      <span>AVYR · Guadeloupe</span>
+      <span class="slogan">La marque de cocktails indépendante.</span>
+    </footer>
+    <p class="sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. Vente interdite aux mineurs.</p>
+  </div>
+</body>
+</html>
