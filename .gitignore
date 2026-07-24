@@ -1,0 +1,5 @@
+# dev/ contient des archives de données fictives (démo) — jamais publiées.
+# Conservées sur la branche dev-archive, absentes de toute branche destinée
+# au déploiement (cf. R82.1.1). Cette entrée est un garde-fou : elle empêche
+# de recréer accidentellement dev/ sur une branche publiée.
+dev/

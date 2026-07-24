@@ -78,9 +78,14 @@ du dépôt (section B et C) : raison sociale AVYR, hébergeur, contact RGPD,
 et la relation juridique exacte avec SYFIR restent à confirmer par le
 fondateur avant publication.
 
-Au branchement d'un endpoint d'envoi réel (`FORM_ENDPOINT` dans
-`script.js`) : ajouter une case de consentement au formulaire de contact
-professionnel (aujourd'hui inutile — mode démo, rien n'est transmis ni
-stocké) et compléter `confidentialite.html` avec le destinataire réel.
+Avant de brancher un endpoint réel (`FORM_ENDPOINT` dans `script.js`),
+déterminer et documenter la base légale du traitement, compléter
+l'information RGPD du formulaire, préciser la finalité, les
+destinataires, la durée de conservation et les droits des personnes.
+Ajouter une case de consentement distincte uniquement pour les
+traitements qui reposent réellement sur le consentement, notamment une
+prospection facultative ou une inscription marketing. Cette base légale
+n'est pas choisie ici : elle dépend du fonctionnement réel de l'endpoint
+et doit être validée par le fondateur.
 
 L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
