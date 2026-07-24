@@ -1331,6 +1331,26 @@ html[data-theme="light"] .form-demo-note { color: var(--grey-ink); }
 .stock-dispo { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
 .stock-open { background: rgba(var(--cream-rgb), .94); color: #071E30; border: 1px solid rgba(var(--gold-rgb), .45); }
 .stock-invite { background: rgba(var(--ink-rgb), .82); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .5); }
+
+/* R82.1.1 : condition d'âge par événement — affichage honnête, jamais
+   une prétention de vérification d'identité (simple indication). */
+.event-age-badge { font-size: .74rem; font-weight: 600; margin: 4px 0 0; }
+.age-all { color: rgba(var(--cream-rgb), .55); }
+.age-16, .age-18 { color: var(--passion); }
+.age-tbd { color: rgba(var(--cream-rgb), .5); font-style: italic; }
+.age-badge.ed-age {
+  position: absolute; top: 16px; right: 16px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+  background: rgba(var(--ink-rgb), .78); color: var(--passion);
+}
+.tm-age-note {
+  font-size: .82rem; color: var(--passion); background: rgba(var(--sunset-rgb), .1);
+  border: 1px solid rgba(var(--passion-rgb), .3); border-radius: 12px;
+  padding: 10px 14px; margin: 10px 0;
+}
+.ed-age-note { margin-top: 14px; }
 /* variante en ligne (carte accueil, pas de conteneur positionné) */
 .stock-inline { position: static; display: inline-block; margin-top: 6px; }
 .event-card.is-soldout .event-card-media img { filter: grayscale(.4) brightness(.82); }
@@ -2900,6 +2920,10 @@ html[data-theme="light"] .next-info > strong { color: var(--ink-warm); }
 html[data-theme="light"] .next-info > small, html[data-theme="light"] .next-date small { color: var(--taupe); }
 html[data-theme="light"] .next-date strong, html[data-theme="light"] .next-countdown { color: var(--gold-deep); }
 html[data-theme="light"] .next-arrow { color: var(--sunset-ink); }
+html[data-theme="light"] .age-all { color: var(--taupe); }
+html[data-theme="light"] .age-16, html[data-theme="light"] .age-18 { color: var(--sunset-ink); }
+html[data-theme="light"] .age-tbd { color: var(--taupe-soft); }
+html[data-theme="light"] .tm-age-note { color: var(--sunset-ink); background: rgba(var(--gold-rgb), .08); border-color: rgba(var(--gold-rgb), .35); }
 html[data-theme="light"] .event-reco { color: var(--gold-deep); }
 html[data-theme="light"] .stock-complet { background: rgba(var(--ink-warm-rgb), .85); color: var(--cream); border-color: rgba(var(--cream-rgb), .25); }
 html[data-theme="light"] { --gold-deep: var(--gold-ink); --drop-fill: var(--gold-metal); }

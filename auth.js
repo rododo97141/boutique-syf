@@ -92,8 +92,6 @@
           newsletter: !!profile.newsletter
         };
         write(p);
-        // L'âge légal renseigne l'age-gate existant : plus de double question.
-        try { localStorage.setItem('syfir-age-ok', '1'); } catch (e) {}
         return { ok: true, profile: p };
       },
       signOut: function () {

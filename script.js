@@ -496,57 +496,15 @@
   // En mode auto, on suit l'heure qui tourne
   setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
 
-  /* ===== 07. AGE GATE 18+ =====
-     Marque d'alcool : vérification d'âge à l'entrée, affichée une seule
-     fois (localStorage), sur toutes les pages. Accessible : role=dialog,
-     focus initial, piège de focus, non fermable par Échap. */
-  if (!localStorage.getItem('syfir-age-ok')) {
-    const gate = document.createElement('div');
-    gate.className = 'age-gate';
-    gate.setAttribute('role', 'dialog');
-    gate.setAttribute('aria-modal', 'true');
-    gate.setAttribute('aria-labelledby', 'ageTitle');
-    gate.innerHTML = `
-      <div class="age-box">
-        <p class="age-logo">SYFIR<span>™</span></p>
-        <h2 id="ageTitle">Avez-vous 18 ans ?</h2>
-        <p class="age-sub">SYFIR rassemble des soirées, festivals et expériences où de l'alcool peut être proposé par les lieux et marques partenaires.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
-        <div class="age-actions">
-          <button class="btn btn-solid" id="ageYes" type="button">Oui, j'ai 18 ans ou plus</button>
-          <button class="btn btn-ghost" id="ageNo" type="button">Non, pas encore</button>
-        </div>
-        <p class="age-note">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
-      </div>`;
-    document.body.appendChild(gate);
-    document.body.style.overflow = 'hidden';
-    const ageYes = gate.querySelector('#ageYes');
-    requestAnimationFrame(() => ageYes.focus());
-    // Piège de focus : Tab reste dans le dialogue
-    gate.addEventListener('keydown', e => {
-      if (e.key !== 'Tab') return;
-      const f = [...gate.querySelectorAll('button, a')];
-      const first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    });
-    ageYes.addEventListener('click', () => {
-      localStorage.setItem('syfir-age-ok', '1');
-      gate.classList.add('age-out');
-      document.body.style.overflow = '';
-      setTimeout(() => gate.remove(), 450);
-    });
-    gate.querySelector('#ageNo').addEventListener('click', () => {
-      gate.querySelector('.age-box').innerHTML = `
-        <p class="age-logo">SYFIR<span>™</span></p>
-        <h2 id="ageTitle">À très vite ✦</h2>
-        <p class="age-sub">Ce site est réservé aux personnes majeures.<br>Pour s'informer sur l'alcool et être accompagné :</p>
-        <div class="age-actions">
-          <a class="btn btn-solid" href="https://www.alcool-info-service.fr" rel="noopener">alcool-info-service.fr</a>
-        </div>
-        <p class="age-note">L'abus d'alcool est dangereux pour la santé.</p>`;
-      gate.querySelector('a').focus();
-    });
-  }
+  /* ===== 07. (retiré, R82.1.1) =====
+     L'ancienne modale 18+ globale bloquait TOUTES les pages SYFIR, y
+     compris les pages purement événementielles sans alcool — ce n'est
+     plus le cas : SYFIR n'est pas un site consacré à l'alcool, c'est une
+     marque événementielle dont certains événements peuvent être 18+.
+     La condition d'âge vit désormais par ÉVÉNEMENT (voir ageLabel dans
+     events-data.js), affichée sur sa carte et sa fiche, rappelée au
+     moment de la réservation pour les événements 18+. Rien ne prétend
+     vérifier juridiquement l'âge de la personne. */
 
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
@@ -2061,7 +2019,7 @@ if (placeModal && placesGridEl) {
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
   /* ===== 30. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
-  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, stockLabel } = window.SYFIR;
+  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, stockLabel, ageLabel } = window.SYFIR;
   // Fourchette de prix réelle, calculée depuis les paliers (ex. « 20 € – 55 € »)
   const TIER_MULTS = () => TIERS_DEFAULT.map(t => t.mult);
   const priceRange = ev => {
@@ -2093,6 +2051,7 @@ if (placeModal && placesGridEl) {
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
     const stock = stockLabel(ev);
+    const age = ageLabel(ev);
     return `
     <article class="event-card${stock && stock.soldOut ? ' is-soldout' : ''}" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
@@ -2108,6 +2067,7 @@ if (placeModal && placesGridEl) {
         ${ev.blurb ? `<p class="event-blurb">${esc(ev.blurb)}</p>` : ''}
         ${reco ? '<p class="event-reco">✦ Recommandé pour toi</p>' : ''}
         <p class="event-card-meta">${esc(when)}</p>
+        <p class="event-age-badge ${age.cls}">${age.icon} ${age.text}</p>
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}
         <div class="event-card-foot">
           <span class="event-price"><small>Billets</small><strong>${priceRange(ev)}</strong></span>
@@ -2297,6 +2257,15 @@ if (placeModal && placesGridEl) {
     const when = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const loc = [currentEvent.city, currentEvent.venue].filter(Boolean).join(' · ');
     $('#tmMeta').textContent = `📍 ${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
+    // R82.1.1 : rappel de la condition d'âge AU MOMENT de la réservation
+    // (déjà visible sur la carte/fiche avant ce clic) — simple rappel,
+    // aucune vérification d'identité effectuée par le site.
+    const tmAge = ageLabel(currentEvent);
+    const tmAgeNote = $('#tmAgeNote');
+    if (tmAgeNote) {
+      if (tmAge.reminder) { tmAgeNote.textContent = `${tmAge.icon} ${tmAge.reminder}`; tmAgeNote.hidden = false; }
+      else tmAgeNote.hidden = true;
+    }
     $('#tmSuccess').hidden = true;
     $('#tmCalendar').hidden = true;
     $('#gateError').textContent = '';
@@ -2369,6 +2338,7 @@ if (placeModal && placesGridEl) {
       check($('#evDate'), v => (v && new Date(v) >= new Date().setHours(0, 0, 0, 0)) || 'Choisis une date à venir.'),
       check($('#evCity'), validators.required),
       check($('#evPrice'), v => (v !== '' && +v >= 0) || 'Indique un prix valide.'),
+      check($('#evAgeStatus'), validators.required),
       !isPrivate || check($('#evCode'), v => v.trim().length >= 4 || 'Code de 4 caractères minimum.')
     ].every(Boolean);
     if (!ok) {
@@ -2398,6 +2368,7 @@ if (placeModal && placesGridEl) {
       img: imgByType[$('#evType').value] || defaultImg,
       organizer: 'SYFIR Events',
       prive: isPrivate,
+      ageStatus: $('#evAgeStatus').value || 'a-confirmer',
       code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
     };
 

@@ -46,6 +46,20 @@
     return { text: 'Billets disponibles', cls: 'stock-dispo', soldOut: false, action: true };
   };
 
+  /* R82.1.1 : condition d'âge PAR ÉVÉNEMENT — SYFIR n'est pas un site
+     consacré à l'alcool, ses événements peuvent avoir des conditions
+     d'âge différentes. `ageStatus` : 'tout-public' | '16-plus' |
+     '18-plus' | 'a-confirmer' (défaut si absent — aucune supposition).
+     Ne prétend jamais vérifier juridiquement l'âge : simple affichage
+     de la condition, à faire respecter par l'organisateur/le lieu. */
+  const ageLabel = ev => {
+    const s = (ev && ev.ageStatus) || 'a-confirmer';
+    if (s === 'tout-public') return { text: 'Tout public', cls: 'age-all', icon: '👪', reminder: null };
+    if (s === '16-plus') return { text: '16 ans et plus', cls: 'age-16', icon: '🔞', reminder: 'Cet événement est réservé aux 16 ans et plus. L\'organisateur ou le lieu peut demander un justificatif à l\'entrée.' };
+    if (s === '18-plus') return { text: '18 ans et plus', cls: 'age-18', icon: '🔞', reminder: 'Cet événement est réservé aux 18 ans et plus. L\'organisateur ou le lieu peut demander un justificatif à l\'entrée.' };
+    return { text: 'Condition d\'âge à confirmer', cls: 'age-tbd', icon: '❔', reminder: 'La condition d\'âge de cet événement n\'est pas encore confirmée par l\'organisateur — renseigne-toi avant de réserver.' };
+  };
+
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
   const fmtTime = t => t ? t.replace(':', 'h') : '';
   const priceRange = ev => {
@@ -98,6 +112,7 @@
         if (cap !== ev.name) { ev.name = cap; dirty = true; }
         if (!ev.time) { ev.time = '20:00'; dirty = true; }
         if (!ev.genres || !ev.genres.length) { ev.genres = [typeLabel[ev.type] || 'Soirée']; dirty = true; }
+        if (!ev.ageStatus) { ev.ageStatus = 'a-confirmer'; dirty = true; }
         if (/^(Ton|Votre) organisation × SYFIR$/.test(ev.organizer || '')) { ev.organizer = 'SYFIR Events'; dirty = true; }
       });
       // Nettoyage des doublons « (copie) » : UNE seule fois (drapeau), sinon
@@ -164,5 +179,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
 })();

@@ -123,6 +123,7 @@
         : `<img class="ed-hero-img" src="${esc(ev.img)}" alt="${esc(ev.name)}" fetchpriority="high">`; })()}
       <span class="ed-hero-tag ${ev.prive ? 'tag-prive' : ''}">${tag}</span>
       ${(() => { if (isPast) return ''; const st = S.stockLabel(ev); return st ? `<span class="stock-badge ${st.cls} ed-stock">${st.text}</span>` : ''; })()}
+      ${(() => { const a = S.ageLabel(ev); return `<span class="age-badge ${a.cls} ed-age">${a.icon} ${a.text}</span>`; })()}
     </div>
     <div class="ed-body container">
       <div class="ed-main">
@@ -164,6 +165,7 @@
           <span class="field-error" id="edGateError"></span>
         </div>
         <div id="edTiers"></div>
+        ${(() => { const a = S.ageLabel(ev); return a.reminder ? `<p class="tm-age-note ed-age-note">${a.icon} ${a.reminder}</p>` : ''; })()}
         <div class="ed-foot" id="edFoot">
           <div class="ed-total"><span>Total</span><strong id="edTotal">${S.euro(0)}</strong></div>
           ${(() => { const st = S.stockLabel(ev); return st && st.soldOut

@@ -308,6 +308,22 @@
           <span class="field-error"></span>
         </div>
 
+        <!-- R82.1.1 : condition d'âge par événement — SYFIR n'est pas un
+             site consacré à l'alcool, ses événements peuvent avoir des
+             conditions d'âge différentes. Affichée sur la carte et la
+             fiche, rappelée à la réservation pour les 16+/18+. -->
+        <div class="form-field">
+          <label for="evAgeStatus">Condition d'âge *</label>
+          <select id="evAgeStatus">
+            <option value="">Choisir…</option>
+            <option value="tout-public">Tout public</option>
+            <option value="16-plus">16 ans et plus</option>
+            <option value="18-plus">18 ans et plus</option>
+            <option value="a-confirmer">À confirmer plus tard</option>
+          </select>
+          <span class="field-error"></span>
+        </div>
+
         <!-- Visibilité : public ou privé -->
         <fieldset class="visibility-switch">
           <legend>Visibilité de l'événement *</legend>
@@ -526,6 +542,7 @@
       <span class="modal-tag" id="tmTag"></span>
       <h3 id="tmTitle"></h3>
       <p class="modal-meta" id="tmMeta"></p>
+      <p class="tm-age-note" id="tmAgeNote" hidden></p>
 
       <!-- Saisie du code pour événements privés -->
       <div class="private-gate" id="privateGate" hidden>
