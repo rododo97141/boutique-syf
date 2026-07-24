@@ -421,7 +421,7 @@
         <h2 class="pd-h2">Les deux <em>façons</em></h2>
         <div class="ck-formats pd-formats">
           <div class="ck-format">${picHTML(verre, 'alt="Servi sur glace au verre" loading="lazy" decoding="async" width="1086" height="1448"')}<div><strong>🥂 Sur place</strong><small>Servi au verre</small></div></div>
-          <div class="ck-format">${picHTML(p.photos[0], `alt="La pochette ${esc(cleanName)} scellée" loading="lazy" decoding="async"`)}<div><strong>🛍️ À emporter</strong><small>Scellée — elle te suit partout</small></div></div>
+          <div class="ck-format">${picHTML(p.photos[0], `alt="La pochette ${esc(cleanName)} scellée" loading="lazy" decoding="async"`)}<div><strong>🛍️ À emporter</strong><small>Scellée, refermable, transportable</small></div></div>
         </div>
         <a class="btn btn-solid btn-full pd-where" href="points-de-vente.html">Où le trouver</a>
       </section>`;
