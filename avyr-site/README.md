@@ -78,4 +78,9 @@ du dépôt (section B et C) : raison sociale AVYR, hébergeur, contact RGPD,
 et la relation juridique exacte avec SYFIR restent à confirmer par le
 fondateur avant publication.
 
+Au branchement d'un endpoint d'envoi réel (`FORM_ENDPOINT` dans
+`script.js`) : ajouter une case de consentement au formulaire de contact
+professionnel (aujourd'hui inutile — mode démo, rien n'est transmis ni
+stocké) et compléter `confidentialite.html` avec le destinataire réel.
+
 L'abus d'alcool est dangereux pour la santé. À consommer avec modération.
