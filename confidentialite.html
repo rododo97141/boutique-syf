@@ -123,20 +123,31 @@
       joignable à <span class="legal-todo">[À COMPLÉTER PAR LE FONDATEUR — email de contact]</span>.</p>
 
     <h2>2. Quelles données, et où elles vivent</h2>
-    <p>Le site fonctionne aujourd'hui <strong>sans compte serveur</strong>. Les informations que tu renseignes
-      sont enregistrées <strong>uniquement dans le stockage local (<code>localStorage</code>) de ton navigateur</strong>,
-      sur ton appareil. Elles ne sont ni transmises, ni consultées à distance, ni partagées.</p>
+    <p>Le site fonctionne aujourd'hui <strong>sans compte serveur</strong>, mais toutes les données ne suivent
+      pas la même règle — à distinguer :</p>
+    <ul>
+      <li><strong>Si tu crées un profil dans « Mon espace »</strong> (prénom, nom, e-mail, commune, date de
+        naissance, choix newsletter), il est enregistré <strong>uniquement dans le stockage local
+        (<code>localStorage</code>) de ton navigateur</strong>, sur ton appareil.</li>
+      <li><strong>Tes billets de démonstration et tes favoris</strong> suivent la même règle : stockage local
+        uniquement, tant que tu utilises « Mon espace ».</li>
+      <li><strong>Ta préférence de thème</strong> (clair / sombre / auto) est mémorisée localement dès ta
+        première visite, que tu crées un profil ou non.</li>
+      <li><strong>Les formulaires de contact et de partenariat</strong> ne sont, eux, <strong>enregistrés nulle
+        part automatiquement</strong> : tant qu'aucun endpoint d'envoi n'est configuré, ta saisie reste affichée
+        à l'écran, le temps de la session, et n'est ni transmise ni stockée (voir §4).</li>
+    </ul>
     <div class="legal-table-scroll">
     <table>
       <tr><th>Donnée (clé locale)</th><th>Contenu</th><th>Finalité</th></tr>
       <tr><td><code>syfir-theme</code></td><td>Préférence de thème (clair / sombre / auto)</td><td>Réafficher ton apparence choisie</td></tr>
-      <tr><td><code>syfir-user</code></td><td>Profil : prénom, nom, e-mail, commune, date de naissance, choix newsletter</td><td>Personnaliser « Mon espace » sur cet appareil</td></tr>
-      <tr><td><code>syfir-age-ok</code></td><td>Confirmation « j'ai 18 ans ou plus »</td><td>Ne pas redemander la vérification d'âge (loi Évin)</td></tr>
+      <tr><td><code>syfir-user</code></td><td>Profil local : prénom, nom, e-mail, commune, date de naissance, choix newsletter — uniquement si tu crées un profil</td><td>Personnaliser « Mon espace » sur cet appareil</td></tr>
       <tr><td><code>syfir-tickets</code> · <code>syfir-favs</code></td><td>Billets de <em>démonstration</em> et favoris</td><td>Retrouver tes billets démo et tes coups de cœur</td></tr>
     </table>
     </div>
-    <p class="legal-muted">Base légale : ton consentement, matérialisé par la saisie sur cet appareil. Aucune de ces
-      données n'est une donnée « serveur » : elle disparaît si tu vides le stockage de ton navigateur.</p>
+    <p class="legal-muted">Base légale : ton consentement, matérialisé par la création du profil ou l'usage du
+      site sur cet appareil. Aucune de ces données n'est une donnée « serveur » : elle disparaît si tu vides le
+      stockage de ton navigateur.</p>
 
     <h2>3. Durée de conservation</h2>
     <p>Ces informations sont conservées <strong>jusqu'à ce que tu les supprimes toi-même</strong> :

@@ -59,8 +59,10 @@ derrière un simple `python3 -m http.server`.
   horizontal, un seul CTA principal par écran (le FAB s'efface sur le hero).
 - **Éthique** : AUCUN faux compteur/fausse urgence — compte à rebours basé sur la vraie date,
   « Quantité limitée » seulement sur Early Bird (vrai dans les données), badge « Recommandé »
-  simple ancrage. Age gate 18+ (localStorage `syfir-age-ok`), mention loi Évin `.footer-sante`
-  sur les 4 pages (contraste ≥4.5 vérifié).
+  simple ancrage. Depuis R82.1.1 : plus d'age gate globale sur SYFIR (retirée — SYFIR n'est pas
+  un site consacré à l'alcool) ; condition d'âge PAR ÉVÉNEMENT (`ageStatus`, cf. events-data.js),
+  affichée sur carte/fiche, rappelée à la réservation pour 16+/18+/à confirmer. Mention loi Évin
+  `.footer-sante` sur toutes les pages (contraste ≥4.5 vérifié).
 - **Fukasawa (lot 8)** : nav 5 entrées max, pas de préloader, pas de tilt, parallaxe ≥768px
   uniquement, CTA en langage expérience (« Vivre un événement », « Découvrir l'expérience »).
 - **Grain** : `--noise` (SVG 3,2%) sur fonds sombres uniquement, jamais en clair ni sur crème.
@@ -68,9 +70,12 @@ derrière un simple `python3 -m http.server`.
 
 ## 5. localStorage (clés)
 
-`syfir-theme` (auto/light/dark) · `syfir-age-ok` · `syfir-user` ({name,email,city}) ·
-`syfir-tickets` ([{event,city,date,detail,num}]) · `syfir-favs` ([ids]) · `syfir-pro-events` ([événements créés]).
-Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gate bloque tout).
+`syfir-theme` (auto/light/dark) · `syfir-user` ({name,email,city}) ·
+`syfir-tickets` ([{event,city,date,detail,num}]) · `syfir-favs` ([ids]) · `syfir-pro-events` ([événements créés,
+chacun avec `ageStatus`]).
+Note : `syfir-age-ok` n'existe plus côté SYFIR depuis R82.1.1 (age gate globale retirée) — cette
+clé reste utilisée, indépendamment, par le site autonome `avyr-site/` (qui présente réellement de
+l'alcool sur chacune de ses pages).
 Ancres déplacées : `index.html#cocktails` → `saveurs.html`, `index.html#communaute` → `syf-tv.html` (stubs `actualite.html`, `medias.html` ET `communaute.html` → `syf-tv.html`) (redirection JS si la cible n'existe pas sur la page). Nav maquette 5 entrées sur toutes les pages (billetterie : entrées dans le menu mobile, la nav-recherche desktop est conservée).
 
 ## 6. Lots livrés (tous validés à l'écran par le superviseur)
