@@ -735,6 +735,18 @@ nav.scrolled {
   color: var(--passion);
 }
 .vision-card p { color: rgba(var(--cream-rgb), .75); font-size: .98rem; }
+/* R83 : carte d'une offre annoncée mais pas encore ouverte — le marqueur
+   visuel double le texte, pour qu'on ne puisse pas la lire comme un
+   service disponible. */
+.vision-card-soon { border-style: dashed; border-color: rgba(var(--passion-rgb), .3); }
+.vc-tag {
+  display: inline-block; margin-left: 8px; vertical-align: middle;
+  padding: 3px 9px; border-radius: 999px;
+  font-family: var(--sans); font-size: .62rem; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--passion); background: rgba(var(--passion-rgb), .12);
+  border: 1px solid rgba(var(--passion-rgb), .3);
+}
 
 /* ===== 07. PROCHAINS ÉVÉNEMENTS (conversion, accueil) ===== */
 .next-events { padding: 8px 0 80px; }
@@ -2906,6 +2918,8 @@ html[data-theme="light"] .invest-cta { border-top-color: rgba(var(--gold-rgb), .
 html[data-theme="light"] .vision-card { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); box-shadow: 0 10px 30px rgba(var(--shadow-warm-rgb), .06); }
 html[data-theme="light"] .vision-card h3 { color: var(--gold-ink); }
 html[data-theme="light"] .vision-card p { color: var(--taupe-ink); }
+html[data-theme="light"] .vision-card-soon { border-color: rgba(var(--gold-deep-rgb), .45); }
+html[data-theme="light"] .vc-tag { color: var(--gold-ink); background: rgba(var(--gold-rgb), .16); border-color: rgba(var(--gold-deep-rgb), .38); }
 html[data-theme="light"] .section-cream::before { background: linear-gradient(180deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
 html[data-theme="light"] .section-cream::after { background: linear-gradient(0deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
 html[data-theme="light"] .theme-menu { background: rgba(var(--surface-light-rgb), .97); border-color: rgba(var(--gold-deep-rgb), .28); box-shadow: 0 22px 60px rgba(var(--shadow-warm-rgb), .22); }
@@ -3397,7 +3411,7 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .burger { display: none; }
   .split { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 70px; }
   .cocktail-grid { grid-template-columns: repeat(3, 1fr); }
-  .vision-grid { grid-template-columns: repeat(3, 1fr); }
+  .vision-grid { grid-template-columns: repeat(2, 1fr); }
   .audience-grid { grid-template-columns: repeat(3, 1fr); }
   .moments-grid { grid-template-columns: repeat(4, 1fr); }
   .invest-args { grid-template-columns: repeat(3, 1fr); gap: 36px; }
