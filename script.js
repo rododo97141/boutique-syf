@@ -151,8 +151,9 @@
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['L\'Écosystème', 'partenaires.html', 'partenaires reseau bars clubs organisateurs prestataires'],
-      ['AVYR', 'partenaires.html#eco-avyr', 'marque cocktails partenaire pochette saveurs'],
+      ['L\'Écosystème', 'partenaires.html', 'partenaires reseau lieux bars clubs organisateurs prestataires'],
+      ['Lieux', 'partenaires.html#eco-lieux', 'bars restaurants clubs beach clubs hôtels espaces événementiels'],
+      ['Marques partenaires', 'partenaires.html#eco-marques', 'marques avyr cocktails boissons produits expériences'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
@@ -180,16 +181,16 @@
       <div class="mega-body">
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
-          <!-- R78 : remplace l'ancien groupe produit AVYR — SYFIR ne vend pas
-               les produits de ses partenaires, ce groupe liste le réseau. -->
+          <!-- R82.1c : les 6 catégories validées de l'écosystème — ce que
+               chaque partenaire APPORTE aux expériences SYFIR. -->
           <div class="mega-side-group">
             <a class="mega-side-head" href="partenaires.html">L'Écosystème</a>
-            <a href="partenaires.html#eco-avyr">AVYR</a>
-            <a href="partenaires.html#eco-bars">Bars et Restaurants</a>
-            <a href="partenaires.html#eco-clubs">Clubs et Beach Clubs</a>
+            <a href="partenaires.html#eco-lieux">Lieux</a>
+            <a href="partenaires.html#eco-artistes">Artistes et talents</a>
+            <a href="partenaires.html#eco-marques">Marques partenaires</a>
             <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
             <a href="partenaires.html#eco-prestataires">Prestataires</a>
-            <a href="partenaires.html#eco-autres">Autres partenaires</a>
+            <a href="partenaires.html#eco-medias">Médias et communautés</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -1010,7 +1011,7 @@ if (placeModal && placesGridEl) {
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
       collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
-      'distributeur-avyr': { label: 'Zone de distribution *',    placeholder: 'Région, département, île…' },
+      'marque-partenaire': { label: 'Nom de ta marque *',       placeholder: 'Le nom de ta marque ou de ton produit' },
       investisseur: { label: 'Structure / société *',        placeholder: 'Société, fonds, particulier…' },
       autre:        { label: 'Objet de ta demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
@@ -1080,8 +1081,8 @@ if (placeModal && placesGridEl) {
       }
     });
 
-    // R78 : lien direct partageable depuis l'espace AVYR
-    // (partenaires.html?type=distributeur-avyr#partnerForm) — présélectionne
+    // R78 : lien direct partageable depuis une carte de marque partenaire
+    // (partenaires.html?type=marque-partenaire#partnerForm) — présélectionne
     // le type sans écraser le choix si l'utilisateur en change ensuite.
     const urlType = new URLSearchParams(location.search).get('type');
     if (urlType) {

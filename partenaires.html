@@ -58,13 +58,12 @@
              ne vend pas les produits de ses partenaires, ce dropdown liste le
              r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
         <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
-          <a href="partenaires.html#eco-avyr" role="menuitem">Marques partenaires</a>
-          <a href="partenaires.html#eco-bars" role="menuitem">Bars et Restaurants</a>
-          <a href="partenaires.html#eco-clubs" role="menuitem">Clubs et Beach Clubs</a>
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
           <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
           <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
-          <a href="partenaires.html#eco-medias" role="menuitem">Médias et communautés</a>
-          <a href="partenaires.html#eco-autres" role="menuitem">Autres collaborations</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
@@ -172,24 +171,27 @@
     <!-- R81.4 : catégories développées avec une présentation concrète —
          portes d'entrée honnêtes, pas des partenaires confirmés (cf. bloc
          « Nos partenaires officiels » plus bas). -->
+    <!-- R82.1c : organisation validée par le fondateur — 6 catégories qui
+         disent ce que chaque partenaire APPORTE aux expériences SYFIR
+         (lieu, talent, marque, organisation, savoir-faire, visibilité),
+         pas un annuaire. -->
     <div class="maison-partner-block reveal d3">
       <h3 class="maison-h3">Notre écosystème de partenaires</h3>
-      <p class="section-intro intro-light">SYFIR est la plateforme qui relie ces réseaux — chacun reste un partenaire indépendant. Ces catégories sont les portes d'entrée possibles ; elles ne représentent pas des partenaires confirmés.</p>
+      <p class="section-intro intro-light">SYFIR crée et rassemble des expériences autour de la fête, des artistes et des événements. Ses partenaires sont les lieux, les marques, les talents et les savoir-faire qui permettent à ces expériences de prendre vie.</p>
+      <p class="trust-intro">✦ Un partenaire SYFIR est une marque, un lieu, un talent ou un service qui accompagne et enrichit l'univers de la fête et de l'événementiel. Ces catégories sont les portes d'entrée possibles — elles ne représentent pas des partenaires confirmés.</p>
       <div class="maison-univers" aria-label="Notre écosystème de partenaires">
-        <a class="univers-card" id="eco-avyr" href="partenaires.html?type=distributeur-avyr#partnerForm" data-request="distributeur-avyr"><span class="univers-ic" aria-hidden="true">🏷️</span><strong>Marques partenaires</strong><small>Marques indépendantes présentes dans l'écosystème — cocktails, boissons, produits liés à l'expérience événementielle. Exemple : AVYR, présente chez certains lieux partenaires.</small></a>
-        <div class="univers-card" id="eco-bars">
-          <a class="univers-card-link" href="partenaires.html#partnerForm" data-request="partenaire"><span class="univers-ic" aria-hidden="true">🍸</span><strong>Bars et Restaurants</strong><small>Accueil d'événements, collaborations locales, expériences dans le lieu. Exemple : une soirée à thème co-organisée dans ton établissement.</small></a>
+        <div class="univers-card" id="eco-lieux">
+          <a class="univers-card-link" href="partenaires.html#partnerForm" data-request="partenaire"><span class="univers-ic" aria-hidden="true">🏝️</span><strong>Lieux</strong><small>Bars, restaurants, clubs, beach clubs, hôtels, espaces événementiels — le cadre, l'atmosphère et l'accueil des expériences. Exemple : une soirée à thème co-organisée dans ton établissement.</small></a>
           <!-- R81.6/R81.7 : mention nommée d'un partenaire réel, rattachée
                uniquement à cette carte, en complément de l'exemple générique
                ci-dessus (non retiré). -->
-          <p class="univers-note">✦ Membre de l'écosystème SYFIR : <strong>Les Délices du Bassin Bleu</strong> (Gourbeyre) — Restaurant partenaire AVYR. <a class="univers-link" href="https://rododo97141.github.io/boutique-syf/avyr-site/points-de-vente.html" target="_blank" rel="noopener">Point partenaire AVYR →</a></p>
+          <p class="univers-note">✦ Membre de l'écosystème SYFIR : <strong>Les Délices du Bassin Bleu</strong> (Gourbeyre) — Restaurant partenaire AVYR. <a class="univers-link" href="partenaire-delices-bassin-bleu.html">Découvrir →</a></p>
         </div>
-        <a class="univers-card" id="eco-clubs" href="partenaires.html#partnerForm" data-request="partenaire"><span class="univers-ic" aria-hidden="true">🕺</span><strong>Clubs et Beach Clubs</strong><small>Soirées, artistes, concepts événementiels et billetterie. Exemple : une soirée resident DJ avec billetterie SYFIR.</small></a>
-        <a class="univers-card" id="eco-organisateurs" href="partenaires.html#partnerForm" data-request="evenement"><span class="univers-ic" aria-hidden="true">🎪</span><strong>Organisateurs</strong><small>Création et coordination d'événements avec les outils SYFIR. Exemple : ton événement privé géré de bout en bout.</small></a>
-        <a class="univers-card" id="eco-prestataires" href="partenaires.html#partnerForm" data-request="collaborateur"><span class="univers-ic" aria-hidden="true">🛠️</span><strong>Prestataires</strong><small>Son, lumière, sécurité, décoration, photo, vidéo, transport et logistique. Exemple : ton service technique mobilisé sur une soirée SYFIR.</small></a>
-        <a class="univers-card" id="eco-artistes" href="partenaires.html#partnerForm" data-request="artiste"><span class="univers-ic" aria-hidden="true">🎤</span><strong>Artistes et Talents</strong><small>Programmation, booking et participation aux événements. Exemple : ton set programmé lors d'une prochaine soirée.</small></a>
-        <a class="univers-card" id="eco-medias" href="partenaires.html#partnerForm" data-request="autre"><span class="univers-ic" aria-hidden="true">📣</span><strong>Médias et communautés</strong><small>Médias locaux, créateurs de contenu et communautés qui relaient les événements et l'univers SYFIR. Exemple : une captation ou un partenariat média autour d'une soirée.</small></a>
-        <a class="univers-card" id="eco-autres" href="partenaires.html#partnerForm" data-request="autre"><span class="univers-ic" aria-hidden="true">🤝</span><strong>Autres collaborations</strong><small>Hôtels, boutiques et collaborations particulières hors des catégories ci-dessus. Exemple : une collaboration ponctuelle avec ta marque.</small></a>
+        <a class="univers-card" id="eco-artistes" href="partenaires.html#partnerForm" data-request="artiste"><span class="univers-ic" aria-hidden="true">🎤</span><strong>Artistes et talents</strong><small>DJs, groupes, chanteurs, animateurs, performeurs, créateurs — la programmation qui fait vivre les événements. Exemple : ton set programmé lors d'une prochaine soirée.</small></a>
+        <a class="univers-card" id="eco-marques" href="partenaires.html?type=marque-partenaire#partnerForm" data-request="marque-partenaire"><span class="univers-ic" aria-hidden="true">🏷️</span><strong>Marques partenaires</strong><small>Les marques qui enrichissent les expériences SYFIR — boissons, expériences culinaires, produits liés à l'événement. Exemple : AVYR, marque partenaire indépendante de cocktails.</small></a>
+        <a class="univers-card" id="eco-organisateurs" href="partenaires.html#partnerForm" data-request="evenement"><span class="univers-ic" aria-hidden="true">🎪</span><strong>Organisateurs</strong><small>Personnes, collectifs et structures qui créent des événements avec SYFIR. Exemple : ton événement privé géré de bout en bout.</small></a>
+        <a class="univers-card" id="eco-prestataires" href="partenaires.html#partnerForm" data-request="collaborateur"><span class="univers-ic" aria-hidden="true">🛠️</span><strong>Prestataires</strong><small>Son, lumière, sécurité, décoration, photo, vidéo, transport et logistique — la technique qui porte l'expérience. Exemple : ton service technique mobilisé sur une soirée SYFIR.</small></a>
+        <a class="univers-card" id="eco-medias" href="partenaires.html#partnerForm" data-request="autre"><span class="univers-ic" aria-hidden="true">📣</span><strong>Médias et communautés</strong><small>Communication, visibilité et rassemblement du public autour des événements. Exemple : une captation ou un partenariat média autour d'une soirée.</small></a>
       </div>
     </div>
 
@@ -251,7 +253,7 @@
   <div class="container">
     <div class="partner-chips reveal d2">
       <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
-      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs AVYR</span><span>Partenaires financiers · Investisseurs</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Marques partenaires</span><span>Partenaires financiers · Investisseurs</span>
     </div>
 
     <!-- Formulaire intelligent -->
@@ -276,8 +278,8 @@
           <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
         </label>
         <label class="choice-card">
-          <input type="radio" name="requestType" value="distributeur-avyr">
-          <span><strong>Professionnel AVYR</strong><small>Distribution, point de vente ou revente professionnelle</small></span>
+          <input type="radio" name="requestType" value="marque-partenaire">
+          <span><strong>Marque partenaire</strong><small>Boissons, produits, expériences liées aux événements</small></span>
         </label>
         <label class="choice-card">
           <input type="radio" name="requestType" value="investisseur">

@@ -16,13 +16,23 @@ la racine du dépôt (`../style.css`, `../script.js`, etc.) : `style.css`,
 copies locales, propres à ce site. Ce dossier peut être déplacé tel quel
 dans un nouveau dépôt/domaine sans rien casser.
 
-**Seule exception assumée** : chaque page porte, dans son footer et son
-menu mobile, un lien de courtoisie « Écosystème SYFIR ↗ » vers
-`../partenaires.html` — un lien EXTERNE volontaire (nouvel onglet), pas une
-dépendance fonctionnelle. Ce lien continuera de fonctionner tant que les
-deux sites vivent dans le même dépôt ; le jour où AVYR migre vers son
-propre domaine, il suffira de remplacer cette seule URL relative par
-l'URL absolue du site SYFIR.
+**Lien de courtoisie vers SYFIR** : chaque page porte, dans son footer et
+son menu mobile, un lien externe volontaire « Écosystème SYFIR ↗ » (nouvel
+onglet), qui n'est pas une dépendance fonctionnelle. Depuis R82.1c, ce lien
+utilise l'**URL absolue** du site SYFIR — plus aucune URL relative
+remontante (`../`) n'existe dans ce dossier.
+
+## Constantes d'URL inter-sites (à changer lors du déploiement séparé)
+
+| Constante | Valeur actuelle | Où |
+|---|---|---|
+| URL officielle SYFIR (depuis AVYR) | `https://rododo97141.github.io/boutique-syf/partenaires.html` | footer + menu mobile de chaque page de ce dossier |
+| URL officielle AVYR (depuis SYFIR) | `https://rododo97141.github.io/boutique-syf/avyr-site/index.html` | `partenaire-avyr.html` (CTA « Aperçu du site AVYR ») et `faq.html` à la racine |
+
+Le jour du déploiement d'AVYR sur son propre domaine : un
+chercher-remplacer de chacune de ces deux valeurs suffit (et côté SYFIR,
+repasser le libellé du CTA de « Aperçu du site AVYR » à « Découvrir le
+site officiel AVYR »).
 
 ## Origine du code
 
