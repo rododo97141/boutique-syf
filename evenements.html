@@ -243,7 +243,7 @@
 
     <!-- ---- Audience 1 : ORGANISATEURS (l'existant, inchangé) ---- -->
     <h3 class="audience-title reveal" id="pro-orga">Organisateurs — <em>SYFIR Experience</em></h3>
-    <p class="section-intro intro-light reveal">Crée ton événement en quelques minutes. Public ou privé, tu décides. On s'occupe du reste.</p>
+    <p class="section-intro intro-light reveal">Crée ton événement en quelques minutes. Public ou privé, tu décides. SYFIR assure la billetterie et te met en relation avec les prestataires de l'écosystème.</p>
 
     <div class="pro-layout">
       <!-- Formulaire de création -->
@@ -342,24 +342,32 @@
           <span class="field-error"></span>
         </div>
 
-        <!-- Deux catalogues séparés : SYFIR (événementiel) / AVYR (fourniture produit) -->
+        <!-- R83 point 2 : deux blocs distincts selon QUI assure la prestation.
+             SYFIR assure sa plateforme ; pour tout le reste il met en relation
+             avec des prestataires sélectionnés, sans fournir lui-même leurs
+             services. L'ancien bloc « Nos services AVYR — AVYR fournit le
+             produit sur place, bar compris » a été retiré : il faisait
+             apparaître SYFIR comme vendeur de la prestation d'une marque
+             partenaire indépendante. -->
         <fieldset class="options-list options-syfir">
-          <legend>Nos services SYFIR <small>(événementiel — sur devis)</small></legend>
-          <p class="options-intro">SYFIR organise, met en avant et sécurise ton événement.</p>
+          <legend>Assuré par SYFIR <small>(sur devis)</small></legend>
+          <p class="options-intro">Les services que SYFIR opère lui-même.</p>
           <label class="opt-line"><input type="checkbox" checked disabled><span>Billetterie en ligne &amp; QR codes</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Mise en avant page d'accueil</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Scan d'entrée &amp; contrôle d'accès</span><strong>sur devis</strong></label>
-          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Photographe golden hour</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Campagne réseaux #SYFIR</span><strong>sur devis</strong></label>
         </fieldset>
 
-        <fieldset class="options-list options-avyr">
-          <legend>Nos services AVYR <small>(fourniture produit — sur devis)</small></legend>
-          <p class="options-intro">AVYR fournit le produit sur place, bar compris.</p>
-          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Bar à cocktails AVYR sur place</span><strong>sur devis</strong></label>
+        <fieldset class="options-list options-mer">
+          <legend>Mise en relation <small>(prestataires sélectionnés)</small></legend>
+          <p class="options-intro">SYFIR te met en relation avec des prestataires de l'écosystème. Le service est assuré par le prestataire, et le contrat est conclu directement avec lui.</p>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Photo &amp; vidéo</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Son &amp; lumière</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Décoration</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Sécurité</span><strong>selon prestataire</strong></label>
         </fieldset>
 
-        <p class="options-devis-note">Chaque prestation est établie sur devis, selon ton événement.</p>
+        <p class="options-devis-note">Les prestations SYFIR sont établies sur devis. Les prestations des partenaires sont définies et facturées par le prestataire concerné.</p>
 
         <button type="submit" class="btn btn-solid btn-lg btn-full">Créer l'événement</button>
         <p class="form-success" id="proSuccess" hidden></p>
@@ -374,7 +382,7 @@
             <li>✦ Événement public visible par toute la communauté SYFIR</li>
             <li>✦ Mode privé avec code d'accès pour tes invités</li>
             <li>✦ Devis clair, à la prestation, sans abonnement</li>
-            <li>✦ Bar AVYR, photographe &amp; communication en option</li>
+            <li>✦ Mise en relation avec des prestataires sélectionnés (photo, son, déco, sécurité)</li>
             <li>✦ Tableau de bord ventes en temps réel</li>
           </ul>
           <a class="btn btn-ghost btn-sm dash-open" href="espace-pro.html">Ouvrir mon Smartboard →</a>

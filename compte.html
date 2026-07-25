@@ -104,12 +104,17 @@
             </div>
           </div>
           <ul class="account-rules" id="ageRules">
-            <li id="ruleAge"><span class="rule-ic" aria-hidden="true"></span> Tu as 18 ans ou plus (AVYR contient de l'alcool)</li>
+            <!-- R83 : la restriction d'âge du compte SYFIR ne peut pas être
+                 justifiée par le produit d'une marque partenaire (AVYR n'est
+                 ni éditée ni vendue par SYFIR). Motif reformulé sur un fait
+                 propre à SYFIR : certains événements sont réservés aux
+                 majeurs (statut d'âge par événement, R82.1.1). -->
+            <li id="ruleAge"><span class="rule-ic" aria-hidden="true"></span> Tu as 18 ans ou plus (certains événements sont réservés aux majeurs)</li>
           </ul>
           <p class="account-hint account-gift"><span aria-hidden="true">🎁</span> Une surprise SYFIR t'attend pour ton anniversaire.</p>
         </fieldset>
 
-        <label class="account-check"><input type="checkbox" id="suNews"> <span>Inscris-toi pour recevoir les dernières infos SYFIR : événements, nouvelles saveurs et avantages membres.</span></label>
+        <label class="account-check"><input type="checkbox" id="suNews"> <span>Inscris-toi pour recevoir les dernières infos SYFIR : événements, nouveautés et avantages membres.</span></label>
         <p class="account-err" id="suErr" role="alert" hidden></p>
         <button type="submit" class="btn btn-gradient btn-lg account-continue">Créer mon compte</button>
       </form>

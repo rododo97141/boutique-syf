@@ -967,6 +967,7 @@ if (placeModal && placesGridEl) {
     const contextConfig = {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
+      'soiree-particulier': { label: 'Ta soirée *',            placeholder: 'Anniversaire, fête privée… + ce dont tu aurais besoin' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
       collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
       'marque-partenaire': { label: 'Nom de ta marque *',       placeholder: 'Le nom de ta marque ou de ton produit' },

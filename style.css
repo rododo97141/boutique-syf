@@ -1438,8 +1438,8 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .opt-line span { flex: 1; font-size: .92rem; }
 .opt-line strong { color: var(--passion); font-size: .92rem; }
 /* R52 : deux catalogues visuellement distincts (SYFIR événementiel / AVYR produit) */
-.options-syfir, .options-avyr { border: 1px solid rgba(var(--passion-rgb), .16); border-radius: 14px; padding: 14px 18px 6px; }
-.options-avyr { border-color: rgba(var(--gold-rgb), .34); }
+.options-syfir, .options-avyr, .options-mer { border: 1px solid rgba(var(--passion-rgb), .16); border-radius: 14px; padding: 14px 18px 6px; }
+.options-avyr, .options-mer { border-color: rgba(var(--gold-rgb), .34); }
 .options-intro { font-size: .86rem; color: var(--grey); margin: -2px 0 10px; }
 .options-devis-note { font-size: .85rem; color: var(--grey); font-style: italic; margin: 4px 0 18px; }
 
