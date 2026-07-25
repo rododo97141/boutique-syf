@@ -3403,6 +3403,8 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .modal-close { width: 44px; height: 44px; }
   .artist-book { display: inline-flex; align-items: center; min-height: 44px; }
   .team-contact { display: inline-flex; align-items: center; min-height: 44px; }
+  /* R83 : liens ajoutés vers la rubrique de référencement */
+  .official-more a, .trust-intro .univers-link, .ref-foot a { display: inline-flex; align-items: center; min-height: 44px; }
   /* Cases à cocher : la cible réelle est le label englobant (grand),
      on agrandit la case elle-même pour le confort du pouce */
   .form-consent input, .opt-line input { width: 22px; height: 22px; }
