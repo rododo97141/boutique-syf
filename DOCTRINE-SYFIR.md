@@ -1,0 +1,226 @@
+# DOCTRINE-SYFIR.md
+
+**Document interne. Référence canonique du copy du site SYFIR.**
+En cas de contradiction entre une page du site et ce document, ce document tranche —
+et la page est corrigée.
+
+Ce fichier ne contient **aucune donnée juridique, commerciale ou factuelle inventée**.
+Ce qui n'est pas encore arbitré est marqué `[À CONFIRMER]` et reste une inconnue
+jusqu'à décision du fondateur.
+
+Portée : le site SYFIR (racine du dépôt). Le site AVYR (`avyr-site/`) a sa propre
+doctrine éditoriale — voir `avyr-site/README.md`.
+
+---
+
+## 1. Identité validée
+
+> **SYFIR est une identité de fête et de musique, portée par un écosystème de services,
+> permettant aussi bien aux particuliers de créer leurs petites soirées qu'à SYFIR et
+> ses partenaires de produire de grands événements.**
+
+**Territoire** : fête + musique + expérience collective.
+
+### Les quatre fonctions
+
+| Fonction | Ce que ça veut dire |
+|---|---|
+| **Inspirer** | Donner envie, montrer ce qui se passe, faire exister les moments. |
+| **Permettre** | Donner les moyens de créer sa propre fête. |
+| **Connecter** | Mettre en relation ceux qui font la fête et ceux qui la rendent possible. |
+| **Produire** | Créer et coorganiser les grands événements. |
+
+### Les deux échelles
+
+**Échelle 1 — les particuliers créent leurs petites soirées.**
+Anniversaires, fêtes privées. La personne sélectionne des services dans l'écosystème :
+lieu, DJ, nourriture, boissons, décoration, son, photo.
+
+Trois niveaux d'accompagnement : **autonome**, **assistée**, **complète**.
+
+> **⚠️ Statut réel : offre EN CONSTRUCTION, non opérationnelle.**
+> Interdit tant que ce n'est pas ouvert : catalogue de services, grille tarifaire,
+> parcours de réservation, promesse de disponibilité, nom de prestataire non confirmé.
+> Autorisé : dire que l'offre se construit, et recueillir un intérêt via le formulaire
+> existant (`partenaires.html?type=soiree-particulier#partnerForm`).
+
+**Échelle 2 — SYFIR produit ou coorganise les grands événements.**
+Festivals, concerts, grandes soirées. C'est l'échelle réellement active aujourd'hui,
+avec la billetterie et le Smartboard organisateur.
+
+### Phrase de synthèse
+
+> **« Avec SYFIR, chacun peut créer sa fête, et SYFIR peut créer les grands moments
+> qui rassemblent tout le monde. »**
+
+### Slogan
+
+**« Goûte à la liberté. »** — jamais reformulé.
+
+---
+
+## 2. La règle partenaire
+
+> **Un partenaire SYFIR accompagne et enrichit l'univers sans y être fondu.**
+
+Un partenaire garde son identité, sa marque, son autonomie juridique et commerciale.
+Il n'est pas absorbé dans l'identité SYFIR, et SYFIR ne se substitue pas à lui.
+
+Corollaire direct, à ne jamais perdre de vue : **SYFIR met en relation et coordonne ;
+il ne fournit pas lui-même les services de ses partenaires.**
+
+---
+
+## 3. Statut des partenaires nommés
+
+### AVYR
+
+- Marque **produit** indépendante de cocktails. Ce n'est pas une marque SYFIR.
+- Elle n'est **ni éditée ni vendue par SYFIR**.
+- Elle a son **propre site autonome** (`avyr-site/`), sa propre nav, son propre code,
+  ses propres pages légales.
+- Sur le site SYFIR, elle est présentée par **une seule page courte** :
+  `partenaire-avyr.html`.
+- Séparation des marques : **SYFIR** = l'écosystème, l'événementiel, la billetterie,
+  le média. **AVYR** = le cocktail.
+- Aucun diminutif (« Syp », « Syf ») en communication officielle.
+
+### Les Délices du Bassin Bleu
+
+- Restaurant à **Gourbeyre**, établissement **indépendant**.
+- Membre de l'écosystème SYFIR, et restaurant partenaire AVYR.
+- Faits confirmés et affichables : le nom, la commune, le fait que des cocktails AVYR
+  y sont proposés, le lien Instagram.
+- Tout le reste est `[À CONFIRMER]` — voir `LEGAL-RESPONSIBILITIES.md`.
+
+---
+
+## 4. Politique d'âge par événement
+
+SYFIR **n'a pas** de modale d'âge globale : le site n'est pas un site consacré à
+l'alcool, et bloquer toutes les pages serait faux pour un événement tout public.
+
+Chaque événement porte un **statut d'âge** parmi quatre :
+
+| Statut | Libellé affiché | Rappel à la réservation |
+|---|---|---|
+| `tout-public` | Tout public | aucun |
+| `16-plus` | 16 ans et plus | oui |
+| `18-plus` | 18 ans et plus | oui |
+| `a-confirmer` | Condition d'âge à confirmer | oui |
+
+Valeur par défaut si le champ est absent : **`a-confirmer`**. On ne suppose jamais.
+
+**Ce qu'on ne dit jamais** : que SYFIR *vérifie* l'âge ou l'identité.
+**Ce qu'on dit** : que l'organisateur ou le lieu **peut demander un justificatif à
+l'entrée**.
+
+Le site AVYR conserve sa **propre** confirmation d'âge, indépendante — c'est un site
+consacré à un produit alcoolisé, la situation n'est pas la même. Le mot employé est
+« confirmation » ou « déclaration », **jamais** « vérification ».
+
+`[À CONFIRMER]` — la règle d'âge du compte SYFIR (18 ans à l'inscription) : est-elle
+maintenue alors que des événements tout public existent, ou faut-il l'assouplir ?
+Décision du fondateur, pas la nôtre.
+
+---
+
+## 5. Vocabulaire
+
+### À bannir
+
+| Formule interdite | Pourquoi |
+|---|---|
+| « nos services traiteur » | SYFIR ne fournit pas de traiteur. |
+| « nous proposons [service d'un tiers] » | Fait apparaître SYFIR comme fournisseur. |
+| « SYFIR vous fournit… » | Idem. |
+| « notre offre boissons » | SYFIR ne vend pas de boissons. |
+| « On apporte le reste » | Formule d'ensemblier : laisse croire que SYFIR exécute tout. |
+| « on amène les cocktails, le bar et l'ambiance » | Faux, et double risque : fournisseur + produit alcoolisé d'un tiers. |
+| « nouvelles saveurs » (dans un texte SYFIR) | Vocabulaire produit AVYR. |
+
+### À utiliser
+
+- « prestataires sélectionnés »
+- « partenaires de l'écosystème »
+- « SYFIR met en relation »
+- « service assuré par [le partenaire] »
+- « le contrat est conclu directement avec le prestataire »
+
+### Règle de fond
+
+Le risque visé est la **pratique commerciale trompeuse** et l'**apparence de
+fournisseur**. Chaque fois qu'une phrase pourrait faire croire au lecteur que SYFIR
+exécute lui-même une prestation qu'il ne fait que mettre en relation, elle est fausse
+et doit être réécrite.
+
+### Ton éditorial
+
+Phrases courtes, tutoiement, jargon marketing interdit. Les textes doivent pouvoir
+être **lus à voix haute dans un bar sans sonner faux**. L'expérience avant le produit.
+
+---
+
+## 6. Sélection et référencement des partenaires
+
+Rubrique publique : `partenaires.html#referencement`.
+
+- L'entrée se fait par candidature (formulaire) ou échange direct. Rien n'est
+  automatique.
+- Un partenaire n'est publié qu'avec son **accord explicite**, et seules les
+  informations qu'il a lui-même confirmées sont affichées.
+- Aucune place n'est vendue, aucun classement payant.
+- La sortie se fait à la demande du partenaire à tout moment, ou à l'initiative de
+  SYFIR si la collaboration prend fin ou si les informations ne sont plus exactes.
+- SYFIR **ne se porte pas garant** de la conformité réglementaire, des autorisations
+  ou des assurances de ses partenaires.
+
+`[À CONFIRMER]` : critères complémentaires rendus publics, règle d'ordre d'affichage
+quand le nombre de partenaires augmentera, préavis et modalités formelles de retrait.
+
+---
+
+## 7. Principes déjà actés
+
+Principes de gestion validés par le fondateur, à respecter dans toute décision
+structurante — y compris quand ils ne sont pas visibles sur le site.
+
+- **Réserve financière systématique.** Toute activité constitue une réserve ; on ne
+  fonctionne pas à flux tendu.
+- **Entité vendeuse unique.** Une seule entité vend, pour que la responsabilité
+  commerciale soit lisible et non éclatée.
+  `[À CONFIRMER]` — laquelle, et son périmètre exact : voir `LEGAL-DATA-REQUIRED.md`.
+- **Accès aux données par mission.** On accède aux données pour la mission qu'on a à
+  remplir, pas au-delà.
+- **Doctrine contractuelle : protéger le vital, clauses défendables, négociation
+  maîtrisée.** On protège d'abord ce sans quoi le projet ne survit pas ; on ne signe
+  que des clauses qu'on pourrait défendre ; on garde la main sur la négociation.
+
+---
+
+## 8. Honnêteté — les règles dures
+
+1. **Aucune donnée juridique, commerciale ou factuelle inventée.** Jamais. Un
+   placeholder `[À COMPLÉTER]` / `[À CONFIRMER]` visible vaut mieux qu'une donnée
+   plausible et fausse.
+2. **Aucune donnée fictive dans la version publique.** Pas de faux partenaires, faux
+   artistes, faux événements, faux chiffres, faux témoignages — même marqués « démo ».
+   Un état vide honnête est préférable.
+3. **Aucune affirmation de conformité non prouvée.** On ne dit pas qu'on vérifie ce
+   qu'on ne vérifie pas.
+4. **Une offre non ouverte est annoncée comme non ouverte**, visuellement et
+   textuellement.
+5. **Ce qui n'est pas vérifié visuellement n'est pas terminé.** Rendre, capturer,
+   critiquer, corriger.
+
+---
+
+## 9. Documents liés
+
+| Fichier | Contenu |
+|---|---|
+| `CLAUDE.md` | Design system, contraintes techniques, conventions de code. |
+| `LEGAL-DATA-REQUIRED.md` | Données légales et factuelles manquantes. |
+| `LEGAL-RESPONSIBILITIES.md` | Qui vend, qui encaisse, qui sert, qui détient la licence — faits confirmés et inconnues. |
+| `avyr-site/README.md` | Architecture et doctrine du site AVYR autonome. |
+| `HANDOFF.md` | État technique du dépôt. |
