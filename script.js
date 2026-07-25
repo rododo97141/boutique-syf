@@ -158,7 +158,7 @@
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
-      ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
+      ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels prestataire marque média référencement'],
       ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
       ['Nous rejoindre', 'partenaires.html#partnerForm', 'recrutement emploi carrière rejoindre équipe candidature partenaire la maison institutionnel'],
       ['Contact', 'partenaires.html#partnerForm', 'contact formulaire écrire nous joindre la maison institutionnel'],
