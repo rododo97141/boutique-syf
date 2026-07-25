@@ -2833,6 +2833,34 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .engagement-card strong { display: block; font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: .98rem; letter-spacing: .02em; margin: 8px 0 8px; }
 .engagement-card p { color: rgba(var(--cream-rgb), .78); font-size: .94rem; line-height: 1.55; margin: 0; max-width: 52ch; }
 
+/* R83 — Sélection et référencement des partenaires (rubrique factuelle) */
+.maison-ref { margin-top: 48px; }
+.ref-lead { color: rgba(var(--cream-rgb), .82); font-size: .98rem; line-height: 1.6; max-width: 72ch; margin-bottom: 24px; }
+.ref-steps { list-style: none; display: grid; gap: 16px; padding: 0; margin: 0; counter-reset: refstep; }
+.ref-steps li {
+  counter-increment: refstep;
+  position: relative; padding: 20px 24px 20px 60px;
+  border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04);
+  border: 1px solid rgba(var(--passion-rgb), .16);
+}
+.ref-steps li::before {
+  content: counter(refstep);
+  position: absolute; left: 20px; top: 20px;
+  display: grid; place-items: center; width: 28px; height: 28px;
+  border-radius: 50%; font-family: var(--display); font-weight: 700; font-size: .82rem;
+  color: var(--passion); background: rgba(var(--passion-rgb), .12);
+  border: 1px solid rgba(var(--passion-rgb), .3);
+}
+.ref-steps strong {
+  display: block; font-family: var(--display); font-weight: 700;
+  text-transform: uppercase; font-size: .92rem; letter-spacing: .02em;
+  margin-bottom: 8px; color: var(--passion);
+}
+.ref-steps p { color: rgba(var(--cream-rgb), .78); font-size: .94rem; line-height: 1.6; margin: 0; max-width: 66ch; }
+.ref-foot { margin-top: 18px; font-size: .94rem; color: rgba(var(--cream-rgb), .7); }
+.ref-foot a { color: var(--passion); text-decoration: underline; text-underline-offset: 3px; }
+
 /* ===== R81.4 — L'ÉCOSYSTÈME (accueil) : catégories, pas des partenaires
    confirmés. Cartes honnêtes (icône générique + rôle + CTA formulaire). ===== */
 .eco-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 28px; }
@@ -2894,6 +2922,13 @@ html[data-theme="light"] .fact-label, html[data-theme="light"] .univers-card sma
 html[data-theme="light"] .maison-story p { color: var(--grey-ink); }
 html[data-theme="light"] .engagement-card { background: rgba(var(--gold-rgb), .08); border-color: rgba(var(--gold-deep-rgb), .28); }
 html[data-theme="light"] .engagement-card p { color: var(--grey-ink); }
+html[data-theme="light"] .ref-lead { color: var(--taupe-ink); }
+html[data-theme="light"] .ref-steps li { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .28); }
+html[data-theme="light"] .ref-steps li::before { color: var(--gold-ink); background: rgba(var(--gold-rgb), .16); border-color: rgba(var(--gold-deep-rgb), .38); }
+html[data-theme="light"] .ref-steps strong { color: var(--gold-ink); }
+html[data-theme="light"] .ref-steps p { color: var(--grey-ink); }
+html[data-theme="light"] .ref-foot { color: var(--taupe-ink); }
+html[data-theme="light"] .ref-foot a { color: var(--gold-ink); }
 
 /* Espace pro — variante claire */
 
