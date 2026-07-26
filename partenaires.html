@@ -244,7 +244,7 @@
         </li>
         <li>
           <strong>Sur quels critères un partenaire est présenté</strong>
-          <p>Le lien réel avec l'univers de la fête, de la musique et de l'événementiel, et la capacité à intervenir en Guadeloupe. Un partenaire n'est publié sur le site qu'avec son accord explicite, et seules les informations qu'il a lui-même confirmées sont affichées. <span class="legal-todo">[À CONFIRMER — critères complémentaires que le fondateur souhaite rendre publics : ancienneté, références, exigences documentaires…]</span></p>
+          <p>Le lien réel avec l'univers de la fête, de la musique et de l'événementiel, et la capacité à intervenir en Guadeloupe. Un partenaire n'est publié sur le site qu'avec son accord explicite, et seules les informations qu'il a lui-même confirmées sont affichées. Le porteur de la demande doit être majeur, ou mineur représenté par un responsable légal qui signe et engage sa responsabilité à sa place. <span class="legal-todo">[À CONFIRMER — critères complémentaires que le fondateur souhaite rendre publics : ancienneté, références, exigences documentaires…]</span></p>
         </li>
         <li>
           <strong>Ordre d'affichage</strong>
@@ -360,6 +360,32 @@
           <textarea id="pfMessage" name="message" rows="4" placeholder="Parle-nous de ta vision…"></textarea>
           <span class="field-error"></span>
         </div>
+        <!-- R85 point 3 : un mineur ne peut pas valablement engager SYFIR sans
+             représentant légal (droit des contrats). Garde-fou construit dès
+             maintenant, dormant tant que FORM_ENDPOINT n'est pas activé. -->
+        <div class="form-field">
+          <label for="pfMajeur">Es-tu majeur(e) ? *</label>
+          <select id="pfMajeur" name="majeur">
+            <option value="">Choisir…</option>
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+          </select>
+          <span class="field-error"></span>
+        </div>
+      </div>
+
+      <div class="form-grid" id="guardianFields" hidden>
+        <div class="form-field">
+          <label for="pfGuardianName">Nom du responsable légal *</label>
+          <input type="text" id="pfGuardianName" name="guardianName" autocomplete="off" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfGuardianContact">Contact du responsable légal *</label>
+          <input type="text" id="pfGuardianContact" name="guardianContact" autocomplete="off" placeholder="Email ou téléphone">
+          <span class="field-error"></span>
+        </div>
+        <p class="form-note form-field-full">Ta demande ne pourra être validée qu'avec la signature de ton responsable légal.</p>
       </div>
 
       <label class="form-consent">

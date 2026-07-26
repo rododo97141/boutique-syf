@@ -983,6 +983,18 @@ if (placeModal && placesGridEl) {
       });
     });
 
+    // R85 point 3 : un mineur ne peut pas valablement engager SYFIR sans
+    // représentant légal (droit des contrats) — les champs responsable
+    // légal n'apparaissent que si « Non » est choisi.
+    $('#pfMajeur')?.addEventListener('change', () => {
+      const isMinor = $('#pfMajeur').value === 'non';
+      $('#guardianFields').hidden = !isMinor;
+      if (!isMinor) {
+        setFieldState($('#pfGuardianName'), '');
+        setFieldState($('#pfGuardianContact'), '');
+      }
+    });
+
     // Validation à la volée dès qu'un champ a été touché
     const liveRules = [
       ['#pfName', validators.name], ['#pfEmail', validators.email],
@@ -1000,8 +1012,12 @@ if (placeModal && placesGridEl) {
     partnerForm.addEventListener('submit', async e => {
       e.preventDefault();
       const consent = $('#pfConsent');
+      const isMinor = $('#pfMajeur').value === 'non';
       const ok = [
         ...liveRules.map(([sel, rule]) => check($(sel), rule)),
+        check($('#pfMajeur'), validators.required),
+        !isMinor || check($('#pfGuardianName'), validators.required),
+        !isMinor || check($('#pfGuardianContact'), validators.required),
         setFieldState(consent, consent.checked ? '' : 'Merci de cocher cette case.')
       ].every(Boolean);
       if (!ok) {
@@ -1015,7 +1031,10 @@ if (placeModal && placesGridEl) {
         type: $('input[name="requestType"]:checked', partnerForm)?.value,
         name: $('#pfName').value.trim(), email: $('#pfEmail').value.trim(),
         phone: $('#pfPhone').value.trim(), context: $('#pfContext').value.trim(),
-        message: $('#pfMessage').value.trim(), source: 'partenaire'
+        message: $('#pfMessage').value.trim(), source: 'partenaire',
+        majeur: $('#pfMajeur').value,
+        guardianName: isMinor ? $('#pfGuardianName').value.trim() : '',
+        guardianContact: isMinor ? $('#pfGuardianContact').value.trim() : ''
       };
       const label = submitBtn.textContent; submitBtn.disabled = true; submitBtn.textContent = 'Envoi…';
       if (errorMsg) errorMsg.hidden = true;
