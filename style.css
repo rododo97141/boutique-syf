@@ -3507,8 +3507,9 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   100% { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .13) 100%); }   /* braise dorée — moments/fin */
 }
 
-/* Hero vivant (R3) — « Goûte à la liberté. » se forme mot par mot à l'arrivée,
-   comme un souvenir. Total ≤ 600 ms, une seule fois par session (cf. head).
+/* Hero vivant (R3) — la signature se forme mot par mot à l'arrivée, comme un
+   souvenir (R84 : « Tes prochains souvenirs commencent ici. », 5 mots).
+   Total ≤ 700 ms, une seule fois par session (cf. head).
    Escapes : déjà vu -> instantané ; reduced-motion -> instantané. */
 .hero-tagline span {
   display: inline-block;
@@ -3519,7 +3520,8 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
 .hero-tagline span:nth-child(1) { animation-delay: 0s;   }
 .hero-tagline span:nth-child(2) { animation-delay: .10s; }
 .hero-tagline span:nth-child(3) { animation-delay: .20s; }
-.hero-tagline span:nth-child(4) { animation-delay: .30s; }  /* fin à .58s */
+.hero-tagline span:nth-child(4) { animation-delay: .30s; }
+.hero-tagline span:nth-child(5) { animation-delay: .40s; }  /* fin à .68s */
 @keyframes taglineWord { to { opacity: 1; transform: none; } }
 html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
@@ -3575,8 +3577,9 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 }
 
 /* La fin signée (R3) — ponctuation de marque en pied de chaque page :
-   wordmark Unbounded + « Goûte à la liberté. » en Fraunces italique or.
-   Même rythme partout (mémorisation par répétition élégante). */
+   wordmark Unbounded + signature en Fraunces italique or (R84 : « Tes
+   prochains souvenirs commencent ici. »). Même rythme partout (mémorisation
+   par répétition élégante). */
 .brand-sign {
   text-align: center; padding: 8px 20px 52px; margin-bottom: 48px;
   border-bottom: 1px solid rgba(var(--passion-rgb), .12);
