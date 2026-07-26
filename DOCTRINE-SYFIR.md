@@ -132,9 +132,43 @@ Le site AVYR conserve sa **propre** confirmation d'âge, indépendante — c'est
 consacré à un produit alcoolisé, la situation n'est pas la même. Le mot employé est
 « confirmation » ou « déclaration », **jamais** « vérification ».
 
-`[À CONFIRMER]` — la règle d'âge du compte SYFIR (18 ans à l'inscription) : est-elle
-maintenue alors que des événements tout public existent, ou faut-il l'assouplir ?
-Décision du fondateur, pas la nôtre.
+Décision du fondateur : la règle des 18 ans à l'inscription du compte SYFIR est
+maintenue, sans exception. Un événement peut être ouvert aux mineurs (statut
+tout-public ou 16-plus) sans que cela change la règle du compte : c'est l'adulte
+titulaire du compte qui effectue toute démarche pour un mineur dont il est
+responsable. SYFIR ne collecte, ne vend et ne gère jamais aucune donnée ni aucun
+billet nominatif lié à un mineur — le compte et l'achat restent à 100% adultes.
+Toute information d'âge affichée sur un événement reste une mention informative
+rédigée par l'organisateur, sous sa seule responsabilité ; SYFIR ne la vérifie
+jamais, conformément à la règle déjà énoncée plus haut dans cette section.
+
+---
+
+## 4bis. Rôle de SYFIR par événement : courtier ou organisateur
+
+Le rôle de SYFIR n'est pas fixe pour l'ensemble de la marque : il se détermine
+événement par événement, selon la demande et les prestataires de l'écosystème
+mobilisés.
+
+- **Courtier** : SYFIR met en relation, chaque prestataire réalise et contracte
+  directement avec le client (cf. section 2, La règle partenaire).
+- **Organisateur** (y compris partiel) : SYFIR conçoit, pilote ou porte elle-même
+  l'expérience — notamment sur le terrain de la fête et de la musique, cœur de son
+  identité.
+
+Ce rôle doit être **explicite et déterminé pour chaque événement, jamais ambigu** :
+il conditionne l'assurance à mobiliser, les déclarations légales à effectuer, et la
+chaîne de responsabilité en cas d'incident. En cas de litige, c'est le rôle
+réellement joué dans les faits qui prévaut, pas l'étiquette choisie a priori.
+
+Dans les deux rôles, la restauration et la boisson alcoolisée restent en toutes
+circonstances **hors du périmètre de SYFIR elle-même** — assurées exclusivement par
+un partenaire ou un lieu licencié.
+
+**[Statut à ce jour]** Aucun événement organisé directement par SYFIR en tant
+qu'organisatrice n'a encore eu lieu — cette section est préparatoire, en
+anticipation de l'évolution de la marque, pas la description d'une pratique déjà
+en cours.
 
 ---
 
