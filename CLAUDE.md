@@ -1,4 +1,4 @@
-# CLAUDE.md — boutique-syf (SYFIR — Le Cocktail Libre™)
+# CLAUDE.md — boutique-syf (SYFIR)
 
 Site statique **HTML/CSS/JS vanilla, aucun framework**.
 Pages : `index.html`, `evenements.html`, `evenement.html`, `espace-pro.html` + pages légales.
@@ -64,7 +64,11 @@ transitions `180ms` / `300ms` `cubic-bezier(.16,1,.3,1)` —
 ## 4. Ton éditorial
 
 - **L'expérience avant le produit.**
-- Slogan officiel : **« Goûte à la liberté. »** — jamais reformulé.
+- Signature officielle : **« Tes prochains souvenirs commencent ici. »** (R84 — voir
+  `DOCTRINE-SYFIR.md` §Signature de marque pour les 3 niveaux : signature publique /
+  manifeste / philosophie interne). L'ancien slogan « Goûte à la liberté » est **retiré
+  définitivement** et **non transférable à AVYR** (association alcool/liberté interdite
+  par la loi Évin, art. L3323-4).
 - Manifesto liberté/spontanéité ; phrases courtes ; tutoiement ;
   **jargon marketing interdit**.
 - Les textes doivent pouvoir être **lus à voix haute dans un bar sans sonner faux**.
@@ -76,7 +80,7 @@ Le vocabulaire porte la valeur. **Ces mots sont la loi** ; tout nouveau texte
 
 | Dire | Jamais | Pourquoi |
 |---|---|---|
-| **AVYR** (marque **produit** : le cocktail) vs **SYFIR** (l'**écosystème** et la marque mère : univers, événementiel, billetterie, média) | ~~Syprium~~ (nom d'origine, abandonné R49) · ~~Sirium~~ (nom transitoire R49→R59, abandonné R60, vérifié INPI) · **aucun diminutif** « Syp » ni « Syf » en communication officielle | Amendement R49/R50/R60 (loi Évin, séparation produit / marque mère, validée par le fondateur) : le PRODUIT alcoolisé est **AVYR** (variante « Planteur ») ; **SYFIR** reste l'univers, l'événement, la billetterie et le média. Règle : **jamais de diminutif** (« Syp », « Syf ») là où le message est contrôlé. Les cocktails se nomment **AVYR Planteur / Coral Breeze / Golden Escape** ; `brand` JSON-LD des objets `Product` = `AVYR`. Ne touche pas à **SYFIR** (univers/nav/footer/logo/#brand) ni à « Le Cocktail Libre ». |
+| **AVYR** (marque **produit** : le cocktail) vs **SYFIR** (l'**écosystème** et la marque mère : univers, événementiel, billetterie, média) | ~~Syprium~~ (nom d'origine, abandonné R49) · ~~Sirium~~ (nom transitoire R49→R59, abandonné R60, vérifié INPI) · **aucun diminutif** « Syp » ni « Syf » en communication officielle | Amendement R49/R50/R60 (loi Évin, séparation produit / marque mère, validée par le fondateur) : le PRODUIT alcoolisé est **AVYR** (variante « Planteur ») ; **SYFIR** reste l'univers, l'événement, la billetterie et le média. Règle : **jamais de diminutif** (« Syp », « Syf ») là où le message est contrôlé. Les cocktails se nomment **AVYR Planteur / Coral Breeze / Golden Escape** ; `brand` JSON-LD des objets `Product` = `AVYR`. Ne touche pas à **SYFIR** (univers/nav/footer/logo/#brand). **« Le Cocktail Libre™ »** est une marque déposée du **produit** AVYR (sa collection de cocktails, `avyr-site/`) — jamais utilisée pour titrer ou sous-titrer SYFIR (R84, décision fondateur : SYFIR n'a jamais été et n'est plus la marque de cocktails). |
 | **pochette** (LA pochette) | ~~sachet~~ | Évoque la maroquinerie, colle au visuel marbre-or, effet premium. **Féminin** : accorder (*la* pochette, scellé**e**, dorée, réell**e**, entouré**e**, prêt**es**) ; réécrire la formule pour qu'elle sonne (« le soleil **en pochette** », « la golden hour **en pochette** », « **La** pochette, format liberté »), jamais un chercher-remplacer mécanique. |
 | **SYFIR TV** (la page) | ~~Actualité~~ · l'ancienne graphie diminutive (avec « Syf ») | La chaîne des moments SYFIR — angle éditorial « chaîne TV » assumé (ambiances, aftermovies, soirées). Amendement R50 : le libellé visible est **SYFIR TV** partout (nav, eyebrow, CTA, titres, méga-menu). Le fichier `syf-tv.html` est **conservé** (chemin technique + SEO ; `actualite.html` reste un stub de redirection) — seul le libellé change. |
 | **Nos Signatures** (la vitrine saveurs de l'accueil) | ~~Nos Cocktails Signature~~ | Amendement R12 : le titre de la section cartes pochettes de l'accueil (accent Fraunces sur *Signatures*). Ne renomme ni la page `saveurs.html`, ni la row du méga-menu (« Les pochettes **AVYR** »). |

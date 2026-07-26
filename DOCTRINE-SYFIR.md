@@ -53,9 +53,22 @@ avec la billetterie et le Smartboard organisateur.
 > **« Avec SYFIR, chacun peut créer sa fête, et SYFIR peut créer les grands moments
 > qui rassemblent tout le monde. »**
 
-### Slogan
+### Signature de marque
 
-**« Goûte à la liberté. »** — jamais reformulé.
+> **R84 — décision validée par le fondateur.** L'ancien slogan **« Goûte à la
+> liberté »** appartient à l'ère où SYFIR était la marque de cocktails. Il est
+> **retiré définitivement** du site, et il n'est **pas transféré à AVYR** :
+> associer un produit alcoolisé à la liberté est précisément le type
+> d'association que la loi Évin interdit (art. L3323-4 — seules les mentions
+> objectives sont autorisées pour l'alcool).
+
+Trois niveaux, jamais confondus :
+
+| Niveau | Texte | Usage |
+|---|---|---|
+| **Signature publique officielle** | **« Tes prochains souvenirs commencent ici. »** | Hero, pied de page (« la fin signée »), JSON-LD `slogan`. Signature actuelle du site. |
+| **Manifeste de marque** | *(à rédiger au besoin — page écosystème, dossier de presse)* | Développement long de l'identité, pas une phrase unique répétée partout. |
+| **Philosophie interne** | « Le véritable luxe est de comprendre que chaque instant est précieux. » | Jamais affichée obligatoirement — repère de ton pour l'équipe, pas un slogan public. |
 
 ---
 
@@ -138,6 +151,7 @@ Décision du fondateur, pas la nôtre.
 | « On apporte le reste » | Formule d'ensemblier : laisse croire que SYFIR exécute tout. |
 | « on amène les cocktails, le bar et l'ambiance » | Faux, et double risque : fournisseur + produit alcoolisé d'un tiers. |
 | « nouvelles saveurs » (dans un texte SYFIR) | Vocabulaire produit AVYR. |
+| « Goûte à la liberté » (pour SYFIR **ou** AVYR) | R84 — ancien slogan, retiré définitivement. Associer un produit alcoolisé à la liberté est le type d'association que la loi Évin interdit (art. L3323-4) : non transférable à AVYR. Signature actuelle de SYFIR : « Tes prochains souvenirs commencent ici. » |
 
 ### À utiliser
 
