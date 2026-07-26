@@ -267,15 +267,20 @@ Rubrique publique : `partenaires.html#referencement`.
   marque, qui n'exclut pas les jeunes structures. L'absence d'une assurance
   obligatoire ou d'une autorisation indispensable **bloque le référencement sans
   exception possible**.
-- Aucune place n'est vendue, aucun classement payant.
+- **Ordre d'affichage** (décision du fondateur, 26/07) : tri **alphabétique par
+  défaut**, avec une **option chronologique** offerte à l'utilisateur. Aucune place
+  n'est vendue, aucun classement payant — règle inchangée. *(Statut
+  d'implémentation, tracé explicitement : avec 2 partenaires officiels affichés à
+  ce jour, un sélecteur de tri à l'écran n'apporte rien de perceptible — la règle
+  est posée maintenant, l'interface de tri suit quand la liste grandira. Choix
+  assumé, pas un oubli.)*
 - La sortie se fait à la demande du partenaire à tout moment, ou à l'initiative de
   SYFIR si la collaboration prend fin ou si les informations ne sont plus exactes.
 - SYFIR **ne se porte pas garant** de la conformité réglementaire, des autorisations
   ou des assurances de ses partenaires, au-delà de la vérification faite à l'entrée
   dans la sélection.
 
-`[À CONFIRMER]` : règle d'ordre d'affichage quand le nombre de partenaires
-augmentera, préavis et modalités formelles de retrait.
+`[À CONFIRMER]` : préavis et modalités formelles de retrait.
 
 ---
 
