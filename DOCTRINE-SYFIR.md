@@ -261,14 +261,21 @@ Rubrique publique : `partenaires.html#referencement`.
   automatique.
 - Un partenaire n'est publié qu'avec son **accord explicite**, et seules les
   informations qu'il a lui-même confirmées sont affichées.
+- **Critère complémentaire rendu public** (décision du fondateur, 26/07) : assurance
+  et autorisations applicables à jour, fournies et vérifiées. Pas d'ancienneté
+  minimale, pas de critère chiffré — cohérent avec l'esprit d'accompagnement de la
+  marque, qui n'exclut pas les jeunes structures. L'absence d'une assurance
+  obligatoire ou d'une autorisation indispensable **bloque le référencement sans
+  exception possible**.
 - Aucune place n'est vendue, aucun classement payant.
 - La sortie se fait à la demande du partenaire à tout moment, ou à l'initiative de
   SYFIR si la collaboration prend fin ou si les informations ne sont plus exactes.
 - SYFIR **ne se porte pas garant** de la conformité réglementaire, des autorisations
-  ou des assurances de ses partenaires.
+  ou des assurances de ses partenaires, au-delà de la vérification faite à l'entrée
+  dans la sélection.
 
-`[À CONFIRMER]` : critères complémentaires rendus publics, règle d'ordre d'affichage
-quand le nombre de partenaires augmentera, préavis et modalités formelles de retrait.
+`[À CONFIRMER]` : règle d'ordre d'affichage quand le nombre de partenaires
+augmentera, préavis et modalités formelles de retrait.
 
 ---
 
