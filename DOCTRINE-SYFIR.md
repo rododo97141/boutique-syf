@@ -144,24 +144,68 @@ jamais, conformément à la règle déjà énoncée plus haut dans cette section
 
 ---
 
-## 4bis. Rôle de SYFIR par événement : courtier ou organisateur
+## 4bis. Rôle de SYFIR par événement : deux axes, trois modes
 
-Le rôle de SYFIR n'est pas fixe pour l'ensemble de la marque : il se détermine
-événement par événement, selon la demande et les prestataires de l'écosystème
-mobilisés.
+Le rôle de SYFIR n'est pas fixe pour l'ensemble de la marque, et **ce n'est pas une
+alternative binaire** : il se détermine événement par événement, sur deux axes
+**indépendants** qui se croisent librement.
 
-- **Courtier** : SYFIR met en relation, chaque prestataire réalise et contracte
-  directement avec le client (cf. section 2, La règle partenaire).
-- **Organisateur** (y compris partiel) : SYFIR conçoit, pilote ou porte elle-même
-  l'expérience — notamment sur le terrain de la fête et de la musique, cœur de son
-  identité.
+### Les deux axes
 
-Ce rôle doit être **explicite et déterminé pour chaque événement, jamais ambigu** :
-il conditionne l'assurance à mobiliser, les déclarations légales à effectuer, et la
-chaîne de responsabilité en cas d'incident. En cas de litige, c'est le rôle
-réellement joué dans les faits qui prévaut, pas l'étiquette choisie a priori.
+**Axe 1 — détention juridique de l'événement** : qui porte le bail du lieu, les
+autorisations administratives et la qualité d'organisateur.
+- **Courtière** : SYFIR ne porte rien de tout cela — elle met en relation, chaque
+  prestataire réalise et contracte directement avec le client (cf. section 2, La
+  règle partenaire).
+- **Organisatrice partielle** : SYFIR ne porte **ni le bail ni les autorisations**,
+  mais contracte **en son nom** la programmation artistique, et souvent la
+  billetterie. Ce n'est **pas** une coorganisation à mi-chemin — c'est une position
+  précise, définie par ce que SYFIR contracte elle-même.
+- **Organisatrice pleine** : SYFIR porte le bail, les autorisations et la qualité
+  d'organisateur.
 
-Dans les deux rôles, la restauration et la boisson alcoolisée restent en toutes
+**Axe 2 — production de prestations en propre** : SYFIR produit-elle elle-même une
+prestation qu'elle doit assurer ? Aucune / programmation artistique / billetterie /
+autre.
+
+Les deux axes sont indépendants et se croisent : SYFIR peut produire en propre
+(ex. programmation artistique) sans être organisatrice au sens de l'axe 1, et être
+organisatrice sans rien produire elle-même.
+
+Ce croisement doit être **explicite et déterminé pour chaque événement, jamais
+ambigu** : il conditionne l'assurance à mobiliser, les déclarations légales à
+effectuer, et la chaîne de responsabilité en cas d'incident. En cas de litige,
+c'est le rôle **réellement joué dans les faits** qui prévaut, pas l'étiquette
+choisie a priori.
+
+### Les trois modes
+
+- **Vivre un événement** — participation : la personne assiste à un événement
+  organisé par SYFIR ou par un tiers.
+- **Organiser le sien** — SYFIR accompagne, avec ou pour le client (particulier ou
+  professionnel), avec ou sans artistes selon l'événement.
+- **SYFIR publie** — le site diffuse les événements organisés, les siens comme ceux
+  de tiers (soirées, festivals, événements). C'est un rôle de diffuseur/plateforme,
+  et c'est littéralement ce que fait le site aujourd'hui (billetterie, fiches
+  événement).
+
+### Obligations déclenchées par l'axe 2
+
+Dès que SYFIR contracte elle-même un artiste ou un technicien du spectacle
+(programmation artistique en propre), elle porte les obligations sociales et
+déclaratives attachées à cette contractualisation (GUSO, ou statut d'intermittent
+au-delà d'un seuil légal — pas un choix de gestion), ainsi que la déclaration
+SACEM pour la diffusion musicale. Le détail de ces obligations relève du corpus
+juridique (`LEGAL-RESPONSIBILITIES.md`), pas de cette doctrine de copy.
+
+**Réserve** : la qualification du DJ comme artiste du spectacle vivant a fait
+l'objet de débats juridiques ; la position actuelle du GUSO et du ministère les
+inclut, mais cela reste **à confirmer par l'avocat** — ce n'est pas présenté comme
+purgé de toute contestation.
+
+### Ce qui ne change pas selon le rôle ou le mode
+
+Dans tous les cas, la restauration et la boisson alcoolisée restent en toutes
 circonstances **hors du périmètre de SYFIR elle-même** — assurées exclusivement par
 un partenaire ou un lieu licencié.
 
