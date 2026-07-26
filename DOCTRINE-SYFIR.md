@@ -274,13 +274,21 @@ Rubrique publique : `partenaires.html#referencement`.
   ce jour, un sélecteur de tri à l'écran n'apporte rien de perceptible — la règle
   est posée maintenant, l'interface de tri suit quand la liste grandira. Choix
   assumé, pas un oubli.)*
-- La sortie se fait à la demande du partenaire à tout moment, ou à l'initiative de
-  SYFIR si la collaboration prend fin ou si les informations ne sont plus exactes.
+- La sortie se fait à la demande du partenaire, à tout moment.
+- **Retrait à l'initiative de SYFIR** (décision du fondateur, 26/07) : préavis écrit
+  de **30 jours** pour un manquement corrigeable, avec notification écrite du motif.
+  Retrait **immédiat**, sans préavis, en cas de danger, fraude, illégalité, perte
+  d'une assurance ou d'une autorisation obligatoire, ou signalement fondé. *(Ce
+  délai de 30 jours concerne exclusivement le retrait d'un **partenaire référencé**
+  — objet distinct du délai qui s'applique, par ailleurs dans le corpus juridique,
+  au retrait d'un **événement déjà publié** sur le site. Les deux ne doivent jamais
+  être confondus.)*
 - SYFIR **ne se porte pas garant** de la conformité réglementaire, des autorisations
   ou des assurances de ses partenaires, au-delà de la vérification faite à l'entrée
   dans la sélection.
 
-`[À CONFIRMER]` : préavis et modalités formelles de retrait.
+Les trois `[À CONFIRMER]` de cette section, ouverts en R83, sont désormais tous
+tranchés (R87).
 
 ---
 
