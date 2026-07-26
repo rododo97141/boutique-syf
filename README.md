@@ -1,4 +1,4 @@
-# SYFIR — Le Cocktail Libre™
+# SYFIR — identité de fête et de musique
 
 Site vitrine + billetterie de **SYFIR**, marque événementielle indépendante
 (soirées, festivals, artistes, billetterie, écosystème de partenaires —

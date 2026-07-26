@@ -1,12 +1,16 @@
-# HANDOFF — SYFIR (Le Cocktail Libre™)
+# HANDOFF — SYFIR
 
 > Document de passation pour reprendre le travail dans une session fraîche sans perte de contexte.
 > Dernière mise à jour : fin du LOT 11 (juillet 2026).
 
 ## 1. Le projet en une phrase
 
-Site de marque + billetterie festival pour **SYFIR**, marque de cocktails alcoolisés en pochette
-(« Le Cocktail Libre™ », univers Antilles/Guadeloupe : plage, carnaval, golden hour).
+Site de marque + billetterie festival pour **SYFIR**, identité de fête et de musique portée
+par un écosystème de services (univers Antilles/Guadeloupe : plage, carnaval, golden hour).
+Ce document date d'avant la séparation des marques (R82) : **AVYR**, marque partenaire
+indépendante de cocktails (« Le Cocktail Libre™ » est sa marque déposée), vit sur son
+propre site (`avyr-site/`) — voir `DOCTRINE-SYFIR.md` pour l'identité et le vocabulaire
+à jour.
 Vanilla **HTML/CSS/JS, zéro dépendance, zéro build** — tout se teste en ouvrant les fichiers
 derrière un simple `python3 -m http.server`.
 
@@ -29,7 +33,7 @@ derrière un simple `python3 -m http.server`.
 |---|---|
 | `saveurs.html` | **Page dédiée cocktails (lot 16, maquette client)** : hero sobre + section Nos Cocktails Signature complète (3 cartes, fiches produit modale, galeries/vidéos, formats) — l'accueil n'a plus qu'un teaser |
 | `syf-tv.html` (SYFIR TV — nom canonique ; stubs `actualite.html`, `medias.html` ET `communaute.html` redirigent vers elle) | **Page SYFIR TV — la chaîne des moments (lots 16-18, renommée R6)** : hero océan profond XXL « Partagez la couleur. », section L'AMBIANCE (vidéo + galerie), `#moments` réservé en commentaire (futur feed), section newsletter |
-| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER SYFIR TV (bandeau -> syf-tv.html), CTA final, footer |
+| `index.html` | Site de marque : hero (signature « Tes prochains souvenirs commencent ici. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER SYFIR TV (bandeau -> syf-tv.html), CTA final, footer |
 | `evenements.html` | Billetterie : hero (fond vidéo Pexels injecté après load), **section Billetterie officielle Shotgun RETIRÉE du rendu** (consigne client 02/07 — bloc conservé en commentaire HTML avec TODO `#shotgunWidget`, styles `.shotgun-*` conservés), billetterie **démo** (groupée par jour, filtres type/ville/genre, compteur, cœurs favoris), espace pro (formulaire création), modales (billets, Mon espace), FAB Billets |
 | `evenement.html` + `evenement.js` | Fiche partageable `?id=X` : SEO/OG/JSON-LD MusicEvent, Maps, partage (navigator.share/WhatsApp), tunnel billets, compte à rebours, « Vous aimerez aussi » |
 | `espace-pro.html` + `espace-pro.js` | Smartboard organisateur : sidebar (Vue d'ensemble avec KPI + comparatifs simulés déterministes, Mes événements dupliquer/supprimer, Ventes/Scan/Équipe/Messages/Paramètres en maquettes « Bientôt ») |
