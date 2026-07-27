@@ -1436,7 +1436,7 @@ if (placeModal && placesGridEl) {
       nextBox.closest('.next-events').hidden = true;
     } else {
       // Carte riche façon chaîne TV : badge catégorie, date+lieu, compte à rebours.
-      const fallback = 'images/produits/syfir-pub-plage-1.jpg';
+      const fallback = 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg';
       nextBox.innerHTML = upcoming.map(ev => {
         const d = new Date(ev.date + 'T12:00:00');
         const dateStr = d.getDate() + ' ' + S.MONTHS[d.getMonth()].toLowerCase();
