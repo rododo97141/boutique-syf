@@ -848,9 +848,15 @@
     }, { once: true });
   };
 
-  // Accueil : la vidéo publicitaire officielle SYFIR (« la fraîcheur qu'on
-  // voit » — mouvement dès le premier écran). Poster = photo LCP du hero.
-  injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.webp');
+  // R88 point (b) : l'injection vidéo du hero d'accueil a été retirée.
+  // Le fichier (videos/syfir-pub-video.mp4) est nommé « pub » (publicité),
+  // son poster était un visuel produit confirmé, et le commentaire d'origine
+  // le décrivait comme « la vidéo publicitaire officielle SYFIR » — un
+  // faisceau d'indices suffisant pour ne pas la laisser sur le hero SYFIR
+  // sans l'avoir visionnée. Le hero reste sur son image fête/plage statique
+  // (.hero-bg, style.css). Fichier vidéo conservé dans le dépôt, disponible
+  // pour avyr-site/ — à rétablir ici si le contenu réel est confirmé sans
+  // produit.
   // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
   injectHeroVideo($('.tickets-hero'), ['videos/syfir-pub-video.mp4'],
     'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
