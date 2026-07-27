@@ -144,10 +144,10 @@
   (function initMega() {
     const S = window.SYFIR;
     const envies = [
-      ['evenements.html', 'Fête', 'images/produits/syfir-pub-duo.jpg'],
-      ['evenements.html', 'Plage', 'images/produits/syfir-pub-plage-1.jpg'],
+      ['evenements.html', 'Fête', 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg'],
+      ['evenements.html', 'Plage', 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'],
       ['index.html#artistes', 'Concert', 'images/artiste-unity.jpg'],
-      ['evenements.html', 'Privé', 'images/produits/syf-planteur-verre.jpg'],
+      ['evenements.html', 'Privé', 'images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'],
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
