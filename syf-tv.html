@@ -199,16 +199,6 @@
     <button class="row-arrow row-prev" type="button" aria-label="Vidéos précédentes" hidden>‹</button>
     <div class="media-row-track" id="replayTrack">
 
-      <article class="replay-card" data-kind="video" data-src="videos/syfir-pub-video.mp4">
-        <div class="replay-thumb">
-          <picture><source type="image/webp" srcset="images/ext/unsplash-photo-1496337589254-7e19d01cec44.webp">
-            <img src="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="Le film SYFIR — ambiance golden hour" loading="lazy" decoding="async" width="1600" height="1067"></picture>
-          <button class="replay-play" type="button" aria-label="Lire : Le film SYFIR">▶</button>
-          <span class="replay-badge replay-badge-film">Film</span>
-        </div>
-        <div class="replay-meta"><span class="replay-kicker">SYFIR</span><h3 class="replay-title">Le film SYFIR</h3></div>
-      </article>
-
       <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/UVYTuLruNK8">
         <div class="replay-thumb">
           <picture><source type="image/webp" srcset="images/ext/yt-UVYTuLruNK8.webp"><img src="images/ext/yt-UVYTuLruNK8.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — Live fête de la pêche à Terre-de-Haut" loading="lazy" decoding="async" width="480" height="360"></picture>
@@ -256,16 +246,14 @@
     <h2 class="h2 reveal d1">La couleur, <em>en vrai</em>.</h2>
     <p class="section-intro intro-light reveal d2">Pas de mise en scène. Des soirées, des rires, du sable et des verres qui se lèvent.</p>
 
-    <!-- Vidéo d'ambiance : vraie vidéo SYFIR locale (zéro dépendance externe).
+    <!-- R89 point 3 : la vidéo (videos/syfir-pub-video.mp4) a été retirée —
+         même faisceau d'indices que le hero d'accueil (R88 point b), pas un
+         visionnage. Le fond (déjà sans produit, cf. .ambiance-box en CSS)
+         reste affiché seul en attendant le vrai aftermovie.
          👉 Quand l'aftermovie YouTube officiel sera prêt, remplacer par la façade
          lazy d'origine (voir l'historique git : bouton #aftermovieBtn + data-embed). -->
     <div class="aftermovie reveal d2">
       <div class="ambiance-box" id="ambianceBox">
-        <video muted loop playsinline preload="none" poster="images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg"
-               aria-label="Vidéo d'ambiance SYFIR — toast au coucher de soleil">
-          <source src="videos/syfir-pub-video.mp4" type="video/mp4">
-        </video>
-        <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
         <span class="ambiance-label">Ambiance — l'aftermovie officiel arrive</span>
       </div>
     </div>

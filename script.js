@@ -848,18 +848,17 @@
     }, { once: true });
   };
 
-  // R88 point (b) : l'injection vidéo du hero d'accueil a été retirée.
-  // Le fichier (videos/syfir-pub-video.mp4) est nommé « pub » (publicité),
-  // son poster était un visuel produit confirmé, et le commentaire d'origine
-  // le décrivait comme « la vidéo publicitaire officielle SYFIR » — un
-  // faisceau d'indices suffisant pour ne pas la laisser sur le hero SYFIR
-  // sans l'avoir visionnée. Le hero reste sur son image fête/plage statique
-  // (.hero-bg, style.css). Fichier vidéo conservé dans le dépôt, disponible
-  // pour avyr-site/ — à rétablir ici si le contenu réel est confirmé sans
-  // produit.
-  // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
-  injectHeroVideo($('.tickets-hero'), ['videos/syfir-pub-video.mp4'],
-    'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
+  // R88 point (b) puis R89 point 3 : l'injection de videos/syfir-pub-video.mp4
+  // a été retirée du hero d'accueil ET de .tickets-hero (billetterie).
+  // Le fichier est nommé « pub » (publicité), au moins un de ses posters était
+  // un visuel produit confirmé, et le commentaire d'origine le décrivait comme
+  // « la vidéo publicitaire officielle SYFIR » — un faisceau d'indices
+  // suffisant pour ne pas la laisser sur des pages SYFIR sans l'avoir
+  // visionnée (aucun outil d'extraction vidéo dans ce bac à sable). Chaque
+  // hero reste sur son image statique déjà sans produit (.hero-bg /
+  // .tickets-hero-bg, style.css). Fichier vidéo conservé dans le dépôt,
+  // disponible pour avyr-site/ — à rétablir si son contenu réel est confirmé
+  // sans produit.
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
      Les modales de fiche produit sont remplacées par de vraies pages
@@ -1168,31 +1167,9 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 19. VIDÉO D'AMBIANCE (accueil, communauté) =====
-     Remplace la façade aftermovie en attendant le vrai film : vidéo Pexels
-     muette en boucle, lancée après load (lazy, preload=none + poster).
-     prefers-reduced-motion -> pas d'autoplay, contrôles natifs à la place. */
-  const ambianceBox = $('#ambianceBox');
-  if (ambianceBox) {
-    const v = ambianceBox.querySelector('video');
-    const sound = ambianceBox.querySelector('.car-sound');
-    if (reducedMotion) {
-      v.controls = true;
-      sound.hidden = true;   // les contrôles natifs gèrent déjà le son
-    } else {
-      addEventListener('load', () => { v.play().catch(() => {}); }, { once: true });
-      sound.addEventListener('click', () => {
-        v.muted = !v.muted;
-        sound.textContent = v.muted ? '🔇' : '🔊';
-        sound.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
-        sound.setAttribute('aria-pressed', String(!v.muted));
-        if (v.paused) v.play().catch(() => {});
-      });
-      // aucune source ne charge (fichier absent + réseau) -> on retire le
-      // bouton son, le poster/fond reste en place
-      v.querySelector('source:last-of-type').addEventListener('error', () => { sound.hidden = true; });
-    }
-  }
+  /* ===== 19. VIDÉO D'AMBIANCE — retirée (R89 point 3) =====
+     #ambianceBox n'affiche plus qu'un fond statique (.ambiance-box, CSS) ;
+     plus de <video> ni de bouton son à initialiser. */
 
   /* ===== 20. TILT 3D LÉGER (data-tilt : vitrines de la pochette) =====
      Perspective + rotateX/Y suivant le pointeur, 6° max, retour doux
