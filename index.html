@@ -15,8 +15,10 @@
 <title>SYFIR — Fête, musique & écosystème de services en Guadeloupe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- LCP : le fond du hero (photo officielle) est découvert dans le CSS — préchargé dès le HTML -->
-<link rel="preload" as="image" fetchpriority="high" href="images/ext/unsplash-photo-1507525428034-b723cf961d3e.webp">
+<!-- R90 point 1 : LCP = poster du film de marque (images/syfir-ambiance-poster.jpg),
+     découvert dans le CSS (.hero-bg) — préchargé dès le HTML. Sert aussi de
+     repli fixe si prefers-reduced-motion/Save-Data empêche l'injection vidéo. -->
+<link rel="preload" as="image" fetchpriority="high" href="images/syfir-ambiance-poster.jpg">
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->

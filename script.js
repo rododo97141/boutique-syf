@@ -849,16 +849,22 @@
   };
 
   // R88 point (b) puis R89 point 3 : l'injection de videos/syfir-pub-video.mp4
-  // a été retirée du hero d'accueil ET de .tickets-hero (billetterie).
-  // Le fichier est nommé « pub » (publicité), au moins un de ses posters était
+  // a été retirée du hero d'accueil ET de .tickets-hero (billetterie). Le
+  // fichier est nommé « pub » (publicité), au moins un de ses posters était
   // un visuel produit confirmé, et le commentaire d'origine le décrivait comme
   // « la vidéo publicitaire officielle SYFIR » — un faisceau d'indices
   // suffisant pour ne pas la laisser sur des pages SYFIR sans l'avoir
-  // visionnée (aucun outil d'extraction vidéo dans ce bac à sable). Chaque
-  // hero reste sur son image statique déjà sans produit (.hero-bg /
-  // .tickets-hero-bg, style.css). Fichier vidéo conservé dans le dépôt,
-  // disponible pour avyr-site/ — à rétablir si son contenu réel est confirmé
-  // sans produit.
+  // visionnée (aucun outil d'extraction vidéo dans ce bac à sable). Fichier
+  // conservé dans le dépôt, disponible pour avyr-site/.
+  //
+  // R90 point 1 : premier film de marque conforme du projet, contenu vérifié
+  // image par image par le fondateur (baie aérienne, confettis, carnaval,
+  // rooftop, festif champêtre, coucher de soleil — aucun produit, aucune
+  // boisson, aucun logo tiers, aucun texte incrusté). Câblé uniquement sur le
+  // hero d'accueil pour l'instant — pas sur .tickets-hero, qui reste sur son
+  // image statique en attendant un jugement séparé. Ce n'est PAS un
+  // aftermovie (aucun événement n'a eu lieu) : ne jamais employer ce mot ici.
+  injectHeroVideo($('.hero#accueil'), ['videos/syfir-ambiance-hero.mp4'], 'images/syfir-ambiance-poster.jpg');
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
      Les modales de fiche produit sont remplacées par de vraies pages
