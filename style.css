@@ -2877,6 +2877,9 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 .eco-cta { align-self: flex-start; margin-top: auto; padding-top: 8px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast), transform var(--dur-fast); }
 .eco-cta:hover { color: var(--passion); transform: translateX(3px); }
 .official-partners { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(var(--cream-rgb), .1); }
+/* R89 point 2 : tri alphabétique/chronologique réel, réutilise .chip (déjà
+   défini pour les filtres billetterie) — aucun style nouveau nécessaire. */
+.official-sort { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 /* R81.5 — premier partenaire officiel réel : carte simple, sans les
    affordances de fiche/modale (aucune photo fournie, pas de fiche à ouvrir). */
 .official-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }

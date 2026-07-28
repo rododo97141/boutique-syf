@@ -269,11 +269,12 @@ Rubrique publique : `partenaires.html#referencement`.
   exception possible**.
 - **Ordre d'affichage** (décision du fondateur, 26/07) : tri **alphabétique par
   défaut**, avec une **option chronologique** offerte à l'utilisateur. Aucune place
-  n'est vendue, aucun classement payant — règle inchangée. *(Statut
-  d'implémentation, tracé explicitement : avec 2 partenaires officiels affichés à
-  ce jour, un sélecteur de tri à l'écran n'apporte rien de perceptible — la règle
-  est posée maintenant, l'interface de tri suit quand la liste grandira. Choix
-  assumé, pas un oubli.)*
+  n'est vendue, aucun classement payant — règle inchangée. **R89 point 2** : la
+  page annonçait ce tri sans qu'il existe à l'écran — inexactitude corrigée en
+  implémentant le sélecteur réel (`partenaires.html#referencement`,
+  `.official-sort`) plutôt qu'en reformulant la phrase à la baisse. Le
+  chronologique s'appuie sur l'ordre réel de validation de chaque partenaire
+  (`data-added`), pas une date inventée.
 - La sortie se fait à la demande du partenaire, à tout moment.
 - **Retrait à l'initiative de SYFIR** (décision du fondateur, 26/07) : préavis écrit
   de **30 jours** pour un manquement corrigeable, avec notification écrite du motif.

@@ -966,6 +966,29 @@ if (placeModal && placesGridEl) {
     return setFieldState(field, result === true ? '' : result);
   };
 
+  /* ===== TRI DES PARTENAIRES OFFICIELS (R89 point 2) =====
+     Alphabétique par défaut (ordre déjà vrai des 2 cartes actuelles) ;
+     chronologique via data-added (ordre réel de validation, pas une date
+     inventée). Fonctionne dès aujourd'hui, prêt pour plus de partenaires. */
+  const officialSort = $('#officialSort');
+  const officialGrid = $('#officialGrid');
+  if (officialSort && officialGrid) {
+    officialSort.addEventListener('click', e => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      $$('.chip', officialSort).forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = $$('.official-card', officialGrid);
+      const key = btn.dataset.sort === 'alpha'
+        ? c => c.dataset.name
+        : c => +c.dataset.added;
+      cards.sort((a, b) => {
+        const ka = key(a), kb = key(b);
+        return typeof ka === 'string' ? ka.localeCompare(kb, 'fr') : ka - kb;
+      }).forEach(c => officialGrid.appendChild(c));
+    });
+  }
+
   const partnerForm = $('#partnerForm');
   if (partnerForm) {
     addDemoNote(partnerForm.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)

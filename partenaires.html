@@ -203,8 +203,15 @@
          la commune et un repère public. -->
     <div class="official-partners reveal d3">
       <h3 class="maison-h3">Nos partenaires officiels</h3>
-      <div class="official-grid">
-        <article class="official-card">
+      <!-- R89 point 2 : le tri annoncé plus bas (#referencement) doit être réel,
+           pas seulement une phrase. data-added reflète l'ordre réel de
+           validation (AVYR R81.5, Les Délices R81.6) — pas une date inventée. -->
+      <div class="official-sort" role="group" aria-label="Trier les partenaires officiels" id="officialSort">
+        <button type="button" class="chip active" data-sort="alpha">Alphabétique</button>
+        <button type="button" class="chip" data-sort="recent">Chronologique</button>
+      </div>
+      <div class="official-grid" id="officialGrid">
+        <article class="official-card" data-name="AVYR" data-added="1">
           <span class="official-ic" aria-hidden="true">🍹</span>
           <div>
             <h4>AVYR</h4>
@@ -213,7 +220,7 @@
             <a class="official-link" href="partenaire-avyr.html">Découvrir AVYR →</a>
           </div>
         </article>
-        <article class="official-card">
+        <article class="official-card" data-name="Les Délices du Bassin Bleu" data-added="2">
           <span class="official-ic" aria-hidden="true">🍽️</span>
           <div>
             <h4>Les Délices du Bassin Bleu</h4>
