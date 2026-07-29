@@ -176,3 +176,20 @@
 }
 .chip:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
 .chip.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); border-color: transparent; color: var(--ink); }
+
+/* ===== 05. PLACEHOLDERS JURIDIQUES =====
+   Usage : 6 pages (mentions-legales, cgv, confidentialite, index,
+   partenaire-avyr, partenaire-delices-bassin-bleu). Les briques qui portent
+   l'honnêteté juridique du site : mention sanitaire de fin de page, texte
+   atténué, encadré d'alerte (dont la variante âge) et la puce
+   « [À COMPLÉTER] » en pointillés dorés.
+   ATTENTION à l'ordre : .legal-box-age doit rester APRÈS .legal-box, même
+   spécificité (0-1-0), elle surcharge la bordure et le fond.
+   Restent dans style.css : les surcharges thème clair (.legal-note,
+   .legal-todo) et tout le contexte typographique .legal-page, plus
+   spécifique donc prioritaire sans y toucher. */
+.legal-note { margin-top: 44px; text-align: center; font-size: .9rem; font-weight: 700; color: var(--taupe-ink); }
+.legal-muted { color: var(--grey); }
+.legal-box { margin: 18px 0; padding: 14px 16px; border-left: 3px solid var(--sunset); background: rgba(var(--sunset-rgb), .08); border-radius: 0 12px 12px 0; }
+.legal-box-age { border-left-color: var(--gold); background: rgba(var(--gold-rgb), .10); font-weight: 600; }
+.legal-todo { background: rgba(var(--gold-rgb), .16); border: 1px dashed rgba(var(--gold-rgb), .5); color: var(--passion); padding: 2px 8px; border-radius: 6px; font-size: .9em; font-weight: 700; overflow-wrap: anywhere; }

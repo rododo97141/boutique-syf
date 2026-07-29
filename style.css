@@ -833,7 +833,8 @@ nav.scrolled {
 }
 .serve-link:hover { transform: translateX(5px); color: var(--gold); }
 
-.legal-note { margin-top: 44px; text-align: center; font-size: .9rem; font-weight: 700; color: var(--taupe-ink); }
+/* .legal-note — R91 : primitif extrait dans syfir-ui/components.css (§05),
+   avec les autres briques juridiques. Reste ici : la surcharge thème clair. */
 
 /* ===== 11. OÙ NOUS TROUVER — partenaires & lieux ===== */
 
@@ -1468,10 +1469,9 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .legal-page dt { font-weight: 700; margin-top: 14px; }
 .legal-page dd { margin: 2px 0 0; }
 .legal-page ul { padding-left: 1.15em; }
-.legal-muted { color: var(--grey); }
-.legal-box { margin: 18px 0; padding: 14px 16px; border-left: 3px solid var(--sunset); background: rgba(var(--sunset-rgb), .08); border-radius: 0 12px 12px 0; }
-.legal-box-age { border-left-color: var(--gold); background: rgba(var(--gold-rgb), .10); font-weight: 600; }
-.legal-todo { background: rgba(var(--gold-rgb), .16); border: 1px dashed rgba(var(--gold-rgb), .5); color: var(--passion); padding: 2px 8px; border-radius: 6px; font-size: .9em; font-weight: 700; overflow-wrap: anywhere; }
+/* .legal-muted, .legal-box(+-age), .legal-todo — R91 : primitifs extraits dans
+   syfir-ui/components.css (§05). Restent ici : la surcharge thème clair de
+   .legal-todo (l. ~1480) et tout le contexte .legal-page qui l'entoure. */
 .legal-table-scroll { overflow-x: auto; margin-top: 12px; }
 .legal-page table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 .legal-page th, .legal-page td { text-align: left; padding: 10px 12px; border-bottom: 1px solid rgba(var(--passion-rgb), .16); vertical-align: top; overflow-wrap: anywhere; }
