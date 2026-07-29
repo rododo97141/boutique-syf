@@ -1,0 +1,83 @@
+/* ============================================================
+   SYFIR-UI — bibliothèque de composants
+   ============================================================
+   HTML/CSS/JS vanilla. Zéro dépendance, zéro build : ce fichier se
+   charge par un <link> ordinaire, comme style.css.
+
+   ORDRE DE CHARGEMENT — IMPORTANT
+   Ce fichier se charge AVANT style.css sur chaque page. Conséquence
+   voulue : à spécificité égale, ce qui reste dans style.css gagne.
+   C'est ce qui permet aux surcharges de thème clair
+   (html[data-theme="light"] …) et aux règles de contexte
+   (.final-cta .btn, .footer-news .btn…) de continuer à s'appliquer
+   sans y toucher.
+
+   CE QU'ON EXTRAIT ICI : le primitif — structure, variantes, tailles,
+   états propres au composant.
+   CE QU'ON NE DÉPLACE PAS : les surcharges de thème, les règles de
+   contexte page-spécifique, les sélecteurs partagés entre plusieurs
+   composants (ex. la règle :active commune aux boutons, chips,
+   qty-btn…). Les découper casserait les autres composants.
+
+   Les valeurs sont reprises VERBATIM de style.css — aucune
+   réécriture, aucune « amélioration » au passage. Toute extraction
+   est prouvée par un diff de styles calculés sur les 14 pages ×
+   2 thèmes × 2 viewports : zéro différence exigée.
+   ============================================================ */
+
+/* ===== 01. BOUTONS =====
+   Usage : 14 pages. Variantes solid / ghost / gradient, tailles
+   sm / lg / full, état :disabled, onde lumineuse au survol.
+   Restent dans style.css : les 11 surcharges thème clair
+   contextuelles (.modal, .age-box, .page-pro, .pd-share…), les 13
+   règles de contexte (.final-cta .btn…), la règle :active partagée,
+   le splash ::before et la cible tactile 44px du responsive. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--body);   /* UI : Plus Jakarta Sans, plus lisible que le display large */
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 100px;
+  border: 1.5px solid transparent;
+  transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease), background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+  position: relative;
+  overflow: hidden;
+}
+.btn-solid {
+  background: linear-gradient(120deg, var(--sunset), var(--passion));
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(var(--sunset-rgb), .35);
+}
+.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(var(--sunset-rgb), .5); }
+.btn-ghost { background: none; border-color: rgba(var(--cream-rgb), .4); color: var(--cream); backdrop-filter: blur(6px); }
+.btn-ghost:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-3px); }
+/* Bouton dégradé (repris du composant Hero : violet → orange) */
+.btn-gradient {
+  background: linear-gradient(90deg, var(--shotgun-purple), var(--shotgun-orange));
+  color: var(--cream); border: none;
+  box-shadow: 0 10px 30px rgba(var(--shotgun-purple-rgb), .35);
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg, var(--shotgun-purple-deep), var(--shotgun-orange-deep));
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 16px 42px rgba(var(--shotgun-orange-rgb), .45);
+}
+.btn-sm { padding: 12px 24px; font-size: .72rem; }
+.btn-lg { padding: 20px 44px; }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+/* Onde lumineuse au survol */
+.btn-solid::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(var(--cream-rgb), .45), transparent 70%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-med) var(--ease);
+}
+.btn-solid:hover::after { transform: translateX(120%); }
