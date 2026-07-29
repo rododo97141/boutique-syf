@@ -610,16 +610,16 @@ nav.scrolled {
 }
 .hero-bg {
   position: absolute; inset: -12% 0;
-  /* R90 point 1 : poster du premier film de marque conforme du projet
-     (images/syfir-ambiance-poster.jpg — baie aérienne, confettis, carnaval,
-     rooftop, festif champêtre, coucher de soleil ; aucun produit, aucune
-     boisson, aucun logo tiers, vérifié image par image). Sert de LCP et de
-     repli fixe si la vidéo (script.js, injectHeroVideo) ne s'injecte pas
-     (prefers-reduced-motion, Save-Data, ou décodage impossible).
+  /* R90/R91 : poster du premier film de marque conforme du projet
+     (videos/syfir-film-canva-poster.jpg — baie aérienne, foule ; aucun
+     produit, aucune boisson, aucun logo tiers, aucun texte incrusté,
+     vérifié image par image). Sert de LCP et de repli fixe si la vidéo
+     (script.js, injectHeroVideo) ne s'injecte pas : prefers-reduced-motion,
+     Save-Data, connexion lente, ou décodage impossible.
      L'overlay sombre assure la lisibilité, façon composant Hero. */
   background:
     linear-gradient(180deg, rgba(var(--black-rgb), .35), rgba(var(--black-rgb), .5)),
-    url('images/syfir-ambiance-poster.jpg') center / cover no-repeat;
+    url('videos/syfir-film-canva-poster.jpg') center / cover no-repeat;
   will-change: transform;
 }
 .hero-veil {

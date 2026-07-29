@@ -15,10 +15,12 @@
 <title>SYFIR — Fête, musique & écosystème de services en Guadeloupe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- R90 point 1 : LCP = poster du film de marque (images/syfir-ambiance-poster.jpg),
+<!-- R90/R91 : LCP = poster du film de marque (videos/syfir-film-canva-poster.jpg
+     — le poster vit dans videos/ à côté de son film, pas dans images/),
      découvert dans le CSS (.hero-bg) — préchargé dès le HTML. Sert aussi de
-     repli fixe si prefers-reduced-motion/Save-Data empêche l'injection vidéo. -->
-<link rel="preload" as="image" fetchpriority="high" href="images/syfir-ambiance-poster.jpg">
+     repli fixe si prefers-reduced-motion/Save-Data/connexion lente empêche
+     l'injection vidéo. -->
+<link rel="preload" as="image" fetchpriority="high" href="videos/syfir-film-canva-poster.jpg">
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->

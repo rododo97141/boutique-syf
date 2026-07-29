@@ -804,13 +804,22 @@
   artistFromHash();
   addEventListener('hashchange', artistFromHash);
 
-  /* ===== 12. FOND VIDÉO DU HERO (accueil + billetterie) =====
+  /* ===== 12. FOND VIDÉO DU HERO (accueil) =====
      Vidéo injectée APRÈS l'événement load : le LCP reste l'image de fond CSS
-     (poster). N'apparaît qu'une fois la lecture réellement lancée ; si aucune
-     source ne décode (ex. environnement sans codec H.264), l'image reste.
-     prefers-reduced-motion ou Save-Data -> pas de vidéo, l'image reste. */
+     (poster, préchargée en fetchpriority=high). N'apparaît qu'une fois la
+     lecture réellement lancée ; si aucune source ne décode (ex. environnement
+     sans codec H.264), l'image reste.
+     Trois portes de sortie -> pas de vidéo du tout, le poster reste :
+       - prefers-reduced-motion ;
+       - Save-Data (« économiseur de données » activé) ;
+       - connexion lente (effectiveType 2g/3g) — R91 : le film pèse ~9,5 Mo,
+         et autoplay le fait streamer en entier malgré preload=metadata. Le
+         télécharger sur un forfait mobile lent serait un coût imposé sans
+         contrepartie, le poster raconte déjà la même chose. */
   const injectHeroVideo = (host, sources, poster) => {
-    if (!host || reducedMotion || navigator.connection?.saveData) return;
+    const conn = navigator.connection;
+    const slowNet = /(^|-)[23]g$/.test(conn?.effectiveType || '');
+    if (!host || reducedMotion || conn?.saveData || slowNet) return;
     addEventListener('load', () => {
       const wrap = document.createElement('div');
       wrap.className = 'hero-video';
@@ -857,14 +866,14 @@
   // visionnée (aucun outil d'extraction vidéo dans ce bac à sable). Fichier
   // conservé dans le dépôt, disponible pour avyr-site/.
   //
-  // R90 point 1 : premier film de marque conforme du projet, contenu vérifié
-  // image par image par le fondateur (baie aérienne, confettis, carnaval,
-  // rooftop, festif champêtre, coucher de soleil — aucun produit, aucune
-  // boisson, aucun logo tiers, aucun texte incrusté). Câblé uniquement sur le
-  // hero d'accueil pour l'instant — pas sur .tickets-hero, qui reste sur son
-  // image statique en attendant un jugement séparé. Ce n'est PAS un
-  // aftermovie (aucun événement n'a eu lieu) : ne jamais employer ce mot ici.
-  injectHeroVideo($('.hero#accueil'), ['videos/syfir-ambiance-hero.mp4'], 'images/syfir-ambiance-poster.jpg');
+  // R90/R91 : premier film de marque conforme du projet (45 s, muet, fondus
+  // d'entrée et de sortie pour boucler), contenu vérifié image par image par
+  // le fondateur — aucun produit, aucune boisson, aucun logo tiers, aucun
+  // texte incrusté. Câblé uniquement sur le hero d'accueil — pas sur
+  // .tickets-hero, qui reste sur son image statique en attendant un jugement
+  // séparé. Ce n'est PAS un aftermovie (aucun événement n'a eu lieu) : ne
+  // jamais employer ce mot ici.
+  injectHeroVideo($('.hero#accueil'), ['videos/syfir-film-canva-web.mp4'], 'videos/syfir-film-canva-poster.jpg');
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
      Les modales de fiche produit sont remplacées par de vraies pages
