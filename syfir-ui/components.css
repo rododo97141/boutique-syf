@@ -81,3 +81,52 @@
   transition: transform var(--dur-med) var(--ease);
 }
 .btn-solid:hover::after { transform: translateX(120%); }
+
+/* ===== 02. EN-TÊTES DE SECTION =====
+   Usage : 12 pages. Le triptyque eyebrow / h2 / section-intro qui ouvre
+   chaque section du site, plus la goutte (motif de marque R30) et
+   l'accent Fraunces italique des titres.
+   ATTENTION à l'ordre : .section-intro doit rester AVANT .intro-light,
+   les deux ont la même spécificité (0-1-0) et .intro-light surcharge la
+   couleur.
+   Restent dans style.css : les surcharges thème clair, les règles de
+   contexte (.section-cream .section-intro, .tickets-hero .section-intro,
+   .page-hero .h2, .mobile-banner .h2, .partner-teaser .section-intro…),
+   toutes plus spécifiques donc prioritaires sans y toucher. */
+.eyebrow {
+  font-family: var(--display);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--sunset);
+  margin-bottom: 16px;
+}
+.eyebrow-light { color: var(--passion); }
+/* Motif GOUTTE (R30) : l'accent de l'eyebrow devient une goutte unique, or le
+   jour / argent la nuit (var(--drop-fill)). Une seule forme dans tout le site. */
+.eyebrow::before {
+  content: ""; display: inline-block; vertical-align: baseline;
+  width: 8px; height: 8px; margin-right: 9px;
+  background: var(--drop-fill);
+  border-radius: 50% 50% 50% 0; transform: rotate(45deg) translateY(-1px);
+}
+
+.h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6.5vw, 4.4rem);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.section-intro { max-width: 560px; color: var(--grey); margin-bottom: 48px; }
+.intro-light { color: rgba(var(--cream-rgb), .75); }

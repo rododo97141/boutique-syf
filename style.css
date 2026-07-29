@@ -159,40 +159,11 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 /* ===== 02. UTILITAIRES ===== */
 .container { width: min(1200px, 92vw); margin-inline: auto; }
 
-.eyebrow {
-  font-family: var(--display);
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  color: var(--sunset);
-  margin-bottom: 16px;
-}
-.eyebrow-light { color: var(--passion); }
-/* Motif GOUTTE (R30) : l'accent de l'eyebrow devient une goutte unique, or le
-   jour / argent la nuit (var(--drop-fill)). Une seule forme dans tout le site. */
-.eyebrow::before {
-  content: ""; display: inline-block; vertical-align: baseline;
-  width: 8px; height: 8px; margin-right: 9px;
-  background: var(--drop-fill);
-  border-radius: 50% 50% 50% 0; transform: rotate(45deg) translateY(-1px);
-}
-
-.h2 {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(2rem, 6.5vw, 4.4rem);
-  line-height: 1.12;
-  letter-spacing: -.02em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-.h2 em {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  text-transform: none; letter-spacing: 0;
-  background: var(--gold-metal);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
+/* En-têtes de section (.eyebrow, .eyebrow-light, la goutte ::before, .h2,
+   .h2 em) — R91 : primitif extrait dans syfir-ui/components.css (§02).
+   Restent ici : les surcharges thème clair (html[data-theme="light"]
+   .eyebrow…) et les règles de contexte (.mobile-banner .h2, .page-hero
+   .h2…), toutes plus spécifiques donc toujours prioritaires. */
 
 .section { padding: 80px 0; position: relative; }
 /* R78 : ancre de défilement générique pour toute section ciblée par un lien
@@ -211,9 +182,10 @@ main section[id] { scroll-margin-top: calc(var(--header-h) + 24px); }
 .section-cream > * { position: relative; z-index: 1; }
 
 .section-dark { background: var(--ink-soft); }
-.section-intro { max-width: 560px; color: var(--grey); margin-bottom: 48px; }
+/* .section-intro et .intro-light : extraits dans syfir-ui/components.css
+   (§02). La règle contextuelle ci-dessous reste ici — plus spécifique
+   (0-2-0), elle garde donc la main sur le primitif. */
 .section-cream .section-intro { color: var(--grey-ink); }
-.intro-light { color: rgba(var(--cream-rgb), .75); }
 
 /* Boutons — R91 : le primitif est extrait dans syfir-ui/components.css
    (§01). Restent ici, volontairement : les surcharges thème clair
