@@ -1051,23 +1051,12 @@ html[data-theme="light"] .place-insta { color: var(--sunset-ink); }
 .choice-card input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .09); }
 .choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
 
-.form-grid { display: grid; gap: 20px; }
-.form-field { display: flex; flex-direction: column; gap: 7px; }
-.form-field label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .65); }
-.form-field input, .form-field select, .form-field textarea {
-  background: rgba(var(--cream-rgb), .05);
-  border: 1.5px solid rgba(var(--cream-rgb), .16);
-  border-radius: 12px; padding: 16px 16px; color: var(--cream);
-  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
-}
-.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(var(--cream-rgb), .3); }
-.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
-  outline: none; border-color: var(--passion);
-  box-shadow: 0 0 0 3px rgba(var(--passion-rgb), .15);
-}
-.form-field select option { background: var(--ink-soft); }
-.form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea { border-color: var(--error); }
-.field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
+/* Champs de formulaire (.form-grid, .form-field et ses descendants,
+   .field-error) — R91 : primitif extrait dans syfir-ui/components.css
+   (§03). Restent ici : les surcharges thème clair, les règles de contexte
+   (.form-consent .field-error, .pro-form .form-field, .tab-panel
+   .form-field), .form-row et la grille 2 colonnes du responsive
+   (.form-grid / .form-field-full), toutes hors du primitif. */
 textarea { resize: vertical; }
 
 .form-note { margin: 0 0 20px; font-size: .92rem; font-weight: 600; color: var(--sunset); }

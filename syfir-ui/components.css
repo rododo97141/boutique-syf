@@ -130,3 +130,30 @@
 
 .section-intro { max-width: 560px; color: var(--grey); margin-bottom: 48px; }
 .intro-light { color: rgba(var(--cream-rgb), .75); }
+
+/* ===== 03. CHAMPS DE FORMULAIRE =====
+   Usage : 8 pages. Étiquette, saisie (input/select/textarea), état de
+   focus, état invalide, message d'erreur. La grille .form-grid est ici ;
+   son passage à 2 colonnes reste dans le responsive de style.css.
+   Restent dans style.css : les surcharges thème clair (label, saisie,
+   placeholder, option, .field-error), les règles de contexte
+   (.form-consent .field-error, .pro-form .form-field, .tab-panel
+   .form-field), .form-row, .form-field-full, et le sélecteur d'élément nu
+   textarea{resize} — hors primitif, laissé où il était. */
+.form-grid { display: grid; gap: 20px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .65); }
+.form-field input, .form-field select, .form-field textarea {
+  background: rgba(var(--cream-rgb), .05);
+  border: 1.5px solid rgba(var(--cream-rgb), .16);
+  border-radius: 12px; padding: 16px 16px; color: var(--cream);
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(var(--cream-rgb), .3); }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline: none; border-color: var(--passion);
+  box-shadow: 0 0 0 3px rgba(var(--passion-rgb), .15);
+}
+.form-field select option { background: var(--ink-soft); }
+.form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea { border-color: var(--error); }
+.field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
