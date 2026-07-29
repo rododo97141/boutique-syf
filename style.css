@@ -3549,40 +3549,11 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
    swipe natif mobile). Aligné au container, débordement plein écran.
    ============================================================ */
 :root { --row-gutter: max(4vw, calc((100vw - 1200px) / 2)); }
-.media-row { margin: 56px 0; }
-.media-row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-.media-row-title {
-  font-family: var(--display); font-weight: 800; text-transform: uppercase;
-  font-size: clamp(1.25rem, 3.4vw, 2rem); letter-spacing: -.01em; line-height: 1.05;
-}
-.media-row-all {
-  font-family: var(--body); font-weight: 600; font-size: .82rem; letter-spacing: .02em;
-  color: var(--sunset); white-space: nowrap; align-self: center;
-  transition: color var(--dur-fast) var(--ease);
-}
-.media-row-all:hover { color: var(--passion); }
-.media-row-wrap { position: relative; }
-.media-row-track {
-  display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
-  scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  padding: 6px var(--row-gutter); scroll-padding-inline: var(--row-gutter);
-}
-.media-row-track::-webkit-scrollbar { display: none; }
-.media-row-track > * { scroll-snap-align: start; flex: 0 0 clamp(220px, 70vw, 280px); }
-/* Flèches (desktop, au survol) */
-.row-arrow {
-  position: absolute; top: calc(50% - 12px); transform: translateY(-50%); z-index: 3;
-  width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
-  display: grid; place-items: center; font-size: 1.7rem; line-height: 1;
-  background: rgba(var(--black-rgb), .55); color: var(--cream);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  opacity: 0; transition: opacity var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
-}
-.media-row-wrap:hover .row-arrow { opacity: 1; }
-.row-arrow:focus-visible { opacity: 1; outline: 2px solid var(--passion); outline-offset: 2px; }
-.row-arrow:hover { background: var(--sunset); color: var(--ink); }
-.row-arrow[hidden] { display: none; }
-.row-prev { left: 10px; } .row-next { right: 10px; }
+/* .media-row, -head, -title, -all, -wrap, -track et les flèches
+   (.row-arrow, .row-prev, .row-next) — R91 : primitif extrait dans
+   syfir-ui/components.css (§08). Le token --row-gutter reste ici : il est
+   partagé avec .tv-hero-track. Restent aussi ici les deux media queries
+   ci-dessous et les règles de contexte (.insta-item, figure, .replay-card). */
 @media (hover: none) { .row-arrow { display: none; } }   /* tactile : swipe seul */
 @media (prefers-reduced-motion: reduce) { .media-row-track { scroll-behavior: auto; } }
 
