@@ -1182,15 +1182,10 @@ html[data-theme="light"] .form-demo-note { color: var(--grey-ink); }
 /* Filtres */
 .filters { display: flex; flex-direction: column; gap: 18px; margin-bottom: 44px; }
 .filter-chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip {
-  font-family: var(--display); font-size: .72rem; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  padding: 12px 20px; border-radius: 100px;
-  background: none; border: 1.5px solid rgba(var(--cream-rgb), .2); color: rgba(var(--cream-rgb), .75);
-  transition: all var(--dur-fast) var(--ease);
-}
-.chip:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
-.chip.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); border-color: transparent; color: var(--ink); }
+/* .chip (+ :hover, .active) — R91 : primitif extrait dans
+   syfir-ui/components.css (§04). Restent ici : les surcharges thème clair,
+   .audience-nav .chip, la cible tactile 44px du responsive et la règle
+   :active partagée avec .btn/.qty-btn/… */
 .filter-extra { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
 .filter-extra select {
   background: var(--ink-soft); color: var(--cream);

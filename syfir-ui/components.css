@@ -157,3 +157,22 @@
 .form-field select option { background: var(--ink-soft); }
 .form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea { border-color: var(--error); }
 .field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
+
+/* ===== 04. PUCES / FILTRES (.chip) =====
+   Usage : 3 pages (evenements, partenaires, syf-tv). Puce cliquable en
+   capitales, état :hover et état .active (dégradé sunset → passion).
+   Restent dans style.css : les surcharges thème clair, .audience-nav .chip
+   (lien sans soulignement), la cible tactile 44px du responsive, la règle
+   :active partagée avec .btn/.qty-btn/… et le :where(...) de focus-visible.
+   Les conteneurs de mise en page (.filters, .filter-chips, .filter-extra,
+   .official-sort) restent aussi dans style.css : ce sont des grilles de
+   page, pas le composant. */
+.chip {
+  font-family: var(--display); font-size: .72rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 12px 20px; border-radius: 100px;
+  background: none; border: 1.5px solid rgba(var(--cream-rgb), .2); color: rgba(var(--cream-rgb), .75);
+  transition: all var(--dur-fast) var(--ease);
+}
+.chip:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
+.chip.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); border-color: transparent; color: var(--ink); }
