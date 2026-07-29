@@ -193,3 +193,60 @@
 .legal-box { margin: 18px 0; padding: 14px 16px; border-left: 3px solid var(--sunset); background: rgba(var(--sunset-rgb), .08); border-radius: 0 12px 12px 0; }
 .legal-box-age { border-left-color: var(--gold); background: rgba(var(--gold-rgb), .10); font-weight: 600; }
 .legal-todo { background: rgba(var(--gold-rgb), .16); border: 1px dashed rgba(var(--gold-rgb), .5); color: var(--passion); padding: 2px 8px; border-radius: 6px; font-size: .9em; font-weight: 700; overflow-wrap: anywhere; }
+
+/* ===== 06. BADGES =====
+   Usage : 2 pages (index, syf-tv) pour .rb-badge ; les badges rareté et âge
+   sont posés par JS sur les cartes événement. Trois familles :
+   — rareté honnête (.stock-badge) : n'apparaît que si les données le disent ;
+   — condition d'âge (.event-age-badge, .age-*) : une INDICATION, jamais une
+     prétention de vérification d'identité (R82.1.1) ;
+   — catégorie de carte (.rb-badge + 6 variantes couleur).
+   ATTENTION à l'ordre : les variantes .stock-* et .rb-badge-* doivent rester
+   APRÈS leur base (même spécificité, elles surchargent fond et couleur), et
+   .stock-inline après .stock-badge (elle repasse position en static).
+   Restent dans style.css : les surcharges thème clair (.age-all, .age-16/18,
+   .age-tbd, .stock-complet), .ed-stock (contexte hero de la fiche événement,
+   qui doit continuer à surcharger la position) et .tm-age-note / .ed-age-note
+   qui sont des encadrés de texte, pas des badges. */
+.stock-badge {
+  position: absolute; top: 14px; left: 14px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+}
+.stock-dernieres { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.stock-complet { background: rgba(var(--ink-rgb), .82); color: rgba(var(--cream-rgb), .9); border: 1px solid rgba(var(--cream-rgb), .3); }
+/* Badges d'ACTION positifs (R28-2) — le badge dit toujours l'action possible */
+.stock-dispo { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.stock-open { background: rgba(var(--cream-rgb), .94); color: #071E30; border: 1px solid rgba(var(--gold-rgb), .45); }
+.stock-invite { background: rgba(var(--ink-rgb), .82); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .5); }
+/* variante en ligne (carte accueil, pas de conteneur positionné) */
+.stock-inline { position: static; display: inline-block; margin-top: 6px; }
+
+/* R82.1.1 : condition d'âge par événement — affichage honnête, jamais
+   une prétention de vérification d'identité (simple indication). */
+.event-age-badge { font-size: .74rem; font-weight: 600; margin: 4px 0 0; }
+.age-all { color: rgba(var(--cream-rgb), .55); }
+.age-16, .age-18 { color: var(--passion); }
+.age-tbd { color: rgba(var(--cream-rgb), .5); font-style: italic; }
+.age-badge.ed-age {
+  position: absolute; top: 16px; right: 16px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+  background: rgba(var(--ink-rgb), .78); color: var(--passion);
+}
+
+/* Badge de carte (base — enrichi au pattern 3) */
+.rb-badge {
+  display: inline-block; font-family: var(--display); font-weight: 700;
+  font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px; margin-bottom: 9px;
+  background: rgba(var(--gold-rgb), .92); color: var(--ink);
+}
+.rb-badge-beach    { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.rb-badge-festival { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.rb-badge-club     { background: rgba(var(--passion-rgb), .95); color: var(--ink); }
+.rb-badge-rooftop  { background: rgba(var(--ocean-deep-rgb), .92); color: var(--cream); }
+.rb-badge-soiree   { background: rgba(var(--passion-rgb), .9); color: var(--ink); }
+.rb-badge-prive    { background: rgba(var(--black-rgb), .72); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .55); }
