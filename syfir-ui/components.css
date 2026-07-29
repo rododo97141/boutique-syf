@@ -250,3 +250,63 @@
 .rb-badge-rooftop  { background: rgba(var(--ocean-deep-rgb), .92); color: var(--cream); }
 .rb-badge-soiree   { background: rgba(var(--passion-rgb), .9); color: var(--ink); }
 .rb-badge-prive    { background: rgba(var(--black-rgb), .72); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .55); }
+
+/* ===== 07. CARTES INFO =====
+   Usage : 2 pages, 19 cartes (index : 6 .eco-card + 2 .official-card ;
+   partenaires : 9 .univers-card + 2 .official-card). Trois cartes de contenu
+   factuel — pas de photo, pas de modale : une icône, un titre, un rôle.
+
+   POURQUOI TROIS PRIMITIFS ET PAS UN « .info-card » UNIFIÉ
+   Le plan prévoyait de les fondre en une base commune. Mesuré avant
+   d'écrire : sur 7 à 10 déclarations chacune, seules TROIS sont identiques
+   dans les trois (display:flex, border-radius, background). Tout le reste
+   diverge — flex-direction (column / column / row), gap (4 / 8 / 16px),
+   padding (22 / 24 / 22px), couleur de bordure (crème .1 vs passion .16), et
+   .official-card n'a NI transition NI :hover. Une base de 3 déclarations que
+   chaque variante surcharge sur 4 à 7 points n'est pas un composant, c'est un
+   renommage — au prix de 19 attributs class réécrits sur les deux pages les
+   plus importantes du site, pour zéro gain visuel. Décision remontée au
+   fondateur comme point ouvert ; en attendant, les trois restent des
+   primitifs frères, ce qui est une extraction pure et prouvable.
+
+   Restent dans style.css : les grilles (.maison-univers, .eco-grid,
+   .official-grid, .official-partners, .official-sort) qui sont de la mise en
+   page ; les 8 surcharges thème clair — dont deux sont des sélecteurs
+   GROUPÉS avec .fact-card / .fact-label, qu'on ne découpe pas ; le
+   @media prefers-reduced-motion de .univers-card ; la cible tactile 44px de
+   .eco-cta ; et .univers-num, groupé avec .engagement-num d'un autre
+   composant. */
+.univers-card {
+  display: flex; flex-direction: column; gap: 4px; padding: 22px; border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--cream-rgb), .1); color: inherit;
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+.univers-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
+.univers-ic { font-size: 1.7rem; }
+.univers-card strong { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: .96rem; letter-spacing: .02em; }
+.univers-card small { color: rgba(var(--cream-rgb), .66); font-size: .84rem; }
+.univers-card-link { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
+
+/* Cartes catégorie de l'écosystème (R81.4) : des catégories, jamais des
+   partenaires présentés comme confirmés. */
+.eco-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 24px; border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--cream-rgb), .1);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+}
+.eco-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
+.eco-ic { font-size: 1.7rem; }
+.eco-card h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: .98rem; letter-spacing: .02em; margin: 4px 0 0; }
+.eco-card p { color: rgba(var(--cream-rgb), .72); font-size: .9rem; line-height: 1.55; margin: 0; }
+.eco-card p em { font-style: italic; color: rgba(var(--cream-rgb), .6); }
+.eco-cta { align-self: flex-start; margin-top: auto; padding-top: 8px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast), transform var(--dur-fast); }
+.eco-cta:hover { color: var(--passion); transform: translateX(3px); }
+
+/* Carte de partenaire officiel réel (R81.5) : volontairement sans les
+   affordances de fiche ou de modale — aucune photo fournie, rien à ouvrir. */
+.official-card { display: flex; align-items: flex-start; gap: 16px; padding: 22px; border-radius: var(--radius); background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--passion-rgb), .16); }
+.official-ic { font-size: 1.6rem; flex-shrink: 0; }
+.official-card h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; margin: 0 0 4px; }
+.official-role { font-size: .84rem; color: rgba(var(--cream-rgb), .66); margin: 0 0 6px; }
+.official-note { font-size: .84rem; color: rgba(var(--cream-rgb), .78); margin: 0 0 10px; }
