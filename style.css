@@ -1300,14 +1300,11 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .pro-form .form-field { margin-bottom: 20px; }
 .form-row { display: grid; gap: 18px; }
 
-.visibility-switch { border: none; display: grid; gap: 10px; margin: 8px 0 20px; }
-.visibility-switch legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .65); margin-bottom: 12px; }
-.vis-opt { position: relative; display: block; cursor: pointer; }
-.vis-opt input { position: absolute; opacity: 0; }
-.vis-opt span { display: flex; flex-direction: column; padding: 16px 16px; border-radius: 12px; border: 1.5px solid rgba(var(--cream-rgb), .15); transition: all var(--dur-fast); }
-.vis-opt small { color: var(--grey); }
-.vis-opt input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .1); }
-.vis-opt input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+/* .visibility-switch (+ legend) et .vis-opt (+ input, span, small, :checked,
+   :focus-visible) — R91 : primitif extrait dans syfir-ui/components.css (§10).
+   Restent ici : les 3 surcharges thème clair, toutes GROUPÉES avec d'autres
+   sélecteurs (.form-field label, .choice-card span/small, .tier-info small)
+   qu'on ne découpe pas, et le passage à 2 colonnes du responsive. */
 
 .options-list { border: none; margin-bottom: 24px; }
 .options-list legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .65); margin-bottom: 12px; }

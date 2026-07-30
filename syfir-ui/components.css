@@ -378,3 +378,21 @@
 .choice-card:hover span { transform: translateY(-2px); border-color: rgba(var(--passion-rgb), .4); }
 .choice-card input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .09); }
 .choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+/* ===== 10. INTERRUPTEUR RADIO =====
+   Usage : espace-pro. Variante compacte du §09 pour un choix binaire dans un
+   formulaire (visibilité d'un événement). Même principe d'accessibilité : le
+   radio natif porte l'état, le <span> porte le style. Pas de :hover ici,
+   volontairement — c'est un réglage, pas une carte à explorer.
+   Restent dans style.css : les 3 surcharges thème clair, TOUTES groupées
+   avec d'autres sélecteurs (.form-field label, .choice-card span/small,
+   .tier-info small) — les découper casserait ces composants —, et le passage
+   à 2 colonnes du responsive. */
+.visibility-switch { border: none; display: grid; gap: 10px; margin: 8px 0 20px; }
+.visibility-switch legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--cream-rgb), .65); margin-bottom: 12px; }
+.vis-opt { position: relative; display: block; cursor: pointer; }
+.vis-opt input { position: absolute; opacity: 0; }
+.vis-opt span { display: flex; flex-direction: column; padding: 16px 16px; border-radius: 12px; border: 1.5px solid rgba(var(--cream-rgb), .15); transition: all var(--dur-fast); }
+.vis-opt small { color: var(--grey); }
+.vis-opt input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .1); }
+.vis-opt input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
