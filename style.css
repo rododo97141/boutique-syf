@@ -3150,27 +3150,36 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
    Au crépuscule l'horizon reste chaud pendant que le zénith bascule —
    c'est ce décalage qui fait lire « coucher de soleil » plutôt que
    « fondu au noir ». */
+/* Les 12 couleurs des 4 ciels sont des TOKENS et pas des littéraux
+   répétés : les @keyframes ci-dessous ET le repli requestAnimationFrame
+   (script.js §47) lisent la même source. Sans ça, deux jeux de valeurs
+   finiraient par divulguer — le ciel n'aurait pas la même teinte selon
+   le navigateur, et personne ne le verrait venir. */
+.page-home .sky {
+  --sky-day-a:   #FFFDF6; --sky-day-b:   #FDF6E4; --sky-day-c:   #FAEFD6;  /* plein jour */
+  --sky-gold-a:  #FBEFD2; --sky-gold-b:  #F8DFAE; --sky-gold-c:  #F3C98B;  /* golden hour */
+  --sky-dusk-a:  #4A4668; --sky-dusk-b:  #7C5F74; --sky-dusk-c:  #C98A6A;  /* crépuscule, horizon encore chaud */
+  --sky-night-a: #050A12; --sky-night-b: #071E30; --sky-night-c: #0C2438;  /* nuit profonde */
+}
 .page-home .sky-grade {
-  background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%);
+  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
 }
 @keyframes sky-traverse {
-  0%   { background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%); }  /* plein jour */
-  32%  { background: linear-gradient(180deg, #FBEFD2 0%, #F8DFAE 55%, #F3C98B 100%); }  /* golden hour */
-  64%  { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }  /* crépuscule, horizon encore chaud */
-  100% { background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%); }  /* nuit profonde */
+  0%   { background: linear-gradient(180deg, var(--sky-day-a)   0%, var(--sky-day-b)   55%, var(--sky-day-c)   100%); }
+  32%  { background: linear-gradient(180deg, var(--sky-gold-a)  0%, var(--sky-gold-b)  55%, var(--sky-gold-c)  100%); }
+  64%  { background: linear-gradient(180deg, var(--sky-dusk-a)  0%, var(--sky-dusk-b)  55%, var(--sky-dusk-c)  100%); }
+  100% { background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%); }
 }
-/* Le crépuscule comme point d'arrivée — utilisé par le plafond clair
-   forcé (§39.4). Mêmes valeurs que l'étape 64 % ci-dessus. */
+/* Le crépuscule comme point d'arrivée — plafond du clair forcé (§39.3). */
 @keyframes sky-traverse-capped {
-  0%   { background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%); }
-  50%  { background: linear-gradient(180deg, #FBEFD2 0%, #F8DFAE 55%, #F3C98B 100%); }
-  100% { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }
+  0%   { background: linear-gradient(180deg, var(--sky-day-a)  0%, var(--sky-day-b)  55%, var(--sky-day-c)  100%); }
+  50%  { background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%); }
+  100% { background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%); }
 }
-/* Départ au crépuscule — auto de nuit : le coucher de soleil a déjà eu
-   lieu, on ne le rejoue pas. */
+/* Départ au crépuscule — auto de nuit : le coucher a déjà eu lieu. */
 @keyframes sky-traverse-night {
-  0%   { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }
-  100% { background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%); }
+  0%   { background: linear-gradient(180deg, var(--sky-dusk-a)  0%, var(--sky-dusk-b)  55%, var(--sky-dusk-c)  100%); }
+  100% { background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%); }
 }
 
 /* --- 39.3 Intégration avec les deux thèmes ---
@@ -3199,21 +3208,25 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
        par le suivant, pour la même raison. */
     html[data-theme-pref="auto"][data-theme="light"] .page-home .sky-grade {
       animation-name: sky-traverse;
-      animation-duration: 1ms;          /* ignoré : c'est le scroll qui pilote */
+      /* auto, PAS une durée finie. Une durée en ms mappe l'animation sur
+         une fraction de la course de scroll : la traversée s'arrêtait au
+         golden hour et n'atteignait jamais la nuit. Le commentaire du
+         commit R92/1 affirmait à tort que la durée était ignorée. */
+      animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: scroll(root);
     }
     html[data-theme-pref="light"] .page-home .sky-grade {
       animation-name: sky-traverse-capped;
-      animation-duration: 1ms;
+      animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: scroll(root);
     }
     html[data-theme-pref="auto"][data-theme="dark"] .page-home .sky-grade {
       animation-name: sky-traverse-night;
-      animation-duration: 1ms;
+      animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: scroll(root);
@@ -3223,13 +3236,15 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
 /* Sombre forcé : nuit fixe, aucune animation — y compris sans support
    scroll-timeline et sous reduced-motion. */
 html[data-theme-pref="dark"] .page-home .sky-grade {
-  background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%);
+  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
 }
 /* Repli sans scroll-timeline / sous reduced-motion : un ciel FIXE,
    choisi selon le thème résolu. Pas de traversée, mais jamais un fond
-   incohérent avec le texte. */
+   incohérent avec le texte. Sur les navigateurs sans scroll-timeline mais
+   avec le mouvement autorisé, script.js §47 prend le relais et anime ce
+   même dégradé en requestAnimationFrame. */
 html[data-theme="dark"] .page-home .sky-grade {
-  background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%);
+  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
 }
 
 /* --- 39.4 Le verre de section ---

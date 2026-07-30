@@ -2083,6 +2083,99 @@ if (placeModal && placesGridEl) {
     }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
   })();
 
+  /* ===== 47. R92 — REPLI DU CIEL SANS SCROLL-TIMELINE =====
+     Les navigateurs qui ne connaissent pas animation-timeline: scroll()
+     n'affichent, avec le seul CSS, qu'un ciel FIXE (§39.3). Ce bloc leur
+     rend la traversée, en requestAnimationFrame.
+
+     ZÉRO DUPLICATION DE VALEURS : les 12 couleurs des 4 ciels sont lues
+     dans les tokens CSS --sky-*. Recopier les teintes ici aurait créé
+     deux sources de vérité qui divergent au premier ajustement — et un
+     ciel différent selon le navigateur, que personne n'aurait vu venir.
+
+     Le rAF ne recalcule que si le scroll a bougé d'au moins 1 px, et une
+     seule propriété est écrite (background du .sky-grade). Aucun travail
+     de mise en page, aucune lecture de géométrie dans la boucle. */
+  (function initCielRepli() {
+    if (!document.body.classList.contains('page-home')) return;
+    if (CSS.supports('animation-timeline', 'scroll()')) return;   // le CSS suffit
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const conn = navigator.connection || navigator.webkitConnection;
+    if (conn && (conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || ''))) return;
+
+    const sky = $('.sky');
+    const grade = $('.sky-grade');
+    if (!sky || !grade) return;
+
+    const root = document.documentElement;
+    const cs = getComputedStyle(sky);
+    const lire = n => {
+      const v = cs.getPropertyValue(`--sky-${n}`).trim();
+      const m = v.match(/^#([0-9a-f]{6})$/i);
+      if (!m) return null;
+      const x = parseInt(m[1], 16);
+      return [(x >> 16) & 255, (x >> 8) & 255, x & 255];
+    };
+    const CIEL = {};
+    for (const nom of ['day', 'gold', 'dusk', 'night']) {
+      const t = ['a', 'b', 'c'].map(k => lire(`${nom}-${k}`));
+      if (t.some(c => !c)) return;          // tokens illisibles : on laisse le ciel fixe
+      CIEL[nom] = t;
+    }
+
+    /* Les étapes, et leur position sur la course de scroll — MIROIR EXACT
+       des @keyframes de §39.2 et des plafonds de §39.3. Si l'un change,
+       l'autre doit changer avec. */
+    const PISTES = {
+      pleine:  [[0, 'day'], [.32, 'gold'], [.64, 'dusk'], [1, 'night']],
+      plafond: [[0, 'day'], [.5, 'gold'], [1, 'dusk']],   // clair forcé : jamais la nuit
+      nuit:    [[0, 'dusk'], [1, 'night']],               // auto de nuit : le coucher a eu lieu
+    };
+    const piste = () => {
+      const pref = root.getAttribute('data-theme-pref');
+      if (pref === 'dark') return null;                   // nuit fixe, rien à animer
+      if (pref === 'light') return PISTES.plafond;
+      return root.getAttribute('data-theme') === 'dark' ? PISTES.nuit : PISTES.pleine;
+    };
+
+    const melange = (u, v, k) => Math.round(u + k * (v - u));
+    let dernier = -1, courante = piste();
+
+    const peindre = () => {
+      if (!courante) return;
+      const max = root.scrollHeight - innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      let i = 0;
+      while (i < courante.length - 2 && p > courante[i + 1][0]) i++;
+      const [pa, na] = courante[i], [pb, nb] = courante[i + 1];
+      const k = pb === pa ? 0 : (p - pa) / (pb - pa);
+      const A = CIEL[na], B = CIEL[nb];
+      const stop = j => `rgb(${melange(A[j][0], B[j][0], k)},${melange(A[j][1], B[j][1], k)},${melange(A[j][2], B[j][2], k)})`;
+      grade.style.background = `linear-gradient(180deg, ${stop(0)} 0%, ${stop(1)} 55%, ${stop(2)} 100%)`;
+    };
+
+    let planifie = false;
+    const surScroll = () => {
+      if (planifie) return;
+      planifie = true;
+      requestAnimationFrame(() => {
+        planifie = false;
+        if (Math.abs(scrollY - dernier) < 1) return;
+        dernier = scrollY;
+        peindre();
+      });
+    };
+    addEventListener('scroll', surScroll, { passive: true });
+    addEventListener('resize', () => { dernier = -1; surScroll(); }, { passive: true });
+    // Le thème peut changer en cours de visite : la piste en dépend.
+    new MutationObserver(() => {
+      courante = piste();
+      if (!courante) grade.style.background = '';          // rend la main au CSS
+      else { dernier = -1; peindre(); }
+    }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
+    peindre();
+  })();
+
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
      stoppée au survol / focus / onglet caché / reduced-motion. ===== */
   (function initHomeHero() {
