@@ -436,3 +436,22 @@
 .faq-a { padding: 0 4px 22px; max-width: 68ch; }
 .faq-a p { color: var(--grey-ink); font-size: 1rem; line-height: 1.62; margin: 0; }
 .faq-a a { color: var(--sunset-ink); font-weight: 600; }
+
+/* ===== 12. TOAST =====
+   Usage : toutes les pages qui appellent showToast() dans script.js. Un seul
+   élément, posé en bas au centre, hors flux. Le repos est translate(-50%,140%)
+   — donc hors écran mais toujours dans le DOM : pas de display:none, pas de
+   reflow à l'apparition, et rien à créer au moment où le message arrive. La
+   classe .show ne fait glisser que le transform.
+   Reste dans style.css : la surcharge thème clair, qui inverse fond et texte. */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; z-index: 400;
+  transform: translate(-50%, 140%);
+  background: var(--cream); color: var(--ink);
+  font-weight: 600; font-size: .92rem;
+  padding: 16px 28px; border-radius: 100px;
+  box-shadow: 0 14px 44px rgba(var(--black-rgb), .45);
+  transition: transform var(--dur-med) var(--ease);
+  max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translate(-50%, 0); }

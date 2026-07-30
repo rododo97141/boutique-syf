@@ -1549,18 +1549,9 @@ html[data-theme="light"] .legal-todo { color: var(--gold-ink); }
 }
 .invest-cta p { font-family: var(--serif); font-style: italic; color: rgba(var(--cream-rgb), .72); }
 
-/* ===== 17. TOAST ===== */
-.toast {
-  position: fixed; bottom: 24px; left: 50%; z-index: 400;
-  transform: translate(-50%, 140%);
-  background: var(--cream); color: var(--ink);
-  font-weight: 600; font-size: .92rem;
-  padding: 16px 28px; border-radius: 100px;
-  box-shadow: 0 14px 44px rgba(var(--black-rgb), .45);
-  transition: transform var(--dur-med) var(--ease);
-  max-width: 90vw; text-align: center;
-}
-.toast.show { transform: translate(-50%, 0); }
+/* ===== 17. TOAST =====
+   .toast (+ .show) — R91 : primitif extrait dans syfir-ui/components.css
+   (§12). Reste ici : la surcharge thème clair, qui inverse fond et texte. */
 
 /* ===== 18. BANNIÈRE COCKTAIL MOBILE ===== */
 .mobile-banner {
