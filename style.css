@@ -1039,18 +1039,11 @@ html[data-theme="light"] .place-insta { color: var(--sunset-ink); }
   font-family: var(--display); font-weight: 800; text-transform: uppercase;
   letter-spacing: .14em; font-size: .85rem; color: var(--passion); margin-bottom: 16px;
 }
-.choice-card { position: relative; display: block; cursor: pointer; }
-.choice-card input { position: absolute; opacity: 0; }
-.choice-card span {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: 16px 20px; border-radius: 14px;
-  border: 1.5px solid rgba(var(--cream-rgb), .14);
-  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast) var(--ease);
-}
-.choice-card small { color: var(--grey); font-size: .8rem; }
-.choice-card:hover span { transform: translateY(-2px); border-color: rgba(var(--passion-rgb), .4); }
-.choice-card input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .09); }
-.choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+/* .choice-card (+ input, span, small, :hover, :checked, :focus-visible)
+   — R91 : primitif extrait dans syfir-ui/components.css (§09). Restent ici :
+   le fieldset .form-choice qui les regroupe, les 2 surcharges thème clair
+   GROUPÉES avec .vis-opt (§10) qu'on ne découpe pas, et le correctif de
+   contraste .choice-card span small (R39-A) plus spécifique. */
 
 /* Champs de formulaire (.form-grid, .form-field et ses descendants,
    .field-error) — R91 : primitif extrait dans syfir-ui/components.css

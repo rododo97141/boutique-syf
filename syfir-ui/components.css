@@ -356,3 +356,25 @@
 .row-arrow:hover { background: var(--sunset); color: var(--ink); }
 .row-arrow[hidden] { display: none; }
 .row-prev { left: 10px; } .row-next { right: 10px; }
+
+/* ===== 09. CARTES DE CHOIX RADIO =====
+   Usage : partenaires. Un radio natif rendu invisible, un <span> stylé qui
+   sert de carte cliquable — l'accessibilité vient du radio, jamais d'un
+   div-avec-onclick. L'état sélectionné passe par input:checked + span, le
+   focus clavier reste visible via input:focus-visible + span.
+   Restent dans style.css : le fieldset .form-choice qui les regroupe (mise
+   en page), les 2 surcharges thème clair GROUPÉES avec .vis-opt (§10) —
+   les découper casserait l'autre composant — et le correctif de contraste
+   .choice-card span small (R39-A), plus spécifique donc prioritaire. */
+.choice-card { position: relative; display: block; cursor: pointer; }
+.choice-card input { position: absolute; opacity: 0; }
+.choice-card span {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 16px 20px; border-radius: 14px;
+  border: 1.5px solid rgba(var(--cream-rgb), .14);
+  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast) var(--ease);
+}
+.choice-card small { color: var(--grey); font-size: .8rem; }
+.choice-card:hover span { transform: translateY(-2px); border-color: rgba(var(--passion-rgb), .4); }
+.choice-card input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .09); }
+.choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
