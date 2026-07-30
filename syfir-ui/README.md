@@ -109,6 +109,35 @@ aucune « amélioration » au passage : le lot prouve un déplacement, pas un
 changement de design. Toute amélioration se fera plus tard, visible, sur une
 base dont on sait qu'elle n'a pas bougé.
 
+## Pièges de cascade appris à la dure
+
+Notés ici pour qu'un prochain lot ne les redécouvre pas.
+
+**Ne jamais écrire le raccourci `animation`.** Toujours les propriétés
+longues : `animation-name`, `-duration`, `-timing-function`,
+`-iteration-count`, `-delay`, `-timeline`.
+
+Le raccourci **remet à sa valeur initiale toute sous-propriété qu'il ne
+mentionne pas** — y compris une qu'on vient d'écrire juste au-dessus, et y
+compris depuis une règle de spécificité supérieure. Deux bugs dans le seul
+lot R92, tous deux attrapés au test :
+
+| Où | Ce que le raccourci a effacé | Symptôme |
+|---|---|---|
+| R92/1 | `animation-timeline` | la traversée du ciel ne démarrait pas |
+| R92/6 | `animation-delay` | les 8 étoiles brillantes pulsaient à l'unisson |
+
+Deux occurrences de la même cause suffisent à en faire une règle. Même
+logique pour `background`, `transition`, `mask`, `grid` : un raccourci
+n'ajoute pas, il **remplace tout le groupe**.
+
+**Corollaire de méthode** : un test qui vérifie qu'une propriété est
+*déclarée* ne prouve rien. Le test du socle R92/1 lisait bien
+`animationName` et `animationTimeline` et passait au vert — alors que la
+traversée était cassée. Ce qu'il faut mesurer, c'est le **résultat**
+(la couleur d'arrivée du ciel, le retard réel de chaque étoile), jamais le
+câblage.
+
 ## Limites connues
 
 - **Pas de `components.js`.** Le comportement (toast, flèches de carrousel,

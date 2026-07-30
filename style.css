@@ -3124,7 +3124,31 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
 
    OR : jamais en masse. Le ciel est en couleurs de CIEL (crème chaud,
    abricot, mauve-océan, océan profond). L'or est réservé aux points
-   lumineux — halos d'étoiles, éclats, ampoules, liserés 1 px.
+   lumineux — halos d'étoiles, éclats, ampoules, liserés 1 px. La règle
+   est MESURÉE, pas seulement énoncée : le test des brillantes refuse un
+   point > 4 px, un halo > 12 px ou une croix > 24 px. Échelle du bijou.
+
+   ⚠ INTERDIT DANS CETTE ZONE : LE RACCOURCI `animation`
+   Toujours les propriétés longues (animation-name, -duration,
+   -timing-function, -iteration-count, -delay, -timeline). Raison : le
+   raccourci REMET À SA VALEUR INITIALE toute sous-propriété qu'il ne
+   mentionne pas — y compris une qu'on vient d'écrire juste au-dessus,
+   et y compris depuis une règle de spécificité supérieure.
+
+   Ce piège a coûté deux bugs dans le même lot, trouvés au test :
+   — R92/1 : `animation: sky-traverse …` réinitialisait animation-timeline,
+     et la traversée du ciel ne démarrait pas ;
+   — R92/6 : `animation: star-pulse …` réinitialisait animation-delay, et
+     les huit étoiles brillantes pulsaient à l'unisson.
+   Deux occurrences de la même cause suffisent à en faire une règle : on
+   n'écrit plus le raccourci ici. Voir aussi syfir-ui/README.md.
+
+   NUMÉROTATION DES COMMITS DU LOT — sans trou apparent mais avec une
+   histoire : il n'existe pas de commit « R92/3 ». Les points 2 et 3 du
+   plan (verre de section, bascule du texte) étaient inséparables — l'un
+   sans l'autre publiait un état à contraste cassé — et ont été livrés
+   ensemble dans R92/2. Le numéro 3 a été réattribué au commit qui porte
+   la présente note. Rien n'a été abandonné.
 ============================================================ */
 
 /* --- 39.1 La couche ciel ---
@@ -3334,12 +3358,30 @@ html[data-sky="night"] .page-home .sky-stars::after { opacity: 1; }
    étoiles du CRÉPUSCULE aussi fort que celles de la NUIT, annulant
    l'allumage progressif juste au-dessus. Chaque palier a donc sa plage. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-sky="dusk"] .page-home .sky-stars         { animation: star-twinkle-soft 3.7s var(--ease) infinite; }
-  html[data-sky="dusk"] .page-home .sky-stars::before { animation: star-twinkle-soft 5.3s var(--ease) infinite; }
-  html[data-sky="dusk"] .page-home .sky-stars::after  { animation: star-twinkle-soft 4.3s var(--ease) infinite; }
-  html[data-sky="night"] .page-home .sky-stars         { animation: star-twinkle 3.7s var(--ease) infinite; }
-  html[data-sky="night"] .page-home .sky-stars::before { animation: star-twinkle 5.3s var(--ease) infinite; }
-  html[data-sky="night"] .page-home .sky-stars::after  { animation: star-twinkle 4.3s var(--ease) infinite; }
+  html[data-sky="dusk"] .page-home .sky-stars         {
+    animation-name: star-twinkle-soft; animation-duration: 3.7s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
+  html[data-sky="dusk"] .page-home .sky-stars::before {
+    animation-name: star-twinkle-soft; animation-duration: 5.3s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
+  html[data-sky="dusk"] .page-home .sky-stars::after  {
+    animation-name: star-twinkle-soft; animation-duration: 4.3s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
+  html[data-sky="night"] .page-home .sky-stars         {
+    animation-name: star-twinkle; animation-duration: 3.7s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
+  html[data-sky="night"] .page-home .sky-stars::before {
+    animation-name: star-twinkle; animation-duration: 5.3s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
+  html[data-sky="night"] .page-home .sky-stars::after  {
+    animation-name: star-twinkle; animation-duration: 4.3s;
+    animation-timing-function: var(--ease); animation-iteration-count: infinite;
+  }
 }
 /* Le scintillement module l'opacité SANS jamais l'éteindre : un ciel qui
    clignote à zéro se remarque, un ciel qui respire ne se remarque pas. */
@@ -3445,7 +3487,10 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) {
   html[data-sky="night"] .page-home .star-bright::before,
   html[data-sky="night"] .page-home .star-bright::after {
-    animation: star-flare 6.1s var(--ease) infinite;
+    animation-name: star-flare;
+    animation-duration: 6.1s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
     animation-delay: inherit;   /* la croix bat avec son étoile */
   }
 }
