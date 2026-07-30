@@ -3719,6 +3719,35 @@ html[data-sky="night"] .page-home .garlands { opacity: 1; }
   100%       { opacity: 0; transform: scale(.3) rotate(90deg); }
 }
 
+/* --- 39.395 Mode économe (Save-Data / réseau lent) ---
+   html[data-econome] est posé par script.js §48, parce qu'aucune media
+   query n'expose Save-Data de façon fiable (prefers-reduced-data n'est
+   pas implémenté partout) — le CSS ne peut pas le détecter seul.
+
+   ON COUPE LE MOUVEMENT, PAS LE DÉCOR. Le ciel continue de traverser du
+   jour à la nuit, les étoiles restent allumées, les guirlandes restent
+   éclairées : seules les boucles d'ambiance s'arrêtent. Un visiteur en
+   Save-Data doit voir le même site — on lui épargne des cycles
+   processeur et de la batterie, pas la nuit étoilée.
+
+   Les filantes et les éclats disparaissent, eux : ils N'EXISTENT que par
+   leur animation. Les figer les laisserait en travers de l'écran. */
+html[data-econome] .page-home .sky-stars,
+html[data-econome] .page-home .sky-stars::before,
+html[data-econome] .page-home .sky-stars::after,
+html[data-econome] .page-home .star-bright,
+html[data-econome] .page-home .star-bright::before,
+html[data-econome] .page-home .star-bright::after,
+html[data-econome] .page-home .garland i,
+html[data-econome] .page-home .h2::before,
+html[data-econome] .page-home .h2::after {
+  animation-name: none;
+}
+/* Sans animation, ces deux-là n'ont plus de raison d'être visibles. */
+html[data-econome] .page-home .star-shoot { display: none; }
+html[data-econome] .page-home .h2::before,
+html[data-econome] .page-home .h2::after { display: none; }
+
 /* --- 39.4 Le verre de section ---
    C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
    troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se

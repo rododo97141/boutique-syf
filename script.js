@@ -2083,6 +2083,31 @@ if (placeModal && placesGridEl) {
     }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
   })();
 
+  /* ===== 48. R92 — GARDE-FOU SAVE-DATA / RÉSEAU LENT =====
+     prefers-reduced-motion est une media query, donc le CSS la gère seul.
+     Save-Data et le type de connexion, NON : aucune media query ne les
+     expose de façon fiable (prefers-reduced-data n'est pas implémenté
+     partout). Il faut donc les traduire en attribut pour que le CSS
+     puisse s'en saisir.
+
+     CE QU'ON COUPE : le mouvement d'ambiance — scintillement des
+     étoiles, respiration des ampoules, filantes, éclats. CE QU'ON GARDE :
+     la traversée du ciel elle-même et TOUT le décor en version fixe. Un
+     visiteur en Save-Data doit voir le même site, pas un site amputé ;
+     on lui épargne les cycles processeur et la batterie, pas la nuit
+     étoilée.
+
+     Posé avant tout rendu utile, et jamais retiré : la préférence peut
+     changer en cours de navigation mais rebasculer l'ambiance en pleine
+     lecture serait plus perturbant que la garder coupée. */
+  (function initEconomie() {
+    if (!document.body.classList.contains('page-home')) return;
+    const conn = navigator.connection || navigator.webkitConnection;
+    if (!conn) return;
+    const lent = conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || '');
+    if (lent) document.documentElement.setAttribute('data-econome', '');
+  })();
+
   /* ===== 47. R92 — REPLI DU CIEL SANS SCROLL-TIMELINE =====
      Les navigateurs qui ne connaissent pas animation-timeline: scroll()
      n'affichent, avec le seul CSS, qu'un ciel FIXE (§39.3). Ce bloc leur
