@@ -1,0 +1,153 @@
+# Passation — R93 « Le Portail »
+
+Document écrit à la clôture de R92, pour une **session neuve**. R93 demande
+du Web Audio, un piège de focus et un arbitrage de LCP : trois sujets qui ne
+pardonnent pas l'approximation. Tout ce qui suit est établi et validé — rien
+ici n'est à redécouvrir.
+
+---
+
+## 1. Ce que R93 doit faire (réponses déjà données par le superviseur)
+
+**LE PORTAIL est un ÉLÉMENT D'INTERFACE à l'arrivée sur l'accueil.** Pas une
+transition entre pages. Les View Transitions cross-document sont hors
+périmètre (peut-être R95, décision plus tard).
+
+À la **première visite** de `index.html` : un voile d'accueil sobre — fond
+nuit, marque SYFIR avec son reflet, invitation « Entrer dans la fête » qui
+pulse, et un lien discret « entrer sans le son ».
+
+- Clic sur **Entrer** → le voile se lève en fondu, le film démarre, le son monte.
+- Lien discret → le voile se lève, **pas de son**.
+- Le choix est **mémorisé en `localStorage`**. Aux visites suivantes : pas de
+  voile, arrivée directe sur le site, avec le toggle son disponible dans la nav.
+
+**LE SON.** Jamais d'autoplay — il ne démarre QUE sur le clic explicite.
+Montée en fondu par rampe de gain Web Audio sur ~2,5 s ; descente en fondu à
+la coupure. Toggle de coupure **visible et persistant** dans la nav, état
+mémorisé.
+
+**Contenu sonore v1 : AUCUN fichier audio.** L'ambiance est générée
+procéduralement — percussion douce à 116 BPM type ka (oscillateur grave +
+frappe filtrée) et houle d'océan en bruit filtré avec LFO lent. Zéro asset,
+zéro question de droits, zéro poids réseau. **Prévoir le point d'insertion**
+d'un vrai fichier d'ambiance, que Kily validera plus tard.
+
+Volume maître modéré, jamais brutal.
+
+**Garde-fous.** En `prefers-reduced-motion` ou Save-Data : le voile devient une
+**image fixe avec le bouton**, sans animation ni pulsation, et rien ne démarre
+côté son.
+
+**HORS PÉRIMÈTRE, confirmé** : la Traversée n'est PAS étendue aux autres pages.
+Elles gardent leur système à deux thèmes actuel. Pas d'état partagé entre
+pages, pas de continuité narrative multi-pages.
+
+---
+
+## 2. Les trois points à instruire DANS le plan, avant d'écrire
+
+Identifiés à la fin de R92, non résolus, et ils changent l'architecture :
+
+1. **Le voile et le LCP.** Un voile plein écran au-dessus du hero devient
+   l'élément LCP à la première visite. Le budget est LCP < 2,5 s mobile
+   (R92 mesure aujourd'hui **504 ms** avec CPU bridé ×4 — il y a de la marge,
+   mais elle est à protéger). Vérifier si le voile *améliore* le LCP (il est
+   plus simple que le poster) ou le dégrade, et cadrer son rendu pour qu'il
+   soit peint **sans attendre ni police ni image**.
+
+2. **Le voile et le piège de l'accessibilité.** Un voile bloquant doit piéger
+   le focus, être annoncé correctement, et rester **échappable au clavier** —
+   sinon c'est une porte fermée pour un lecteur d'écran.
+
+3. **Le voile et La Traversée.** À la levée du voile on arrive au palier
+   `day` : la transition doit être **continue**, pas un saut de la nuit du
+   voile au plein jour de l'accueil.
+
+---
+
+## 3. Où est la connaissance dans le dépôt
+
+| Fichier | Ce qu'il porte |
+|---|---|
+| `CLAUDE.md` | La loi du dépôt : design system, règles impératives, lexique de marque |
+| `DOCTRINE-SYFIR.md` | Identité, politique d'âge, rôle de SYFIR, sélection des partenaires |
+| `style.css` **en-tête §39** | Architecture complète de La Traversée : les deux horloges découplées, la table d'intégration des thèmes, la règle du raccourci `animation`, la traçabilité des commits R92 |
+| `syfir-ui/README.md` | Ordre de chargement, les 3 cas où une règle reste dans `style.css`, **§ Pièges de cascade appris à la dure** |
+| `script.js` §46 | Paliers du ciel (IntersectionObserver, `resolveStage`) |
+| `script.js` §47 | Repli requestAnimationFrame sans scroll-timeline |
+| `script.js` §48 | Mode économe (`data-econome`) |
+
+---
+
+## 4. Deux pièges qui ont coûté cher sur R92
+
+**A — Le raccourci `animation` réinitialise ce qu'on vient d'écrire.**
+Deux bugs dans le lot (`animation-timeline` effacée en R92/1, `animation-delay`
+en R92/6). Règle inscrite dans l'en-tête §39 et le README de `syfir-ui` :
+**propriétés longues uniquement**. Vaut aussi pour `background`, `transition`,
+`mask`, `grid`.
+
+**B — L'accueil GRANDIT pendant qu'on le mesure.** Les sections
+`content-visibility: auto` ne déclarent leur vraie hauteur qu'en approchant du
+viewport. Conséquences constatées **quatre fois** sur des sondes différentes :
+scroller vers une hauteur mesurée une seule fois n'atteint jamais le bas ; et
+même « hauteur stable sur 3 tours » ne suffit pas — la stabilité est
+transitoire. **Le motif qui marche** (dans `scratchpad/r92-econome-ciel.mjs`) :
+descente progressive + hauteur stable, PUIS réancrage jusqu'à
+`scrollY / max >= 0.995`.
+
+> **Corollaire de méthode, le plus important :** un test qui vérifie qu'une
+> propriété est *déclarée* ne prouve rien. Le test du socle R92/1 lisait
+> `animationName` et `animationTimeline`, passait au vert, et la traversée
+> était cassée. Mesurer le **résultat** — la couleur d'arrivée du ciel, le
+> retard réel de chaque étoile, l'opacité échantillonnée sur un cycle —
+> jamais le câblage.
+
+---
+
+## 5. Les outils de mesure (hors dépôt, `scratchpad/`)
+
+| Script | Rôle |
+|---|---|
+| `ui-dump.mjs <label>` | Styles calculés, 14 pages × 2 thèmes × 2 viewports = 56 combinaisons |
+| `ui-diff-hors-index.mjs <a> <b>` | **Preuve de confinement** : index exclu, 0 différence exigée sur les 13 autres pages |
+| `r92-contraste.mjs` | Contraste AA — compose ciel + verre + cartes, mesure les fonds photo au 90ᵉ centile |
+| `r92-lcp.mjs` | LCP mobile au `PerformanceObserver` + sweep 14 pages |
+| `r92-{socle,repli,etoiles,brillantes,filantes,guirlandes,eclat,econome}.mjs` | Un par point de R92 |
+
+Référence de comparaison actuelle : dump **`r92-10-final`**.
+
+⚠ **Le serveur local (`python3 -m http.server 8099`) meurt régulièrement** —
+le vérifier avant chaque cycle. Et **ne jamais éditer un fichier pendant qu'un
+dump tourne** (erreur commise une fois en R92/7, signalée dans le commit).
+
+---
+
+## 6. Contraintes permanentes
+
+- Un commit par point · diff strict · **PR #13 en Draft, jamais Ready, jamais mergée**
+- Vanilla : zéro dépendance, zéro build
+- L'or en détail, jamais en masse — **seuils mesurés** : point ≤ 4 px,
+  halo ≤ 12 px, croix ≤ 24 px, ampoule ≤ 6 px
+- Éclat furtif — **seuil mesuré** : visible ≤ 10 % du cycle (R92 : 2,5 %)
+- `prefers-reduced-motion` respecté ; Save-Data allégé
+- **On coupe le mouvement, pas le décor** (principe R92/10)
+- Ne pas activer `FORM_ENDPOINT` · ne pas brancher Shotgun ni la newsletter ·
+  ne pas toucher `avyr-site/` · ne pas créer de photos d'équipe ou d'artistes
+  (**il n'y a pas d'équipe, Unity 141 est le seul artiste réel — cette absence
+  est la configuration correcte**)
+
+---
+
+## 7. Points ouverts hérités
+
+- **5 défauts de contraste préexistants** sur l'accueil, antérieurs à R92 et
+  hors de son mandat : `button.chip`, `em`, `h3`, `p.eyebrow.eyebrow-light`,
+  `p.section-intro.intro-light`. Une passe dédiée reste à décider.
+- Placeholders `[À COMPLÉTER]` / `[À CONFIRMER]` dans
+  `LEGAL-DATA-REQUIRED.md`, `LEGAL-RESPONSIBILITIES.md` et les pages légales.
+- Validation juridique externe des textes AVYR : non faite.
+- Vérification visuelle du film de marque sur un vrai navigateur : le Chromium
+  de test n'a pas les codecs H.264 propriétaires, le repli poster documenté
+  se déclenche toujours. À faire par Kily.
