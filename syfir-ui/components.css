@@ -396,3 +396,43 @@
 .vis-opt small { color: var(--grey); }
 .vis-opt input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .1); }
 .vis-opt input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+/* ===== 11. ACCORDÉON =====
+   Usage : faq. Accordéon accessible (R22-3) bâti sur <details>/<summary>
+   natifs — l'ouverture, le clavier et le rôle ARIA viennent du navigateur,
+   pas d'un script. La croix .faq-ic est faite de deux pseudo-éléments qui
+   pivotent de 135° à l'ouverture ; currentColor la fait suivre la couleur du
+   summary sans la redéclarer.
+   Restent dans style.css : la surcharge thème clair de la bordure, les
+   conteneurs .faq-wrap / .faq-list, .faq-foot (pied de rubrique, pas
+   l'accordéon), et le @media prefers-reduced-motion: no-preference avec son
+   @keyframes faqReveal — l'animation reste hors du primitif pour que la
+   règle de sobriété du mouvement se lise d'un seul endroit. */
+.faq-item {
+  border-bottom: 1px solid rgba(var(--ink-rgb), .12);
+}
+.faq-item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 22px 4px; cursor: pointer; list-style: none;
+  transition: color var(--dur-fast);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--sunset-ink); }
+.faq-q {
+  font-family: var(--body); font-weight: 600; font-size: 1.06rem; line-height: 1.35;
+}
+.faq-ic {
+  flex-shrink: 0; width: 26px; height: 26px; position: relative;
+  border-radius: 50%; border: 1.5px solid rgba(var(--ink-rgb), .3);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), background var(--dur-med);
+}
+.faq-ic::before, .faq-ic::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 11px; height: 1.8px; background: currentColor; border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+.faq-ic::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform var(--dur-med) var(--ease); }
+.faq-item[open] summary .faq-ic { transform: rotate(135deg); border-color: var(--sunset); color: var(--sunset); }
+.faq-a { padding: 0 4px 22px; max-width: 68ch; }
+.faq-a p { color: var(--grey-ink); font-size: 1rem; line-height: 1.62; margin: 0; }
+.faq-a a { color: var(--sunset-ink); font-weight: 600; }
