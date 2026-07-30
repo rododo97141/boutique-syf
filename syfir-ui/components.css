@@ -455,3 +455,51 @@
   max-width: 90vw; text-align: center;
 }
 .toast.show { transform: translate(-50%, 0); }
+
+/* ===== 13. MODALE / OVERLAY =====
+   Usage : index, evenement, compte, partenaires. Fond assombri + flou, boîte
+   centrée par une grille (place-items: center) plutôt que par des marges
+   négatives : elle reste centrée quelle que soit sa hauteur, et
+   overflow-y: auto sur le fond laisse défiler une modale plus haute que
+   l'écran sur mobile.
+   Le repos combine opacity: 0 ET visibility: hidden — l'opacité seule
+   laisserait la boîte cliquable et focusable pendant qu'elle est invisible ;
+   visibility la retire du parcours clavier, et la transition sur les deux
+   propriétés évite qu'elle réapparaisse d'un coup.
+   Restent dans style.css : les 6 surcharges thème clair (dont deux ciblent
+   .modal .btn-ghost, donc un autre composant vu depuis celui-ci), la cible
+   tactile 44px de .modal-close dans le responsive, et .modal-foot qui est un
+   pied de panier plus qu'une brique de modale. */
+.modal {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center; padding: 20px;
+  background: rgba(var(--black-rgb), .72); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur-med), visibility var(--dur-med);
+  overflow-y: auto;
+}
+.modal.open { opacity: 1; visibility: visible; }
+.modal-box {
+  position: relative; width: min(680px, 100%);
+  background: var(--ink-soft);
+  border: 1px solid rgba(var(--passion-rgb), .2);
+  border-radius: 22px; overflow: hidden;
+  transform: translateY(30px) scale(.97);
+  transition: transform var(--dur-med) var(--ease);
+  margin: auto;
+}
+.modal.open .modal-box { transform: none; }
+.modal-box-sm { width: min(440px, 100%); }
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(var(--ink-rgb), .7); border: none; color: var(--cream);
+  transition: transform var(--dur-fast), color var(--dur-fast);
+}
+.modal-close:hover { transform: rotate(90deg); color: var(--passion); }
+.modal-media { aspect-ratio: 16/7; overflow: hidden; }
+.modal-media img { width: 100%; height: 100%; object-fit: cover; }
+.modal-body { padding: 28px; }
+.modal-tag { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--passion); }
+.modal-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; margin: 8px 0 4px; }
+.modal-meta { color: var(--grey); font-size: .9rem; margin-bottom: 20px; }
