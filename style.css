@@ -3651,6 +3651,74 @@ html[data-sky="night"] .page-home .garlands { opacity: 1; }
   .page-home .garlands { height: 64px; }
 }
 
+/* --- 39.39 L'éclat diamant ---
+   Étincelles à quatre branches, FURTIVES, près des titres de l'accueil.
+
+   « L'œil les surprend plus qu'il ne les voit » : c'est le rapport
+   durée/silence qui fait tout. 0,8 s de vie sur un cycle de 11 s et
+   13 s — soit 7 % du temps. Une étincelle visible la moitié du temps
+   n'est plus un éclat, c'est une décoration de Noël.
+
+   ZÉRO NŒUD AJOUTÉ : les deux pseudo-éléments de .h2 étaient libres
+   (l'accent est porté par .h2 em, la goutte par .eyebrow::before). Deux
+   étincelles par titre = « quelques-unes par section », sans toucher au
+   HTML ni au composant §02 de syfir-ui.
+
+   QUATRE BRANCHES : un dégradé conique à quatre pointes claires. Une
+   croix de deux barres ferait un « + » ; le conique donne les pointes
+   effilées d'un éclat de diamant.
+
+   OR EN DÉTAIL : 14 px. Même échelle du bijou que les brillantes et les
+   ampoules. Les délais sont POSITIFS et supérieurs à 4 s : rien ne
+   scintille pendant la fenêtre du LCP.
+
+   Les durées 11 s / 13 s sortent de l'échelle 180/300 ms — ambiance et
+   non interface, et premières entre elles pour que les deux étincelles
+   d'un même titre ne partent jamais ensemble (justification CLAUDE.md). */
+.page-home .h2 { position: relative; }
+.page-home .h2::before,
+.page-home .h2::after {
+  content: ''; position: absolute; width: 14px; height: 14px;
+  pointer-events: none;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, rgba(var(--gold-light-rgb), .95) 6deg, transparent 12deg,
+    transparent 78deg, rgba(var(--gold-light-rgb), .95) 90deg, transparent 102deg,
+    transparent 168deg, rgba(var(--gold-light-rgb), .95) 180deg, transparent 192deg,
+    transparent 258deg, rgba(var(--gold-light-rgb), .95) 270deg, transparent 282deg);
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+}
+.page-home .h2::before { top: -.18em; left: -.42em; }
+.page-home .h2::after  { bottom: .02em; right: -.30em; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-home .h2::before {
+    animation-name: diamond-spark;
+    animation-duration: 11s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
+    animation-delay: 4.5s;
+  }
+  .page-home .h2::after {
+    animation-name: diamond-spark;
+    animation-duration: 13s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
+    animation-delay: 7.5s;
+  }
+  /* Les titres suivants décalent encore, sinon toute la page scintille
+     par vagues synchronisées au défilement. */
+  .page-home .section:nth-of-type(2n) .h2::before { animation-delay: 9s; }
+  .page-home .section:nth-of-type(3n) .h2::after  { animation-delay: 12s; }
+}
+/* 93 % du cycle à zéro. La rotation d'un quart de tour pendant l'éclat
+   donne le scintillement d'une facette qui tourne, pas un simple fondu. */
+@keyframes diamond-spark {
+  0%, 96.4%  { opacity: 0; transform: scale(0) rotate(0deg); }
+  97.6%      { opacity: 1; transform: scale(1) rotate(45deg); }
+  100%       { opacity: 0; transform: scale(.3) rotate(90deg); }
+}
+
 /* --- 39.4 Le verre de section ---
    C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
    troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
