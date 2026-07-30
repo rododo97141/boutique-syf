@@ -3516,6 +3516,62 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
   .page-home .star-bright:nth-child(n+8) { display: none; }
 }
 
+/* --- 39.37 Les filantes ---
+   DEUX, et occasionnelles. Le réglage qui compte n'est pas la traversée
+   elle-même (1,1 s) mais le SILENCE entre deux passages : 19 s et 31 s,
+   premiers entre eux, donc les deux filantes ne partent jamais ensemble
+   et le motif ne se boucle pas de façon perceptible. Une filante toutes
+   les deux secondes n'est plus un ciel, c'est du trafic aérien.
+
+   La traînée est un dégradé qui s'éteint aux deux bouts, pas un trait :
+   une barre nette se lirait comme une rayure d'écran. Largeur 90 px,
+   épaisseur 1,5 px — l'or reste un détail, cf. §39.36.
+
+   Seulement la NUIT — pas même au crépuscule : une étoile filante dans
+   un ciel encore rose ne se lit pas.
+
+   animation-fill-mode reste à sa valeur par défaut et l'opacité est
+   pilotée DANS les images-clés : la filante doit être invisible entre
+   deux passages, pas figée en fin de course. */
+.page-home .star-shoot {
+  position: absolute; width: 90px; height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(var(--cream-rgb), .95) 62%, rgba(var(--gold-light-rgb), .9));
+  border-radius: 1px;
+  opacity: 0;
+  transform: rotate(18deg);
+  /* Pas de will-change : il forcerait une couche compositor PERMANENTE
+     sur deux éléments qui ne bougent que quelques centièmes du temps, et
+     seulement la nuit. L'animation les promeut d'elle-même quand elle
+     démarre. */
+}
+.page-home .star-shoot:nth-child(11) { top: 14%; left: -12%; }
+.page-home .star-shoot:nth-child(12) { top: 38%; left: -12%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky="night"] .page-home .star-shoot:nth-child(11) {
+    animation-name: star-shoot-go;
+    animation-duration: 19s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: -3s;
+  }
+  html[data-sky="night"] .page-home .star-shoot:nth-child(12) {
+    animation-name: star-shoot-go;
+    animation-duration: 31s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: -17s;
+  }
+}
+/* 94 % de la durée en silence, 6 % de passage. Les bornes d'opacité sont
+   dans les images-clés pour que l'invisibilité soit l'état par défaut. */
+@keyframes star-shoot-go {
+  0%, 93.9% { opacity: 0; transform: translate3d(0, 0, 0) rotate(18deg); }
+  94.4%     { opacity: 1; }
+  99.4%     { opacity: 0; }
+  100%      { opacity: 0; transform: translate3d(128vw, 46vh, 0) rotate(18deg); }
+}
+
 /* --- 39.4 Le verre de section ---
    C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
    troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
