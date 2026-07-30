@@ -3232,6 +3232,108 @@ html[data-theme="dark"] .page-home .sky-grade {
   background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%);
 }
 
+/* --- 39.4 Le verre de section ---
+   C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
+   troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
+   lit à travers, et l'alternance sombre/crème de l'ancien accueil laisse
+   place à un champ continu — changement d'allure validé, pas subi.
+
+   POURQUOI DU VERRE ET PAS DE LA TRANSPARENCE
+   Si le texte reposait directement sur le ciel interpolé, son contraste
+   dépendrait d'une valeur continue, donc intestable. Le verre garantit
+   au texte un fond LOCAL dont on maîtrise le composite. C'est la pièce
+   qui rend la garantie AA calculable.
+
+   POURQUOI DES ALPHAS ÉLEVÉS AU CRÉPUSCULE ET LA NUIT
+   Le palier bascule sur une SECTION, le ciel sur un POURCENTAGE de
+   scroll : au moment où le palier passe à « dusk », le ciel peut encore
+   être clair. Un verre sombre trop léger laisserait alors du texte crème
+   sur un fond mi-clair. Les alphas sombres sont donc assez soutenus pour
+   dominer le ciel quel qu'il soit à cet instant. Le ciel se lit encore à
+   26-40 %, ce qui suffit à garder le champ continu.
+
+   Le hero et #evenements n'ont PAS de verre : ils portent leur propre
+   imagerie (film de marque, photo voilée) et leur contraste est déjà
+   traité indépendamment. */
+html[data-sky="day"]    { --glass: rgba(255, 253, 246, .72); --glass-soft: rgba(255, 253, 246, .60); }
+html[data-sky="golden"] { --glass: rgba(255, 251, 240, .72); --glass-soft: rgba(255, 251, 240, .60); }
+html[data-sky="dusk"]   { --glass: rgba(16, 13, 26, .74);    --glass-soft: rgba(16, 13, 26, .62); }
+html[data-sky="night"]  { --glass: rgba(3, 7, 14, .78);      --glass-soft: rgba(3, 7, 14, .66); }
+
+/* Le marqueur data-sky-stage, déjà posé sur chaque section pour piloter
+   les paliers, sert aussi d'accroche au verre : une seule liste à tenir
+   à jour, pas deux qui divergeraient. */
+.page-home [data-sky-stage] {
+  background: var(--glass-soft);
+  transition: background var(--dur-med) var(--ease);
+}
+.page-home .section-dark[data-sky-stage],
+.page-home .section-cream[data-sky-stage],
+.page-home footer[data-sky-stage] {
+  background: var(--glass);
+}
+/* Imagerie propre : aucun verre, ni transition de fond. */
+.page-home .home-hero[data-sky-stage],
+.page-home .section-event[data-sky-stage] { background: none; transition: none; }
+
+/* .section-cream dessine des ombres de bord qui supposaient un aplat
+   crème : sur un verre, elles se lisent comme une salissure. */
+.page-home .section-cream[data-sky-stage]::before,
+.page-home .section-cream[data-sky-stage]::after { display: none; }
+
+/* Le liseré du pied de page reprend la règle « l'or en détail » : 1 px,
+   jamais une surface. */
+.page-home footer[data-sky-stage] { border-top-color: rgba(var(--gold-rgb), .22); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-home [data-sky-stage] { transition: none; }
+}
+
+/* --- 39.5 La bascule du texte ---
+   Au crépuscule et la nuit, le verre est sombre : tout le texte doit
+   passer en clair. Il n'y a PAS de bascule inverse à écrire, grâce à un
+   invariant de resolveStage (script.js §46) : les paliers « day » et
+   « golden » ne surviennent JAMAIS avec un thème sombre — en auto de
+   nuit ils sont ramenés à « dusk », en sombre forcé à « night ». Donc
+   jour et golden hour impliquent toujours un thème clair, déjà correct.
+
+   MÉTHODE : on redéfinit les TOKENS d'encre plutôt que d'énumérer les
+   sélecteurs. Les dizaines de surcharges thème clair du fichier disent
+   déjà « color: var(--taupe) », « var(--sunset-ink) »… : en changeant la
+   valeur du token à la racine des sections, elles suivent toutes seules.
+   Une seule liste à tenir, aucune surcharge oubliée.
+
+   CE QU'ON NE FLIPPE PAS : --ink. Il sert de couleur de TEXTE sur les
+   surfaces dorées (.btn-solid, .chip.active) ; le passer en crème
+   donnerait du crème sur or, illisible. .section-cream, qui l'utilise
+   bien comme couleur de texte, est traitée à part juste en dessous.
+
+   La portée est [data-sky-stage], c'est-à-dire les sections — pas body.
+   Le toast, la nav et les modales, qui flottent au-dessus et gardent
+   leur propre fond, ne sont donc pas touchés. */
+html[data-sky="dusk"] .page-home [data-sky-stage],
+html[data-sky="night"] .page-home [data-sky-stage] {
+  --ink-warm: var(--cream);
+  --taupe: rgba(var(--cream-rgb), .74);
+  --taupe-soft: rgba(var(--cream-rgb), .66);
+  --taupe-deep: rgba(var(--cream-rgb), .78);
+  --taupe-ink: rgba(var(--cream-rgb), .82);
+  --grey-ink: rgba(var(--cream-rgb), .74);
+  --grey-ink-2: rgba(var(--cream-rgb), .70);
+  --grey-mid: rgba(var(--cream-rgb), .62);
+  --grey-soft: rgba(var(--cream-rgb), .58);
+  --brown-ink: rgba(var(--cream-rgb), .80);
+  --sunset-ink: var(--passion);
+  --gold-ink: var(--gold-light);
+  --gold-ink-2: var(--gold-light);
+  color: var(--cream);
+}
+/* .section-cream force color: var(--ink) — la seule utilisation de --ink
+   comme texte dans une section. On la traite ici plutôt que de flipper le
+   token et de casser les boutons. */
+html[data-sky="dusk"] .page-home .section-cream[data-sky-stage],
+html[data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--cream); }
+
 /* ===== 38. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {
