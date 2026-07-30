@@ -1,6 +1,12 @@
 /* ============================================================
-   SYFIR — Le Cocktail Libre™
+   SYFIR — Tes prochains souvenirs commencent ici.
    style.css — design system & pages (mobile first)
+   ------------------------------------------------------------
+   Les primitifs de composants vivent dans syfir-ui/components.css,
+   chargé AVANT ce fichier : à spécificité égale, ce qui reste ici
+   gagne. Restent donc ici les surcharges de thème clair, les règles
+   de contexte page-spécifique et les sélecteurs partagés entre
+   plusieurs composants.
    ------------------------------------------------------------
    Sommaire :
    01. VARIABLES & BASE
