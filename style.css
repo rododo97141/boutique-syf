@@ -3572,6 +3572,85 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
   100%      { opacity: 0; transform: translate3d(128vw, 46vh, 0) rotate(18deg); }
 }
 
+/* --- 39.38 Les guirlandes ---
+   Elles s'allument AU CRÉPUSCULE : le moment précis où une terrasse
+   allume ses lumières. C'est le seul ornement du lot dont l'apparition
+   raconte une heure plutôt qu'un décor.
+
+   Deux festons, en CSS pur : le câble est une bordure supérieure
+   incurvée par border-radius, les ampoules sont des <i> de 5 px. Aucune
+   image, aucun SVG.
+
+   OR EN DÉTAIL : ampoule 5 px, halo éteint à 7 px, câble 1 px. Même
+   échelle du bijou que les brillantes (§39.36), même refus des surfaces.
+
+   Fixées EN HAUT du viewport, sous la nav : une guirlande pend, elle ne
+   flotte pas au milieu. pointer-events: none — elles ne doivent jamais
+   intercepter un clic de nav.
+
+   L'allumage est décalé ampoule par ampoule (--i) : une guirlande dont
+   toutes les ampoules s'allument ensemble ressemble à un néon. */
+.page-home .garlands {
+  position: fixed; top: var(--header-h); left: 0; right: 0; height: 90px;
+  z-index: 1; pointer-events: none; overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--dur-med) var(--ease);
+}
+.page-home .garland {
+  position: absolute; left: -4%; right: -4%; height: 54px;
+  border-top: 1px solid rgba(var(--gold-rgb), .40);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  display: flex; justify-content: space-around; align-items: flex-start;
+}
+.page-home .garland-1 { top: 0; }
+/* Le second feston est plus court et décalé : deux arcs identiques se
+   liraient comme une erreur de duplication. */
+.page-home .garland-2 { top: 26px; left: 8%; right: 8%; height: 38px; opacity: .72; }
+
+.page-home .garland i {
+  display: block; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold-light);
+  box-shadow: 0 0 7px 1px rgba(var(--gold-rgb), .6);
+}
+/* Les ampoules suivent la courbe du câble : plus on va vers le centre,
+   plus elles descendent. Sans ça elles s'alignent à plat au-dessus d'un
+   arc, et l'illusion tombe. */
+.page-home .garland i:nth-child(3n)   { margin-top: 5px; }
+.page-home .garland i:nth-child(4n+2) { margin-top: 9px; }
+.page-home .garland i:nth-child(5n+3) { margin-top: 3px; }
+
+html[data-sky="dusk"] .page-home .garlands  { opacity: .85; }
+html[data-sky="night"] .page-home .garlands { opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky="dusk"] .page-home .garland i,
+  html[data-sky="night"] .page-home .garland i {
+    animation-name: bulb-breathe;
+    animation-duration: 4.7s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
+  }
+  /* Décalage par position : chaque ampoule respire à son tour. */
+  .page-home .garland i:nth-child(2n)   { animation-delay: -.6s; }
+  .page-home .garland i:nth-child(3n)   { animation-delay: -1.4s; }
+  .page-home .garland i:nth-child(4n+1) { animation-delay: -2.1s; }
+  .page-home .garland i:nth-child(5n+2) { animation-delay: -3.3s; }
+}
+/* Respiration douce, jamais un clignotement : les ampoules d'une
+   terrasse ne clignotent pas, elles vacillent. 4,7 s hors échelle
+   180/300 ms — ambiance, pas interface (justification CLAUDE.md). */
+@keyframes bulb-breathe {
+  0%, 100% { opacity: .72; }
+  50%      { opacity: 1; }
+}
+
+/* Mobile : un seul feston. Deux arcs sur 390 px se chevauchent et
+   deviennent une tache. */
+@media (max-width: 720px) {
+  .page-home .garland-2 { display: none; }
+  .page-home .garlands { height: 64px; }
+}
+
 /* --- 39.4 Le verre de section ---
    C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
    troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
