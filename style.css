@@ -3352,6 +3352,125 @@ html[data-sky="night"] .page-home .sky-stars::after { opacity: 1; }
   50%      { opacity: .40; }
 }
 
+/* --- 39.36 Les étoiles brillantes : halo doré + éclat en croix ---
+   HUIT nœuds, pas un de plus. Ce sont les seules étoiles qui méritent du
+   DOM : leur croix est faite de deux pseudo-éléments, ce qu'un dégradé
+   tuilé ne sait pas produire. Huit est la limite entre « un ciel » et
+   « une guirlande » — au-delà, l'effet devient clinquant et la règle de
+   l'or en détail tombe.
+
+   ICI L'OR EST PERMIS, ET SEULEMENT ICI : le point fait 3 px, le halo
+   s'éteint à 8 px, la croix mesure 22 px. Échelle du bijou, jamais de la
+   surface. Un halo de 60 px serait un aplat doré déguisé.
+
+   La croix est en dégradés transparents aux extrémités : un trait plein
+   se lirait comme une barre, pas comme un éclat.
+
+   Rien avant le crépuscule, comme le voile. Les retards de pulsation
+   sont tous différents pour qu'aucune paire ne batte ensemble. */
+.page-home .star-bright {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 0 8px 2px rgba(var(--gold-rgb), .55);
+  opacity: 0;
+  transition: opacity var(--dur-med) var(--ease);
+}
+.page-home .star-bright::before,
+.page-home .star-bright::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 22px; height: 1px; margin: -.5px 0 0 -11px;
+  background: linear-gradient(90deg, transparent, rgba(var(--gold-light-rgb), .85) 45%, rgba(var(--gold-light-rgb), .85) 55%, transparent);
+}
+.page-home .star-bright::after { transform: rotate(90deg); }
+
+/* Positions dispersées, à l'écart de la nav en haut. Les valeurs sont
+   choisies pour ne jamais aligner trois étoiles — un alignement se lit
+   comme une constellation involontaire. */
+.page-home .star-bright:nth-child(3) { top: 18%; left: 14%; }
+.page-home .star-bright:nth-child(4) { top: 11%; left: 63%; }
+.page-home .star-bright:nth-child(5) { top: 31%; left: 87%; }
+.page-home .star-bright:nth-child(6) { top: 47%; left: 29%; }
+.page-home .star-bright:nth-child(7) { top: 58%; left: 72%; }
+.page-home .star-bright:nth-child(8) { top: 72%; left: 8%;  }
+.page-home .star-bright:nth-child(9) { top: 79%; left: 52%; }
+.page-home .star-bright:nth-child(10){ top: 88%; left: 91%; }
+
+html[data-sky="dusk"] .page-home .star-bright  { opacity: .45; }
+html[data-sky="night"] .page-home .star-bright { opacity: 1; }
+
+/* PROPRIÉTÉS LONGUES, jamais le raccourci `animation`. Le raccourci
+   RÉINITIALISE animation-delay : écrit ici, il annulait les huit retards
+   ci-dessous, qui ont une spécificité plus faible que la règle de palier.
+   Résultat : les huit étoiles pulsaient à l'unisson. C'est le frère du
+   piège de R92/1, où le même raccourci réinitialisait animation-timeline
+   — les retards sont donc portés par les MÊMES sélecteurs de palier, pour
+   qu'aucune question de spécificité ne se pose. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky="dusk"] .page-home .star-bright,
+  html[data-sky="night"] .page-home .star-bright {
+    animation-name: star-pulse;
+    animation-duration: 6.1s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
+  }
+  /* Retards tous distincts : deux étoiles qui pulsent ensemble se
+     remarquent, huit qui pulsent chacune à son rythme respirent.
+     Négatifs, pour que la pulsation soit déjà en cours à l'allumage
+     plutôt que de démarrer les huit au même instant. */
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(3),
+  html[data-sky="night"] .page-home .star-bright:nth-child(3) { animation-delay: -.2s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(4),
+  html[data-sky="night"] .page-home .star-bright:nth-child(4) { animation-delay: -.9s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(5),
+  html[data-sky="night"] .page-home .star-bright:nth-child(5) { animation-delay: -1.6s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(6),
+  html[data-sky="night"] .page-home .star-bright:nth-child(6) { animation-delay: -2.4s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(7),
+  html[data-sky="night"] .page-home .star-bright:nth-child(7) { animation-delay: -3.1s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(8),
+  html[data-sky="night"] .page-home .star-bright:nth-child(8) { animation-delay: -3.8s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(9),
+  html[data-sky="night"] .page-home .star-bright:nth-child(9) { animation-delay: -4.6s; }
+  html[data-sky="dusk"] .page-home .star-bright:nth-child(10),
+  html[data-sky="night"] .page-home .star-bright:nth-child(10) { animation-delay: -5.3s; }
+}
+/* La pulsation joue sur l'ÉCHELLE de la croix plus que sur l'opacité :
+   c'est ce qui donne l'éclat de diamant plutôt qu'un simple fondu.
+   6,1 s hors échelle 180/300 ms — respiration d'ambiance, pas transition
+   d'interface (justification exigée par CLAUDE.md). */
+@keyframes star-pulse {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky="night"] .page-home .star-bright::before,
+  html[data-sky="night"] .page-home .star-bright::after {
+    animation: star-flare 6.1s var(--ease) infinite;
+    animation-delay: inherit;   /* la croix bat avec son étoile */
+  }
+}
+@keyframes star-flare {
+  0%, 100% { transform: scaleX(.55); opacity: .5; }
+  50%      { transform: scaleX(1);   opacity: 1; }
+}
+/* La branche verticale garde sa rotation en plus de l'échelle — sinon
+   scaleX l'écraserait au lieu de l'allonger. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky="night"] .page-home .star-bright::after {
+    animation-name: star-flare-v;
+  }
+}
+@keyframes star-flare-v {
+  0%, 100% { transform: rotate(90deg) scaleX(.55); opacity: .5; }
+  50%      { transform: rotate(90deg) scaleX(1);   opacity: 1; }
+}
+
+/* Mobile : trois brillantes en moins. À 390 px, huit halos dans un écran
+   étroit passent de « ciel » à « sapin ». */
+@media (max-width: 720px) {
+  .page-home .star-bright:nth-child(n+8) { display: none; }
+}
+
 /* --- 39.4 Le verre de section ---
    C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
    troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
