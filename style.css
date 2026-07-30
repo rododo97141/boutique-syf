@@ -3099,6 +3099,139 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   .artist-card:hover .artist-photo img { transform: none; }
 }
 
+/* ============================================================
+   39. R92 — LA TRAVERSÉE (accueil uniquement, .page-home)
+   ------------------------------------------------------------
+   L'accueil vit du jour vers la nuit EN SCROLLANT : plein jour doré en
+   haut, golden hour, crépuscule, nuit étoilée au pied de page.
+
+   DEUX HORLOGES, VOLONTAIREMENT DÉCOUPLÉES
+   1. Le CIEL s'interpole en CONTINU (animation-timeline: scroll(root),
+      donc compositor, zéro travail main-thread).
+   2. Le TEXTE bascule par PALIERS DISCRETS — html[data-sky] posé par un
+      IntersectionObserver (script.js §46).
+   Pourquoi découpler : un dégradé continu derrière du texte a une
+   infinité d'états intermédiaires, donc intestables. Quatre paliers
+   nommés donnent quatre palettes auditables. Le texte ne repose JAMAIS
+   directement sur le ciel : il repose sur le verre de section (§39.3),
+   dont on maîtrise le composite.
+
+   RÈGLE DE SÛRETÉ DU CONTRASTE
+   La bascule du texte est réglée pour arriver TÔT, jamais tard : le
+   texte passe en clair dès que le fond franchit le seuil, pas une fois
+   qu'il est devenu sombre. Le piège classique — encre sur crépuscule
+   mi-sombre — vient toujours d'une bascule en retard.
+
+   OR : jamais en masse. Le ciel est en couleurs de CIEL (crème chaud,
+   abricot, mauve-océan, océan profond). L'or est réservé aux points
+   lumineux — halos d'étoiles, éclats, ampoules, liserés 1 px.
+============================================================ */
+
+/* --- 39.1 La couche ciel ---
+   Une seule div fixe, sous tout le contenu, pointer-events: none.
+   Purement CSS : aucune image, aucune requête, LCP inchangé. */
+.page-home .sky {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  /* layout/paint/style, PAS size : « contain: strict » ajouterait la
+     containment de taille, inutile ici (les dimensions viennent de
+     inset: 0) et source de surprises. */
+  contain: layout paint style;
+}
+.page-home .sky-grade { position: absolute; inset: 0; }
+
+/* Sur l'accueil, .ambience est neutralisée : La Traversée la remplace.
+   Elle reste dans le HTML et active sur les 7 autres pages qui la
+   portent — mais deux voiles concurrents sur la même page se
+   battraient, et c'est le nouveau qui doit gagner. */
+.page-home .ambience { display: none; }
+
+/* --- 39.2 Les quatre ciels ---
+   Étages verticaux : le haut du dégradé est le zénith, le bas l'horizon.
+   Au crépuscule l'horizon reste chaud pendant que le zénith bascule —
+   c'est ce décalage qui fait lire « coucher de soleil » plutôt que
+   « fondu au noir ». */
+.page-home .sky-grade {
+  background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%);
+}
+@keyframes sky-traverse {
+  0%   { background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%); }  /* plein jour */
+  32%  { background: linear-gradient(180deg, #FBEFD2 0%, #F8DFAE 55%, #F3C98B 100%); }  /* golden hour */
+  64%  { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }  /* crépuscule, horizon encore chaud */
+  100% { background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%); }  /* nuit profonde */
+}
+/* Le crépuscule comme point d'arrivée — utilisé par le plafond clair
+   forcé (§39.4). Mêmes valeurs que l'étape 64 % ci-dessus. */
+@keyframes sky-traverse-capped {
+  0%   { background: linear-gradient(180deg, #FFFDF6 0%, #FDF6E4 55%, #FAEFD6 100%); }
+  50%  { background: linear-gradient(180deg, #FBEFD2 0%, #F8DFAE 55%, #F3C98B 100%); }
+  100% { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }
+}
+/* Départ au crépuscule — auto de nuit : le coucher de soleil a déjà eu
+   lieu, on ne le rejoue pas. */
+@keyframes sky-traverse-night {
+  0%   { background: linear-gradient(180deg, #4A4668 0%, #7C5F74 55%, #C98A6A 100%); }
+  100% { background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%); }
+}
+
+/* --- 39.3 Intégration avec les deux thèmes ---
+   Pilotée par data-theme-pref, l'attribut que script.js pose déjà sur
+   <html> (auto | light | dark) — aucun nouvel état, aucune nouvelle clé
+   localStorage. Quatre cas, quatre comportements :
+
+   auto + jour   -> traversée complète, jour -> nuit. L'expérience visée.
+   auto + nuit   -> départ au crépuscule. data-theme vaut déjà « dark » :
+                    rejouer un lever de soleil pour le recoucher serait
+                    absurde.
+   clair FORCÉ   -> PLAFOND AU CRÉPUSCULE, jamais la nuit noire.
+                    Décision R92 (b), validée : le choix explicite de
+                    l'utilisateur prime. Quelqu'un qui force le clair
+                    accepte un haut lumineux qui s'assombrit, pas de
+                    finir dans le noir — ce serait contredire son
+                    réglage. Le pied de page reste un crépuscule habité.
+   sombre FORCÉ  -> aucune traversée de couleur. Nuit dès le premier
+                    pixel ; seuls le ciel étoilé, les guirlandes et les
+                    éclats vivent. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Propriétés longues, jamais le raccourci `animation` : le raccourci
+       réinitialise animation-timeline à `auto` et la traversée ne
+       partirait pas. Chaque cas est écrit en entier plutôt que surchargé
+       par le suivant, pour la même raison. */
+    html[data-theme-pref="auto"][data-theme="light"] .page-home .sky-grade {
+      animation-name: sky-traverse;
+      animation-duration: 1ms;          /* ignoré : c'est le scroll qui pilote */
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+    html[data-theme-pref="light"] .page-home .sky-grade {
+      animation-name: sky-traverse-capped;
+      animation-duration: 1ms;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+    html[data-theme-pref="auto"][data-theme="dark"] .page-home .sky-grade {
+      animation-name: sky-traverse-night;
+      animation-duration: 1ms;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+/* Sombre forcé : nuit fixe, aucune animation — y compris sans support
+   scroll-timeline et sous reduced-motion. */
+html[data-theme-pref="dark"] .page-home .sky-grade {
+  background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%);
+}
+/* Repli sans scroll-timeline / sous reduced-motion : un ciel FIXE,
+   choisi selon le thème résolu. Pas de traversée, mais jamais un fond
+   incohérent avec le texte. */
+html[data-theme="dark"] .page-home .sky-grade {
+  background: linear-gradient(180deg, #050A12 0%, #071E30 55%, #0C2438 100%);
+}
+
 /* ===== 38. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {

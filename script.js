@@ -2008,6 +2008,81 @@ if (placeModal && placesGridEl) {
     });
   })();
 
+  /* ===== 46. R92 — LA TRAVERSÉE : les paliers du ciel (accueil) =====
+     Le CIEL s'interpole en continu, côté CSS (§39, compositor). Ce bloc
+     ne s'occupe que des PALIERS DISCRETS : il pose html[data-sky] =
+     day | golden | dusk | night, ce qui commande la palette de texte et
+     le verre de section.
+
+     POURQUOI DES PALIERS ET PAS UNE VALEUR CONTINUE
+     Une couleur de texte interpolée a une infinité d'états
+     intermédiaires : intestable, donc impossible à garantir en AA.
+     Quatre paliers nommés = quatre palettes auditables.
+
+     POURQUOI UN IntersectionObserver ET PAS UN ÉCOUTEUR DE SCROLL
+     Zéro travail par frame. L'observateur ne se réveille qu'aux
+     franchissements. rootMargin -50%/-50% réduit la zone d'observation à
+     une LIGNE au milieu du viewport : la section qui la croise donne le
+     palier. Les sections pavant la page en continu, il y en a toujours
+     exactement une — et la remontée fonctionne sans code en plus.
+
+     LA BASCULE ARRIVE TÔT, JAMAIS TARD
+     Le texte passe en clair dès que le fond franchit le seuil, pas une
+     fois qu'il est devenu sombre. Le piège « encre sur crépuscule
+     mi-sombre » est toujours une bascule en retard. */
+  (function initTraversee() {
+    if (!document.body.classList.contains('page-home')) return;
+    const marked = $$('[data-sky-stage]');
+    if (!marked.length) return;
+
+    const root = document.documentElement;
+    const ORDER = ['day', 'golden', 'dusk', 'night'];
+
+    /* Correspondance palier -> palier réellement appliqué, selon la
+       préférence de thème. Miroir exact des règles CSS de §39.3 : si
+       l'une des deux change, l'autre doit changer avec.
+         auto + jour  : traversée complète.
+         auto + nuit  : départ au crépuscule — le coucher a déjà eu lieu.
+         clair FORCÉ  : PLAFOND AU CRÉPUSCULE, jamais la nuit noire. Le
+                        choix explicite de l'utilisateur prime ; on ne
+                        l'emmène pas dans le noir après qu'il a demandé
+                        le clair.
+         sombre FORCÉ : nuit dès le premier pixel. */
+    const resolveStage = stage => {
+      const pref = root.getAttribute('data-theme-pref');
+      const theme = root.getAttribute('data-theme');
+      if (pref === 'dark') return 'night';
+      if (pref === 'light') return stage === 'night' ? 'dusk' : stage;
+      if (theme === 'dark') return stage === 'night' ? 'night' : 'dusk';
+      return stage;
+    };
+
+    let current = null;
+    const setStage = stage => {
+      const applied = resolveStage(stage);
+      if (applied === current) return;
+      current = applied;
+      root.setAttribute('data-sky', applied);
+      root.setAttribute('data-sky-raw', stage);   // palier brut, pour la QA
+    };
+
+    // Palier de départ, avant tout scroll : celui de la première section.
+    setStage(marked[0].dataset.skyStage);
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) setStage(e.target.dataset.skyStage); });
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+    marked.forEach(el => io.observe(el));
+
+    /* Le thème peut changer pendant la visite (menu de thème, ou bascule
+       horaire du mode auto toutes les 60 s). Le palier appliqué en
+       dépend : on le recalcule. */
+    new MutationObserver(() => {
+      const raw = root.getAttribute('data-sky-raw');
+      if (raw) { current = null; setStage(raw); }
+    }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
+  })();
+
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
      stoppée au survol / focus / onglet caché / reduced-motion. ===== */
   (function initHomeHero() {
