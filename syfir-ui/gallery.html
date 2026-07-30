@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>syfir-ui — galerie des composants</title>
+
+<!-- La galerie ne charge QUE la bibliothèque : tokens + composants, sans
+     style.css. C'est volontaire — si un composant ne s'affiche pas
+     correctement ici, c'est qu'il dépend encore de style.css, donc que
+     l'extraction est incomplète. La page est un test, pas une vitrine.
+     Conséquence assumée : les surcharges de thème clair vivent dans
+     style.css, donc le bouton de thème ci-dessous ne change que les
+     tokens surchargés ici. -->
+<link rel="icon" type="image/svg+xml" href="../images/icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&family=Fraunces:ital@1&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+
+<style>
+  /* Habillage de la galerie uniquement — rien ici ne décrit un composant.
+     Volontairement préfixé .gal- pour qu'aucun sélecteur ne puisse être
+     confondu avec un primitif de la bibliothèque. */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--body); background: var(--ink); color: var(--cream);
+    line-height: 1.5; padding: 40px 20px 80px;
+  }
+  .gal-wrap { max-width: 1000px; margin-inline: auto; }
+  .gal-head { border-bottom: 1px solid rgba(var(--cream-rgb), .12); padding-bottom: 28px; margin-bottom: 8px; }
+  .gal-title {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase;
+    font-size: clamp(1.6rem, 5vw, 2.6rem); letter-spacing: -.02em; line-height: 1.05;
+  }
+  .gal-lead { color: rgba(var(--cream-rgb), .7); max-width: 62ch; margin-top: 12px; font-size: .95rem; }
+  .gal-lead code { font-size: .9em; background: rgba(var(--passion-rgb), .12); padding: 1px 5px; border-radius: 5px; }
+  .gal-theme {
+    font-family: var(--body); font-weight: 700; font-size: .74rem; letter-spacing: .1em;
+    text-transform: uppercase; margin-top: 20px; padding: 10px 18px; min-height: 44px;
+    border-radius: 100px; cursor: pointer;
+    background: none; border: 1.5px solid rgba(var(--cream-rgb), .3); color: var(--cream);
+  }
+  .gal-sec { padding: 44px 0 8px; border-bottom: 1px solid rgba(var(--cream-rgb), .08); }
+  .gal-sec h2 {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase;
+    font-size: 1.05rem; letter-spacing: .04em; color: var(--passion);
+  }
+  .gal-note { color: rgba(var(--cream-rgb), .6); font-size: .85rem; margin: 8px 0 24px; max-width: 70ch; }
+  .gal-demo { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+  .gal-demo--col { flex-direction: column; }
+  .gal-demo--grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .gal-demo--pane { display: block; position: relative; min-height: 220px; border-radius: 14px; overflow: hidden; border: 1px dashed rgba(var(--cream-rgb), .2); }
+  .gal-toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .gal-toc a {
+    font-size: .74rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: rgba(var(--cream-rgb), .75); text-decoration: none;
+    padding: 9px 14px; min-height: 44px; display: inline-flex; align-items: center;
+    border: 1px solid rgba(var(--cream-rgb), .18); border-radius: 100px;
+  }
+  .gal-toc a:hover, .gal-toc a:focus-visible { border-color: var(--passion); color: var(--passion); }
+</style>
+</head>
+<body>
+<div class="gal-wrap">
+
+  <header class="gal-head">
+    <h1 class="gal-title">syfir-ui — galerie</h1>
+    <p class="gal-lead">
+      Les 13 composants de la bibliothèque, rendus avec <code>tokens.css</code>
+      et <code>components.css</code> <strong>seuls</strong> — sans
+      <code>style.css</code>. Un composant qui s'affiche mal ici dépend encore
+      de <code>style.css</code> : c'est un test d'autonomie, pas une vitrine.
+      Les surcharges de thème clair restant dans <code>style.css</code>, le
+      bouton ci-dessous ne bascule que les tokens surchargés dans cette page.
+    </p>
+    <button class="gal-theme" id="galTheme" type="button">Basculer le thème</button>
+    <nav class="gal-toc" aria-label="Sommaire des composants">
+      <a href="#c01">01 Boutons</a><a href="#c02">02 En-têtes</a>
+      <a href="#c03">03 Champs</a><a href="#c04">04 Puces</a>
+      <a href="#c05">05 Juridique</a><a href="#c06">06 Badges</a>
+      <a href="#c07">07 Cartes info</a><a href="#c08">08 Rangée</a>
+      <a href="#c09">09 Choix</a><a href="#c10">10 Interrupteur</a>
+      <a href="#c11">11 Accordéon</a><a href="#c12">12 Toast</a>
+      <a href="#c13">13 Modale</a>
+    </nav>
+  </header>
+
+  <section class="gal-sec" id="c01">
+    <h2>01 — Boutons</h2>
+    <p class="gal-note">Variantes solid / ghost / gradient, tailles sm / lg / full, état désactivé. L'onde lumineuse au survol n'existe que sur <code>.btn-solid</code>.</p>
+    <div class="gal-demo">
+      <button class="btn btn-solid" type="button">Prendre ma place</button>
+      <button class="btn btn-ghost" type="button">En savoir plus</button>
+      <button class="btn btn-gradient" type="button">Billetterie</button>
+    </div>
+    <div class="gal-demo">
+      <button class="btn btn-solid btn-sm" type="button">Petit</button>
+      <button class="btn btn-solid btn-lg" type="button">Grand</button>
+      <button class="btn btn-ghost" type="button" disabled>Désactivé</button>
+    </div>
+    <div class="gal-demo gal-demo--col">
+      <button class="btn btn-solid btn-full" type="button">Pleine largeur</button>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c02">
+    <h2>02 — En-têtes de section</h2>
+    <p class="gal-note">Le triptyque eyebrow / h2 / intro. La goutte de l'eyebrow est le motif de marque (R30) ; l'accent du titre est en Fraunces italique doré.</p>
+    <div class="gal-demo gal-demo--col">
+      <p class="eyebrow">La collection</p>
+      <h2 class="h2">Tes prochains <em>souvenirs</em></h2>
+      <p class="section-intro">Phrase d'intro courte, qui se lit à voix haute dans un bar sans sonner faux.</p>
+    </div>
+    <div class="gal-demo gal-demo--col">
+      <p class="eyebrow eyebrow-light">Variante claire</p>
+      <p class="section-intro intro-light">Intro sur fond sombre : <code>.intro-light</code> doit rester déclarée APRÈS <code>.section-intro</code>.</p>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c03">
+    <h2>03 — Champs de formulaire</h2>
+    <p class="gal-note">Étiquette, saisie, focus, état invalide et message d'erreur. Le troisième champ porte <code>.invalid</code> pour montrer l'état sans avoir à déclencher la validation.</p>
+    <form class="form-grid" onsubmit="return false">
+      <div class="form-field">
+        <label for="galName">Nom complet</label>
+        <input type="text" id="galName" placeholder="Prénom Nom">
+        <span class="field-error"></span>
+      </div>
+      <div class="form-field">
+        <label for="galRole">Rôle</label>
+        <select id="galRole">
+          <option>Organisateur</option>
+          <option>Artiste</option>
+          <option>Lieu</option>
+        </select>
+        <span class="field-error"></span>
+      </div>
+      <div class="form-field invalid">
+        <label for="galMail">Email</label>
+        <input type="email" id="galMail" value="pas-un-email" aria-describedby="galMailErr">
+        <span class="field-error" id="galMailErr">Format d'email invalide.</span>
+      </div>
+      <div class="form-field">
+        <label for="galMsg">Message</label>
+        <textarea id="galMsg" rows="3" placeholder="Dis-nous tout."></textarea>
+        <span class="field-error"></span>
+      </div>
+    </form>
+  </section>
+
+  <section class="gal-sec" id="c04">
+    <h2>04 — Puces / filtres</h2>
+    <p class="gal-note">Puce cliquable en capitales. <code>.active</code> passe au dégradé sunset → passion.</p>
+    <div class="gal-demo">
+      <button class="chip active" type="button">Tout</button>
+      <button class="chip" type="button">Festival</button>
+      <button class="chip" type="button">Club</button>
+      <button class="chip" type="button">Plage</button>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c05">
+    <h2>05 — Placeholders juridiques</h2>
+    <p class="gal-note">Les briques qui portent l'honnêteté juridique : encadré d'alerte, variante âge, puce d'information manquante, mention sanitaire de fin de page.</p>
+    <div class="gal-demo gal-demo--col">
+      <p class="legal-box">Encadré d'information juridique.</p>
+      <p class="legal-box legal-box-age">Variante âge : l'accès à cet événement est réservé aux personnes majeures.</p>
+      <p>Éditeur : <span class="legal-todo">[À COMPLÉTER — raison sociale]</span></p>
+      <p class="legal-muted">Texte secondaire atténué.</p>
+      <p class="legal-note">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c06">
+    <h2>06 — Badges</h2>
+    <p class="gal-note">Trois familles. Les badges de rareté et d'âge sont normalement posés en absolu sur une carte — ici <code>.stock-inline</code> et le cadre en pointillés servent à les montrer hors contexte. Le badge d'âge est une <strong>indication</strong>, jamais une prétention de vérification d'identité.</p>
+    <div class="gal-demo">
+      <span class="rb-badge rb-badge-festival">Festival</span>
+      <span class="rb-badge rb-badge-club">Club</span>
+      <span class="rb-badge rb-badge-beach">Plage</span>
+      <span class="rb-badge rb-badge-rooftop">Rooftop</span>
+      <span class="rb-badge rb-badge-soiree">Soirée</span>
+      <span class="rb-badge rb-badge-prive">Privé</span>
+    </div>
+    <div class="gal-demo">
+      <span class="stock-badge stock-inline stock-dispo">Places dispo</span>
+      <span class="stock-badge stock-inline stock-dernieres">Dernières places</span>
+      <span class="stock-badge stock-inline stock-complet">Complet</span>
+      <span class="stock-badge stock-inline stock-open">Entrée libre</span>
+      <span class="stock-badge stock-inline stock-invite">Sur invitation</span>
+    </div>
+    <div class="gal-demo gal-demo--col">
+      <p class="event-age-badge age-all">Tout public</p>
+      <p class="event-age-badge age-18">Réservé aux 18 ans et plus</p>
+      <p class="event-age-badge age-tbd">Condition d'âge à confirmer</p>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c07">
+    <h2>07 — Cartes info</h2>
+    <p class="gal-note">Trois cartes de contenu factuel : pas de photo, pas de modale. Elles restent volontairement <strong>trois primitifs frères</strong> et non une base unifiée — voir le commentaire du §07 dans <code>components.css</code>.</p>
+    <div class="gal-demo gal-demo--grid">
+      <div class="univers-card">
+        <span class="univers-ic" aria-hidden="true">◇</span>
+        <strong>Univers</strong>
+        <small>Une catégorie de l'écosystème, décrite par son rôle.</small>
+      </div>
+      <div class="eco-card">
+        <span class="eco-ic" aria-hidden="true">◈</span>
+        <h3>Lieux &amp; bars</h3>
+        <p>Une catégorie, jamais un partenaire présenté comme confirmé. <em>Mise en relation.</em></p>
+        <a class="eco-cta" href="#c07">Nous écrire</a>
+      </div>
+      <div class="official-card">
+        <span class="official-ic" aria-hidden="true">◆</span>
+        <div>
+          <h4>Partenaire officiel</h4>
+          <p class="official-role">Rôle exact du partenaire</p>
+          <p class="official-note">Note factuelle, sans affordance de fiche : aucune photo fournie, rien à ouvrir.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c08">
+    <h2>08 — Rangée carrousel</h2>
+    <p class="gal-note">Défilement par <code>scroll-snap</code> natif : swipe sur mobile, flèches au survol sur desktop. Le seul composant sans aucune surcharge de thème. Le token <code>--row-gutter</code> restant dans <code>style.css</code>, les gouttières latérales sont neutres ici.</p>
+    <div class="media-row">
+      <div class="media-row-head">
+        <h3 class="media-row-title">À regarder</h3>
+        <a class="media-row-all" href="#c08">Tout voir</a>
+      </div>
+      <div class="media-row-wrap">
+        <button class="row-arrow row-prev" type="button" aria-label="Précédent">‹</button>
+        <div class="media-row-track">
+          <div class="univers-card"><strong>Item 1</strong><small>Carte de rangée</small></div>
+          <div class="univers-card"><strong>Item 2</strong><small>Carte de rangée</small></div>
+          <div class="univers-card"><strong>Item 3</strong><small>Carte de rangée</small></div>
+          <div class="univers-card"><strong>Item 4</strong><small>Carte de rangée</small></div>
+          <div class="univers-card"><strong>Item 5</strong><small>Carte de rangée</small></div>
+        </div>
+        <button class="row-arrow row-next" type="button" aria-label="Suivant">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c09">
+    <h2>09 — Cartes de choix radio</h2>
+    <p class="gal-note">Un <code>&lt;input type="radio"&gt;</code> invisible porte l'état, le <code>&lt;span&gt;</code> porte le style. Jamais un <code>div</code> avec un <code>onclick</code> : la navigation clavier et le rôle ARIA viennent du radio natif.</p>
+    <fieldset class="form-choice" style="display:grid;gap:12px;border:none">
+      <legend>Tu es…</legend>
+      <label class="choice-card">
+        <input type="radio" name="galChoice" checked>
+        <span><strong>Organisateur</strong><small>Tu montes tes propres soirées.</small></span>
+      </label>
+      <label class="choice-card">
+        <input type="radio" name="galChoice">
+        <span><strong>Artiste</strong><small>Tu joues, tu mixes, tu chantes.</small></span>
+      </label>
+      <label class="choice-card">
+        <input type="radio" name="galChoice">
+        <span><strong>Lieu</strong><small>Tu as un espace à faire vivre.</small></span>
+      </label>
+    </fieldset>
+  </section>
+
+  <section class="gal-sec" id="c10">
+    <h2>10 — Interrupteur radio</h2>
+    <p class="gal-note">Variante compacte du §09 pour un choix binaire. Pas de <code>:hover</code>, volontairement — c'est un réglage, pas une carte à explorer.</p>
+    <fieldset class="visibility-switch">
+      <legend>Visibilité de l'événement</legend>
+      <label class="vis-opt">
+        <input type="radio" name="galVis" checked>
+        <span><strong>Public</strong><small>Visible de tous, référencé dans l'agenda.</small></span>
+      </label>
+      <label class="vis-opt">
+        <input type="radio" name="galVis">
+        <span><strong>Privé</strong><small>Accessible par lien uniquement.</small></span>
+      </label>
+    </fieldset>
+  </section>
+
+  <section class="gal-sec" id="c11">
+    <h2>11 — Accordéon</h2>
+    <p class="gal-note">Bâti sur <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> natifs : ouverture, clavier et rôle ARIA viennent du navigateur. La croix pivote de 135° à l'ouverture.</p>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary><span class="faq-q">Comment réserver une place ?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Réponse ouverte par défaut, pour montrer l'état <code>[open]</code> et la croix pivotée.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span class="faq-q">Puis-je organiser ma propre soirée ?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Réponse fermée. Un clic ou la touche Entrée l'ouvre — sans une ligne de JavaScript.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span class="faq-q">Où trouver les mentions légales ?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Un lien dans une réponse : <a href="#c11">exemple de lien</a>.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c12">
+    <h2>12 — Toast</h2>
+    <p class="gal-note">Un seul élément, hors flux, en repos à <code>translate(-50%, 140%)</code> : hors écran mais toujours dans le DOM. Pas de <code>display:none</code>, donc rien à créer au moment où le message arrive.</p>
+    <div class="gal-demo">
+      <button class="btn btn-ghost btn-sm" type="button" id="galToastBtn">Afficher un toast</button>
+    </div>
+  </section>
+
+  <section class="gal-sec" id="c13">
+    <h2>13 — Modale / overlay</h2>
+    <p class="gal-note">Fond assombri et flou, boîte centrée par <code>place-items: center</code>. Le repos combine <code>opacity: 0</code> ET <code>visibility: hidden</code> : l'opacité seule laisserait la boîte cliquable et focusable pendant qu'elle est invisible. Ici la modale est rendue <strong>dans un cadre</strong> plutôt qu'en plein écran, pour rester inspectable.</p>
+    <div class="gal-demo gal-demo--pane">
+      <div class="modal open" style="position:absolute">
+        <div class="modal-box modal-box-sm">
+          <button class="modal-close" type="button" aria-label="Fermer">×</button>
+          <div class="modal-body">
+            <p class="modal-tag">Événement</p>
+            <h3>Titre de la modale</h3>
+            <p class="modal-meta">Métadonnée secondaire</p>
+            <button class="btn btn-solid btn-sm" type="button">Action</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="galToast" role="status" aria-live="polite">Message confirmé.</div>
+
+<script>
+  /* Trois interactions, uniquement pour rendre la galerie inspectable.
+     Ce n'est PAS components.js : le comportement du site vit dans
+     script.js, et n'a pas été extrait — voir « Limites connues » du
+     README. */
+  const root = document.documentElement;
+  document.getElementById('galTheme').addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+  });
+
+  const toast = document.getElementById('galToast');
+  let toastTimer;
+  document.getElementById('galToastBtn').addEventListener('click', () => {
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+  });
+
+  /* Les puces : une seule active à la fois, comme sur le site. */
+  document.querySelector('#c04 .gal-demo').addEventListener('click', e => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    btn.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  });
+</script>
+</body>
+</html>
