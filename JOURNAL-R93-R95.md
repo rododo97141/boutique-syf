@@ -252,3 +252,79 @@ en `dusk` (encre crème) alors que le ciel peint est encore doré. Ce n'est pas 
 réglage de couleur : c'est la jointure entre les deux horloges. La trancher
 demande de décider laquelle fait autorité — un arbitrage d'architecture, pas une
 correction de contraste.
+
+---
+
+## R97 — LA JOINTURE DES DEUX HORLOGES
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R97/1** | `tools/qa/lisibilite.mjs` — balayage **continu** de la lisibilité | pas de 25 % d'écran, une capture par pas · garde le **pire** rapport de chaque élément **et la progression où il survient** · option `--attente` : à 120 ms **84** défauts, à 600 ms **49** — **35 étaient des transitoires** de la transition de 300 ms du verre |
+
+### ⚠ CE QUE LA MESURE A TROUVÉ, ET QUI DÉPASSE LE MANDAT DE R97
+
+**La Traversée n'interpole pas. Elle avance par trois paliers.**
+
+Vérifié par deux moyens indépendants et concordants :
+
+1. **Luminance peinte du ciel**, balayée finement de 60 % à 90 % du défilement :
+   constante à **L = 0,753** de 62 % à 74 %, puis **saut** à **L = 0,145** à 75 %,
+   puis constante à nouveau. Aucune valeur intermédiaire sur 30 relevés.
+2. **`background-image` calculé** de la couche de ciel, relevé à 10 positions :
+   **trois valeurs distinctes en tout** — jour (0→32 %), doré (48→76 %),
+   crépuscule (90→100 %). Les transitions sont des sauts, pas des rampes.
+
+**La cause tient en un mot, et c'est un piège que §39 nomme lui-même.** Les
+keyframes du ciel animent le **raccourci `background`** :
+
+```css
+@keyframes sky-traverse {
+  0%   { background: linear-gradient(...); }   /* raccourci */
+```
+
+R92 avait identifié ce piège pour `animation` (deux bugs), et son propre
+commentaire prévient : « Vaut aussi pour **`background`**, `transition`, `mask`,
+`grid`. » La règle était écrite ; elle n'a pas été appliquée ici. Le composant
+image d'un `background` animé en raccourci est traité en **discret**.
+
+### Pourquoi cette découverte décide du lot, et pourquoi je ne tranche pas seule
+
+Les trois hypothèses du superviseur ne sont **pas** indépendantes de ce fait —
+elles en dépendent entièrement :
+
+| Si le ciel… | H1 (une horloge) | H2 (un sol sous le texte) | H3 (encre continue) |
+|---|---|---|---|
+| **reste à paliers** (état actuel) | ✅ suffit — il suffit d'aligner la bascule d'encre sur les sauts réels du ciel | ✅ marche aussi | ❌ inutile et risqué |
+| **devient continu** (raccourci corrigé) | ❌ **impossible** | ✅ **seule solution** | ❌ pire |
+
+La raison du ❌ : avec un ciel réellement continu, sa luminance traverse la bande
+**L ∈ [0,168 ; 0,243]** où **aucune encre** ne tient 4,5:1 — ni sombre
+(`--ink-warm`, il faudrait L ≥ 0,243), ni crème (il faudrait L ≤ 0,168). Le
+superviseur avait raison sur H3, et pour la raison exacte qu'il donnait ; mais le
+même calcul condamne **aussi** H1 dès que le ciel devient continu. Aujourd'hui H1
+fonctionne **uniquement parce que le ciel saute par-dessus cette bande** —
+vérifié : **0 relevé sur 61** dans la bande morte.
+
+**Ce n'est donc pas à moi de choisir.** « La Traversée reste continue » a été posé
+comme non négociable et validé par Kily sur une maquette — or la mesure dit
+qu'elle ne l'est pas aujourd'hui dans le code. Rendre le ciel réellement continu
+est un **changement visuel** de ce que Kily a vu, et il **invalide** la piste que
+le superviseur juge la plus solide. Les deux décisions sont couplées et
+appartiennent au superviseur :
+
+- **Option A — le ciel garde ses paliers** (aucun changement visuel) : on aligne
+  la bascule d'encre et le verre sur les sauts réels du ciel (~40 % et ~83 % du
+  défilement). C'est H1, exécuté sur l'horloge réelle. Corrige les 49 défauts
+  structurels sans toucher à l'apparence.
+- **Option B — le ciel devient vraiment continu** (`background-image` en propriété
+  longue) : la Traversée gagne la douceur promise, mais **H1 devient impossible**
+  et il faut H2 — un sol opaque sous le texte, ce qui réduit la visibilité du ciel
+  à travers les sections. Deux gains qui se paient l'un l'autre.
+
+### Les 49 défauts structurels, pour mémoire
+
+Tous du même motif : **encre crème ou or sur fond clair**, entre 28 % et 86 % du
+défilement. L'encre bascule aux **paliers de section** (IntersectionObserver, dès
+28 %) alors que le ciel ne s'assombrit qu'à **75 %**. Les deux horloges ne sont pas
+légèrement déphasées : elles sont à près de 50 points de défilement l'une de
+l'autre.
