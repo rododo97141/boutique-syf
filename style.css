@@ -3952,6 +3952,24 @@ html[data-portal="done"] .portal { display: none; }
 /* Le voile est nuit profonde dans les deux thèmes : c'est une porte, pas
    une section du site. Aucune surcharge claire — c'est délibéré. */
 
+/* ===== R95 — LISTE D'ATTENTE (événement complet) ===== */
+.ed-wait { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(var(--gold-rgb), .18); }
+.ed-wait-intro { font-size: .88rem; color: var(--taupe); margin-bottom: 12px; }
+.ed-wait-form { display: grid; gap: 8px; margin-top: 12px; }
+.ed-wait-form label {
+  font-family: var(--display); font-size: .7rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--gold-ink);
+}
+.ed-wait-form input {
+  min-height: 44px; padding: 10px 16px; border-radius: 100px;
+  background: rgba(var(--cream-rgb), .06);
+  border: 1px solid rgba(var(--cream-rgb), .18);
+  color: var(--cream); font-size: .92rem;
+}
+.ed-wait-form input:focus { outline: none; border-color: var(--passion); }
+html[data-theme="light"] .ed-wait-form input { background: #FFFDF6; border-color: #E4D9C2; color: var(--ink-warm); }
+html[data-theme="light"] .ed-wait-intro { color: var(--taupe-deep); }
+
 /* ============================================================
    41. R94 — LE POULS : la respiration du site, à 116 BPM
    ------------------------------------------------------------

@@ -172,6 +172,19 @@
             ? '<button class="btn btn-ghost btn-full" id="edBuy" type="button" disabled>Complet — plus de billets</button>'
             : '<button class="btn btn-solid btn-full" id="edBuy" disabled>Réserver mes billets</button>'; })()}
         </div>
+        ${(() => { const st = S.stockLabel(ev); return st && st.soldOut ? `
+        <div class="ed-wait" id="edWait">
+          <p class="ed-wait-intro">Complet ne veut pas dire fini : des places se libèrent parfois.</p>
+          <button class="btn btn-solid btn-full" id="edWaitOpen" type="button">Me prévenir si une place se libère</button>
+          <form class="ed-wait-form" id="edWaitForm" hidden novalidate>
+            <label for="edWaitMail">Ton email</label>
+            <input type="email" id="edWaitMail" name="email" placeholder="toi@exemple.fr" autocomplete="email" required>
+            <span class="field-error" id="edWaitError"></span>
+            <button class="btn btn-solid btn-full" id="edWaitSend" type="submit">M'inscrire sur la liste</button>
+            <span class="form-demo-note">démo — transmission bientôt active</span>
+          </form>
+          <p class="form-success" id="edWaitOk" hidden></p>
+        </div>` : ''; })()}
         <p class="form-success" id="edSuccess" hidden></p>
         <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
       </aside>`}
@@ -241,6 +254,54 @@
     $('#edCalAfter').hidden = false;
     toast('🎉 C\'est dans la poche !');
   });
+
+  /* ===== R95 — LISTE D'ATTENTE (événement complet) =====
+     Un événement complet ne doit pas être une impasse. Ce qui est promis
+     ici est exactement ce qui est fait, et rien de plus :
+       — l'inscription est enregistrée sur CET appareil ;
+       — aucune transmission n'a lieu tant qu'aucun service d'envoi n'est
+         branché, et la note « démo » le dit, comme partout ailleurs sur
+         le site ;
+       — AUCUN compteur, AUCUNE position dans la file, AUCUN délai annoncé.
+         Nous n'avons pas ces chiffres ; les fabriquer serait mentir, et
+         un espace vide honnête vaut mieux qu'un chiffre inventé. */
+  const waitKey = 'syfir-waitlist';
+  const waitList = () => { try { return JSON.parse(localStorage.getItem(waitKey)) || []; } catch (e) { return []; } };
+  const waitOpen = $('#edWaitOpen'), waitForm = $('#edWaitForm'), waitOk = $('#edWaitOk');
+  if (waitOpen && waitForm) {
+    const deja = waitList().find(w => String(w.id) === String(ev.id));
+    if (deja) {
+      waitOpen.hidden = true;
+      waitOk.hidden = false;
+      waitOk.textContent = `✓ Tu es sur la liste d'attente pour cet événement (${deja.email}).`;
+    }
+    waitOpen.addEventListener('click', () => {
+      waitOpen.hidden = true;
+      waitForm.hidden = false;
+      $('#edWaitMail').focus();
+    });
+    waitForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const mail = $('#edWaitMail').value.trim();
+      const err = $('#edWaitError');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) {
+        err.textContent = 'Entre une adresse email valide.';
+        $('#edWaitMail').focus();
+        return;
+      }
+      err.textContent = '';
+      const l = waitList().filter(w => String(w.id) !== String(ev.id));
+      l.push({ id: ev.id, name: ev.name, email: mail, at: new Date().toISOString() });
+      try { localStorage.setItem(waitKey, JSON.stringify(l)); } catch (e2) {}
+      waitForm.hidden = true;
+      waitOk.hidden = false;
+      /* Ce qui est écrit ici est EXACTEMENT ce qui se passe. Promettre une
+         alerte alors qu'aucun service d'envoi n'est branché serait une
+         fonction annoncée mais absente — précisément ce que R95 interdit. */
+      waitOk.textContent = '✓ Inscription enregistrée sur cet appareil. L\'alerte par email sera envoyée dès que le service d\'envoi sera branché.';
+      toast('✓ Tu es sur la liste d\'attente');
+    });
+  }
 
   $('#edCalendar').addEventListener('click', () => S.downloadICS(ev));
   $('#edCalAfter').addEventListener('click', () => S.downloadICS(ev));
