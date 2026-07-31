@@ -3874,6 +3874,16 @@ html[data-sky="night"] .page-home [data-sky-stage] {
   --sunset-ink: var(--passion);
   --gold-ink: var(--gold-light);
   --gold-ink-2: var(--gold-light);
+  /* R96 — LES SURFACES SUIVENT L'ENCRE. La bascule ne portait que sur le
+     TEXTE : les cartes gardaient leur fond clair de thème clair et se
+     retrouvaient en crème sur crème — sept surfaces fantômes mesurées au
+     crépuscule (cartes artiste, agenda, vision, écosystème, partenaires
+     officiels, et les champs de formulaire). Elles partagent toutes le
+     même token : on le bascule, une fois, plutôt que d'énumérer sept
+     sélecteurs qui piégeraient chaque futur ajout. */
+  --surface-light: rgba(var(--cream-rgb), .07);
+  --surface-light-rgb: var(--cream-rgb);
+
   /* --gold-deep doit être reposé ICI, et pas seulement --gold-ink dont il
      est l'alias. Piège de cascade : `html[data-theme="light"] { --gold-deep:
      var(--gold-ink) }` substitue --gold-ink AU NIVEAU DE html, donc la valeur
