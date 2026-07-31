@@ -3842,7 +3842,23 @@ html[data-sky="night"] .page-home [data-sky-stage] {
   --sunset-ink: var(--passion);
   --gold-ink: var(--gold-light);
   --gold-ink-2: var(--gold-light);
+  /* --gold-deep doit être reposé ICI, et pas seulement --gold-ink dont il
+     est l'alias. Piège de cascade : `html[data-theme="light"] { --gold-deep:
+     var(--gold-ink) }` substitue --gold-ink AU NIVEAU DE html, donc la valeur
+     claire est figée et héritée telle quelle ; redéfinir --gold-ink plus bas
+     n'atteint plus --gold-deep. Sans cette ligne, le label de la newsletter
+     du pied de page restait or sombre sur verre sombre (mesuré 1.82:1). */
+  --gold-deep: var(--gold-light);
   color: var(--cream);
+}
+/* Même piège pour les triplets `-rgb` : la bascule ne porte que sur les
+   tokens de couleur, pas sur leurs triplets. Le pied de page est le seul
+   endroit d'une section où un triplet sert de couleur de TEXTE — on le
+   corrige donc là, sans toucher au triplet global (il sert ailleurs à des
+   fonds, bordures et ombres qu'il ne faut pas éclaircir). Mesuré 4.45:1. */
+html[data-sky="dusk"] .page-home footer[data-sky-stage],
+html[data-sky="night"] .page-home footer[data-sky-stage] {
+  --ink-warm-rgb: var(--cream-rgb);
 }
 /* .section-cream force color: var(--ink) — la seule utilisation de --ink
    comme texte dans une section. On la traite ici plutôt que de flipper le
