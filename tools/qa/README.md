@@ -27,7 +27,7 @@ relancent seuls ; ne pas s'étonner de le voir réapparaître.
 | Script | Rôle |
 |---|---|
 | `ui-dump.mjs <label>` | Empreinte des styles **calculés** : 14 pages × 2 thèmes × 2 viewports = **56 combinaisons** → `out/<label>.json` |
-| `ui-diff-hors-index.mjs <a> <b>` | **Preuve de confinement** : compare deux dumps en excluant `index.html`. Un lot confiné doit produire **0 différence** sur les 13 autres pages. Sort en code 1 sinon |
+| `ui-diff-hors-index.mjs <a> <b> [--theme=t]` | **Preuve de confinement** : compare deux dumps en excluant `index.html`. Un lot confiné doit produire **0 différence** sur les 13 autres pages. Sort en code 1 sinon. `--theme=` **projette** la comparaison sur un seul thème (voir ci-dessous) |
 | `lcp.mjs [page\|--sweep] [--portal-first]` | **LCP mobile réel** au `PerformanceObserver`, CPU bridé ×4, budget 2 500 ms. Rapporte **quel élément** est le LCP |
 | `contraste.mjs [page] [--theme …]` | Contraste **AA sur le rendu**, en deux étages (voir ci-dessous) |
 
@@ -60,6 +60,27 @@ C'est la seule mesure qui voit ce que voit l'œil.
 
 Les 14 pages mesurées excluent volontairement les stubs de redirection
 (`actualite`, `communaute`, `medias`) et `apercu-syfir.html` (non maintenu).
+
+### `--theme=` — la projection, et pourquoi la baseline n'a pas été refaite (R98)
+
+Le retrait des deux thèmes fait tomber le harnais de **56 à 28** combinaisons.
+La carte du retrait en concluait que tous les dumps antérieurs devenaient
+incomparables. C'est vrai de l'accueil, refondu. **C'est faux de la preuve de
+confinement** : on perd **une** dimension, pas deux.
+
+Le sombre est le monde qui survit. `--theme=dark` compare la **moitié sombre**
+d'un dump à deux thèmes avec un dump à un seul thème : les deux sont alors dans
+le **même référentiel**, et la preuve reste opposable **pendant** le changement
+site-wide — c'est-à-dire au seul moment où le risque existe.
+
+```bash
+node tools/qa/ui-diff-hors-index.mjs avant-nuit nuit-00 --theme=dark   # 26 combinaisons
+```
+
+> **Le filtre sort en ÉCHEC si l'ensemble retenu est vide.** Un `--theme=` mal
+> orthographié retiendrait 0 combinaison et afficherait « 0 différence » : un
+> **vert sur zéro donnée**, la forme de faux positif qui ressemble le plus à un
+> succès. Vérifié par essai négatif délibéré (`--theme=nuit` → code 1).
 
 ## Deux règles apprises à la dure
 
