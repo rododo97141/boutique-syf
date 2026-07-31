@@ -101,8 +101,24 @@ const findings = await page.evaluate(() => {
     }
     return out;
   };
+  /* Un voile plein écran (Le Portail) OCCULTE la page : mesurer les
+     éléments derrière lui revient à les mesurer contre le voile, ce qui
+     fabrique des dizaines de faux défauts sur du contenu que personne ne
+     voit. Quand il est là, on ne mesure QUE lui. Constaté en R93/8 :
+     36 faux positifs, tous derrière le voile. */
+  const veil = [...document.querySelectorAll('body > *')].find(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position !== 'fixed' || cs.display === 'none' || cs.visibility === 'hidden') return false;
+    if (parseFloat(cs.opacity) < 0.9) return false;
+    const bg = parse(cs.backgroundColor), bi = cs.backgroundImage;
+    if ((!bg || bg.a < 0.9) && (!bi || bi === 'none')) return false;
+    const r = el.getBoundingClientRect();
+    return r.width >= innerWidth * 0.95 && r.height >= innerHeight * 0.95 && (+cs.zIndex || 0) >= 100;
+  });
+  const scope = veil || document.body;
+
   const out = [], undet = [];
-  document.querySelectorAll('body *').forEach(el => {
+  scope.querySelectorAll('*').forEach(el => {
     const hasText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 1);
     if (!hasText) return;
     const cs = getComputedStyle(el);
@@ -143,7 +159,7 @@ const findings = await page.evaluate(() => {
     });
     return uniq;
   };
-  return { fails: dedupe(out.sort((a, b) => a.ratio - b.ratio)), undetermined: dedupe(undet) };
+  return { fails: dedupe(out.sort((a, b) => a.ratio - b.ratio)), undetermined: dedupe(undet), veiled: !!veil };
 });
 
 const { fails, undetermined } = findings;
@@ -204,6 +220,7 @@ for (const u of undetermined) {
 }
 
 console.log(`Contraste AA — ${url} — thème ${theme}${portalFirst ? ' — PREMIÈRE visite' : ''}`);
+if (findings.veiled) console.log('(un voile plein écran occulte la page : seul le voile est mesuré)');
 console.log(`\n[composition] ${fails.length} paire(s) sous le seuil`);
 fails.forEach(f => console.log(`  ✗ ${f.ratio}/${f.need}  ${f.sel}  « ${f.txt} »  ${f.size}px  fg(${f.fg}) bg(${f.bg})`));
 console.log(`\n[pixels peints] ${undetermined.length} fond(s) non composable(s) mesuré(s) à l'image — ${measured.length} sous le seuil`);
