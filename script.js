@@ -514,13 +514,46 @@
      ciel et le démarrage du film en R93/4, le son en R93/6.
      Un voile sans sortie ne serait pas une structure, ce serait un piège. */
   const portal = $('#portal');
-  if (portal) {
+  const portalActive = portal && document.documentElement.getAttribute('data-portal') !== 'done';
+  if (portalActive) {
+    const enterBtn = $('#portalEnter'), quietBtn = $('#portalQuiet');
+
+    /* Le reste de la page est mis hors d'atteinte pendant que le voile est
+       là : `inert` retire d'un coup le focus clavier ET l'arbre
+       d'accessibilité, ce qu'aria-hidden seul ne fait pas. On le pose sur
+       les frères du voile, jamais sur un ancêtre commun — sinon le voile
+       s'inerterait lui-même. */
+    const siblings = [...document.body.children].filter(el => el !== portal && el.tagName !== 'NOSCRIPT');
+    siblings.forEach(el => el.setAttribute('inert', ''));
+
     const leavePortal = withSound => {
       try { localStorage.setItem('syfir-portal', withSound ? 'son' : 'muet'); } catch (e) {}
+      siblings.forEach(el => el.removeAttribute('inert'));
       document.documentElement.setAttribute('data-portal', 'done');
+      document.removeEventListener('keydown', onPortalKey);
+      // Le focus ne doit pas retomber dans le vide : on le rend au début
+      // du document, là où le visiteur vient d'arriver.
+      const first = document.querySelector('.skip-link') || document.body;
+      if (first.focus) { first.setAttribute('tabindex', '-1'); first.focus({ preventScroll: true }); }
     };
-    $('#portalEnter')?.addEventListener('click', () => leavePortal(true));
-    $('#portalQuiet')?.addEventListener('click', () => leavePortal(false));
+
+    /* Piège de focus : Tab et Shift+Tab tournent entre les deux commandes.
+       Échap = entrer sans le son — une porte doit rester franchissable au
+       clavier, jamais une impasse pour un lecteur d'écran. */
+    function onPortalKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); leavePortal(false); return; }
+      if (e.key !== 'Tab') return;
+      const f = [enterBtn, quietBtn].filter(Boolean);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    document.addEventListener('keydown', onPortalKey);
+
+    enterBtn?.addEventListener('click', () => leavePortal(true));
+    quietBtn?.addEventListener('click', () => leavePortal(false));
+    requestAnimationFrame(() => enterBtn?.focus());
   }
 
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
