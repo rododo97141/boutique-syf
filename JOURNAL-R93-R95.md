@@ -351,3 +351,41 @@ entre le verre et le ciel.
 de la jointure : ce sont des textes posés là où aucun verre ne les porte (nav sur
 hero clair, portes d'événement à verre 5 %). C'est le prolongement de H2, et il
 reste à faire quelle que soit la variante retenue.
+
+### R97 — variante C : le ciel de B, le sol de A, une seule horloge
+
+| | **A** | **B** | **C** |
+|---|---|---|---|
+| Ciel | 3 paliers (inchangé) | continu | **continu** |
+| Verre + encre | basculent, horloge du défilement | **constants** | basculent, **même horloge** que le ciel |
+| Défauts AA clair | 35 | 24 | **35** |
+| Défauts AA sombre | 0 | 0 | **0** |
+| Ciel réellement continu | non | oui (11/12) | **oui (11/12)** |
+| Confinement | 0 diff | 0 diff | **0 diff** |
+| LCP accueil | 596–688 ms | idem | **988 ms** (budget 2 500) |
+
+**Ce que C réussit** : l'allure de A — la nuit arrive vraiment, les sections
+s'assombrissent, le SYFIR final est net — avec le ciel continu de B et **une seule
+horloge**. Plus rien à tenir aligné : le verre, l'encre et le ciel dérivent tous de
+la progression du défilement.
+
+**Ce que C ne fait pas, et pourquoi c'est impossible.** Le verre ne devient pas
+continu. Un fond de section qui descend en continu du clair au vraiment sombre
+traverse la bande **L ∈ [0,168 ; 0,243]** où **aucune encre de la charte**
+n'atteint 4,5:1 — l'encre sombre exigerait L ≥ 0,243, la crème L ≤ 0,168, et le
+blanc pur (qui y arriverait tout juste à 4,58) est banni. Un verre continu impose
+donc une fenêtre illisible. Le **ciel**, lui, n'a jamais ce problème : personne ne
+lit dessus directement. D'où le partage retenu — ciel continu, sol qui bascule
+d'un coup, les deux sur la même horloge.
+
+**Le coût honnête de C** : le verre change d'un coup au passage. C'est visible, et
+c'est le prix de la lisibilité — mais comme l'encre change au même instant, le
+contraste ne fléchit jamais. Et **le LCP passe de ~600 à 988 ms** : trois couches
+de ciel supplémentaires à peindre. Reste largement dans le budget de 2 500, mais
+c'est un coût réel, à ne pas taire.
+
+**Une correction sur B, à sa décharge.** Les demi-teintes boueuses vues en thème
+sombre venaient d'un **bug de mon B**, pas du concept : mon override remplaçait
+l'animation du ciel pour tous les thèmes, en ignorant les variantes que §39.3
+sélectionne par préférence — en sombre, B empilait jour et doré au lieu de partir
+au crépuscule. C respecte ces variantes.

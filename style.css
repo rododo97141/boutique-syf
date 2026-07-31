@@ -3304,6 +3304,76 @@ html[data-r97="B"][data-theme="dark"] {
   --glass: rgba(3, 7, 14, .78); --glass-soft: rgba(3, 7, 14, .66);
 }
 
+/* ============================================================
+   R97 VARIANTE C — LE CIEL DE B, LE SOL QUI SUIT
+   ------------------------------------------------------------
+   C prend le ciel continu de B (empilement d'opacités, mécanisme de la
+   maquette) et lui rend le sol de A : le verre des sections et l'encre
+   basculent ENSEMBLE, sur la MÊME horloge de défilement que le ciel.
+
+   POURQUOI LE VERRE NE PEUT PAS, LUI, ÊTRE CONTINU — c'est la limite,
+   elle est mathématique et elle a été mesurée. Un fond de section qui
+   descend en continu du clair au vraiment sombre traverse la bande
+   L ∈ [0,168 ; 0,243]. Dans cette bande, AUCUNE encre de la charte
+   n'atteint 4,5:1 : l'encre sombre demanderait L ≥ 0,243, la crème
+   L ≤ 0,168. Le blanc pur y arriverait tout juste (4,58) — il est banni.
+   Un verre continu impose donc une fenêtre illisible ; un verre qui
+   bascule d'un coup, en même temps que l'encre, n'en impose aucune.
+
+   Le CIEL, lui, n'a jamais ce problème : personne ne lit dessus
+   directement. Il reste donc continu, et c'est là que se voit la
+   Traversée — dans le hero, les interstices, et par transparence.
+
+   Ce que C ne fait PAS : elle ne rend pas le verre continu. Ce serait
+   joli et illisible.
+============================================================ */
+html[data-r97="C"] .page-home .sky-grade {
+  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
+  animation-name: none;
+}
+html[data-r97="C"] .page-home .sky-grade::before,
+html[data-r97="C"] .page-home .sky-grade::after,
+html[data-r97="C"] .page-home .sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation-duration: auto;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-timeline: scroll(root);
+}
+html[data-r97="C"] .page-home .sky-grade::before {
+  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
+  animation-name: r97-fade-dusk;
+}
+html[data-r97="C"] .page-home .sky-grade::after {
+  background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%);
+  animation-name: r97-fade-gold;
+}
+html[data-r97="C"] .page-home .sky::after {
+  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
+  animation-name: r97-fade-day;
+  z-index: 1;
+}
+
+/* LES VARIANTES PAR THÈME — ce que ma variante B avait manqué, et qui
+   explique les demi-teintes vues en sombre : elle empilait jour et doré
+   quel que soit le thème. §39.3 choisit une traversée par préférence, la
+   pile doit obéir à la même règle.
+     clair FORCÉ : plafond au crépuscule — la couche nuit ne sort jamais.
+     sombre FORCÉ : nuit dès le premier pixel — ni jour ni doré.
+     auto de nuit : départ au crépuscule. */
+html[data-r97="C"][data-theme-pref="light"] .page-home .sky-grade {
+  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
+}
+html[data-r97="C"][data-theme-pref="light"] .page-home .sky-grade::before { animation-name: none; opacity: 0; }
+html[data-r97="C"][data-theme-pref="dark"] .page-home .sky::after,
+html[data-r97="C"][data-theme-pref="dark"] .page-home .sky-grade::after { animation-name: none; opacity: 0; }
+html[data-r97="C"][data-theme-pref="auto"][data-theme="dark"] .page-home .sky::after,
+html[data-r97="C"][data-theme-pref="auto"][data-theme="dark"] .page-home .sky-grade::after { animation-name: none; opacity: 0; }
+
 /* --- 39.3 Intégration avec les deux thèmes ---
    Pilotée par data-theme-pref, l'attribut que script.js pose déjà sur
    <html> (auto | light | dark) — aucun nouvel état, aucune nouvelle clé
