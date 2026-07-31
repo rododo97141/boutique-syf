@@ -173,63 +173,100 @@ const { fails, undetermined } = findings;
    ce que voit l'œil — le reste n'est que déclaration. */
 const decoder = await ctx.newPage();
 await decoder.goto('about:blank');
-const pixelMeasure = async (qaId) => {
-  const el = await page.$(`[data-qa-id="${qaId}"]`);
-  if (!el) return null;
-  try {
-    await el.scrollIntoViewIfNeeded({ timeout: 3000 });
-    await page.waitForTimeout(80);
-    const buf = await el.screenshot({ timeout: 5000 });
-    /* La couleur du TEXTE est relue ICI, après le défilement — pas au
-       chargement. Sur l'accueil, la bascule §39.5 change l'encre selon le
-       palier du ciel : lire le texte en haut de page et le fond en bas
-       comparait deux instants différents et ressuscitait des défauts déjà
-       corrigés. Les deux mesures doivent venir du même moment. */
-    const fgNow = await page.evaluate((id) => {
-      const e = document.querySelector(`[data-qa-id="${id}"]`);
-      return e ? getComputedStyle(e).color : null;
-    }, qaId);
-    const bgNow = await decoder.evaluate(async (b64) => {
-      const img = new Image();
-      img.src = 'data:image/png;base64,' + b64;
-      await img.decode();
-      const c = document.createElement('canvas');
-      c.width = img.width; c.height = img.height;
-      const g = c.getContext('2d', { willReadFrequently: true });
-      g.drawImage(img, 0, 0);
-      const d = g.getImageData(0, 0, c.width, c.height).data;
-      const bins = new Map();
-      for (let i = 0; i < d.length; i += 4) {
-        if (d[i + 3] < 200) continue;
-        const k = `${d[i] >> 3},${d[i + 1] >> 3},${d[i + 2] >> 3}`;
-        const e = bins.get(k) || { n: 0, r: 0, g: 0, b: 0 };
-        e.n++; e.r += d[i]; e.g += d[i + 1]; e.b += d[i + 2];
-        bins.set(k, e);
-      }
-      let best = null;
-      for (const e of bins.values()) if (!best || e.n > best.n) best = e;
-      if (!best) return null;
-      return { r: Math.round(best.r / best.n), g: Math.round(best.g / best.n), b: Math.round(best.b / best.n) };
-    }, buf.toString('base64'));
-    return bgNow ? { bg: bgNow, fg: fgNow } : null;
-  } catch { return null; }
+
+/* Mesure par PASSES DE VIEWPORT, et non élément par élément.
+   ------------------------------------------------------------
+   Quatrième désynchronisme d'instrument, trouvé en R96 : faire défiler
+   jusqu'à CHAQUE élément avant de le capturer change le palier du ciel
+   entre deux mesures. Deux éléments voisins étaient donc mesurés dans
+   deux mondes différents — un enfant relevait « crème » quand son propre
+   parent relevait « saumon », ce qui est impossible et a mis sur la voie.
+
+   Méthode : on descend par écrans, et à chaque palier on prend UNE seule
+   capture, dans laquelle on découpe toutes les boîtes visibles à cet
+   instant. Un instant, une image, une vérité. */
+const dominantOf = async (b64, boxes) => decoder.evaluate(async ({ img64, list }) => {
+  const img = new Image();
+  img.src = 'data:image/png;base64,' + img64;
+  await img.decode();
+  const c = document.createElement('canvas');
+  c.width = img.width; c.height = img.height;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0);
+  return list.map(it => {
+    const d = g.getImageData(it.x, it.y, Math.max(1, it.w), Math.max(1, it.h)).data;
+    const bins = new Map();
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 200) continue;
+      const k = `${d[i] >> 3},${d[i + 1] >> 3},${d[i + 2] >> 3}`;
+      const e = bins.get(k) || { n: 0, r: 0, g: 0, b: 0 };
+      e.n++; e.r += d[i]; e.g += d[i + 1]; e.b += d[i + 2];
+      bins.set(k, e);
+    }
+    let best = null;
+    for (const e of bins.values()) if (!best || e.n > best.n) best = e;
+    return best ? { qaId: it.qaId, fg: it.fg,
+      bg: { r: Math.round(best.r / best.n), g: Math.round(best.g / best.n), b: Math.round(best.b / best.n) } } : null;
+  }).filter(Boolean);
+}, { img64: b64, list: boxes });
+
+/* Descente par écrans. La page GRANDIT en descendant (content-visibility),
+   donc on ne calcule jamais la hauteur une seule fois : on avance tant
+   qu'on n'est pas ancré au fond. */
+const collected = new Map();
+const sweep = async () => {
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(400);
+  for (let pass = 0; pass < 200; pass++) {
+    await page.waitForTimeout(220);          // le verre a 300 ms de transition
+    const boxes = await page.evaluate(() => {
+      const out = [];
+      document.querySelectorAll('[data-qa-id]').forEach(e => {
+        const r = e.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight || r.width < 2 || r.height < 2) return;
+        out.push({ qaId: e.getAttribute('data-qa-id'), fg: getComputedStyle(e).color,
+          x: Math.round(Math.max(0, r.x)), y: Math.round(Math.max(0, r.y)),
+          w: Math.round(Math.min(r.width, innerWidth - Math.max(0, r.x))),
+          h: Math.round(Math.min(r.height, innerHeight - Math.max(0, r.y))) });
+      });
+      return out;
+    });
+    const todo = boxes.filter(b2 => !collected.has(b2.qaId));
+    if (todo.length) {
+      const shot = (await page.screenshot()).toString('base64');
+      for (const m of await dominantOf(shot, todo)) collected.set(m.qaId, m);
+    }
+    const done = await page.evaluate(() => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      if (max <= 0) return true;
+      if (window.scrollY / max >= 0.995) return true;
+      window.scrollBy(0, Math.round(innerHeight * 0.85));
+      return false;
+    });
+    if (done) break;
+  }
 };
+await sweep();
 
 const lumJS = ({ r, g, b }) => {
   const c = [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 };
 const measured = [], unmeasurable = [];
+const parseFg = t => { const r = String(t || '').match(/rgba?\(([^)]+)\)/); return r ? r[1].split(',').map(parseFloat) : null; };
 for (const u of undetermined) {
-  const m = await pixelMeasure(u.qaId);
+  const m = collected.get(String(u.qaId));
   if (!m) { unmeasurable.push(u); continue; }
   const bg = m.bg;
-  const parseFg = s2 => { const r = String(s2 || '').match(/rgba?\(([^)]+)\)/); return r ? r[1].split(',').map(parseFloat) : null; };
   const live = parseFg(m.fg);
   const [fr, fg_, fb] = live ? live : u.fg.split(',').map(Number);
-  const L1 = lumJS({ r: fr, g: fg_, b: fb }) + 0.05, L2 = lumJS(bg) + 0.05;
+  const a = live && live.length > 3 ? live[3] : 1;
+  // composition du texte semi-transparent sur son fond réel
+  const comp = { r: fr * a + bg.r * (1 - a), g: fg_ * a + bg.g * (1 - a), b: fb * a + bg.b * (1 - a) };
+  const L1 = lumJS(comp) + 0.05, L2 = lumJS(bg) + 0.05;
   const ratio = +(Math.max(L1, L2) / Math.min(L1, L2)).toFixed(2);
-  if (ratio < u.need) measured.push({ ...u, ratio, fg: `${Math.round(fr)},${Math.round(fg_)},${Math.round(fb)}`, bg: `${bg.r},${bg.g},${bg.b}` });
+  if (ratio < u.need) measured.push({ ...u, ratio,
+    fg: `${Math.round(fr)},${Math.round(fg_)},${Math.round(fb)}`, bg: `${bg.r},${bg.g},${bg.b}` });
 }
 
 console.log(`Contraste AA — ${url} — thème ${theme}${portalFirst ? ' — PREMIÈRE visite' : ''}`);
