@@ -3206,6 +3206,104 @@ html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), 
   100% { background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%); }
 }
 
+/* ============================================================
+   R97 VARIANTE B — LE CIEL VRAIMENT CONTINU, PAR EMPILEMENT D'OPACITÉS
+   ------------------------------------------------------------
+   Mesuré en R97 : les keyframes ci-dessus animent le RACCOURCI
+   `background`, dont le composant image s'interpole de façon DISCRÈTE.
+   La Traversée n'interpolait donc pas — elle sautait entre trois états.
+
+   Remède : l'empilement de la maquette validée. Quatre couches de ciel
+   superposées, dont on interpole l'OPACITÉ. L'opacité s'interpole
+   toujours, sur tous les moteurs, sans surprise — contrairement à
+   l'interpolation entre deux dégradés, qui n'est fiable nulle part.
+
+   De bas en haut : nuit (socle, toujours opaque), crépuscule, doré,
+   jour. Chaque couche supérieure s'efface pour révéler la suivante.
+
+   ET LE SOL SUIT LE CIEL. Puisque le ciel devient continu, il traverse
+   la bande de luminance où AUCUNE encre ne tient 4,5:1 — donc aucune
+   bascule d'encre ne peut sauver la lisibilité. La réponse n'est pas de
+   basculer l'encre mais de la rendre INUTILE : le verre des sections
+   garde un composite CONSTANT, quel que soit le ciel derrière. Le
+   plancher de contraste est alors garanti à chaque instant, et il n'y a
+   plus de seconde horloge à synchroniser — le problème disparaît au
+   lieu d'être arbitré.
+============================================================ */
+html[data-r97="B"] .page-home .sky-grade {
+  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
+  animation-name: none;                      /* le raccourci discret est neutralisé */
+}
+html[data-r97="B"] .page-home .sky-grade::before,
+html[data-r97="B"] .page-home .sky-grade::after,
+html[data-r97="B"] .page-home .sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* crépuscule */
+html[data-r97="B"] .page-home .sky-grade::before {
+  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
+  animation-name: r97-fade-dusk;
+}
+/* doré */
+html[data-r97="B"] .page-home .sky-grade::after {
+  background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%);
+  animation-name: r97-fade-gold;
+}
+/* plein jour, la couche la plus haute */
+html[data-r97="B"] .page-home .sky::after {
+  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
+  animation-name: r97-fade-day;
+  z-index: 1;
+}
+html[data-r97="B"] .page-home .sky-grade::before,
+html[data-r97="B"] .page-home .sky-grade::after,
+html[data-r97="B"] .page-home .sky::after {
+  animation-duration: auto;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-timeline: scroll(root);
+}
+@keyframes r97-fade-day  { 0% { opacity: 1; } 32% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes r97-fade-gold { 0% { opacity: 1; } 32% { opacity: 1; } 64% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes r97-fade-dusk { 0% { opacity: 1; } 64% { opacity: 1; } 100% { opacity: 0; } }
+
+/* LE SOL CONSTANT : le verre ne suit plus les paliers, il tient le même
+   composite du début à la fin. L'encre n'a donc plus jamais à basculer —
+   la bascule §39.5 est neutralisée en variante B. */
+html[data-r97="B"] .page-home [data-sky-stage] { background: var(--glass-soft); }
+html[data-r97="B"] .page-home .section-dark[data-sky-stage],
+html[data-r97="B"] .page-home .section-cream[data-sky-stage],
+html[data-r97="B"] .page-home footer[data-sky-stage] { background: var(--glass); }
+html[data-r97="B"][data-sky="dusk"] .page-home [data-sky-stage],
+html[data-r97="B"][data-sky="night"] .page-home [data-sky-stage] {
+  --ink-warm: initial; --taupe: initial; --taupe-soft: initial;
+  --taupe-deep: initial; --taupe-ink: initial; --grey-ink: initial;
+  --grey-ink-2: initial; --grey-mid: initial; --grey-soft: initial;
+  --brown-ink: initial; --sunset-ink: initial; --gold-ink: initial;
+  --gold-ink-2: initial; --gold-deep: initial;
+  --surface-light: initial; --surface-light-rgb: initial;
+  color: initial;
+}
+html[data-r97="B"][data-sky="dusk"] .page-home .section-cream[data-sky-stage],
+html[data-r97="B"][data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--ink); }
+/* LE VERRE CONSTANT, par THÈME et non par palier. C'est lui qui tient le
+   composite. Calcul vérifié avant d'écrire : un verre crème à 72 %
+   au-dessus d'un ciel qui va de L=0,93 (jour) à L=0,01 (nuit) donne un
+   composite dont la luminance reste entre 0,93 et 0,46 — soit un
+   contraste de 15:1 à 7,8:1 avec l'encre sombre. Le plancher tient sans
+   avoir à opacifier davantage : le coût n'est pas la transparence, c'est
+   que les sections cessent de suivre le ciel. */
+html[data-r97="B"][data-theme="light"] {
+  --glass: rgba(255, 253, 246, .72); --glass-soft: rgba(255, 253, 246, .60);
+}
+html[data-r97="B"][data-theme="dark"] {
+  --glass: rgba(3, 7, 14, .78); --glass-soft: rgba(3, 7, 14, .66);
+}
+
 /* --- 39.3 Intégration avec les deux thèmes ---
    Pilotée par data-theme-pref, l'attribut que script.js pose déjà sur
    <html> (auto | light | dark) — aucun nouvel état, aucune nouvelle clé

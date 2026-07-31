@@ -35,10 +35,19 @@ const pasRatio = pi >= 0 && args[pi + 1] ? Number(args[pi + 1]) : 0.25;
 const ai = args.indexOf('--attente');
 const attente = ai >= 0 && args[ai + 1] ? Number(args[ai + 1]) : 120;
 
+const vi = args.indexOf('--variante');
+const variante = vi >= 0 && args[vi + 1] ? args[vi + 1] : '';
+
 const srv = await serve();
 const b = await browser();
 const ctx = await b.newContext({ viewport: VIEWPORTS.desktop });
-const page = await openPage(ctx, url, { theme });
+const page = await ctx.newPage();
+if (variante) await page.addInitScript(v => { try { localStorage.setItem('syfir-r97', v); } catch (e) {} }, variante);
+await page.addInitScript(t => { try { localStorage.setItem('syfir-theme', t); localStorage.setItem('syfir-portal', 'in'); } catch (e) {} }, theme);
+await page.goto(`http://127.0.0.1:${process.env.QA_PORT || 8099}/${url}`, { waitUntil: 'load' });
+await page.waitForTimeout(900);
+await page.evaluate(() => document.querySelectorAll('.reveal').forEach(e => e.classList.add('in')));
+await page.waitForTimeout(400);
 const decoder = await ctx.newPage();
 await decoder.goto('about:blank');
 

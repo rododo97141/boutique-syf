@@ -46,6 +46,11 @@
   try {
     if (localStorage.getItem('syfir-portal')) document.documentElement.setAttribute('data-portal', 'done');
   } catch (e) { document.documentElement.setAttribute('data-portal', 'done'); }
+  // R97 — variante de ciel à l'essai (TEMPORAIRE, le temps de la décision).
+  try {
+    var v = localStorage.getItem('syfir-r97');
+    if (v) document.documentElement.setAttribute('data-r97', v);
+  } catch (e) {}
 })();
 </script>
 <!-- la section partenaires est devenue partenaires.html. Les liens
