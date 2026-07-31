@@ -3888,6 +3888,16 @@ html[data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--
 /* Visite mémorisée : jamais peint, pas même une frame. */
 html[data-portal="done"] .portal { display: none; }
 
+/* La levée : fondu croisé vers le ciel déjà peint dessous. On ne touche
+   ni au palier du ciel ni au fond du voile — seule l'opacité descend,
+   donc la nuit de la porte se dissout dans le ciel d'arrivée, quel qu'il
+   soit. C'est ce qui interdit le saut « nuit du voile -> plein jour ». */
+.portal { opacity: 1; transition: opacity 900ms var(--ease); }
+.portal.is-leaving { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .portal { transition: none; }
+}
+
 .portal-inner { text-align: center; max-width: 30rem; }
 
 .portal-mark {

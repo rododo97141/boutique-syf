@@ -515,6 +515,13 @@
      Un voile sans sortie ne serait pas une structure, ce serait un piège. */
   const portal = $('#portal');
   const portalActive = portal && document.documentElement.getAttribute('data-portal') !== 'done';
+  /* Le film de marque attend derrière le voile : « Entrer » doit le
+     DÉCLENCHER, pas le découvrir déjà commencé. Aux visites mémorisées,
+     la porte est déjà ouverte — la promesse est résolue d'emblée. */
+  let openPortalGate = () => {};
+  const portalGate = portalActive
+    ? new Promise(res => { openPortalGate = res; })
+    : Promise.resolve();
   if (portalActive) {
     const enterBtn = $('#portalEnter'), quietBtn = $('#portalQuiet');
 
@@ -526,15 +533,42 @@
     const siblings = [...document.body.children].filter(el => el !== portal && el.tagName !== 'NOSCRIPT');
     siblings.forEach(el => el.setAttribute('inert', ''));
 
+    let leaving = false;
     const leavePortal = withSound => {
+      if (leaving) return;
+      leaving = true;
       try { localStorage.setItem('syfir-portal', withSound ? 'son' : 'muet'); } catch (e) {}
       siblings.forEach(el => el.removeAttribute('inert'));
-      document.documentElement.setAttribute('data-portal', 'done');
       document.removeEventListener('keydown', onPortalKey);
       // Le focus ne doit pas retomber dans le vide : on le rend au début
       // du document, là où le visiteur vient d'arriver.
       const first = document.querySelector('.skip-link') || document.body;
       if (first.focus) { first.setAttribute('tabindex', '-1'); first.focus({ preventScroll: true }); }
+
+      /* CONTINUITÉ (point d'architecture 3 de la passation) : le ciel
+         d'arrivée est DÉJÀ peint derrière le voile — La Traversée a posé
+         son palier avant tout scroll. On ne force donc aucun palier : on
+         baisse simplement l'opacité du voile, et le fondu croisé se fait
+         tout seul entre la nuit de la porte et le ciel du site. Aucun saut
+         possible, quel que soit le palier d'arrivée (day, dusk ou night
+         selon le thème). */
+      openPortalGate();
+      if (reducedMotion) { document.documentElement.setAttribute('data-portal', 'done'); return; }
+      portal.classList.add('is-leaving');
+      let closed = false;
+      const finish = () => {
+        if (closed) return;
+        closed = true;
+        document.documentElement.setAttribute('data-portal', 'done');
+      };
+      /* transitionend REMONTE depuis les enfants : sans ce filtre, la
+         transition du bouton qui perd le survol au moment du clic terminait
+         la levée dans la même frame — le fondu ne se voyait jamais.
+         Constaté à la mesure (opacité échantillonnée à 0 d'emblée). */
+      portal.addEventListener('transitionend', e => {
+        if (e.target === portal && e.propertyName === 'opacity') finish();
+      });
+      setTimeout(finish, 1200);   // filet : une transition peut ne jamais finir
     };
 
     /* Piège de focus : Tab et Shift+Tab tournent entre les deux commandes.
@@ -870,7 +904,14 @@
     const conn = navigator.connection;
     const slowNet = /(^|-)[23]g$/.test(conn?.effectiveType || '');
     if (!host || reducedMotion || conn?.saveData || slowNet) return;
-    addEventListener('load', () => {
+    /* R93/4 : le film attend que la porte soit franchie. Sur une visite
+       mémorisée, portalGate est déjà résolue et le comportement est
+       exactement celui d'avant. */
+    const afterLoad = cb => {
+      if (document.readyState === 'complete') cb();
+      else addEventListener('load', cb, { once: true });
+    };
+    afterLoad(() => portalGate.then(() => {
       const wrap = document.createElement('div');
       wrap.className = 'hero-video';
       wrap.setAttribute('aria-hidden', 'true');
@@ -904,7 +945,7 @@
       tryPlay();
       events.forEach(e => addEventListener(e, kick, { passive: true, once: false }));
       document.addEventListener('visibilitychange', onVis);
-    }, { once: true });
+    }));
   };
 
   // R88 point (b) puis R89 point 3 : l'injection de videos/syfir-pub-video.mp4
