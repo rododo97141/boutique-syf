@@ -40,6 +40,12 @@
     if (sessionStorage.getItem('syfir-hero-seen')) document.documentElement.setAttribute('data-tagline-seen', '');
     else sessionStorage.setItem('syfir-hero-seen', '1');
   } catch (e) {}
+  // R93 — LE PORTAIL : état résolu AVANT le premier pixel. Le voile n'est
+  // peint qu'à la première visite ; ensuite il n'apparaît jamais, pas même
+  // une frame. Même principe anti-flash que le thème, ci-dessus.
+  try {
+    if (localStorage.getItem('syfir-portal')) document.documentElement.setAttribute('data-portal', 'done');
+  } catch (e) { document.documentElement.setAttribute('data-portal', 'done'); }
 })();
 </script>
 <!-- la section partenaires est devenue partenaires.html. Les liens
@@ -74,6 +80,25 @@
 </script>
 </head>
 <body class="page-home">
+
+<!-- ============================================================
+     R93 — LE PORTAIL : voile d'entrée, PREMIÈRE VISITE SEULEMENT.
+     Placé en tête de body pour être peint le plus tôt possible, et
+     construit pour ne rien attendre : fond en dégradé CSS (aucune
+     image), texte en police de repli immédiate (font-display: swap).
+     L'état est résolu dans le <head>, avant le premier pixel : aux
+     visites suivantes le voile n'apparaît jamais, même une frame.
+============================================================ -->
+<div class="portal" id="portal" role="dialog" aria-modal="true" aria-labelledby="portalTitle">
+  <div class="portal-inner">
+    <p class="portal-mark" id="portalTitle">SYFIR<span aria-hidden="true">&trade;</span></p>
+    <p class="portal-line">La f&ecirc;te commence ici.</p>
+    <button class="portal-enter" id="portalEnter" type="button">Entrer dans la f&ecirc;te</button>
+    <button class="portal-quiet" id="portalQuiet" type="button">entrer sans le son</button>
+  </div>
+</div>
+<noscript><style>.portal { display: none !important; }</style></noscript>
+
 <a class="skip-link" href="#main">Aller au contenu</a>
 <!-- Fil narratif sensoriel : grade couleur du fond qui évolue au scroll
      (golden hour > sunset > nuit océan > braise). Centre transparent =

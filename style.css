@@ -3866,6 +3866,74 @@ html[data-sky="night"] .page-home footer[data-sky-stage] {
 html[data-sky="dusk"] .page-home .section-cream[data-sky-stage],
 html[data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--cream); }
 
+/* ============================================================
+   40. R93 — LE PORTAIL (accueil, première visite)
+   ------------------------------------------------------------
+   Contrainte de rendu : le voile devient l'élément le plus grand de la
+   première peinture, donc potentiellement le LCP. Il est construit pour
+   ne RIEN attendre — aucune image, aucune police bloquante, un dégradé
+   et du texte. Mesuré en R93/2, cf. JOURNAL.
+
+   Contrainte de DA : l'or en détail, jamais en masse. Le bouton d'entrée
+   est un LISERÉ or sur fond translucide — jamais un aplat doré.
+============================================================ */
+.portal {
+  position: fixed; inset: 0; z-index: 1200;
+  display: grid; place-items: center;
+  padding: 32px 24px;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 100%, rgba(var(--passion-rgb), .10), transparent 60%),
+    linear-gradient(180deg, #05101C 0%, var(--ocean-deep) 55%, #040A12 100%);
+}
+/* Visite mémorisée : jamais peint, pas même une frame. */
+html[data-portal="done"] .portal { display: none; }
+
+.portal-inner { text-align: center; max-width: 30rem; }
+
+.portal-mark {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(2.6rem, 12vw, 5rem); line-height: 1;
+  letter-spacing: .04em; color: var(--cream);
+  margin-bottom: 20px;
+}
+.portal-mark span { font-size: .28em; vertical-align: super; opacity: .7; }
+
+.portal-line {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(1.05rem, 4vw, 1.35rem);
+  color: rgba(var(--cream-rgb), .82);
+  margin-bottom: 40px;
+}
+
+/* Liseré or sur translucide — l'or reste un trait, pas une surface. */
+.portal-enter {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 14px 36px;
+  border: 1px solid rgba(var(--gold-rgb), .75); border-radius: 100px;
+  background: rgba(var(--cream-rgb), .05);
+  color: var(--cream);
+  font-family: var(--display); font-weight: 700; font-size: .82rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease);
+}
+.portal-enter:hover { background: rgba(var(--gold-rgb), .12); border-color: var(--gold-light); }
+.portal-enter:active { transform: scale(.97); }
+
+.portal-quiet {
+  display: block; margin: 20px auto 0;
+  min-height: 44px; padding: 8px 16px;
+  background: none; border: none; cursor: pointer;
+  color: rgba(var(--cream-rgb), .58);
+  font-family: var(--body); font-size: .84rem;
+  text-decoration: underline; text-underline-offset: 4px;
+  transition: color var(--dur-fast);
+}
+.portal-quiet:hover { color: rgba(var(--cream-rgb), .9); }
+
+/* Le voile est nuit profonde dans les deux thèmes : c'est une porte, pas
+   une section du site. Aucune surcharge claire — c'est délibéré. */
+
 /* ===== 38. RESPONSIVE ===== */
 /* Petits écrans : la nav billetterie passe par le menu mobile */
 @media (max-width: 639px) {

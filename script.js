@@ -506,6 +506,23 @@
      moment de la réservation pour les événements 18+. Rien ne prétend
      vérifier juridiquement l'âge de la personne. */
 
+  /* ===== 07b-bis. R93 — LE PORTAIL (accueil, première visite) =====
+     Le voile est déjà peint par le HTML quand on arrive ici ; ce bloc lui
+     donne sa sortie. R93/2 pose la sortie BRUTE — on entre, on mémorise,
+     le voile disparaît. Ce qui vient ensuite est traité à son point :
+     le clavier et le piège de focus en R93/3, le fondu croisé vers le
+     ciel et le démarrage du film en R93/4, le son en R93/6.
+     Un voile sans sortie ne serait pas une structure, ce serait un piège. */
+  const portal = $('#portal');
+  if (portal) {
+    const leavePortal = withSound => {
+      try { localStorage.setItem('syfir-portal', withSound ? 'son' : 'muet'); } catch (e) {}
+      document.documentElement.setAttribute('data-portal', 'done');
+    };
+    $('#portalEnter')?.addEventListener('click', () => leavePortal(true));
+    $('#portalQuiet')?.addEventListener('click', () => leavePortal(false));
+  }
+
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
   const mapPins = $$('.map-pin');
