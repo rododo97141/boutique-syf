@@ -389,3 +389,22 @@ sombre venaient d'un **bug de mon B**, pas du concept : mon override remplaçait
 l'animation du ciel pour tous les thèmes, en ignorant les variantes que §39.3
 sélectionne par préférence — en sombre, B empilait jour et doré au lieu de partir
 au crépuscule. C respecte ces variantes.
+
+---
+
+## ⛔ R97 EST SUSPENDU — décision du fondateur, 31/07
+
+**L'arbitrage A / B / C n'est plus ouvert : ne pas le reprendre.** Kily a ouvert le
+site dans son propre navigateur et a demandé de **retirer les modes jour et nuit** —
+« c'est plus le monde de la nuit, avec le thème SYFIR ». Le débat portait sur la
+manière dont le ciel passe du jour à la nuit ; il n'y aura plus de passage.
+
+Les trois variantes **restent en place** (A par défaut, B et C derrière
+`data-r97`) le temps que la direction visuelle soit choisie sur maquettes. Rien à
+supprimer sans mandat. Le système à deux thèmes **et** la Traversée jour→nuit sont
+tous deux remis en question.
+
+> **Leçon à garder, et elle vaut plus que le lot** : aucune de nos mesures ne
+> pouvait dire « ça ne donne pas envie ». Il a fallu qu'il ouvre le site pour que
+> ça se voie. Le harnais prouve qu'on n'a rien cassé — il ne dit jamais si c'est
+> beau.
