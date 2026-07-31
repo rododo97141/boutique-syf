@@ -22,7 +22,25 @@ mesures point par point est dans **`JOURNAL-R93-R95.md`**, qui est le document
   de programme, sans passer Ready**. **C'est le premier travail à faire.**
 - **C — l'écart de branche** : réglé. La bonne branche est `claude/r73-loi-evin`.
 
-## ⚠ ÉTAT APRÈS R97 — UNE DÉCISION ATTEND LE SUPERVISEUR
+## ⚠ ÉTAT APRÈS R97 — LES DEUX VARIANTES SONT CONSTRUITES, KILY DOIT CHOISIR
+
+Les deux variantes sont implémentées, **un commit chacune, séparables** :
+`R97/A` (actif par défaut) et `R97/B` (derrière `data-r97="B"`, posé depuis
+`localStorage.syfir-r97`). Captures de comparaison dans
+**`tools/qa/comparaison-r97/`** — temporaires, à supprimer dès la décision.
+
+| | A — paliers conservés | B — ciel continu + sol constant |
+|---|---|---|
+| Défauts AA clair | 35 | **24** |
+| Défauts AA sombre | 0 | 0 |
+| Ciel continu | non | **oui** (11 valeurs sur 12) |
+| Coût | la Traversée reste saccadée | les sections ne suivent plus le ciel |
+
+**Reste à faire quelle que soit la variante** : les défauts restants ne relèvent
+plus de la jointure mais de textes sans verre sous eux (nav sur hero clair, portes
+d'événement à verre 5 %) — c'est H2, à mener après la décision.
+
+## (archive) ⚠ ÉTAT APRÈS R97 — UNE DÉCISION ATTEND LE SUPERVISEUR
 
 **R97 n'est pas terminé, et c'est délibéré.** L'instrument demandé est livré
 (`tools/qa/lisibilite.mjs`, balayage continu) ; il a trouvé un fait qui **dépasse

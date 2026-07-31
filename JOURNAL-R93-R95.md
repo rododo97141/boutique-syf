@@ -328,3 +328,26 @@ défilement. L'encre bascule aux **paliers de section** (IntersectionObserver, d
 28 %) alors que le ciel ne s'assombrit qu'à **75 %**. Les deux horloges ne sont pas
 légèrement déphasées : elles sont à près de 50 points de défilement l'une de
 l'autre.
+
+### R97 — les deux variantes construites, à départager en regardant
+
+| | **Variante A** — le ciel garde ses paliers | **Variante B** — ciel vraiment continu + sol constant |
+|---|---|---|
+| Mécanisme | une seule horloge : l'encre et le verre se déduisent de la **même progression** que le ciel, aux midpoints de ses keyframes (16 / 48 / 82 %) | 4 couches de ciel empilées dont on interpole l'**opacité** (mécanisme de la maquette) ; le verre garde un **composite constant** par thème, la bascule d'encre est **supprimée** |
+| Défauts AA, thème **clair** (balayage continu, 600 ms) | **35** (contre 49 avant) | **24** (contre 49 avant) |
+| Défauts AA, thème **sombre** | **0** | **0** |
+| Ciel réellement continu ? | non — 3 paliers, inchangé | **oui** : 11 valeurs de luminance distinctes sur 12 relevés, de L=0,925 à 0,171 |
+| Confinement | 0 différence sur les 13 autres pages | idem (derrière son attribut) |
+| LCP accueil | 596 / 688 ms, budget 2 500 | idem |
+| **Ce que ça enlève, honnêtement** | rien visuellement — mais la Traversée **reste saccadée**, ce que Kily croyait déjà continu | les sections **cessent de suivre le ciel** : la Traversée se voit dans les interstices et derrière, plus *à travers* le verre. En thème clair les sections restent claires jusqu'au bout |
+
+**Le coût de B n'est PAS la transparence** — c'était la question du superviseur, et la
+mesure y répond : un verre crème à 72 % au-dessus d'un ciel allant de L=0,93 à 0,01
+donne un composite entre 0,93 et 0,46, soit **15:1 à 7,8:1** avec l'encre sombre. Il
+n'a pas fallu opacifier davantage. Le coût est ailleurs : la perte du lien visuel
+entre le verre et le ciel.
+
+**Aucune des deux n'atteint 0 défaut en thème clair.** Les restants ne relèvent plus
+de la jointure : ce sont des textes posés là où aucun verre ne les porte (nav sur
+hero clair, portes d'événement à verre 5 %). C'est le prolongement de H2, et il
+reste à faire quelle que soit la variante retenue.

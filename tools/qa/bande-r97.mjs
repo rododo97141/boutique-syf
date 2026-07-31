@@ -19,6 +19,8 @@ import { resolve } from 'node:path';
 
 const args = process.argv.slice(2);
 const nom = args[0];
+const vi = args.indexOf('--variante');
+const variante = vi >= 0 && args[vi + 1] ? args[vi + 1] : '';
 if (!nom) { console.error('usage: node tools/qa/bande-r97.mjs <nom-variante>'); process.exit(1); }
 const POSITIONS = [0, 0.15, 0.28, 0.40, 0.55, 0.70, 0.75, 0.83, 0.90, 1];
 
