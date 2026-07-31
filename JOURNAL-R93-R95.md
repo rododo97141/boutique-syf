@@ -75,6 +75,34 @@ dans `tools/qa/` :
 |---|---|---|---|---|
 | 1 | **Pied de page illisible sur l'accueil au crépuscule** — au palier `dusk`, le verre du footer devient sombre mais deux de ses textes restaient sombres. Deux échappées à la bascule de texte §39.5 : `--gold-deep` (piège de cascade — l'alias est substitué au niveau `html`, donc figé puis hérité, hors de portée de la bascule) et `--ink-warm-rgb` (la bascule porte sur les tokens de couleur, pas sur leurs triplets `-rgb`) | VERT, commité isolément pour être annulable | Mesure des **couleurs calculées** au bas de page dans les deux thèmes, en plus de la mesure de pixels qui l'avait signalé ; puis capture | Avant : label **1.82:1**, liens de colonne **4.45:1** (seuil 4.5) · Après : or clair et crème dans les deux thèmes · confinement **0 différence** sur les 13 autres pages |
 
+### ⚠ À TRAITER EN PRIORITÉ — pied de page illisible au crépuscule (thème clair)
+
+Trouvé en vérification finale de R95, **après** correction d'un sixième défaut
+de l'instrument (il lisait la couleur du texte en haut de page et le fond en bas
+— deux instants différents sur une page dont l'encre bascule au défilement ;
+22 défauts annoncés, **8 réels**).
+
+Les 8 réels sont tous du **crème sur le ciel saumon clair du palier `dusk`**,
+et l'un d'eux compte plus que les autres :
+
+| Élément | Mesuré | Seuil |
+|---|---|---|
+| **`p.footer-sante` — la mention loi Évin** | **2,86:1** | 4,5 |
+| `p` — © 2026 SYFIR | 2,95:1 | 4,5 |
+| `span.form-demo-note` | 2,99:1 | 4,5 |
+| `a` — « Notre marque » | 3,63:1 | 4,5 |
+| `label` — newsletter | 2,10:1 | 4,5 |
+| `button.chip` / `.chip.active` | 1,81 / 1,99 | 4,5 |
+
+**La mention sanitaire doit être lisible** : c'est une obligation, pas une
+préférence esthétique. La correction R93 (bascule des tokens) a bien fait passer
+ces textes en crème, mais le vrai problème est ailleurs : **au crépuscule, le
+verre du pied de page est trop transparent** pour du crème sur un ciel devenu
+clair. La piste — opacifier le verre du footer au palier `dusk`, ou faire
+basculer ces textes en encre sombre plutôt qu'en crème quand le ciel est clair —
+n'a **pas** été tentée : la trancher en fin de session, sans pouvoir la vérifier
+sur les deux thèmes et les quatre paliers, aurait été un pari.
+
 ### Constats ouverts, non corrigés (à instruire, pas assez compris pour agir)
 
 - **Signature de marque du pied de page** (`.brand-sign-mark`, « SYFIR » 104 px) :
@@ -85,3 +113,70 @@ dans `tools/qa/` :
 - Les **5 défauts de contraste préexistants** de l'accueil (`button.chip`, `em`,
   `h3`, `p.eyebrow.eyebrow-light`, `p.section-intro.intro-light`) restent hors
   périmètre par décision du superviseur : passage dédié à venir.
+
+---
+
+## R94 — LE POULS ET LA TYPOGRAPHIE CINÉTIQUE
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R94/1** | Pouls kompa partagé à 116 BPM sur les éléments d'appel | 6 battants sur l'accueil, 2 sur la billetterie · `startTime` **0** partout, écart de phase **0 ms** · trois battants distincts relevés au même instant : **flou de halo identique au millième de pixel** · halo max **11,93 px** (seuil 12) |
+| **R94/2** | Titres qui respirent au défilement (`font-variation-settings`) | Passage à la police **variable** : **1 fichier latin** à télécharger au lieu de 2, pour toute la plage 200-900 · respiration mesurée en descente progressive : **wght 800 → 675 → 800**, **50 valeurs distinctes** · **CLS 0.0000** · reduced-motion → wght 800 nominal |
+| **R94/3** | Refonte : une seule horloge, des consommateurs | Empreinte hors accueil réduite à **`opacity` seule** (12 relevés, les badges) — contre 4 propriétés structurelles abîmées avant · LCP accueil **564/572/512 ms**, inchangé malgré la police variable |
+
+### Ce que la mesure a imposé à R94
+
+Trois dégâts, tous causés par le fait de poser une **animation** sur chaque
+élément d'appel — et tous invisibles à la lecture du code :
+
+1. `animation-name` sur un CTA **écrase son animation d'entrée** (les boutons de
+   `partenaire-avyr.html` perdaient le `transform` de leur reveal) ;
+2. animer `box-shadow` **écrase l'ombre propre** de l'élément (les boutons de
+   `compte.html` perdaient leur élévation) ;
+3. une base commune d'interlettrage **écrase celle de chaque titre** (le h1 de
+   la billetterie passait de -.01em à -.02em et perdait 15 px de large).
+
+La forme retenue — **une horloge sur `:root`, des consommateurs qui lisent une
+variable** — n'écrase rien, et rend la mise en phase inutile : il n'y a qu'une
+horloge. Les 30 lignes de synchronisation JS de R94/1 ont été supprimées.
+
+Deux faits vérifiés **avant** d'écrire, qui ont changé l'implémentation :
+Unbounded **n'a pas d'axe de largeur** (l'API Google Fonts répond HTTP 400 à
+`wdth`) — la largeur passe donc par l'interlettrage, et on ne prétend pas animer
+un axe qui n'existe pas ; et l'animation ne pouvait pas vivre sur le titre, car
+`.reveal.in { animation: … }` est un raccourci qui l'aurait écrasée.
+
+> **Limite d'environnement** : ce bac à sable n'émet **aucune requête vers Google
+> Fonts** (`document.fonts` vide) — le site y rend toujours en police de repli, et
+> une police de repli n'a pas d'axe variable. Le mécanisme est vérifié ; le rendu
+> visuel de l'axe de graisse reste à juger dans un vrai navigateur.
+
+---
+
+## R95 — LA CONFIANCE
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R95/1** | Ajout au calendrier — **la fonction existait déjà**, vérifiée et mise aux normes | Téléchargement réel capturé et fichier relu : CRLF partout, `;` et `,` échappés, DTSTART/DTEND corrects, UID stable · **RFC 5545 §3.1** : ligne `DESCRIPTION` à **108 octets** → repli sur les **octets** (jamais au milieu d'un caractère UTF-8) → plus longue ligne **75 octets**, dépliage identique à l'original, **aucun accent cassé** |
+| **R95/2** | Billet consultable hors ligne | **Défaut mesuré** : cache du service worker **vide** après la 1ʳᵉ visite (il ne contrôle pas la page qui l'installe), 12 entrées seulement à la 2ᵉ → préchargement de la coquille : **9 entrées dès la 1ʳᵉ visite** · hors ligne, page jamais visitée : rendue avec son CSS · **numéro du billet à l'écran** dans Mon profil |
+| **R95/3** | Liste d'attente sur événement complet | Branchée sur le champ **réel** `stock === 'complet'` (aucun état inventé) · email invalide → refus · valide → enregistré et reconnu au retour · non complet → **aucun bloc** · **aucun chiffre fabriqué** (test cherchant « n personnes / inscrits / en attente » : rien) |
+
+### La promesse que j'ai dû corriger dans mon propre texte
+
+La première version de la liste d'attente annonçait « **Tu seras prévenu·e si une
+place se libère** ». Aucun service d'envoi n'est branché (`FORM_ENDPOINT` vide) :
+c'était exactement la *fonction annoncée mais absente* que R95 interdit. Le
+message dit maintenant ce qui se passe vraiment, et porte la même note
+« démo — transmission bientôt active » que tous les autres formulaires du site.
+
+---
+
+## Vérification finale du programme
+
+- **Confinement** : R93 prouvé à **0 différence** sur les 52 combinaisons hors
+  accueil. R94 est volontairement site-wide ; son empreinte hors accueil se
+  limite à **`opacity`** (les badges qui respirent) — vérifié propriété par
+  propriété sur la totalité du diff, pas sur son extrait.
+- **LCP** : les 14 pages dans le budget de 2 500 ms, pire page `partenaires.html`
+  à **1 368 ms**, accueil à **576 ms**.
+- **Zéro erreur JS** sur les 56 combinaisons, à chaque dump du programme.
