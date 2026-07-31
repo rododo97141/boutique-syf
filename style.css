@@ -3797,6 +3797,38 @@ html[data-sky="night"]  { --glass: rgba(3, 7, 14, .78);      --glass-soft: rgba(
 .page-home .section-cream[data-sky-stage]::before,
 .page-home .section-cream[data-sky-stage]::after { display: none; }
 
+/* --- 39.4 bis  R96 — LE SOL SOUS LE CIEL --------------------------------
+   LE DÉFAUT, ET IL N'ÉTAIT PAS UN DÉFAUT DE CONTRASTE. Le ciel est une
+   couche `position: fixed; z-index: 0`. Dans l'ordre de peinture CSS, les
+   éléments POSITIONNÉS passent après le fond ET le texte des éléments non
+   positionnés. Le ciel se peignait donc PAR-DESSUS tout bloc de premier
+   niveau resté statique — fond et texte compris.
+
+   Les sections y échappaient par accident heureux : `.section` porte déjà
+   `position: relative`. Quatre blocs ne l'avaient pas — le manifeste, le
+   bandeau défilant, les prochaines dates et LE PIED DE PAGE. Mesuré à la
+   capture : au crépuscule en thème clair, le pied de page était
+   INTÉGRALEMENT invisible, mention loi Évin comprise. Ce que l'audit de
+   contraste lisait comme « 2,42:1 » n'était pas du texte peu lisible :
+   c'était du ciel, mesuré à la place d'un texte que personne ne voyait.
+
+   LE REMÈDE est celui que `.section` applique déjà : `position: relative`
+   SEUL. Un élément positionné à `z-index: auto` se peint dans la même
+   couche que le ciel, et l'ordre du document tranche — le ciel est déclaré
+   en premier, le contenu passe donc devant. Pas de `z-index`, donc aucun
+   contexte d'empilement créé, donc aucun effet de bord sur les enfants.
+
+   Portée : `.page-home` uniquement. Le ciel n'existe que sur l'accueil ;
+   le pied de page est partagé par les 14 pages et ne doit pas bouger
+   ailleurs — c'est vérifié par la preuve de confinement.
+
+   Et c'est le bon sens du lieu : un pied de page est le sol de la page.
+   Dans une Traversée, on finit le voyage sur la terre ferme. */
+.page-home > .manifesto,
+.page-home > .marquee,
+.page-home > .next-events,
+.page-home > footer { position: relative; }
+
 /* Le liseré du pied de page reprend la règle « l'or en détail » : 1 px,
    jamais une surface. */
 .page-home footer[data-sky-stage] { border-top-color: rgba(var(--gold-rgb), .22); }
