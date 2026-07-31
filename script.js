@@ -2378,13 +2378,39 @@ if (placeModal && placesGridEl) {
       root.setAttribute('data-sky-raw', stage);   // palier brut, pour la QA
     };
 
-    // Palier de départ, avant tout scroll : celui de la première section.
-    setStage(marked[0].dataset.skyStage);
+    /* ===== R97 VARIANTE A — UNE SEULE HORLOGE =====
+       Le ciel est piloté par la PROGRESSION DU DÉFILEMENT (scroll(root),
+       keyframes à 0 / 32 / 64 / 100 %). L'encre et le verre l'étaient par
+       les PALIERS DE SECTION (IntersectionObserver). Mesuré : l'encre
+       basculait dès 28 % de défilement alors que le ciel ne s'assombrit
+       qu'à ~75 % — près de 50 points d'écart, et c'est toute la jointure.
 
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) setStage(e.target.dataset.skyStage); });
-    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-    marked.forEach(el => io.observe(el));
+       Ici on supprime la seconde horloge : le palier se déduit de la même
+       progression que le ciel. Les seuils sont les MIDPOINTS des keyframes
+       du ciel, parce que l'image de fond d'un `background` animé en
+       raccourci s'interpole de façon DISCRÈTE et bascule à mi-chemin entre
+       deux stops : 0-32 -> bascule à 16, 32-64 -> à 48, 64-100 -> à 82.
+       Encre et ciel changent donc au même instant, par construction.
+
+       Les sections gardent leur data-sky-stage : il reste la vérité
+       narrative (quelle section raconte quel moment) et sert la QA. Ce
+       qu'on lui retire, c'est de piloter une horloge concurrente. */
+    const SEUILS = [[0.82, 'night'], [0.48, 'dusk'], [0.16, 'golden']];
+    const stageDuScroll = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const prog = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      for (const [seuil, nom] of SEUILS) if (prog >= seuil) return nom;
+      return 'day';
+    };
+    let tickSky = false;
+    const majSky = () => {
+      if (tickSky) return;
+      tickSky = true;
+      requestAnimationFrame(() => { setStage(stageDuScroll()); tickSky = false; });
+    };
+    setStage(stageDuScroll());
+    addEventListener('scroll', majSky, { passive: true });
+    addEventListener('resize', majSky, { passive: true });
 
     /* Le thème peut changer pendant la visite (menu de thème, ou bascule
        horaire du mode auto toutes les 60 s). Le palier appliqué en
