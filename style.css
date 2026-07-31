@@ -4009,6 +4009,80 @@ html[data-econome] .tickets-fab,
 html[data-econome] .badge-soon { animation-name: none; }
 html[data-econome] .badge-soon { opacity: 1; }
 
+/* ============================================================
+   41b. R94 — LA TYPOGRAPHIE CINÉTIQUE : les grands titres respirent
+   ------------------------------------------------------------
+   La graisse et la largeur apparente des grands titres évoluent PENDANT
+   qu'ils entrent dans le champ, pilotées par le défilement lui-même
+   (animation-timeline: view()) — donc rigoureusement synchrones du geste,
+   sans un seul écouteur de scroll.
+
+   DEUX CHOSES VÉRIFIÉES AVANT D'ÉCRIRE, ET QUI ONT CHANGÉ
+   L'IMPLÉMENTATION :
+
+   1. Unbounded n'expose PAS d'axe de largeur — l'API Google Fonts répond
+      HTTP 400 à une requête `wdth`. La graisse est un VRAI axe variable
+      (wght 200..900, servi en woff2 variable) ; la largeur ne peut pas en
+      être un, elle est portée par l'INTERLETTRAGE. On ne prétend pas
+      animer un axe qui n'existe pas.
+
+   2. L'animation ne peut pas vivre sur le titre lui-même. Les 9 grands
+      titres de l'accueil portent .reveal, et `.reveal.in { animation: … }`
+      est un RACCOURCI : il écrase animation-name et animation-timeline —
+      mesuré, la respiration était morte sur tous les titres révélés.
+      Redéclarer les deux animations sur le titre écraserait à son tour
+      les `animation-delay` des classes .d1/.d2, soit exactement le bug de
+      R92/6. On passe donc par une VARIABLE : la SECTION porte l'animation
+      (aucune section ne porte .reveal — vérifié, 0 sur 16), le titre se
+      contente de consommer la variable héritée. Chaque animation garde son
+      élément, personne n'écrase personne.
+============================================================ */
+@property --syfir-wght { syntax: '<number>'; inherits: true; initial-value: 800; }
+@property --syfir-track { syntax: '<number>'; inherits: true; initial-value: -0.02; }
+
+@keyframes syfir-type-breathe {
+  0%   { --syfir-wght: 800; --syfir-track: -0.02; }
+  25%  { --syfir-wght: 672; --syfir-track: -0.009; }
+  50%  { --syfir-wght: 800; --syfir-track: -0.02; }
+  75%  { --syfir-wght: 672; --syfir-track: -0.009; }
+  100% { --syfir-wght: 800; --syfir-track: -0.02; }
+}
+
+/* Les titres consomment la variable. Sans @property, sans scroll-timeline
+   ou en mouvement réduit, la valeur initiale (800 / -.02em) est exactement
+   l'apparence nominale d'avant R94 : rien ne dépend de l'animation. */
+.h2, .tickets-title, .ed-title {
+  font-variation-settings: 'wght' var(--syfir-wght, 800);
+  letter-spacing: calc(var(--syfir-track, -0.02) * 1em);
+}
+
+/* La respiration est pilotée par le DÉFILEMENT DU DOCUMENT, pas par
+   l'entrée de chaque section. Deux raisons, toutes deux mesurées :
+     — la plage `entry` d'une section haute s'étale sur des milliers de
+       pixels : la respiration y devient imperceptible (progression
+       restée à 0 sur tout un écran de défilement) ;
+     — c'est déjà l'horloge de La Traversée (scroll(root)), donc la
+       typographie respire au même rythme que le ciel, au lieu d'ouvrir
+       une troisième horloge concurrente.
+   Sur :root, aucune animation existante à écraser. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :root {
+      animation-name: syfir-type-breathe;
+      animation-duration: auto;             /* sur une timeline de défilement,
+                                               c'est la PROGRESSION qui pilote.
+                                               Une durée finie (essayée à 1ms)
+                                               fige l'animation à son départ :
+                                               mesuré, puis corrigé. */
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-iteration-count: 1;
+      animation-timeline: scroll(root);
+    }
+    html[data-econome] { animation-name: none; }
+  }
+}
+
 /* --- 40.2 Le réglage du son (nav de l'accueil) -------------------------
    Trois états, portés par data-sound :
      on    — l'ambiance joue ;
