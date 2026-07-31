@@ -50,6 +50,54 @@
   --grey: #8A8A8A;
   --error: #E5484D;
   --success: #46A758;
+
+  /* ===== R98 — LA NUIT (« Lumière de scène », maquette 3) =====
+     Direction validée telle quelle par Kily : rien à ajouter, rien à
+     retirer. Nuit bleue profonde d'un festival vu de l'intérieur.
+
+     Ces tokens NE REMPLACENT PAS les précédents, ils coexistent, et la
+     distinction porte du sens :
+       --gold (#D4A017) est l'or de MARQUE, celui du logo et des liserés
+         historiques ; --or (#E9C988) est l'or de SCÈNE, plus doux, celui
+         d'une lumière chaude posée sur du bleu profond. Confondre les
+         deux ferait de l'or de marque un éclairage, et inversement.
+       --cream (#FAF8F2) est le crème CHAUD de l'ancien monde d'été ;
+         --creme (#EEF2F8) est le crème FROID de la nuit, très légèrement
+         bleuté pour ne pas jaunir sur du #04070f.
+
+     LES TROIS MOMENTS DE LA SOIRÉE — c'est le voyage qui reste quand le
+     passage jour->nuit s'en va. Les trois fonds sont pilotés par --p
+     (0 -> 1) au défilement : début de soirée en haut, la montée au
+     milieu, cœur de nuit en bas. Jamais de gris pâle, jamais de noir
+     écrasant — les trois valeurs sont bleues, aucune n'est neutre. */
+  --nuit-0: #04070F;   /* début de soirée — la nuit tombe à peine */
+  --nuit-1: #060D1C;   /* la montée */
+  --nuit-2: #0A1226;   /* cœur de nuit */
+  --bleu: #2F6DFF;         /* le bleu de scène, saturé */
+  --bleu-clair: #7FB2FF;   /* son éclat, pour les halos */
+  --or: #E9C988;           /* l'or de scène — EN DÉTAIL, jamais en aplat */
+  --blanc: #FFFAF0;        /* le blanc des faisceaux et du bouton principal */
+  --creme: #EEF2F8;        /* le texte courant */
+  --creme-doux: rgba(238, 242, 248, .68);   /* le texte secondaire */
+
+  /* Triplets pour les compositions en alpha. Le piège est connu (R93) :
+     la substitution des tokens de couleur ne porte PAS sur leurs
+     triplets — ils se déclarent donc explicitement, jamais dérivés. */
+  --nuit-0-rgb: 4, 7, 15;
+  --nuit-1-rgb: 6, 13, 28;
+  --nuit-2-rgb: 10, 18, 38;
+  --bleu-rgb: 47, 109, 255;
+  --bleu-clair-rgb: 127, 178, 255;
+  --or-rgb: 233, 201, 136;
+  --blanc-rgb: 255, 250, 240;
+  --creme-rgb: 238, 242, 248;
+
+  /* LA PROGRESSION DE LA SOIRÉE, 0 -> 1, calculée au défilement en rAF
+     (script.js §46). Déclarée ici parce que TOUT la consomme — ciel,
+     faisceaux, brume. Une horloge, des consommateurs : la forme apprise
+     en R94, celle qui n'écrase rien. Valeur initiale 0 : sans JS, le
+     site reste en début de soirée, décor intact. */
+  --p: 0;
   /* Police identitaire (lot 22, amendement fondateur : « ère nouvelle +
      fraîcheur ») : Unbounded — display géométrique aux formes larges,
      rondes et futuristes (bulles, gouttelettes) : sensation de nouveau
