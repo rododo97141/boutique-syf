@@ -7,10 +7,10 @@
    ORDRE DE CHARGEMENT — IMPORTANT
    Ce fichier se charge AVANT style.css sur chaque page. Conséquence
    voulue : à spécificité égale, ce qui reste dans style.css gagne.
-   C'est ce qui permet aux surcharges de thème clair
-   (html[data-theme="light"] …) et aux règles de contexte
-   (.final-cta .btn, .footer-news .btn…) de continuer à s'appliquer
-   sans y toucher.
+   C'est ce qui permet aux règles de contexte (.final-cta .btn,
+   .footer-news .btn…) de continuer à s'appliquer sans y toucher.
+   R98/1-2 : les surcharges de thème clair, qui bénéficiaient du même
+   ordre de chargement, ont été retirées — un seul monde, la nuit.
 
    CE QU'ON EXTRAIT ICI : le primitif — structure, variantes, tailles,
    états propres au composant.

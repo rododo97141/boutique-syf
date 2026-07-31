@@ -83,9 +83,10 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 /* En-têtes de section (.eyebrow, .eyebrow-light, la goutte ::before, .h2,
    .h2 em) — R91 : primitif extrait dans syfir-ui/components.css (§02).
-   Restent ici : les surcharges thème clair (html[data-theme="light"]
-   .eyebrow…) et les règles de contexte (.mobile-banner .h2, .page-hero
-   .h2…), toutes plus spécifiques donc toujours prioritaires. */
+   Restent ici les règles de contexte (.mobile-banner .h2, .page-hero
+   .h2…), plus spécifiques donc toujours prioritaires.
+   R98/1-2 : les surcharges de thème clair qui vivaient également ici ont
+   été retirées — il n'y a plus qu'un monde, la nuit. */
 
 .section { padding: 80px 0; position: relative; }
 /* R78 : ancre de défilement générique pour toute section ciblée par un lien
@@ -133,10 +134,6 @@ main section[id] { scroll-margin-top: calc(var(--header-h) + 24px); }
   outline-offset: 2px;
   border-radius: 4px;
   box-shadow: 0 0 0 4px rgba(var(--gold-rgb), .28);
-}
-html[data-theme="light"] :where(a, button, input, select, textarea, [tabindex], summary, details):focus-visible {
-  outline-color: var(--gold-deep);
-  box-shadow: 0 0 0 4px rgba(var(--gold-deep-rgb), .22);
 }
 
 /* R38-5 : transitions d'ÉTAT homogènes. Baseline en :where() (spécificité 0) :
@@ -287,10 +284,6 @@ body:has(.avyr-bar) { --header-h: calc(var(--avyr-bar-h) + var(--nav-h)); }
 .avyr-bar.scrolled { transform: translateY(-100%); }
 body:has(.avyr-bar) nav { top: var(--avyr-bar-h); }
 body:has(.avyr-bar) nav.scrolled { top: 0; }
-html[data-theme="light"] .avyr-bar { background: var(--surface-light); border-bottom-color: rgba(var(--gold-deep-rgb), .3); }
-html[data-theme="light"] .avyr-bar-links a { color: var(--grey-ink); }
-html[data-theme="light"] .avyr-bar-links a:hover, html[data-theme="light"] .avyr-bar-links a.active { color: var(--gold-ink); }
-html[data-theme="light"] .avyr-bar-cta { color: var(--ink); }
 .mobile-nav-avyr { display: flex; flex-direction: column; gap: 4px; margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(var(--cream-rgb), .12); }
 .mobile-nav-avyr-label {
   font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
@@ -814,12 +807,7 @@ nav.scrolled {
   .pin-art { transition: none; }
 }
 /* La carte reste un panneau océan sombre dans les 2 thèmes (identité) */
-html[data-theme="light"] .locator-map {
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .10), transparent 60%),
-    var(--ocean-deep);
-  border-color: rgba(var(--gold-rgb), .3);
-}
+
 
 .places-grid { display: grid; gap: 18px; margin-top: 36px; }
 .place-card {
@@ -879,9 +867,6 @@ html[data-theme="light"] .locator-map {
   min-height: 44px; padding: 4px 2px; margin: -4px -2px;
 }
 .place-insta:hover { color: var(--passion); }
-html[data-theme="light"] .place-card-real:hover { background: var(--surface-light); }
-html[data-theme="light"] .place-note { color: var(--taupe); }
-html[data-theme="light"] .place-insta { color: var(--sunset-ink); }
 .place-card { position: relative; }
 .place-card:hover::after { opacity: 1; }
 
@@ -1048,7 +1033,6 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .footer-news-msg.is-error { color: var(--coral); }
 /* Bandeau démo honnête près d'un bouton d'envoi (R29-1) — discret, jamais criard */
 .form-demo-note { display: block; margin-top: 8px; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(var(--cream-rgb), .82); }
-html[data-theme="light"] .form-demo-note { color: var(--grey-ink); }
 
 /* ===== 16. PAGE ÉVÉNEMENTS (billetterie) ===== */
 .nav-tickets { gap: 14px; }
@@ -1183,7 +1167,6 @@ html[data-theme="light"] .form-demo-note { color: var(--grey-ink); }
 .event-card-meta { font-size: .85rem; color: var(--grey); margin-bottom: 12px; }
 /* Ligne de caractère (R28-3) — le ton bar-readable, lisible à voix haute */
 .event-blurb { font-size: .92rem; line-height: 1.4; color: rgba(var(--cream-rgb), .82); margin: 0 0 10px; }
-html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 /* Personnalisation locale : badge discret, jamais criard */
 .event-reco {
   font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
@@ -1339,8 +1322,6 @@ html[data-theme="light"] .event-blurb { color: var(--ink-warm); }
 .legal-page code { font-size: .92em; background: rgba(var(--passion-rgb), .10); padding: 1px 5px; border-radius: 5px; }
 .legal-pills { margin-top: 10px; }
 .legal-pills a { display: inline-block; margin: 0 16px 8px 0; }
-html[data-theme="light"] .legal-page a { color: var(--gold-ink); }
-html[data-theme="light"] .legal-todo { color: var(--gold-ink); }
 .modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .modal-foot .cart-total { margin-bottom: 0; }
 
@@ -1571,8 +1552,6 @@ html[data-theme="light"] .legal-todo { color: var(--gold-ink); }
 .ing-emoji { grid-row: 1 / 3; font-size: 1.5rem; text-align: center; }
 .ing-name { font-family: var(--display); font-weight: 700; font-size: .9rem; }
 .ing-role { color: var(--grey); font-size: .82rem; line-height: 1.35; }
-html[data-theme="light"] .ck-sub-note, html[data-theme="light"] .ing-role { color: var(--grey-ink); }
-html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); border-color: rgba(var(--gold-deep-rgb), .25); }
 
 /* Sélecteur de saveurs (R27-3) — circuler dans la gamme depuis la fiche */
 .ck-selector { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -1593,8 +1572,6 @@ html[data-theme="light"] .ing-card { background: rgba(var(--gold-rgb), .09); bor
 .ck-sel-pouch { font-family: var(--display); font-weight: 800; font-size: 1.4rem; color: var(--passion); background: rgba(var(--gold-rgb), .08); border: 2px dashed rgba(var(--gold-rgb), .35); }
 .ck-sel-soon .ck-sel-name { color: var(--passion); }
 @media (prefers-reduced-motion: reduce) { .ck-sel-thumb { transition: none; } }
-html[data-theme="light"] .ck-sel-name { color: var(--taupe); }
-html[data-theme="light"] .ck-sel-item.active .ck-sel-name { color: var(--ink-warm); }
 
 /* ============================================================
    PAGE PRODUIT DÉDIÉE (produit.html?id=X) — R28-1
@@ -1621,7 +1598,6 @@ html[data-theme="light"] .ck-sel-item.active .ck-sel-name { color: var(--ink-war
 .pd-where { max-width: 320px; margin-top: 4px; }
 .pd-selector { justify-content: flex-start; }
 .pd-selector .ck-sel-item { text-decoration: none; }
-html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
 @media (max-width: 860px) {
   .pd-top { grid-template-columns: 1fr; gap: 22px; }
   .pd-gallery { aspect-ratio: 5 / 4; max-width: 520px; }
@@ -1648,9 +1624,6 @@ html[data-theme="light"] .pd-desc { color: var(--grey-ink); }
   transition: color var(--dur-fast) var(--ease), gap var(--dur-fast) var(--ease);
 }
 .fiche-crumb a:hover, .fiche-crumb a:focus-visible { color: var(--passion); gap: 10px; }
-html[data-theme="light"] .fiche-crumb a { color: rgba(var(--ink-warm-rgb), .58); }
-html[data-theme="light"] .fiche-crumb a:hover,
-html[data-theme="light"] .fiche-crumb a:focus-visible { color: var(--gold-deep); }
 @media (prefers-reduced-motion: reduce) { .fiche-crumb a { transition: color var(--dur-fast) var(--ease); } }
 @media (prefers-reduced-motion: reduce) { .fiche-crumb a:hover, .fiche-crumb a:focus-visible { gap: 7px; } }
 .ar-top { display: grid; gap: 34px; align-items: start; }
@@ -1660,17 +1633,14 @@ html[data-theme="light"] .fiche-crumb a:focus-visible { color: var(--gold-deep);
 @media (prefers-reduced-motion: reduce) { .ar-photo { view-transition-name: none; } }
 .ar-intro { min-width: 0; }
 .ar-name { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5.5vw, 3.4rem); line-height: 1.02; letter-spacing: .01em; margin: 8px 0 6px; color: var(--cream); }
-html[data-theme="light"] .ar-name { color: var(--ink-warm); }
 .ar-role { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: .82rem; color: var(--gold); margin: 0 0 14px; }
 .ar-genres { margin-bottom: 18px; }
 .ar-bio { color: rgba(var(--cream-rgb), .82); line-height: 1.6; max-width: 56ch; margin: 0 0 18px; }
-html[data-theme="light"] .ar-bio { color: var(--grey-ink); }
 .ar-socials { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 18px; }
 .ar-socials a { font-family: var(--display); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--passion); text-decoration: none; }
 .ar-socials a:hover { color: var(--sunset); }
 .ar-share { display: flex; flex-wrap: wrap; gap: 10px; }
 .ar-demo-note { margin-top: 16px; font-size: .78rem; color: var(--grey); max-width: 52ch; }
-html[data-theme="light"] .ar-demo-note { color: var(--taupe); }
 .ar-section { margin-top: 46px; }
 /* Embeds : façades locales, iframe au clic */
 .ar-embeds { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 14px; }
@@ -1693,15 +1663,12 @@ html[data-theme="light"] .ar-demo-note { color: var(--taupe); }
 .ar-date:hover { border-color: rgba(var(--gold-rgb), .55); transform: translateY(-2px); }
 .ar-date-when { font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
 .ar-date-name { font-family: var(--display); font-weight: 700; color: var(--cream); }
-html[data-theme="light"] .ar-date-name { color: var(--ink-warm); }
 .ar-date-loc { font-size: .82rem; color: var(--grey); }
 .ar-date-go { font-size: .78rem; color: var(--passion); margin-top: 4px; }
-html[data-theme="light"] .ar-date-loc { color: var(--taupe); }
 @media (prefers-reduced-motion: reduce) { .ar-date:hover { transform: none; } }
 /* Booking */
 .ar-booking { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
 .ar-book-note { margin-top: 12px; font-size: .82rem; color: var(--grey); }
-html[data-theme="light"] .ar-book-note { color: var(--taupe); }
 
 /* Notre savoir-faire (R33-1) — l'artisan derrière le produit, façon maison.
    Sur section-cream (toujours claire) : texte sombre, beaucoup d'air. */
@@ -1876,7 +1843,6 @@ html[data-theme="light"] .ar-book-note { color: var(--taupe); }
   transition: background var(--dur-fast), transform var(--dur-fast) var(--ease);
 }
 .ticket-share:hover { background: rgba(var(--sunset-rgb), .24); transform: translateY(-1px); }
-html[data-theme="light"] .ticket-share { color: var(--sunset-ink); border-color: rgba(var(--sunset-rgb), .4); }
 
 /* ===== 26. BILLETTERIE OFFICIELLE SHOTGUN ===== */
 .shotgun-section { padding-bottom: 8px; }
@@ -2154,7 +2120,6 @@ footer { background-image: var(--noise); }
 .ed-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.6rem); line-height: 1.08; text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 16px; }
 /* Ligne de caractère (R28-3) sur la fiche — ton bar-readable */
 .ed-blurb { font-size: 1.08rem; line-height: 1.5; color: rgba(var(--cream-rgb), .9); max-width: 44ch; margin: 0 0 24px; }
-html[data-theme="light"] .ed-blurb { color: var(--ink-warm); }
 .ed-meta { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 .ed-meta li { font-size: 1rem; color: rgba(var(--cream-rgb), .82); }
 .ed-meta .ed-date { text-transform: capitalize; }
@@ -2179,8 +2144,6 @@ html[data-theme="light"] .ed-blurb { color: var(--ink-warm); }
 }
 .ed-past-text { color: rgba(var(--cream-rgb), .72); font-size: .96rem; line-height: 1.55; margin: 0 0 20px; }
 .ed-tickets-past .btn { margin-bottom: 10px; }
-html[data-theme="light"] .ed-past-badge { color: var(--ink-warm); border-color: rgba(var(--gold-deep-rgb), .3); background: rgba(var(--gold-rgb), .08); }
-html[data-theme="light"] .ed-past-text { color: var(--grey-ink); }
 .ed-foot { margin-top: 20px; }
 .ed-total { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
 .ed-total span { color: var(--grey); font-size: .9rem; text-transform: uppercase; letter-spacing: .1em; }
@@ -2247,9 +2210,7 @@ html[data-theme="light"] .ed-past-text { color: var(--grey-ink); }
 /* Contraste AA : sous 760px, .story-num est en flux sur fond clair (or vif
    illisible, 1.30) → encre or en thème clair mobile. Au-delà, la passion reste
    (position absolue, contraste OK). Numéro décoratif (aria-hidden) mais net. */
-@media (max-width: 759px) {
-  html[data-theme="light"] .story-num { color: var(--gold-ink); }
-}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .story-scene { animation: story-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
@@ -2297,7 +2258,6 @@ html[data-theme="light"] .ed-past-text { color: var(--grey-ink); }
 @media (prefers-reduced-motion: reduce) {
   .ritual-media img, .ritual-card:hover .ritual-media img { transition: none; transform: none; }
 }
-html[data-theme="light"] .ritual-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .22); }
 
 /* FAQ — accordéon accessible (R22-3) */
 .faq-wrap { max-width: 820px; margin-inline: auto; }
@@ -2313,7 +2273,6 @@ html[data-theme="light"] .ritual-card { background: var(--surface-light); border
   .faq-item[open] .faq-a { animation: faqReveal .34s var(--ease); }
 }
 @keyframes faqReveal { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-html[data-theme="light"] .faq-item { border-color: rgba(var(--shadow-warm-rgb), .16); }
 
 /* Bientôt dans la collection — teaser silhouettes mystère (R23-3) */
 .coming-grid {
@@ -2357,9 +2316,6 @@ html[data-theme="light"] .faq-item { border-color: rgba(var(--shadow-warm-rgb), 
   .coming-grid { gap: 12px; }
   .coming-q { font-size: 1.5rem; }
 }
-html[data-theme="light"] .coming-silhouette { background: radial-gradient(120% 90% at 50% 0%, rgba(var(--gold-rgb), .14), transparent 60%), var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .35); }
-html[data-theme="light"] .coming-cta { color: var(--grey-ink); }
-html[data-theme="light"] .coming-cta a { color: var(--sunset-ink); }
 
 /* ===== 34. TEASERS DE L'ACCUEIL (sections déplacées vers les pages dédiées) ===== */
 /* Carte cocktail en lien simple (pas de fiche modale sur l'accueil) */
@@ -2548,14 +2504,6 @@ a.formation-ready:hover { transform: translateY(-5px); border-color: var(--passi
 .help-pop-link:hover { background: rgba(var(--passion-rgb), .12); }
 @media (prefers-reduced-motion: reduce) { .portail-panel, .help-pop, .challenge-banner { animation: none; } }
 
-html[data-theme="light"] .badge-demo { background: rgba(var(--gold-rgb), .16); color: var(--gold-deep); }
-html[data-theme="light"] .portail-tab { color: var(--taupe); }
-html[data-theme="light"] .portail-tab.active, html[data-theme="light"] .portail-tab:hover { color: var(--ink-warm); }
-html[data-theme="light"] .challenge-banner, html[data-theme="light"] .formation-card, html[data-theme="light"] .catalog-card { background: var(--surface-light); }
-html[data-theme="light"] .challenge-banner p, html[data-theme="light"] .formation-card small, html[data-theme="light"] .catalog-body p { color: var(--grey-ink); }
-html[data-theme="light"] .help-pop { background: var(--surface-light); }
-html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
-
 /* ===== LA MAISON SYFIR (R26-B) — company profile façon Red Bull ===== */
 .facts-grid { list-style: none; margin: 38px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 .fact-card {
@@ -2647,353 +2595,40 @@ html[data-theme="light"] .help-pop-text { color: var(--grey-ink); }
 }
 .official-link:hover { color: var(--passion); }
 .official-more { margin-top: 18px; font-style: italic; color: rgba(var(--cream-rgb), .55); font-size: .92rem; }
-html[data-theme="light"] .eco-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] .eco-card p { color: var(--taupe); }
-html[data-theme="light"] .eco-card p em { color: var(--grey-ink); }
-html[data-theme="light"] .eco-cta { color: var(--sunset-ink); }
-html[data-theme="light"] .official-partners { border-color: rgba(var(--gold-rgb), .2); }
-html[data-theme="light"] .official-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] .official-role { color: var(--taupe); }
-html[data-theme="light"] .official-link { color: var(--sunset-ink); }
-html[data-theme="light"] .official-more { color: var(--taupe); }
 /* R81.7 : .official-note et .univers-note n'avaient pas de surcharge thème
    clair (contrairement à .place-note) — même mécanisme (var(--taupe)) que
    .place-note, contraste vérifié par calcul (voir rapport). */
-html[data-theme="light"] .official-note { color: var(--taupe); }
-html[data-theme="light"] .univers-note { color: var(--taupe); border-top-color: rgba(var(--gold-rgb), .25); }
+
 @media (prefers-reduced-motion: reduce) { .univers-card { transition: none; } }
-html[data-theme="light"] .fact-card, html[data-theme="light"] .univers-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] .fact-label, html[data-theme="light"] .univers-card small { color: var(--grey-ink); }
-html[data-theme="light"] .maison-story p { color: var(--grey-ink); }
-html[data-theme="light"] .engagement-card { background: rgba(var(--gold-rgb), .08); border-color: rgba(var(--gold-deep-rgb), .28); }
-html[data-theme="light"] .engagement-card p { color: var(--grey-ink); }
-html[data-theme="light"] .ref-lead { color: var(--taupe-ink); }
-html[data-theme="light"] .ref-steps li { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .28); }
-html[data-theme="light"] .ref-steps li::before { color: var(--gold-ink); background: rgba(var(--gold-rgb), .16); border-color: rgba(var(--gold-deep-rgb), .38); }
-html[data-theme="light"] .ref-steps strong { color: var(--gold-ink); }
-html[data-theme="light"] .ref-steps p { color: var(--grey-ink); }
-html[data-theme="light"] .ref-foot { color: var(--taupe-ink); }
-html[data-theme="light"] .ref-foot a { color: var(--gold-ink); }
 
 /* Espace pro — variante claire */
 
 
-
-/* ============================================================
-   37. THÈME CLAIR — « été doré »
-   Toutes les surcharges html[data-theme="light"], consolidées.
-   Règle du dépôt : toute nouvelle couleur doit exister ici aussi.
-============================================================ */
-
-html[data-theme="light"] .manifesto-story { color: var(--taupe); }
-html[data-theme="light"] .audience-contact p { color: rgba(var(--ink-warm-rgb), .8); }
-html[data-theme="light"] .audience-mail { color: var(--sunset-ink); }
-html[data-theme="light"] .audience-mail:hover { color: var(--gold-ink); }
-html[data-theme="light"] .invest-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); }
-html[data-theme="light"] .invest-args strong { color: var(--gold-ink); }
-html[data-theme="light"] .invest-quote { color: rgba(var(--ink-warm-rgb), .85); border-left-color: rgba(var(--gold-deep-rgb), .5); }
-html[data-theme="light"] .invest-args p,
-html[data-theme="light"] .invest-cta p { color: rgba(var(--ink-warm-rgb), .8); }
-html[data-theme="light"] .invest-cta { border-top-color: rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] .vision-card { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); box-shadow: 0 10px 30px rgba(var(--shadow-warm-rgb), .06); }
-html[data-theme="light"] .vision-card h3 { color: var(--gold-ink); }
-html[data-theme="light"] .vision-card p { color: var(--taupe-ink); }
-html[data-theme="light"] .vision-card-soon { border-color: rgba(var(--gold-deep-rgb), .45); }
-html[data-theme="light"] .vc-tag { color: var(--gold-ink); background: rgba(var(--gold-rgb), .16); border-color: rgba(var(--gold-deep-rgb), .38); }
-html[data-theme="light"] .section-cream::before { background: linear-gradient(180deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
-html[data-theme="light"] .section-cream::after { background: linear-gradient(0deg, rgba(var(--shadow-warm-rgb), .07), transparent); }
-html[data-theme="light"] .theme-menu { background: rgba(var(--surface-light-rgb), .97); border-color: rgba(var(--gold-deep-rgb), .28); box-shadow: 0 22px 60px rgba(var(--shadow-warm-rgb), .22); }
-html[data-theme="light"] .theme-menu-title { color: var(--gold-deep); }
-html[data-theme="light"] .theme-opt { color: var(--ink-warm); }
-html[data-theme="light"] .theme-opt:hover { background: rgba(var(--gold-rgb), .12); }
-html[data-theme="light"] .theme-opt[aria-checked="true"] { background: rgba(var(--gold-rgb), .1); }
-html[data-theme="light"] .theme-opt-txt small { color: var(--taupe-soft); }
-html[data-theme="light"] .theme-check { color: var(--gold-deep); }
-html[data-theme="light"] .next-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .06); }
-html[data-theme="light"] .next-info > strong { color: var(--ink-warm); }
-html[data-theme="light"] .next-info > small, html[data-theme="light"] .next-date small { color: var(--taupe); }
-html[data-theme="light"] .next-date strong, html[data-theme="light"] .next-countdown { color: var(--gold-deep); }
-html[data-theme="light"] .next-arrow { color: var(--sunset-ink); }
-html[data-theme="light"] .age-all { color: var(--taupe); }
-html[data-theme="light"] .age-16, html[data-theme="light"] .age-18 { color: var(--sunset-ink); }
-html[data-theme="light"] .age-tbd { color: var(--taupe-soft); }
-html[data-theme="light"] .tm-age-note { color: var(--sunset-ink); background: rgba(var(--gold-rgb), .08); border-color: rgba(var(--gold-rgb), .35); }
-html[data-theme="light"] .event-reco { color: var(--gold-deep); }
-html[data-theme="light"] .stock-complet { background: rgba(var(--ink-warm-rgb), .85); color: var(--cream); border-color: rgba(var(--cream-rgb), .25); }
-html[data-theme="light"] { --gold-deep: var(--gold-ink); --drop-fill: var(--gold-metal); }
 /* R39-A : gris secondaires trop clairs sur crème → assombris (AA ≥ 4.5) EN
    THÈME CLAIR uniquement. Ne touche pas le sombre (où ces gris sont sur fond
    foncé et passent déjà). */
-html[data-theme="light"] { --grey: #635B4E; --taupe-soft: #5E5647; }
-html[data-theme="light"] body { background: var(--cream-warm); color: var(--ink-warm); }
-html[data-theme="light"] nav.scrolled { background: rgba(var(--cream-warm-rgb), .88); box-shadow: 0 1px 0 rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] nav.scrolled .nav-logo,
-html[data-theme="light"] nav.scrolled .nav-link:hover,
-html[data-theme="light"] nav.scrolled .nav-link.active { color: var(--ink-warm); }
-html[data-theme="light"] nav.scrolled .nav-link { color: rgba(var(--ink-warm-rgb), .7); }
-html[data-theme="light"] nav.scrolled .nav-link-event { color: var(--gold-deep); }
-html[data-theme="light"] nav.scrolled .nav-logo span { color: var(--gold-deep); }
-html[data-theme="light"] nav.scrolled .nav-logo:hover,
-html[data-theme="light"] .page-pro .nav-logo:hover { color: var(--gold-deep); }
-html[data-theme="light"] nav.scrolled .burger span { background: var(--ink-warm); }
-html[data-theme="light"] nav.scrolled .theme-btn { color: var(--ink-warm); border-color: rgba(var(--gold-deep-rgb), .45); }
-html[data-theme="light"] .mobile-nav { background: rgba(var(--cream-warm-rgb), .97); }
-html[data-theme="light"] .mobile-nav a, html[data-theme="light"] .mobile-close { color: var(--ink-warm); }
-html[data-theme="light"] .mobile-nav-foot { color: rgba(var(--ink-warm-rgb), .5); }
-html[data-theme="light"] .section-intro { color: var(--taupe); }
-html[data-theme="light"] .eyebrow { color: var(--gold-deep); }
-html[data-theme="light"] .intro-light { color: rgba(var(--ink-warm-rgb), .7); }
-html[data-theme="light"] .eyebrow-light { color: var(--gold-deep); }
-html[data-theme="light"] .section-event .intro-light,
-html[data-theme="light"] .tickets-hero .intro-light,
-html[data-theme="light"] .mobile-banner .intro-light { color: rgba(var(--cream-rgb), .85); }
-html[data-theme="light"] .section-event .eyebrow-light,
-html[data-theme="light"] .tickets-hero .eyebrow-light,
-html[data-theme="light"] .mobile-banner .eyebrow-light { color: var(--passion); }
-html[data-theme="light"] .hero,
-html[data-theme="light"] .section-event,
-html[data-theme="light"] .tickets-hero,
-html[data-theme="light"] .mobile-banner { color: var(--cream); }
-html[data-theme="light"] .section-dark { background: var(--sand); }
-html[data-theme="light"] .section-cream { background: var(--cream-warm); }
-html[data-theme="light"] .lead { color: var(--ink-warm); }
-html[data-theme="light"] .split-text p { color: rgba(var(--ink-warm-rgb), .75); }
-html[data-theme="light"] .split-text strong { color: var(--gold-deep); }
-html[data-theme="light"] .accent-line { color: var(--ink-warm) !important; }
-html[data-theme="light"] .values span { color: var(--gold-deep); border-color: rgba(var(--gold-deep-rgb), .4); }
-html[data-theme="light"] .values span:hover { background: rgba(var(--gold-rgb), .12); }
-html[data-theme="light"] .partner-chips span { color: var(--gold-ink-2); border-color: rgba(var(--gold-deep-rgb), .4); }
-html[data-theme="light"] .partner-chips span:hover { background: var(--gold-deep); color: var(--cream); }
-html[data-theme="light"] .place-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .28); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .07); }
-html[data-theme="light"] .place-card:hover { background: var(--surface-light); box-shadow: 0 20px 46px rgba(var(--shadow-warm-rgb), .15); }
-html[data-theme="light"] .place-type { color: var(--gold-deep); }
-html[data-theme="light"] .place-loc { color: var(--taupe); }
-html[data-theme="light"] .place-serve span,
-html[data-theme="light"] .pm-serve span { background: rgba(var(--gold-rgb), .1); color: var(--gold-ink-2); border-color: rgba(var(--gold-deep-rgb), .35); }
-html[data-theme="light"] .places-cta { color: var(--taupe); }
-html[data-theme="light"] .places-cta a { color: var(--gold-deep); }
-html[data-theme="light"] .places-cta a:hover { color: var(--sunset); }
-html[data-theme="light"] .no-results { color: var(--taupe-soft); }
-html[data-theme="light"] .state-empty-text { color: var(--taupe-soft); }
-html[data-theme="light"] .chip { border-color: rgba(var(--ink-warm-rgb), .25); color: rgba(var(--ink-warm-rgb), .7); }
-html[data-theme="light"] .chip:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-html[data-theme="light"] .chip.active { color: var(--ink); }
-html[data-theme="light"] .smart-form, html[data-theme="light"] .pro-form { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); box-shadow: 0 10px 34px rgba(var(--shadow-warm-rgb), .08); }
-html[data-theme="light"] .form-choice legend, html[data-theme="light"] .options-list legend { color: var(--gold-deep); }
-html[data-theme="light"] .form-field label, html[data-theme="light"] .visibility-switch legend { color: rgba(var(--ink-warm-rgb), .65); }
-html[data-theme="light"] .form-field input, html[data-theme="light"] .form-field select, html[data-theme="light"] .form-field textarea {
-  background: var(--cream-warm); border-color: var(--sand-line); color: var(--ink-warm);
-}
-html[data-theme="light"] .form-field input::placeholder, html[data-theme="light"] .form-field textarea::placeholder { color: rgba(var(--ink-warm-rgb), .35); }
-html[data-theme="light"] .form-field select option { background: var(--surface-light); }
-html[data-theme="light"] .choice-card span, html[data-theme="light"] .vis-opt span { border-color: var(--sand-line); }
-html[data-theme="light"] .choice-card small, html[data-theme="light"] .vis-opt small { color: var(--taupe); }
-html[data-theme="light"] .form-consent { color: rgba(var(--ink-warm-rgb), .75); }
-html[data-theme="light"] .opt-line { border-bottom-color: rgba(var(--ink-warm-rgb), .12); }
-html[data-theme="light"] .billing-box { background: var(--sand); border-color: rgba(var(--gold-rgb), .35); }
-html[data-theme="light"] .billing-line { color: rgba(var(--ink-warm-rgb), .8); }
-html[data-theme="light"] .billing-total strong, html[data-theme="light"] .opt-line strong { color: var(--gold-deep); }
-html[data-theme="light"] footer { background: var(--sand); border-top-color: rgba(var(--gold-rgb), .3); }
-html[data-theme="light"] .footer-brand p, html[data-theme="light"] .footer-col a { color: rgba(var(--ink-warm-rgb), .65); }
-html[data-theme="light"] .footer-col a:hover { color: var(--ink-warm); }
-html[data-theme="light"] .footer-col h4 { color: var(--gold-deep); }
-html[data-theme="light"] .footer-bottom { border-top-color: rgba(var(--ink-warm-rgb), .1); }
-html[data-theme="light"] .footer-bottom p { color: var(--taupe-deep); }
-html[data-theme="light"] .footer-sante { color: var(--taupe-ink) !important; }
-html[data-theme="light"] .cocktail-notes, html[data-theme="light"] .serve-link,
-html[data-theme="light"] .artist-book,
-html[data-theme="light"] .agenda-cta, html[data-theme="light"] .team-contact { color: var(--sunset-ink); }
-html[data-theme="light"] .legal-note { color: var(--taupe-ink); }
-html[data-theme="light"] .form-note { color: var(--sunset-ink); }
-html[data-theme="light"] .footer-news label { color: var(--gold-deep); }
-html[data-theme="light"] .footer-news input { background: var(--surface-light); border-color: var(--sand-line); color: var(--ink-warm); }
-html[data-theme="light"] .footer-news input::placeholder { color: rgba(var(--ink-warm-rgb), .35); }
-html[data-theme="light"] .footer-news-msg { color: var(--success-deep); }
-html[data-theme="light"] .footer-news-msg.is-error { color: var(--error-deep); }
-html[data-theme="light"] nav.scrolled .btn-ghost { border-color: rgba(var(--ink-warm-rgb), .35); color: var(--ink-warm); }
-html[data-theme="light"] nav.scrolled .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-html[data-theme="light"] nav.scrolled .ticket-search input { color: var(--ink-warm); }
-html[data-theme="light"] nav.scrolled .ticket-search input::placeholder { color: rgba(var(--ink-warm-rgb), .4); }
-html[data-theme="light"] .ticket-search { background: rgba(var(--ink-warm-rgb), .05); border-color: rgba(var(--ink-warm-rgb), .15); }
-html[data-theme="light"] .filter-extra select { background: var(--surface-light); color: var(--ink-warm); border-color: var(--sand-line); }
-html[data-theme="light"] .sort-label { color: var(--taupe); }
-html[data-theme="light"] .event-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .07); }
-html[data-theme="light"] .event-card-meta, html[data-theme="light"] .event-price small { color: var(--taupe); }
-html[data-theme="light"] .event-price strong { color: var(--gold-deep); }
-html[data-theme="light"] .event-genre { color: var(--gold-deep); border-color: rgba(var(--gold-deep-rgb), .4); }
-html[data-theme="light"] .events-count { color: var(--gold-deep); }
-html[data-theme="light"] .day-head { color: var(--ink-warm); border-bottom-color: rgba(var(--gold-deep-rgb), .28); }
-html[data-theme="light"] .day-head-count { background: rgba(var(--gold-rgb), .12); color: var(--gold-deep); }
-html[data-theme="light"] .event-organizer { color: var(--taupe-soft); border-top-color: rgba(var(--ink-warm-rgb), .15); }
-html[data-theme="light"] .section-pro { background: linear-gradient(180deg, var(--sand), var(--cream-warm)); }
-html[data-theme="light"] .pro-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); }
-html[data-theme="light"] .pro-card ul { color: rgba(var(--ink-warm-rgb), .8); }
-html[data-theme="light"] .pro-card h4 { color: var(--gold-deep); }
-html[data-theme="light"] .vis-opt small, html[data-theme="light"] .tier-info small { color: var(--taupe-soft); }
-html[data-theme="light"] .modal-box { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .35); }
-html[data-theme="light"] .modal-close { background: rgba(var(--cream-warm-rgb), .9); color: var(--ink-warm); }
-html[data-theme="light"] .modal .btn-ghost,
-html[data-theme="light"] .event-detail .btn-ghost { border-color: rgba(var(--ink-warm-rgb), .3); color: var(--ink-warm); }
-html[data-theme="light"] .modal .btn-ghost:hover,
-html[data-theme="light"] .event-detail .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-html[data-theme="light"] .modal-meta { color: var(--taupe); }
-html[data-theme="light"] .modal-tag { color: var(--gold-deep); }
-html[data-theme="light"] .tier { border-color: var(--sand-line); }
-html[data-theme="light"] .tier-price { color: var(--gold-deep); }
-html[data-theme="light"] .qty-btn { border-color: rgba(var(--ink-warm-rgb), .3); color: var(--ink-warm); }
-html[data-theme="light"] .cart-total strong { color: var(--gold-deep); }
-html[data-theme="light"] .cart-total span { color: var(--taupe); }
-html[data-theme="light"] .cart-empty { color: var(--taupe-soft); }
-html[data-theme="light"] .tabs { border-bottom-color: rgba(var(--ink-warm-rgb), .12); }
-html[data-theme="light"] .tab { color: var(--taupe-soft); }
-html[data-theme="light"] .tab:hover { color: var(--ink-warm); }
-html[data-theme="light"] .tab.active { color: var(--gold-deep); }
-html[data-theme="light"] .subtab { border-color: rgba(var(--gold-deep-rgb), .4); color: var(--taupe); }
-html[data-theme="light"] .subtab:hover { color: var(--ink-warm); }
-html[data-theme="light"] .subtab.active { color: var(--ink); }
-html[data-theme="light"] .gate-row input { background: var(--cream-warm); border-color: var(--sand-line); color: var(--ink-warm); }
-html[data-theme="light"] .pm-desc { color: rgba(var(--ink-warm-rgb), .8); }
-html[data-theme="light"] .pm-web { color: var(--gold-deep); }
-html[data-theme="light"] .my-ticket strong { color: var(--ink-warm); }
-html[data-theme="light"] .my-ticket small { color: var(--taupe); }
-html[data-theme="light"] .field-error { color: var(--error-deep); }
-html[data-theme="light"] .toast { background: var(--ink-warm); color: var(--cream); box-shadow: 0 14px 40px rgba(var(--ink-warm-rgb), .35); }
-html[data-theme="light"] .lineup-note { color: var(--taupe); border-left-color: var(--gold-deep); }
-html[data-theme="light"] .lineup-note strong,
-html[data-theme="light"] .lineup-note a { color: var(--gold-deep); }
-html[data-theme="light"] .lineup-note a:hover { color: var(--sunset); }
-html[data-theme="light"] .artist-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .07); }
+
 /* R38-2 : ombre chaude claire HARMONISÉE sur les trois types de cartes */
-html[data-theme="light"] .cocktail-card:hover,
-html[data-theme="light"] .event-card:hover,
-html[data-theme="light"] .artist-card:hover { box-shadow: 0 22px 50px rgba(var(--shadow-warm-rgb), .20), 0 6px 18px rgba(var(--sunset-rgb), .14); }
-html[data-theme="light"] .artist-info h3 { color: var(--ink-warm); }
-html[data-theme="light"] .artist-tags span { border-color: rgba(var(--gold-deep-rgb), .35); color: var(--taupe); }
-html[data-theme="light"] .artist-foot { border-top-color: rgba(var(--ink-warm-rgb), .1); }
-html[data-theme="light"] .artist-soc { color: var(--taupe); }
-html[data-theme="light"] .artist-role { color: var(--gold-deep); }
-html[data-theme="light"] .artists-cta { color: var(--taupe); }
-html[data-theme="light"] .artists-cta-link { color: var(--gold-deep); }
-html[data-theme="light"] .artists-cta-link:hover { color: var(--sunset); }
-html[data-theme="light"] .artist-more { color: var(--gold-deep); }
-html[data-theme="light"] .ck-format { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .3); }
-html[data-theme="light"] .ck-format strong { color: var(--ink-warm); }
-html[data-theme="light"] .ck-format small { color: var(--taupe); }
-html[data-theme="light"] .agenda-empty { color: var(--taupe-soft); }
-html[data-theme="light"] .trust-title { color: var(--ink-warm); }
-html[data-theme="light"] .trust-intro { color: var(--taupe); }
-html[data-theme="light"] .agenda { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .06); }
-html[data-theme="light"] .agenda-title { color: var(--ink-warm); }
-html[data-theme="light"] .agenda-row { border-bottom-color: rgba(var(--ink-warm-rgb), .1); }
-html[data-theme="light"] .agenda-date strong { color: var(--gold-deep); }
-html[data-theme="light"] .agenda-date span, html[data-theme="light"] .agenda-place { color: var(--taupe); }
-html[data-theme="light"] .agenda-band { color: var(--ink-warm); }
-html[data-theme="light"] .logo-tile { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .22); }
-html[data-theme="light"] .logo-tile span { color: var(--ink); }
-html[data-theme="light"] .logo-tile small { color: var(--gold-deep); }
-html[data-theme="light"] .logo-tile:hover { background: var(--surface-light); }
-html[data-theme="light"] .logo-tile:hover { box-shadow: 0 16px 36px rgba(var(--shadow-warm-rgb), .14); }
-html[data-theme="light"] .team-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .07); }
-html[data-theme="light"] .team-card:hover { box-shadow: 0 20px 46px rgba(var(--shadow-warm-rgb), .15); }
-html[data-theme="light"] .team-card h3 { color: var(--ink-warm); }
-html[data-theme="light"] .team-role { color: var(--gold-deep); }
-html[data-theme="light"] .team-bio { color: var(--taupe); }
-html[data-theme="light"] .roles-open { background: linear-gradient(120deg, rgba(var(--sunset-rgb), .1), rgba(var(--gold-rgb), .08)); border-color: rgba(var(--gold-deep-rgb), .3); }
-html[data-theme="light"] .roles-head h3 { color: var(--ink-warm); }
-html[data-theme="light"] .roles-head p { color: var(--taupe); }
-html[data-theme="light"] .role-pill { background: var(--surface-light); color: var(--ink-warm); border-color: rgba(var(--gold-deep-rgb), .4); }
-html[data-theme="light"] .role-pill:hover { background: rgba(var(--gold-rgb), .1); }
-html[data-theme="light"] .kpi-delta.up { color: var(--success-deep); }
-html[data-theme="light"] .kpi-delta.down { color: var(--terracotta); }
-html[data-theme="light"] .ticket-num { color: var(--taupe); }
-html[data-theme="light"] .ticket-contact { color: var(--gold-deep); }
-html[data-theme="light"] .shotgun-card { background: linear-gradient(120deg, rgba(var(--gold-rgb), .1), var(--surface-light)); border-color: rgba(var(--gold-deep-rgb), .4); }
-html[data-theme="light"] .shotgun-txt strong { color: var(--ink-warm); }
-html[data-theme="light"] .shotgun-txt small { color: var(--taupe); }
-html[data-theme="light"] .shotgun-cta { color: var(--gold-deep); }
-html[data-theme="light"] .badge-demo { border-color: rgba(var(--gold-ink-rgb), .55); color: var(--gold-deep); }
-html[data-theme="light"] .fav-remove { border-color: rgba(var(--ink-warm-rgb), .3); color: var(--taupe); }
-html[data-theme="light"] .fav-remove:hover { color: var(--error-deep); border-color: var(--error-deep); }
-html[data-theme="light"] .ed-related-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .07); }
-html[data-theme="light"] .ed-related-card strong { color: var(--ink-warm); }
-html[data-theme="light"] .ed-related-card small { color: var(--taupe); }
-html[data-theme="light"] .tier-reco { border-color: rgba(var(--gold-deep-rgb), .5); background: rgba(var(--gold-rgb), .07); }
-html[data-theme="light"] .tier-scarce { color: var(--terracotta) !important; }
-html[data-theme="light"] .ed-countdown { color: var(--gold-deep) !important; }
-html[data-theme="light"] #communaute.section-dark { background: var(--sand); }
-html[data-theme="light"] .age-gate { background: rgba(var(--shadow-warm-rgb), .45); }
-html[data-theme="light"] .age-box { background: var(--surface-light); border-color: rgba(var(--gold-deep-rgb), .35); }
-html[data-theme="light"] .age-box h2 { color: var(--ink-warm); }
-html[data-theme="light"] .age-sub { color: var(--taupe); }
-html[data-theme="light"] .age-note { color: var(--taupe); }
-html[data-theme="light"] .age-box .btn-ghost { border-color: rgba(var(--ink-warm-rgb), .35); color: var(--ink-warm); }
-html[data-theme="light"] .age-box .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-html[data-theme="light"] .car-btn { background: rgba(var(--surface-light-rgb), .88); color: var(--ink-warm); }
-html[data-theme="light"] .car-btn:hover { background: var(--surface-light); }
-html[data-theme="light"] .car-dot.on::after { background: var(--gold-light); }
-html[data-theme="light"] .page-hero-dark .eyebrow-light { color: var(--passion); }
-html[data-theme="light"] .ed-meta li { color: var(--brown-ink); }
-html[data-theme="light"] .ed-meta a { color: var(--gold-deep); }
-html[data-theme="light"] .ed-meta a:hover { color: var(--sunset); }
-html[data-theme="light"] .ed-organizer { color: var(--taupe); }
-html[data-theme="light"] .ed-organizer strong { color: var(--ink-warm); }
-html[data-theme="light"] .ed-share-note { color: var(--taupe); }
-html[data-theme="light"] .ed-tickets { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .3); box-shadow: 0 10px 34px rgba(var(--shadow-warm-rgb), .08); }
-html[data-theme="light"] .ed-tickets-title { color: var(--ink-warm); }
-html[data-theme="light"] .ed-total span { color: var(--taupe); }
-html[data-theme="light"] .ed-total strong { color: var(--gold-deep); }
-html[data-theme="light"] .page-pro nav { background: rgba(var(--cream-warm-rgb), .92); box-shadow: 0 1px 0 rgba(var(--gold-rgb), .25); }
-html[data-theme="light"] .page-pro .nav-logo { color: var(--ink-warm); }
-html[data-theme="light"] .page-pro .nav-logo span,
-html[data-theme="light"] .page-pro .logo-suffix { color: var(--gold-deep); }
-html[data-theme="light"] .page-pro .btn-ghost { border-color: rgba(var(--ink-warm-rgb), .35); color: var(--ink-warm); }
-html[data-theme="light"] .page-pro .btn-ghost:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-html[data-theme="light"] .page-pro .theme-btn { color: var(--ink-warm); border-color: rgba(var(--gold-deep-rgb), .45); }
-html[data-theme="light"] .dash-side { border-right-color: rgba(var(--gold-deep-rgb), .2); }
+
 
 /* ===================================================================
    R39-A — CONTRASTE AA (thème clair) : « or/crème sur crème » corrigé.
    Mesuré à l'axe-core : ces textes descendaient à 1.0–2.2 sur fond clair.
    =================================================================== */
-/* Or plein (var(--gold), #D4A017 → 2.2) en texte → gold-ink (#7E5C06) */
-html[data-theme="light"] .pd-notes,
-html[data-theme="light"] .ar-role,
-html[data-theme="light"] .ar-date-when,
-html[data-theme="light"] .pd-h2 em { color: var(--gold-ink); }
+
 /* Or vif (var(--passion), #FFC857 → 1.3) en texte → gold-ink */
-html[data-theme="light"] .ar-date-go,
-html[data-theme="light"] .ar-socials a,
-html[data-theme="light"] .coming-badge,
-html[data-theme="light"] .replay-kicker { color: var(--gold-ink); }
-html[data-theme="light"] .coming-badge {
-  border-color: rgba(var(--gold-ink-rgb), .45); background: rgba(var(--gold-ink-rgb), .06);
-}
+
 /* Crème (#FAF8F2 → ~1.0) en texte sur fond clair → encre chaude */
-html[data-theme="light"] .replay-title,
-html[data-theme="light"] .story-text p { color: var(--ink-warm); }
-html[data-theme="light"] .story-text p { color: rgba(var(--ink-warm-rgb), .82); }
+
 /* Boutons fantômes des fiches (Partager WhatsApp, Smartboard) : cream invisible */
-html[data-theme="light"] .pd-share .btn-ghost,
-html[data-theme="light"] .ar-share .btn-ghost,
-html[data-theme="light"] .ar-booking a.btn-ghost,
-html[data-theme="light"] .dash-open { color: var(--ink-warm); border-color: rgba(var(--ink-warm-rgb), .3); }
-html[data-theme="light"] .pd-share .btn-ghost:hover,
-html[data-theme="light"] .ar-share .btn-ghost:hover,
-html[data-theme="light"] .dash-open:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
+
 /* Lien e-mail booking (Unity 141) + recherche billetterie hors nav */
-html[data-theme="light"] .ar-booking a[href^="mailto"] { color: var(--gold-ink); }
-html[data-theme="light"] .ticket-search input { color: var(--ink-warm); }
-html[data-theme="light"] .ticket-search input::placeholder { color: rgba(var(--ink-warm-rgb), .5); }
+
 /* Fil d'Ariane R36 : 4.15 → encre chaude atténuée mais AA */
-html[data-theme="light"] .fiche-crumb a { color: rgba(var(--ink-warm-rgb), .82); }
+
 /* Nav-logo au repos sur fond CLAIR (page-hero non-sombre, ou haut clair des
    fiches produit/artiste au-dessus de la galerie) → encre chaude. */
-html[data-theme="light"] body:has(.page-hero:not(.page-hero-dark)) .nav-logo,
-html[data-theme="light"] body:has(.pd-top) .nav-logo,
-html[data-theme="light"] body:has(.ar-top) .nav-logo { color: var(--ink-warm); }
-html[data-theme="light"] body:has(.page-hero:not(.page-hero-dark)) .nav-logo span,
-html[data-theme="light"] body:has(.pd-top) .nav-logo span,
-html[data-theme="light"] body:has(.ar-top) .nav-logo span { color: var(--gold-deep); }
+
 /* Nav-logo sur héros IMAGE plein cadre (accueil, SYFIR TV, fiche événement) : le
    contraste sur image n'est pas mesurable par axe → garde-fou VISUEL. Ombre
    douce pour rester lisible sur zones claires comme sombres, 2 thèmes. Retirée
@@ -3004,25 +2639,6 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 /* R39-A (sombre) : « small » des choice-cards sur fond foncé (#302419 → 4.36)
    → gris plus clair pour atteindre AA sur ce fond seulement. */
 .choice-card span small { color: #9a9284; }
-html[data-theme="light"] .choice-card span small { color: var(--taupe); }
-html[data-theme="light"] .dash-side-title { color: var(--taupe-soft); }
-html[data-theme="light"] .dash-link { border-color: rgba(var(--gold-deep-rgb), .3); color: var(--brown-ink); }
-html[data-theme="light"] .dash-link:hover { border-color: var(--gold-deep); color: var(--ink-warm); }
-html[data-theme="light"] .dash-link.active { color: var(--ink); }
-html[data-theme="light"] .dash-h p,
-html[data-theme="light"] .kpi-label,
-html[data-theme="light"] .kpi-sub,
-html[data-theme="light"] .dash-note,
-html[data-theme="light"] .pro-event-info small,
-html[data-theme="light"] .dash-empty p,
-html[data-theme="light"] .dash-card p { color: var(--taupe); }
-html[data-theme="light"] .kpi-card,
-html[data-theme="light"] .pro-event-row,
-html[data-theme="light"] .dash-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .25); box-shadow: 0 6px 22px rgba(var(--shadow-warm-rgb), .06); }
-html[data-theme="light"] .kpi-value { color: var(--gold-deep); }
-html[data-theme="light"] .badge-soon { background: rgba(var(--gold-rgb), .12); color: var(--gold-deep); }
-html[data-theme="light"] .pro-status.st-past { background: rgba(var(--ink-warm-rgb), .08); color: var(--taupe-soft); }
-html[data-theme="light"] .dash-empty { border-color: rgba(var(--gold-deep-rgb), .3); }
 
 /* ===== 39. FRAÎCHEUR VISIBLE — gouttelettes (lot 22 D) =====
    Science du lot : complexité visuelle BASSE, température émotionnelle HAUTE.
@@ -3316,9 +2932,7 @@ html[data-r97="B"][data-sky="night"] .page-home .section-cream[data-sky-stage] {
    contraste de 15:1 à 7,8:1 avec l'encre sombre. Le plancher tient sans
    avoir à opacifier davantage : le coût n'est pas la transparence, c'est
    que les sections cessent de suivre le ciel. */
-html[data-r97="B"][data-theme="light"] {
-  --glass: rgba(255, 253, 246, .72); --glass-soft: rgba(255, 253, 246, .60);
-}
+
 html[data-r97="B"][data-theme="dark"] {
   --glass: rgba(3, 7, 14, .78); --glass-soft: rgba(3, 7, 14, .66);
 }
@@ -3417,17 +3031,7 @@ html[data-r97="C"][data-theme-pref="auto"][data-theme="dark"] .page-home .sky-gr
        réinitialise animation-timeline à `auto` et la traversée ne
        partirait pas. Chaque cas est écrit en entier plutôt que surchargé
        par le suivant, pour la même raison. */
-    html[data-theme-pref="auto"][data-theme="light"] .page-home .sky-grade {
-      animation-name: sky-traverse;
-      /* auto, PAS une durée finie. Une durée en ms mappe l'animation sur
-         une fraction de la course de scroll : la traversée s'arrêtait au
-         golden hour et n'atteignait jamais la nuit. Le commentaire du
-         commit R92/1 affirmait à tort que la durée était ignorée. */
-      animation-duration: auto;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root);
-    }
+
     html[data-theme-pref="light"] .page-home .sky-grade {
       animation-name: sky-traverse-capped;
       animation-duration: auto;
@@ -4071,12 +3675,14 @@ html[data-sky="night"] .page-home [data-sky-stage] {
   --surface-light: rgba(var(--cream-rgb), .07);
   --surface-light-rgb: var(--cream-rgb);
 
-  /* --gold-deep doit être reposé ICI, et pas seulement --gold-ink dont il
-     est l'alias. Piège de cascade : `html[data-theme="light"] { --gold-deep:
-     var(--gold-ink) }` substitue --gold-ink AU NIVEAU DE html, donc la valeur
-     claire est figée et héritée telle quelle ; redéfinir --gold-ink plus bas
-     n'atteint plus --gold-deep. Sans cette ligne, le label de la newsletter
-     du pied de page restait or sombre sur verre sombre (mesuré 1.82:1). */
+  /* --gold-deep est reposé ICI, et pas seulement --gold-ink dont il est
+     l'alias. R98/1-2 : la surcharge claire qui motivait cette ligne a
+     disparu avec le thème clair, mais la ligne RESTE — sur le verre sombre
+     du pied de page, --gold-deep doit être l'or clair, sans quoi le label
+     de la newsletter est de l'or sombre sur du sombre (mesuré 1.82:1 en
+     R93). Elle ne compense plus un piège de cascade : elle porte une
+     valeur juste. On ne la retire pas au prétexte que sa cause d'origine
+     a disparu — c'est son EFFET qui compte, et il est mesuré. */
   --gold-deep: var(--gold-light);
   color: var(--cream);
 }
@@ -4196,8 +3802,6 @@ html[data-portal="done"] .portal { display: none; }
   color: var(--cream); font-size: .92rem;
 }
 .ed-wait-form input:focus { outline: none; border-color: var(--passion); }
-html[data-theme="light"] .ed-wait-form input { background: #FFFDF6; border-color: #E4D9C2; color: var(--ink-warm); }
-html[data-theme="light"] .ed-wait-intro { color: var(--taupe-deep); }
 
 /* ============================================================
    41. R94 — LE POULS : la respiration du site, à 116 BPM
@@ -4865,9 +4469,6 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 @media (prefers-reduced-motion: reduce) {
   .past-media img, .past-card:hover .past-media img { transition: none; transform: none; }
 }
-html[data-theme="light"] .past-card { background: var(--surface-light); border-color: rgba(var(--gold-rgb), .22); }
-html[data-theme="light"] .past-meta { color: var(--grey-ink); }
-html[data-theme="light"] .past-recap { color: var(--sunset-ink); }
 
 /* Line-up par jour (R24-2) — fiche festival multi-artistes */
 .ed-lineup { max-width: 1100px; margin: 8px auto 0; padding-top: 30px; border-top: 1px solid rgba(var(--cream-rgb), .12); }
@@ -5028,12 +4629,7 @@ html[data-theme="light"] .past-recap { color: var(--sunset-ink); }
 /* Nav compacte au scroll (reste flottante) */
 nav.scrolled { height: calc(var(--nav-h) - 8px); }
 /* Thème clair : pilule et icônes lisibles */
-html[data-theme="light"] .nav-pill { background: rgba(255, 255, 255, .45); border-color: rgba(255, 255, 255, .55);
-  box-shadow: 0 8px 30px rgba(var(--ink-warm-rgb), .12), inset 0 1px 0 rgba(255, 255, 255, .6); }
-html[data-theme="light"] .nav-pill .nav-link { color: rgba(var(--ink-warm-rgb), .75); }
-html[data-theme="light"] .nav-pill .nav-link:hover,
-html[data-theme="light"] .nav-pill .nav-link.active { background: rgba(var(--ink-warm-rgb), .1); color: var(--ink-warm); }
-html[data-theme="light"] .nav-icon { color: var(--ink-warm); border-color: rgba(var(--gold-rgb), .4); }
+
 
 /* ============================================================
    44. MÉGA-MENU PLEIN ÉCRAN (R8-B) — océan profond, sidebar + rows
@@ -5092,7 +4688,6 @@ html[data-theme="light"] .nav-icon { color: var(--ink-warm); border-color: rgba(
 .mega-result strong { font-family: var(--display); font-weight: 700; font-size: .95rem; }
 .mega-result small { color: rgba(var(--cream-rgb), .6); font-size: .8rem; }
 .mega-result-empty { color: rgba(var(--cream-rgb), .6); padding: 16px; }
-html[data-theme="light"] .mega { background: linear-gradient(160deg, #0a2233, #05141f); color: var(--cream); }
 @media (prefers-reduced-motion: reduce) { .mega { animation: none; } .mega-envie:hover img { transform: none; } .mega-close:hover { transform: none; } }
 
 /* Méga-menu : layout en flex (grid capricieux sous parent flex/sticky) */
@@ -5156,7 +4751,6 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
    ============================================================ */
 .account { min-height: 100vh; display: grid; place-items: center; padding: 64px 20px 40px; position: relative;
   background: radial-gradient(130% 120% at 50% -10%, var(--ocean) 0%, var(--ocean-deep) 62%); color: var(--cream); }
-html[data-theme="light"] .account { background: radial-gradient(130% 120% at 50% -10%, #fff 0%, var(--cream-warm) 70%); color: var(--ink-warm); }
 .account-back { position: absolute; top: 22px; left: 22px; font-size: .85rem; font-weight: 600; color: inherit; opacity: .72; transition: opacity var(--dur-fast); }
 .account-back:hover { opacity: 1; }
 .account-card { width: min(420px, 100%); text-align: center; }
@@ -5171,9 +4765,7 @@ html[data-theme="light"] .account { background: radial-gradient(130% 120% at 50%
   width: 100%; padding: 14px 16px; border-radius: 12px; color: inherit;
   background: rgba(var(--cream-rgb), .07); border: 1px solid rgba(var(--cream-rgb), .18);
   font-family: var(--body); font-size: 1rem; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
-html[data-theme="light"] .account input { background: #fff; border-color: rgba(var(--ink-warm-rgb), .18); }
 .account input::placeholder { color: rgba(var(--cream-rgb), .4); }
-html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-warm-rgb), .4); }
 .account input:focus { outline: none; border-color: var(--sunset); box-shadow: 0 0 0 3px rgba(var(--sunset-rgb), .22); }
 .account-continue { width: 100%; margin-top: 24px; justify-content: center; }
 .account-hint { font-size: .8rem; opacity: .62; margin-top: 8px; }
@@ -5188,7 +4780,6 @@ html[data-theme="light"] .account input::placeholder { color: rgba(var(--ink-war
 .account-device { margin-top: 34px; font-size: .78rem; opacity: .56; }
 /* Mention sanitaire loi Évin sur la page compte (CLAUDE.md règle 2) — R31-5 */
 .account-sante { max-width: 420px; margin: 22px auto 0; text-align: center; font-size: .68rem; line-height: 1.4; color: var(--grey); opacity: .8; }
-html[data-theme="light"] .account-sante { color: var(--taupe); }
 /* Bouton RGPD « supprimer mon profil » dans Mon espace */
 .danger-link { color: var(--sunset) !important; border-color: rgba(var(--sunset-rgb), .4) !important; margin-top: 8px; }
 .danger-link:hover { background: rgba(var(--sunset-rgb), .12) !important; }
@@ -5205,14 +4796,12 @@ html[data-theme="light"] .account-sante { color: var(--taupe); }
   width: 100%; padding: 14px 16px; border-radius: 12px; color: inherit;
   background: rgba(var(--cream-rgb), .07); border: 1px solid rgba(var(--cream-rgb), .18);
   font-family: var(--body); font-size: 1rem; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
-html[data-theme="light"] .account select { background: #fff; border-color: rgba(var(--ink-warm-rgb), .18); }
 .account select:focus { outline: none; border-color: var(--sunset); box-shadow: 0 0 0 3px rgba(var(--sunset-rgb), .22); }
 .account-rules { list-style: none; margin: 8px 0 0; padding: 0; }
 .account-rules li { display: flex; align-items: center; gap: 8px; font-size: .82rem; opacity: .66; transition: opacity var(--dur-fast); }
 .account-rules li + li { margin-top: 5px; }
 .rule-ic { flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center;
   background: rgba(var(--cream-rgb), .16); font-size: .62rem; line-height: 1; transition: background var(--dur-fast); }
-html[data-theme="light"] .rule-ic { background: rgba(var(--ink-warm-rgb), .16); }
 .rule-ic::before { content: "✕"; opacity: .7; }
 .account-rules li.ok { opacity: 1; }
 .account-rules li.ok .rule-ic { background: rgba(46, 160, 67, .95); color: #fff; }

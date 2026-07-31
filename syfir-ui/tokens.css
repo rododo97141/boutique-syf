@@ -19,12 +19,11 @@
    il rend l'intention lisible.
 
    CE QUI N'EST PAS ICI, VOLONTAIREMENT
-   1. Les surcharges de tokens du THÈME CLAIR
-      (html[data-theme="light"] { --gold-deep: …; --drop-fill: …;
-      --grey: …; --taupe-soft: … }) restent dans style.css, au même
-      endroit que les autres surcharges de thème. Elles ont une
-      spécificité de 0-1-1 contre 0-1-0 pour :root : elles gagnent
-      quel que soit l'ordre des fichiers.
+   1. (retiré en R98/1-2) Les surcharges de tokens du THÈME CLAIR
+      vivaient dans style.css, au même endroit que les autres
+      surcharges de thème. Il n'y a plus de thème clair : un seul
+      monde, la nuit. Les valeurs de ce fichier sont désormais les
+      seules — elles ne sont plus « la base que le clair recouvre ».
    2. Quatre tokens de GÉOMÉTRIE LOCALE restent dans style.css,
       collés au composant qu'ils mesurent : --util-h (barre
       utilitaire), --header-h (dérivé de --nav-h), --avyr-bar-h
