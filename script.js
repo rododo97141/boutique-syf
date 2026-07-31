@@ -506,6 +506,144 @@
      moment de la réservation pour les événements 18+. Rien ne prétend
      vérifier juridiquement l'âge de la personne. */
 
+  /* ===== 07b-0. R93 — L'AMBIANCE (Web Audio, générée, zéro fichier) =====
+     Une percussion douce type ka à 116 BPM et une houle d'océan, produites
+     à la volée. Aucun asset : zéro question de droits, zéro poids réseau,
+     et rien à charger avant de pouvoir jouer.
+
+     JAMAIS D'AUTOPLAY. Le contexte audio n'est même pas construit tant
+     qu'un geste explicite ne l'a pas demandé — les navigateurs bloquent le
+     son automatique, et c'est très bien ainsi : le geste d'entrer EST
+     l'immersion. On ne cherche jamais à contourner cette politique.
+
+     POINT D'INSERTION D'UN VRAI FICHIER : quand une ambiance enregistrée
+     sera validée, il suffit de donner une URL à AMBIENCE_FILE ci-dessous.
+     Le fichier remplace alors les deux générateurs et passe par le MÊME
+     nœud de gain maître : les fondus, le toggle et les garde-fous
+     continuent de fonctionner sans être touchés. */
+  const AMBIENCE_FILE = null;   // ex. 'audio/ambiance-syfir.mp3'
+  const AMBIENCE_BPM = 116;
+  const AMBIENCE_VOL = 0.16;    // volume maître modéré, jamais brutal
+  const AMBIENCE_FADE = 2.5;    // montée en fondu, en secondes
+
+  const createAmbience = () => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    let ctx = null, master = null, timer = null, nodes = [];
+    let playing = false;
+    const beat = 60 / AMBIENCE_BPM;
+
+    /* Bruit blanc en mémoire : la matière première de la houle et de la
+       frappe claire. Deux secondes bouclées suffisent, l'oreille ne
+       reconnaît pas la boucle sous un filtre passe-bas. */
+    const noiseBuffer = () => {
+      const len = ctx.sampleRate * 2;
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      return buf;
+    };
+
+    const buildSwell = () => {
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer();
+      src.loop = true;
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 380; lp.Q.value = 0.7;
+      const g = ctx.createGain(); g.gain.value = 0.5;
+      // LFO très lent : le va-et-vient de la houle, ~14 s par respiration
+      const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07;
+      const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.32;
+      lfo.connect(lfoGain).connect(g.gain);
+      src.connect(lp).connect(g).connect(master);
+      src.start(); lfo.start();
+      nodes.push(src, lfo);
+    };
+
+    // Frappe grave du ka : une descente rapide, pas un « bip »
+    const kaLow = at => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(165, at);
+      o.frequency.exponentialRampToValueAtTime(52, at + 0.17);
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(0.9, at + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.28);
+      o.connect(g).connect(master);
+      o.start(at); o.stop(at + 0.32);
+    };
+
+    // Frappe claire, en contretemps : bruit filtré, très court
+    const kaHigh = at => {
+      const src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 1750; bp.Q.value = 1.4;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(0.16, at + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.09);
+      src.connect(bp).connect(g).connect(master);
+      src.start(at); src.stop(at + 0.12);
+    };
+
+    /* Ordonnanceur à anticipation : on programme un peu à l'avance sur
+       l'horloge audio, seule assez stable pour un tempo. Un setInterval
+       qui déclencherait les sons lui-même dériverait audiblement. */
+    let nextBeat = 0, beatIndex = 0;
+    const schedule = () => {
+      while (nextBeat < ctx.currentTime + 0.25) {
+        const pos = beatIndex % 4;
+        if (pos === 0 || pos === 2) kaLow(nextBeat);
+        if (pos === 1 || pos === 3) kaHigh(nextBeat + beat * 0.5);
+        nextBeat += beat; beatIndex++;
+      }
+    };
+
+    const start = () => {
+      if (playing) return;
+      if (!AC) return;                 // navigateur sans Web Audio : silence
+      playing = true;
+      if (!ctx) {
+        ctx = new AC();
+        master = ctx.createGain();
+        master.gain.value = 0.0001;
+        master.connect(ctx.destination);
+        buildSwell();
+        nextBeat = ctx.currentTime + 0.1; beatIndex = 0;
+      }
+      ctx.resume?.();
+      // Montée en fondu : jamais un démarrage brutal
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(AMBIENCE_VOL, ctx.currentTime + AMBIENCE_FADE);
+      schedule();
+      timer = setInterval(schedule, 60);
+    };
+
+    const stop = () => {
+      if (!playing || !ctx) return;
+      playing = false;
+      clearInterval(timer); timer = null;
+      // Descente en fondu : jamais un arrêt sec
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+      setTimeout(() => { if (!playing) ctx?.suspend?.(); }, 1400);
+    };
+
+    return { start, stop, isPlaying: () => playing, available: () => !!AC };
+  };
+
+  /* Les trois portes de sortie du son : les mêmes que celles du mouvement.
+     Un visiteur en économie de données ou en mouvement réduit n'a rien
+     demandé de sonore non plus. */
+  const conn0 = navigator.connection;
+  /* matchMedia relu ici plutôt que la constante `reducedMotion` de §08a :
+     ce bloc s'évalue AVANT elle, et y toucher lèverait une erreur de zone
+     morte temporelle (constaté à la mesure). */
+  const ambienceAllowed = !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !conn0?.saveData && !/(^|-)[23]g$/.test(conn0?.effectiveType || '');
+  const ambience = createAmbience();
+
   /* ===== 07b-bis. R93 — LE PORTAIL (accueil, première visite) =====
      Le voile est déjà peint par le HTML quand on arrive ici ; ce bloc lui
      donne sa sortie. R93/2 pose la sortie BRUTE — on entre, on mémorise,
@@ -553,6 +691,8 @@
          possible, quel que soit le palier d'arrivée (day, dusk ou night
          selon le thème). */
       openPortalGate();
+      // Le son ne démarre QUE là : sur le geste explicite, jamais avant.
+      if (withSound && ambienceAllowed) ambience.start();
       if (reducedMotion) { document.documentElement.setAttribute('data-portal', 'done'); return; }
       portal.classList.add('is-leaving');
       let closed = false;
