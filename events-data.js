@@ -170,7 +170,28 @@
       `URL:${link}`,
       'END:VEVENT', 'END:VCALENDAR'
     ];
-    const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
+    /* RFC 5545 §3.1 : une ligne ne devrait pas dépasser 75 OCTETS. Le
+       repli se fait donc sur les octets, pas sur les caractères — sinon on
+       couperait un caractère accentué en deux et le fichier deviendrait
+       illisible. Les lignes de continuation commencent par une espace.
+       Mesuré avant correction : la ligne DESCRIPTION faisait 108 octets. */
+    const fold = line => {
+      const enc = new TextEncoder(), dec = new TextDecoder();
+      const bytes = enc.encode(line);
+      if (bytes.length <= 75) return line;
+      const out = [];
+      let i = 0, limit = 75;
+      while (i < bytes.length) {
+        let take = Math.min(limit, bytes.length - i);
+        // ne jamais couper au milieu d'un caractère UTF-8
+        while (take > 1 && (bytes[i + take] & 0xC0) === 0x80) take--;
+        out.push((out.length ? ' ' : '') + dec.decode(bytes.slice(i, i + take)));
+        i += take;
+        limit = 74;   // l'espace de continuation compte dans les 75
+      }
+      return out.join('\r\n');
+    };
+    const blob = new Blob([lines.map(fold).join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = (ev.name || 'evenement-syfir').toLowerCase().normalize('NFD')
