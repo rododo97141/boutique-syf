@@ -180,7 +180,16 @@ const pixelMeasure = async (qaId) => {
     await el.scrollIntoViewIfNeeded({ timeout: 3000 });
     await page.waitForTimeout(80);
     const buf = await el.screenshot({ timeout: 5000 });
-    return await decoder.evaluate(async (b64) => {
+    /* La couleur du TEXTE est relue ICI, après le défilement — pas au
+       chargement. Sur l'accueil, la bascule §39.5 change l'encre selon le
+       palier du ciel : lire le texte en haut de page et le fond en bas
+       comparait deux instants différents et ressuscitait des défauts déjà
+       corrigés. Les deux mesures doivent venir du même moment. */
+    const fgNow = await page.evaluate((id) => {
+      const e = document.querySelector(`[data-qa-id="${id}"]`);
+      return e ? getComputedStyle(e).color : null;
+    }, qaId);
+    const bgNow = await decoder.evaluate(async (b64) => {
       const img = new Image();
       img.src = 'data:image/png;base64,' + b64;
       await img.decode();
@@ -202,6 +211,7 @@ const pixelMeasure = async (qaId) => {
       if (!best) return null;
       return { r: Math.round(best.r / best.n), g: Math.round(best.g / best.n), b: Math.round(best.b / best.n) };
     }, buf.toString('base64'));
+    return bgNow ? { bg: bgNow, fg: fgNow } : null;
   } catch { return null; }
 };
 
@@ -211,12 +221,15 @@ const lumJS = ({ r, g, b }) => {
 };
 const measured = [], unmeasurable = [];
 for (const u of undetermined) {
-  const bg = await pixelMeasure(u.qaId);
-  if (!bg) { unmeasurable.push(u); continue; }
-  const [fr, fg_, fb] = u.fg.split(',').map(Number);
+  const m = await pixelMeasure(u.qaId);
+  if (!m) { unmeasurable.push(u); continue; }
+  const bg = m.bg;
+  const parseFg = s2 => { const r = String(s2 || '').match(/rgba?\(([^)]+)\)/); return r ? r[1].split(',').map(parseFloat) : null; };
+  const live = parseFg(m.fg);
+  const [fr, fg_, fb] = live ? live : u.fg.split(',').map(Number);
   const L1 = lumJS({ r: fr, g: fg_, b: fb }) + 0.05, L2 = lumJS(bg) + 0.05;
   const ratio = +(Math.max(L1, L2) / Math.min(L1, L2)).toFixed(2);
-  if (ratio < u.need) measured.push({ ...u, ratio, bg: `${bg.r},${bg.g},${bg.b}` });
+  if (ratio < u.need) measured.push({ ...u, ratio, fg: `${Math.round(fr)},${Math.round(fg_)},${Math.round(fb)}`, bg: `${bg.r},${bg.g},${bg.b}` });
 }
 
 console.log(`Contraste AA — ${url} — thème ${theme}${portalFirst ? ' — PREMIÈRE visite' : ''}`);
