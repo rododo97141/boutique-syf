@@ -1967,11 +1967,30 @@ html[data-theme="light"] .ticket-share { color: var(--sunset-ink); border-color:
 /* Compte à rebours de la fiche */
 .ed-countdown { font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--passion) !important; }
 
-/* ===== 28. GRAIN DE MATIÈRE (fonds sombres uniquement) ===== */
-html[data-theme="dark"] body { background-image: var(--noise); }
-html[data-theme="dark"] .section-dark { background-image: var(--noise); }
-html[data-theme="dark"] footer { background-image: var(--noise); }
-html[data-theme="dark"] .ed-tickets, html[data-theme="dark"] .dash-card { background-image: var(--noise); }
+/* ===== 28. GRAIN DE MATIÈRE =====
+   R98/1 — LE GRAIN DEVIENT PERMANENT, ET C'EST UNE DÉCISION.
+
+   Il était conditionné à `html[data-theme="dark"]`. Comme il n'y a plus
+   qu'un monde de nuit, la simple suppression du thème clair l'aurait rendu
+   permanent TOUT SEUL, en effet de bord. On le déconditionne donc
+   explicitement, dans son propre commit, pour que ce soit une décision
+   qu'on puisse annuler — pas une conséquence qu'on subit.
+
+   Ce que ça change réellement : RIEN en sombre (le sombre l'avait déjà) ;
+   le clair le gagne, le temps d'un commit, avant de disparaître.
+
+   ⚠ La décision se reprend DEUX FOIS ENCORE, et c'est voulu : sur les
+   nouveaux fonds de nuit (#04070f → #0a1226, plage très basse et très
+   resserrée, régime où un dégradé 8 bits bande), puis SOUS LES FAISCEAUX
+   en mix-blend-mode: screen — qui relèvent les valeurs basses et peuvent
+   transformer une texture en bruit. Instrument : `tools/qa/grain.mjs`.
+   Consigne du superviseur, et elle prime sur le tableau de mesures :
+   garder le grain parce que la CAPTURE est meilleure avec, jamais parce
+   que c'est le remède classique au banding. */
+body { background-image: var(--noise); }
+.section-dark { background-image: var(--noise); }
+footer { background-image: var(--noise); }
+.ed-tickets, .dash-card { background-image: var(--noise); }
 
 /* ===== 29. PSYCHOLOGIE CHAUD/FROID : or chaud sur océan profond ===== */
 /* Communauté : bain d'océan profond réchauffé par un halo doré (sombre) */
