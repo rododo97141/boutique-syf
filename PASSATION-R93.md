@@ -140,6 +140,56 @@ dump tourne** (erreur commise une fois en R92/7, signalée dans le commit).
 
 ---
 
+## 7 bis. ⚠ Ce que ce document NE PEUT PAS tenir — à lire en premier
+
+Trois angles morts identifiés **après** la première rédaction. Ils sont ici
+parce qu'ils ne vivaient jusque-là que dans une conversation, c'est-à-dire
+nulle part.
+
+### A. La chaîne de mesure est HORS DÉPÔT et va disparaître
+
+La section 5 liste les outils comme s'ils existaient. **Ils vivent dans
+`/tmp/…/scratchpad/`, un répertoire éphémère détruit avec la session.** Une
+session neuve n'aura ni `ui-dump.mjs`, ni `ui-diff-hors-index.mjs`, ni
+`r92-contraste.mjs`, ni `r92-lcp.mjs`, ni les huit tests par point — **ni le
+dump de référence `r92-10-final`**, donc aucune base de comparaison.
+
+C'est le risque le plus sérieux du relais : le harnais de confinement est la
+preuve centrale de R91 et R92, et il repart de zéro.
+
+**Recommandation, décision à prendre par le superviseur :** committer le
+harnais dans le dépôt (par exemple `tools/qa/`, exclu du déploiement Pages).
+Non fait unilatéralement — ajouter un répertoire d'outillage à un site vanilla
+est une décision d'architecture, pas un détail d'intendance.
+
+Si la décision est « non », la session neuve doit savoir qu'elle **reconstruit
+le harnais avant de pouvoir prouver quoi que ce soit**, et que ses premières
+mesures n'auront pas de référence antérieure. Le motif de chaque outil est
+décrit en section 5 et les pièges en section 4 : c'est reconstructible, mais
+ce n'est pas gratuit.
+
+### B. La description de PR #13 est périmée d'une trentaine de commits
+
+Elle couvre R73 → R82.1.2 et annonce « QA finale SHA `b6d35e9` ». **Elle ne
+dit rien de R83 à R92** — signature de marque, doctrine, rôle de SYFIR,
+sélection des partenaires, retrait des visuels AVYR, film de marque,
+bibliothèque `syfir-ui/`, et toute La Traversée.
+
+Quelqu'un qui lit la PR aujourd'hui se trompe sur ce qu'elle contient. Une
+proposition de nouveau titre et de nouvelle description avait été demandée en
+début de parcours, sans jamais être rédigée. **À faire avant toute revue
+sérieuse** — et sans marquer la PR Ready pour autant.
+
+### C. L'écart de branche
+
+L'environnement d'exécution a désigné `claude/syfir-pr-conflicts-nd6opg` comme
+branche de travail, alors que **tout le travail vit sur
+`claude/r73-loi-evin`**, qui est la branche suivie par PR #13. La première
+n'existe qu'en local, sans remote et sans PR.
+
+Une session neuve recevra peut-être la même désignation. **La bonne branche est
+`claude/r73-loi-evin`** — ne pas ouvrir une seconde PR.
+
 ## 7. Points ouverts hérités
 
 - **5 défauts de contraste préexistants** sur l'accueil, antérieurs à R92 et
