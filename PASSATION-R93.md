@@ -22,18 +22,49 @@ mesures point par point est dans **`JOURNAL-R93-R95.md`**, qui est le document
   de programme, sans passer Ready**. **C'est le premier travail à faire.**
 - **C — l'écart de branche** : réglé. La bonne branche est `claude/r73-loi-evin`.
 
+## Mise à jour après R96 (LA LISIBILITÉ)
+
+**R96 est livré.** Les trois points du mandat sont traités et l'angle mort B est
+levé : la description de PR #13 a été réécrite pour couvrir R73 → R96 (titre et
+corps uniquement ; **la PR reste en Draft**).
+
+Le diagnostic de R96 a corrigé deux conclusions de R95 :
+
+- le pied de page **n'avait pas un problème de contraste** : le ciel, couche
+  `position: fixed`, se peignait **par-dessus** tout bloc non positionné. Le pied
+  de page était **intégralement invisible**. La piste « opacifier le verre »
+  n'aurait rien résolu — le verre était déjà sombre, il n'était pas peint ;
+- **la signature de marque n'a jamais eu de défaut** (6,46:1 avant même la
+  correction). Le 2,86 était un artefact d'instrument.
+
+État mesuré à la fin de R96 : thème **sombre à 0 défaut AA** sur l'accueil,
+confinement **0 différence** sur les 13 autres pages, 0 erreur JS sur les 56
+combinaisons, LCP des 14 pages dans le budget.
+
+### Le seul chantier prioritaire restant : la jointure des deux horloges
+
+En thème clair subsistent 5 éléments entre 1,00 et 4,47 — et ils ne sont **pas**
+de même nature que ceux corrigés. §39 fait tourner deux horloges découplées : le
+ciel s'interpole en **continu** au défilement, la bascule d'encre suit des
+**paliers discrets**. Il existe donc une zone où le palier a basculé en `dusk`
+(encre crème) alors que le ciel peint est encore doré.
+
+**Ce n'est pas un réglage de couleur : c'est un arbitrage d'architecture** —
+décider quelle horloge fait autorité, ou faire suivre l'encre en continu comme le
+ciel. Ne pas traiter ça comme une correction de contraste ponctuelle : ce serait
+recréer la matrice que R96 a précisément évitée.
+
+Le détail est en fin de `JOURNAL-R93-R95.md`.
+
 ## Ce qui attend la prochaine session, par ordre de priorité
 
-1. **Le pied de page au crépuscule, thème clair.** Huit textes sous le seuil AA,
-   dont **la mention loi Évin à 2,86:1** — une obligation, pas une préférence.
-   Diagnostic fait : le verre du pied de page est trop transparent quand le ciel
-   devient clair. Piste identifiée, **non tentée**, détaillée dans le JOURNAL.
-2. **Réécrire la description de PR #13** (angle mort B) — sans la passer Ready.
-3. **La signature de marque du pied de page** (`.brand-sign-mark`, 104 px) à
-   2,86:1 : le verre sombre ne semble pas peint derrière elle. Diagnostic
-   inachevé, aucune correction tentée à l'aveugle.
-4. Les **5 défauts de contraste préexistants** de l'accueil, que le superviseur a
-   explicitement réservés à un passage dédié.
+1. **La jointure des deux horloges en thème clair** (voir ci-dessus) — le seul
+   chantier de lisibilité restant, et c'est un arbitrage d'architecture.
+2. ~~Réécrire la description de PR #13~~ — **fait en R96**.
+3. ~~La signature de marque~~ — **aucun défaut, diagnostic clos en R96**.
+4. ~~Les 5 défauts préexistants de l'accueil~~ — **traités en R96** : ils
+   relevaient tous des deux mêmes causes structurelles (ciel peint par-dessus,
+   surfaces qui ne suivaient pas l'encre).
 
 ## Le régime de gouvernance en vigueur
 
