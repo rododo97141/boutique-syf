@@ -180,3 +180,75 @@ message dit maintenant ce qui se passe vraiment, et porte la même note
 - **LCP** : les 14 pages dans le budget de 2 500 ms, pire page `partenaires.html`
   à **1 368 ms**, accueil à **576 ms**.
 - **Zéro erreur JS** sur les 56 combinaisons, à chaque dump du programme.
+
+---
+
+## R96 — LA LISIBILITÉ
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R96/1** | Le sol sous le ciel — le pied de page n'était pas peu lisible, **il était invisible** | loi Évin **2,42 → 8,75** · © **3,03 → 12,36** · liens **2,95 → 6,70** · label **2,69 → 8,83** · signature **6,46 → 14,81** · sombre : 6,92 à 18,79 · confinement **0 différence** |
+| **R96/2** | Diagnostic de la signature **clos** + instrument immunisé contre le désynchronisme | La signature n'a **jamais** eu de défaut : 6,46 avant même R96/1. Le 2,86 de R95 était un artefact |
+| **R96/3** | Les surfaces suivent l'encre : 7 cartes fantômes | avant **7** surfaces à fond clair portant du texte clair · après **0** · thème sombre : **0 défaut AA** sur tout l'accueil · confinement **0 différence** |
+
+### Le diagnostic qui change tout : ce n'était pas un problème de contraste
+
+Le ciel de La Traversée est une couche `position: fixed; z-index: 0`. Dans
+l'ordre de peinture CSS, les éléments **positionnés** passent après le fond **et
+le texte** des éléments non positionnés. Le ciel se peignait donc par-dessus tout
+bloc de premier niveau resté statique.
+
+Les sections y échappaient **par accident heureux** — `.section` porte déjà
+`position: relative`. Quatre blocs ne l'avaient pas : le manifeste, le bandeau
+défilant, les prochaines dates et **le pied de page**.
+
+Capture à l'appui : au crépuscule en thème clair, le pied de page était
+**intégralement invisible**, mention loi Évin comprise. Ce que l'audit lisait
+comme « 2,42:1 » n'était pas du texte peu lisible — c'était **du ciel, mesuré à
+la place d'un texte que personne ne voyait**.
+
+Deux conséquences pour la décision du superviseur :
+
+- **la piste « opacifier le verre » n'aurait rien résolu** : le verre était déjà
+  sombre et correct, il n'était simplement pas peint. Le raisonnement structurel
+  qui l'a fait préférer reste juste — et le remède retenu va plus loin dans le
+  même sens : il **découple** en rendant le sol indépendant du ciel ;
+- **la signature de marque n'avait aucun défaut** — la corriger aurait abîmé
+  quelque chose de sain.
+
+Le remède est celui que `.section` applique déjà : **`position: relative` seul**.
+Pas de `z-index`, donc aucun contexte d'empilement créé, aucun effet de bord.
+Vérifié : rendu identique à `position: relative; z-index: 1`.
+
+### Quatrième désynchronisme d'instrument, et le dernier de sa famille
+
+Faire défiler jusqu'à **chaque** élément avant de le capturer change le palier du
+ciel entre deux mesures. Le signe qui a mis sur la voie : **un enfant relevait
+« crème » quand son propre parent relevait « saumon »** — géométriquement
+impossible. L'outil descend désormais par écrans et découpe toutes les boîtes
+d'**une seule capture** : un instant, une image, une vérité.
+
+Les quatre désynchronismes ont tous la même forme : comparer deux choses prises à
+deux moments, ou dans deux référentiels différents.
+
+### Ce qui reste ouvert en thème clair — deux horloges qui divergent
+
+Le thème sombre est à **0 défaut**. Le clair conserve des cas d'une **autre
+nature**, et je ne les ai pas traités faute de pouvoir les vérifier correctement
+avec le contexte restant :
+
+| Élément | Mesuré | Nature |
+|---|---|---|
+| `h3` « Prendre mes billets » | 1,06 | texte crème sur ciel encore doré |
+| `p` « Accède à la billetterie » | 1,04 | idem |
+| `span.event-door-cta` / `-tag` | 1,43 / 1,38 | idem |
+| `a.nav-logo` | 1,00 | nav sur hero clair |
+| `a.nav-link` | 4,09 / 4,47 | à la limite du seuil |
+
+**Cause probable, à instruire :** §39 fait tourner **deux horloges découplées** —
+le ciel s'interpole en **continu** au défilement, tandis que la bascule d'encre
+suit des **paliers discrets**. Il existe donc une zone où le palier a déjà basculé
+en `dusk` (encre crème) alors que le ciel peint est encore doré. Ce n'est pas un
+réglage de couleur : c'est la jointure entre les deux horloges. La trancher
+demande de décider laquelle fait autorité — un arbitrage d'architecture, pas une
+correction de contraste.
