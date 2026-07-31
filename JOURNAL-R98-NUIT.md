@@ -141,3 +141,47 @@ Le risque de lisibilité ne disparaît pas : il **se déplace**, entièrement, s
 les **photos plein cadre à opacité .5-.56** — le seul endroit où du texte se
 posera désormais sur du clair. C'est là que la mesure doit porter, et nulle part
 ailleurs.
+
+---
+
+## LOT 1 — UN SEUL MONDE (soustractif, site-wide)
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R98/1-1** | Le grain devient permanent, **explicitement** | Sombre : **0 différence** sur 26 combinaisons, valeur identique au caractère près · Clair : 0 différence, et la **cause est nommée** — `html[data-theme="light"] body` utilise le raccourci `background`, qui remet `background-image` à `none` · instrument contrôlé : `ui-dump` relève bien `backgroundImage` et rend l'URL du grain en toutes lettres |
+| **R98/1-2** | Retrait des **396 lignes** de thème clair · style.css 5234 → 4820 | Confinement **0 différence** (26 combos) · **preuve indépendante** : écarts clair vs sombre **1426 → 12**, et les 12 sont tous sur l'accueil ; hors accueil **0 écart sur 20 950 propriétés** · contraste AA `evenements.html` : **0 défaut** |
+| **R98/1-3** | Retrait du sélecteur (13 pages), du script anti-flash (14), de §06 (64 lignes) et du CSS orphelin (45 lignes) | Exactement **4 classes** de différences, toutes expliquées : 24 × `.theme-btn` absent, 24 × `.nav-actions` −58 px, 4 × hauteur de `confidentialite.html` · **largeurs inchangées** (390 / 1440) : aucun débordement introduit · harnais **56 → 28** dans le même commit |
+| **R98/1-4** | La Traversée retirée d'un bloc + les 3 variantes R97 + le décor de nuit rendu permanent | Confinement **0 différence** (26 combos) · **les 3 acquis mesurés sur le résultat** (voir ci-dessous) · LCP accueil **612 ms** / 2500 |
+| **R98/1-5** | Nouvelle référence `nuit-00` (28 combinaisons) · balayage LCP | **14 pages dans le budget**, pire page `partenaires.html` **1 380 ms** / 2 500, accueil **624 ms** · **0 erreur JS** sur les 28 |
+
+### Les trois acquis, mesurés sur le résultat et non déduits
+
+`tools/qa/acquis.mjs` — nouveau. « Hors trajectoire du retrait » était une
+déduction ; ceci est une mesure.
+
+- **Le Portail** se lève réellement : opacité **peinte** 1 → 0,41 → 0,14 → 0,05
+  → 0,015 → 0,004 → 0, **8 valeurs distinctes**, et il cesse de bloquer la page.
+- **Le pouls** bat toujours : horloge `:root` à **517 ms (116 BPM)**, confirmée
+  par deux moyens (l'API d'animation *et* la valeur calculée) ; et surtout
+  `--syfir-beat` **varie réellement** — 8 valeurs distinctes sur 8 relevés. Une
+  variable déclarée qui ne bouge pas serait un pouls mort qu'aucune lecture de
+  code ne distinguerait d'un pouls vivant.
+- **Le sol sous le ciel** tient : les 4 blocs en `position: relative`, et la
+  mention loi Évin à **18,05:1 sur le pixel peint**.
+
+### Le défaut latent de R96, trouvé avant de rallumer le ciel
+
+La règle « le sol sous le ciel » visait quatre blocs en **enfant direct**
+(`.page-home > .manifesto`). Or `.manifesto`, `.marquee` et `.next-events`
+vivent dans `<main id="main">` : **la règle ne les a jamais atteints.** Mesuré :
+position calculée `static` sur les trois, `relative` sur le seul pied de page —
+le seul déclaré hors de `<main>`.
+
+R96 croyait donc avoir corrigé quatre blocs ; il en a corrigé un. Le défaut ne
+se voit **que si un ciel peint par-dessus** : il l'était en R96, il le
+redeviendra au lot 3, et il aurait rendu ces trois blocs invisibles exactement
+comme le pied de page l'a été. Corrigé **avant** de rallumer le ciel, pas après.
+
+> C'est la même leçon que R96 lui-même : le défaut n'était pas là où l'audit
+> regardait. Et c'est la deuxième fois que la règle « vérifier par un second
+> moyen » attrape quelque chose que la lecture du code donnait pour acquis.
