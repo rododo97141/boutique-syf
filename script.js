@@ -1196,47 +1196,15 @@
     });
   });
 
-  /* ===== 13b. R94 — LA MISE EN PHASE DU POULS =====
-     Le CSS (§41) donne la forme du battement ; ce bloc en fait UNE
-     respiration au lieu de plusieurs.
-
-     Le problème : une animation CSS démarre quand son élément apparaît.
-     Deux boutons rendus à 200 ms d'écart battent à 200 ms d'écart — et
-     un battement décalé n'est plus un pouls, c'est du bruit.
-
-     Le remède : ramener toutes ces animations à l'ORIGINE de la timeline
-     du document. Elles partagent alors la même horloge et la même phase,
-     par construction — quel que soit leur moment d'apparition. C'est
-     aussi ce qui fait que le contenu rendu plus tard (cartes
-     d'événements, badges) rejoint le battement déjà en cours. */
-  const beatSync = () => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!document.getAnimations) return;
-    document.getAnimations().forEach(a => {
-      if (!a.animationName || a.animationName.indexOf('syfir-beat') !== 0) return;
-      try { if (a.startTime !== 0) a.startTime = 0; } catch (e) {}
-    });
-  };
-  beatSync();
-  addEventListener('load', beatSync, { once: true });
-
-  /* Tout battement qui DÉMARRE est remis en phase immédiatement.
-     On écoute animationstart plutôt que d'observer le DOM : un premier
-     essai par MutationObserver(childList) laissait passer les cas où
-     l'élément existait déjà et n'était que RÉVÉLÉ — révéler une section
-     change une classe, pas la liste des enfants. Mesuré : le badge d'une
-     section du tableau de bord démarrait à startTime 13729 ms, soit
-     complètement hors phase. animationstart, lui, ne peut pas manquer un
-     démarrage : c'est l'événement du démarrage. */
-  document.addEventListener('animationstart', e => {
-    if (!e.animationName || e.animationName.indexOf('syfir-beat') !== 0) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    e.target.getAnimations?.().forEach(a => {
-      if (a.animationName && a.animationName.indexOf('syfir-beat') === 0) {
-        try { a.startTime = 0; } catch (err) {}
-      }
-    });
-  }, true);
+  /* ===== 13b. R94 — LE POULS : plus rien à synchroniser ici =====
+     Une première version mettait en phase, en JS, une animation posée sur
+     CHAQUE élément d'appel. Deux mesures ont montré que poser une
+     animation sur ces éléments écrasait la leur (entrée de reveal, ombre
+     propre). Le pouls est donc devenu UNE horloge sur :root et des
+     consommateurs qui lisent une variable (style.css §41) : la mise en
+     phase n'est plus un problème à résoudre, c'est une conséquence — il
+     n'y a qu'une seule horloge. Ce bloc n'existe plus que pour dire
+     pourquoi il n'existe plus. */
 
   /* ===== 14. CARROUSEL DE LOGOS PARTENAIRES ===== */
   const logosTrack = $('#logosTrack');

@@ -3968,46 +3968,70 @@ html[data-portal="done"] .portal { display: none; }
 
    Propriétés longues uniquement (piège R92).
 ============================================================ */
-@keyframes syfir-beat-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--gold-rgb), 0); }
-  38%      { box-shadow: 0 0 12px 1px rgba(var(--gold-rgb), .18); }
-}
-@keyframes syfir-beat-soft {
-  0%, 100% { opacity: .88; }
-  38%      { opacity: 1; }
+/* Le halo passe par filter: drop-shadow, PAS par box-shadow. Mesure a
+   l'appui : animer box-shadow ECRASE l'ombre propre de l'element — les
+   boutons de compte.html perdaient leur elevation rgba(126,34,206,.35),
+   remplacee par du transparent. drop-shadow se compose par-dessus sans
+   rien detruire, et suit la forme arrondie du bouton. */
+/* UNE SEULE HORLOGE, sur :root, et des CONSOMMATEURS. Deux mesures ont
+   imposé cette forme plutôt qu'une animation par élément :
+     — poser animation-name sur un CTA ÉCRASE son animation d'entrée
+       (`.reveal.in { animation: … }` est un raccourci) : mesuré, les
+       boutons de partenaire-avyr.html perdaient leur transform de reveal ;
+     — animer box-shadow ÉCRASE l'ombre propre de l'élément : mesuré, les
+       boutons de compte.html perdaient leur élévation.
+   Une variable animée sur :root n'écrase rien du tout, et la mise en
+   phase devient une propriété de construction : il n'y a qu'une horloge,
+   donc il n'y a rien à synchroniser. */
+@property --syfir-beat { syntax: '<number>'; inherits: true; initial-value: 0; }
+@keyframes syfir-beat-clock {
+  0%, 100% { --syfir-beat: 0; }
+  38%      { --syfir-beat: 1; }
 }
 
 /* Les éléments d'APPEL, et eux seuls : les CTA principaux et les badges
    de statut. Un site où tout bat n'a pas de pouls, il a du bruit. */
+/* Les consommateurs. Le halo passe par filter: drop-shadow — qui se
+   compose PAR-DESSUS l'ombre propre de l'élément au lieu de la remplacer
+   — et suit la forme arrondie du bouton. */
 .btn-gradient.btn-lg,
 .btn-solid.btn-lg,
 .next-cta .btn,
 .tickets-fab {
-  animation-name: syfir-beat-glow;
+  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 7px)
+                      rgba(var(--gold-rgb), calc(var(--syfir-beat, 0) * .3)));
+}
+.badge-soon { opacity: calc(.88 + var(--syfir-beat, 0) * .12); }
+
+/* L'horloge du pouls tourne toujours, scroll-timeline ou non. Déclarée
+   AVANT les coupures : une media query n'ajoute pas de spécificité, donc
+   une règle :root plus tardive l'emporterait sur elle — mesuré, l'horloge
+   continuait de tourner sous prefers-reduced-motion. L'ordre EST la
+   correction. */
+:root {
+  animation-name: syfir-beat-clock;
   animation-duration: 517ms;          /* 116 BPM — le tempo kompa */
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-}
-.badge-soon {
-  animation-name: syfir-beat-soft;
-  animation-duration: 517ms;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+  animation-timeline: auto;
 }
 
+/* Couper l'horloge suffit : la variable retombe à sa valeur initiale (0),
+   donc halo nul et badges pleinement opaques. On coupe le mouvement, pas
+   le décor. */
 @media (prefers-reduced-motion: reduce) {
+  :root { animation-name: none; }
   .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
-  .tickets-fab, .badge-soon {
-    animation-name: none;
-  }
+  .tickets-fab { filter: none; }
   .badge-soon { opacity: 1; }
 }
+html[data-econome] { animation-name: none; }
 html[data-econome] .btn-gradient.btn-lg,
 html[data-econome] .btn-solid.btn-lg,
 html[data-econome] .next-cta .btn,
-html[data-econome] .tickets-fab,
-html[data-econome] .badge-soon { animation-name: none; }
+html[data-econome] .tickets-fab { filter: none; }
 html[data-econome] .badge-soon { opacity: 1; }
+
 
 /* ============================================================
    41b. R94 — LA TYPOGRAPHIE CINÉTIQUE : les grands titres respirent
@@ -4038,23 +4062,26 @@ html[data-econome] .badge-soon { opacity: 1; }
       élément, personne n'écrase personne.
 ============================================================ */
 @property --syfir-wght { syntax: '<number>'; inherits: true; initial-value: 800; }
-@property --syfir-track { syntax: '<number>'; inherits: true; initial-value: -0.02; }
+@property --syfir-track { syntax: '<length>'; inherits: true; initial-value: 0em; }
 
 @keyframes syfir-type-breathe {
-  0%   { --syfir-wght: 800; --syfir-track: -0.02; }
-  25%  { --syfir-wght: 672; --syfir-track: -0.009; }
-  50%  { --syfir-wght: 800; --syfir-track: -0.02; }
-  75%  { --syfir-wght: 672; --syfir-track: -0.009; }
-  100% { --syfir-wght: 800; --syfir-track: -0.02; }
+  0%   { --syfir-wght: 800; --syfir-track: 0em; }
+  25%  { --syfir-wght: 672; --syfir-track: .011em; }
+  50%  { --syfir-wght: 800; --syfir-track: 0em; }
+  75%  { --syfir-wght: 672; --syfir-track: .011em; }
+  100% { --syfir-wght: 800; --syfir-track: 0em; }
 }
 
 /* Les titres consomment la variable. Sans @property, sans scroll-timeline
    ou en mouvement réduit, la valeur initiale (800 / -.02em) est exactement
    l'apparence nominale d'avant R94 : rien ne dépend de l'animation. */
-.h2, .tickets-title, .ed-title {
-  font-variation-settings: 'wght' var(--syfir-wght, 800);
-  letter-spacing: calc(var(--syfir-track, -0.02) * 1em);
-}
+/* La graisse est partagée ; l'interlettrage est un DELTA ajouté à la
+   valeur nominale de CHAQUE titre. Une base commune écrasait la leur :
+   mesuré, le h1 de la billetterie passait de -.01em à -.02em et perdait
+   15 px de large. Chacun garde la sienne. */
+.h2, .tickets-title, .ed-title { font-variation-settings: 'wght' var(--syfir-wght, 800); }
+.h2 { letter-spacing: calc(-.02em + var(--syfir-track, 0em)); }
+.tickets-title, .ed-title { letter-spacing: calc(-.01em + var(--syfir-track, 0em)); }
 
 /* La respiration est pilotée par le DÉFILEMENT DU DOCUMENT, pas par
    l'entrée de chaque section. Deux raisons, toutes deux mesurées :
@@ -4067,17 +4094,20 @@ html[data-econome] .badge-soon { opacity: 1; }
    Sur :root, aucune animation existante à écraser. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* Les DEUX horloges sur :root : le pouls (temps réel) et la
+       respiration typographique (défilement). Déclarées ensemble, en
+       listes parallèles — sinon la seconde écraserait la première. */
     :root {
-      animation-name: syfir-type-breathe;
-      animation-duration: auto;             /* sur une timeline de défilement,
-                                               c'est la PROGRESSION qui pilote.
-                                               Une durée finie (essayée à 1ms)
+      animation-name: syfir-beat-clock, syfir-type-breathe;
+      animation-duration: 517ms, auto;      /* sur une timeline de défilement,
+                                               c'est la PROGRESSION qui pilote ;
+                                               une durée finie (essayée à 1ms)
                                                fige l'animation à son départ :
                                                mesuré, puis corrigé. */
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-iteration-count: 1;
-      animation-timeline: scroll(root);
+      animation-timing-function: ease-in-out, linear;
+      animation-fill-mode: none, both;
+      animation-iteration-count: infinite, 1;
+      animation-timeline: auto, scroll(root);
     }
     html[data-econome] { animation-name: none; }
   }
