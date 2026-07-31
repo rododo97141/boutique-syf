@@ -22,6 +22,63 @@ mesures point par point est dans **`JOURNAL-R93-R95.md`**, qui est le document
   de programme, sans passer Ready**. **C'est le premier travail à faire.**
 - **C — l'écart de branche** : réglé. La bonne branche est `claude/r73-loi-evin`.
 
+## ⚠ ÉTAT APRÈS R97 — UNE DÉCISION ATTEND LE SUPERVISEUR
+
+**R97 n'est pas terminé, et c'est délibéré.** L'instrument demandé est livré
+(`tools/qa/lisibilite.mjs`, balayage continu) ; il a trouvé un fait qui **dépasse
+le mandat du lot** et qui conditionne la solution. Aucune des trois hypothèses
+n'a été appliquée : les appliquer sans trancher ce fait aurait été un pari.
+
+### Le fait
+
+**La Traversée n'interpole pas. Elle avance par trois paliers.** Vérifié par deux
+moyens indépendants : la luminance peinte du ciel est constante puis **saute**
+(0 valeur intermédiaire sur 30 relevés), et le `background-image` **calculé** ne
+prend que **trois valeurs** sur tout le parcours.
+
+**Cause, en une ligne :** les keyframes du ciel animent le **raccourci
+`background`** (`style.css`, `@keyframes sky-traverse`). C'est le piège que R92 a
+identifié pour `animation` — et son propre commentaire prévient qu'il vaut aussi
+pour `background`. La règle était écrite, elle n'a pas été appliquée là.
+
+### Pourquoi ça décide de tout
+
+| Si le ciel… | H1 (une horloge) | H2 (un sol) | H3 (encre continue) |
+|---|---|---|---|
+| **reste à paliers** (état actuel) | ✅ suffit | ✅ marche | ❌ |
+| **devient continu** | ❌ **impossible** | ✅ **seule solution** | ❌ |
+
+Un ciel réellement continu traverse la bande **L ∈ [0,168 ; 0,243]** où **aucune
+encre** ne tient 4,5:1. H1 ne fonctionne aujourd'hui **que parce que le ciel saute
+par-dessus cette bande** — vérifié, 0 relevé sur 61 dedans.
+
+### Les deux options, couplées, à trancher par le superviseur
+
+- **A — garder les paliers** (aucun changement visuel) : aligner la bascule
+  d'encre et le verre sur les sauts réels du ciel (~40 % et ~83 % du défilement).
+  C'est H1 sur l'horloge réelle. Corrige les 49 défauts structurels.
+- **B — rendre le ciel vraiment continu** (`background-image` en propriété
+  longue) : la Traversée gagne la douceur que Kily croit avoir validée, mais H1
+  devient impossible et il faut H2 — un sol opaque sous le texte, donc moins de
+  ciel visible à travers les sections.
+
+Le superviseur a posé « la Traversée reste continue » comme non négociable en
+croyant décrire l'existant. La mesure dit le contraire. **C'est sa décision, pas
+la mienne.**
+
+### Ce qui est mesuré et prêt à servir, quelle que soit l'option
+
+- **49 défauts structurels** (thème clair), tous du même motif : encre crème ou or
+  sur fond clair, entre 28 % et 86 % du défilement. L'encre bascule aux paliers de
+  **section** dès 28 %, le ciel ne s'assombrit qu'à **75 %** — près de 50 points
+  d'écart.
+- **35 défauts transitoires** en plus, dus à la transition de 300 ms du verre
+  pendant laquelle l'encre a déjà basculé. Ils disparaissent en mesurant à
+  600 ms. Les corriger demande de faire transiter l'encre comme le verre — non
+  fait : la seule façon propre passe par des propriétés de transition qui
+  écraseraient celles des liens au survol (encore le piège du raccourci).
+- Le thème **sombre est à 0 défaut** et le reste dans les deux options.
+
 ## Mise à jour après R96 (LA LISIBILITÉ)
 
 **R96 est livré.** Les trois points du mandat sont traités et l'angle mort B est
