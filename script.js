@@ -730,6 +730,77 @@
     requestAnimationFrame(() => enterBtn?.focus());
   }
 
+  /* ===== 07b-ter. R93 — LE RÉGLAGE DU SON (nav de l'accueil) =====
+     Visible et persistant, état mémorisé. Trois états, parce que deux
+     mentiraient : le navigateur EXIGE un geste avant de produire du son,
+     donc une préférence « son » au rechargement n'est pas « coupé » — elle
+     est EN ATTENTE. Le bouton le montre (état « prêt », point doré qui
+     respire) plutôt que d'afficher un haut-parleur barré trompeur, et
+     n'importe quel geste sur la page suffit à la réveiller : c'est un
+     geste valide au sens des navigateurs. */
+  const soundBtn = $('#soundBtn');
+  if (soundBtn && ambienceAllowed && ambience.available()) {
+    soundBtn.hidden = false;
+    const setSoundState = state => {
+      soundBtn.dataset.sound = state;
+      soundBtn.setAttribute('aria-pressed', String(state === 'on'));
+      soundBtn.setAttribute('aria-label',
+        state === 'on' ? 'Couper l\'ambiance sonore'
+        : state === 'ready' ? 'Ambiance sonore prête — touchez pour la lancer'
+        : 'Activer l\'ambiance sonore');
+      soundBtn.title = soundBtn.getAttribute('aria-label');
+    };
+    const wantsSound = () => {
+      try { return localStorage.getItem('syfir-sound') === 'on'; } catch (e) { return false; }
+    };
+    const rememberSound = on => {
+      try { localStorage.setItem('syfir-sound', on ? 'on' : 'off'); } catch (e) {}
+    };
+
+    // Réveil au premier geste, si et seulement si la préférence le demande.
+    let wakeArmed = false;
+    const wake = () => {
+      if (!wakeArmed) return;
+      disarmWake();
+      ambience.start();
+      setSoundState('on');
+    };
+    const wakeEvents = ['pointerdown', 'keydown', 'touchstart'];
+    function disarmWake() {
+      wakeArmed = false;
+      wakeEvents.forEach(e => removeEventListener(e, wake));
+    }
+    const armWake = () => {
+      if (wakeArmed) return;
+      wakeArmed = true;
+      wakeEvents.forEach(e => addEventListener(e, wake, { passive: true }));
+    };
+
+    soundBtn.addEventListener('click', e => {
+      e.stopPropagation();          // le clic ne doit pas déclencher aussi le réveil
+      disarmWake();
+      if (ambience.isPlaying()) { ambience.stop(); rememberSound(false); setSoundState('off'); }
+      else { ambience.start(); rememberSound(true); setSoundState('on'); }
+    });
+
+    // État initial. Le Portail décide pour la première visite ; ensuite
+    // c'est la préférence mémorisée qui parle.
+    if (portalActive) {
+      setSoundState('off');
+    } else if (wantsSound()) {
+      setSoundState('ready');
+      armWake();
+    } else {
+      setSoundState('off');
+    }
+    // Le Portail vient de démarrer le son : le bouton doit le refléter.
+    portalGate.then(() => {
+      if (ambience.isPlaying()) { rememberSound(true); setSoundState('on'); }
+      else if (!portalActive) { /* rien : l'état mémorisé fait déjà foi */ }
+      else { rememberSound(false); setSoundState('off'); }
+    });
+  }
+
   /* ===== 08. OÙ NOUS TROUVER : FILTRE DES PARTENAIRES ===== */
   const placeChips = $('#placeChips');
   const mapPins = $$('.map-pin');

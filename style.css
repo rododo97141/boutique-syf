@@ -3952,6 +3952,43 @@ html[data-portal="done"] .portal { display: none; }
 /* Le voile est nuit profonde dans les deux thèmes : c'est une porte, pas
    une section du site. Aucune surcharge claire — c'est délibéré. */
 
+/* --- 40.2 Le réglage du son (nav de l'accueil) -------------------------
+   Trois états, portés par data-sound :
+     on    — l'ambiance joue ;
+     ready — la préférence est « son », mais le navigateur EXIGE un geste
+             avant de produire du son. L'état n'est donc pas « coupé » : il
+             est en attente, et il le montre par un point doré qui invite
+             au clic. Point de 4 px — l'or en détail (DA) ;
+     off   — coupé par choix.
+   ------------------------------------------------------------------- */
+.nav-sound { position: relative; }
+.nav-sound .snd-wave { opacity: 0; transition: opacity var(--dur-fast); }
+.nav-sound .snd-off  { opacity: 1; transition: opacity var(--dur-fast); }
+.nav-sound[data-sound="on"] .snd-wave { opacity: 1; }
+.nav-sound[data-sound="on"] .snd-off  { opacity: 0; }
+.nav-sound[data-sound="ready"] .snd-wave { opacity: .35; }
+.nav-sound[data-sound="ready"] .snd-wave-2 { opacity: 0; }
+.nav-sound[data-sound="ready"] .snd-off { opacity: 0; }
+
+.snd-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold-light);
+  opacity: 0;
+  transition: opacity var(--dur-fast);
+}
+.nav-sound[data-sound="ready"] .snd-dot {
+  opacity: 1;
+  animation-name: snd-ready;
+  animation-duration: 2068ms;          /* 4 temps a 116 BPM : la meme respiration */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes snd-ready { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .nav-sound[data-sound="ready"] .snd-dot { animation-name: none; opacity: 1; }
+}
+
 /* --- 40.1 Le mouvement du voile ---------------------------------------
    RÈGLE DE FORME : propriétés longues UNIQUEMENT. Le raccourci `animation`
    réinitialise ce qu'on vient d'écrire — deux bugs sur R92 (animation-

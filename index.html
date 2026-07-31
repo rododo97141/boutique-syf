@@ -188,6 +188,19 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
+    <!-- R93 : reglage du son de l'ambiance. Accueil uniquement — c'est la
+         que vit Le Portail. Trois etats : on / pret / coupe (cf. CSS 40.2).
+         Cache par defaut, revele par le script quand l'ambiance est possible. -->
+    <button class="nav-icon nav-sound" id="soundBtn" type="button" data-sound="off"
+            aria-label="Activer l'ambiance sonore" aria-pressed="false" hidden>
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+        <path class="snd-wave" d="M17 9.5a4 4 0 0 1 0 5"/>
+        <path class="snd-wave snd-wave-2" d="M19.5 7a7.5 7.5 0 0 1 0 10"/>
+        <path class="snd-off" d="m17.5 10 4 4m0-4-4 4"/>
+      </svg>
+      <span class="snd-dot" aria-hidden="true"></span>
+    </button>
     <div class="theme-switch" id="themeSwitch">
       <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
       <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
