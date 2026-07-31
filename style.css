@@ -3952,6 +3952,63 @@ html[data-portal="done"] .portal { display: none; }
 /* Le voile est nuit profonde dans les deux thèmes : c'est une porte, pas
    une section du site. Aucune surcharge claire — c'est délibéré. */
 
+/* ============================================================
+   41. R94 — LE POULS : la respiration du site, à 116 BPM
+   ------------------------------------------------------------
+   UN SEUL MÉTRONOME. Des animations CSS démarrées à des instants
+   différents battent en désordre : chaque élément commence son cycle à
+   sa propre apparition. Le battement n'est une respiration que s'il est
+   PARTAGÉ — la mise en phase se fait en JS (§14b de script.js), en
+   ramenant toutes ces animations à l'origine de la timeline du document.
+   Ici, on ne déclare que la forme du battement.
+
+   AMPLITUDE MINUSCULE : on doit le sentir sans le voir. Le battement
+   passe par le HALO et l'OPACITÉ, jamais par transform — qui écraserait
+   le retour d'appui scale(.97) commun à tous les boutons.
+
+   Propriétés longues uniquement (piège R92).
+============================================================ */
+@keyframes syfir-beat-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--gold-rgb), 0); }
+  38%      { box-shadow: 0 0 12px 1px rgba(var(--gold-rgb), .18); }
+}
+@keyframes syfir-beat-soft {
+  0%, 100% { opacity: .88; }
+  38%      { opacity: 1; }
+}
+
+/* Les éléments d'APPEL, et eux seuls : les CTA principaux et les badges
+   de statut. Un site où tout bat n'a pas de pouls, il a du bruit. */
+.btn-gradient.btn-lg,
+.btn-solid.btn-lg,
+.next-cta .btn,
+.tickets-fab {
+  animation-name: syfir-beat-glow;
+  animation-duration: 517ms;          /* 116 BPM — le tempo kompa */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.badge-soon {
+  animation-name: syfir-beat-soft;
+  animation-duration: 517ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
+  .tickets-fab, .badge-soon {
+    animation-name: none;
+  }
+  .badge-soon { opacity: 1; }
+}
+html[data-econome] .btn-gradient.btn-lg,
+html[data-econome] .btn-solid.btn-lg,
+html[data-econome] .next-cta .btn,
+html[data-econome] .tickets-fab,
+html[data-econome] .badge-soon { animation-name: none; }
+html[data-econome] .badge-soon { opacity: 1; }
+
 /* --- 40.2 Le réglage du son (nav de l'accueil) -------------------------
    Trois états, portés par data-sound :
      on    — l'ambiance joue ;
