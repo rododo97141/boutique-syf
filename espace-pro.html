@@ -20,11 +20,6 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -82,15 +77,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>

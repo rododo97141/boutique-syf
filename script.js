@@ -432,69 +432,24 @@
     }
   };
 
-  /* ===== 06. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
-     Auto : clair le jour (7h-19h), sombre la nuit.
-     Le choix est mémorisé et appliqué dès le <head> (script inline). */
-  const themeSwitch = $('#themeSwitch');
-  const themeBtn    = $('#themeBtn');
-  const themeMenu   = $('#themeMenu');
-  const themeOpts   = $$('.theme-opt', themeSwitch || document.createElement('div'));
-  const themeByHour = () => {
-    const h = new Date().getHours();
-    return h >= 7 && h < 19 ? 'light' : 'dark';
-  };
-  const themeIcon = { auto: '🌗', light: '☀️', dark: '🌙' };
-  const applyTheme = pref => {
-    const mode = pref === 'auto' ? themeByHour() : pref;
-    document.documentElement.setAttribute('data-theme', mode);
-    document.documentElement.setAttribute('data-theme-pref', pref);
-    if (themeBtn) {
-      themeBtn.textContent = themeIcon[pref] || themeIcon.auto;
-      themeBtn.title = 'Thème : ' + (pref === 'auto'
-        ? `automatique (${themeByHour() === 'light' ? 'jour' : 'nuit'})`
-        : pref === 'light' ? 'clair' : 'sombre');
-    }
-    themeOpts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.theme === pref)));
-  };
-  let themePref = localStorage.getItem('syfir-theme') || 'auto';
-  applyTheme(themePref);
+  /* ===== 06. (retiré, R98/1-3) — LE MENU DE THÈME =====
+     Le site avait deux thèmes (clair « été doré », sombre « nuit
+     festive ») et un mode automatique qui suivait l'heure. Kily a tranché
+     après avoir ouvert le site dans son propre navigateur : « le thème,
+     c'est le monde de la nuit ». Il n'y a plus de choix à offrir, donc
+     plus de menu, plus de préférence en localStorage, plus de résolution
+     avant le premier pixel.
 
-  const closeThemeMenu = () => {
-    if (!themeMenu || themeMenu.hidden) return;
-    themeMenu.hidden = true;
-    themeBtn?.setAttribute('aria-expanded', 'false');
-    document.removeEventListener('click', onThemeOutside);
-    document.removeEventListener('keydown', onThemeKey);
-  };
-  const onThemeOutside = e => { if (!themeSwitch.contains(e.target)) closeThemeMenu(); };
-  const onThemeKey = e => { if (e.key === 'Escape') { closeThemeMenu(); themeBtn?.focus(); } };
-  const openThemeMenu = () => {
-    if (!themeMenu) return;
-    themeMenu.hidden = false;
-    themeBtn?.setAttribute('aria-expanded', 'true');
-    // écouteurs ajoutés au prochain tick pour ne pas capter le clic d'ouverture
-    setTimeout(() => {
-      document.addEventListener('click', onThemeOutside);
-      document.addEventListener('keydown', onThemeKey);
-    });
-  };
-  themeBtn?.addEventListener('click', e => {
-    e.stopPropagation();
-    themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
-  });
-  themeOpts.forEach(opt => {
-    opt.addEventListener('click', () => {
-      themePref = opt.dataset.theme;
-      localStorage.setItem('syfir-theme', themePref);
-      applyTheme(themePref);
-      closeThemeMenu();
-      showToast(themePref === 'auto'
-        ? '🌗 Thème automatique — clair le jour, sombre la nuit'
-        : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
-    });
-  });
-  // En mode auto, on suit l'heure qui tourne
-  setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
+     Ce que ce retrait emporte avec lui, et qui occupait deux lots entiers :
+     la JOINTURE DES DEUX HORLOGES (R96/R97). Il n'y a plus de bascule
+     d'encre, donc plus de zone où l'encre a basculé avant le ciel — et la
+     bande morte L ∈ [0,168 ; 0,243], où aucune encre de la charte ne
+     tenait 4,5:1, n'est plus jamais traversée. Le problème n'a pas été
+     résolu : il n'a plus d'objet.
+
+     La clé localStorage `syfir-theme` n'est plus ni lue ni écrite. On ne
+     la purge pas : elle est inerte, et la purger coûterait un accès
+     disque à chaque visite pour rien. */
 
   /* ===== 07. (retiré, R82.1.1) =====
      L'ancienne modale 18+ globale bloquait TOUTES les pages SYFIR, y

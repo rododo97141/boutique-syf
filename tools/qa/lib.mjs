@@ -32,7 +32,20 @@ export const PAGES = [
 ];
 
 export const VIEWPORTS = { mobile: { width: 390, height: 844 }, desktop: { width: 1440, height: 900 } };
-export const THEMES = ['light', 'dark'];
+/* R98/1-3 — UN SEUL MONDE, LA NUIT. Le harnais passe de 56 à 28
+   combinaisons (14 pages × 1 thème × 2 viewports).
+
+   Changé dans LE MÊME COMMIT que le retrait du sélecteur, jamais avant :
+   un harnais qui mesure une dimension inexistante fabrique du faux — il
+   aurait produit 28 relevés en double, et un diff « 0 différence » qui
+   n'aurait rien prouvé.
+
+   Le nom `dark` est conservé tel quel : openPage() écrit encore la clé
+   `syfir-theme` avant chargement, ce qui est désormais SANS EFFET sur le
+   site (plus personne ne la lit). On garde le libellé pour que les clés
+   des dumps restent comparables à celles d'avant-nuit — c'est ce qui rend
+   la PROJECTION possible (voir ui-diff-hors-index.mjs --theme=). */
+export const THEMES = ['dark'];
 
 /* ---- serveur statique : il MEURT régulièrement (piège R92 §5),
    on le (re)démarre et on attend qu'il réponde vraiment. ---- */

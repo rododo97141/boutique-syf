@@ -11,11 +11,6 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->

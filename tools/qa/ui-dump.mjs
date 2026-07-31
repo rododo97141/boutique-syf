@@ -2,7 +2,8 @@
    tools/qa/ui-dump.mjs <label>
    ------------------------------------------------------------
    Empreinte des styles CALCULÉS : 14 pages × 2 thèmes × 2 viewports
-   = 56 combinaisons. Sert de référence de comparaison entre deux
+   = 28 combinaisons depuis R98 (un seul monde, la nuit ; 56 avant).
+   Sert de référence de comparaison entre deux
    états du dépôt (cf. ui-diff-hors-index.mjs).
 
    Principe (piège R92 §4, corollaire) : on enregistre le RÉSULTAT
@@ -84,4 +85,4 @@ writeFileSync(file, JSON.stringify(dump, null, 1));
 const errs = Object.entries(dump.pages).filter(([, v]) => v.jsErrors.length);
 console.log(`dump « ${label} » : ${combos} combinaisons -> ${file}`);
 console.log(errs.length ? `⚠ erreurs JS sur ${errs.length} combinaison(s) : ${errs.slice(0, 5).map(([k]) => k).join(', ')}`
-                        : '✓ zéro erreur JS sur les 56 combinaisons');
+                        : `✓ zéro erreur JS sur les ${combos} combinaisons`);

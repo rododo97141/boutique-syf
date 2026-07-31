@@ -119,8 +119,8 @@ main section[id] { scroll-margin-top: calc(var(--header-h) + 24px); }
 /* Feedback d'appui (niveau comportemental) : tout bouton s'enfonce
    légèrement au clic/tap — retour tactile immédiat */
 .btn:not(:disabled):active, .chip:active, .qty-btn:not(:disabled):active,
-.theme-btn:active, .dash-link:active, .tab:active, .role-pill:active,
-.artist-book:active, .artists-cta-link:active, .theme-opt:active,
+.dash-link:active, .tab:active, .role-pill:active,
+.artist-book:active, .artists-cta-link:active,
 .tickets-fab:active, .burger:active, .mobile-close:active,
 .car-video-load:active, .artist-play:active,
 .fav-btn:active { transform: scale(.97); }
@@ -142,13 +142,13 @@ main section[id] { scroll-margin-top: calc(var(--header-h) + 24px); }
    Aucune transform ici → pas d'animation inattendue ; les composants qui
    déclarent déjà leur transition (btn, cartes, champs…) gardent la leur.
    Sous reduced-motion, on neutralise pour rester cohérent avec la règle 4. */
-:where(a, button, summary, label, .chip, .tab, .role-pill, .theme-opt, .fav-btn,
+:where(a, button, summary, label, .chip, .tab, .role-pill, .fav-btn,
   .qty-btn, [role="menuitem"], [role="tab"], [role="menuitemradio"]) {
   transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
               border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
 @media (prefers-reduced-motion: reduce) {
-  :where(a, button, summary, label, .chip, .tab, .role-pill, .theme-opt, .fav-btn,
+  :where(a, button, summary, label, .chip, .tab, .role-pill, .fav-btn,
     .qty-btn, [role="menuitem"], [role="tab"], [role="menuitemradio"]) { transition: none; }
 }
 
@@ -319,51 +319,9 @@ nav.scrolled {
 /* Emblème SYFIR (déesse soleil) — se retire seul si le fichier manque */
 .nav-emblem { width: 34px; height: 34px; object-fit: contain; border-radius: 50%; }
 
-/* Bouton de thème : Auto → Clair → Sombre */
-.theme-btn {
-  width: 44px; height: 44px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: none; border: 1.5px solid rgba(var(--passion-rgb), .35);
-  color: var(--cream); font-size: 1.05rem; line-height: 1;
-  transition: transform var(--dur-fast) var(--ease), background var(--dur-fast), border-color var(--dur-fast);
-}
-.theme-btn:hover { transform: translateY(-2px) rotate(15deg); background: rgba(var(--passion-rgb), .12); border-color: var(--passion); }
-
-/* Menu déroulant du thème */
-.theme-switch { position: relative; }
-.theme-menu {
-  position: absolute; top: calc(100% + 12px); right: 0; z-index: 120;
-  width: 248px; padding: 8px;
-  background: rgba(var(--charcoal-2-rgb), .96);
-  border: 1px solid rgba(var(--passion-rgb), .22);
-  border-radius: 16px;
-  box-shadow: 0 22px 60px rgba(var(--black-rgb), .5);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  animation: themeMenuIn .28s var(--ease);
-}
-@keyframes themeMenuIn { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
-.theme-menu-title {
-  font-family: var(--display); font-size: .62rem; font-weight: 700;
-  letter-spacing: .26em; text-transform: uppercase; color: var(--passion);
-  padding: 8px 12px 8px;
-}
-.theme-opt {
-  display: flex; align-items: center; gap: 12px; width: 100%;
-  padding: 12px 12px; border-radius: 11px;
-  background: none; border: none; color: var(--cream);
-  font-family: var(--body); font-size: .92rem; text-align: left;
-  transition: background var(--dur-fast);
-}
-.theme-opt:hover { background: rgba(var(--passion-rgb), .1); }
-.theme-opt-ic { font-size: 1.15rem; line-height: 1; width: 22px; text-align: center; }
-.theme-opt-txt { display: flex; flex-direction: column; line-height: 1.25; flex: 1; }
-.theme-opt-txt small { color: rgba(var(--cream-rgb), .5); font-size: .72rem; }
-.theme-check { color: var(--passion); font-weight: 700; opacity: 0; transition: opacity var(--dur-fast); }
-.theme-opt[aria-checked="true"] .theme-check { opacity: 1; }
-.theme-opt[aria-checked="true"] { background: rgba(var(--passion-rgb), .07); }
-
-/* Menu de thème — variante claire */
+/* (retiré, R98/1-3) — le bouton et le menu de thème.
+   Un seul monde, la nuit : il n'y a plus de choix à offrir. Le keyframe
+   themeMenuIn part avec eux — il n'avait pas d'autre consommateur. */
 
 .nav-logo span { color: var(--passion); font-size: .55em; vertical-align: super; }
 .logo-suffix { font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: .02em; font-size: .62em !important; vertical-align: baseline !important; margin-left: 8px; }
@@ -4091,7 +4049,6 @@ html[data-econome] .portal-inner::after { opacity: 0; }
   .reveal.from-left, .reveal.from-right { --rv-x: 0; --rv-y: 42px; }
 
   /* Cibles tactiles ≥ 44px (NN/g / WCAG 2.5.8) */
-  .theme-btn { width: 44px; height: 44px; }
   .burger { min-width: 44px; min-height: 44px; padding: 12px; }
   .nav-logo { min-height: 44px; align-items: center; }
   .chip { min-height: 44px; padding: 12px 20px; }
@@ -4106,7 +4063,6 @@ html[data-econome] .portal-inner::after { opacity: 0; }
   .agenda-cta { display: inline-flex; align-items: center; min-height: 44px; }
   .eco-cta { display: inline-flex; align-items: center; min-height: 44px; }
   .artists-cta-link { display: inline-flex; align-items: center; min-height: 44px; }
-  .theme-opt { min-height: 44px; }
   .fav-btn { width: 44px; height: 44px; }
   .modal-close { width: 44px; height: 44px; }
   .artist-book { display: inline-flex; align-items: center; min-height: 44px; }
