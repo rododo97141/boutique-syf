@@ -2275,106 +2275,22 @@ if (placeModal && placesGridEl) {
     });
   })();
 
-  /* ===== 46. R92 — LA TRAVERSÉE : les paliers du ciel (accueil) =====
-     Le CIEL s'interpole en continu, côté CSS (§39, compositor). Ce bloc
-     ne s'occupe que des PALIERS DISCRETS : il pose html[data-sky] =
-     day | golden | dusk | night, ce qui commande la palette de texte et
-     le verre de section.
+  /* ===== 46 / 47 (retirés, R98/1-4) — LA TRAVERSÉE =====
+     §46 posait les paliers du ciel (IntersectionObserver, resolveStage,
+     html[data-sky]) ; §47 était son repli requestAnimationFrame sans
+     scroll-timeline, et portait PISTES — les trajectoires du ciel
+     encodées PAR PRÉFÉRENCE DE THÈME.
 
-     POURQUOI DES PALIERS ET PAS UNE VALEUR CONTINUE
-     Une couleur de texte interpolée a une infinité d'états
-     intermédiaires : intestable, donc impossible à garantir en AA.
-     Quatre paliers nommés = quatre palettes auditables.
+     Les trois étaient couplés, et leur propre commentaire l'annonçait :
+     PISTES devait rester synchronisé avec les keyframes CSS §39.2 et les
+     plafonds §39.3. Ils sont donc retirés ENSEMBLE — en retirer un seul
+     aurait laissé le site dans un état incohérent que rien n'aurait
+     signalé.
 
-     POURQUOI UN IntersectionObserver ET PAS UN ÉCOUTEUR DE SCROLL
-     Zéro travail par frame. L'observateur ne se réveille qu'aux
-     franchissements. rootMargin -50%/-50% réduit la zone d'observation à
-     une LIGNE au milieu du viewport : la section qui la croise donne le
-     palier. Les sections pavant la page en continu, il y en a toujours
-     exactement une — et la remontée fonctionne sans code en plus.
-
-     LA BASCULE ARRIVE TÔT, JAMAIS TARD
-     Le texte passe en clair dès que le fond franchit le seuil, pas une
-     fois qu'il est devenu sombre. Le piège « encre sur crépuscule
-     mi-sombre » est toujours une bascule en retard. */
-  (function initTraversee() {
-    if (!document.body.classList.contains('page-home')) return;
-    const marked = $$('[data-sky-stage]');
-    if (!marked.length) return;
-
-    const root = document.documentElement;
-    const ORDER = ['day', 'golden', 'dusk', 'night'];
-
-    /* Correspondance palier -> palier réellement appliqué, selon la
-       préférence de thème. Miroir exact des règles CSS de §39.3 : si
-       l'une des deux change, l'autre doit changer avec.
-         auto + jour  : traversée complète.
-         auto + nuit  : départ au crépuscule — le coucher a déjà eu lieu.
-         clair FORCÉ  : PLAFOND AU CRÉPUSCULE, jamais la nuit noire. Le
-                        choix explicite de l'utilisateur prime ; on ne
-                        l'emmène pas dans le noir après qu'il a demandé
-                        le clair.
-         sombre FORCÉ : nuit dès le premier pixel. */
-    const resolveStage = stage => {
-      const pref = root.getAttribute('data-theme-pref');
-      const theme = root.getAttribute('data-theme');
-      if (pref === 'dark') return 'night';
-      if (pref === 'light') return stage === 'night' ? 'dusk' : stage;
-      if (theme === 'dark') return stage === 'night' ? 'night' : 'dusk';
-      return stage;
-    };
-
-    let current = null;
-    const setStage = stage => {
-      const applied = resolveStage(stage);
-      if (applied === current) return;
-      current = applied;
-      root.setAttribute('data-sky', applied);
-      root.setAttribute('data-sky-raw', stage);   // palier brut, pour la QA
-    };
-
-    /* ===== R97 VARIANTE A — UNE SEULE HORLOGE =====
-       Le ciel est piloté par la PROGRESSION DU DÉFILEMENT (scroll(root),
-       keyframes à 0 / 32 / 64 / 100 %). L'encre et le verre l'étaient par
-       les PALIERS DE SECTION (IntersectionObserver). Mesuré : l'encre
-       basculait dès 28 % de défilement alors que le ciel ne s'assombrit
-       qu'à ~75 % — près de 50 points d'écart, et c'est toute la jointure.
-
-       Ici on supprime la seconde horloge : le palier se déduit de la même
-       progression que le ciel. Les seuils sont les MIDPOINTS des keyframes
-       du ciel, parce que l'image de fond d'un `background` animé en
-       raccourci s'interpole de façon DISCRÈTE et bascule à mi-chemin entre
-       deux stops : 0-32 -> bascule à 16, 32-64 -> à 48, 64-100 -> à 82.
-       Encre et ciel changent donc au même instant, par construction.
-
-       Les sections gardent leur data-sky-stage : il reste la vérité
-       narrative (quelle section raconte quel moment) et sert la QA. Ce
-       qu'on lui retire, c'est de piloter une horloge concurrente. */
-    const SEUILS = [[0.82, 'night'], [0.48, 'dusk'], [0.16, 'golden']];
-    const stageDuScroll = () => {
-      const max = document.documentElement.scrollHeight - innerHeight;
-      const prog = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      for (const [seuil, nom] of SEUILS) if (prog >= seuil) return nom;
-      return 'day';
-    };
-    let tickSky = false;
-    const majSky = () => {
-      if (tickSky) return;
-      tickSky = true;
-      requestAnimationFrame(() => { setStage(stageDuScroll()); tickSky = false; });
-    };
-    setStage(stageDuScroll());
-    addEventListener('scroll', majSky, { passive: true });
-    addEventListener('resize', majSky, { passive: true });
-
-    /* Le thème peut changer pendant la visite (menu de thème, ou bascule
-       horaire du mode auto toutes les 60 s). Le palier appliqué en
-       dépend : on le recalcule. */
-    new MutationObserver(() => {
-      const raw = root.getAttribute('data-sky-raw');
-      if (raw) { current = null; setStage(raw); }
-    }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
-  })();
+     Il n'y a plus de passage jour -> nuit. Le voyage, lui, demeure : la
+     SOIRÉE AVANCE au défilement, entièrement dans la nuit, pilotée par
+     une seule variable --p calculée en rAF (R98/3). Une variable, pas
+     quatre paliers ; une horloge, pas trois endroits à tenir alignés. */
 
   /* ===== 48. R92 — GARDE-FOU SAVE-DATA / RÉSEAU LENT =====
      prefers-reduced-motion est une media query, donc le CSS la gère seul.
@@ -2399,99 +2315,6 @@ if (placeModal && placesGridEl) {
     if (!conn) return;
     const lent = conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || '');
     if (lent) document.documentElement.setAttribute('data-econome', '');
-  })();
-
-  /* ===== 47. R92 — REPLI DU CIEL SANS SCROLL-TIMELINE =====
-     Les navigateurs qui ne connaissent pas animation-timeline: scroll()
-     n'affichent, avec le seul CSS, qu'un ciel FIXE (§39.3). Ce bloc leur
-     rend la traversée, en requestAnimationFrame.
-
-     ZÉRO DUPLICATION DE VALEURS : les 12 couleurs des 4 ciels sont lues
-     dans les tokens CSS --sky-*. Recopier les teintes ici aurait créé
-     deux sources de vérité qui divergent au premier ajustement — et un
-     ciel différent selon le navigateur, que personne n'aurait vu venir.
-
-     Le rAF ne recalcule que si le scroll a bougé d'au moins 1 px, et une
-     seule propriété est écrite (background du .sky-grade). Aucun travail
-     de mise en page, aucune lecture de géométrie dans la boucle. */
-  (function initCielRepli() {
-    if (!document.body.classList.contains('page-home')) return;
-    if (CSS.supports('animation-timeline', 'scroll()')) return;   // le CSS suffit
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const conn = navigator.connection || navigator.webkitConnection;
-    if (conn && (conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || ''))) return;
-
-    const sky = $('.sky');
-    const grade = $('.sky-grade');
-    if (!sky || !grade) return;
-
-    const root = document.documentElement;
-    const cs = getComputedStyle(sky);
-    const lire = n => {
-      const v = cs.getPropertyValue(`--sky-${n}`).trim();
-      const m = v.match(/^#([0-9a-f]{6})$/i);
-      if (!m) return null;
-      const x = parseInt(m[1], 16);
-      return [(x >> 16) & 255, (x >> 8) & 255, x & 255];
-    };
-    const CIEL = {};
-    for (const nom of ['day', 'gold', 'dusk', 'night']) {
-      const t = ['a', 'b', 'c'].map(k => lire(`${nom}-${k}`));
-      if (t.some(c => !c)) return;          // tokens illisibles : on laisse le ciel fixe
-      CIEL[nom] = t;
-    }
-
-    /* Les étapes, et leur position sur la course de scroll — MIROIR EXACT
-       des @keyframes de §39.2 et des plafonds de §39.3. Si l'un change,
-       l'autre doit changer avec. */
-    const PISTES = {
-      pleine:  [[0, 'day'], [.32, 'gold'], [.64, 'dusk'], [1, 'night']],
-      plafond: [[0, 'day'], [.5, 'gold'], [1, 'dusk']],   // clair forcé : jamais la nuit
-      nuit:    [[0, 'dusk'], [1, 'night']],               // auto de nuit : le coucher a eu lieu
-    };
-    const piste = () => {
-      const pref = root.getAttribute('data-theme-pref');
-      if (pref === 'dark') return null;                   // nuit fixe, rien à animer
-      if (pref === 'light') return PISTES.plafond;
-      return root.getAttribute('data-theme') === 'dark' ? PISTES.nuit : PISTES.pleine;
-    };
-
-    const melange = (u, v, k) => Math.round(u + k * (v - u));
-    let dernier = -1, courante = piste();
-
-    const peindre = () => {
-      if (!courante) return;
-      const max = root.scrollHeight - innerHeight;
-      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-      let i = 0;
-      while (i < courante.length - 2 && p > courante[i + 1][0]) i++;
-      const [pa, na] = courante[i], [pb, nb] = courante[i + 1];
-      const k = pb === pa ? 0 : (p - pa) / (pb - pa);
-      const A = CIEL[na], B = CIEL[nb];
-      const stop = j => `rgb(${melange(A[j][0], B[j][0], k)},${melange(A[j][1], B[j][1], k)},${melange(A[j][2], B[j][2], k)})`;
-      grade.style.background = `linear-gradient(180deg, ${stop(0)} 0%, ${stop(1)} 55%, ${stop(2)} 100%)`;
-    };
-
-    let planifie = false;
-    const surScroll = () => {
-      if (planifie) return;
-      planifie = true;
-      requestAnimationFrame(() => {
-        planifie = false;
-        if (Math.abs(scrollY - dernier) < 1) return;
-        dernier = scrollY;
-        peindre();
-      });
-    };
-    addEventListener('scroll', surScroll, { passive: true });
-    addEventListener('resize', () => { dernier = -1; surScroll(); }, { passive: true });
-    // Le thème peut changer en cours de visite : la piste en dépend.
-    new MutationObserver(() => {
-      courante = piste();
-      if (!courante) grade.style.background = '';          // rend la main au CSS
-      else { dernier = -1; peindre(); }
-    }).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-theme-pref'] });
-    peindre();
   })();
 
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,

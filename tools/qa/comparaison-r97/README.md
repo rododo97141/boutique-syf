@@ -1,1 +1,0 @@
-**TEMPORAIRE** — captures de comparaison pour la décision R97 : variante A en haut, B au milieu, C en bas ; même colonne = même position de défilement (0, 15, 28, 40, 55, 70, 75, 83, 90, 100 %). À supprimer dès la décision prise.

@@ -2693,27 +2693,32 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 
 /* ============================================================
-   39. R92 — LA TRAVERSÉE (accueil uniquement, .page-home)
+   39. LA NUIT (accueil uniquement, .page-home)
    ------------------------------------------------------------
-   L'accueil vit du jour vers la nuit EN SCROLLANT : plein jour doré en
-   haut, golden hour, crépuscule, nuit étoilée au pied de page.
+   R98 — UN SEUL MONDE, LA NUIT. Cette section s'appelait « LA TRAVERSÉE »
+   et faisait vivre l'accueil du jour vers la nuit en défilant : plein
+   jour, golden hour, crépuscule, nuit étoilée. Kily a ouvert le site dans
+   son propre navigateur et a tranché — « le thème, c'est le monde de la
+   nuit ». Il n'y a plus de passage.
 
-   DEUX HORLOGES, VOLONTAIREMENT DÉCOUPLÉES
-   1. Le CIEL s'interpole en CONTINU (animation-timeline: scroll(root),
-      donc compositor, zéro travail main-thread).
-   2. Le TEXTE bascule par PALIERS DISCRETS — html[data-sky] posé par un
-      IntersectionObserver (script.js §46).
-   Pourquoi découpler : un dégradé continu derrière du texte a une
-   infinité d'états intermédiaires, donc intestables. Quatre paliers
-   nommés donnent quatre palettes auditables. Le texte ne repose JAMAIS
-   directement sur le ciel : il repose sur le verre de section (§39.3),
-   dont on maîtrise le composite.
+   CE QUI DEMEURE, ET QU'IL NE FAUT PAS CONFONDRE AVEC CE QUI PART : le
+   VOYAGE. La soirée avance au défilement — début de soirée en haut, la
+   montée au milieu, cœur de nuit en bas — mais entièrement DANS la nuit.
+   Jamais de gris pâle, jamais de noir écrasant.
 
-   RÈGLE DE SÛRETÉ DU CONTRASTE
-   La bascule du texte est réglée pour arriver TÔT, jamais tard : le
-   texte passe en clair dès que le fond franchit le seuil, pas une fois
-   qu'il est devenu sombre. Le piège classique — encre sur crépuscule
-   mi-sombre — vient toujours d'une bascule en retard.
+   CE QUI EST PARTI, ET POURQUOI L'ARCHITECTURE EN EST SIMPLIFIÉE
+   Les DEUX HORLOGES DÉCOUPLÉES — un ciel continu d'un côté, une bascule
+   d'encre par paliers de l'autre — ont occupé R96 et R97 entiers, sans
+   jamais converger : il existait une zone où l'encre avait basculé alors
+   que le ciel était encore clair (49 défauts structurels mesurés). Avec un
+   seul monde, l'encre est crème EN PERMANENCE. Il n'y a plus de seconde
+   horloge à tenir alignée, donc plus de jointure. Le problème n'a pas été
+   résolu : il n'a plus d'objet.
+
+   Reste UNE horloge : la progression du défilement, exposée en --p (0 -> 1)
+   et calculée en rAF. Le ciel, les faisceaux et la brume la consomment.
+   C'est la forme apprise en R94 — une horloge, des consommateurs — et
+   c'est elle qui n'écrase rien.
 
    OR : jamais en masse. Le ciel est en couleurs de CIEL (crème chaud,
    abricot, mauve-océan, océan profond). L'or est réservé aux points
@@ -2762,263 +2767,34 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    battraient, et c'est le nouveau qui doit gagner. */
 .page-home .ambience { display: none; }
 
-/* --- 39.2 Les quatre ciels ---
-   Étages verticaux : le haut du dégradé est le zénith, le bas l'horizon.
-   Au crépuscule l'horizon reste chaud pendant que le zénith bascule —
-   c'est ce décalage qui fait lire « coucher de soleil » plutôt que
-   « fondu au noir ». */
-/* Les 12 couleurs des 4 ciels sont des TOKENS et pas des littéraux
-   répétés : les @keyframes ci-dessous ET le repli requestAnimationFrame
-   (script.js §47) lisent la même source. Sans ça, deux jeux de valeurs
-   finiraient par divulguer — le ciel n'aurait pas la même teinte selon
-   le navigateur, et personne ne le verrait venir. */
-.page-home .sky {
-  --sky-day-a:   #FFFDF6; --sky-day-b:   #FDF6E4; --sky-day-c:   #FAEFD6;  /* plein jour */
-  --sky-gold-a:  #FBEFD2; --sky-gold-b:  #F8DFAE; --sky-gold-c:  #F3C98B;  /* golden hour */
-  --sky-dusk-a:  #4A4668; --sky-dusk-b:  #7C5F74; --sky-dusk-c:  #C98A6A;  /* crépuscule, horizon encore chaud */
-  --sky-night-a: #050A12; --sky-night-b: #071E30; --sky-night-c: #0C2438;  /* nuit profonde */
-}
-.page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
-}
-@keyframes sky-traverse {
-  0%   { background: linear-gradient(180deg, var(--sky-day-a)   0%, var(--sky-day-b)   55%, var(--sky-day-c)   100%); }
-  32%  { background: linear-gradient(180deg, var(--sky-gold-a)  0%, var(--sky-gold-b)  55%, var(--sky-gold-c)  100%); }
-  64%  { background: linear-gradient(180deg, var(--sky-dusk-a)  0%, var(--sky-dusk-b)  55%, var(--sky-dusk-c)  100%); }
-  100% { background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%); }
-}
-/* Le crépuscule comme point d'arrivée — plafond du clair forcé (§39.3). */
-@keyframes sky-traverse-capped {
-  0%   { background: linear-gradient(180deg, var(--sky-day-a)  0%, var(--sky-day-b)  55%, var(--sky-day-c)  100%); }
-  50%  { background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%); }
-  100% { background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%); }
-}
-/* Départ au crépuscule — auto de nuit : le coucher a déjà eu lieu. */
-@keyframes sky-traverse-night {
-  0%   { background: linear-gradient(180deg, var(--sky-dusk-a)  0%, var(--sky-dusk-b)  55%, var(--sky-dusk-c)  100%); }
-  100% { background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%); }
-}
+/* --- 39.2 / 39.3 (retirés, R98/1-4) — LES QUATRE CIELS ET LEUR
+   INTÉGRATION AUX DEUX THÈMES, ainsi que les trois variantes R97.
 
-/* ============================================================
-   R97 VARIANTE B — LE CIEL VRAIMENT CONTINU, PAR EMPILEMENT D'OPACITÉS
-   ------------------------------------------------------------
-   Mesuré en R97 : les keyframes ci-dessus animent le RACCOURCI
-   `background`, dont le composant image s'interpole de façon DISCRÈTE.
-   La Traversée n'interpolait donc pas — elle sautait entre trois états.
+   La Traversée jour -> nuit n'existe plus : Kily a tranché « le thème,
+   c'est le monde de la nuit ». Il n'y a plus de passage, donc plus de
+   quatre ciels, plus de plafond par préférence, plus de PISTES.
 
-   Remède : l'empilement de la maquette validée. Quatre couches de ciel
-   superposées, dont on interpole l'OPACITÉ. L'opacité s'interpole
-   toujours, sur tous les moteurs, sans surprise — contrairement à
-   l'interpolation entre deux dégradés, qui n'est fiable nulle part.
+   LA DÉPENDANCE TRIPLE, retirée ensemble comme la carte l'exigeait :
+   les @keyframes (ici), les plafonds §39.3 (ici) et PISTES
+   (script.js §47) encodaient les MÊMES trajectoires en trois endroits.
+   En retirer un seul aurait laissé le site dans un état incohérent que
+   rien n'aurait signalé.
 
-   De bas en haut : nuit (socle, toujours opaque), crépuscule, doré,
-   jour. Chaque couche supérieure s'efface pour révéler la suivante.
+   LES TROIS VARIANTES R97 (A par défaut, B et C derrière data-r97)
+   partent ici et non plus tard : c'étaient des variantes DE CE CIEL.
+   L'arbitrage A/B/C est clos — il portait sur la manière dont le ciel
+   passe du jour à la nuit, et il n'y a plus de passage.
 
-   ET LE SOL SUIT LE CIEL. Puisque le ciel devient continu, il traverse
-   la bande de luminance où AUCUNE encre ne tient 4,5:1 — donc aucune
-   bascule d'encre ne peut sauver la lisibilité. La réponse n'est pas de
-   basculer l'encre mais de la rendre INUTILE : le verre des sections
-   garde un composite CONSTANT, quel que soit le ciel derrière. Le
-   plancher de contraste est alors garanti à chaque instant, et il n'y a
-   plus de seconde horloge à synchroniser — le problème disparaît au
-   lieu d'être arbitré.
-============================================================ */
-html[data-r97="B"] .page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
-  animation-name: none;                      /* le raccourci discret est neutralisé */
-}
-html[data-r97="B"] .page-home .sky-grade::before,
-html[data-r97="B"] .page-home .sky-grade::after,
-html[data-r97="B"] .page-home .sky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-/* crépuscule */
-html[data-r97="B"] .page-home .sky-grade::before {
-  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
-  animation-name: r97-fade-dusk;
-}
-/* doré */
-html[data-r97="B"] .page-home .sky-grade::after {
-  background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%);
-  animation-name: r97-fade-gold;
-}
-/* plein jour, la couche la plus haute */
-html[data-r97="B"] .page-home .sky::after {
-  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
-  animation-name: r97-fade-day;
-  z-index: 1;
-}
-html[data-r97="B"] .page-home .sky-grade::before,
-html[data-r97="B"] .page-home .sky-grade::after,
-html[data-r97="B"] .page-home .sky::after {
-  animation-duration: auto;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  animation-iteration-count: 1;
-  animation-timeline: scroll(root);
-}
-@keyframes r97-fade-day  { 0% { opacity: 1; } 32% { opacity: 0; } 100% { opacity: 0; } }
-@keyframes r97-fade-gold { 0% { opacity: 1; } 32% { opacity: 1; } 64% { opacity: 0; } 100% { opacity: 0; } }
-@keyframes r97-fade-dusk { 0% { opacity: 1; } 64% { opacity: 1; } 100% { opacity: 0; } }
+   CE QU'ON GARDE DE C, ET QUI EST MESURÉ : son mécanisme. C empilait des
+   couches dont on pilote l'OPACITÉ, mesuré à 11 valeurs de luminance
+   distinctes sur 12 relevés — là où le raccourci `background` de ces
+   keyframes n'en produisait que 3 sur tout le parcours. C'est ce
+   mécanisme, et non ces valeurs, que reprend le ciel de nuit (R98/3).
 
-/* LE SOL CONSTANT : le verre ne suit plus les paliers, il tient le même
-   composite du début à la fin. L'encre n'a donc plus jamais à basculer —
-   la bascule §39.5 est neutralisée en variante B. */
-html[data-r97="B"] .page-home [data-sky-stage] { background: var(--glass-soft); }
-html[data-r97="B"] .page-home .section-dark[data-sky-stage],
-html[data-r97="B"] .page-home .section-cream[data-sky-stage],
-html[data-r97="B"] .page-home footer[data-sky-stage] { background: var(--glass); }
-html[data-r97="B"][data-sky="dusk"] .page-home [data-sky-stage],
-html[data-r97="B"][data-sky="night"] .page-home [data-sky-stage] {
-  --ink-warm: initial; --taupe: initial; --taupe-soft: initial;
-  --taupe-deep: initial; --taupe-ink: initial; --grey-ink: initial;
-  --grey-ink-2: initial; --grey-mid: initial; --grey-soft: initial;
-  --brown-ink: initial; --sunset-ink: initial; --gold-ink: initial;
-  --gold-ink-2: initial; --gold-deep: initial;
-  --surface-light: initial; --surface-light-rgb: initial;
-  color: initial;
-}
-html[data-r97="B"][data-sky="dusk"] .page-home .section-cream[data-sky-stage],
-html[data-r97="B"][data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--ink); }
-/* LE VERRE CONSTANT, par THÈME et non par palier. C'est lui qui tient le
-   composite. Calcul vérifié avant d'écrire : un verre crème à 72 %
-   au-dessus d'un ciel qui va de L=0,93 (jour) à L=0,01 (nuit) donne un
-   composite dont la luminance reste entre 0,93 et 0,46 — soit un
-   contraste de 15:1 à 7,8:1 avec l'encre sombre. Le plancher tient sans
-   avoir à opacifier davantage : le coût n'est pas la transparence, c'est
-   que les sections cessent de suivre le ciel. */
-
-html[data-r97="B"][data-theme="dark"] {
-  --glass: rgba(3, 7, 14, .78); --glass-soft: rgba(3, 7, 14, .66);
-}
-
-/* ============================================================
-   R97 VARIANTE C — LE CIEL DE B, LE SOL QUI SUIT
-   ------------------------------------------------------------
-   C prend le ciel continu de B (empilement d'opacités, mécanisme de la
-   maquette) et lui rend le sol de A : le verre des sections et l'encre
-   basculent ENSEMBLE, sur la MÊME horloge de défilement que le ciel.
-
-   POURQUOI LE VERRE NE PEUT PAS, LUI, ÊTRE CONTINU — c'est la limite,
-   elle est mathématique et elle a été mesurée. Un fond de section qui
-   descend en continu du clair au vraiment sombre traverse la bande
-   L ∈ [0,168 ; 0,243]. Dans cette bande, AUCUNE encre de la charte
-   n'atteint 4,5:1 : l'encre sombre demanderait L ≥ 0,243, la crème
-   L ≤ 0,168. Le blanc pur y arriverait tout juste (4,58) — il est banni.
-   Un verre continu impose donc une fenêtre illisible ; un verre qui
-   bascule d'un coup, en même temps que l'encre, n'en impose aucune.
-
-   Le CIEL, lui, n'a jamais ce problème : personne ne lit dessus
-   directement. Il reste donc continu, et c'est là que se voit la
-   Traversée — dans le hero, les interstices, et par transparence.
-
-   Ce que C ne fait PAS : elle ne rend pas le verre continu. Ce serait
-   joli et illisible.
-============================================================ */
-html[data-r97="C"] .page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
-  animation-name: none;
-}
-html[data-r97="C"] .page-home .sky-grade::before,
-html[data-r97="C"] .page-home .sky-grade::after,
-html[data-r97="C"] .page-home .sky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  animation-duration: auto;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  animation-iteration-count: 1;
-  animation-timeline: scroll(root);
-}
-html[data-r97="C"] .page-home .sky-grade::before {
-  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
-  animation-name: r97-fade-dusk;
-}
-html[data-r97="C"] .page-home .sky-grade::after {
-  background: linear-gradient(180deg, var(--sky-gold-a) 0%, var(--sky-gold-b) 55%, var(--sky-gold-c) 100%);
-  animation-name: r97-fade-gold;
-}
-html[data-r97="C"] .page-home .sky::after {
-  background: linear-gradient(180deg, var(--sky-day-a) 0%, var(--sky-day-b) 55%, var(--sky-day-c) 100%);
-  animation-name: r97-fade-day;
-  z-index: 1;
-}
-
-/* LES VARIANTES PAR THÈME — ce que ma variante B avait manqué, et qui
-   explique les demi-teintes vues en sombre : elle empilait jour et doré
-   quel que soit le thème. §39.3 choisit une traversée par préférence, la
-   pile doit obéir à la même règle.
-     clair FORCÉ : plafond au crépuscule — la couche nuit ne sort jamais.
-     sombre FORCÉ : nuit dès le premier pixel — ni jour ni doré.
-     auto de nuit : départ au crépuscule. */
-html[data-r97="C"][data-theme-pref="light"] .page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-dusk-a) 0%, var(--sky-dusk-b) 55%, var(--sky-dusk-c) 100%);
-}
-html[data-r97="C"][data-theme-pref="light"] .page-home .sky-grade::before { animation-name: none; opacity: 0; }
-html[data-r97="C"][data-theme-pref="dark"] .page-home .sky::after,
-html[data-r97="C"][data-theme-pref="dark"] .page-home .sky-grade::after { animation-name: none; opacity: 0; }
-html[data-r97="C"][data-theme-pref="auto"][data-theme="dark"] .page-home .sky::after,
-html[data-r97="C"][data-theme-pref="auto"][data-theme="dark"] .page-home .sky-grade::after { animation-name: none; opacity: 0; }
-
-/* --- 39.3 Intégration avec les deux thèmes ---
-   Pilotée par data-theme-pref, l'attribut que script.js pose déjà sur
-   <html> (auto | light | dark) — aucun nouvel état, aucune nouvelle clé
-   localStorage. Quatre cas, quatre comportements :
-
-   auto + jour   -> traversée complète, jour -> nuit. L'expérience visée.
-   auto + nuit   -> départ au crépuscule. data-theme vaut déjà « dark » :
-                    rejouer un lever de soleil pour le recoucher serait
-                    absurde.
-   clair FORCÉ   -> PLAFOND AU CRÉPUSCULE, jamais la nuit noire.
-                    Décision R92 (b), validée : le choix explicite de
-                    l'utilisateur prime. Quelqu'un qui force le clair
-                    accepte un haut lumineux qui s'assombrit, pas de
-                    finir dans le noir — ce serait contredire son
-                    réglage. Le pied de page reste un crépuscule habité.
-   sombre FORCÉ  -> aucune traversée de couleur. Nuit dès le premier
-                    pixel ; seuls le ciel étoilé, les guirlandes et les
-                    éclats vivent. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Propriétés longues, jamais le raccourci `animation` : le raccourci
-       réinitialise animation-timeline à `auto` et la traversée ne
-       partirait pas. Chaque cas est écrit en entier plutôt que surchargé
-       par le suivant, pour la même raison. */
-
-    html[data-theme-pref="light"] .page-home .sky-grade {
-      animation-name: sky-traverse-capped;
-      animation-duration: auto;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root);
-    }
-    html[data-theme-pref="auto"][data-theme="dark"] .page-home .sky-grade {
-      animation-name: sky-traverse-night;
-      animation-duration: auto;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root);
-    }
-  }
-}
-/* Sombre forcé : nuit fixe, aucune animation — y compris sans support
-   scroll-timeline et sous reduced-motion. */
-html[data-theme-pref="dark"] .page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
-}
-/* Repli sans scroll-timeline / sous reduced-motion : un ciel FIXE,
-   choisi selon le thème résolu. Pas de traversée, mais jamais un fond
-   incohérent avec le texte. Sur les navigateurs sans scroll-timeline mais
-   avec le mouvement autorisé, script.js §47 prend le relais et anime ce
-   même dégradé en requestAnimationFrame. */
-html[data-theme="dark"] .page-home .sky-grade {
-  background: linear-gradient(180deg, var(--sky-night-a) 0%, var(--sky-night-b) 55%, var(--sky-night-c) 100%);
-}
+   ⚠ LE PIÈGE QUI A COÛTÉ TOUT R97, à ne pas refaire : les keyframes
+   ci-dessus animaient le RACCOURCI `background`. Le composant image d'un
+   background animé en raccourci est traité en DISCRET — le ciel sautait
+   au lieu de fondre. Propriétés longues uniquement. */
 
 /* --- 39.35 Le ciel étoilé ---
    Voile dense de petites étoiles + un calque de moyennes.
@@ -3095,39 +2871,25 @@ html[data-theme="dark"] .page-home .sky-grade {
   background-size: 523px 523px;
 }
 /* Allumage : timide au crépuscule, plein la nuit. */
-html[data-sky="dusk"] .page-home .sky-stars { opacity: .34; }
-html[data-sky="dusk"] .page-home .sky-stars::before { opacity: .28; }
-html[data-sky="dusk"] .page-home .sky-stars::after { opacity: .40; }
-html[data-sky="night"] .page-home .sky-stars,
-html[data-sky="night"] .page-home .sky-stars::before,
-html[data-sky="night"] .page-home .sky-stars::after { opacity: 1; }
+
+.page-home .sky-stars,
+.page-home .sky-stars::before,
+.page-home .sky-stars::after { opacity: 1; }
 
 /* DEUX jeux d'images-clés, et non un seul : une animation d'opacité écrase
    l'opacité déclarée. Un unique jeu 0.62 -> 1 aurait fait briller les
    étoiles du CRÉPUSCULE aussi fort que celles de la NUIT, annulant
    l'allumage progressif juste au-dessus. Chaque palier a donc sa plage. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-sky="dusk"] .page-home .sky-stars         {
-    animation-name: star-twinkle-soft; animation-duration: 3.7s;
-    animation-timing-function: var(--ease); animation-iteration-count: infinite;
-  }
-  html[data-sky="dusk"] .page-home .sky-stars::before {
-    animation-name: star-twinkle-soft; animation-duration: 5.3s;
-    animation-timing-function: var(--ease); animation-iteration-count: infinite;
-  }
-  html[data-sky="dusk"] .page-home .sky-stars::after  {
-    animation-name: star-twinkle-soft; animation-duration: 4.3s;
-    animation-timing-function: var(--ease); animation-iteration-count: infinite;
-  }
-  html[data-sky="night"] .page-home .sky-stars         {
+  .page-home .sky-stars         {
     animation-name: star-twinkle; animation-duration: 3.7s;
     animation-timing-function: var(--ease); animation-iteration-count: infinite;
   }
-  html[data-sky="night"] .page-home .sky-stars::before {
+  .page-home .sky-stars::before {
     animation-name: star-twinkle; animation-duration: 5.3s;
     animation-timing-function: var(--ease); animation-iteration-count: infinite;
   }
-  html[data-sky="night"] .page-home .sky-stars::after  {
+  .page-home .sky-stars::after  {
     animation-name: star-twinkle; animation-duration: 4.3s;
     animation-timing-function: var(--ease); animation-iteration-count: infinite;
   }
@@ -3185,9 +2947,7 @@ html[data-sky="night"] .page-home .sky-stars::after { opacity: 1; }
 .page-home .star-bright:nth-child(8) { top: 72%; left: 8%;  }
 .page-home .star-bright:nth-child(9) { top: 79%; left: 52%; }
 .page-home .star-bright:nth-child(10){ top: 88%; left: 91%; }
-
-html[data-sky="dusk"] .page-home .star-bright  { opacity: .45; }
-html[data-sky="night"] .page-home .star-bright { opacity: 1; }
+.page-home .star-bright { opacity: 1; }
 
 /* PROPRIÉTÉS LONGUES, jamais le raccourci `animation`. Le raccourci
    RÉINITIALISE animation-delay : écrit ici, il annulait les huit retards
@@ -3196,9 +2956,7 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
    piège de R92/1, où le même raccourci réinitialisait animation-timeline
    — les retards sont donc portés par les MÊMES sélecteurs de palier, pour
    qu'aucune question de spécificité ne se pose. */
-@media (prefers-reduced-motion: no-preference) {
-  html[data-sky="dusk"] .page-home .star-bright,
-  html[data-sky="night"] .page-home .star-bright {
+@media (prefers-reduced-motion: no-preference) {.page-home .star-bright {
     animation-name: star-pulse;
     animation-duration: 6.1s;
     animation-timing-function: var(--ease);
@@ -3208,22 +2966,7 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
      remarquent, huit qui pulsent chacune à son rythme respirent.
      Négatifs, pour que la pulsation soit déjà en cours à l'allumage
      plutôt que de démarrer les huit au même instant. */
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(3),
-  html[data-sky="night"] .page-home .star-bright:nth-child(3) { animation-delay: -.2s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(4),
-  html[data-sky="night"] .page-home .star-bright:nth-child(4) { animation-delay: -.9s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(5),
-  html[data-sky="night"] .page-home .star-bright:nth-child(5) { animation-delay: -1.6s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(6),
-  html[data-sky="night"] .page-home .star-bright:nth-child(6) { animation-delay: -2.4s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(7),
-  html[data-sky="night"] .page-home .star-bright:nth-child(7) { animation-delay: -3.1s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(8),
-  html[data-sky="night"] .page-home .star-bright:nth-child(8) { animation-delay: -3.8s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(9),
-  html[data-sky="night"] .page-home .star-bright:nth-child(9) { animation-delay: -4.6s; }
-  html[data-sky="dusk"] .page-home .star-bright:nth-child(10),
-  html[data-sky="night"] .page-home .star-bright:nth-child(10) { animation-delay: -5.3s; }
+  .page-home .star-bright:nth-child(3) { animation-delay: -.2s; }.page-home .star-bright:nth-child(4) { animation-delay: -.9s; }.page-home .star-bright:nth-child(5) { animation-delay: -1.6s; }.page-home .star-bright:nth-child(6) { animation-delay: -2.4s; }.page-home .star-bright:nth-child(7) { animation-delay: -3.1s; }.page-home .star-bright:nth-child(8) { animation-delay: -3.8s; }.page-home .star-bright:nth-child(9) { animation-delay: -4.6s; }.page-home .star-bright:nth-child(10) { animation-delay: -5.3s; }
 }
 /* La pulsation joue sur l'ÉCHELLE de la croix plus que sur l'opacité :
    c'est ce qui donne l'éclat de diamant plutôt qu'un simple fondu.
@@ -3234,8 +2977,8 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
   50%      { opacity: 1; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  html[data-sky="night"] .page-home .star-bright::before,
-  html[data-sky="night"] .page-home .star-bright::after {
+  .page-home .star-bright::before,
+  .page-home .star-bright::after {
     animation-name: star-flare;
     animation-duration: 6.1s;
     animation-timing-function: var(--ease);
@@ -3250,7 +2993,7 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
 /* La branche verticale garde sa rotation en plus de l'échelle — sinon
    scaleX l'écraserait au lieu de l'allonger. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-sky="night"] .page-home .star-bright::after {
+  .page-home .star-bright::after {
     animation-name: star-flare-v;
   }
 }
@@ -3297,14 +3040,14 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
 .page-home .star-shoot:nth-child(12) { top: 38%; left: -12%; }
 
 @media (prefers-reduced-motion: no-preference) {
-  html[data-sky="night"] .page-home .star-shoot:nth-child(11) {
+  .page-home .star-shoot:nth-child(11) {
     animation-name: star-shoot-go;
     animation-duration: 19s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-delay: -3s;
   }
-  html[data-sky="night"] .page-home .star-shoot:nth-child(12) {
+  .page-home .star-shoot:nth-child(12) {
     animation-name: star-shoot-go;
     animation-duration: 31s;
     animation-timing-function: linear;
@@ -3367,13 +3110,9 @@ html[data-sky="night"] .page-home .star-bright { opacity: 1; }
 .page-home .garland i:nth-child(3n)   { margin-top: 5px; }
 .page-home .garland i:nth-child(4n+2) { margin-top: 9px; }
 .page-home .garland i:nth-child(5n+3) { margin-top: 3px; }
+.page-home .garlands { opacity: 1; }
 
-html[data-sky="dusk"] .page-home .garlands  { opacity: .85; }
-html[data-sky="night"] .page-home .garlands { opacity: 1; }
-
-@media (prefers-reduced-motion: no-preference) {
-  html[data-sky="dusk"] .page-home .garland i,
-  html[data-sky="night"] .page-home .garland i {
+@media (prefers-reduced-motion: no-preference) {.page-home .garland i {
     animation-name: bulb-breathe;
     animation-duration: 4.7s;
     animation-timing-function: var(--ease);
@@ -3497,54 +3236,11 @@ html[data-econome] .page-home .star-shoot { display: none; }
 html[data-econome] .page-home .h2::before,
 html[data-econome] .page-home .h2::after { display: none; }
 
-/* --- 39.4 Le verre de section ---
-   C'est CE bloc qui rend La Traversée visible : les sections de l'accueil
-   troquent leur fond OPAQUE contre un verre teinté par palier. Le ciel se
-   lit à travers, et l'alternance sombre/crème de l'ancien accueil laisse
-   place à un champ continu — changement d'allure validé, pas subi.
-
-   POURQUOI DU VERRE ET PAS DE LA TRANSPARENCE
-   Si le texte reposait directement sur le ciel interpolé, son contraste
-   dépendrait d'une valeur continue, donc intestable. Le verre garantit
-   au texte un fond LOCAL dont on maîtrise le composite. C'est la pièce
-   qui rend la garantie AA calculable.
-
-   POURQUOI DES ALPHAS ÉLEVÉS AU CRÉPUSCULE ET LA NUIT
-   Le palier bascule sur une SECTION, le ciel sur un POURCENTAGE de
-   scroll : au moment où le palier passe à « dusk », le ciel peut encore
-   être clair. Un verre sombre trop léger laisserait alors du texte crème
-   sur un fond mi-clair. Les alphas sombres sont donc assez soutenus pour
-   dominer le ciel quel qu'il soit à cet instant. Le ciel se lit encore à
-   26-40 %, ce qui suffit à garder le champ continu.
-
-   Le hero et #evenements n'ont PAS de verre : ils portent leur propre
-   imagerie (film de marque, photo voilée) et leur contraste est déjà
-   traité indépendamment. */
-html[data-sky="day"]    { --glass: rgba(255, 253, 246, .72); --glass-soft: rgba(255, 253, 246, .60); }
-html[data-sky="golden"] { --glass: rgba(255, 251, 240, .72); --glass-soft: rgba(255, 251, 240, .60); }
-html[data-sky="dusk"]   { --glass: rgba(16, 13, 26, .74);    --glass-soft: rgba(16, 13, 26, .62); }
-html[data-sky="night"]  { --glass: rgba(3, 7, 14, .78);      --glass-soft: rgba(3, 7, 14, .66); }
-
-/* Le marqueur data-sky-stage, déjà posé sur chaque section pour piloter
-   les paliers, sert aussi d'accroche au verre : une seule liste à tenir
-   à jour, pas deux qui divergeraient. */
-.page-home [data-sky-stage] {
-  background: var(--glass-soft);
-  transition: background var(--dur-med) var(--ease);
-}
-.page-home .section-dark[data-sky-stage],
-.page-home .section-cream[data-sky-stage],
-.page-home footer[data-sky-stage] {
-  background: var(--glass);
-}
-/* Imagerie propre : aucun verre, ni transition de fond. */
-.page-home .home-hero[data-sky-stage],
-.page-home .section-event[data-sky-stage] { background: none; transition: none; }
-
-/* .section-cream dessine des ombres de bord qui supposaient un aplat
-   crème : sur un verre, elles se lisent comme une salissure. */
-.page-home .section-cream[data-sky-stage]::before,
-.page-home .section-cream[data-sky-stage]::after { display: none; }
+/* --- 39.4 (retiré, R98/1-4) — LE VERRE DE SECTION PILOTÉ PAR LE CIEL.
+   --glass / --glass-soft n'avaient de valeur que par html[data-sky=…],
+   et n'étaient consommés que sous .page-home [data-sky-stage] :
+   définitions et consommateurs partent ensemble, rien d'autre ne les
+   lisait (vérifié : 4 consommateurs, tous dans ce bloc). */
 
 /* --- 39.4 bis  R96 — LE SOL SOUS LE CIEL --------------------------------
    LE DÉFAUT, ET IL N'ÉTAIT PAS UN DÉFAUT DE CONTRASTE. Le ciel est une
@@ -3567,97 +3263,45 @@ html[data-sky="night"]  { --glass: rgba(3, 7, 14, .78);      --glass-soft: rgba(
    en premier, le contenu passe donc devant. Pas de `z-index`, donc aucun
    contexte d'empilement créé, donc aucun effet de bord sur les enfants.
 
+   ⚠ R98 : CETTE RÈGLE RESTE INDISPENSABLE. Le ciel de nuit est lui aussi
+   une couche `position: fixed`, donc le même ordre de peinture s'applique
+   et le même pied de page redeviendrait invisible sans elle. C'est un
+   acquis à ne pas emporter avec la Traversée — au même titre que le
+   Portail et le pouls.
+
    Portée : `.page-home` uniquement. Le ciel n'existe que sur l'accueil ;
    le pied de page est partagé par les 14 pages et ne doit pas bouger
    ailleurs — c'est vérifié par la preuve de confinement.
 
    Et c'est le bon sens du lieu : un pied de page est le sol de la page.
    Dans une Traversée, on finit le voyage sur la terre ferme. */
-.page-home > .manifesto,
-.page-home > .marquee,
-.page-home > .next-events,
+/* ⚠ R98/1-4 — CORRECTION D'UN DÉFAUT LATENT DE R96. Ces sélecteurs
+   étaient en enfant DIRECT (`>`), or .manifesto, .marquee et
+   .next-events vivent dans <main id="main"> : la règle ne les a JAMAIS
+   atteints. Seul le pied de page, déclaré hors de <main>, en bénéficiait.
+   Mesuré : position calculée « static » sur les trois, « relative » sur
+   le seul footer.
+
+   Pourquoi ça n'a pas été vu en R96 : le défaut ne se voit QUE si un
+   ciel peint par-dessus. Il l'était alors, mais l'audit de contraste ne
+   mesurait pas ces trois blocs ; il l'est de nouveau au lot R98/3, et il
+   redeviendrait invisible pour les mêmes raisons qu'en R96. Corrigé
+   AVANT de rallumer le ciel, pas après. */
+.page-home .manifesto,
+.page-home .marquee,
+.page-home .next-events,
 .page-home > footer { position: relative; }
 
 /* Le liseré du pied de page reprend la règle « l'or en détail » : 1 px,
-   jamais une surface. */
-.page-home footer[data-sky-stage] { border-top-color: rgba(var(--gold-rgb), .22); }
+   jamais une surface. R98/1-4 : reposé sur .page-home > footer, l'attribut
+   data-sky-stage qui le portait ayant disparu avec les paliers. */
+.page-home > footer { border-top-color: rgba(var(--gold-rgb), .22); }
 
-@media (prefers-reduced-motion: reduce) {
-  .page-home [data-sky-stage] { transition: none; }
-}
-
-/* --- 39.5 La bascule du texte ---
-   Au crépuscule et la nuit, le verre est sombre : tout le texte doit
-   passer en clair. Il n'y a PAS de bascule inverse à écrire, grâce à un
-   invariant de resolveStage (script.js §46) : les paliers « day » et
-   « golden » ne surviennent JAMAIS avec un thème sombre — en auto de
-   nuit ils sont ramenés à « dusk », en sombre forcé à « night ». Donc
-   jour et golden hour impliquent toujours un thème clair, déjà correct.
-
-   MÉTHODE : on redéfinit les TOKENS d'encre plutôt que d'énumérer les
-   sélecteurs. Les dizaines de surcharges thème clair du fichier disent
-   déjà « color: var(--taupe) », « var(--sunset-ink) »… : en changeant la
-   valeur du token à la racine des sections, elles suivent toutes seules.
-   Une seule liste à tenir, aucune surcharge oubliée.
-
-   CE QU'ON NE FLIPPE PAS : --ink. Il sert de couleur de TEXTE sur les
-   surfaces dorées (.btn-solid, .chip.active) ; le passer en crème
-   donnerait du crème sur or, illisible. .section-cream, qui l'utilise
-   bien comme couleur de texte, est traitée à part juste en dessous.
-
-   La portée est [data-sky-stage], c'est-à-dire les sections — pas body.
-   Le toast, la nav et les modales, qui flottent au-dessus et gardent
-   leur propre fond, ne sont donc pas touchés. */
-html[data-sky="dusk"] .page-home [data-sky-stage],
-html[data-sky="night"] .page-home [data-sky-stage] {
-  --ink-warm: var(--cream);
-  --taupe: rgba(var(--cream-rgb), .74);
-  --taupe-soft: rgba(var(--cream-rgb), .66);
-  --taupe-deep: rgba(var(--cream-rgb), .78);
-  --taupe-ink: rgba(var(--cream-rgb), .82);
-  --grey-ink: rgba(var(--cream-rgb), .74);
-  --grey-ink-2: rgba(var(--cream-rgb), .70);
-  --grey-mid: rgba(var(--cream-rgb), .62);
-  --grey-soft: rgba(var(--cream-rgb), .58);
-  --brown-ink: rgba(var(--cream-rgb), .80);
-  --sunset-ink: var(--passion);
-  --gold-ink: var(--gold-light);
-  --gold-ink-2: var(--gold-light);
-  /* R96 — LES SURFACES SUIVENT L'ENCRE. La bascule ne portait que sur le
-     TEXTE : les cartes gardaient leur fond clair de thème clair et se
-     retrouvaient en crème sur crème — sept surfaces fantômes mesurées au
-     crépuscule (cartes artiste, agenda, vision, écosystème, partenaires
-     officiels, et les champs de formulaire). Elles partagent toutes le
-     même token : on le bascule, une fois, plutôt que d'énumérer sept
-     sélecteurs qui piégeraient chaque futur ajout. */
-  --surface-light: rgba(var(--cream-rgb), .07);
-  --surface-light-rgb: var(--cream-rgb);
-
-  /* --gold-deep est reposé ICI, et pas seulement --gold-ink dont il est
-     l'alias. R98/1-2 : la surcharge claire qui motivait cette ligne a
-     disparu avec le thème clair, mais la ligne RESTE — sur le verre sombre
-     du pied de page, --gold-deep doit être l'or clair, sans quoi le label
-     de la newsletter est de l'or sombre sur du sombre (mesuré 1.82:1 en
-     R93). Elle ne compense plus un piège de cascade : elle porte une
-     valeur juste. On ne la retire pas au prétexte que sa cause d'origine
-     a disparu — c'est son EFFET qui compte, et il est mesuré. */
-  --gold-deep: var(--gold-light);
-  color: var(--cream);
-}
-/* Même piège pour les triplets `-rgb` : la bascule ne porte que sur les
-   tokens de couleur, pas sur leurs triplets. Le pied de page est le seul
-   endroit d'une section où un triplet sert de couleur de TEXTE — on le
-   corrige donc là, sans toucher au triplet global (il sert ailleurs à des
-   fonds, bordures et ombres qu'il ne faut pas éclaircir). Mesuré 4.45:1. */
-html[data-sky="dusk"] .page-home footer[data-sky-stage],
-html[data-sky="night"] .page-home footer[data-sky-stage] {
-  --ink-warm-rgb: var(--cream-rgb);
-}
-/* .section-cream force color: var(--ink) — la seule utilisation de --ink
-   comme texte dans une section. On la traite ici plutôt que de flipper le
-   token et de casser les boutons. */
-html[data-sky="dusk"] .page-home .section-cream[data-sky-stage],
-html[data-sky="night"] .page-home .section-cream[data-sky-stage] { color: var(--cream); }
+/* --- 39.5 (retiré, R98/1-4) — LA BASCULE DU TEXTE.
+   Elle faisait passer l'encre en clair au crépuscule et la nuit. Avec un
+   seul monde de nuit, l'encre est crème EN PERMANENCE : il n'y a plus
+   rien à basculer. C'est ce retrait qui dissout la JOINTURE DES DEUX
+   HORLOGES — les 49 défauts structurels de R97 n'ont plus d'objet. */
 
 /* ============================================================
    40. R93 — LE PORTAIL (accueil, première visite)

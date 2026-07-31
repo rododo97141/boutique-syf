@@ -42,11 +42,6 @@
   try {
     if (localStorage.getItem('syfir-portal')) document.documentElement.setAttribute('data-portal', 'done');
   } catch (e) { document.documentElement.setAttribute('data-portal', 'done'); }
-  // R97 — variante de ciel à l'essai (TEMPORAIRE, le temps de la décision).
-  try {
-    var v = localStorage.getItem('syfir-r97');
-    if (v) document.documentElement.setAttribute('data-r97', v);
-  } catch (e) {}
 })();
 </script>
 <!-- la section partenaires est devenue partenaires.html. Les liens
@@ -238,7 +233,7 @@
      puis événements/billetterie, artistes, écosystème, SYFIR TV.
      Auto-rotation 6 s.
 ============================================================ -->
-<section class="home-hero" data-sky-stage="day" aria-label="À la une — SYFIR">
+<section class="home-hero" aria-label="À la une — SYFIR">
   <div class="home-hero-track" id="homeHero">
   <header class="hh-slide hh-brand hero" id="accueil">
   <div class="hero-bg" data-parallax="0.25"></div>
@@ -316,7 +311,7 @@
 <!-- ============================================================
      MANIFESTO — on vend l'espérance, pas le produit
 ============================================================ -->
-<section class="manifesto cv-auto" data-sky-stage="day" id="manifesto">
+<section class="manifesto cv-auto" id="manifesto">
   <div class="container">
     <p class="manifesto-lines reveal">La liberté ne se programme pas.<br>Les meilleurs moments non plus.<br>Nous créons ce qui les accompagne.</p>
     <!-- R81 (reconstruction) : SYFIR n'est plus défini par un produit —
@@ -339,7 +334,7 @@
 <!-- ============================================================
      NOTRE MARQUE — L'UNIVERS SYFIR
 ============================================================ -->
-<section id="marque" class="section cv-auto" data-sky-stage="golden">
+<section id="marque" class="section cv-auto">
   <div class="container">
     <p class="eyebrow reveal">Notre marque</p>
     <h2 class="h2 reveal d1">Tout peut commencer<br><em>par une rencontre.</em></h2>
@@ -386,7 +381,7 @@
      de la page — cette fonctionnalité existait déjà, seule sa position
      change).
 ============================================================ -->
-<section class="next-events" data-sky-stage="golden" id="prochains">
+<section class="next-events" id="prochains">
   <div class="container">
     <p class="eyebrow reveal">Prochaines dates</p>
     <h2 class="h2 reveal d1">Trois dates. <em>Zéro excuse.</em></h2>
@@ -408,7 +403,7 @@
      R81 : rapatriée de syf-tv.html vers l'accueil (slot 3 du nouveau
      plan) — cette fonctionnalité existait déjà, seule sa position change.
 ============================================================ -->
-<section id="evenements" class="section section-event" data-sky-stage="dusk">
+<section id="evenements" class="section section-event">
   <div class="event-bg" data-parallax="0.2"></div>
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Événements &amp; Fêtes</p>
@@ -435,7 +430,7 @@
 <!-- ============================================================
      ARTISTES & DJs — fiches + extraits audio
 ============================================================ -->
-<section id="artistes" class="section section-dark" data-sky-stage="dusk">
+<section id="artistes" class="section section-dark">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
     <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
@@ -518,7 +513,7 @@
      SYFIR n'est plus défini par un produit ici — le contenu équivalent
      vit désormais sur le site autonome d'AVYR (avyr-site/).
 ============================================================ -->
-<section id="services" class="section cv-auto" data-sky-stage="dusk">
+<section id="services" class="section cv-auto">
   <div class="container">
     <p class="eyebrow reveal">Deux échelles</p>
     <h2 class="h2 reveal d1">Chacun sa fête,<br><em>et les grands moments</em>.</h2>
@@ -556,7 +551,7 @@
      L'ÉCOSYSTÈME — réseau de partenaires SYFIR (le store locator AVYR
      détaillé vit désormais sur le site autonome d'AVYR, R82)
 ============================================================ -->
-<section id="confiance" class="section section-dark" data-sky-stage="night">
+<section id="confiance" class="section section-dark">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">L'Écosystème</p>
     <h2 class="h2 reveal d1">Ta place dans <em>l'écosystème</em>.</h2>
@@ -645,7 +640,7 @@
      son propre site autonome (avyr-site/), présentée ici via
      partenaire-avyr.html)
 ============================================================ -->
-<section id="saveurs-teaser" class="section section-cream" data-sky-stage="night">
+<section id="saveurs-teaser" class="section section-cream">
   <div class="container">
     <p class="eyebrow reveal">Marque partenaire</p>
     <h2 class="h2 reveal d1">AVYR</h2>
@@ -671,7 +666,7 @@
 <!-- ============================================================
      SYFIR TV — teaser (la page complète vit dans syf-tv.html)
 ============================================================ -->
-<section id="communaute-teaser" class="section section-dark cv-auto" data-sky-stage="night">
+<section id="communaute-teaser" class="section section-dark cv-auto">
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">SYFIR TV</p>
     <h2 class="h2 reveal d1">Partage <em>la couleur</em>.</h2>
@@ -692,7 +687,7 @@
      Le bloc complet (audiences, formulaire, investisseurs) vit désormais
      dans partenaires.html. Ici : un teaser court qui garde le fil narratif.
 ============================================================ -->
-<section class="section partner-teaser" data-sky-stage="night">
+<section class="section partner-teaser">
   <div class="container">
     <p class="eyebrow reveal">Devenir partenaire</p>
     <h2 class="h2 reveal d1">SYFIR <em>EXPERIENCE</em></h2>
@@ -706,7 +701,7 @@
 <!-- ============================================================
      FOOTER
 ============================================================ -->
-<footer data-sky-stage="night">
+<footer>
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
