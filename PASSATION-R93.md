@@ -1,3 +1,92 @@
+# Passation — après R93, R94 et R95
+
+> **Ce document a servi au relais R93. Les trois lots sont livrés.**
+> Ce qui suit en tête est l'état à la fin de R95 ; le corps d'origine
+> (contexte, pièges, doctrine) reste valable et suit plus bas.
+
+## Où en est le programme
+
+R93 (Le Portail), R94 (le pouls et la typographie cinétique) et R95 (la
+confiance) sont **livrés et poussés** sur `claude/r73-loi-evin`. Le détail des
+mesures point par point est dans **`JOURNAL-R93-R95.md`**, qui est le document
+à lire en premier.
+
+**Les trois angles morts du relais sont levés :**
+
+- **A — la chaîne de mesure** est désormais **dans le dépôt**, en `tools/qa/`
+  (décision du superviseur en R93). Elle a été **calibrée contre le réel** :
+  six défauts de l'instrument ont été trouvés et corrigés, tous documentés dans
+  `tools/qa/README.md`. Un instrument non calibré ne prouve rien.
+- **B — la description de PR #13** reste **périmée** : elle couvre R73 → R82.1.2
+  et ignore désormais R83 → R95. Le superviseur a demandé de la réécrire **en fin
+  de programme, sans passer Ready**. **C'est le premier travail à faire.**
+- **C — l'écart de branche** : réglé. La bonne branche est `claude/r73-loi-evin`.
+
+## Ce qui attend la prochaine session, par ordre de priorité
+
+1. **Le pied de page au crépuscule, thème clair.** Huit textes sous le seuil AA,
+   dont **la mention loi Évin à 2,86:1** — une obligation, pas une préférence.
+   Diagnostic fait : le verre du pied de page est trop transparent quand le ciel
+   devient clair. Piste identifiée, **non tentée**, détaillée dans le JOURNAL.
+2. **Réécrire la description de PR #13** (angle mort B) — sans la passer Ready.
+3. **La signature de marque du pied de page** (`.brand-sign-mark`, 104 px) à
+   2,86:1 : le verre sombre ne semble pas peint derrière elle. Diagnostic
+   inachevé, aucune correction tentée à l'aveugle.
+4. Les **5 défauts de contraste préexistants** de l'accueil, que le superviseur a
+   explicitement réservés à un passage dédié.
+
+## Le régime de gouvernance en vigueur
+
+Le superviseur a délégué la validation : **on ne l'attend plus entre les lots**.
+On ne s'arrête que dans trois cas — LISTE ROUGE, mesure qui révèle un problème
+qu'on ne sait pas trancher seul, ou approche de la limite de contexte (auquel cas
+on écrit la passation **avant** de manquer de place).
+
+**VERT** (corriger et signaler) : défauts objectifs et mesurables.
+**ORANGE** (corriger dans un commit préfixé `HORS-MANDAT —`, un par correction) :
+tout ce qui touche un texte visible, un comportement d'interface, une ergonomie.
+**ROUGE** (jamais seul) : PR en Ready ou fusionnée · `FORM_ENDPOINT`, Shotgun,
+newsletter · `avyr-site/` · inventer équipe, artiste, témoignage ou logo · visuel
+produit hors `partenaire-avyr.html` · mention d'alcool ou affirmation juridique ·
+dépendance ou étape de build · supprimer une fonctionnalité existante.
+
+> **La contrepartie de cette liberté, et elle a payé :** ne jamais déclarer un
+> défaut sur la foi d'un seul instrument. Vérifier par un second moyen
+> indépendant, et le nommer. Sur R93-R95, cette règle a évité **six** fausses
+> corrections — et c'est elle qui a fait trouver les vrais défauts.
+
+## Ce que ces trois lots ont appris, et qui resservira
+
+- **Le raccourci `animation` écrase ce qu'on vient d'écrire.** Vrai en R92, encore
+  vrai ici : il a tué la typographie cinétique sur les titres (`.reveal.in`), et
+  poser une animation sur un CTA lui a fait perdre son entrée. **La forme qui ne
+  casse rien : une horloge sur `:root` qui anime une VARIABLE, et des éléments
+  qui la consomment.** Rien n'est écrasé, et la mise en phase devient une
+  propriété de construction plutôt qu'un problème à résoudre.
+- **Animer `box-shadow` détruit l'ombre propre d'un élément** ; `filter:
+  drop-shadow` se compose par-dessus.
+- **Imposer une valeur de base commune** (interlettrage) écrase celle de chaque
+  élément : passer par un **delta**.
+- **Une media query n'ajoute pas de spécificité** : une règle `:root` déclarée
+  après un bloc `prefers-reduced-motion` l'emporte sur lui.
+- **Zone morte temporelle** : un bloc qui lit une constante déclarée plus bas dans
+  le même module casse tout, silencieusement. Deux fois sur R93.
+- **`transitionend` remonte depuis les enfants** — filtrer sur la cible ET la
+  propriété.
+- Sur une timeline de défilement, **`animation-duration: auto`** ; une durée finie
+  fige l'animation à son état de départ.
+
+## Deux limites de cet environnement, à ne pas reprendre pour des bugs
+
+- **Aucune requête vers Google Fonts** n'est émise ici (`document.fonts` vide) :
+  le site rend toujours en police de repli, et une police de repli n'a pas d'axe
+  variable. Le rendu de la graisse variable ne peut pas être jugé dans ce bac à
+  sable.
+- **Pas de codecs H.264** : le film de marque est injecté puis retiré par le repli
+  poster documenté en R91. On vérifie la **tentative** d'injection, pas la lecture.
+
+---
+
 # Passation — R93 « Le Portail »
 
 Document écrit à la clôture de R92, pour une **session neuve**. R93 demande
