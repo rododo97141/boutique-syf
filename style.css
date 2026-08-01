@@ -2932,14 +2932,15 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   text-shadow: 0 0 90px rgba(var(--bleu-clair-rgb), .5);
 }
 
-/* Le sur-titre : 11 px, .5em, capitales, OR. Il passe AVANT la marque
-   dans le flux — c'est le lieu qui annonce la marque, pas l'inverse. */
+/* Le sur-titre : 11 px, .5em, capitales, OR. Il passe APRÈS la marque —
+   c'est l'ossature de la maquette : la marque d'abord, le lieu ensuite.
+   (Il était au-dessus jusqu'à R99/8 : l'ordre était inversé.) */
 .page-home .hero-kicker {
   font-family: var(--display); font-weight: 700;
   font-size: 11px; letter-spacing: .5em; padding-left: .5em;
   text-transform: uppercase;
   color: var(--or);
-  margin: 0 0 26px;
+  margin: 24px 0 0;
 }
 .page-home .hero-tagline {
   margin: 22px 0 38px;

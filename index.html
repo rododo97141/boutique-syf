@@ -255,12 +255,12 @@
   <div class="hero-veil"></div>
 
   <div class="hero-inner">
-    <p class="hero-kicker">Guadeloupe &middot; Cara&iuml;be</p>
     <h1 class="hero-title"><span class="hero-line"><span>SYFIR</span></span></h1>
-    <p class="hero-tagline"><em>Tes prochains souvenirs commencent ici.</em></p>
+    <p class="hero-kicker">Guadeloupe &middot; Cara&iuml;be</p>
+    <p class="hero-tagline"><em>Entre dans la nuit.</em></p>
     <div class="hero-cta">
-      <a href="evenements.html" class="btn btn-gradient btn-lg">D&eacute;couvrir les &eacute;v&eacute;nements</a>
-      <a href="partenaires.html" class="btn btn-ghost btn-lg">Explorer l'&eacute;cosyst&egrave;me</a>
+      <a href="evenements.html" class="btn btn-gradient btn-lg">Entrer dans la f&ecirc;te</a>
+      <a href="partenaires.html?type=soiree-particulier#partnerForm" class="btn btn-ghost btn-lg">Organiser la mienne</a>
     </div>
   </div>
 
@@ -275,6 +275,8 @@
 ============================================================ -->
 <section class="manifesto cv-auto" id="manifesto">
   <div class="container">
+    <p class="eyebrow reveal">Le manifeste</p>
+    <h2 class="h2 reveal d1">Un r&eacute;seau, <em>pas un catalogue.</em></h2>
     <p class="manifesto-lines reveal">La liberté ne se programme pas.<br>Les meilleurs moments non plus.<br>Nous créons ce qui les accompagne.</p>
     <!-- R81 (reconstruction) : SYFIR n'est plus défini par un produit —
          des instants de vie, des lieux, des artistes, des rencontres. -->
@@ -292,28 +294,7 @@
 ============================================================ -->
 
 
-<!-- ============================================================
-     PROCHAINS ÉVÉNEMENTS — conversion (3 dates réelles à venir)
-     R81 : rapatrié de syf-tv.html vers l'accueil (slot 2 du nouveau plan
-     de la page — cette fonctionnalité existait déjà, seule sa position
-     change).
-============================================================ -->
-<section class="next-events" id="prochains">
-  <div class="container">
-    <p class="eyebrow reveal">Prochaines dates</p>
-    <h2 class="h2 reveal d1">Les prochaines dates. <em>Zéro excuse.</em></h2>
-    <p class="section-intro reveal d2">Ce qui arrive, et où. On n'annonce que du réel.</p>
-  </div>
-  <!-- Rangée streaming Événements : cartes riches pilotées par les données -->
-  <div class="media-row-wrap">
-    <button class="row-arrow row-prev" type="button" aria-label="Événements précédents" hidden>‹</button>
-    <div class="media-row-track" id="nextEvents"></div>
-    <button class="row-arrow row-next" type="button" aria-label="Événements suivants">›</button>
-  </div>
-  <div class="container">
-    <p class="next-cta reveal d2"><a class="btn btn-solid btn-lg" href="evenements.html">Réserver ma place</a></p>
-  </div>
-</section>
+
 
 
 
@@ -337,12 +318,34 @@
          width="1600" height="1068">
   </picture>
   <div class="container">
-    <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
-    <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
-    <p class="section-intro intro-light reveal d2">Ceux qui font monter la temp&eacute;rature. DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
+    <p class="eyebrow eyebrow-light reveal">Artistes, DJs &amp; groupes live</p>
+    <h2 class="h2 reveal d1">Ceux qui font monter <em>la temp&eacute;rature.</em></h2>
+    <p class="section-intro intro-light reveal d2">DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
     <p class="artists-cta reveal d2">
       <a class="btn btn-ghost btn-lg" href="artistes.html#artistes">Voir le line-up &rarr;</a>
     </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCHAINS ÉVÉNEMENTS — conversion (3 dates réelles à venir)
+     R81 : rapatrié de syf-tv.html vers l'accueil (slot 2 du nouveau plan
+     de la page — cette fonctionnalité existait déjà, seule sa position
+     change).
+============================================================ -->
+<section class="next-events" id="prochains">
+  <div class="container">
+    <p class="eyebrow reveal">Prochaines dates</p>
+    <h2 class="h2 reveal d1">Là où le moment <em>devient une scène.</em></h2>
+  </div>
+  <!-- Rangée streaming Événements : cartes riches pilotées par les données -->
+  <div class="media-row-wrap">
+    <button class="row-arrow row-prev" type="button" aria-label="Événements précédents" hidden>‹</button>
+    <div class="media-row-track" id="nextEvents"></div>
+    <button class="row-arrow row-next" type="button" aria-label="Événements suivants">›</button>
+  </div>
+  <div class="container">
+    <p class="next-cta reveal d2"><a class="btn btn-solid btn-lg" href="evenements.html">Réserver ma place</a></p>
   </div>
 </section>
 
