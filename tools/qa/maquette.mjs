@@ -86,6 +86,8 @@ const PAIRES = [
 /* Écarts ATTENDUS et assumés : le site n'est pas la maquette sur ces
    points, pour des raisons documentées. Chacun doit être justifié, sinon
    c'est une excuse déguisée en exception. */
+/* Les clés portent la couche : « .eyebrow.color » pour l'élément,
+   « .eyebrow::before.présence » pour un pseudo en trop. */
 const TOLERES = {
   /* ⚠ `body.backgroundColor` N'EST PLUS TOLÉRÉ (R103). Le motif inscrit
      ici — « le fond de l'accueil est peint par la couche .sky » — était
@@ -177,10 +179,16 @@ try {
         for (const s of sels) {
           const el = document.querySelector(s);
           if (!el) { out[s] = null; continue; }
-          const cs = getComputedStyle(el);
-          const o = {};
-          for (const p of props) o[p] = cs[p];
-          out[s] = o;
+          const lit = (pe) => {
+            const cs = getComputedStyle(el, pe);
+            const o = {};
+            for (const p of props) o[p] = cs[p];
+            /* `content` n'a de sens que sur un pseudo-élément, mais c'est
+               LUI qui dit si le pseudo EXISTE : « none » = pas de pseudo. */
+            if (pe) o.content = cs.content;
+            return o;
+          };
+          out[s] = { el: lit(null), before: lit('::before'), after: lit('::after') };
         }
         return out;
       }, { sels, props: PROPS });
@@ -197,15 +205,44 @@ try {
       const m = M[sm], a = A[sa];
       if (!m) { console.log(`  ⚠ ${nom} : absent de la MAQUETTE (${sm})`); continue; }
       if (!a) { console.log(`  ✗ ${nom} : absent de l'ACCUEIL (${sa})`); ko++; ecarts++; continue; }
-      for (const p of PROPS) {
-        const vm = p === 'fontFamily' ? famille(m[p]) : norm(m[p]);
-        const va = p === 'fontFamily' ? famille(a[p]) : norm(a[p]);
-        if (vm === va) continue;
-        const cle = nom + '.' + p;
-        if (TOLERES[cle]) { tol++; toleres++; continue; }
-        ko++; ecarts++;
-        console.log(`  ✗ ${nom.padEnd(18)} ${p.padEnd(20)} maquette « ${vm.slice(0, 46)} »`);
-        console.log(`    ${''.padEnd(18)} ${''.padEnd(20)} accueil  « ${va.slice(0, 46)} »`);
+
+      /* Trois couches par paire : l'élément, puis ses deux pseudo-éléments.
+         C'est la leçon R104 : un ::before n'est PAS un sélecteur, donc les
+         34 paires ne pouvaient pas le voir. Le losange doré posé devant
+         chaque sur-titre par `syfir-ui/components.css` a traversé six lots
+         d'écarts « 0 » — trouvé à l'œil par Kily, pas par l'instrument. */
+      for (const [couche, suff] of [['el', ''], ['before', '::before'], ['after', '::after']]) {
+        const cm = m[couche], ca = a[couche];
+
+        /* PRÉSENCE AVANT VALEURS. Sur un pseudo qui n'existe pas, le
+           navigateur répond quand même à toutes les propriétés (héritées
+           ou initiales) : comparer ces valeurs-là ferait du bruit. La
+           seule question qui vaille d'abord est « ce pseudo existe-t-il
+           des deux côtés ? », et c'est `content` qui y répond. */
+        if (suff) {
+          const vm = cm.content === 'none', va = ca.content === 'none';
+          if (vm && va) continue;                       // aucun des deux : rien à comparer
+          if (vm !== va) {
+            const cle = nom + suff + '.présence';
+            if (TOLERES[cle]) { tol++; toleres++; continue; }
+            ko++; ecarts++;
+            console.log(`  ✗ ${(nom + suff).padEnd(18)} ${'PSEUDO EN TROP'.padEnd(20)}`
+              + ` maquette « ${vm ? 'aucun' : cm.content.slice(0, 30)} »`);
+            console.log(`    ${''.padEnd(18)} ${''.padEnd(20)} accueil  « ${va ? 'aucun' : ca.content.slice(0, 30)} »`);
+            continue;                                   // inutile de détailler 34 propriétés d'un décor à supprimer
+          }
+        }
+
+        for (const p of PROPS) {
+          const vm = p === 'fontFamily' ? famille(cm[p]) : norm(cm[p]);
+          const va = p === 'fontFamily' ? famille(ca[p]) : norm(ca[p]);
+          if (vm === va) continue;
+          const cle = nom + suff + '.' + p;
+          if (TOLERES[cle]) { tol++; toleres++; continue; }
+          ko++; ecarts++;
+          console.log(`  ✗ ${(nom + suff).padEnd(18)} ${p.padEnd(20)} maquette « ${vm.slice(0, 46)} »`);
+          console.log(`    ${''.padEnd(18)} ${''.padEnd(20)} accueil  « ${va.slice(0, 46)} »`);
+        }
       }
     }
     console.log(`  → ${ko} écart(s)${tol ? `, ${tol} toléré(s) et documenté(s)` : ''}`);
