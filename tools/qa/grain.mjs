@@ -128,7 +128,12 @@ async function masqueContenu(pg, on) {
     s.textContent = 'body > *:not(.sky) { visibility: hidden !important; }'
       + ' .sky { visibility: visible !important; }'
       + ' .sky > *:not(.sky-grade) { visibility: hidden !important; }'
-      + ' .sky-grade { visibility: visible !important; }';
+      + ' .sky-grade { visibility: visible !important; }'
+      /* --scene : on garde les faisceaux et la brume. C'est LE régime qui
+         décide du sort du grain — screen relève les valeurs basses, et
+         un grain qui texture proprement sur du #04070F nu peut devenir du
+         bruit dès qu'une lumière passe dessus. */
+      + (window.__qaScene ? ' .sky .beams, .sky .beams *, .sky .haze { visibility: visible !important; }' : '');
     document.head.appendChild(s);
   }, on);
   await pg.waitForTimeout(120);
@@ -190,7 +195,8 @@ try {
   if (xArg) await pg.evaluate(v => { window.__qaX = v; }, Number(xArg.slice('--x='.length)));
   await pg.evaluate(() => scrollTo(0, 0));
   await pg.waitForTimeout(200);
-  if (args.includes('--fond')) await masqueContenu(pg, true);
+  if (args.includes('--scene')) await pg.evaluate(() => { window.__qaScene = 1; });
+  if (args.includes('--fond') || args.includes('--scene')) await masqueContenu(pg, true);
 
   const avec = await mesure(pg, true);
   const sans = await mesure(pg, false);

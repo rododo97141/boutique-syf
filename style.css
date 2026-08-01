@@ -2859,6 +2859,100 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
 }
 
+/* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
+   Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».
+
+   LES QUATRE FAISCEAUX. Origine en HAUT d'écran, cônes très étirés,
+   blur 22px, mix-blend-mode: screen. Ils pivotent lentement (11 s,
+   alternate) et leur opacité d'ensemble suit la soirée :
+   calc(.2 + var(--p) * .8) — présents dès le début, pleins au cœur de
+   nuit. C'est le conteneur qui porte cette opacité, pas chaque faisceau :
+   une opacité par faisceau se multiplierait avec la sienne propre.
+
+   POURQUOI screen ET PAS UNE OPACITÉ SIMPLE : screen(a,b) = 1-(1-a)(1-b)
+   ne peut qu'ÉCLAIRCIR, jamais assombrir. Un faisceau posé en opacité
+   normale sur du #04070F laisserait une trace grise sale là où il est
+   faible ; en screen il disparaît proprement dans le noir. C'est
+   exactement le comportement d'une lumière réelle sur une scène sombre.
+
+   ⚠ mix-blend-mode CRÉE UN CONTEXTE D'EMPILEMENT sur l'élément qui le
+   porte, et il ne compose qu'avec ses FRÈRES dans le même contexte. Les
+   faisceaux doivent donc rester dans .sky, jamais remontés au body :
+   ailleurs ils écraseraient le contenu au lieu d'éclairer le ciel.
+
+   ⚠ PROPRIÉTÉS LONGUES : animation-name / -duration / -direction… jamais
+   le raccourci. Il réinitialise ce qu'on vient d'écrire (deux bugs en
+   R92, un lot entier en R97). */
+.page-home .beams {
+  position: absolute; inset: 0; overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: calc(.2 + var(--p) * .8);
+}
+.page-home .beams i {
+  position: absolute; top: -14vh; left: 50%;
+  display: block;
+  width: 26vw; height: 132vh;
+  transform-origin: 50% 0;
+  filter: blur(22px);
+  background-image: linear-gradient(
+    180deg,
+    rgba(var(--blanc-rgb), .30) 0%,
+    rgba(var(--bleu-clair-rgb), .16) 34%,
+    rgba(var(--bleu-rgb), .05) 68%,
+    transparent 92%);
+  /* Le cône : large en haut, effilé en bas. */
+  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
+  animation-name: beam-sweep;
+  animation-duration: 11s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+/* Quatre origines et quatre phases : sans décalage, quatre faisceaux
+   parfaitement synchrones ne sont pas quatre projecteurs, c'est un seul
+   projecteur large. */
+.page-home .beams i:nth-child(1) { left: 14%; --a: -26deg; --b: -8deg;  animation-delay: -0.0s; }
+.page-home .beams i:nth-child(2) { left: 38%; --a: -9deg;  --b: 7deg;   animation-delay: -3.2s; }
+.page-home .beams i:nth-child(3) { left: 62%; --a: 8deg;   --b: -6deg;  animation-delay: -6.1s; }
+.page-home .beams i:nth-child(4) { left: 86%; --a: 25deg;  --b: 9deg;   animation-delay: -8.7s; }
+@keyframes beam-sweep {
+  from { transform: translateX(-50%) rotate(var(--a)); }
+  to   { transform: translateX(-50%) rotate(var(--b)); }
+}
+
+/* LA BRUME — deux halos radiaux en bas d'écran, bleu et crème, qui
+   dérivent lentement. Elle donne le volume : sans elle, les faisceaux
+   sont des formes posées sur un fond ; avec elle, ils traversent
+   quelque chose. */
+.page-home .haze {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: calc(.25 + var(--p) * .5);
+  background-image:
+    radial-gradient(58% 34% at 26% 104%, rgba(var(--bleu-clair-rgb), .20), transparent 68%),
+    radial-gradient(52% 30% at 76% 108%, rgba(var(--creme-rgb), .12), transparent 66%);
+  animation-name: haze-drift;
+  animation-duration: 22s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes haze-drift {
+  from { transform: translate3d(-2.5%, 0, 0) scale(1); }
+  to   { transform: translate3d(2.5%, -1.5%, 0) scale(1.06); }
+}
+
+/* ON COUPE LE MOUVEMENT, PAS LE DÉCOR (principe R92/10). Les faisceaux
+   et la brume restent PEINTS, à une phase fixe — seule la rotation et la
+   dérive s'arrêtent. Une scène de concert immobile reste une scène de
+   concert ; une scène éteinte n'est plus rien. */
+@media (prefers-reduced-motion: reduce) {
+  .page-home .beams i, .page-home .haze { animation-name: none; }
+  .page-home .beams i { transform: translateX(-50%) rotate(var(--a)); }
+}
+html[data-econome] .page-home .beams i,
+html[data-econome] .page-home .haze { animation-name: none; }
+
 /* --- 39.2 / 39.3 (retirés, R98/1-4) — LES QUATRE CIELS ET LEUR
    INTÉGRATION AUX DEUX THÈMES, ainsi que les trois variantes R97.
 
