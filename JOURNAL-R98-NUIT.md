@@ -226,3 +226,53 @@ Trois auraient fait **conclure l'inverse de la vérité** :
 
 > La règle a servi **onze fois** : ne jamais déclarer un défaut **ni une
 > réussite** sur la foi d'un seul instrument.
+
+---
+
+## LOTS 5 et 7 — LA TYPOGRAPHIE, L'OR, ET LA VÉRIFICATION FINALE
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R98/5** | Titres à `-.035em`, sur-titres or `.3em`, accent italique en or plein | Interlettrage calculé **−2,464 px sur 70,4 px = −0,0350 em** exactement · sur-titres `rgb(233,201,136)` à 3,6 px = .3em · or sur **toute la page : 1,470 %** des pixels |
+| **R98/7** | Vérification finale · référence `nuit-final` | Voir ci-dessous |
+
+### La vérification finale, en une table
+
+| | |
+|---|---|
+| Confinement depuis l'origine | **4 classes de différences**, exactement les mêmes qu'au point 1-3 — aucune dérive sur tout le programme |
+| Les trois acquis | **verts**, mesurés sur le résultat peint |
+| La soirée avance | **12 luminances peintes distinctes / 12**, mécanisme monotone, les deux moyens concordent |
+| Contraste AA accueil | **0 défaut** (composition et pixels peints) |
+| Débordement | **0** à 390 px **et** à 1440 px |
+| LCP | **14 pages dans le budget**, pire page 1 452 ms / 2 500 |
+| Erreurs JS | **0** sur les 28 combinaisons |
+| CLS accueil | **0,0021** médiane sur 5 passes — mesuré, non expliqué (voir passation) |
+
+### 12ᵉ calibration — un faux positif qui imitait le vrai défaut
+
+À la vérification finale, `soiree.mjs` a annoncé **3 luminances distinctes sur
+12** — c'est-à-dire **exactement le symptôme du bug de R97** qu'il est censé
+détecter. Un ciel qui saute au lieu de fondre.
+
+Vérification avant de conclure : à 60 % de défilement, `--p` = 0,602, la couche
+de montée est à 1, le cœur à 0,204, et le pixel masqué vaut [7,14,31]. **Le ciel
+composait parfaitement.**
+
+La cause était l'instrument. Il posait son masque, capturait **80 ms** plus tard,
+puis le retirait — à chaque tour. Depuis que les faisceaux portent un
+`filter: blur(22px)` sur quatre surfaces plein écran, masquer/démasquer force une
+recomposition que 80 ms ne suffisent plus à terminer : on photographiait la frame
+où tout est caché et où le ciel n'a pas encore été repeint, soit le fond nu du
+`body` — `nuit-0` pur, 4,7,15, à dix positions sur douze.
+
+Corrigé : le masque est posé **une seule fois**, hors de la boucle. Et
+l'attente sur `--p` ne se contente plus de la **stabilité** — « stable » ne veut
+pas dire « juste » : si l'événement de défilement n'a pas encore été traité, deux
+lectures consécutives donnent la même valeur **périmée** et la boucle sort
+satisfaite. C'est ce qui faisait plafonner `--p` à 0,909 en bas de page. On attend
+désormais que `--p` **atteigne** la valeur attendue.
+
+> **Le pire cas possible d'un instrument : un faux positif qui ressemble
+> exactement au vrai défaut.** Sans second moyen, R98/3 aurait été « corrigé » —
+> et c'est un lot qui fonctionnait.

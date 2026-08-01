@@ -51,6 +51,17 @@ try {
   await scrollToBottom(pg);
   const course = await pg.evaluate(() => document.documentElement.scrollHeight - innerHeight);
 
+  /* Masque posé une seule fois, avant la boucle (voir 12e calibration). */
+  await pg.evaluate(() => {
+    const s = document.createElement('style'); s.id = 'qa-ciel';
+    s.textContent = 'body > *:not(.sky){visibility:hidden!important}'
+      + '.sky{visibility:visible!important}'
+      + '.sky > *:not(.sky-grade){visibility:hidden!important}'
+      + '.sky-grade{visibility:visible!important}';
+    document.head.appendChild(s);
+  });
+  await pg.waitForTimeout(400);
+
   const releves = [];
   for (let i = 0; i < N; i++) {
     const frac = i / (N - 1);
@@ -70,13 +81,21 @@ try {
 
        On attend donc que --p se STABILISE (deux lectures consécutives
        égales) avant de mesurer quoi que ce soit. Un instant, une vérité. */
+    /* « Stable » ne veut pas dire « juste » : si l'événement de
+       défilement n'a pas encore été traité, deux lectures consécutives
+       donnent la MÊME valeur PÉRIMÉE et la boucle sort satisfaite. C'est
+       ce qui faisait plafonner --p à 0,909 au bas de page. On attend donc
+       que --p ATTEIGNE la valeur attendue, et on ne se contente de la
+       stabilité qu'en dernier recours. */
     let av = null, stable = 0;
-    for (let t = 0; t < 40 && stable < 2; t++) {
+    for (let t = 0; t < 60; t++) {
       await pg.waitForTimeout(50);
       const v = await pg.evaluate(() =>
         getComputedStyle(document.documentElement).getPropertyValue('--p').trim());
       stable = (v === av) ? stable + 1 : 0;
       av = v;
+      if (Math.abs(Number(v) - frac) < 0.01) break;
+      if (stable >= 6) break;
     }
 
     /* Moyen 2 — le mécanisme : opacité calculée de chaque couche. */
@@ -90,17 +109,18 @@ try {
     });
 
     /* Moyen 1 — le résultat : luminance PEINTE du ciel seul.
-       On masque le contenu, sinon on mesurerait une photo. */
-    await pg.evaluate(() => {
-      if (document.getElementById('qa-ciel')) return;
-      const s = document.createElement('style'); s.id = 'qa-ciel';
-      s.textContent = 'body > *:not(.sky){visibility:hidden!important}'
-        + '.sky{visibility:visible!important}'
-        + '.sky > *:not(.sky-grade){visibility:hidden!important}'
-        + '.sky-grade{visibility:visible!important}';
-      document.head.appendChild(s);
-    });
-    await pg.waitForTimeout(80);
+       ⚠ 12e CALIBRATION. La première version posait ce masque, capturait
+       80 ms plus tard, puis le RETIRAIT — à chaque tour. Depuis que les
+       faisceaux portent un `filter: blur(22px)` sur quatre surfaces plein
+       écran, masquer/démasquer force une recomposition que 80 ms ne
+       suffisent plus à terminer : on photographiait la frame où tout est
+       caché et où le ciel n'a pas encore été repeint, c'est-à-dire le
+       fond nu du body — nuit-0 pur, 4,7,15, à dix positions sur douze.
+       L'outil annonçait « 3 luminances distinctes sur 12 », soit
+       exactement le symptôme du bug de R97 qu'il est censé détecter.
+       Un FAUX POSITIF qui imitait le vrai défaut : le pire des cas.
+       Le masque est désormais posé UNE FOIS, hors de la boucle. */
+    await pg.waitForTimeout(220);
     const shot = await pg.screenshot({ clip: { x: 700, y: 440, width: 6, height: 6 } });
     const px = await pg.evaluate(async b64 => {
       const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
@@ -111,7 +131,6 @@ try {
       for (let i = 0; i < d.length; i += 4) { r += d[i]; v += d[i + 1]; bl += d[i + 2]; n++; }
       return [r / n, v / n, bl / n];
     }, shot.toString('base64'));
-    await pg.evaluate(() => document.getElementById('qa-ciel')?.remove());
 
     releves.push({ frac, ...meca, L: lum(...px), rgb: px.map(x => Math.round(x)) });
   }

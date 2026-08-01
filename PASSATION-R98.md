@@ -41,26 +41,44 @@ L'environnement d'exécution désigne parfois `claude/r73-lumiere-scene-fszixq` 
 
 ## 2. Ce qui RESTE à faire, par ordre de priorité
 
-### A. Le lot 5 — la typographie et l'or — N'A PAS ÉTÉ FAIT
+### A. Le CLS de l'accueil — mesuré, non expliqué
 
-C'est le seul lot du plan qui manque. Ce qu'il doit porter :
+**Cinq passes propres : 0,0021 quatre fois, 0,0000 une fois.** Les 13 autres
+pages sont à **0,0000**. C'est ~50× sous le seuil « bon » de 0,1, mais R94 avait
+noté 0,0000 sur l'accueil aussi.
 
-- **Unbounded 800 en capitales à `letter-spacing: -.035em`** sur les titres de
-  section (`.h2`). Fait pour la marque du hero (`-.05em`, mesuré), **pas pour les
-  h2**. Attention au piège R94 : imposer un interlettrage de base **écrase celui
-  de chaque titre** — passer par un **delta**, jamais par une valeur commune.
-- **Fraunces italique** sur les respirations : déjà en place sur la signature du
-  hero et les accents `em`, à vérifier section par section.
-- **Les sur-titres en capitales `.3em` et EN OR** : fait sur `.hero-sub`, à
-  étendre aux `.eyebrow` des sections.
-- **L'audit de l'or** contre les seuils mesurés — point ≤ 4 px, halo ≤ 12 px,
-  croix ≤ 24 px, ampoule ≤ 6 px. **Non fait.** Le halo du bouton a été mesuré
-  (9,49 px max, seuil 12) mais les étoiles brillantes, les guirlandes et l'éclat
-  diamant n'ont **pas** été re-mesurés depuis qu'ils sont devenus permanents.
-- **CLS attendu 0,0000** (seuil R94), à vérifier après tout changement de
-  typographie.
+**Je n'ai pas su attribuer le résidu.** L'observateur désigne `DIV.nav-actions`,
+or sa largeur est **stable à 222 px** et son nombre d'enfants constant sur
+3 secondes : c'est un **déplacement**, pas un redimensionnement, et je n'ai pas
+trouvé le moteur.
 
-### B. La grille de dates ne peut pas être vue
+> **Une expérience à ne PAS refaire, et c'est pour ça qu'elle est écrite ici.**
+> Neutraliser les règles de hero R98 à l'exécution donne CLS 0,2027 contre
+> 0,0000 — lu vite, « les règles R98 améliorent le CLS de 100× ». C'est **faux** :
+> injecter un style après le chargement provoque le décalage **par construction**.
+> L'expérience mesure l'injection, pas l'ancien site.
+
+Piste non explorée : mesurer le CLS sur un `git worktree` du commit pré-R98, servi
+séparément. C'est la seule comparaison honnête.
+
+### B. L'audit de l'or n'est complet qu'à moitié
+
+Fait, et mesuré : **1,470 %** des pixels de la page entière sont dorés (7 écrans
+balayés) — un détail, pas une surface. `.h2 em` est passé du dégradé métallique à
+l'or plein (un dégradé de 4,4 rem est une **surface**, ce que la règle interdit).
+
+**Pas fait :** les seuils par élément — point ≤ 4 px, halo ≤ 12 px, croix ≤ 24 px,
+ampoule ≤ 6 px. Les **étoiles brillantes, guirlandes et éclat diamant** n'ont pas
+été re-mesurés depuis qu'ils sont devenus **permanents** (R98/1-4). Le halo du
+bouton, lui, l'a été : **9,49 px max**, seuil 12.
+
+> ⚠ Un audit de l'or **par les règles CSS sur-déclare structurellement** : il a
+> annoncé huit « surfaces dorées » dont `a.event-door` à 117 000 px², qui a en
+> réalité un fond **crème à 5 %**. Les `em` listés sont des dégradés **clippés au
+> texte** : leur boîte englobante n'est pas leur surface peinte. **Mesurer les
+> pixels, pas les règles.**
+
+### C. La grille de dates ne peut pas être vue
 
 `baseEvents` est **vide** — mesuré : **0 carte rendue** dans `#nextEvents`. La
 règle CSS de la grille bord à bord (filet 2 px, `min-height: 400px`, sans
@@ -70,7 +88,7 @@ arrondi) est **écrite et prête**, elle n'a **jamais été rendue à l'écran**
 > vide honnête est la configuration correcte du dépôt. La grille se vérifiera le
 > jour où de vraies dates existeront.
 
-### C. Les 13 autres pages — et le piège qui les attend
+### D. Les 13 autres pages — et le piège qui les attend
 
 Elles sont aujourd'hui sur leur **monde sombre**, celui que R96 avait mesuré à
 0 défaut AA. Elles n'ont **pas** reçu « Lumière de scène ». Kily a dit qu'elles
@@ -92,7 +110,7 @@ de luminance distinctes sur 12 relevés).
 Mesuré sur le dépôt : **14 étapes de keyframes** utilisent encore ce raccourci
 dans `style.css`. Le piège est **systémique**.
 
-### D. Deux détails site-wide laissés en suspens, délibérément
+### E. Deux détails site-wide laissés en suspens, délibérément
 
 - **`meta theme-color`** : passé à `#04070F` sur `index.html` seulement. Les 13
   autres gardent `#071E30` jusqu'à leur propre refonte — un `theme-color` doit
