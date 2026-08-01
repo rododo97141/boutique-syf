@@ -96,14 +96,7 @@
 <noscript><style>.portal { display: none !important; }</style></noscript>
 
 <a class="skip-link" href="#main">Aller au contenu</a>
-<!-- Fil narratif sensoriel : grade couleur du fond qui évolue au scroll
-     (golden hour > sunset > nuit océan > braise). Centre transparent =
-     texte intact. Statique si reduced-motion / pas de scroll-timeline.
-     R92 : sur l'accueil, .ambience est NEUTRALISÉE par .page-home — La
-     Traversée la remplace. On la laisse dans le HTML parce qu'elle sert
-     encore les 7 autres pages qui la portent ; deux voiles concurrents
-     sur la même page, en revanche, se battraient. -->
-<div class="ambience" aria-hidden="true"></div>
+</div>
 
 <!-- ============================================================
      R92 — LA TRAVERSÉE : le ciel de l'accueil, du plein jour à la nuit.
@@ -143,51 +136,42 @@
      NAVIGATION
 ============================================================ -->
 
+<!-- ============================================================
+     R103 — LA BARRE DU HAUT EST CELLE DE LA MAQUETTE.
+     Consigne de Kily : « retire ceci et mets le visuel de la maquette 3
+     à l'identique, retire tout le reste SAUF le menu recherche et
+     profils ». Les deux boutons ronds cerclés d'or sont partis ; la
+     recherche et le profil restent, dans le registre de la maquette —
+     discrets, crème, sans cercle.
+     Partis avec : le méga-menu déroulant de l'Écosystème, celui de
+     SYFIR TV, la pilule de fond des liens, et le libellé « ™ » du logo.
+     Les destinations restent toutes atteignables depuis leurs pages.
+     CONSERVÉS ET SIGNALÉS (voir la liste des survivants dans le
+     journal) : le burger, sans lequel un visiteur à 390 px n'a plus
+     AUCUNE navigation — la maquette masque simplement ses liens sur
+     mobile et n'offre rien à la place ; et le bouton de son, qui
+     appartient au Portail (acquis R93, protégé).
+============================================================ -->
 <nav id="nav">
-  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
-    SYFIR<span>&trade;</span>
-  </a>
-  <div class="nav-pill">
-    <ul class="nav-links">
-      <li class="nav-item has-drop">
-        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
-        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
-             ne vend pas les produits de ses partenaires, ce dropdown liste le
-             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
-        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
-          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
-          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
-          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
-          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
-          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
-          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
-      <li class="nav-item has-drop">
-        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
-        <div class="nav-drop" role="menu" aria-label="SYFIR TV">
-          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
-          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
-        </div>
-      </li>
-    </ul>
+  <a class="lg" href="index.html#accueil">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="evenements.html">&Eacute;v&eacute;nements</a>
+    <a class="l" href="artistes.html#artistes">Artistes</a>
+    <a class="l" href="partenaires.html">&Eacute;cosyst&egrave;me</a>
+    <a class="l" href="syf-tv.html">SYFIR TV</a>
   </div>
-  <div class="nav-actions">
-    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+  <div class="nav-outils">
+    <button class="outil" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
     </button>
-    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    <button class="outil" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <!-- R93 : reglage du son de l'ambiance. Accueil uniquement — c'est la
-         que vit Le Portail. Trois etats : on / pret / coupe (cf. CSS 40.2).
-         Cache par defaut, revele par le script quand l'ambiance est possible. -->
-    <button class="nav-icon nav-sound" id="soundBtn" type="button" data-sound="off"
+    <!-- R93 — le réglage du son de l'ambiance. Accueil uniquement : c'est
+         là que vit Le Portail. Caché par défaut, révélé par le script. -->
+    <button class="outil nav-sound" id="soundBtn" type="button" data-sound="off"
             aria-label="Activer l'ambiance sonore" aria-pressed="false" hidden>
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 9v6h4l5 4V5L8 9H4z"/>
         <path class="snd-wave" d="M17 9.5a4 4 0 0 1 0 5"/>
         <path class="snd-wave snd-wave-2" d="M19.5 7a7.5 7.5 0 0 1 0 10"/>

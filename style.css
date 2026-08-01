@@ -2835,13 +2835,93 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    d'écart sur la largeur du texte courant dès que le webfont manque.
    On aligne la chaîne, scopée à l'accueil pour ne pas toucher aux
    14 autres pages. */
+/* ⚠ LE FOND DE LA PAGE EST LA NUIT, PAS L'ENCRE — écart R103, longtemps
+   MAQUILLÉ EN EXCEPTION. `maquette.mjs` tolérait `body.backgroundColor`
+   avec pour motif « le fond de l'accueil est peint par la couche .sky ».
+   C'était une excuse déguisée en exception, et la mesure l'a démentie :
+   le body de l'accueil reste à l'ENCRE #111 (r=g=b, gris neutre) quand la
+   maquette pose `--nuit-0` #04070F (bleu). Tant que la couche fixe .sky
+   couvre la fenêtre, personne ne voit la différence — mais .sky est
+   `position: fixed` et ne se peint QU'UNE FOIS dans une capture pleine
+   page : sur les images que Kily regarde, la moitié de l'accueil sortait
+   en GRIS NEUTRE là où la maquette est bleue. Le fond de repli doit être
+   la nuit lui aussi. Mesuré après : 4,7,15 au lieu de 17,17,17.
+   Le grain (--noise) reste sur body : il n'est pas dans la maquette, il
+   part dans la liste des survivants — pas retiré d'autorité. */
 .page-home {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 17px;
   line-height: 1.68;
   font-weight: 400;
   color: var(--creme);
+  background-color: #04070f;
 }
+
+/* ---------- 0 bis. LA BARRE DU HAUT, VALEURS DU FICHIER ----------
+   La maquette n'a pas de pilule, pas de cercles, pas de méga-menu : du
+   texte, un fond en dégradé, un flou d'arrière-plan et un liseré à 8 %.
+   Les deux boutons ronds cerclés d'or que Kily a pointés sont partis ;
+   recherche et profil restent, dans le même registre — crème doux,
+   1,6 px de trait, aucun cercle. */
+.page-home nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 26px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background-color: transparent;
+  background-image: linear-gradient(180deg, rgba(4, 7, 15, .9), rgba(4, 7, 15, .2));
+  border-bottom: 1px solid rgba(238, 242, 248, .08);
+  box-shadow: none;
+}
+.page-home nav .lg {
+  font-family: var(--display); font-weight: 800;
+  font-size: 19px; line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--blanc);
+  text-decoration: none;
+}
+.page-home nav .lk { display: flex; gap: 30px; }
+.page-home nav a.l {
+  color: var(--creme-doux);
+  text-decoration: none;
+  font-family: var(--body);
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.page-home nav a.l:hover { color: var(--or); }
+@media (max-width: 720px) { .page-home nav .lk { display: none; } }
+
+/* Les outils conservés : aucun cercle, aucun or, aucune ombre — le
+   contraire des deux pastilles dorées que Kily a pointées. */
+.page-home .nav-outils { display: flex; align-items: center; gap: 18px; }
+.page-home .outil {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;          /* cible tactile ≥ 44px (règle du dépôt) */
+  padding: 0;
+  background: none; background-image: none;
+  border: 0; border-radius: 0;
+  box-shadow: none;
+  color: var(--creme-doux);
+  cursor: pointer;
+  transition: color var(--dur-fast);
+}
+.page-home .outil:hover { color: var(--or); background: none; transform: none; }
+.page-home .burger span { background: var(--creme-doux); }
+
+/* ---------- L'EMPILEMENT, ET IL DÉCIDE DE TOUT ----------
+   La maquette pose `main{position:relative; z-index:3}`. Sans lui, le
+   `.hero-photo` en `z-index:-1` ne descend pas sous le CONTENU du hero :
+   il descend sous LE CIEL, qui est à z-index 0 dans le même contexte
+   d'empilement — et la photo disparaît.
+
+   MESURÉ, pas déduit : masquer `.hero-photo` sur l'accueil ne changeait
+   RIEN au pixel peint au centre du hero (écart 0 sur les trois canaux),
+   alors que la même manipulation sur la maquette donne un écart de 12.
+   La photo était chargée (naturalWidth 1600), déclarée à opacity .5, et
+   invisible. Une vérification de déclaration l'aurait dite présente. */
+.page-home main { position: relative; z-index: 3; }
 
 /* ---------- 1. LE HERO ---------- */
 .page-home .hero {

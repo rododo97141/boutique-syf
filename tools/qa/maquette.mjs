@@ -87,8 +87,15 @@ const PAIRES = [
    points, pour des raisons documentées. Chacun doit être justifié, sinon
    c'est une excuse déguisée en exception. */
 const TOLERES = {
-  'body (la base).backgroundColor': 'le fond de l’accueil est peint par la couche .sky (R98), pas par le body',
-  'body (la base).backgroundImage': 'idem — le ciel à trois couches',
+  /* ⚠ `body.backgroundColor` N'EST PLUS TOLÉRÉ (R103). Le motif inscrit
+     ici — « le fond de l'accueil est peint par la couche .sky » — était
+     une EXCUSE DÉGUISÉE EN EXCEPTION, exactement ce que l'en-tête de ce
+     bloc interdit. La mesure l'a démentie : .sky est `position: fixed`,
+     donc il ne couvre QUE la fenêtre courante ; dans une capture pleine
+     page il ne se peint qu'une fois et c'est le fond du body qui sort —
+     gris neutre 17,17,17 sur l'accueil, bleu 4,7,15 sur la maquette.
+     L'écart est désormais compté, et corrigé côté CSS. */
+  'body (la base).backgroundImage': 'le grain --noise du site, absent de la maquette : survivant soumis à arbitrage, pas encore tranché',
   'body (la base).margin': 'la maquette pose margin:0 sur body ; le site l’a déjà via son reset',
   'body (la base).overflow': 'overflow-x:hidden posé ailleurs dans le site',
   'body (la base).minHeight': 'hauteur de page réelle, dépend du contenu',
