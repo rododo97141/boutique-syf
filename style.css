@@ -3030,9 +3030,18 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    de la refonte : des cartes arrondies ne peuvent pas être bord à bord —
    l'arrondi creuse quatre trous à chaque jonction. C'est la mise en page
    qui l'exige. */
-.page-home .next-events > .container {
+/* ⚠ LA SECTION DATES A DEUX CONTENEURS : le titre AVANT la grille, le
+   CTA APRES. Une règle qui les vise tous les deux donne 150 px de haut
+   au second aussi — le bouton « Réserver ma place » flottait au milieu
+   d'un vide de 300 px. Vu à la capture. On distingue donc le premier
+   (`:first-of-type`, qui porte le titre) du dernier. */
+.page-home .next-events > .container:first-of-type {
   max-width: 1240px; margin-inline: auto;
   padding: clamp(80px, 13vh, 150px) 26px clamp(28px, 4vh, 46px);
+}
+.page-home .next-events > .container:last-of-type {
+  max-width: 1240px; margin-inline: auto;
+  padding: clamp(34px, 5vh, 54px) 26px 0;
 }
 .page-home .next-events .media-row-wrap { width: 100%; }
 .page-home .next-events .media-row-track {
