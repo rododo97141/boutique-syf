@@ -3072,6 +3072,26 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   color: var(--or);
   margin: 0 0 20px;
 }
+/* ⚠ LA GOUTTE R30 N'EST PAS DANS LA MAQUETTE — troisième collision de
+   noms, après `.hero` et `.btn`, et la première qui vienne de la
+   BIBLIOTHÈQUE. `syfir-ui/components.css` §02 pose `.eyebrow::before` :
+   un losange de 8 px en `var(--drop-fill)`, tourné à 45°, arrondi
+   50% 50% 50% 0. Il se plantait devant les quatre sur-titres de
+   l'accueil — « ◆ LE MANIFESTE », « ◆ PROCHAINES DATES »… — et la
+   maquette n'en a aucun.
+
+   POURQUOI SIX LOTS NE L'ONT PAS VU, et c'est la vraie leçon : je
+   cherchais les héritages dans `style.css`, alors qu'il y a une SECONDE
+   source, chargée AVANT lui ; et mon instrument comparait 34 paires de
+   SÉLECTEURS, or un `::before` n'est pas un sélecteur de cette liste. Un
+   décor posé par un pseudo-élément était donc invisible à la mesure et
+   ne se voyait qu'à l'œil — où personne ne regardait. Kily l'a trouvé sur
+   la capture. `maquette.mjs` compare désormais les deux pseudo-éléments
+   de chacun des 34 sélecteurs, et retrouve seul ce défaut-là.
+
+   La goutte RESTE sur les 13 autres pages : c'est un motif de marque
+   assumé depuis R30. On la retire ici seulement, par le scope. */
+.page-home .eyebrow::before { content: none; }
 .page-home h2 {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(34px, 5.4vw, 66px);
