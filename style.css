@@ -2985,6 +2985,51 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   .page-home .section-event .h2 { max-width: none; }
 }
 
+/* --- LA TYPOGRAPHIE DE LA NUIT ------------------------------------------
+   Unbounded 800 en capitales TRÈS SERRÉES pour les titres, Fraunces
+   italique pour les respirations, Plus Jakarta Sans pour le texte, et les
+   sur-titres en capitales très espacées ET EN OR.
+
+   ⚠ L'INTERLETTRAGE PASSE PAR LA VALEUR NOMINALE, PAS PAR UNE BASE
+   COMMUNE. R94 a payé ce piège : imposer un `letter-spacing` commun
+   ÉCRASE celui de chaque titre — mesuré alors, le h1 de la billetterie
+   passait de -.01em à -.02em et perdait 15 px de large. La forme retenue
+   est `calc(nominal + var(--syfir-track, 0em))`, où --syfir-track est le
+   DELTA de la respiration cinétique. On change donc le NOMINAL, et le
+   delta continue de s'ajouter par-dessus, intact.
+
+   Pourquoi -.035em : Unbounded est une display LARGE, aux formes rondes.
+   À l'échelle d'un titre de section en capitales, l'espacement par défaut
+   fait éclater le mot. Le resserrement n'est pas un effet de style, c'est
+   ce qui rend la police tenable en grand. */
+.page-home .h2 { letter-spacing: calc(-.035em + var(--syfir-track, 0em)); }
+
+/* Les sur-titres : capitales très espacées (.3em) et EN OR — l'or de
+   SCÈNE (--or), pas l'or de marque. Ils remplacent l'ancien orange
+   sunset, qui appartenait au monde d'été. */
+.page-home .eyebrow,
+.page-home .eyebrow-light {
+  color: var(--or);
+  letter-spacing: .3em;
+}
+
+/* L'accent italique des titres : une LETTRE en or, ce que la règle
+   autorise explicitement (« un liseré, une lettre, un contour »). On
+   passe du dégradé métallique de marque à l'or de scène, plein et doux :
+   un dégradé métallique de 4,4 rem sur du bleu profond redevient une
+   SURFACE, et la surface est ce qui est interdit. */
+.page-home .h2 em {
+  background-image: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: var(--or);
+  -webkit-text-fill-color: var(--or);
+}
+
+/* Le texte courant et les intros passent au crème froid de la nuit. */
+.page-home .section-intro,
+.page-home .intro-light { color: var(--creme-doux); }
+
 /* --- LES PHOTOS PLEIN CADRE : LA PHOTO DOMINE, LE FOND LA SOUTIENT ---
    Opacité .5-.56 et contrast(1.1), dégradés par-dessus. C'est ce qui
    fait entrer les photos DANS la nuit au lieu de les poser dessus : à
