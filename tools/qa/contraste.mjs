@@ -15,7 +15,9 @@ import { serve, browser, openPage, VIEWPORTS } from './lib.mjs';
 const args = process.argv.slice(2);
 const url = args.find(a => !a.startsWith('--')) || 'index.html';
 const theme = (args[args.indexOf('--theme') + 1] && !args[args.indexOf('--theme') + 1].startsWith('--'))
-  ? args[args.indexOf('--theme') + 1] : 'light';
+  ? args[args.indexOf('--theme') + 1] : 'dark';  /* R98 : un seul thème, la nuit. Le défaut « light » restait ici et
+     étiquetait chaque rapport « thème light » — un libellé faux sur une
+     mesure juste, ce qui suffit à faire douter de la mesure. */
 const portalFirst = args.includes('--portal-first');
 
 const srv = await serve();

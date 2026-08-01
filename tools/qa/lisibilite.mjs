@@ -20,13 +20,52 @@
    localise la jointure au lieu de seulement la constater.
 
    Usage : node tools/qa/lisibilite.mjs index.html --theme light
+
+   ⚠⚠ ÉTAT R103 — SON VERDICT N'EST PAS OPPOSABLE SUR L'ACCUEIL DE NUIT.
+   À lire avant de croire un seul de ses chiffres.
+
+   Cet outil était MORT sans le dire : sa garde « texte sur média »
+   remontait jusqu'au body, qui porte le grain `--noise` en `url(…)` ; elle
+   exemptait donc la page entière, l'outil suivait 0 élément et annonçait
+   « ✓ aucun élément sous le seuil ». Trois défauts d'appareil ont été
+   corrigés ici (remontée arrêtée au body, repeint forcé avant capture,
+   boîtes mesurées seulement quand elles sont ENTIÈREMENT sous la barre et
+   dans la fenêtre) : de 0 élément suivi on est passé à 93, et de
+   15 « défauts » à 5.
+
+   MAIS LES 5 QUI RESTENT SONT ENCORE FAUX, et on peut le prouver sans le
+   moindre doute. Les fonds qu'il rapporte — 238,242,248 · 148,161,185 ·
+   123,139,165 — SORTENT DE LA GAMME QUE LA PAGE SAIT PEINDRE : le cœur du
+   ciel le plus clair de toute la soirée est mesuré à 51,74,109 par
+   `soiree.mjs`, aux 12 pas. Aucune boîte de l'accueil ne peut reposer sur
+   du 238,242,248. Vérification par un second moyen, découpage direct des
+   quatre boîtes incriminées, molette bousculée : le bouton « S'inscrire »
+   est sur son dégradé orange 248,136,16 ; `.badge-demo` sur 40,32,24 ;
+   `.date .quand` sur 8,8,24 ; le pied de page sur 0,0,8. Toutes sombres.
+
+   LA CAUSE DE FOND N'EST PAS UN RÉGLAGE, C'EST LA MÉTHODE. Cet outil
+   suppose que chaque boîte a UN fond plat dominant. L'accueil de nuit
+   n'en a pas : dégradés, `backdrop-filter`, photos plein cadre. Sur le
+   lien de nav « Artistes », boîte 73×19, la tranche de couleur la plus
+   large ne pèse que 6 % des pixels. On l'a rendu honnête sur ce qu'il ne
+   sait pas lire (les boîtes sans fond dominant sortent en INDÉTERMINÉES,
+   ni réussies ni en défaut) — mais on ne l'a PAS réglé pour qu'il passe au
+   vert : ce serait accorder l'instrument au résultat voulu.
+
+   D'ICI SA RECONSTRUCTION : l'instrument de référence pour l'AA est
+   `contraste.mjs`, qui compose le fond par la cascade CSS au lieu de le
+   deviner à l'image, et qui rapporte 0 défaut — accord confirmé par les
+   découpages directs ci-dessus. `lisibilite.mjs` ne bloque rien et ne
+   valide rien tant qu'il n'a pas de moyen de lire un fond non plat.
 ============================================================ */
 import { serve, browser, openPage, VIEWPORTS } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const url = args.find(a => !a.startsWith('--')) || 'index.html';
 const ti = args.indexOf('--theme');
-const theme = ti >= 0 && args[ti + 1] && !args[ti + 1].startsWith('--') ? args[ti + 1] : 'light';
+const theme = ti >= 0 && args[ti + 1] && !args[ti + 1].startsWith('--') ? args[ti + 1] : 'dark';  /* R98 : un seul thème, la nuit. Le défaut « light » restait ici et
+     étiquetait chaque rapport « thème light » — un libellé faux sur une
+     mesure juste, ce qui suffit à faire douter de la mesure. */
 const pi = args.indexOf('--pas');
 const pasRatio = pi >= 0 && args[pi + 1] ? Number(args[pi + 1]) : 0.25;
 /* Temps de stabilisation avant chaque relevé. Le verre des sections a une
@@ -55,9 +94,17 @@ await decoder.goto('about:blank');
    posé UNE fois. On mesure ensuite le même élément à chaque pas. */
 const total = await page.evaluate(() => {
   let n = 0;
+  /* ⚠ LA REMONTÉE S'ARRÊTE AU BODY — corrigé R103, sinon l'instrument
+     s'exempte lui-même. Cette garde existe pour ne pas juger du texte
+     posé sur une PHOTO. Mais le body porte le grain `--noise`, qui est un
+     `url(data:image/svg+xml…)` : la remontée le trouvait pour TOUS les
+     éléments de la page, les exemptait tous, suivait 0 élément et
+     annonçait « ✓ aucun élément sous le seuil ». Un feu vert sur une
+     mesure vide. Le grain n'est pas un fond média : on ne remonte plus
+     jusqu'à lui. */
   const surMedia = el => {
     let x = el, h = 0;
-    while (x && h < 10) {
+    while (x && x !== document.body && h < 10) {
       const cs = getComputedStyle(x);
       const bi = cs.backgroundImage;
       if (bi && bi !== 'none' && /url\(/.test(bi)) return true;
@@ -81,13 +128,30 @@ const total = await page.evaluate(() => {
 });
 
 const pire = new Map();   // id -> { ratio, need, sel, txt, size, fg, bg, prog }
+/* Boîtes sans fond lisible par ce moyen : ni réussite, ni défaut. On les
+   COMPTE et on les NOMME — une mesure impossible qu'on tait est une
+   mesure ratée qui passe pour un succès. */
+const indetermines = new Map();
 
 const mesurePas = async () => {
   const boites = await page.evaluate(() => {
     const out = [];
     document.querySelectorAll('[data-lis]').forEach(el => {
       const r = el.getBoundingClientRect();
-      if (r.bottom < 4 || r.top > innerHeight - 4 || r.width < 4 || r.height < 4) return;
+      if (r.width < 4 || r.height < 4) return;
+      /* ⚠ ON NE MESURE QUE LES BOÎTES ENTIÈREMENT DANS LA FENÊTRE, et
+         entièrement SOUS LA BARRE FIXE — corrigé R103. Avant, une boîte à
+         cheval sur le bord haut voyait son `y` ramené à 0 pendant que sa
+         hauteur restait entière : on découpait donc une bande qui
+         commençait EN HAUT DE L'ÉCRAN, c'est-à-dire DANS LA BARRE, dont le
+         `backdrop-filter: blur(14px)` étale la photo du hero en gris
+         clairs. D'où des fonds relevés à 238,242,248 — exactement le crème
+         — sous des textes qui sont en réalité sur la nuit.
+         Rien n'est perdu : le balayage avance par quarts d'écran, chaque
+         élément finit entièrement visible à l'un des pas. */
+      const barre = document.querySelector('nav');
+      const bas = barre ? barre.getBoundingClientRect().bottom : 0;
+      if (r.top < bas || r.bottom > innerHeight || r.left < 0 || r.right > innerWidth) return;
       const cs = getComputedStyle(el);
       const size = parseFloat(cs.fontSize), gras = parseInt(cs.fontWeight) >= 700;
       out.push({
@@ -104,6 +168,19 @@ const mesurePas = async () => {
     return { list: out, prog: max > 0 ? window.scrollY / max : 1 };
   });
   if (!boites.list.length) return boites.prog;
+
+  /* ⚠ FORCER LE REPEINT AVANT DE DÉCLENCHER — corrigé R103. Les boîtes
+     sont relevées à la NOUVELLE position de défilement ; la capture, elle,
+     pouvait encore montrer la TUILE COMPOSITÉE de la position PRÉCÉDENTE
+     (le ciel est une couche fixe en `contain: paint`, qui ne se repeint
+     pas d'elle-même après un défilement programmatique). Boîtes d'un
+     instant, pixels d'un autre : l'outil lisait alors des fonds qui
+     n'existaient nulle part — il annonçait `bg(238,242,248)` sous un
+     eyebrow dont le découpage direct donne 0,0,8. Un cran de molette
+     aller-retour force le repeint sans bouger la page. */
+  await page.mouse.wheel(0, 1);
+  await page.mouse.wheel(0, -1);
+  await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
 
   const img = (await page.screenshot()).toString('base64');
   const res = await decoder.evaluate(async ({ b64, list }) => {
@@ -134,10 +211,25 @@ const mesurePas = async () => {
         e.n++; e.r += d[i]; e.g += d[i + 1]; e.b += d[i + 2];
         bins.set(k, e);
       }
-      let best = null;
-      for (const e of bins.values()) if (!best || e.n > best.n) best = e;
+      let best = null, opaques = 0;
+      for (const e of bins.values()) { opaques += e.n; if (!best || e.n > best.n) best = e; }
       if (!best) return null;
-      // le fond DOMINANT de la boîte : le texte y est toujours minoritaire
+      /* ⚠ « DOMINANT » DOIT VRAIMENT DOMINER — corrigé R103. Le commentaire
+         d'origine posait que « le texte est toujours minoritaire » dans la
+         boîte. C'est faux pour une boîte serrée sur du texte interlettré
+         posé sur un `backdrop-filter: blur()` : mesuré sur le lien de nav
+         « Artistes », boîte 73×19, la plus grosse tranche ne pèse que 6 %
+         des pixels — un dégradé flouté n'a PAS de fond dominant. Prendre
+         cette tranche pour le fond fabriquait des gris moyens qui
+         n'existent nulle part, et l'outil annonçait 15 défauts qu'un
+         découpage direct de la même boîte dément.
+         En dessous du seuil, la boîte n'a pas de fond lisible PAR CE
+         MOYEN : on la déclare INDÉTERMINÉE. Ni réussite, ni défaut — elle
+         demande un second moyen. */
+      if (best.n < opaques * 0.25) {
+        return { id: it.id, sel: it.sel, txt: it.txt, indetermine: true,
+          part: Math.round(best.n * 100 / opaques) };
+      }
       const bg = { r: Math.round(best.r / best.n), g: Math.round(best.g / best.n), b: Math.round(best.b / best.n) };
       const f = parse(it.fg);
       if (!f || f.a < 0.3) return null;
@@ -154,6 +246,7 @@ const mesurePas = async () => {
   }, { b64: img, list: boites.list });
 
   for (const r of res) {
+    if (r.indetermine) { indetermines.set(r.id, r); continue; }
     const p = pire.get(r.id);
     if (!p || r.ratio < p.ratio) pire.set(r.id, { ...r, prog: boites.prog });
   }
@@ -187,6 +280,13 @@ echecs.forEach(f => console.log(
   `  ✗ ${String(f.ratio).padStart(6)}/${f.need}  à ${String(Math.round(f.prog * 100)).padStart(3)} %  ` +
   `${f.sel.padEnd(30)} « ${f.txt} »  fg(${f.fg}) bg(${f.bg})`));
 console.log(`\nTOTAL sous le seuil : ${echecs.length}`);
+const ind = [...indetermines.values()].filter(v => !pire.has(v.id));
+if (ind.length) {
+  console.log(`\n${ind.length} boîte(s) SANS FOND LISIBLE par ce moyen — ni réussie(s), ni en défaut :`);
+  ind.slice(0, 12).forEach(v => console.log(`  ? ${v.sel.padEnd(30)} « ${v.txt} » (tranche la plus large : ${v.part} %)`));
+  if (ind.length > 12) console.log(`  … et ${ind.length - 12} autre(s)`);
+  console.log('  → texte sur dégradé flouté : à juger par contraste.mjs (composition CSS) ou au découpage direct.');
+}
 
 await b.close();
 srv.close();
