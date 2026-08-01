@@ -106,3 +106,56 @@ d'or, qui dit franchement qu'il n'y a rien de publié et propose la seule chose
 réellement disponible — organiser la sienne, via le formulaire qui existe déjà.
 
 **Aucun événement inventé.** L'offre reste annoncée comme en construction.
+
+---
+
+# ⚠ À RETIRER AVANT PUBLICATION — les dates de démonstration
+
+**Commit : `f20ea5a`** — préfixé « DEMO — », il ne contient **que** `events-data.js`.
+
+```bash
+git revert f20ea5a
+```
+
+Une seule commande. Le jour de la publication, c'est la première chose à faire.
+
+## Ce que c'est
+
+Quatre événements de démonstration sur l'accueil, autorisés explicitement par
+Kily en R99 : *« tu peux mettre quelques dates, vu que je ne vais pas publier le
+site maintenant »*. **L'autorisation ne vaut que dans ce cadre** — elle ne rouvre
+pas la règle générale, qui reste : aucune donnée fictive dans la version
+publique.
+
+| Date | Événement | Commune | Type |
+|---|---|---|---|
+| 22 août 2026 | Rooftop Sunset Session | Pointe-à-Pitre | rooftop |
+| 5 sept. 2026 | Beach Party — Pleine Lune | Sainte-Anne | beach |
+| 19 sept. 2026 | Villa Session — Soirée privée | Le Gosier | privé |
+| 10 oct. 2026 | Nuit Carnaval | Basse-Terre | festival |
+
+## Les garde-fous, et comment ils sont vérifiés
+
+- **`demo: true` sur les quatre.** Le mécanisme existait déjà — le badge
+  « Exemple » est rendu par `script.js` (l. 1767 et 2608), `evenement.js` et
+  `artiste.js`. Il est **réutilisé**, jamais contourné.
+  **Mesuré sur la page rendue : 4 cartes, 4 badges « Exemple ».**
+- **Aucun nom de lieu réel.** Le champ `venue` est **volontairement absent** : il
+  alimenterait un objet `Place` en JSON-LD (`evenement.js` l. 90), donc une
+  adresse structurée pour un lieu inventé. Seules les **communes** sont nommées,
+  et une commune n'est pas un établissement.
+- **Aucun nom d'artiste réel.** Unity 141 reste le seul artiste réel du site et
+  n'apparaît sur aucune de ces soirées.
+- **Organisateur : SYFIR elle-même.** Aucune structure tierce inventée.
+
+## Ce qui reprend la main au revert
+
+L'**état vide assumé** (R99/5) : une carte pleine largeur, même traitement photo,
+pastille « Bientôt » en liseré d'or, qui dit franchement qu'il n'y a rien de
+publié et propose d'organiser la sienne. Il est en place et testé — il ne
+s'affiche simplement plus tant que les démos sont là.
+
+> **Les deux affirmations fausses corrigées en R99/5 ne doivent PAS revenir.**
+> « Trois dates » (avec zéro date) et « les Early Bird partent vite » (fausse
+> rareté) restent retirées. Ce n'est pas parce qu'il y a des exemples qu'un
+> chiffre en dur dans un titre redevient acceptable.
