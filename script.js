@@ -1747,13 +1747,20 @@ if (placeModal && placesGridEl) {
       nextBox.innerHTML = upcoming.map(ev => {
         const d = new Date(ev.date + 'T12:00:00');
         const dateStr = d.getDate() + ' ' + S.MONTHS[d.getMonth()].toLowerCase();
+        /* La maquette met le JOUR et l'HEURE dans .quand (« Vendredi · 22h »),
+           et le LIEU dans .ou (« Le Gosier — toit-terrasse »). On respecte
+           ce partage avec les données réelles : date + heure d'un côté,
+           commune de l'autre. */
+        const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const heure = (ev.time || '').replace(':00', 'h').replace(':', 'h');
+        const quand = JOURS[d.getDay()] + ' ' + dateStr + (heure ? ' · ' + heure : '');
         const badge = ev.prive ? 'Privé' : (S.typeLabel[ev.type] || 'Soirée');
         const img = ev.img || fallback;
         return `
         <a class="date" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
           <img src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}">
           <span class="puce">${esc(badge)}</span>
-          <div class="quand">${dateStr}</div>
+          <div class="quand">${esc(quand)}</div>
           <h3>${esc(ev.name)}</h3>
           <p class="ou">${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
         </a>`;

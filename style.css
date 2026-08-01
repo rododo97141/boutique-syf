@@ -2860,298 +2860,349 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 
 /* ============================================================
-   39.6  R100 — L'ACCUEIL EST LA MAQUETTE (« Lumière de scène »)
+   39.6  R101 — L'ACCUEIL EST LA MAQUETTE, VÉRIFIÉE CONTRE LE FICHIER
    ------------------------------------------------------------
-   TRANSPLANTATION, PAS TRADUCTION. Quatre tours durant, l'accueil a
-   porté les classes DU SITE (home-hero, manifesto, next-events,
-   section-dark, eco-grid…) auxquelles on appliquait les valeurs de la
-   maquette. Chacune traîne des centaines de lignes de CSS hérité —
-   paddings, max-width, arrondis, fonds, ombres, reveals — qui se
-   battaient contre ces valeurs. Bonne structure, mauvaise peau.
+   `maquettes/3-LUMIERE-DE-SCENE.html` est enfin dans le dépôt. Les cinq
+   lots précédents travaillaient sur un RÉSUMÉ ÉCRIT de ce fichier, pas
+   sur lui. Ce bloc est repris règle par règle contre la source — et
+   quand le résumé et le fichier divergeaient, c'est le fichier qui a
+   tranché.
 
-   Ce bloc définit les classes DE LA MAQUETTE, et les anciennes ont été
-   RETIRÉES DU MARKUP — pas surchargées. Une surcharge laisse vivre
-   l'héritage, et l'héritage finit toujours par gagner quelque part.
+   L'ÉCART LE PLUS VISIBLE, invisible dans le résumé : `h2 em` est en
+   BLEU CLAIR dans la maquette, pas en or. Tous les titres de l'accueil
+   portaient donc un accent doré là où la maquette met la lumière froide
+   des projecteurs. Aucune de nos mesures ne pouvait le dire : nos deux
+   valeurs étaient « cohérentes », elles n'étaient simplement pas celles
+   du contrat.
 
-   ⚠ TOUT EST SCOPÉ SOUS .page-home : les 13 autres pages gardent leur
-   monde sombre intact, et la preuve de confinement doit continuer à
-   sortir à 0 différence.
-
-   Vérifié par tools/qa/maquette.mjs, qui relève le style CALCULÉ de
-   chaque sélecteur sur l'élément réel et le compare à l'attendu. Toute
-   case fausse est un héritage qui a survécu.
+   ⚠ TOUT EST SCOPÉ SOUS .page-home. Les 14 autres pages gardent leur
+   monde intact, et le confinement doit rester à 0 différence.
    ============================================================ */
 
+/* ---------- 0. LA BASE — elle compte autant que les classes ----------
+   La maquette pose `body{font:400 17px/1.68 "Plus Jakarta Sans"; color:
+   var(--creme)}`. Le site est à 16px et au crème CHAUD. Un h2 identique
+   dans un contexte de base différent ne rend pas pareil : les `em`, les
+   `ch`, les marges en em et tout le texte courant en dépendent. */
+/* ⚠ LA CHAÎNE DE REPLI COMPTE, et elle a été mesurée. La maquette pose
+   `"Plus Jakarta Sans",system-ui,sans-serif` ; le site s'arrête à
+   `sans-serif`. Tant que la police se charge, aucune différence — mais
+   `max-width: 60ch` se résout contre la police RÉELLEMENT utilisée :
+   801,65 px côté maquette contre 700,75 px côté accueil, soit 100 px
+   d'écart sur la largeur du texte courant dès que le webfont manque.
+   On aligne la chaîne, scopée à l'accueil pour ne pas toucher aux
+   14 autres pages. */
+.page-home {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.68;
+  font-weight: 400;
+  color: var(--creme);
+}
+
 /* ---------- 1. LE HERO ---------- */
-/* `svh` et non `vh` : 100vh ignore la barre d'adresse mobile et fait
-   déborder le hero du premier écran de 60 à 110 px. Repli `vh` d'abord,
-   les navigateurs anciens ignorent la ligne suivante. */
 .page-home .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100vh;          /* repli : les navigateurs anciens ignorent svh */
   min-height: 100svh;
   display: grid;
   place-items: center;
   text-align: center;
   padding: 0 26px;
-  overflow: hidden;
+  /* ⚠ LE SITE A DÉJÀ UNE CLASSE `.hero` (style.css §« hero »), et le
+     contrat de la maquette porte le même nom. Collision inévitable :
+     on ne peut pas renommer sans sortir du contrat. On neutralise donc
+     NOMMÉMENT ce qu'elle impose, propriété par propriété — c'est retirer
+     son effet, pas la surcharger en aveugle.
+     `overflow: hidden` du site rendait la section clippante ; dans la
+     maquette c'est `.hero-photo` qui clippe, et elle seule. */
+  justify-content: normal;
+  overflow: visible;
 }
-/* ⚠ CONFLIT QUE JE M'ÉTAIS INFLIGÉ, trouvé par le tableau de conformité.
-   `.page-home .hero > div` (0-3-1) écrasait `.page-home .hero-photo`
-   (0-2-0) et forçait `position: relative` : la photo repassait DANS LE
-   FLUX et poussait le hero à 1302 px pour une fenêtre de 900 — 145 %.
-   Le hero n'était plus un écran. La leçon vaut pour l'héritage du site
-   comme pour le mien : une règle plus spécifique gagne, d'où qu'elle
-   vienne. Le sélecteur du contenu exclut désormais la photo. */
-.page-home .hero-photo { position: absolute; inset: 0; z-index: 0; }
+/* z-index NÉGATIF, comme la maquette : la photo passe sous le contenu
+   sans qu'il ait besoin d'être positionné. C'est ce qui évite le conflit
+   de spécificité qui avait poussé le hero à 145 % en R100. */
+.page-home .hero-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
 .page-home .hero-photo img {
-  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   opacity: .5;
-  filter: contrast(1.12);
-  animation-name: hero-zoom;
-  animation-duration: 26s;
+  filter: contrast(1.12) saturate(.92) brightness(.92);
+  animation-name: respire;
+  animation-duration: 34s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.09); } }
-@media (prefers-reduced-motion: reduce) {
-  /* On coupe le mouvement, pas le décor (R92/10) : la photo reste peinte,
-     à son échelle de départ. */
-  .page-home .hero-photo img { animation-name: none; transform: none; }
+@keyframes respire { from { transform: scale(1.06); } to { transform: scale(1.16); } }
+/* Le voile du hero : il était ABSENT de mon implémentation — j'avais
+   retiré `.hero-veil` du markup sans reporter son rôle. La maquette le
+   porte en ::after de .hero-photo. */
+.page-home .hero-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(180deg, rgba(4, 7, 15, .72), rgba(4, 7, 15, .3) 42%, rgba(4, 7, 15, .94)),
+    radial-gradient(60% 42% at 50% 22%, rgba(127, 178, 255, .2), transparent 72%);
 }
-.page-home .hero > div:not(.hero-photo) { position: relative; z-index: 2; }
-
-/* La marque. Unbounded est une display LARGE : à 210 px l'espacement par
-   défaut fait éclater le mot. Le resserrement n'est pas un effet, c'est
-   ce qui rend la police tenable en géant. Le halo bleu la décolle de la
-   photo sans poser d'aplat — c'est de la lumière, pas une surface. */
 .page-home .marque {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(58px, 15vw, 210px);
   line-height: .86;
   letter-spacing: -.05em;
+  margin: 0 0 4px;
   color: var(--blanc);
   -webkit-text-fill-color: var(--blanc);
-  text-shadow: 0 0 90px rgba(var(--bleu-clair-rgb), .5);
-  margin: 0;
+  background-image: none;
+  /* DEUX ombres, pas une : la seconde, serrée, décolle la lettre de la
+     photo là où la première, large, ne fait qu'un halo. */
+  text-shadow: 0 0 90px rgba(127, 178, 255, .5), 0 0 30px rgba(255, 250, 240, .25);
 }
-.page-home .sous {
-  font-family: var(--display); font-weight: 700;
-  font-size: 11px; letter-spacing: .5em; padding-left: .5em;
+/* Plus Jakarta Sans 600, PAS Unbounded : la maquette réserve la display
+   aux titres et à la marque. C'est la règle du dépôt aussi (CLAUDE.md :
+   « l'identité Unbounded reste réservée aux titres »). */
+.page-home .hero .sous {
+  font-family: var(--body); font-weight: 600;
+  font-size: 11px; line-height: 1;
+  letter-spacing: .5em;
   text-transform: uppercase;
   color: var(--or);
-  margin: 24px 0 0;
+  margin: 0 0 34px;
 }
-.page-home .tag {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
+.page-home .hero .tag {
+  font-family: var(--serif); font-weight: 300; font-style: italic;
   font-size: clamp(20px, 2.5vw, 32px);
-  line-height: 1.5;
+  line-height: 1.35;
   color: var(--creme);
-  margin: 18px auto 34px;
-  max-width: 26ch;
+  /* Pas de `margin-inline: auto` : la maquette laisse la boîte à gauche
+     dans son conteneur et centre le TEXTE par text-align. J'avais ajouté
+     un centrage de boîte qui n'existe pas dans le contrat. */
+  margin: 0 0 40px;
+  max-width: 20ch;
 }
-.page-home .actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+.page-home .actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 
-/* Les boutons de la maquette. `.btn` ici n'est PAS le .btn du site : les
-   anciennes classes ne sont plus dans le markup, donc rien à surcharger. */
+/* ---------- LES BOUTONS ---------- */
 .page-home .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 52px; padding: 15px 34px;
-  border-radius: 100px;
-  font-family: var(--body); font-weight: 700;
-  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 17px 34px;
+  border-radius: 999px;
+  font-family: var(--body); font-weight: 600;
+  font-size: 12.5px; line-height: 1;
+  letter-spacing: .16em;
+  text-transform: uppercase;
   text-decoration: none;
-  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), background-color var(--dur-fast);
+  border: 1px solid transparent;
+  transition: .3s;
+  /* ⚠ MÊME COLLISION QUE `.hero` : `syfir-ui/components.css` définit un
+     `.btn` complet (position relative + overflow hidden pour son onde de
+     clic ::before, justify-content center). Le contrat impose ce nom de
+     classe ; on retire donc ses effets nommément. */
+  position: static;
+  overflow: visible;
+  justify-content: normal;
 }
-.page-home .btn:active { transform: scale(.97); }
-/* Le principal : blanc plein. Il CONSOMME l'horloge --syfir-beat de R94
-   par un drop-shadow ; il ne pose aucune animation propre — poser
-   `animation` sur un CTA écrase son animation d'entrée et animer
-   `box-shadow` détruit son ombre, les deux ont été payés en R94. */
+/* L'onde de clic du bouton du site n'a pas d'objet ici : la maquette
+   met un anneau qui bat au tempo, pas une éclaboussure au point de clic.
+   Deux effets concurrents sur le même bouton se battraient. */
+.page-home .btn::before { content: none; }
+/* LE PHARE — anneau qui s'ouvre au tempo kompa. La maquette anime
+   `box-shadow`, ce que R94 interdit… quand l'élément a une ombre propre
+   à préserver. Ici il n'en a aucune : l'anneau EST l'effet, et rien
+   n'est écrasé. 1,034 s = deux temps à 116 BPM, exactement le tempo de
+   l'horloge du site. On suit la maquette, en le sachant. */
 .page-home .btn-1 {
+  color: #04070f;
   background-color: var(--blanc);
-  color: var(--nuit-0);
-  border: 1px solid var(--blanc);
-  box-shadow: 0 10px 30px rgba(var(--nuit-0-rgb), .55);
-  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
+  animation-name: phare;
+  animation-duration: 1.034s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
 }
-/* Le secondaire en liseré, jamais en aplat — même règle que l'or :
-   un contour, pas une surface. */
+@keyframes phare {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 250, 240, .45); }
+  70%  { box-shadow: 0 0 0 20px rgba(255, 250, 240, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 250, 240, 0); }
+}
+.page-home .btn-1:hover { transform: translateY(-2px); }
 .page-home .btn-2 {
-  background-color: transparent;
-  border: 1px solid rgba(var(--creme-rgb), .38);
   color: var(--creme);
+  background-color: transparent;
+  border-color: rgba(238, 242, 248, .32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-.page-home .btn-2:hover { border-color: var(--or); color: var(--blanc); }
+.page-home .btn-2:hover { border-color: var(--or); color: var(--or); }
 
 /* ---------- 2. LE BLOC CONTENU ---------- */
 .page-home .sec {
-  position: relative;
   max-width: 1240px;
-  margin-inline: auto;
+  margin: 0 auto;
   padding: clamp(80px, 13vh, 150px) 26px;
   background-color: transparent;
   background-image: none;
 }
 .page-home .eyebrow {
-  font-family: var(--display); font-weight: 700;
-  font-size: 11px; letter-spacing: .3em;
+  font-family: var(--body); font-weight: 600;
+  font-size: 11px; line-height: 1;
+  letter-spacing: .3em;
   text-transform: uppercase;
   color: var(--or);
-  margin: 0 0 16px;
+  margin: 0 0 20px;
 }
-/* Les titres mélangent Unbounded capitales et un fragment en Fraunces
-   italique coloré : c'est ce contraste qui fait l'allure. */
 .page-home h2 {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(34px, 5.4vw, 66px);
   line-height: 1.05;
+  margin: 0 0 24px;
   letter-spacing: -.035em;
   text-transform: uppercase;
-  color: var(--blanc);
-  margin: 0 0 22px;
+  color: var(--creme);            /* hérité du body dans la maquette */
+  -webkit-text-fill-color: var(--creme);
 }
+/* ⚠ BLEU CLAIR, PAS OR. C'est l'écart le plus visible entre le résumé
+   écrit et le fichier : la maquette met la lumière froide des
+   projecteurs sur l'accent des titres, pas l'or. L'or reste au sur-titre
+   et au détail. */
 .page-home h2 em {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-family: var(--serif); font-weight: 400; font-style: italic;
+  font-size: clamp(34px, 5.4vw, 66px);
+  line-height: 1.05;
   text-transform: none;
-  letter-spacing: 0;
-  color: var(--or);
-  -webkit-text-fill-color: var(--or);
+  letter-spacing: -.01em;
+  color: var(--bleu-clair);
+  -webkit-text-fill-color: var(--bleu-clair);
   background-image: none;
 }
+/* Pas de `font-family` ici : elle est HÉRITÉE de .page-home, dont la
+   chaîne est alignée sur celle de la maquette. La redéclarer avec
+   `var(--body)` rétablissait le repli du site et faisait diverger le
+   `ch` de 100 px. */
 .page-home .lead {
-  font-family: var(--body); font-size: 1rem; line-height: 1.75;
+  font-size: clamp(17px, 1.9vw, 21px);
   color: var(--creme-doux);
   max-width: 60ch;
-  margin: 0 0 14px;
+  margin: 0 0 30px;
 }
 .page-home .lead a { color: var(--or); }
 
 /* ---------- 3. LE PLEIN CADRE ---------- */
-/* Bord à bord : la section n'est pas dans un conteneur, seul son contenu
-   l'est. `margin-left: calc(50% - 50vw)` est ÉCARTÉ — `vw` inclut la
-   barre de défilement verticale, donc la section déborderait de sa
-   largeur exacte (15-17 px) et créerait une barre horizontale. */
+/* `isolation: isolate` crée un contexte d'empilement local : c'est lui
+   qui rend les z-index négatifs de l'image et du voile sûrs — ils
+   passent sous le contenu de la section sans plonger sous le fond de la
+   page. Sans lui, l'image disparaîtrait derrière le ciel. */
 .page-home .plein {
   position: relative;
   min-height: 96vh;
-  min-height: 96svh;
   display: grid;
   align-items: center;
-  padding: 0;
+  isolation: isolate;
+  margin: 0;
   overflow: hidden;
 }
 .page-home .plein img {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  z-index: -2;
   opacity: .56;
-  filter: contrast(1.12);
+  filter: contrast(1.1) saturate(.95);
 }
-/* Le dégradé LATÉRAL : opaque à gauche sous la colonne, effacé à droite
-   pour laisser la photo respirer. Un voile uniforme la tuerait. */
 .page-home .plein::after {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  pointer-events: none;
+  content: ''; position: absolute; inset: 0; z-index: -1;
   background-image:
-    linear-gradient(90deg, rgba(var(--nuit-0-rgb), .94) 0%, rgba(var(--nuit-0-rgb), .80) 32%, rgba(var(--nuit-0-rgb), .20) 68%, transparent 100%),
-    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, transparent 24%, transparent 76%, rgba(var(--nuit-2-rgb), .92) 100%);
+    linear-gradient(90deg, rgba(4, 7, 15, .94) 6%, rgba(4, 7, 15, .28) 62%, rgba(4, 7, 15, .8)),
+    linear-gradient(180deg, rgba(4, 7, 15, .7), transparent 25%, rgba(4, 7, 15, .7));
 }
+/* AUCUN padding vertical : c'est la hauteur de 96vh et `align-items:
+   center` qui placent le bloc. J'avais ajouté un padding vertical qui
+   n'existe pas dans la maquette. */
 .page-home .plein .dedans {
-  position: relative; z-index: 2;
-  width: min(1240px, 100%);
-  margin-inline: auto;
-  padding: clamp(60px, 10vh, 120px) 26px;
+  max-width: 1240px; margin: 0 auto; padding: 0 26px; width: 100%;
 }
-/* La colonne à GAUCHE, limitée à 36ch : c'est cette limite qui FAIT la
-   colonne. Sans elle le texte s'étale sur toute la photo et la
-   composition redevient une bannière. */
-.page-home .plein .bloc { max-width: 36ch; text-align: left; }
-@media (max-width: 720px) {
-  /* À 390 px il n'y a pas de colonne à gauche : le dégradé redevient
-     vertical, sinon il ne protège plus rien. */
-  .page-home .plein::after {
-    background-image:
-      linear-gradient(180deg, rgba(var(--nuit-0-rgb), .90) 0%, rgba(var(--nuit-0-rgb), .74) 46%, rgba(var(--nuit-2-rgb), .94) 100%);
-  }
-  .page-home .plein .bloc { max-width: none; }
-}
+.page-home .plein .bloc { max-width: 36ch; }
 
 /* ---------- 4. LES DATES ---------- */
 /* LE FILET N'EST PAS UNE BORDURE : c'est le fond clair à 10 % qu'on
    laisse apparaître entre les cartes via `gap`. Une bordure par carte
-   doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et
-   laisserait les bords extérieurs orphelins.
-   Le rayon 18 px du dépôt est ABANDONNÉ ici, et c'est la seule
-   dérogation : des cartes arrondies ne peuvent pas être bord à bord,
-   l'arrondi creuse quatre trous à chaque jonction. */
+   doublerait l'épaisseur entre deux voisines et laisserait les bords
+   extérieurs orphelins. */
 .page-home .dates {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 2px;
   background-color: rgba(238, 242, 248, .1);
-  padding: 0;
-  margin: 0;
 }
 .page-home .dates.vide { grid-template-columns: 1fr; }
+/* FLEX EN COLONNE, JUSTIFIÉ EN BAS — pas des enfants en position
+   absolue. J'avais placé le texte par des `bottom:` calculés à la main :
+   ça tenait par accident, et la moindre ligne de titre en plus le
+   cassait. La maquette laisse le flux faire le travail. */
 .page-home .date {
   position: relative;
-  display: block;
+  overflow: hidden;
   min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  isolation: isolate;
+  transition: .45s;
   border-radius: 0;
   margin: 0;
-  overflow: hidden;
   text-decoration: none;
   color: var(--creme);
-  background-color: var(--nuit-1);
 }
 .page-home .date img {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  z-index: -2;
   opacity: .55;
-  filter: contrast(1.12);
+  filter: contrast(1.1) saturate(.9);
+  transition: .9s;
 }
-/* Le texte en bas : un dégradé le porte, pas un voile plein. */
 .page-home .date::after {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  pointer-events: none;
-  background-image: linear-gradient(180deg, transparent 34%, rgba(var(--nuit-0-rgb), .88) 100%);
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background-image: linear-gradient(180deg, rgba(4, 7, 15, .35) 0%, transparent 30%, rgba(4, 7, 15, .95) 92%);
 }
-/* La pastille en HAUT À GAUCHE, en liseré d'or : un contour, jamais un
-   aplat — c'est la règle de l'or appliquée telle quelle. */
-.page-home .puce {
-  position: absolute; top: 22px; left: 22px; z-index: 3;
-  display: inline-block;
-  padding: 6px 14px;
-  border: 1px solid rgba(var(--or-rgb), .7);
-  border-radius: 100px;
-  background-color: transparent;
-  font-family: var(--display); font-weight: 700;
-  font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--or);
-}
+.page-home .date:hover img { opacity: .78; transform: scale(1.05); }
 .page-home .date .quand {
-  position: absolute; left: 26px; right: 26px; bottom: 116px; z-index: 3;
-  font-family: var(--display); font-weight: 700;
-  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--bleu-clair);
+  font-family: var(--body); font-weight: 600;
+  font-size: 10.5px; line-height: 1;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 12px;
 }
 .page-home .date h3 {
-  position: absolute; left: 26px; right: 26px; bottom: 64px; z-index: 3;
-  font-family: var(--display); font-weight: 800;
-  font-size: 1.18rem; line-height: 1.2; letter-spacing: -.02em;
-  color: var(--blanc);
-  margin: 0;
+  font-family: var(--display); font-weight: 600;
+  font-size: 26px; line-height: 1.15;
+  margin: 0 0 8px;
+  letter-spacing: -.02em;
+  color: var(--creme);
 }
 .page-home .date .ou {
-  position: absolute; left: 26px; right: 26px; bottom: 26px; z-index: 3;
-  font-family: var(--body); font-size: .86rem; line-height: 1.5;
   color: var(--creme-doux);
+  font-size: 14.5px;
   margin: 0;
+}
+/* La pastille : verre sombre et liseré CRÈME, pas or. Le résumé disait
+   « liseré d'or » ; le fichier dit rgba(238,242,248,.3) sur un fond
+   nuit à 60 % avec flou. L'or reste au sur-titre et à la date. */
+.page-home .puce {
+  position: absolute; top: 22px; left: 22px; z-index: 1;
+  font-family: var(--body); font-weight: 600;
+  font-size: 10px; line-height: 1;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background-color: rgba(4, 7, 15, .6);
+  background-image: none;
+  border: 1px solid rgba(238, 242, 248, .3);
+  color: var(--creme);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* ---------- 5. L'ÉCOSYSTÈME ---------- */
@@ -3159,55 +3210,79 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
   gap: 18px;
-  margin-top: 34px;
 }
 .page-home .eco .c {
-  background-color: rgba(var(--creme-rgb), .04);
-  background-image: none;
-  border: 1px solid rgba(var(--creme-rgb), .08);
+  padding: 28px 24px;
   border-radius: 14px;
-  padding: 22px;
+  background-color: rgba(238, 242, 248, .04);
+  background-image: none;
+  border: 1px solid rgba(238, 242, 248, .1);
+  transition: .35s;
 }
-.page-home .eco .c .ic { font-size: 1.4rem; display: block; margin-bottom: 12px; }
-.page-home .eco .c h3 {
-  font-family: var(--display); font-weight: 700;
-  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--blanc);
-  margin: 0 0 10px;
+.page-home .eco .c:hover {
+  background-color: rgba(47, 109, 255, .12);
+  border-color: rgba(127, 178, 255, .45);
 }
-.page-home .eco .c p {
-  font-family: var(--body); font-size: .84rem; line-height: 1.6;
-  color: var(--creme-doux);
-  margin: 0 0 14px;
+.page-home .eco .c b {
+  display: block;
+  font-family: var(--display); font-weight: 600;
+  font-size: 15px; line-height: 1.3;
+  letter-spacing: -.01em;
+  margin-bottom: 9px;
+  color: var(--creme);
 }
+.page-home .eco .c span { color: var(--creme-doux); font-size: 14.5px; }
 .page-home .eco .c a {
-  font-family: var(--display); font-weight: 700;
-  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--or);
-  text-decoration: none;
+  display: inline-block; margin-top: 12px;
+  font-family: var(--body); font-weight: 600;
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--or); text-decoration: none;
 }
 
 /* ---------- 6. LE PIED DE PAGE ---------- */
-/* La signature en très grand et TRÈS DISCRÈTE : opacité .14. C'est le
-   contraire d'un logo — une marque en filigrane. À cette opacité elle ne
-   porte plus aucun contraste, donc elle ne doit porter AUCUNE
-   information : le nom SYFIR est déjà dans la nav et le texte légal. */
-.page-home footer .brand-sign { text-align: center; }
+.page-home footer {
+  position: relative; z-index: 3;
+  padding: 80px 26px 48px;
+  background-color: rgba(3, 6, 13, .86);
+  background-image: none;
+  border-top: 1px solid rgba(238, 242, 248, .1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+/* ⚠ `.brand-sign` du site enveloppe le `.f-in` et lui impose son propre
+   padding (8px 20px 52px) et son liseré. Dans la maquette, `.f-in` est
+   un enfant DIRECT du pied de page. On retire ses effets nommément —
+   sans quoi la marge automatique du .f-in tombe à 54 px au lieu de 74,
+   et le bloc centré n'est plus à la même largeur que le contrat. */
+.page-home footer .brand-sign {
+  padding: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+  text-align: center;
+}
+.page-home .f-in { max-width: 1240px; margin: 0 auto; text-align: center; }
 .page-home .signe {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(50px, 12vw, 150px);
-  line-height: .9;
-  letter-spacing: -.035em;
-  opacity: .14;
+  line-height: .88;
+  letter-spacing: -.05em;
+  margin: 0 0 14px;
   color: var(--blanc);
   -webkit-text-fill-color: var(--blanc);
   background-image: none;
+  opacity: .14;
 }
-/* LA MENTION SANITAIRE EST UNE OBLIGATION, PAS UNE PRÉFÉRENCE. Elle est
-   mesurée sur le PIXEL PEINT à chaque lot (tools/qa/acquis.mjs) — jamais
-   sur sa couleur déclarée : R96 a montré qu'elle pouvait être
-   intégralement recouverte par le ciel sans que rien ne le signale. */
-.page-home .sante { color: var(--creme); }
+/* LA MENTION SANITAIRE EST UNE OBLIGATION. Mesurée sur le PIXEL PEINT à
+   chaque lot (tools/qa/acquis.mjs) — jamais sur sa couleur déclarée :
+   R96 a montré qu'elle pouvait être intégralement recouverte par le ciel
+   sans que rien ne le signale. */
+.page-home .sante {
+  font-size: 13px;
+  color: rgba(238, 242, 248, .82);
+  margin: 26px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(238, 242, 248, .1);
+}
 
 /* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
    Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».
@@ -3967,10 +4042,10 @@ html[data-econome] .page-home .h2::after { display: none; }
 .page-home .next-events,
 .page-home > footer { position: relative; }
 
-/* Le liseré du pied de page reprend la règle « l'or en détail » : 1 px,
-   jamais une surface. R98/1-4 : reposé sur .page-home > footer, l'attribut
-   data-sky-stage qui le portait ayant disparu avec les paliers. */
-.page-home > footer { border-top-color: rgba(var(--gold-rgb), .22); }
+/* (retiré, R101) — le liseré OR du pied de page. Il venait de R92 et
+   survivait sous `.page-home > footer`. Le FICHIER de la maquette met
+   `rgba(238,242,248,.1)` : un liseré crème, pas or. L'or reste au
+   sur-titre et à la date des cartes. C'est le fichier qui tranche. */
 
 /* --- 39.5 (retiré, R98/1-4) — LA BASCULE DU TEXTE.
    Elle faisait passer l'encre en clair au crépuscule et la nuit. Avec un
