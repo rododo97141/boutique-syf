@@ -94,10 +94,28 @@
       : { '@type': 'MusicGroup', name: 'SYFIR' },
     organizer: { '@type': 'Organization', name: ev.organizer, url: location.origin }
   };
-  const ldScript = document.createElement('script');
-  ldScript.type = 'application/ld+json';
-  ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
-  document.head.appendChild(ldScript);
+  /* ⚠ AUCUN JSON-LD POUR UN EVENEMENT DE DEMONSTRATION.
+     Un objet schema.org/Event est une AFFIRMATION LISIBLE PAR MACHINE
+     qu'un evenement reel aura lieu, a une date, dans une commune, avec un
+     prix et des places disponibles. Le badge « Exemple » protege le
+     visiteur ; il ne protege pas un moteur de recherche, un agregateur ou
+     un assistant qui lit la page. La doctrine dit « aucune donnee fictive
+     dans la version publique » — le JSON-LD en est, et c'est meme la
+     forme la plus affirmative qu'elle puisse prendre.
+     Trouve en R99 en verifiant ou le nom d'une demo apparaissait SANS son
+     badge : title, deux blocs JSON-LD, et le h1.
+
+     ⚠ La condition n'englobe QUE l'injection de l'Event. Ma premiere
+     version ecrivait `if (ev.demo) return;` : elle emportait aussi le fil
+     d'Ariane structure et TOUT le rendu de la fiche, qui suit dans la
+     meme fonction. Constate immediatement — la page ne rendait plus ni
+     h1 ni contenu, sur les fiches de demo comme sur les autres. */
+  if (!ev.demo) {
+    const ldScript = document.createElement('script');
+    ldScript.type = 'application/ld+json';
+    ldScript.textContent = JSON.stringify(ld).replace(/</g, '\\u003C'); // pas de </script> injectable
+    document.head.appendChild(ldScript);
+  }
 
   // --- Fil d'Ariane structuré (R39-B) : Accueil > Événements > cet événement ---
   const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
@@ -129,7 +147,7 @@
       <div class="ed-main">
         <nav class="fiche-crumb" aria-label="Fil d'Ariane"><a href="evenements.html">← Tous les événements</a></nav>
         <p class="eyebrow">Billetterie SYFIR</p>
-        <h1 class="ed-title">${esc(ev.name)}</h1>
+        <h1 class="ed-title">${esc(ev.name)}${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</h1>
         ${ev.blurb ? `<p class="ed-blurb">${esc(ev.blurb)}</p>` : ''}
         <ul class="ed-meta">
           <li>📅 <span class="ed-date">${dateLong}</span></li>
