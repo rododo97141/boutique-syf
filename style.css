@@ -3217,6 +3217,18 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   border: none;
   filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
 }
+/* ⚠ L'OMBRE VIOLETTE, VUE A LA CAPTURE. Le bouton heritait d'un
+   box-shadow rgba(126,34,206,.35) — le violet du degrade de l'ancien
+   monde d'ete. Un bouton blanc de nuit posait donc un halo violet sur du
+   bleu profond, et aucun chiffre ne pouvait le signaler : le contraste
+   du texte etait parfait, la couleur du fond correcte, seule l'ombre
+   mentait. On la remplace par une elevation neutre — la lueur, elle,
+   vient du drop-shadow qui bat au tempo kompa. */
+.page-home .hero-cta .btn-gradient,
+.page-home .next-cta .btn {
+  box-shadow: 0 10px 30px rgba(var(--nuit-0-rgb), .55);
+}
+
 /* Le secondaire en liseré, jamais en aplat — même règle que l'or :
    un contour, pas une surface. */
 .page-home .hero-cta .btn-ghost,
