@@ -2761,6 +2761,47 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 .page-home .sky-grade { position: absolute; inset: 0; }
 
+/* --- 39.1 bis  R98/2-2 — LE FOND DE NUIT ---------------------------------
+   Le socle sur lequel tout le reste se pose. Trois moments de soirée, et
+   c'est déjà le voyage : le fond de base tient le début de soirée, les
+   couches empilées de R98/3 amènent la montée puis le cœur de nuit.
+
+   ⚠ PROPRIÉTÉS LONGUES UNIQUEMENT — et ici ce n'est pas une précaution
+   de style, c'est LE bug qui a coûté tout R97. Un `background:` en
+   raccourci fait traiter son composant image en DISCRET : le ciel saute
+   au lieu de fondre. Mesuré alors : 3 valeurs de luminance sur tout le
+   parcours, là où l'empilement d'opacités en produit 11 sur 12 relevés.
+   On écrit donc background-color et background-image séparément, et on
+   ne réintroduit JAMAIS le raccourci dans cette zone.
+
+   Le dégradé part du haut (zénith, le plus sombre) vers le bas (horizon,
+   qui garde la lueur de la ville) : c'est ce décalage qui fait lire
+   « nuit vue de l'intérieur » plutôt que « fondu au noir ». */
+.page-home {
+  background-color: var(--nuit-0);
+  color: var(--creme);
+}
+.page-home .sky-grade {
+  background-color: var(--nuit-0);
+  background-image:
+    var(--noise),
+    radial-gradient(120% 80% at 50% 108%, rgba(var(--bleu-rgb), .16), transparent 62%),
+    linear-gradient(180deg, var(--nuit-0) 0%, var(--nuit-1) 58%, var(--nuit-2) 100%);
+}
+
+/* LE GRAIN DOIT ÊTRE POSÉ ICI, ET C'EST UNE CORRECTION.
+   §28 pose le grain sur `body`. Mais sur l'accueil, la couche ciel est
+   `position: fixed; z-index: 0` : elle PEINT PAR-DESSUS le fond du body.
+   Le grain du body y est donc intégralement masqué — l'accueil, seule
+   page dotée d'un ciel, était la seule SANS grain. Constaté à la mesure :
+   grain actif et grain neutralisé donnaient des chiffres identiques au
+   millième sur .sky-grade, ce qui ne peut vouloir dire qu'une chose.
+
+   C'est le même mécanisme que R96 (le ciel qui peignait par-dessus le
+   pied de page), vu d'un autre angle : tout ce que le ciel recouvre doit
+   être reposé SUR le ciel. */
+
+
 /* Sur l'accueil, .ambience est neutralisée : La Traversée la remplace.
    Elle reste dans le HTML et active sur les 7 autres pages qui la
    portent — mais deux voiles concurrents sur la même page se

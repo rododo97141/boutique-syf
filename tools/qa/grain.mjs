@@ -107,6 +107,33 @@ async function colonne(pg, { grain }) {
   }, SEL);
 }
 
+/* Masque le CONTENU pour ne mesurer que le fond.
+   Sans ça, la colonne capturée traverse titres, photos et cartes, et le
+   « saut max » relevé est une ARÊTE de contenu, pas une bande du dégradé
+   — mesuré 0,85 de saut là où un dégradé de nuit ne dépasse pas 0,01.
+   On mesurerait la page ; la question porte sur le fond. */
+async function masqueContenu(pg, on) {
+  await pg.evaluate(o => {
+    document.getElementById('qa-fond-seul')?.remove();
+    if (!o) return;
+    const s = document.createElement('style');
+    s.id = 'qa-fond-seul';
+    /* On masque TOUT sauf la couche de fond, plutôt que d'énumérer les
+       coupables. L'énumération a échoué une première fois : `main` masqué,
+       .manifesto restait visible (une règle plus spécifique la remontait)
+       et un .toast crème traînait en bas de fenêtre — d'où un « saut max »
+       de 0,85 qui n'était pas du banding mais du contenu.
+       Une liste de ce qu'on cache est toujours incomplète ; une liste de
+       ce qu'on garde ne l'est jamais. */
+    s.textContent = 'body > *:not(.sky) { visibility: hidden !important; }'
+      + ' .sky { visibility: visible !important; }'
+      + ' .sky > *:not(.sky-grade) { visibility: hidden !important; }'
+      + ' .sky-grade { visibility: visible !important; }';
+    document.head.appendChild(s);
+  }, on);
+  await pg.waitForTimeout(120);
+}
+
 async function mesure(pg, grain) {
   const geo = await colonne(pg, { grain });
   const buf = await pg.screenshot({
@@ -163,11 +190,13 @@ try {
   if (xArg) await pg.evaluate(v => { window.__qaX = v; }, Number(xArg.slice('--x='.length)));
   await pg.evaluate(() => scrollTo(0, 0));
   await pg.waitForTimeout(200);
+  if (args.includes('--fond')) await masqueContenu(pg, true);
 
   const avec = await mesure(pg, true);
   const sans = await mesure(pg, false);
 
-  console.log(`\nGRAIN — ${page}, sélecteur « ${SEL} », colonne de ${avec.lignes} px\n`);
+  console.log(`\nGRAIN — ${page}, sélecteur « ${SEL} », colonne de ${avec.lignes} px` +
+    (args.includes('--fond') ? ' — CONTENU MASQUÉ (fond seul)' : '') + '\n');
   console.log('                   sans grain      avec grain     verdict');
   const ligne = (nom, a, b, mieux) => {
     const ok = mieux(b, a);
