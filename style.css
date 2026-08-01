@@ -2985,6 +2985,84 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   .page-home .section-event .h2 { max-width: none; }
 }
 
+/* --- LES PHOTOS PLEIN CADRE : LA PHOTO DOMINE, LE FOND LA SOUTIENT ---
+   Opacité .5-.56 et contrast(1.1), dégradés par-dessus. C'est ce qui
+   fait entrer les photos DANS la nuit au lieu de les poser dessus : à
+   pleine opacité, une photo de jour turquoise annule tout le travail du
+   ciel — constaté à la capture de R98/4bis, où le hero rendait un plein
+   jour vif sur un site de nuit.
+
+   POURQUOI L'OPACITÉ ET PAS UN VOILE SOMBRE PAR-DESSUS : un voile ajoute
+   une couche grise qui délave les noirs de la photo ; l'opacité laisse
+   le fond de nuit TRANSPARAÎTRE à travers elle, donc les noirs de la
+   photo deviennent les noirs de la nuit. contrast(1.1) rattrape le
+   manque de matière que l'opacité coûte — sans lui, une photo à 52 %
+   est une photo fade, pas une photo nocturne.
+
+   ⚠ C'EST ICI, ET NULLE PART AILLEURS, QUE SE JOUE LA LISIBILITÉ. Avec
+   un seul monde de nuit, le texte est crème sur nuit partout — 16,5:1.
+   Le SEUL endroit où du texte se pose encore sur du clair, c'est une
+   photo. La bande morte L ∈ [0,168 ; 0,243] de R97 n'est plus traversée
+   par les fonds ; elle peut l'être par une photo. Mesuré au 90e centile
+   du fond, jamais à sa moyenne (tools/qa/contraste.mjs) : un texte
+   illisible sur la partie claire d'une photo passe une moyenne. */
+.page-home .hero-bg,
+.page-home .hh-bg,
+.page-home .event-bg {
+  opacity: .54;
+  filter: contrast(1.1);
+}
+/* Le voile du hero reprend les couleurs de la nuit, pas l'océan de
+   l'ancien monde : il rattache la photo au ciel au lieu de la poser
+   dessus. Vertical, pour garder la lecture au centre. */
+.page-home .hero-veil {
+  background-image:
+    radial-gradient(120% 78% at 50% 116%, rgba(var(--bleu-rgb), .30), transparent 62%),
+    linear-gradient(180deg,
+      rgba(var(--nuit-0-rgb), .86) 0%,
+      rgba(var(--nuit-0-rgb), .46) 34%,
+      rgba(var(--nuit-1-rgb), .58) 66%,
+      rgba(var(--nuit-2-rgb), .94) 100%);
+}
+/* Les diapositives éditoriales du carrousel portent leur texte en bas à
+   gauche : le dégradé les protège de ce côté. */
+.page-home .hh-slide:not(.hh-brand)::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .72) 0%, transparent 34%),
+    linear-gradient(75deg, rgba(var(--nuit-0-rgb), .92) 0%, rgba(var(--nuit-0-rgb), .62) 42%, transparent 78%);
+}
+.page-home .hh-content { position: relative; z-index: 2; }
+
+/* --- LE BOUTON PRINCIPAL : BLANC PLEIN, QUI PULSE À 116 BPM ---
+   Il CONSOMME l'horloge --syfir-beat de R94, il ne pose aucune animation
+   propre. C'est la leçon la plus chère de R94 : poser `animation` sur un
+   CTA écrase son animation d'entrée, et animer `box-shadow` détruit son
+   ombre. Un `filter: drop-shadow` piloté par la variable se COMPOSE
+   par-dessus, sans rien écraser et sans rien à remettre en phase.
+   1,034 s = 2 temps à 116 BPM — le battement, pas la double-croche. */
+.page-home .hero-cta .btn-gradient,
+.page-home .hh-cta,
+.page-home .next-cta .btn {
+  background-image: none;
+  background-color: var(--blanc);
+  color: var(--nuit-0);
+  border: none;
+  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
+}
+/* Le secondaire en liseré, jamais en aplat : c'est la même règle que
+   l'or — un contour, pas une surface. */
+.page-home .hero-cta .btn-ghost {
+  background-color: transparent;
+  border: 1px solid rgba(var(--creme-rgb), .38);
+  color: var(--creme);
+}
+.page-home .hero-cta .btn-ghost:hover {
+  border-color: var(--or);
+  color: var(--blanc);
+}
+
 /* --- LES CARTES DE DATES : UNE GRILLE BORD À BORD ---
    Collées les unes aux autres, séparées d'un FILET DE 2 px, sans arrondi
    et sans marge. Le filet n'est pas une bordure : c'est le fond clair à
