@@ -185,3 +185,44 @@ comme le pied de page l'a été. Corrigé **avant** de rallumer le ciel, pas apr
 > C'est la même leçon que R96 lui-même : le défaut n'était pas là où l'audit
 > regardait. Et c'est la deuxième fois que la règle « vérifier par un second
 > moyen » attrape quelque chose que la lecture du code donnait pour acquis.
+
+---
+
+## LOTS 2 à 6 — LA NUIT
+
+| Point | Livré | Mesures réelles |
+|---|---|---|
+| **R98/2-1** | Les tokens de la nuit, déclarés · `--p` déclarée à 0 | Confinement **0 différence** — déclarer un token ne change rien tant que personne ne le lit, vérifié et non supposé |
+| **R98/2-2** | Le fond de nuit, **propriétés longues uniquement** | Le grain devait être **reposé sur le ciel** : la couche `fixed` masquait celui du `body`, l'accueil était la seule page sans grain · plateaux **15 → 4**, marches 142 → 330 |
+| **R98/3** | Le ciel qui avance — 3 couches, `--p` en rAF | **12 luminances peintes distinctes / 12** (seuil 11, celui de R97/C) · 12 opacités distinctes, **monotones** · les deux moyens concordent · LCP **604/600/604 ms** — aucun surcoût, là où C payait 988 ms |
+| **R98/4** | Quatre faisceaux en `screen` + la brume | Ciel seul **L = 0,00401** → ciel + faisceaux **L = 0,00742** (+85 %) · reduced-motion : **pixel identique**, `animation-name: none` · grain sous `screen` : plateaux **18 → 3**, bruit 2,11·10⁻⁴ → **il reste** |
+| **R98/4bis** | **La composition** — hero 100svh, section photo pleine largeur, grille bord à bord | Hero **900/900** desktop et **844/844** à 390 px · SYFIR **210 px / 58,5 px**, interlettrage **−10,5 px** = −.05em · **0 débordement** |
+| **R98/6** | Les photos entrent dans la nuit · bouton blanc qui bat | Contraste AA accueil **0 défaut** · halo du pouls : **10 valeurs distinctes sur 10**, max **9,49 px** (seuil 12) · reduced-motion **0,00 px** constant |
+
+### Ce que la capture a dit et qu'aucun chiffre ne disait
+
+Après le lot 4, **tous les indicateurs étaient verts** — 0 défaut AA, 0
+débordement, LCP dans le budget, confinement parfait. Et la capture montrait un
+hero de **plein jour turquoise** sur un site de nuit : le ciel et les faisceaux
+étaient bien là, **intégralement recouverts** par une photo à pleine opacité.
+
+C'est la leçon de tout le chantier, reproduite **à l'intérieur du chantier**.
+Le harnais prouve qu'on n'a rien cassé ; il ne dit jamais si c'est beau.
+
+### Les quatre défauts d'instrument de R98 (8ᵉ à 11ᵉ du harnais)
+
+Trois auraient fait **conclure l'inverse de la vérité** :
+
+8. `grain.mjs` **effaçait le ciel avec le grain** — on comparait deux fonds
+   différents. Remède : neutraliser à la source, dans le token.
+9. `debordement.mjs` annonçait **46 débordements, tous faux** — les diapositives
+   inactives du carrousel. Un élément clippé par un ancêtre ne peut pas élargir
+   la page.
+10. `soiree.mjs` **mesurait deux instants différents** — `--p = 0,959` relevé sur
+    un ciel photographié à `--p = 0`. **Cinquième occurrence** de cette famille.
+11. **Faux négatif sur le pouls** — la regex prenait le décalage horizontal de
+    `drop-shadow` pour son flou et annonçait « le bouton ne pulse pas ». Sans
+    second moyen, j'aurais corrigé un pouls qui fonctionnait.
+
+> La règle a servi **onze fois** : ne jamais déclarer un défaut **ni une
+> réussite** sur la foi d'un seul instrument.
