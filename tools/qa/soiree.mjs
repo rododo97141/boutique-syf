@@ -55,9 +55,9 @@ try {
   await pg.evaluate(() => {
     const s = document.createElement('style'); s.id = 'qa-ciel';
     s.textContent = 'body > *:not(.sky){visibility:hidden!important}'
-      + '.sky{visibility:visible!important}'
-      + '.sky > *:not(.sky-grade){visibility:hidden!important}'
-      + '.sky-grade{visibility:visible!important}';
+      + '.sky, .sky *{visibility:visible!important}'
+      + '.sky .projos, .sky .brume{visibility:hidden!important}'
+      + '.sky .nuit, .sky .nuit *{visibility:visible!important}';
     document.head.appendChild(s);
   });
   await pg.waitForTimeout(400);
@@ -99,12 +99,14 @@ try {
     }
 
     /* Moyen 2 — le mécanisme : opacité calculée de chaque couche. */
+    /* R102 : les couches sont désormais .n0/.n1/.n2 (classes de la
+       maquette), plus des pseudo-éléments de .sky-grade. La « montée »
+       est n1, le « cœur de nuit » n2. */
     const meca = await pg.evaluate(() => {
-      const g = document.querySelector('.sky-grade');
-      const o = n => +getComputedStyle(g, n).opacity;
+      const o = s => { const e = document.querySelector(s); return e ? +getComputedStyle(e).opacity : 0; };
       return {
         p: +getComputedStyle(document.documentElement).getPropertyValue('--p'),
-        montee: o('::before'), coeur: o('::after'),
+        montee: o('.n1'), coeur: o('.n2'),
       };
     });
 
@@ -145,11 +147,15 @@ try {
   const seuil = Math.max(2, N - 1);
   console.log(`\n  MOYEN 1 — luminances peintes distinctes : ${distinctes} / ${N}  (seuil ${seuil}, atteint par R97/C)`);
 
-  const opac = releves.map(r => r.montee + r.coeur);
+  /* R102 : le mécanisme de la maquette n'est PAS monotone — n1 monte
+     puis redescend en triangle, c'est un fondu enchaîné à trois temps.
+     Le critère devient : le CŒUR DE NUIT (n2) croît, lui, sans jamais
+     reculer. C'est lui qui porte la progression de la soirée. */
+  const coeur = releves.map(r => r.coeur);
   let monotone = true;
-  for (let i = 1; i < opac.length; i++) if (opac[i] < opac[i - 1] - 1e-6) monotone = false;
-  const opDist = new Set(opac.map(v => v.toFixed(4))).size;
-  console.log(`  MOYEN 2 — opacités empilées : ${opDist} valeurs distinctes, ${monotone ? 'monotones croissantes' : 'NON monotones'}`);
+  for (let i = 1; i < coeur.length; i++) if (coeur[i] < coeur[i - 1] - 1e-6) monotone = false;
+  const opDist = new Set(releves.map(r => (r.montee + r.coeur).toFixed(4))).size;
+  console.log(`  MOYEN 2 — opacités empilées : ${opDist} valeurs distinctes · cœur de nuit ${monotone ? 'croissant sans recul' : 'EN RECUL quelque part'}`);
 
   const ok1 = distinctes >= seuil, ok2 = opDist >= seuil && monotone;
   console.log(`\n  ${ok1 ? '✓' : '✗'} le ciel est réellement continu (résultat peint)`);
