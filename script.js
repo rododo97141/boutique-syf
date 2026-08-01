@@ -2275,7 +2275,57 @@ if (placeModal && placesGridEl) {
     });
   })();
 
-  /* ===== 46 / 47 (retirés, R98/1-4) — LA TRAVERSÉE =====
+  /* ===== 46. R98 — LA PROGRESSION DE LA SOIRÉE (accueil) =====
+     UNE SEULE HORLOGE, et elle ne fait qu'une chose : poser --p entre 0
+     et 1 sur :root, selon où on en est du défilement. Le ciel, les
+     faisceaux et la brume la CONSOMMENT depuis le CSS. C'est la forme
+     apprise en R94 — une horloge, des consommateurs — et c'est elle qui
+     n'écrase rien : aucune animation posée sur les couches, donc rien à
+     remettre en phase, rien à réinitialiser.
+
+     Ce que ça remplace : §46 posait quatre paliers discrets par
+     IntersectionObserver, §47 rejouait les mêmes trajectoires en repli,
+     et les keyframes CSS les redisaient une troisième fois. Trois
+     endroits à tenir alignés — la « dépendance triple » de la carte du
+     retrait. Il n'en reste qu'un, et il tient en dix lignes.
+
+     ⚠ L'ACCUEIL GRANDIT PENDANT QU'ON LE MESURE (piège R92 §4B) : les
+     sections `content-visibility: auto` ne déclarent leur hauteur qu'en
+     approchant du viewport. La hauteur de défilement est donc relue À
+     CHAQUE FRAME, jamais mise en cache : une valeur mesurée une seule
+     fois au chargement ferait arriver --p à 1 bien avant le bas de page.
+
+     PAS de garde `prefers-reduced-motion` ici, et c'est un choix motivé :
+     --p suit LE DÉFILEMENT DE L'UTILISATEUR, pas une horloge. Rien ne
+     bouge tout seul, rien ne clignote, rien ne défile de soi-même. Couper
+     --p reviendrait à figer le décor, or le principe du dépôt est
+     l'inverse : on coupe le mouvement, pas le décor (R92/10). Ce qui est
+     réellement animé — la rotation des faisceaux, la dérive de la brume —
+     est coupé, lui, dans le CSS. */
+  const ciel = $('.sky');
+  if (ciel) {
+    let enVol = false;
+    const poseP = () => {
+      enVol = false;
+      const doc = document.documentElement;
+      const course = doc.scrollHeight - innerHeight;
+      const p = course > 0 ? Math.min(1, Math.max(0, scrollY / course)) : 0;
+      /* Trois décimales : en dessous, l'œil ne voit rien et on ferait
+         recalculer le style pour du bruit ; au-dessus, on gagnerait une
+         précision que l'opacité peinte n'a pas. */
+      doc.style.setProperty('--p', p.toFixed(3));
+    };
+    const surDefilement = () => {
+      if (enVol) return;
+      enVol = true;
+      requestAnimationFrame(poseP);
+    };
+    addEventListener('scroll', surDefilement, { passive: true });
+    addEventListener('resize', surDefilement, { passive: true });
+    poseP();
+  }
+
+  /* ===== 47 (retiré, R98/1-4) — LA TRAVERSÉE =====
      §46 posait les paliers du ciel (IntersectionObserver, resolveStage,
      html[data-sky]) ; §47 était son repli requestAnimationFrame sans
      scroll-timeline, et portait PISTES — les trajectoires du ciel

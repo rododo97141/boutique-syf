@@ -2808,6 +2808,57 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    battraient, et c'est le nouveau qui doit gagner. */
 .page-home .ambience { display: none; }
 
+/* --- 39.2 bis  R98/3 — LE CIEL QUI AVANCE -------------------------------
+   LA SOIRÉE AVANCE AU DÉFILEMENT, ENTIÈREMENT DANS LA NUIT. C'est le
+   voyage qui reste quand le passage jour -> nuit s'en va : début de
+   soirée en haut, la montée au milieu, cœur de nuit en bas. Jamais de
+   gris pâle, jamais de noir écrasant — les trois fonds sont bleus.
+
+   LE MÉCANISME EST CELUI DE LA VARIANTE C DE R97, ET C'EST DÉLIBÉRÉ.
+   L'arbitrage A/B/C est clos, mais son mécanisme a été MESURÉ : empiler
+   des couches dont on pilote l'OPACITÉ donne 11 valeurs de luminance
+   distinctes sur 12 relevés, là où animer le raccourci `background`
+   n'en donnait que 3 sur tout le parcours. On garde ce qui a été
+   prouvé, on jette ce qui a été tranché.
+
+   UNE SEULE HORLOGE : --p (0 -> 1), calculée au défilement en rAF
+   (script.js §46). Le ciel, les faisceaux et la brume la CONSOMMENT.
+   C'est la forme apprise en R94 — une horloge, des consommateurs — et
+   c'est elle qui n'écrase rien : aucune animation posée sur ces
+   couches, donc rien à remettre en phase, rien à réinitialiser.
+
+   POURQUOI DES OPACITÉS ET PAS UNE INTERPOLATION DE COULEUR : une
+   couleur interpolée passe par toutes les valeurs intermédiaires, y
+   compris celles qu'on ne veut pas. Deux couches superposées ne
+   traversent que le segment qui les relie — le chemin est choisi, pas
+   subi. C'est aussi ce qui rend la mesure possible : on peut relever
+   l'opacité de chaque couche indépendamment.
+
+   ⚠ PROPRIÉTÉS LONGUES. Aucun raccourci `background` ici, jamais. */
+.page-home .sky-grade::before,
+.page-home .sky-grade::after {
+  content: ''; position: absolute; inset: 0;
+  /* will-change absent volontairement : ces couches ne bougent pas, seule
+     leur opacité varie, et la promouvoir coûterait de la mémoire GPU pour
+     rien sur une surface plein écran. */
+}
+
+/* LA MONTÉE — entre en scène sur la première moitié de la soirée. */
+.page-home .sky-grade::before {
+  background-image:
+    radial-gradient(130% 90% at 50% 112%, rgba(var(--bleu-rgb), .22), transparent 60%),
+    linear-gradient(180deg, var(--nuit-1) 0%, var(--nuit-1) 46%, var(--nuit-2) 100%);
+  opacity: clamp(0, calc(var(--p) * 2), 1);
+}
+
+/* LE CŒUR DE NUIT — n'arrive que sur la seconde moitié. */
+.page-home .sky-grade::after {
+  background-image:
+    radial-gradient(140% 96% at 50% 116%, rgba(var(--bleu-rgb), .28), transparent 58%),
+    linear-gradient(180deg, var(--nuit-2) 0%, #0C1730 62%, #10203C 100%);
+  opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
+}
+
 /* --- 39.2 / 39.3 (retirés, R98/1-4) — LES QUATRE CIELS ET LEUR
    INTÉGRATION AUX DEUX THÈMES, ainsi que les trois variantes R97.
 

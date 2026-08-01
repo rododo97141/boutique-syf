@@ -1,0 +1,145 @@
+/* ============================================================
+   tools/qa/soiree.mjs [--pas=N]
+   ------------------------------------------------------------
+   LA SOIRÉE AVANCE-T-ELLE VRAIMENT ?
+
+   C'est LA mesure de R98/3, et elle a une histoire. R97 a découvert que
+   La Traversée n'interpolait pas : elle avançait par TROIS PALIERS, parce
+   que ses keyframes animaient le raccourci `background` (composant image
+   traité en discret). Le symptôme mesuré à l'époque : luminance constante,
+   puis SAUT, puis constante — 0 valeur intermédiaire sur 30 relevés, et
+   seulement 3 valeurs de `background-image` calculé sur tout le parcours.
+
+   L'empilement d'opacités, lui, avait été mesuré à 11 valeurs de
+   luminance distinctes sur 12 relevés. C'est le seuil à retrouver — pas
+   un seuil inventé pour l'occasion, mais celui qu'un mécanisme concurrent
+   a réellement atteint sur ce site.
+
+   DEUX MOYENS INDÉPENDANTS, parce qu'un seul ne prouve rien :
+
+   1. LA LUMINANCE RÉELLEMENT PEINTE du ciel, relevée à N positions de
+      défilement. C'est ce que l'œil voit. Si le ciel saute, on retrouve
+      des plateaux et peu de valeurs distinctes.
+   2. L'OPACITÉ CALCULÉE de chaque couche empilée, aux mêmes positions.
+      C'est le mécanisme. Il doit varier de façon monotone et continue.
+
+   Les deux doivent concorder. Le premier seul pourrait être trompé par
+   une photo qui passe ; le second seul mesurerait le câblage — exactement
+   ce que la doctrine du dépôt interdit.
+
+   ⚠ L'ACCUEIL GRANDIT PENDANT QU'ON LE MESURE : on descend par
+   scrollToBottom() avant de connaître la hauteur, puis on se replace en
+   FRACTION de la hauteur réelle à chaque pas.
+============================================================ */
+import { serve, browser, openPage, scrollToBottom, VIEWPORTS } from './lib.mjs';
+
+const args = process.argv.slice(2);
+const pasArg = args.find(a => a.startsWith('--pas='));
+const N = pasArg ? Number(pasArg.slice('--pas='.length)) : 12;
+
+const lum = (r, g, b) => {
+  const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; };
+  return .2126 * f(r) + .7152 * f(g) + .0722 * f(b);
+};
+
+const srv = await serve();
+const b = await browser();
+let code = 0;
+try {
+  const ctx = await b.newContext({ viewport: VIEWPORTS.desktop });
+  const pg = await openPage(ctx, 'index.html');
+  await scrollToBottom(pg);
+  const course = await pg.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+
+  const releves = [];
+  for (let i = 0; i < N; i++) {
+    const frac = i / (N - 1);
+    await pg.evaluate(f => scrollTo(0, f * (document.documentElement.scrollHeight - innerHeight)), frac);
+
+    /* ⚠ 10e CALIBRATION — ET C'EST LA CINQUIÈME FOIS QUE CE HARNAIS SE
+       FAIT PRENDRE PAR LA MÊME FAMILLE DE DÉFAUT : comparer deux choses
+       prises à deux INSTANTS différents.
+
+       La première version attendait 160 ms puis lisait le mécanisme, puis
+       capturait l'image 80 ms plus tard. Entre les deux, la boucle rAF
+       avait mis --p à jour : elle relevait --p = 0,959 (valeur héritée du
+       bas de page) tout en photographiant un ciel à --p = 0. Le signe qui
+       ne trompe pas, exactement comme en R96 : une opacité de montée à
+       1,000 au-dessus d'un pixel peint en #04070F — géométriquement
+       impossible.
+
+       On attend donc que --p se STABILISE (deux lectures consécutives
+       égales) avant de mesurer quoi que ce soit. Un instant, une vérité. */
+    let av = null, stable = 0;
+    for (let t = 0; t < 40 && stable < 2; t++) {
+      await pg.waitForTimeout(50);
+      const v = await pg.evaluate(() =>
+        getComputedStyle(document.documentElement).getPropertyValue('--p').trim());
+      stable = (v === av) ? stable + 1 : 0;
+      av = v;
+    }
+
+    /* Moyen 2 — le mécanisme : opacité calculée de chaque couche. */
+    const meca = await pg.evaluate(() => {
+      const g = document.querySelector('.sky-grade');
+      const o = n => +getComputedStyle(g, n).opacity;
+      return {
+        p: +getComputedStyle(document.documentElement).getPropertyValue('--p'),
+        montee: o('::before'), coeur: o('::after'),
+      };
+    });
+
+    /* Moyen 1 — le résultat : luminance PEINTE du ciel seul.
+       On masque le contenu, sinon on mesurerait une photo. */
+    await pg.evaluate(() => {
+      if (document.getElementById('qa-ciel')) return;
+      const s = document.createElement('style'); s.id = 'qa-ciel';
+      s.textContent = 'body > *:not(.sky){visibility:hidden!important}'
+        + '.sky{visibility:visible!important}'
+        + '.sky > *:not(.sky-grade){visibility:hidden!important}'
+        + '.sky-grade{visibility:visible!important}';
+      document.head.appendChild(s);
+    });
+    await pg.waitForTimeout(80);
+    const shot = await pg.screenshot({ clip: { x: 700, y: 440, width: 6, height: 6 } });
+    const px = await pg.evaluate(async b64 => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+      const d = g.getImageData(0, 0, img.width, img.height).data;
+      let r = 0, v = 0, bl = 0, n = 0;
+      for (let i = 0; i < d.length; i += 4) { r += d[i]; v += d[i + 1]; bl += d[i + 2]; n++; }
+      return [r / n, v / n, bl / n];
+    }, shot.toString('base64'));
+    await pg.evaluate(() => document.getElementById('qa-ciel')?.remove());
+
+    releves.push({ frac, ...meca, L: lum(...px), rgb: px.map(x => Math.round(x)) });
+  }
+
+  console.log(`\nLA SOIRÉE AVANCE — ${N} relevés sur ${course} px de course\n`);
+  console.log('   défil.     --p    montée    cœur    luminance peinte   rgb');
+  for (const r of releves) {
+    console.log(`   ${(r.frac * 100).toFixed(0).padStart(4)} %  ${r.p.toFixed(3)}  ${r.montee.toFixed(3)}  ${r.coeur.toFixed(3)}   ${r.L.toFixed(6).padStart(12)}   ${r.rgb.join(',')}`);
+  }
+
+  const distinctes = new Set(releves.map(r => r.L.toFixed(6))).size;
+  const seuil = Math.max(2, N - 1);
+  console.log(`\n  MOYEN 1 — luminances peintes distinctes : ${distinctes} / ${N}  (seuil ${seuil}, atteint par R97/C)`);
+
+  const opac = releves.map(r => r.montee + r.coeur);
+  let monotone = true;
+  for (let i = 1; i < opac.length; i++) if (opac[i] < opac[i - 1] - 1e-6) monotone = false;
+  const opDist = new Set(opac.map(v => v.toFixed(4))).size;
+  console.log(`  MOYEN 2 — opacités empilées : ${opDist} valeurs distinctes, ${monotone ? 'monotones croissantes' : 'NON monotones'}`);
+
+  const ok1 = distinctes >= seuil, ok2 = opDist >= seuil && monotone;
+  console.log(`\n  ${ok1 ? '✓' : '✗'} le ciel est réellement continu (résultat peint)`);
+  console.log(`  ${ok2 ? '✓' : '✗'} le mécanisme varie de façon continue et monotone`);
+  const concordent = ok1 === ok2;
+  console.log(`  ${concordent ? '✓' : '✗'} les deux moyens concordent`);
+  code = (ok1 && ok2 && concordent) ? 0 : 1;
+  console.log(code ? '\n✗ la soirée n\'avance pas comme annoncé.\n' : '\n✓ la soirée avance vraiment.\n');
+} finally {
+  await b.close(); srv.close();
+}
+process.exit(code);
