@@ -3106,6 +3106,32 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   color: var(--blanc);
 }
 
+/* ===== L'AUDIT DE L'OR, TERMINÉ (R99/6) =====
+   Les seuils par élément de R92, repris depuis que le décor de nuit est
+   devenu PERMANENT (R98/1-4) — ils n'avaient plus été mesurés depuis :
+     brillantes  point 3,0 px (seuil 4)   · halo 8,0 px  (seuil 12)
+     croix       22 px × 1 px             (seuil 24)
+     ampoules    point 5,0 px (seuil 6)   · halo 7,0 px
+     filantes    86 px de traînée, 1,5 px d'épaisseur — une ligne, pas une
+                 surface : c'est le critère, pas la longueur
+   Et sur les pixels réellement peints de la page entière : 1,47 % d'or.
+   Un détail, mesuré comme tel.
+
+   LES SURFACES AU CRÈME CHAUD N'ONT RIEN À FAIRE DANS UN MONDE DE NUIT.
+   Quatre subsistaient sur l'accueil, toutes en rgba(250,248,242,…) —
+   c'est --cream, le crème CHAUD du monde d'été. Le crème de la nuit est
+   --creme (238,242,248), légèrement bleuté pour ne pas jaunir sur du
+   #04070F. Sur un fond de nuit, un voile crème chaud à 4 % vire au
+   brun-gris : il ne disparaît pas, il salit. */
+.page-home .official-card,
+.page-home .hp-field,
+.page-home input,
+.page-home .scroll-hint-line {
+  background-color: rgba(var(--creme-rgb), .04);
+}
+.page-home .scroll-hint-line { background-color: rgba(var(--creme-rgb), .34); }
+.page-home input { border-color: rgba(var(--creme-rgb), .18); color: var(--creme); }
+
 /* ===== BLOC 6 — LE PIED DE PAGE =====
    Centré, avec la signature en très grand et TRÈS DISCRÈTE : opacité .14.
    C'est le contraire d'un logo — une marque en filigrane, presque un
