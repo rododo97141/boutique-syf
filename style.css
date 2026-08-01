@@ -2761,102 +2761,45 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 .page-home .sky-grade { position: absolute; inset: 0; }
 
-/* --- 39.1 bis  R98/2-2 — LE FOND DE NUIT ---------------------------------
-   Le socle sur lequel tout le reste se pose. Trois moments de soirée, et
-   c'est déjà le voyage : le fond de base tient le début de soirée, les
-   couches empilées de R98/3 amènent la montée puis le cœur de nuit.
+/* --- 39.1 bis  R102 — LES TROIS COUCHES DE NUIT, VALEURS DU FICHIER ------
+   Reprises telles quelles de `maquettes/3-LUMIERE-DE-SCENE.html`.
 
-   ⚠ PROPRIÉTÉS LONGUES UNIQUEMENT — et ici ce n'est pas une précaution
-   de style, c'est LE bug qui a coûté tout R97. Un `background:` en
-   raccourci fait traiter son composant image en DISCRET : le ciel saute
-   au lieu de fondre. Mesuré alors : 3 valeurs de luminance sur tout le
-   parcours, là où l'empilement d'opacités en produit 11 sur 12 relevés.
-   On écrit donc background-color et background-image séparément, et on
-   ne réintroduit JAMAIS le raccourci dans cette zone.
+   ⚠ LA LUEUR EST AU ZÉNITH, PAS À L'HORIZON. Mon ciel montait un halo
+   bleu depuis le bas ; la maquette pose ses radiaux EN HAUT (at 50% -5%,
+   5%, 8%) — c'est la lumière de scène vue d'en dessous, pas un coucher
+   de soleil. Ça change l'équilibre de toute la page, et aucun des
+   34 sélecteurs que je comparais ne regardait ces couches : je vérifiais
+   le contenu et j'ignorais le décor.
 
-   Le dégradé part du haut (zénith, le plus sombre) vers le bas (horizon,
-   qui garde la lueur de la ville) : c'est ce décalage qui fait lire
-   « nuit vue de l'intérieur » plutôt que « fondu au noir ». */
-.page-home {
-  background-color: var(--nuit-0);
-  color: var(--creme);
+   ⚠ PROPRIÉTÉS LONGUES. Le raccourci `background` a coûté tout R97. */
+.page-home .nuit {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
 }
-.page-home .sky-grade {
-  background-color: var(--nuit-0);
+.page-home .nuit i { position: absolute; inset: -8%; display: block; }
+.page-home .n0 {
   background-image:
-    var(--noise),
-    radial-gradient(120% 80% at 50% 108%, rgba(var(--bleu-rgb), .16), transparent 62%),
-    linear-gradient(180deg, var(--nuit-0) 0%, var(--nuit-1) 58%, var(--nuit-2) 100%);
+    radial-gradient(80% 55% at 50% -5%, #10224a 0%, transparent 62%),
+    linear-gradient(180deg, #04070f, #050a15);
+  opacity: calc(1 - var(--p) * 1.1);
 }
-
-/* LE GRAIN DOIT ÊTRE POSÉ ICI, ET C'EST UNE CORRECTION.
-   §28 pose le grain sur `body`. Mais sur l'accueil, la couche ciel est
-   `position: fixed; z-index: 0` : elle PEINT PAR-DESSUS le fond du body.
-   Le grain du body y est donc intégralement masqué — l'accueil, seule
-   page dotée d'un ciel, était la seule SANS grain. Constaté à la mesure :
-   grain actif et grain neutralisé donnaient des chiffres identiques au
-   millième sur .sky-grade, ce qui ne peut vouloir dire qu'une chose.
-
-   C'est le même mécanisme que R96 (le ciel qui peignait par-dessus le
-   pied de page), vu d'un autre angle : tout ce que le ciel recouvre doit
-   être reposé SUR le ciel. */
-
-
-/* Sur l'accueil, .ambience est neutralisée : La Traversée la remplace.
-   Elle reste dans le HTML et active sur les 7 autres pages qui la
-   portent — mais deux voiles concurrents sur la même page se
-   battraient, et c'est le nouveau qui doit gagner. */
-.page-home .ambience { display: none; }
-
-/* --- 39.2 bis  R98/3 — LE CIEL QUI AVANCE -------------------------------
-   LA SOIRÉE AVANCE AU DÉFILEMENT, ENTIÈREMENT DANS LA NUIT. C'est le
-   voyage qui reste quand le passage jour -> nuit s'en va : début de
-   soirée en haut, la montée au milieu, cœur de nuit en bas. Jamais de
-   gris pâle, jamais de noir écrasant — les trois fonds sont bleus.
-
-   LE MÉCANISME EST CELUI DE LA VARIANTE C DE R97, ET C'EST DÉLIBÉRÉ.
-   L'arbitrage A/B/C est clos, mais son mécanisme a été MESURÉ : empiler
-   des couches dont on pilote l'OPACITÉ donne 11 valeurs de luminance
-   distinctes sur 12 relevés, là où animer le raccourci `background`
-   n'en donnait que 3 sur tout le parcours. On garde ce qui a été
-   prouvé, on jette ce qui a été tranché.
-
-   UNE SEULE HORLOGE : --p (0 -> 1), calculée au défilement en rAF
-   (script.js §46). Le ciel, les faisceaux et la brume la CONSOMMENT.
-   C'est la forme apprise en R94 — une horloge, des consommateurs — et
-   c'est elle qui n'écrase rien : aucune animation posée sur ces
-   couches, donc rien à remettre en phase, rien à réinitialiser.
-
-   POURQUOI DES OPACITÉS ET PAS UNE INTERPOLATION DE COULEUR : une
-   couleur interpolée passe par toutes les valeurs intermédiaires, y
-   compris celles qu'on ne veut pas. Deux couches superposées ne
-   traversent que le segment qui les relie — le chemin est choisi, pas
-   subi. C'est aussi ce qui rend la mesure possible : on peut relever
-   l'opacité de chaque couche indépendamment.
-
-   ⚠ PROPRIÉTÉS LONGUES. Aucun raccourci `background` ici, jamais. */
-.page-home .sky-grade::before,
-.page-home .sky-grade::after {
-  content: ''; position: absolute; inset: 0;
-  /* will-change absent volontairement : ces couches ne bougent pas, seule
-     leur opacité varie, et la promouvoir coûterait de la mémoire GPU pour
-     rien sur une surface plein écran. */
-}
-
-/* LA MONTÉE — entre en scène sur la première moitié de la soirée. */
-.page-home .sky-grade::before {
+/* La maquette écrit `1 - abs(var(--p)*2 - 1)`. `abs()` est récent et
+   inégalement pris en charge ; la même courbe en triangle s'écrit
+   `2 * min(p, 1 - p)`, supportée depuis bien plus longtemps.
+   Vérifié aux trois positions : 0,000 / 1,000 / 0,000 des deux côtés. */
+.page-home .n1 {
   background-image:
-    radial-gradient(130% 90% at 50% 112%, rgba(var(--bleu-rgb), .22), transparent 60%),
-    linear-gradient(180deg, var(--nuit-1) 0%, var(--nuit-1) 46%, var(--nuit-2) 100%);
-  opacity: clamp(0, calc(var(--p) * 2), 1);
+    radial-gradient(85% 55% at 50% 5%, #16336e 0%, transparent 60%),
+    radial-gradient(60% 45% at 12% 60%, #0d2f52 0%, transparent 62%),
+    linear-gradient(180deg, #050b18, #08101f);
+  opacity: calc(2 * min(var(--p), 1 - var(--p)));
 }
-
-/* LE CŒUR DE NUIT — n'arrive que sur la seconde moitié. */
-.page-home .sky-grade::after {
+.page-home .n2 {
   background-image:
-    radial-gradient(140% 96% at 50% 116%, rgba(var(--bleu-rgb), .28), transparent 58%),
-    linear-gradient(180deg, var(--nuit-2) 0%, #0C1730 62%, #10203C 100%);
-  opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
+    radial-gradient(90% 55% at 50% 8%, #1e3f8a 0%, transparent 58%),
+    radial-gradient(65% 50% at 85% 75%, #2a1a5e 0%, transparent 60%),
+    linear-gradient(180deg, #08101f, #0c1428);
+  opacity: calc(var(--p) * 1.15 - .15);
 }
 
 /* ============================================================
@@ -3284,238 +3227,75 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   border-top: 1px solid rgba(238, 242, 248, .1);
 }
 
-/* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
-   Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».
+/* --- 39.2 ter  R102 — LES PROJECTEURS ET LA BRUME, VALEURS DU FICHIER ---
+   16vw, pas 26. Quatre origines, quatre phases : sans décalage, quatre
+   faisceaux synchrones ne sont pas quatre projecteurs, c'est un seul
+   projecteur large.
 
-   LES QUATRE FAISCEAUX. Origine en HAUT d'écran, cônes très étirés,
-   blur 22px, mix-blend-mode: screen. Ils pivotent lentement (11 s,
-   alternate) et leur opacité d'ensemble suit la soirée :
-   calc(.2 + var(--p) * .8) — présents dès le début, pleins au cœur de
-   nuit. C'est le conteneur qui porte cette opacité, pas chaque faisceau :
-   une opacité par faisceau se multiplierait avec la sienne propre.
+   `mix-blend-mode: screen` ne peut qu'ÉCLAIRCIR : un faisceau en opacité
+   normale sur du #04070f laisserait une trace grise sale là où il est
+   faible ; en screen il disparaît proprement dans le noir. C'est le
+   comportement d'une lumière réelle sur une scène sombre.
 
-   POURQUOI screen ET PAS UNE OPACITÉ SIMPLE : screen(a,b) = 1-(1-a)(1-b)
-   ne peut qu'ÉCLAIRCIR, jamais assombrir. Un faisceau posé en opacité
-   normale sur du #04070F laisserait une trace grise sale là où il est
-   faible ; en screen il disparaît proprement dans le noir. C'est
-   exactement le comportement d'une lumière réelle sur une scène sombre.
-
-   ⚠ mix-blend-mode CRÉE UN CONTEXTE D'EMPILEMENT sur l'élément qui le
-   porte, et il ne compose qu'avec ses FRÈRES dans le même contexte. Les
-   faisceaux doivent donc rester dans .sky, jamais remontés au body :
-   ailleurs ils écraseraient le contenu au lieu d'éclairer le ciel.
-
-   ⚠ PROPRIÉTÉS LONGUES : animation-name / -duration / -direction… jamais
-   le raccourci. Il réinitialise ce qu'on vient d'écrire (deux bugs en
-   R92, un lot entier en R97). */
-.page-home .beams {
-  position: absolute; inset: 0; overflow: hidden;
+   ⚠ screen ne compose qu'avec ses FRÈRES dans le même contexte
+   d'empilement : les faisceaux restent dans .sky, jamais remontés au
+   body, sinon ils écraseraient le contenu au lieu d'éclairer le ciel. */
+.page-home .projos {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none; overflow: hidden;
   mix-blend-mode: screen;
   opacity: calc(.2 + var(--p) * .8);
 }
-.page-home .beams i {
-  position: absolute; top: -14vh; left: 50%;
-  display: block;
-  width: 26vw; height: 132vh;
+.page-home .projos b {
+  position: absolute; top: -14vh; left: 50%; display: block;
+  width: 16vw; height: 135vh;
   transform-origin: 50% 0;
   filter: blur(22px);
-  background-image: linear-gradient(
-    180deg,
-    rgba(var(--blanc-rgb), .30) 0%,
-    rgba(var(--bleu-clair-rgb), .16) 34%,
-    rgba(var(--bleu-rgb), .05) 68%,
-    transparent 92%);
-  /* Le cône : large en haut, effilé en bas. */
-  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
-  animation-name: beam-sweep;
+  background-image: linear-gradient(180deg,
+    rgba(255, 250, 240, .5) 0%, rgba(127, 178, 255, .18) 40%, transparent 72%);
+  animation-name: pivote;
   animation-duration: 11s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-/* Quatre origines et quatre phases : sans décalage, quatre faisceaux
-   parfaitement synchrones ne sont pas quatre projecteurs, c'est un seul
-   projecteur large. */
-.page-home .beams i:nth-child(1) { left: 14%; --a: -26deg; --b: -8deg;  animation-delay: -0.0s; }
-.page-home .beams i:nth-child(2) { left: 38%; --a: -9deg;  --b: 7deg;   animation-delay: -3.2s; }
-.page-home .beams i:nth-child(3) { left: 62%; --a: 8deg;   --b: -6deg;  animation-delay: -6.1s; }
-.page-home .beams i:nth-child(4) { left: 86%; --a: 25deg;  --b: 9deg;   animation-delay: -8.7s; }
-@keyframes beam-sweep {
-  from { transform: translateX(-50%) rotate(var(--a)); }
-  to   { transform: translateX(-50%) rotate(var(--b)); }
+.page-home .p1 { transform: rotate(-30deg) translateX(-160%); animation-delay: -1s; }
+.page-home .p2 { transform: rotate(-11deg) translateX(-60%);  animation-delay: -5s; }
+.page-home .p3 { transform: rotate(11deg)  translateX(40%);   animation-delay: -8s; }
+.page-home .p4 { transform: rotate(30deg)  translateX(140%);  animation-delay: -3s; }
+@keyframes pivote {
+  from { transform: rotate(-34deg) translateX(-120%); }
+  to   { transform: rotate(22deg)  translateX(60%); }
 }
 
-/* LA BRUME — deux halos radiaux en bas d'écran, bleu et crème, qui
-   dérivent lentement. Elle donne le volume : sans elle, les faisceaux
-   sont des formes posées sur un fond ; avec elle, ils traversent
-   quelque chose. */
-.page-home .haze {
-  position: absolute; inset: 0;
+/* LA BRUME donne le volume : sans elle les faisceaux sont des formes
+   posées sur un fond ; avec elle, ils traversent quelque chose. */
+.page-home .brume {
+  position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
   opacity: calc(.25 + var(--p) * .5);
   background-image:
-    radial-gradient(58% 34% at 26% 104%, rgba(var(--bleu-clair-rgb), .20), transparent 68%),
-    radial-gradient(52% 30% at 76% 108%, rgba(var(--creme-rgb), .12), transparent 66%);
-  animation-name: haze-drift;
+    radial-gradient(55% 30% at 25% 82%, rgba(127, 178, 255, .2), transparent 70%),
+    radial-gradient(50% 28% at 75% 92%, rgba(255, 250, 240, .13), transparent 72%);
+  animation-name: derive;
   animation-duration: 22s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-@keyframes haze-drift {
-  from { transform: translate3d(-2.5%, 0, 0) scale(1); }
-  to   { transform: translate3d(2.5%, -1.5%, 0) scale(1.06); }
+@keyframes derive {
+  from { transform: translateX(-3%) translateY(0); }
+  to   { transform: translateX(3%)  translateY(-2%); }
 }
 
 /* ON COUPE LE MOUVEMENT, PAS LE DÉCOR (principe R92/10). Les faisceaux
-   et la brume restent PEINTS, à une phase fixe — seule la rotation et la
-   dérive s'arrêtent. Une scène de concert immobile reste une scène de
-   concert ; une scène éteinte n'est plus rien. */
+   et la brume restent PEINTS, à une phase fixe. Une scène de concert
+   immobile reste une scène de concert ; une scène éteinte n'est rien. */
 @media (prefers-reduced-motion: reduce) {
-  .page-home .beams i, .page-home .haze { animation-name: none; }
-  .page-home .beams i { transform: translateX(-50%) rotate(var(--a)); }
+  .page-home .projos b, .page-home .brume { animation-name: none; }
 }
-html[data-econome] .page-home .beams i,
-html[data-econome] .page-home .haze { animation-name: none; }
-
-/* ============================================================
-   39.6  R98/4bis — LA COMPOSITION
-   ------------------------------------------------------------
-   CE QUI FAIT LA MAQUETTE 3 N'EST PAS SA COULEUR, C'EST SA MISE EN PAGE.
-   Reteinter la composition existante donne un site plus sombre, pas
-   « Lumière de scène » — constaté à la capture au lot R98/4 : le ciel et
-   les quatre faisceaux étaient bien peints, et entièrement recouverts par
-   le hero photo plein cadre. Aucune des mesures ne pouvait le dire.
-
-   Trois gestes, et ils sont de mise en page :
-     A. le hero en 100svh, contenu centré, la marque en très grand ;
-     B. une section photo PLEINE LARGEUR qui déborde du conteneur ;
-     C. les cartes de dates bord à bord, séparées d'un filet de 2 px.
-
-   ⚠ 100svh ET PAS 100vh. Sur mobile, 100vh vaut la hauteur du viewport
-   BARRE D'ADRESSE RÉTRACTÉE : le hero dépasse alors l'écran au
-   chargement, et le bas du contenu centré passe sous la barre. `svh`
-   (small viewport height) prend la hauteur barre DÉPLOYÉE — la seule qui
-   soit vraie à l'arrivée. Repli 100vh déclaré avant, pour les moteurs qui
-   ignorent svh : la propriété longue plus tardive gagne.
-   ------------------------------------------------------------ */
-
-/* ---- A. LE HERO ---- */
-.page-home .hh-brand {
-  min-height: 100vh;
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-.page-home .hh-brand .hero-inner {
-  display: flex; flex-direction: column; align-items: center;
-  gap: clamp(14px, 2.2vh, 28px);
-  width: min(1100px, 92vw);
-}
-
-/* LA MARQUE EN TRÈS GRAND. Unbounded est une display LARGE : à 210 px,
-   un interlettrage normal ferait déborder « SYFIR » sur 390 px. D'où
-   -.05em, resserré au-delà des .04em du logo — la règle du dépôt veut
-   que plus c'est grand, plus c'est serré. */
-.page-home .hh-brand .hero-title {
-  font-family: var(--display); font-weight: 800;
-  font-size: clamp(58px, 15vw, 210px);
-  line-height: .92;
-  letter-spacing: -.05em;
-  color: var(--blanc);
-  margin: 0;
-}
-.page-home .hh-brand .hero-line, .page-home .hh-brand .hero-line > span { display: inline; }
-
-/* Le sur-titre : capitales très espacées, EN OR. C'est le seul or de
-   cette zone — un liseré de lettres, jamais un aplat. */
-.page-home .hh-brand .hero-sub {
-  font-family: var(--body); font-weight: 600;
-  font-size: clamp(.62rem, 1.5vw, .78rem);
-  letter-spacing: .3em; text-transform: uppercase;
-  color: var(--or);
-  margin: 0;
-}
-.page-home .hh-brand .hero-tagline {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: clamp(1.05rem, 2.6vw, 1.6rem);
-  color: var(--creme-doux);
-  margin: 0;
-}
-
-/* ---- B. LA SECTION PHOTO PLEINE LARGEUR ----
-   Elle DÉBORDE du conteneur : la photo touche les deux bords de l'écran.
-
-   ⚠ LE PIÈGE DU PLEIN CADRE, ET C'EST LE RISQUE Nº1 DE CE LOT. Le motif
-   habituel `margin-inline: calc(50% - 50vw)` utilise 100vw, qui INCLUT
-   la barre de défilement : sur un desktop à barre visible, la section
-   dépasse de 15 px et crée une barre HORIZONTALE — le débordement qu'on
-   cherche justement à éviter. On passe donc par `width: 100%` et un
-   conteneur déjà pleine largeur (la section n'est pas dans .container),
-   ce qui ne référence jamais vw. Mesuré à chaque étape :
-   tools/qa/debordement.mjs. */
-.page-home .section-event {
-  min-height: 96vh;
-  min-height: 96svh;
-  display: grid; align-items: center;
-  padding-inline: 0;
-  overflow: hidden;
-}
-.page-home .section-event > .container {
-  /* Le texte en colonne À GAUCHE, sur le dégradé latéral. */
-  width: min(1200px, 92vw);
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  justify-items: start; text-align: left;
-}
-@media (min-width: 900px) {
-  .page-home .section-event > .container { grid-template-columns: minmax(0, 30rem) 1fr; }
-}
-/* LE DÉGRADÉ LATÉRAL : la photo domine, mais le texte doit tenir. Il
-   descend de l'opaque à gauche vers le transparent à droite — la lecture
-   se fait sur du sombre, la photo respire sur les deux tiers restants. */
-.page-home .section-event::before {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  pointer-events: none;
-  background-image: linear-gradient(
-    90deg,
-    rgba(var(--nuit-0-rgb), .92) 0%,
-    rgba(var(--nuit-0-rgb), .78) 28%,
-    rgba(var(--nuit-0-rgb), .35) 58%,
-    rgba(var(--nuit-0-rgb), .55) 100%);
-}
-.page-home .section-event > .container { position: relative; z-index: 2; }
-
-/* ---- C. LES CARTES DE DATES, BORD À BORD ----
-   Grille sans arrondi, séparée d'un FILET de 2 px : c'est le fond de
-   nuit qui passe entre les cartes, pas une marge. Le filet est la seule
-   séparation — d'où l'absence de border-radius, qui rouvrirait des coins
-   et casserait la ligne continue.
-
-   ⚠ MESURE IMPOSSIBLE AUJOURD'HUI, ET C'EST DIT PLUTÔT QUE TU. La rangée
-   #nextEvents est pilotée par les données, et `baseEvents` est VIDE —
-   état vide honnête, voulu par la doctrine. Elle rend 0 carte : ces
-   règles sont donc écrites correctes mais NON VÉRIFIÉES À L'ÉCRAN. Elles
-   devront être jugées le jour où un événement réel existera. */
-.page-home .next-events .media-row-track {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  gap: 2px;
-  background-color: rgba(var(--creme-rgb), .10);
-  padding: 0;
-  overflow: visible;
-}
-.page-home .next-events .media-row-track > * {
-  min-height: 400px;
-  border-radius: 0;
-  margin: 0;
-}
-/* Les flèches n'ont plus d'objet sur une grille qui enveloppe : on les
-   masque, on ne les SUPPRIME pas — la rangée reste un composant partagé
-   et son JS continue de fonctionner ailleurs. */
-.page-home .next-events .row-arrow { display: none; }
+html[data-econome] .page-home .projos b,
+html[data-econome] .page-home .brume { animation-name: none; }
 
 /* --- 39.2 / 39.3 (retirés, R98/1-4) — LES QUATRE CIELS ET LEUR
    INTÉGRATION AUX DEUX THÈMES, ainsi que les trois variantes R97.

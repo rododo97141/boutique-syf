@@ -80,3 +80,73 @@ forcé, animations figées au même instant des deux côtés.
 Confinement **0 différence** sur les 28 combinaisons hors accueil · contraste AA
 **0 défaut** · **0 débordement** à 390 px · LCP **600 ms** / 2 500 · **0 erreur
 JS** sur 30 · les trois acquis verts · les 4 badges « Exemple » toujours là.
+
+---
+
+# R102 — LE DÉCOR AUSSI ÉTAIT UN ÉCART
+
+Kily a rouvert et repointé le fichier : **« ça doit être comme ça ».** Cinquième
+fois. Et cette fois j'avais 0 écart sur 34 sélecteurs.
+
+> **Je comparais le CONTENU et j'ignorais le DÉCOR.** Aucune de mes 34 paires ne
+> regardait les couches de fond. C'est exactement la même erreur de cadrage que
+> les précédentes, un cran plus loin : j'avais raison sur ce que je mesurais, et
+> je ne mesurais pas la bonne chose.
+
+## Ce que la maquette n'a pas, et que l'accueil portait
+
+| | maquette | accueil |
+|---|---|---|
+| ciel étoilé | **0** | 1 calque |
+| étoiles brillantes | **0** | **8** |
+| filantes | **0** | **2** |
+| guirlandes | **0** | 1 rangée |
+
+Tout ça vient de R92, et c'est **moi** qui l'ai rendu permanent en R98/1-4 — pas
+Kily. La maquette qu'il a validée « telle quelle, rien à ajouter, rien à
+retirer » ne contient **que** trois couches de nuit, quatre projecteurs et une
+brume. Retiré de l'accueil.
+
+## Et la lueur n'était pas au bon endroit
+
+**Mon ciel montait un halo bleu depuis l'horizon ; la maquette pose ses radiaux
+au ZÉNITH** — `at 50% -5%`, `5%`, `8%`. C'est la lumière de scène vue d'en
+dessous, pas un coucher de soleil. Ça change l'équilibre de toute la page.
+
+Les projecteurs faisaient **26vw** au lieu de **16vw**, avec des angles et des
+décalages inventés là où le fichier en donne quatre précis.
+
+Opacités vérifiées aux trois positions, des deux côtés :
+
+| `--p` | n0 | n1 | n2 | projos | brume |
+|---|---|---|---|---|---|
+| 0,00 | 1,000 | 0,000 | 0,000 | 0,200 | 0,250 |
+| 0,50 | 0,450 | 1,000 | 0,425 | 0,600 | 0,500 |
+| 1,00 | 0,000 | 0,000 | 1,000 | 1,000 | 0,750 |
+
+**Identiques au millième.** Une seule adaptation : la maquette écrit
+`1 - abs(var(--p)*2 - 1)` ; `abs()` est récent et inégalement pris en charge, la
+même courbe en triangle s'écrit `2 * min(p, 1-p)`. Vérifié : mêmes valeurs.
+
+## ⚠ L'INCIDENT — 785 lignes supprimées par erreur
+
+Ma première tentative a remplacé un intervalle allant de « 39.1 bis » à
+« 39.35 » — **qui contenait tout le bloc R101** posé entre les deux. La page est
+partie en morceaux : hero écrasé dans un coin, images à pleine opacité, grille
+empilée.
+
+**Vu immédiatement à la capture, corrigé par `git checkout` puis deux
+remplacements disjoints** qui laissent R101 intact. Aucune mesure n'aurait
+signalé ça : le CSS restait valide, les accolades équilibrées, et le harnais
+n'aurait vu qu'un accueil « différent » — ce qu'il est censé être.
+
+> Une suppression par intervalle est aveugle à ce qu'elle enjambe. Découper par
+> **repères de début ET de fin explicites**, jamais « de A jusqu'à B » quand on
+> ne sait pas ce qu'il y a entre.
+
+## État
+
+**0 écart** au fichier · confinement **0 différence** sur 28 combinaisons hors
+accueil · contraste AA **0 défaut** · **0 débordement** · LCP **412 ms** (le
+décor allégé se paie en performance) · **0 erreur JS** sur 30 · les trois acquis
+verts.

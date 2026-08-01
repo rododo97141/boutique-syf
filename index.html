@@ -111,30 +111,22 @@
      Purement CSS : zéro requête réseau, zéro image, LCP inchangé.
      aria-hidden : c'est du décor, rien à annoncer.
 ============================================================ -->
+<!-- ============================================================
+     R102 — LE DÉCOR EST CELUI DE LA MAQUETTE, ET RIEN D'AUTRE.
+     Kily a rouvert et pointé le fichier : « ça doit être comme ça ».
+     L'accueil portait un décor que la maquette N'A PAS — un ciel étoilé,
+     huit étoiles brillantes, deux filantes et des guirlandes, hérités de
+     R92 et rendus permanents par MA décision en R98/1-4, pas par la
+     sienne. La maquette qu'il a validée « telle quelle, rien à ajouter,
+     rien à retirer » ne contient que trois couches de nuit, quatre
+     projecteurs et une brume.
+     `.sky` reste le conteneur : R96 (le sol sous le ciel) et les outils
+     de mesure le connaissent sous ce nom.
+============================================================ -->
 <div class="sky" aria-hidden="true">
-  <div class="sky-grade"></div>
-  <!-- R98 — LES QUATRE FAISCEAUX DE PROJECTEURS. Origine en haut
-       d'écran, ils pivotent lentement. Quatre nœuds vides : la géométrie
-       et la lumière sont entièrement en CSS, zéro image, zéro requête. -->
-  <div class="beams">
-    <i></i><i></i><i></i><i></i>
-  </div>
-  <!-- La brume : deux halos radiaux en bas d'écran, qui dérivent. -->
-  <div class="haze"></div>
-  <!-- Ciel étoilé : trois calques de dégradés tuilés, ZÉRO nœud par
-       étoile. Visible seulement au crépuscule et la nuit. -->
-  <div class="sky-stars"></div>
-  <!-- Les quelques BRILLANTES : halo doré + éclat en croix. Elles seules
-       justifient des nœuds, parce qu'elles portent une croix en
-       pseudo-éléments qu'un dégradé tuilé ne peut pas faire. Huit, pas
-       plus — c'est la limite entre « un ciel » et « une guirlande ». -->
-  <span class="star-bright"></span><span class="star-bright"></span>
-  <span class="star-bright"></span><span class="star-bright"></span>
-  <span class="star-bright"></span><span class="star-bright"></span>
-  <span class="star-bright"></span><span class="star-bright"></span>
-  <!-- Deux filantes, occasionnelles : de longues pauses entre deux
-       passages, sinon ce n'est plus une filante, c'est un trafic. -->
-  <span class="star-shoot"></span><span class="star-shoot"></span>
+  <div class="nuit"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+  <div class="projos"><b class="p1"></b><b class="p2"></b><b class="p3"></b><b class="p4"></b></div>
+  <div class="brume"></div>
 </div>
 
 <!-- ============================================================
@@ -142,9 +134,7 @@
      précis où une terrasse allume ses lumières. Deux festons, un
      câble en dégradé et des ampoules de 5 px. Aucune image.
 ============================================================ -->
-<div class="garlands" aria-hidden="true">
-  <div class="garland garland-1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="garland garland-2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
 </div>
 
 <!-- Préloader retiré : la vitesse perçue prime sur la cérémonie -->
