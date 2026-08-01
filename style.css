@@ -2859,6 +2859,171 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
 }
 
+/* --- 39.6  R98/4bis — LA COMPOSITION ------------------------------------
+   CE QUI FAIT LA MAQUETTE 3 N'EST PAS SA COULEUR, C'EST SA MISE EN PAGE.
+   Réserve du superviseur, et elle est juste : reteinter la composition
+   existante donne un site plus sombre, pas « Lumière de scène ». La
+   capture de R98/4 l'a montré sans ambiguïté — le ciel et les faisceaux
+   étaient bien là, entièrement recouverts par le hero photo plein cadre.
+
+   Aucune mesure ne pouvait dire ça. C'est la même leçon que celle qui a
+   déclenché tout R98 : le harnais prouve qu'on n'a rien cassé, il ne dit
+   jamais si c'est beau.
+
+   --- LE HERO : 100svh, CONTENU CENTRÉ, MARQUE GÉANTE ---
+
+   `svh` et non `vh` : sur mobile, `100vh` compte la barre d'adresse du
+   navigateur comme si elle n'existait pas, et le hero déborde du premier
+   écran d'environ 60 à 110 px selon le navigateur. `svh` (small viewport
+   height) prend la fenêtre dans son état le plus PETIT — barre déployée —
+   donc le hero tient toujours, et ne fait que gagner de la place quand la
+   barre se rétracte. Repli `vh` d'abord pour les navigateurs anciens : la
+   déclaration suivante les ignore silencieusement.
+
+   La marque en clamp(58px, 15vw, 210px) à -.05em : Unbounded est une
+   display LARGE, et à cette taille l'interlettrage par défaut fait
+   éclater le mot. Le resserrement n'est pas un effet, c'est ce qui rend
+   la police tenable en géant. */
+.page-home .home-hero {
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+}
+.page-home .home-hero .hero { min-height: 0; height: 100%; }
+
+/* Contenu centré, vraiment : la grille centre sur les DEUX axes, et le
+   padding d'origine (120px en haut) est remis à une valeur symétrique —
+   sans quoi « centré » veut dire « centré, puis poussé vers le bas ». */
+.page-home .hh-brand .hero-inner {
+  position: absolute; inset: 0;
+  display: grid; place-content: center; justify-items: center;
+  text-align: center;
+  padding: 0 6vw;
+  z-index: 2;
+}
+.page-home .hh-brand .hero-title { overflow: visible; }
+.page-home .hh-brand .hero-line { overflow: visible; }
+.page-home .hh-brand .hero-line span {
+  font-size: clamp(58px, 15vw, 210px);
+  letter-spacing: -.05em;
+  line-height: .88;
+  padding-left: 0;
+  /* L'OR RESTE UN DÉTAIL. L'ancien dégradé crème -> passion -> sunset
+     faisait de la marque une SURFACE dorée de 210 px — exactement ce que
+     la règle interdit. La marque passe en blanc plein ; l'or ne revient
+     que sur le liseré du sous-titre et le ™. */
+  background-image: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: var(--blanc);
+  -webkit-text-fill-color: var(--blanc);
+}
+.page-home .hh-brand .hero-sub {
+  font-size: clamp(.62rem, 1.5vw, .8rem);
+  letter-spacing: .3em; padding-left: .3em;
+  color: var(--or);            /* les sur-titres sont EN OR, en capitales très espacées */
+  margin-top: 22px;
+}
+.page-home .hh-brand .hero-tagline {
+  margin: 18px 0 34px;
+  color: var(--creme-doux);
+  max-width: 34ch;
+}
+.page-home .hh-brand .hero-cta { justify-content: center; }
+
+/* --- LA SECTION PHOTO PLEINE LARGEUR ---
+   Elle DÉBORDE du conteneur, bord à bord, ~96vh. Le texte tient une
+   colonne à gauche, posée sur un dégradé LATÉRAL — pas un voile uniforme.
+   Le dégradé latéral est ce qui permet à la photo de rester lisible à
+   droite tout en portant du texte à gauche : un voile plein la tuerait.
+
+   ⚠ LE DÉBORDEMENT PLEINE LARGEUR EST LE RISQUE Nº 1 À 390 px. La
+   technique `margin-left: calc(50% - 50vw)` est volontairement écartée :
+   `vw` INCLUT la barre de défilement verticale, donc elle déborde de sa
+   largeur exacte (15-17 px sur desktop) et crée une barre horizontale.
+   On utilise `width: 100%` sur un parent déjà pleine largeur — la section
+   n'est pas dans .container, seul son contenu l'est. Mesuré à chaque
+   étape par tools/qa/debordement.mjs. */
+.page-home .section-event {
+  position: relative;
+  min-height: 96vh;
+  min-height: 96svh;
+  display: grid; align-items: center;
+  padding-block: 0;
+  overflow: hidden;
+}
+.page-home .section-event > .container {
+  position: relative; z-index: 2;
+  width: min(1200px, 92vw);
+  margin-inline: auto;
+  display: grid;
+  justify-items: start;
+  text-align: left;
+  max-width: min(1200px, 92vw);
+}
+.page-home .section-event .section-intro,
+.page-home .section-event .h2 { max-width: 22ch; }
+/* Le dégradé LATÉRAL : opaque à gauche sous la colonne de texte, il
+   s'efface vers la droite pour laisser la photo respirer. Un second
+   dégradé vertical rattache la section au ciel en haut et en bas, sinon
+   la photo est un rectangle collé sur la nuit. */
+.page-home .section-event::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, rgba(var(--nuit-0-rgb), .94) 0%, rgba(var(--nuit-0-rgb), .78) 34%, rgba(var(--nuit-0-rgb), .18) 68%, transparent 100%),
+    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, transparent 22%, transparent 78%, rgba(var(--nuit-2-rgb), .92) 100%);
+}
+@media (max-width: 720px) {
+  /* À 390 px il n'y a pas de « colonne à gauche » : le texte occupe tout,
+     et le dégradé latéral devient vertical, sans quoi il ne protège rien. */
+  .page-home .section-event::after {
+    background-image:
+      linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, rgba(var(--nuit-0-rgb), .74) 46%, rgba(var(--nuit-2-rgb), .94) 100%);
+  }
+  .page-home .section-event .section-intro,
+  .page-home .section-event .h2 { max-width: none; }
+}
+
+/* --- LES CARTES DE DATES : UNE GRILLE BORD À BORD ---
+   Collées les unes aux autres, séparées d'un FILET DE 2 px, sans arrondi
+   et sans marge. Le filet n'est pas une bordure : c'est le fond clair à
+   10 % qu'on laisse apparaître entre les cartes via `gap`. Une bordure
+   par carte doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et
+   laisserait les bords extérieurs orphelins.
+
+   Le rayon 18 px du dépôt est volontairement ABANDONNÉ ICI, et c'est la
+   seule dérogation de la refonte : des cartes arrondies ne peuvent pas
+   être bord à bord — l'arrondi crée quatre trous à chaque jonction.
+   C'est la mise en page qui l'exige, pas un caprice.
+
+   ⚠ CE BLOC NE PEUT PAS ÊTRE VÉRIFIÉ VISUELLEMENT AUJOURD'HUI. La rangée
+   #nextEvents est pilotée par les données, et `baseEvents` est VIDE —
+   mesuré : 0 carte rendue. C'est la configuration correcte du dépôt (un
+   état vide honnête plutôt qu'une démo qui ment), et inventer des
+   événements pour voir la grille est en LISTE ROUGE. La règle est donc
+   écrite et prête ; elle attend de vraies dates. Signalé comme tel plutôt
+   que déclaré vérifié. */
+.page-home .next-events .media-row-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 2px;
+  background-color: rgba(var(--creme-rgb), .10);   /* le filet, vu entre les cartes */
+  padding: 0;
+  overflow: visible;                                /* la grille ne défile plus */
+}
+.page-home .next-events .rb-card {
+  border-radius: 0;
+  margin: 0;
+  min-height: 400px;
+  flex: none;                                       /* la piste était en flex */
+  width: auto;
+}
+/* Les flèches de défilement de la rangée n'ont plus d'objet dans une
+   grille : on les masque plutôt que de les retirer du HTML — le JS qui
+   les pilote reste intact, et rien n'est supprimé. */
+.page-home .next-events .row-arrow { display: none; }
+
 /* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
    Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».
 
@@ -2952,6 +3117,145 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 html[data-econome] .page-home .beams i,
 html[data-econome] .page-home .haze { animation-name: none; }
+
+/* ============================================================
+   39.6  R98/4bis — LA COMPOSITION
+   ------------------------------------------------------------
+   CE QUI FAIT LA MAQUETTE 3 N'EST PAS SA COULEUR, C'EST SA MISE EN PAGE.
+   Reteinter la composition existante donne un site plus sombre, pas
+   « Lumière de scène » — constaté à la capture au lot R98/4 : le ciel et
+   les quatre faisceaux étaient bien peints, et entièrement recouverts par
+   le hero photo plein cadre. Aucune des mesures ne pouvait le dire.
+
+   Trois gestes, et ils sont de mise en page :
+     A. le hero en 100svh, contenu centré, la marque en très grand ;
+     B. une section photo PLEINE LARGEUR qui déborde du conteneur ;
+     C. les cartes de dates bord à bord, séparées d'un filet de 2 px.
+
+   ⚠ 100svh ET PAS 100vh. Sur mobile, 100vh vaut la hauteur du viewport
+   BARRE D'ADRESSE RÉTRACTÉE : le hero dépasse alors l'écran au
+   chargement, et le bas du contenu centré passe sous la barre. `svh`
+   (small viewport height) prend la hauteur barre DÉPLOYÉE — la seule qui
+   soit vraie à l'arrivée. Repli 100vh déclaré avant, pour les moteurs qui
+   ignorent svh : la propriété longue plus tardive gagne.
+   ------------------------------------------------------------ */
+
+/* ---- A. LE HERO ---- */
+.page-home .hh-brand {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.page-home .hh-brand .hero-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(14px, 2.2vh, 28px);
+  width: min(1100px, 92vw);
+}
+
+/* LA MARQUE EN TRÈS GRAND. Unbounded est une display LARGE : à 210 px,
+   un interlettrage normal ferait déborder « SYFIR » sur 390 px. D'où
+   -.05em, resserré au-delà des .04em du logo — la règle du dépôt veut
+   que plus c'est grand, plus c'est serré. */
+.page-home .hh-brand .hero-title {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(58px, 15vw, 210px);
+  line-height: .92;
+  letter-spacing: -.05em;
+  color: var(--blanc);
+  margin: 0;
+}
+.page-home .hh-brand .hero-line, .page-home .hh-brand .hero-line > span { display: inline; }
+
+/* Le sur-titre : capitales très espacées, EN OR. C'est le seul or de
+   cette zone — un liseré de lettres, jamais un aplat. */
+.page-home .hh-brand .hero-sub {
+  font-family: var(--body); font-weight: 600;
+  font-size: clamp(.62rem, 1.5vw, .78rem);
+  letter-spacing: .3em; text-transform: uppercase;
+  color: var(--or);
+  margin: 0;
+}
+.page-home .hh-brand .hero-tagline {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(1.05rem, 2.6vw, 1.6rem);
+  color: var(--creme-doux);
+  margin: 0;
+}
+
+/* ---- B. LA SECTION PHOTO PLEINE LARGEUR ----
+   Elle DÉBORDE du conteneur : la photo touche les deux bords de l'écran.
+
+   ⚠ LE PIÈGE DU PLEIN CADRE, ET C'EST LE RISQUE Nº1 DE CE LOT. Le motif
+   habituel `margin-inline: calc(50% - 50vw)` utilise 100vw, qui INCLUT
+   la barre de défilement : sur un desktop à barre visible, la section
+   dépasse de 15 px et crée une barre HORIZONTALE — le débordement qu'on
+   cherche justement à éviter. On passe donc par `width: 100%` et un
+   conteneur déjà pleine largeur (la section n'est pas dans .container),
+   ce qui ne référence jamais vw. Mesuré à chaque étape :
+   tools/qa/debordement.mjs. */
+.page-home .section-event {
+  min-height: 96vh;
+  min-height: 96svh;
+  display: grid; align-items: center;
+  padding-inline: 0;
+  overflow: hidden;
+}
+.page-home .section-event > .container {
+  /* Le texte en colonne À GAUCHE, sur le dégradé latéral. */
+  width: min(1200px, 92vw);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start; text-align: left;
+}
+@media (min-width: 900px) {
+  .page-home .section-event > .container { grid-template-columns: minmax(0, 30rem) 1fr; }
+}
+/* LE DÉGRADÉ LATÉRAL : la photo domine, mais le texte doit tenir. Il
+   descend de l'opaque à gauche vers le transparent à droite — la lecture
+   se fait sur du sombre, la photo respire sur les deux tiers restants. */
+.page-home .section-event::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image: linear-gradient(
+    90deg,
+    rgba(var(--nuit-0-rgb), .92) 0%,
+    rgba(var(--nuit-0-rgb), .78) 28%,
+    rgba(var(--nuit-0-rgb), .35) 58%,
+    rgba(var(--nuit-0-rgb), .55) 100%);
+}
+.page-home .section-event > .container { position: relative; z-index: 2; }
+
+/* ---- C. LES CARTES DE DATES, BORD À BORD ----
+   Grille sans arrondi, séparée d'un FILET de 2 px : c'est le fond de
+   nuit qui passe entre les cartes, pas une marge. Le filet est la seule
+   séparation — d'où l'absence de border-radius, qui rouvrirait des coins
+   et casserait la ligne continue.
+
+   ⚠ MESURE IMPOSSIBLE AUJOURD'HUI, ET C'EST DIT PLUTÔT QUE TU. La rangée
+   #nextEvents est pilotée par les données, et `baseEvents` est VIDE —
+   état vide honnête, voulu par la doctrine. Elle rend 0 carte : ces
+   règles sont donc écrites correctes mais NON VÉRIFIÉES À L'ÉCRAN. Elles
+   devront être jugées le jour où un événement réel existera. */
+.page-home .next-events .media-row-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 2px;
+  background-color: rgba(var(--creme-rgb), .10);
+  padding: 0;
+  overflow: visible;
+}
+.page-home .next-events .media-row-track > * {
+  min-height: 400px;
+  border-radius: 0;
+  margin: 0;
+}
+/* Les flèches n'ont plus d'objet sur une grille qui enveloppe : on les
+   masque, on ne les SUPPRIME pas — la rangée reste un composant partagé
+   et son JS continue de fonctionner ailleurs. */
+.page-home .next-events .row-arrow { display: none; }
 
 /* --- 39.2 / 39.3 (retirés, R98/1-4) — LES QUATRE CIELS ET LEUR
    INTÉGRATION AUX DEUX THÈMES, ainsi que les trois variantes R97.
