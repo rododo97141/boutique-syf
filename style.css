@@ -2859,253 +2859,161 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
 }
 
-/* --- 39.6  R98/4bis — LA COMPOSITION ------------------------------------
-   CE QUI FAIT LA MAQUETTE 3 N'EST PAS SA COULEUR, C'EST SA MISE EN PAGE.
-   Réserve du superviseur, et elle est juste : reteinter la composition
-   existante donne un site plus sombre, pas « Lumière de scène ». La
-   capture de R98/4 l'a montré sans ambiguïté — le ciel et les faisceaux
-   étaient bien là, entièrement recouverts par le hero photo plein cadre.
+/* --- 39.6  R99 — LA COMPOSITION DE LA MAQUETTE --------------------------
+   SIX BLOCS, RIEN DE PLUS. L'accueil en comptait vingt-deux et son hero
+   était un CARROUSEL horizontal de cinq panneaux : on avait repeint une
+   page catalogue au lieu de construire une affiche. Les valeurs qui
+   suivent sont celles de la maquette validée par Kily, pas des valeurs
+   approchées — c'est la structure qui échouait, pas la couleur.
 
-   Aucune mesure ne pouvait dire ça. C'est la même leçon que celle qui a
-   déclenché tout R98 : le harnais prouve qu'on n'a rien cassé, il ne dit
-   jamais si c'est beau.
-
-   --- LE HERO : 100svh, CONTENU CENTRÉ, MARQUE GÉANTE ---
-
-   `svh` et non `vh` : sur mobile, `100vh` compte la barre d'adresse du
-   navigateur comme si elle n'existait pas, et le hero déborde du premier
-   écran d'environ 60 à 110 px selon le navigateur. `svh` (small viewport
-   height) prend la fenêtre dans son état le plus PETIT — barre déployée —
-   donc le hero tient toujours, et ne fait que gagner de la place quand la
-   barre se rétracte. Repli `vh` d'abord pour les navigateurs anciens : la
-   déclaration suivante les ignore silencieusement.
-
-   La marque en clamp(58px, 15vw, 210px) à -.05em : Unbounded est une
-   display LARGE, et à cette taille l'interlettrage par défaut fait
-   éclater le mot. Le resserrement n'est pas un effet, c'est ce qui rend
-   la police tenable en géant. */
+   ===== BLOC 1 — LE HERO =====
+   Un écran, un message, deux boutons. `svh` et non `vh` : sur mobile,
+   100vh ignore la barre d'adresse et fait déborder le hero du premier
+   écran de 60 à 110 px. Repli `vh` déclaré d'abord. */
 .page-home .home-hero {
-  height: 100vh;
-  height: 100svh;
-  min-height: 560px;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: auto;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0;
 }
-.page-home .home-hero .hero { min-height: 0; height: 100%; }
-
-/* Contenu centré, vraiment : la grille centre sur les DEUX axes, et le
-   padding d'origine (120px en haut) est remis à une valeur symétrique —
-   sans quoi « centré » veut dire « centré, puis poussé vers le bas ». */
-.page-home .hh-brand .hero-inner {
+/* La photo plein cadre : elle DOMINE, le fond la soutient. Zoom lent —
+   c'est le seul mouvement du premier écran, et il est imperceptible
+   image par image, ce qui est exactement le but. */
+.page-home .home-hero .hero-bg {
   position: absolute; inset: 0;
-  display: grid; place-content: center; justify-items: center;
-  text-align: center;
-  padding: 0 6vw;
-  z-index: 2;
+  opacity: .5;
+  filter: contrast(1.12);
+  animation-name: hero-zoom;
+  animation-duration: 26s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
-.page-home .hh-brand .hero-title { overflow: visible; }
-.page-home .hh-brand .hero-line { overflow: visible; }
-.page-home .hh-brand .hero-line span {
+@keyframes hero-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.09); }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* On coupe le mouvement, pas le décor (R92/10) : la photo reste
+     peinte, à son échelle de départ. */
+  .page-home .home-hero .hero-bg { animation-name: none; transform: none; }
+}
+
+.page-home .home-hero .hero-inner {
+  position: relative; z-index: 2;
+  display: grid; justify-items: center;
+  text-align: center;
+  padding: 0 26px;
+  max-width: 1240px;
+}
+
+/* LA MARQUE. Unbounded est une display LARGE : à 210 px l'espacement par
+   défaut fait éclater le mot. Le resserrement n'est pas un effet, c'est
+   ce qui rend la police tenable en géant. Le halo bleu la décolle de la
+   photo sans poser d'aplat — c'est de la lumière, pas une surface. */
+.page-home .hero-title { overflow: visible; }
+.page-home .hero-line { display: block; overflow: visible; }
+.page-home .hero-line span {
+  display: block;
+  font-family: var(--display); font-weight: 800;
   font-size: clamp(58px, 15vw, 210px);
+  line-height: .86;
   letter-spacing: -.05em;
-  line-height: .88;
   padding-left: 0;
-  /* L'OR RESTE UN DÉTAIL. L'ancien dégradé crème -> passion -> sunset
-     faisait de la marque une SURFACE dorée de 210 px — exactement ce que
-     la règle interdit. La marque passe en blanc plein ; l'or ne revient
-     que sur le liseré du sous-titre et le ™. */
   background-image: none;
   background-clip: border-box;
   -webkit-background-clip: border-box;
   color: var(--blanc);
   -webkit-text-fill-color: var(--blanc);
+  text-shadow: 0 0 90px rgba(var(--bleu-clair-rgb), .5);
 }
-.page-home .hh-brand .hero-sub {
-  font-size: clamp(.62rem, 1.5vw, .8rem);
-  letter-spacing: .3em; padding-left: .3em;
-  color: var(--or);            /* les sur-titres sont EN OR, en capitales très espacées */
-  margin-top: 22px;
-}
-.page-home .hh-brand .hero-tagline {
-  margin: 18px 0 34px;
-  color: var(--creme-doux);
-  max-width: 34ch;
-}
-.page-home .hh-brand .hero-cta { justify-content: center; }
 
-/* --- LA SECTION PHOTO PLEINE LARGEUR ---
-   Elle DÉBORDE du conteneur, bord à bord, ~96vh. Le texte tient une
-   colonne à gauche, posée sur un dégradé LATÉRAL — pas un voile uniforme.
-   Le dégradé latéral est ce qui permet à la photo de rester lisible à
-   droite tout en portant du texte à gauche : un voile plein la tuerait.
+/* Le sur-titre : 11 px, .5em, capitales, OR. Il passe AVANT la marque
+   dans le flux — c'est le lieu qui annonce la marque, pas l'inverse. */
+.page-home .hero-kicker {
+  font-family: var(--display); font-weight: 700;
+  font-size: 11px; letter-spacing: .5em; padding-left: .5em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin: 0 0 26px;
+}
+.page-home .hero-tagline {
+  margin: 22px 0 38px;
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(20px, 2.5vw, 32px);
+  line-height: 1.5;
+  color: var(--creme);
+  max-width: 26ch;
+}
+.page-home .hero-tagline em { font-style: italic; }
+.page-home .hero-cta { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
 
-   ⚠ LE DÉBORDEMENT PLEINE LARGEUR EST LE RISQUE Nº 1 À 390 px. La
-   technique `margin-left: calc(50% - 50vw)` est volontairement écartée :
-   `vw` INCLUT la barre de défilement verticale, donc elle déborde de sa
-   largeur exacte (15-17 px sur desktop) et crée une barre horizontale.
-   On utilise `width: 100%` sur un parent déjà pleine largeur — la section
-   n'est pas dans .container, seul son contenu l'est. Mesuré à chaque
-   étape par tools/qa/debordement.mjs. */
-.page-home .section-event {
+/* ===== BLOC 2 — LE MANIFESTE : un bloc CONTENU ===== */
+.page-home .manifesto {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: clamp(80px, 13vh, 150px) 26px;
+}
+
+/* ===== BLOC 3 — LES ARTISTES, EN PLEIN CADRE =====
+   Bord à bord : elle DÉBORDE du conteneur. La technique
+   `margin-left: calc(50% - 50vw)` est écartée — `vw` inclut la barre de
+   défilement verticale, donc elle déborde de sa largeur exacte (15-17 px)
+   et crée une barre horizontale. La section n'est pas dans .container :
+   seul son contenu l'est. */
+.page-home #artistes {
   position: relative;
   min-height: 96vh;
   min-height: 96svh;
   display: grid; align-items: center;
-  padding-block: 0;
+  padding: 0;
   overflow: hidden;
 }
-.page-home .section-event > .container {
+.page-home #artistes > .container {
   position: relative; z-index: 2;
-  width: min(1200px, 92vw);
+  width: min(1240px, 100%);
   margin-inline: auto;
-  display: grid;
-  justify-items: start;
+  padding: clamp(60px, 10vh, 120px) 26px;
+  display: grid; justify-items: start;
   text-align: left;
-  max-width: min(1200px, 92vw);
 }
-.page-home .section-event .section-intro,
-.page-home .section-event .h2 { max-width: 22ch; }
-/* Le dégradé LATÉRAL : opaque à gauche sous la colonne de texte, il
-   s'efface vers la droite pour laisser la photo respirer. Un second
-   dégradé vertical rattache la section au ciel en haut et en bas, sinon
-   la photo est un rectangle collé sur la nuit. */
-.page-home .section-event::after {
+/* La colonne de texte à GAUCHE, limitée à 36ch : c'est cette limite qui
+   fait la colonne. Sans elle, le texte s'étale sur toute la photo et la
+   composition redevient une bannière. */
+.page-home #artistes .h2,
+.page-home #artistes .section-intro { max-width: 36ch; }
+
+/* L'image en absolute inset 0, object-fit cover, opacité .56. */
+.page-home .artistes-photo {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: .56;
+  filter: contrast(1.12);
+}
+/* Le dégradé LATÉRAL : opaque à gauche sous la colonne, effacé à droite
+   pour laisser la photo respirer. Un voile uniforme la tuerait. */
+.page-home #artistes::after {
   content: ''; position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
   background-image:
-    linear-gradient(90deg, rgba(var(--nuit-0-rgb), .94) 0%, rgba(var(--nuit-0-rgb), .78) 34%, rgba(var(--nuit-0-rgb), .18) 68%, transparent 100%),
-    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, transparent 22%, transparent 78%, rgba(var(--nuit-2-rgb), .92) 100%);
+    linear-gradient(90deg, rgba(var(--nuit-0-rgb), .94) 0%, rgba(var(--nuit-0-rgb), .80) 32%, rgba(var(--nuit-0-rgb), .20) 68%, transparent 100%),
+    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, transparent 24%, transparent 76%, rgba(var(--nuit-2-rgb), .92) 100%);
 }
 @media (max-width: 720px) {
-  /* À 390 px il n'y a pas de « colonne à gauche » : le texte occupe tout,
-     et le dégradé latéral devient vertical, sans quoi il ne protège rien. */
-  .page-home .section-event::after {
+  /* À 390 px il n'y a pas de colonne à gauche : le texte prend toute la
+     largeur, et le dégradé devient vertical — latéral, il ne protégerait
+     plus rien. */
+  .page-home #artistes::after {
     background-image:
-      linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, rgba(var(--nuit-0-rgb), .74) 46%, rgba(var(--nuit-2-rgb), .94) 100%);
+      linear-gradient(180deg, rgba(var(--nuit-0-rgb), .90) 0%, rgba(var(--nuit-0-rgb), .74) 46%, rgba(var(--nuit-2-rgb), .94) 100%);
   }
-  .page-home .section-event .section-intro,
-  .page-home .section-event .h2 { max-width: none; }
-}
-
-/* --- LA TYPOGRAPHIE DE LA NUIT ------------------------------------------
-   Unbounded 800 en capitales TRÈS SERRÉES pour les titres, Fraunces
-   italique pour les respirations, Plus Jakarta Sans pour le texte, et les
-   sur-titres en capitales très espacées ET EN OR.
-
-   ⚠ L'INTERLETTRAGE PASSE PAR LA VALEUR NOMINALE, PAS PAR UNE BASE
-   COMMUNE. R94 a payé ce piège : imposer un `letter-spacing` commun
-   ÉCRASE celui de chaque titre — mesuré alors, le h1 de la billetterie
-   passait de -.01em à -.02em et perdait 15 px de large. La forme retenue
-   est `calc(nominal + var(--syfir-track, 0em))`, où --syfir-track est le
-   DELTA de la respiration cinétique. On change donc le NOMINAL, et le
-   delta continue de s'ajouter par-dessus, intact.
-
-   Pourquoi -.035em : Unbounded est une display LARGE, aux formes rondes.
-   À l'échelle d'un titre de section en capitales, l'espacement par défaut
-   fait éclater le mot. Le resserrement n'est pas un effet de style, c'est
-   ce qui rend la police tenable en grand. */
-.page-home .h2 { letter-spacing: calc(-.035em + var(--syfir-track, 0em)); }
-
-/* Les sur-titres : capitales très espacées (.3em) et EN OR — l'or de
-   SCÈNE (--or), pas l'or de marque. Ils remplacent l'ancien orange
-   sunset, qui appartenait au monde d'été. */
-.page-home .eyebrow,
-.page-home .eyebrow-light {
-  color: var(--or);
-  letter-spacing: .3em;
-}
-
-/* L'accent italique des titres : une LETTRE en or, ce que la règle
-   autorise explicitement (« un liseré, une lettre, un contour »). On
-   passe du dégradé métallique de marque à l'or de scène, plein et doux :
-   un dégradé métallique de 4,4 rem sur du bleu profond redevient une
-   SURFACE, et la surface est ce qui est interdit. */
-.page-home .h2 em {
-  background-image: none;
-  background-clip: border-box;
-  -webkit-background-clip: border-box;
-  color: var(--or);
-  -webkit-text-fill-color: var(--or);
-}
-
-/* Le texte courant et les intros passent au crème froid de la nuit. */
-.page-home .section-intro,
-.page-home .intro-light { color: var(--creme-doux); }
-
-/* --- LES PHOTOS PLEIN CADRE : LA PHOTO DOMINE, LE FOND LA SOUTIENT ---
-   Opacité .5-.56 et contrast(1.1), dégradés par-dessus. C'est ce qui
-   fait entrer les photos DANS la nuit au lieu de les poser dessus : à
-   pleine opacité, une photo de jour turquoise annule tout le travail du
-   ciel — constaté à la capture de R98/4bis, où le hero rendait un plein
-   jour vif sur un site de nuit.
-
-   POURQUOI L'OPACITÉ ET PAS UN VOILE SOMBRE PAR-DESSUS : un voile ajoute
-   une couche grise qui délave les noirs de la photo ; l'opacité laisse
-   le fond de nuit TRANSPARAÎTRE à travers elle, donc les noirs de la
-   photo deviennent les noirs de la nuit. contrast(1.1) rattrape le
-   manque de matière que l'opacité coûte — sans lui, une photo à 52 %
-   est une photo fade, pas une photo nocturne.
-
-   ⚠ C'EST ICI, ET NULLE PART AILLEURS, QUE SE JOUE LA LISIBILITÉ. Avec
-   un seul monde de nuit, le texte est crème sur nuit partout — 16,5:1.
-   Le SEUL endroit où du texte se pose encore sur du clair, c'est une
-   photo. La bande morte L ∈ [0,168 ; 0,243] de R97 n'est plus traversée
-   par les fonds ; elle peut l'être par une photo. Mesuré au 90e centile
-   du fond, jamais à sa moyenne (tools/qa/contraste.mjs) : un texte
-   illisible sur la partie claire d'une photo passe une moyenne. */
-.page-home .hero-bg,
-.page-home .hh-bg,
-.page-home .event-bg {
-  opacity: .54;
-  filter: contrast(1.1);
-}
-/* Le voile du hero reprend les couleurs de la nuit, pas l'océan de
-   l'ancien monde : il rattache la photo au ciel au lieu de la poser
-   dessus. Vertical, pour garder la lecture au centre. */
-.page-home .hero-veil {
-  background-image:
-    radial-gradient(120% 78% at 50% 116%, rgba(var(--bleu-rgb), .30), transparent 62%),
-    linear-gradient(180deg,
-      rgba(var(--nuit-0-rgb), .86) 0%,
-      rgba(var(--nuit-0-rgb), .46) 34%,
-      rgba(var(--nuit-1-rgb), .58) 66%,
-      rgba(var(--nuit-2-rgb), .94) 100%);
-}
-/* Les diapositives éditoriales du carrousel portent leur texte en bas à
-   gauche : le dégradé les protège de ce côté. */
-.page-home .hh-slide:not(.hh-brand)::after {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  pointer-events: none;
-  background-image:
-    linear-gradient(180deg, rgba(var(--nuit-0-rgb), .72) 0%, transparent 34%),
-    linear-gradient(75deg, rgba(var(--nuit-0-rgb), .92) 0%, rgba(var(--nuit-0-rgb), .62) 42%, transparent 78%);
-}
-.page-home .hh-content { position: relative; z-index: 2; }
-
-/* --- LE BOUTON PRINCIPAL : BLANC PLEIN, QUI PULSE À 116 BPM ---
-   Il CONSOMME l'horloge --syfir-beat de R94, il ne pose aucune animation
-   propre. C'est la leçon la plus chère de R94 : poser `animation` sur un
-   CTA écrase son animation d'entrée, et animer `box-shadow` détruit son
-   ombre. Un `filter: drop-shadow` piloté par la variable se COMPOSE
-   par-dessus, sans rien écraser et sans rien à remettre en phase.
-   1,034 s = 2 temps à 116 BPM — le battement, pas la double-croche. */
-.page-home .hero-cta .btn-gradient,
-.page-home .hh-cta,
-.page-home .next-cta .btn {
-  background-image: none;
-  background-color: var(--blanc);
-  color: var(--nuit-0);
-  border: none;
-  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
-}
-/* Le secondaire en liseré, jamais en aplat : c'est la même règle que
-   l'or — un contour, pas une surface. */
-.page-home .hero-cta .btn-ghost {
-  background-color: transparent;
-  border: 1px solid rgba(var(--creme-rgb), .38);
-  color: var(--creme);
-}
-.page-home .hero-cta .btn-ghost:hover {
-  border-color: var(--or);
-  color: var(--blanc);
+  .page-home #artistes .h2,
+  .page-home #artistes .section-intro { max-width: none; }
 }
 
 /* --- LES CARTES DE DATES : UNE GRILLE BORD À BORD ---

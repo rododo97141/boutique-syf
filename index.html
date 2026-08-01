@@ -241,79 +241,33 @@
      puis événements/billetterie, artistes, écosystème, SYFIR TV.
      Auto-rotation 6 s.
 ============================================================ -->
-<section class="home-hero" aria-label="À la une — SYFIR">
-  <div class="home-hero-track" id="homeHero">
-  <header class="hh-slide hh-brand hero" id="accueil">
+<!-- ============================================================
+     R99 — LE HERO : UNE AFFICHE, PLUS UN CARROUSEL
+     Le hero etait un CARROUSEL HORIZONTAL de cinq panneaux
+     (.home-hero-track, cinq .hh-slide). C'est ce qui detruisait les trois
+     premieres secondes : on arrivait sur un catalogue qui defile, pas sur
+     une affiche. Les quatre panneaux editoriaux ne portaient que des
+     liens vers evenements.html, qui les porte deja.
+     Un ecran, un message, deux boutons.
+============================================================ -->
+<section class="home-hero" id="accueil" aria-label="SYFIR — Guadeloupe, Caraïbe">
   <div class="hero-bg" data-parallax="0.25"></div>
   <div class="hero-veil"></div>
-  <div class="gold-sweep"></div>
 
-  <!-- Premier écran volontairement minimal (jugement en 50 ms) :
-       UN message (le slogan) + deux CTA (billetterie / écosystème). -->
   <div class="hero-inner">
-    <h1 class="hero-title">
-      <span class="hero-line"><span>SYFIR</span></span>
-    </h1>
-    <p class="hero-sub reveal d2">FÊTE · MUSIQUE · EXPÉRIENCE COLLECTIVE</p>
-    <p class="hero-tagline"><span>Tes</span> <span>prochains</span> <span>souvenirs</span> <span>commencent</span> <span>ici.</span></p>
-    <div class="hero-cta reveal d4">
-      <a href="evenements.html" class="btn btn-gradient btn-lg">Découvrir les événements</a>
-      <a href="partenaires.html" class="btn btn-ghost btn-lg">Explorer l'écosystème</a>
+    <p class="hero-kicker">Guadeloupe &middot; Cara&iuml;be</p>
+    <h1 class="hero-title"><span class="hero-line"><span>SYFIR</span></span></h1>
+    <p class="hero-tagline"><em>Tes prochains souvenirs commencent ici.</em></p>
+    <div class="hero-cta">
+      <a href="evenements.html" class="btn btn-gradient btn-lg">D&eacute;couvrir les &eacute;v&eacute;nements</a>
+      <a href="partenaires.html" class="btn btn-ghost btn-lg">Explorer l'&eacute;cosyst&egrave;me</a>
     </div>
   </div>
 
-  <a href="#prochains" class="scroll-hint" aria-label="Défiler">
+  <a href="#prochains" class="scroll-hint" aria-label="D&eacute;filer">
     <span class="scroll-hint-line"></span>
     <span>Explorer</span>
   </a>
-  </header>
-
-  <section class="hh-slide" aria-label="Événements et billetterie">
-    <!-- R81 : images/produits/syfir-pub-plage-2.jpg montrait en réalité des
-         pochettes AVYR au premier plan (malgré son nom de fichier) — remplacée
-         par une photo de foule en festival, sans aucun produit visible. -->
-    <picture><source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp"><img class="hh-bg" src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="Foule en liesse pendant un festival SYFIR" loading="lazy" decoding="async" width="1600" height="1068"></picture>
-    <div class="hh-content">
-      <div class="hh-meta"><span class="rb-badge rb-badge-festival">Festival</span><span>📅 15 août · 📍 Le Gosier</span></div>
-      <h2 class="hh-title">SYFIR Tropical <em>Festival</em></h2>
-      <p class="hh-desc">La plage devient scène. Le soleil descend, la basse monte — réserve ta place avant que ce soit complet.</p>
-      <a class="btn btn-gradient btn-lg hh-cta" href="evenement.html?id=4">Réserver ma place →</a>
-    </div>
-  </section>
-
-  <section class="hh-slide" aria-label="Artistes et talents">
-    <picture><source type="image/webp" srcset="images/ext/unsplash-photo-1514525253161-7a46d19cd819.webp"><img class="hh-bg" src="images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="Le public en fusion pendant un concert SYFIR" loading="lazy" decoding="async" width="1600" height="1200"></picture>
-    <div class="hh-content">
-      <div class="hh-meta"><span class="rb-badge">Line-up</span><span>Artistes, DJs &amp; groupes live</span></div>
-      <h2 class="hh-title">Ceux qui font <em>monter la température</em>.</h2>
-      <p class="hh-desc">DJs, voix et orchestres — le line-up qui fait vivre chaque soirée SYFIR.</p>
-      <a class="btn btn-gradient btn-lg hh-cta" href="artistes.html#artistes">Découvrir le line-up →</a>
-    </div>
-  </section>
-
-  <section class="hh-slide" aria-label="L'Écosystème">
-    <picture><source type="image/webp" srcset="images/ext/unsplash-photo-1496337589254-7e19d01cec44.webp"><img class="hh-bg" src="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="Rooftop partenaire SYFIR à la golden hour" loading="lazy" decoding="async" width="1600" height="1067"></picture>
-    <div class="hh-content">
-      <div class="hh-meta"><span class="rb-badge">Écosystème</span><span>Lieux, artistes, prestataires &amp; marques</span></div>
-      <h2 class="hh-title">Un réseau,<em> pas un catalogue</em>.</h2>
-      <p class="hh-desc">AVYR et les autres marques partenaires, les lieux, les organisateurs — l'écosystème qui fait vivre SYFIR sur le terrain.</p>
-      <a class="btn btn-gradient btn-lg hh-cta" href="partenaires.html">Explorer l'écosystème →</a>
-    </div>
-  </section>
-
-  <section class="hh-slide" aria-label="SYFIR TV et communauté">
-    <picture><source type="image/webp" srcset="images/ext/unsplash-photo-1414235077428-338989a2e8c0.webp"><img class="hh-bg" src="images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg" alt="Une soirée privée SYFIR, ambiance golden hour" loading="lazy" decoding="async" width="1600" height="1067"></picture>
-    <div class="hh-content">
-      <div class="hh-meta"><span class="rb-badge">SYFIR TV</span><span>La chaîne des moments</span></div>
-      <h2 class="hh-title">Passe à <em>l'antenne</em>.</h2>
-      <p class="hh-desc">Ce qui se passe quand la caméra tourne encore. Les nuits SYFIR, comme si tu y étais.</p>
-      <a class="btn btn-gradient btn-lg hh-cta" href="syf-tv.html">Ouvrir SYFIR TV →</a>
-    </div>
-  </section>
-  </div>
-  <div class="hh-dots" id="hhDots"></div>
-  <button class="hh-arrow hh-prev" type="button" aria-label="Visuel précédent">‹</button>
-  <button class="hh-arrow hh-next" type="button" aria-label="Visuel suivant">›</button>
 </section>
 
 <!-- ============================================================
@@ -366,79 +320,29 @@
 <!-- ============================================================
      ARTISTES & DJs — fiches + extraits audio
 ============================================================ -->
-<section id="artistes" class="section section-dark">
+<!-- ============================================================
+     R99 — BLOC 3 : LES ARTISTES, EN AFFICHE
+     Le line-up detaille (filtres, grille, agenda) a demenage vers
+     artistes.html : il ne disparait pas, il change de page. Ce qui reste
+     ici est l'affiche — pleine largeur, une colonne de texte a gauche,
+     un lien vers la page qui porte le detail.
+     L'ancre #artistes est conservee : elle etait citee 44 fois.
+============================================================ -->
+<section id="artistes" class="section section-dark" aria-label="Line-up SYFIR">
+  <picture>
+    <source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp">
+    <img class="artistes-photo" src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg"
+         onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg'"
+         alt="Foule en liesse pendant un concert SYFIR" loading="lazy" decoding="async"
+         width="1600" height="1068">
+  </picture>
   <div class="container">
     <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
     <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
-    <p class="section-intro intro-light reveal d2">Ceux qui font monter la température. DJs, voix et orchestres — écoute, choisis, booke.</p>
-
-    <div class="filter-chips artist-chips reveal d2" id="artistChips">
-      <button class="chip active" data-cat="tous">Tous</button>
-      <button class="chip" data-cat="dj">DJ</button>
-      <button class="chip" data-cat="artiste">Artiste</button>
-      <button class="chip" data-cat="groupe">Groupe musical</button>
-    </div>
-
-    <p class="lineup-note reveal d2">✦ Artistes, DJs et groupes musicaux sont des <strong>partenaires</strong> SYFIR (talents bookés pour les événements).</p>
-
-    <div class="artists-grid" id="lineupGrid">
-      <!-- R82.1c : les 7 cartes d'artistes de démonstration (noms, bios et
-           photos fictifs) sont retirées de la version publique — archivées
-           dans dev/demo-data-artistes.md. Seul Unity 141 (réel) est publié. -->
-      <!-- Unity 141 — groupe RÉEL (bio, contacts et photo officiels, validés par le client) -->
-      <article class="artist-card reveal d2" data-type="groupe" data-cat="groupe"
-        id="artiste-unity"
-        data-name="Unity 141" data-role="Kompa · Zouk · Bouyon" data-badge="Orchestre live"
-        data-book-note="Réponse sous 24h — management Unity 141"
-        data-contact-phone="+590690945474" data-contact-phone-display="0690 94 54 74"
-        data-contact-email="unity141vf@gmail.com"
-        data-img="images/artiste-unity.jpg"
-        data-photos="images/artiste-unity.jpg"
-        data-video="https://www.youtube.com/embed/UVYTuLruNK8|https://www.youtube.com/embed/94N9rC4bIGg|https://www.youtube.com/embed/sP6-aWgghGY"
-        data-video-titles="Live fête de la pêche — Terre-de-Haut 2023 (feat Danday Danday)|Live du 10 juin avec Danday Danday — Terre-de-Haut|Live Unity 141"
-        data-tags="Kompa,Zouk,Bouyon,Carnaval"
-        data-bio="Unity 141, c'est l'orchestre qui fait danser la Guadeloupe. Kompa, zouk, bouyon, carnaval et ambiance live — des fêtes patronales de Terre-de-Haut aux scènes de Marie-Galante, le collectif et ses voix enflamment chaque bal. Un mot d'ordre : l'unité par la musique."
-        data-youtube="https://www.youtube.com/@unity1416"
-        data-soundcloud="https://soundcloud.com/user-393789233"
-        data-listen-embed="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-393789233/mix-zouk-live-unity-141"
-        data-instagram="https://www.instagram.com/unity_141"
-        data-facebook="https://www.facebook.com/Unity141"
-        data-tiktok="https://www.tiktok.com/@unity_141">
-        <div class="artist-photo">
-          <img width="1142" height="1600" src="images/artiste-unity.jpg" alt="Unity 141 — les dix musiciens du collectif" loading="lazy" decoding="async">
-          <span class="artist-badge">Orchestre live</span>
-          <button class="artist-play" type="button" aria-label="Écouter Unity 141 (mix SoundCloud dans la fiche)">▶</button>
-        </div>
-        <div class="artist-info">
-          <h3>Unity 141</h3>
-          <p class="artist-role">Kompa · Zouk · Bouyon</p>
-          <div class="artist-tags"><span>Kompa</span><span>Zouk</span><span>Bouyon</span><span>Carnaval</span></div>
-          <div class="artist-foot">
-            <span class="artist-more">Voir la fiche →</span>
-            <button class="artist-book" data-request="artiste" type="button">Booker</button>
-          </div>
-        </div>
-      </article>
-    </div>
-    <p class="no-results artists-empty" id="noArtists" hidden>Aucun talent dans cette catégorie pour l'instant. ✦</p>
-
+    <p class="section-intro intro-light reveal d2">Ceux qui font monter la temp&eacute;rature. DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
     <p class="artists-cta reveal d2">
-      Tu es DJ, chanteur·euse ou groupe ?
-      <button class="artists-cta-link" data-request="artiste" type="button">Rejoins le line-up SYFIR →</button>
+      <a class="btn btn-ghost btn-lg" href="artistes.html#artistes">Voir le line-up &rarr;</a>
     </p>
-
-    <!-- Agenda des concerts -->
-    <div class="agenda reveal d2" id="agenda">
-      <h3 class="agenda-title">Agenda des concerts</h3>
-      <!-- R82.1c : les 3 dates de concerts fictives sont retirées — l'état
-           vide honnête ci-dessous s'affiche tant qu'aucun concert réel
-           n'est programmé. -->
-      <ul class="agenda-list"></ul>
-      <!-- Visible par défaut : script.js ne le masque que s'il existe des
-           rangées de concerts à venir (aucune tant que la programmation
-           réelle n'est pas publiée). -->
-      <p class="agenda-empty" id="agendaEmpty">Aucun concert à venir pour le moment — la programmation arrive très vite. ✦</p>
-    </div>
   </div>
 </section>
 
