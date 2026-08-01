@@ -25,7 +25,79 @@
      Les pages affichent leurs états vides honnêtes tant qu'aucun événement
      réel n'est publié ; les vrais événements créés via l'espace pro
      (getProEvents) continuent d'apparaître normalement. */
-  const baseEvents = [];
+  /* ============================================================
+     ⚠ DONNÉES DE DÉMONSTRATION — À RETIRER AVANT PUBLICATION
+     ------------------------------------------------------------
+     Autorisation explicite de Kily (R99) : « tu peux mettre quelques
+     dates, vu que je ne vais pas publier le site maintenant ». Elle ne
+     vaut QUE dans ce cadre, et sous quatre conditions, toutes tenues :
+
+     1. Chacun porte `demo: true`. Le mécanisme existait déjà — le badge
+        « Exemple » est rendu par script.js (carte de l'accueil et carte
+        d'événement), evenement.js et artiste.js. Il est RÉUTILISÉ, pas
+        contourné : un visiteur ne peut à aucun moment croire que la date
+        est réelle.
+     2. Ces données vivent dans un commit SÉPARÉ et unique, préfixé
+        « DEMO — », qui ne contient rien d'autre. `git revert <sha>` les
+        retire d'une seule commande.
+     3. Le sha est inscrit dans JOURNAL-R99-MAQUETTE.md et dans
+        PASSATION-R99.md, sous un intertitre « À RETIRER AVANT
+        PUBLICATION ». C'est la seule chose qui empêchera qu'on l'oublie.
+     4. Aucun nom de LIEU réel (le champ `venue` est volontairement absent
+        — il alimenterait un `Place` en JSON-LD), aucun nom d'ARTISTE
+        réel. Unity 141 reste le seul artiste réel du site et n'apparaît
+        sur aucune de ces soirées inventées. L'organisateur est SYFIR
+        elle-même, ce qui n'invente aucune structure tierce.
+
+     L'ÉTAT VIDE ASSUMÉ construit en R99/5 reste en place et reprend la
+     main dès que cette liste redevient vide.
+  ============================================================ */
+  const baseEvents = [
+    {
+      id: 'demo-rooftop-1', demo: true,
+      name: 'Rooftop Sunset Session',
+      date: '2026-08-22', time: '19:00',
+      city: 'Pointe-à-Pitre', type: 'rooftop',
+      img: 'images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg',
+      price: 25, ageStatus: '18-plus', ticketing: 'billetterie',
+      genres: ['Kompa', 'Afro house', 'Zouk'],
+      organizer: 'SYFIR',
+      blurb: 'Le soleil descend sur la ville, la basse monte. Deux platines, une terrasse, et la nuit qui commence.'
+    },
+    {
+      id: 'demo-beach-1', demo: true,
+      name: 'Beach Party — Pleine Lune',
+      date: '2026-09-05', time: '18:30',
+      city: 'Sainte-Anne', type: 'beach',
+      img: 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg',
+      price: 20, ageStatus: 'tout-public', ticketing: 'billetterie',
+      genres: ['Dancehall', 'Afrobeats'],
+      organizer: 'SYFIR',
+      blurb: 'Les pieds dans le sable, le son face à la mer. On installe au coucher, on démonte au lever.'
+    },
+    {
+      id: 'demo-villa-1', demo: true,
+      name: 'Villa Session — Soirée privée',
+      date: '2026-09-19', time: '21:00',
+      city: 'Le Gosier', type: 'prive', prive: true,
+      img: 'images/ext/unsplash-photo-1470337458703-46ad1756a187.jpg',
+      price: 0, ageStatus: '18-plus', ticketing: 'inscription',
+      genres: ['House', 'Kompa'],
+      organizer: 'SYFIR',
+      blurb: 'Format intime, jauge courte, accès sur code. Ce qui se passe à la villa reste à la villa.'
+    },
+    {
+      id: 'demo-carnaval-1', demo: true,
+      name: 'Nuit Carnaval',
+      date: '2026-10-10', time: '20:00',
+      city: 'Basse-Terre', type: 'festival',
+      img: 'images/ext/unsplash-photo-1459749411175-04bf5292ceea.jpg',
+      price: 30, ageStatus: '16-plus', ticketing: 'billetterie',
+      genres: ['Gwo ka', 'Kompa', 'Soca'],
+      organizer: 'SYFIR',
+      blurb: 'Tambours, cuivres et masques. La rue rentre à l\'intérieur et ne se calme pas avant l\'aube.'
+    }
+  ];
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
 
