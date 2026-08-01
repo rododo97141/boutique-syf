@@ -3016,44 +3016,206 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   .page-home #artistes .section-intro { max-width: none; }
 }
 
-/* --- LES CARTES DE DATES : UNE GRILLE BORD À BORD ---
-   Collées les unes aux autres, séparées d'un FILET DE 2 px, sans arrondi
-   et sans marge. Le filet n'est pas une bordure : c'est le fond clair à
-   10 % qu'on laisse apparaître entre les cartes via `gap`. Une bordure
-   par carte doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et
-   laisserait les bords extérieurs orphelins.
+/* ===== BLOC 4 — LES DATES : UNE GRILLE BORD À BORD =====
+   Le titre dans un bloc CONTENU, puis la grille HORS conteneur. Cartes
+   collées, séparées d'un FILET DE 2 px, sans arrondi et sans marge.
 
-   Le rayon 18 px du dépôt est volontairement ABANDONNÉ ICI, et c'est la
-   seule dérogation de la refonte : des cartes arrondies ne peuvent pas
-   être bord à bord — l'arrondi crée quatre trous à chaque jonction.
-   C'est la mise en page qui l'exige, pas un caprice.
+   Le filet n'est PAS une bordure : c'est le fond clair à 10 % qu'on
+   laisse apparaître entre les cartes via `gap`. Une bordure par carte
+   doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et laisserait
+   les bords extérieurs orphelins.
 
-   ⚠ CE BLOC NE PEUT PAS ÊTRE VÉRIFIÉ VISUELLEMENT AUJOURD'HUI. La rangée
-   #nextEvents est pilotée par les données, et `baseEvents` est VIDE —
-   mesuré : 0 carte rendue. C'est la configuration correcte du dépôt (un
-   état vide honnête plutôt qu'une démo qui ment), et inventer des
-   événements pour voir la grille est en LISTE ROUGE. La règle est donc
-   écrite et prête ; elle attend de vraies dates. Signalé comme tel plutôt
-   que déclaré vérifié. */
+   Le rayon 18 px du dépôt est ABANDONNÉ ici, et c'est la seule dérogation
+   de la refonte : des cartes arrondies ne peuvent pas être bord à bord —
+   l'arrondi creuse quatre trous à chaque jonction. C'est la mise en page
+   qui l'exige. */
+.page-home .next-events > .container {
+  max-width: 1240px; margin-inline: auto;
+  padding: clamp(80px, 13vh, 150px) 26px clamp(28px, 4vh, 46px);
+}
+.page-home .next-events .media-row-wrap { width: 100%; }
 .page-home .next-events .media-row-track {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 2px;
-  background-color: rgba(var(--creme-rgb), .10);   /* le filet, vu entre les cartes */
-  padding: 0;
-  overflow: visible;                                /* la grille ne défile plus */
+  background-color: rgba(var(--creme-rgb), .1);   /* le filet, vu entre les cartes */
+  padding: 0; margin: 0;
+  overflow: visible;                               /* la grille ne défile plus */
 }
 .page-home .next-events .rb-card {
   border-radius: 0;
   margin: 0;
   min-height: 400px;
-  flex: none;                                       /* la piste était en flex */
-  width: auto;
+  flex: none; width: auto;
+  position: relative; overflow: hidden;
+  display: block;
 }
-/* Les flèches de défilement de la rangée n'ont plus d'objet dans une
-   grille : on les masque plutôt que de les retirer du HTML — le JS qui
-   les pilote reste intact, et rien n'est supprimé. */
+/* ⚠ L'IMAGE DOIT ÊTRE ABSOLUE, ET C'EST LA CAPTURE QUI L'A DIT.
+   En flux normal, une image de 1600x1068 dans une carte pleine largeur
+   prend sa hauteur NATURELLE : la carte d'état vide mesurait 1920 px de
+   haut — un tiers de la page pour un message de trois lignes. Les cartes
+   de la grille ne le montraient pas (290 px de large -> 387 px de haut,
+   sous le min-height de 400). Le défaut n'apparaissait donc QUE sur la
+   carte pleine largeur, et aucun chiffre ne l'annonçait. */
+.page-home .next-events .rb-card-pic,
+.page-home .next-events .rb-card-img {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.page-home .next-events .rb-card-img { opacity: .55; filter: contrast(1.12); }
+/* Le texte en BAS, la pastille en HAUT À GAUCHE. */
+.page-home .next-events .rb-card-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; align-content: end;
+  padding: 26px;
+  background-image: linear-gradient(180deg, transparent 34%, rgba(var(--nuit-0-rgb), .86) 100%);
+}
+.page-home .next-events .rb-badge {
+  position: absolute; top: 22px; left: 22px;
+  justify-self: start;
+}
+/* Les flèches de défilement n'ont plus d'objet dans une grille : masquées,
+   pas retirées du HTML — le JS qui les pilote reste intact. */
 .page-home .next-events .row-arrow { display: none; }
+
+/* L'ÉTAT VIDE ASSUMÉ — une seule carte, pleine largeur, même traitement.
+   Il remplace un TROU : la section entière se masquait (`hidden = true`)
+   quand aucune date réelle n'était publiée, ce qui est le cas aujourd'hui.
+   On n'invente aucun événement ; on assume le vide et on le travaille. */
+.page-home .next-events .media-row-track.is-empty { grid-template-columns: 1fr; }
+/* ⚠ `.rb-card` porte `aspect-ratio: 3/4` — juste pour une carte de
+   grille (290 px de large -> 387 px de haut), absurde pour une carte
+   PLEINE LARGEUR : 1440 x 4/3 = 1920 px de haut, un tiers de la page
+   pour trois lignes de texte. C'est la CAPTURE qui l'a montré ; aucun
+   des chiffres du harnais ne pouvait le dire. */
+.page-home .next-events .rb-card-empty {
+  aspect-ratio: auto;
+  min-height: 460px;
+}
+.page-home .rb-badge-bientot {
+  background-image: none;
+  background-color: transparent;
+  border: 1px solid rgba(var(--or-rgb), .7);
+  color: var(--or);
+}
+.page-home .rb-empty-cta {
+  margin-top: 14px;
+  font-family: var(--display); font-weight: 700;
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--blanc);
+}
+
+/* ===== BLOC 6 — LE PIED DE PAGE =====
+   Centré, avec la signature en très grand et TRÈS DISCRÈTE : opacité .14.
+   C'est le contraire d'un logo — une marque en filigrane, presque un
+   fond. À .14 elle ne porte plus de contraste, donc elle ne doit porter
+   AUCUNE information : le nom SYFIR est déjà dans la nav, le logo et le
+   texte légal juste dessous. C'est du décor, et c'est assumé comme tel
+   (aria-hidden pour ne pas la faire lire deux fois). */
+.page-home footer .brand-sign { text-align: center; }
+.page-home .brand-sign-mark {
+  font-size: clamp(50px, 12vw, 150px);
+  letter-spacing: -.035em;
+  line-height: .9;
+  opacity: .14;
+  color: var(--blanc);
+  -webkit-text-fill-color: var(--blanc);
+  background-image: none;
+}
+/* La signature de marque garde l'or — c'est une LETTRE, pas une surface,
+   et c'est la seule phrase de la page qui a droit à l'or plein. */
+.page-home .brand-sign-slogan {
+  background-image: none;
+  background-clip: border-box; -webkit-background-clip: border-box;
+  color: var(--or); -webkit-text-fill-color: var(--or);
+}
+/* LA MENTION SANITAIRE EST UNE OBLIGATION, PAS UNE PRÉFÉRENCE. Elle est
+   mesurée sur le PIXEL PEINT à chaque lot (tools/qa/acquis.mjs) — jamais
+   sur sa couleur déclarée, puisque R96 a montré qu'elle pouvait être
+   intégralement recouverte par le ciel sans que rien ne le signale. */
+.page-home .footer-sante { color: var(--creme); }
+
+/* ===== BLOC 5 — L'ÉCOSYSTÈME : un bloc contenu =====
+   ⚠ `.section-dark` lui posait un fond OPAQUE (#1B1B1B + grain), soit un
+   panneau gris qui flottait au milieu de la nuit et coupait le ciel en
+   deux. Vu à la capture, pas au calcul : les six blocs étaient corrects,
+   les valeurs aussi, et pourtant le monde n'était plus unique.
+   Le fond redevient transparent — le ciel passe DERRIÈRE le contenu,
+   comme partout ailleurs sur l'accueil. Le grain, lui, est déjà porté par
+   la couche ciel (R98/2-2) : rien n'est perdu. */
+.page-home #confiance {
+  max-width: 1240px; margin-inline: auto;
+  padding: clamp(80px, 13vh, 150px) 26px;
+  background-color: transparent;
+  background-image: none;
+}
+.page-home #confiance .eco-grid,
+.page-home #confiance .trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
+  gap: 18px;
+}
+.page-home #confiance .eco-card,
+.page-home #confiance .trust-card {
+  background-color: rgba(var(--creme-rgb), .04);
+  background-image: none;
+  border-radius: 14px;
+}
+
+/* --- LES PHOTOS PLEIN CADRE ET LES BOUTONS (R98/6, conservés) ---
+   La photo domine, le fond la soutient. L'opacité plutôt qu'un voile
+   sombre : un voile ajoute une couche grise qui délave les noirs de la
+   photo ; l'opacité laisse le fond de nuit TRANSPARAÎTRE à travers elle,
+   donc les noirs de la photo deviennent les noirs de la nuit.
+   contrast(1.12) rattrape la matière que l'opacité coûte. */
+.page-home .hero-veil {
+  background-image:
+    radial-gradient(120% 78% at 50% 116%, rgba(var(--bleu-rgb), .30), transparent 62%),
+    linear-gradient(180deg,
+      rgba(var(--nuit-0-rgb), .80) 0%,
+      rgba(var(--nuit-0-rgb), .40) 34%,
+      rgba(var(--nuit-1-rgb), .56) 66%,
+      rgba(var(--nuit-2-rgb), .94) 100%);
+}
+
+/* Le bouton principal : blanc plein, il CONSOMME l'horloge --syfir-beat
+   de R94 par un drop-shadow. Il ne pose aucune animation propre — poser
+   `animation` sur un CTA écrase son animation d'entrée, et animer
+   `box-shadow` détruit son ombre : les deux ont été payés en R94. */
+.page-home .hero-cta .btn-gradient,
+.page-home .next-cta .btn {
+  background-image: none;
+  background-color: var(--blanc);
+  color: var(--nuit-0);
+  border: none;
+  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
+}
+/* Le secondaire en liseré, jamais en aplat — même règle que l'or :
+   un contour, pas une surface. */
+.page-home .hero-cta .btn-ghost,
+.page-home #artistes .btn-ghost {
+  background-color: transparent;
+  border: 1px solid rgba(var(--creme-rgb), .38);
+  color: var(--creme);
+}
+.page-home .hero-cta .btn-ghost:hover,
+.page-home #artistes .btn-ghost:hover { border-color: var(--or); color: var(--blanc); }
+
+/* --- LA TYPOGRAPHIE DE LA NUIT (R98/5, conservée) ---
+   ⚠ L'interlettrage passe par la valeur NOMINALE, jamais par une base
+   commune : R94 a payé ce piège (le h1 de la billetterie perdait 15 px).
+   --syfir-track est le delta de la respiration cinétique, il s'ajoute. */
+.page-home .h2 { letter-spacing: calc(-.035em + var(--syfir-track, 0em)); }
+.page-home .eyebrow,
+.page-home .eyebrow-light { color: var(--or); font-size: 11px; letter-spacing: .3em; }
+.page-home .h2 em {
+  background-image: none;
+  background-clip: border-box; -webkit-background-clip: border-box;
+  color: var(--or); -webkit-text-fill-color: var(--or);
+}
+.page-home .section-intro,
+.page-home .intro-light { color: var(--creme-doux); max-width: 60ch; }
 
 /* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
    Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».

@@ -101,16 +101,25 @@ try {
   console.log('\n3. LE SOL SOUS LE CIEL (R96) — le pied de page est-il peint ?');
   {
     const pg = await openPage(ctx, 'index.html');
+    /* R99 : le bandeau .marquee a été retiré de l'accueil (décor sans
+       contenu). Un bloc ABSENT n'est pas un bloc en défaut — mais on ne
+       peut pas non plus l'ignorer en silence, sinon l'instrument passerait
+       au vert le jour où un bloc disparaîtrait par accident. On distingue
+       donc les deux cas et on AFFICHE l'absence. */
     const pos = await pg.evaluate(() => {
       const r = {};
       for (const sel of ['.manifesto', '.marquee', '.next-events', 'footer']) {
-        const el = document.querySelector('.page-home > ' + sel) || document.querySelector(sel);
+        const el = document.querySelector('.page-home ' + sel);
         r[sel] = el ? getComputedStyle(el).position : 'absent';
       }
       return r;
     });
-    const tous = Object.values(pos).every(v => v === 'relative');
-    dire(tous, `les 4 blocs de premier niveau sont positionnés : ${JSON.stringify(pos)}`);
+    const presents = Object.entries(pos).filter(([, v]) => v !== 'absent');
+    const absents = Object.entries(pos).filter(([, v]) => v === 'absent').map(([k]) => k);
+    const tous = presents.length > 0 && presents.every(([, v]) => v === 'relative');
+    dire(tous, `blocs de premier niveau positionnés : ${presents.length}/${presents.length}`
+      + ` ${JSON.stringify(Object.fromEntries(presents))}`
+      + (absents.length ? ` · absent(s) par décision R99 : ${absents.join(', ')}` : ''));
 
     /* L'EFFET, pas la déclaration : on lit le pixel réellement peint là où
        se trouve la mention sanitaire, et on le compare à sa couleur de

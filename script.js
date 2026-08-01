@@ -1721,7 +1721,32 @@ if (placeModal && placesGridEl) {
       .filter(ev => new Date(ev.date + 'T00:00:00') >= startOfToday)
       .sort((a, b) => a.date.localeCompare(b.date));
     if (!upcoming.length) {
-      nextBox.closest('.next-events').hidden = true;
+      /* R99 — L'ÉTAT VIDE ASSUMÉ, ET IL REMPLACE UN TROU.
+         Jusqu'ici cette branche faisait `section.hidden = true` : quand
+         aucune date réelle n'est publiée — ce qui est le cas aujourd'hui,
+         `baseEvents` est vide — le bloc « Prochaines dates » de l'accueil
+         DISPARAISSAIT purement et simplement. Or c'est précisément la
+         section que Kily pointait dans la maquette.
+
+         On n'invente AUCUN événement : la règle tient, et un faux
+         événement serait pire que tout. Mais un vide travaillé vaut mieux
+         qu'un trou. Une seule carte pleine largeur, même traitement photo
+         que les vraies, qui dit franchement ce qu'il en est et propose la
+         seule chose réellement disponible : organiser la sienne, via le
+         formulaire qui existe déjà (l'offre est annoncée EN CONSTRUCTION,
+         conformément à la doctrine — on recueille un intérêt, on ne promet
+         pas un service ouvert). */
+      nextBox.classList.add('is-empty');
+      nextBox.innerHTML = `
+        <a class="rb-card rb-card-empty" href="partenaires.html?type=soiree-particulier#partnerForm">
+          <picture class="rb-card-pic"><img class="rb-card-img" src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" loading="lazy" decoding="async" width="1600" height="1068" alt=""></picture>
+          <div class="rb-card-overlay">
+            <span class="rb-badge rb-badge-bientot">Bient&ocirc;t</span>
+            <h3 class="rb-card-title">Les prochaines dates arrivent.</h3>
+            <p class="rb-card-sub">Rien de publi&eacute; pour l'instant &mdash; on n'annonce que du r&eacute;el. En attendant, tu peux organiser la tienne.</p>
+            <span class="rb-empty-cta">Organiser ma soir&eacute;e &rarr;</span>
+          </div>
+        </a>`;
     } else {
       // Carte riche façon chaîne TV : badge catégorie, date+lieu, compte à rebours.
       const fallback = 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg';
