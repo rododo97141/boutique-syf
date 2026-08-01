@@ -21,19 +21,21 @@ export const OUT = resolve(ROOT, 'tools/qa/out');
 export const PORT = Number(process.env.QA_PORT || 8099);
 export const BASE = `http://127.0.0.1:${PORT}`;
 
-/* Les 14 pages réelles du site. Exclus volontairement :
+/* Les 15 pages réelles du site (14 avant R99 : artistes.html est née du
+   déménagement du line-up hors de l'accueil). Exclus volontairement :
    actualite/communaute/medias (stubs de redirection vers syf-tv)
    et apercu-syfir.html (snapshot ancien, non maintenu). */
 export const PAGES = [
   'index.html', 'evenements.html', 'evenement.html?id=1', 'espace-pro.html',
   'partenaires.html', 'partenaire-avyr.html', 'partenaire-delices-bassin-bleu.html',
-  'syf-tv.html', 'artiste.html', 'compte.html', 'faq.html',
+  'syf-tv.html', 'artistes.html', 'artiste.html', 'compte.html', 'faq.html',
   'cgv.html', 'mentions-legales.html', 'confidentialite.html'
 ];
 
 export const VIEWPORTS = { mobile: { width: 390, height: 844 }, desktop: { width: 1440, height: 900 } };
 /* R98/1-3 — UN SEUL MONDE, LA NUIT. Le harnais passe de 56 à 28
-   combinaisons (14 pages × 1 thème × 2 viewports).
+   combinaisons (14 pages × 1 thème × 2 viewports) ; 30 depuis R99 et
+   l'arrivée d'artistes.html.
 
    Changé dans LE MÊME COMMIT que le retrait du sélecteur, jamais avant :
    un harnais qui mesure une dimension inexistante fabrique du faux — il
