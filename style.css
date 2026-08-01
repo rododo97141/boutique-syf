@@ -2859,32 +2859,55 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   opacity: clamp(0, calc((var(--p) - .5) * 2), 1);
 }
 
-/* --- 39.6  R99 — LA COMPOSITION DE LA MAQUETTE --------------------------
-   SIX BLOCS, RIEN DE PLUS. L'accueil en comptait vingt-deux et son hero
-   était un CARROUSEL horizontal de cinq panneaux : on avait repeint une
-   page catalogue au lieu de construire une affiche. Les valeurs qui
-   suivent sont celles de la maquette validée par Kily, pas des valeurs
-   approchées — c'est la structure qui échouait, pas la couleur.
+/* ============================================================
+   39.6  R100 — L'ACCUEIL EST LA MAQUETTE (« Lumière de scène »)
+   ------------------------------------------------------------
+   TRANSPLANTATION, PAS TRADUCTION. Quatre tours durant, l'accueil a
+   porté les classes DU SITE (home-hero, manifesto, next-events,
+   section-dark, eco-grid…) auxquelles on appliquait les valeurs de la
+   maquette. Chacune traîne des centaines de lignes de CSS hérité —
+   paddings, max-width, arrondis, fonds, ombres, reveals — qui se
+   battaient contre ces valeurs. Bonne structure, mauvaise peau.
 
-   ===== BLOC 1 — LE HERO =====
-   Un écran, un message, deux boutons. `svh` et non `vh` : sur mobile,
-   100vh ignore la barre d'adresse et fait déborder le hero du premier
-   écran de 60 à 110 px. Repli `vh` déclaré d'abord. */
-.page-home .home-hero {
+   Ce bloc définit les classes DE LA MAQUETTE, et les anciennes ont été
+   RETIRÉES DU MARKUP — pas surchargées. Une surcharge laisse vivre
+   l'héritage, et l'héritage finit toujours par gagner quelque part.
+
+   ⚠ TOUT EST SCOPÉ SOUS .page-home : les 13 autres pages gardent leur
+   monde sombre intact, et la preuve de confinement doit continuer à
+   sortir à 0 différence.
+
+   Vérifié par tools/qa/maquette.mjs, qui relève le style CALCULÉ de
+   chaque sélecteur sur l'élément réel et le compare à l'attendu. Toute
+   case fausse est un héritage qui a survécu.
+   ============================================================ */
+
+/* ---------- 1. LE HERO ---------- */
+/* `svh` et non `vh` : 100vh ignore la barre d'adresse mobile et fait
+   déborder le hero du premier écran de 60 à 110 px. Repli `vh` d'abord,
+   les navigateurs anciens ignorent la ligne suivante. */
+.page-home .hero {
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
-  height: auto;
   display: grid;
   place-items: center;
+  text-align: center;
+  padding: 0 26px;
   overflow: hidden;
-  padding: 0;
 }
-/* La photo plein cadre : elle DOMINE, le fond la soutient. Zoom lent —
-   c'est le seul mouvement du premier écran, et il est imperceptible
-   image par image, ce qui est exactement le but. */
-.page-home .home-hero .hero-bg {
+/* ⚠ CONFLIT QUE JE M'ÉTAIS INFLIGÉ, trouvé par le tableau de conformité.
+   `.page-home .hero > div` (0-3-1) écrasait `.page-home .hero-photo`
+   (0-2-0) et forçait `position: relative` : la photo repassait DANS LE
+   FLUX et poussait le hero à 1302 px pour une fenêtre de 900 — 145 %.
+   Le hero n'était plus un écran. La leçon vaut pour l'héritage du site
+   comme pour le mien : une règle plus spécifique gagne, d'où qu'elle
+   vienne. Le sélecteur du contenu exclut désormais la photo. */
+.page-home .hero-photo { position: absolute; inset: 0; z-index: 0; }
+.page-home .hero-photo img {
   position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
   opacity: .5;
   filter: contrast(1.12);
   animation-name: hero-zoom;
@@ -2893,103 +2916,135 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-@keyframes hero-zoom {
-  from { transform: scale(1); }
-  to   { transform: scale(1.09); }
-}
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.09); } }
 @media (prefers-reduced-motion: reduce) {
-  /* On coupe le mouvement, pas le décor (R92/10) : la photo reste
-     peinte, à son échelle de départ. */
-  .page-home .home-hero .hero-bg { animation-name: none; transform: none; }
+  /* On coupe le mouvement, pas le décor (R92/10) : la photo reste peinte,
+     à son échelle de départ. */
+  .page-home .hero-photo img { animation-name: none; transform: none; }
 }
+.page-home .hero > div:not(.hero-photo) { position: relative; z-index: 2; }
 
-.page-home .home-hero .hero-inner {
-  position: relative; z-index: 2;
-  display: grid; justify-items: center;
-  text-align: center;
-  padding: 0 26px;
-  max-width: 1240px;
-}
-
-/* LA MARQUE. Unbounded est une display LARGE : à 210 px l'espacement par
+/* La marque. Unbounded est une display LARGE : à 210 px l'espacement par
    défaut fait éclater le mot. Le resserrement n'est pas un effet, c'est
    ce qui rend la police tenable en géant. Le halo bleu la décolle de la
    photo sans poser d'aplat — c'est de la lumière, pas une surface. */
-.page-home .hero-title { overflow: visible; }
-.page-home .hero-line { display: block; overflow: visible; }
-.page-home .hero-line span {
-  display: block;
+.page-home .marque {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(58px, 15vw, 210px);
   line-height: .86;
   letter-spacing: -.05em;
-  padding-left: 0;
-  background-image: none;
-  background-clip: border-box;
-  -webkit-background-clip: border-box;
   color: var(--blanc);
   -webkit-text-fill-color: var(--blanc);
   text-shadow: 0 0 90px rgba(var(--bleu-clair-rgb), .5);
+  margin: 0;
 }
-
-/* Le sur-titre : 11 px, .5em, capitales, OR. Il passe APRÈS la marque —
-   c'est l'ossature de la maquette : la marque d'abord, le lieu ensuite.
-   (Il était au-dessus jusqu'à R99/8 : l'ordre était inversé.) */
-.page-home .hero-kicker {
+.page-home .sous {
   font-family: var(--display); font-weight: 700;
   font-size: 11px; letter-spacing: .5em; padding-left: .5em;
   text-transform: uppercase;
   color: var(--or);
   margin: 24px 0 0;
 }
-.page-home .hero-tagline {
-  margin: 22px 0 38px;
+.page-home .tag {
   font-family: var(--serif); font-style: italic; font-weight: 300;
   font-size: clamp(20px, 2.5vw, 32px);
   line-height: 1.5;
   color: var(--creme);
+  margin: 18px auto 34px;
   max-width: 26ch;
 }
-.page-home .hero-tagline em { font-style: italic; }
-.page-home .hero-cta { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+.page-home .actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
 
-/* ===== BLOC 2 — LE MANIFESTE : un bloc CONTENU ===== */
-.page-home .manifesto {
+/* Les boutons de la maquette. `.btn` ici n'est PAS le .btn du site : les
+   anciennes classes ne sont plus dans le markup, donc rien à surcharger. */
+.page-home .btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 15px 34px;
+  border-radius: 100px;
+  font-family: var(--body); font-weight: 700;
+  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), background-color var(--dur-fast);
+}
+.page-home .btn:active { transform: scale(.97); }
+/* Le principal : blanc plein. Il CONSOMME l'horloge --syfir-beat de R94
+   par un drop-shadow ; il ne pose aucune animation propre — poser
+   `animation` sur un CTA écrase son animation d'entrée et animer
+   `box-shadow` détruit son ombre, les deux ont été payés en R94. */
+.page-home .btn-1 {
+  background-color: var(--blanc);
+  color: var(--nuit-0);
+  border: 1px solid var(--blanc);
+  box-shadow: 0 10px 30px rgba(var(--nuit-0-rgb), .55);
+  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
+}
+/* Le secondaire en liseré, jamais en aplat — même règle que l'or :
+   un contour, pas une surface. */
+.page-home .btn-2 {
+  background-color: transparent;
+  border: 1px solid rgba(var(--creme-rgb), .38);
+  color: var(--creme);
+}
+.page-home .btn-2:hover { border-color: var(--or); color: var(--blanc); }
+
+/* ---------- 2. LE BLOC CONTENU ---------- */
+.page-home .sec {
+  position: relative;
   max-width: 1240px;
   margin-inline: auto;
   padding: clamp(80px, 13vh, 150px) 26px;
+  background-color: transparent;
+  background-image: none;
 }
+.page-home .eyebrow {
+  font-family: var(--display); font-weight: 700;
+  font-size: 11px; letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin: 0 0 16px;
+}
+/* Les titres mélangent Unbounded capitales et un fragment en Fraunces
+   italique coloré : c'est ce contraste qui fait l'allure. */
+.page-home h2 {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(34px, 5.4vw, 66px);
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+  color: var(--blanc);
+  margin: 0 0 22px;
+}
+.page-home h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--or);
+  -webkit-text-fill-color: var(--or);
+  background-image: none;
+}
+.page-home .lead {
+  font-family: var(--body); font-size: 1rem; line-height: 1.75;
+  color: var(--creme-doux);
+  max-width: 60ch;
+  margin: 0 0 14px;
+}
+.page-home .lead a { color: var(--or); }
 
-/* ===== BLOC 3 — LES ARTISTES, EN PLEIN CADRE =====
-   Bord à bord : elle DÉBORDE du conteneur. La technique
-   `margin-left: calc(50% - 50vw)` est écartée — `vw` inclut la barre de
-   défilement verticale, donc elle déborde de sa largeur exacte (15-17 px)
-   et crée une barre horizontale. La section n'est pas dans .container :
-   seul son contenu l'est. */
-.page-home #artistes {
+/* ---------- 3. LE PLEIN CADRE ---------- */
+/* Bord à bord : la section n'est pas dans un conteneur, seul son contenu
+   l'est. `margin-left: calc(50% - 50vw)` est ÉCARTÉ — `vw` inclut la
+   barre de défilement verticale, donc la section déborderait de sa
+   largeur exacte (15-17 px) et créerait une barre horizontale. */
+.page-home .plein {
   position: relative;
   min-height: 96vh;
   min-height: 96svh;
-  display: grid; align-items: center;
+  display: grid;
+  align-items: center;
   padding: 0;
   overflow: hidden;
 }
-.page-home #artistes > .container {
-  position: relative; z-index: 2;
-  width: min(1240px, 100%);
-  margin-inline: auto;
-  padding: clamp(60px, 10vh, 120px) 26px;
-  display: grid; justify-items: start;
-  text-align: left;
-}
-/* La colonne de texte à GAUCHE, limitée à 36ch : c'est cette limite qui
-   fait la colonne. Sans elle, le texte s'étale sur toute la photo et la
-   composition redevient une bannière. */
-.page-home #artistes .h2,
-.page-home #artistes .section-intro { max-width: 36ch; }
-
-/* L'image en absolute inset 0, object-fit cover, opacité .56. */
-.page-home .artistes-photo {
+.page-home .plein img {
   position: absolute; inset: 0; z-index: 0;
   width: 100%; height: 100%;
   object-fit: cover;
@@ -2998,272 +3053,161 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
 }
 /* Le dégradé LATÉRAL : opaque à gauche sous la colonne, effacé à droite
    pour laisser la photo respirer. Un voile uniforme la tuerait. */
-.page-home #artistes::after {
+.page-home .plein::after {
   content: ''; position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
   background-image:
     linear-gradient(90deg, rgba(var(--nuit-0-rgb), .94) 0%, rgba(var(--nuit-0-rgb), .80) 32%, rgba(var(--nuit-0-rgb), .20) 68%, transparent 100%),
     linear-gradient(180deg, rgba(var(--nuit-0-rgb), .92) 0%, transparent 24%, transparent 76%, rgba(var(--nuit-2-rgb), .92) 100%);
 }
+.page-home .plein .dedans {
+  position: relative; z-index: 2;
+  width: min(1240px, 100%);
+  margin-inline: auto;
+  padding: clamp(60px, 10vh, 120px) 26px;
+}
+/* La colonne à GAUCHE, limitée à 36ch : c'est cette limite qui FAIT la
+   colonne. Sans elle le texte s'étale sur toute la photo et la
+   composition redevient une bannière. */
+.page-home .plein .bloc { max-width: 36ch; text-align: left; }
 @media (max-width: 720px) {
-  /* À 390 px il n'y a pas de colonne à gauche : le texte prend toute la
-     largeur, et le dégradé devient vertical — latéral, il ne protégerait
-     plus rien. */
-  .page-home #artistes::after {
+  /* À 390 px il n'y a pas de colonne à gauche : le dégradé redevient
+     vertical, sinon il ne protège plus rien. */
+  .page-home .plein::after {
     background-image:
       linear-gradient(180deg, rgba(var(--nuit-0-rgb), .90) 0%, rgba(var(--nuit-0-rgb), .74) 46%, rgba(var(--nuit-2-rgb), .94) 100%);
   }
-  .page-home #artistes .h2,
-  .page-home #artistes .section-intro { max-width: none; }
+  .page-home .plein .bloc { max-width: none; }
 }
 
-/* ===== BLOC 4 — LES DATES : UNE GRILLE BORD À BORD =====
-   Le titre dans un bloc CONTENU, puis la grille HORS conteneur. Cartes
-   collées, séparées d'un FILET DE 2 px, sans arrondi et sans marge.
-
-   Le filet n'est PAS une bordure : c'est le fond clair à 10 % qu'on
+/* ---------- 4. LES DATES ---------- */
+/* LE FILET N'EST PAS UNE BORDURE : c'est le fond clair à 10 % qu'on
    laisse apparaître entre les cartes via `gap`. Une bordure par carte
-   doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et laisserait
-   les bords extérieurs orphelins.
-
-   Le rayon 18 px du dépôt est ABANDONNÉ ici, et c'est la seule dérogation
-   de la refonte : des cartes arrondies ne peuvent pas être bord à bord —
-   l'arrondi creuse quatre trous à chaque jonction. C'est la mise en page
-   qui l'exige. */
-/* ⚠ LA SECTION DATES A DEUX CONTENEURS : le titre AVANT la grille, le
-   CTA APRES. Une règle qui les vise tous les deux donne 150 px de haut
-   au second aussi — le bouton « Réserver ma place » flottait au milieu
-   d'un vide de 300 px. Vu à la capture. On distingue donc le premier
-   (`:first-of-type`, qui porte le titre) du dernier. */
-.page-home .next-events > .container:first-of-type {
-  max-width: 1240px; margin-inline: auto;
-  padding: clamp(80px, 13vh, 150px) 26px clamp(28px, 4vh, 46px);
-}
-.page-home .next-events > .container:last-of-type {
-  max-width: 1240px; margin-inline: auto;
-  padding: clamp(34px, 5vh, 54px) 26px 0;
-}
-.page-home .next-events .media-row-wrap { width: 100%; }
-.page-home .next-events .media-row-track {
+   doublerait l'épaisseur entre deux voisines (2 + 2 = 4 px) et
+   laisserait les bords extérieurs orphelins.
+   Le rayon 18 px du dépôt est ABANDONNÉ ici, et c'est la seule
+   dérogation : des cartes arrondies ne peuvent pas être bord à bord,
+   l'arrondi creuse quatre trous à chaque jonction. */
+.page-home .dates {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 2px;
-  background-color: rgba(var(--creme-rgb), .1);   /* le filet, vu entre les cartes */
-  padding: 0; margin: 0;
-  overflow: visible;                               /* la grille ne défile plus */
+  background-color: rgba(238, 242, 248, .1);
+  padding: 0;
+  margin: 0;
 }
-.page-home .next-events .rb-card {
+.page-home .dates.vide { grid-template-columns: 1fr; }
+.page-home .date {
+  position: relative;
+  display: block;
+  min-height: 400px;
   border-radius: 0;
   margin: 0;
-  min-height: 400px;
-  flex: none; width: auto;
-  position: relative; overflow: hidden;
-  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--creme);
+  background-color: var(--nuit-1);
 }
-/* ⚠ L'IMAGE DOIT ÊTRE ABSOLUE, ET C'EST LA CAPTURE QUI L'A DIT.
-   En flux normal, une image de 1600x1068 dans une carte pleine largeur
-   prend sa hauteur NATURELLE : la carte d'état vide mesurait 1920 px de
-   haut — un tiers de la page pour un message de trois lignes. Les cartes
-   de la grille ne le montraient pas (290 px de large -> 387 px de haut,
-   sous le min-height de 400). Le défaut n'apparaissait donc QUE sur la
-   carte pleine largeur, et aucun chiffre ne l'annonçait. */
-.page-home .next-events .rb-card-pic,
-.page-home .next-events .rb-card-img {
+.page-home .date img {
   position: absolute; inset: 0; z-index: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  opacity: .55;
+  filter: contrast(1.12);
 }
-.page-home .next-events .rb-card-img { opacity: .55; filter: contrast(1.12); }
-/* Le texte en BAS, la pastille en HAUT À GAUCHE. */
-.page-home .next-events .rb-card-overlay {
-  position: absolute; inset: 0; z-index: 2;
-  display: grid; align-content: end;
-  padding: 26px;
-  background-image: linear-gradient(180deg, transparent 34%, rgba(var(--nuit-0-rgb), .86) 100%);
+/* Le texte en bas : un dégradé le porte, pas un voile plein. */
+.page-home .date::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image: linear-gradient(180deg, transparent 34%, rgba(var(--nuit-0-rgb), .88) 100%);
 }
-.page-home .next-events .rb-badge {
-  position: absolute; top: 22px; left: 22px;
-  justify-self: start;
-}
-/* Les flèches de défilement n'ont plus d'objet dans une grille : masquées,
-   pas retirées du HTML — le JS qui les pilote reste intact. */
-.page-home .next-events .row-arrow { display: none; }
-
-/* L'ÉTAT VIDE ASSUMÉ — une seule carte, pleine largeur, même traitement.
-   Il remplace un TROU : la section entière se masquait (`hidden = true`)
-   quand aucune date réelle n'était publiée, ce qui est le cas aujourd'hui.
-   On n'invente aucun événement ; on assume le vide et on le travaille. */
-.page-home .next-events .media-row-track.is-empty { grid-template-columns: 1fr; }
-/* ⚠ `.rb-card` porte `aspect-ratio: 3/4` — juste pour une carte de
-   grille (290 px de large -> 387 px de haut), absurde pour une carte
-   PLEINE LARGEUR : 1440 x 4/3 = 1920 px de haut, un tiers de la page
-   pour trois lignes de texte. C'est la CAPTURE qui l'a montré ; aucun
-   des chiffres du harnais ne pouvait le dire. */
-.page-home .next-events .rb-card-empty {
-  aspect-ratio: auto;
-  min-height: 460px;
-}
-.page-home .rb-badge-bientot {
-  background-image: none;
-  background-color: transparent;
+/* La pastille en HAUT À GAUCHE, en liseré d'or : un contour, jamais un
+   aplat — c'est la règle de l'or appliquée telle quelle. */
+.page-home .puce {
+  position: absolute; top: 22px; left: 22px; z-index: 3;
+  display: inline-block;
+  padding: 6px 14px;
   border: 1px solid rgba(var(--or-rgb), .7);
+  border-radius: 100px;
+  background-color: transparent;
+  font-family: var(--display); font-weight: 700;
+  font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
   color: var(--or);
 }
-.page-home .rb-empty-cta {
-  margin-top: 14px;
+.page-home .date .quand {
+  position: absolute; left: 26px; right: 26px; bottom: 116px; z-index: 3;
+  font-family: var(--display); font-weight: 700;
+  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--bleu-clair);
+}
+.page-home .date h3 {
+  position: absolute; left: 26px; right: 26px; bottom: 64px; z-index: 3;
+  font-family: var(--display); font-weight: 800;
+  font-size: 1.18rem; line-height: 1.2; letter-spacing: -.02em;
+  color: var(--blanc);
+  margin: 0;
+}
+.page-home .date .ou {
+  position: absolute; left: 26px; right: 26px; bottom: 26px; z-index: 3;
+  font-family: var(--body); font-size: .86rem; line-height: 1.5;
+  color: var(--creme-doux);
+  margin: 0;
+}
+
+/* ---------- 5. L'ÉCOSYSTÈME ---------- */
+.page-home .eco {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
+  gap: 18px;
+  margin-top: 34px;
+}
+.page-home .eco .c {
+  background-color: rgba(var(--creme-rgb), .04);
+  background-image: none;
+  border: 1px solid rgba(var(--creme-rgb), .08);
+  border-radius: 14px;
+  padding: 22px;
+}
+.page-home .eco .c .ic { font-size: 1.4rem; display: block; margin-bottom: 12px; }
+.page-home .eco .c h3 {
   font-family: var(--display); font-weight: 700;
   font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
   color: var(--blanc);
+  margin: 0 0 10px;
+}
+.page-home .eco .c p {
+  font-family: var(--body); font-size: .84rem; line-height: 1.6;
+  color: var(--creme-doux);
+  margin: 0 0 14px;
+}
+.page-home .eco .c a {
+  font-family: var(--display); font-weight: 700;
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--or);
+  text-decoration: none;
 }
 
-/* ===== L'AUDIT DE L'OR, TERMINÉ (R99/6) =====
-   Les seuils par élément de R92, repris depuis que le décor de nuit est
-   devenu PERMANENT (R98/1-4) — ils n'avaient plus été mesurés depuis :
-     brillantes  point 3,0 px (seuil 4)   · halo 8,0 px  (seuil 12)
-     croix       22 px × 1 px             (seuil 24)
-     ampoules    point 5,0 px (seuil 6)   · halo 7,0 px
-     filantes    86 px de traînée, 1,5 px d'épaisseur — une ligne, pas une
-                 surface : c'est le critère, pas la longueur
-   Et sur les pixels réellement peints de la page entière : 1,47 % d'or.
-   Un détail, mesuré comme tel.
-
-   LES SURFACES AU CRÈME CHAUD N'ONT RIEN À FAIRE DANS UN MONDE DE NUIT.
-   Quatre subsistaient sur l'accueil, toutes en rgba(250,248,242,…) —
-   c'est --cream, le crème CHAUD du monde d'été. Le crème de la nuit est
-   --creme (238,242,248), légèrement bleuté pour ne pas jaunir sur du
-   #04070F. Sur un fond de nuit, un voile crème chaud à 4 % vire au
-   brun-gris : il ne disparaît pas, il salit. */
-.page-home .official-card,
-.page-home .hp-field,
-.page-home input,
-.page-home .scroll-hint-line {
-  background-color: rgba(var(--creme-rgb), .04);
-}
-.page-home .scroll-hint-line { background-color: rgba(var(--creme-rgb), .34); }
-.page-home input { border-color: rgba(var(--creme-rgb), .18); color: var(--creme); }
-
-/* ===== BLOC 6 — LE PIED DE PAGE =====
-   Centré, avec la signature en très grand et TRÈS DISCRÈTE : opacité .14.
-   C'est le contraire d'un logo — une marque en filigrane, presque un
-   fond. À .14 elle ne porte plus de contraste, donc elle ne doit porter
-   AUCUNE information : le nom SYFIR est déjà dans la nav, le logo et le
-   texte légal juste dessous. C'est du décor, et c'est assumé comme tel
-   (aria-hidden pour ne pas la faire lire deux fois). */
+/* ---------- 6. LE PIED DE PAGE ---------- */
+/* La signature en très grand et TRÈS DISCRÈTE : opacité .14. C'est le
+   contraire d'un logo — une marque en filigrane. À cette opacité elle ne
+   porte plus aucun contraste, donc elle ne doit porter AUCUNE
+   information : le nom SYFIR est déjà dans la nav et le texte légal. */
 .page-home footer .brand-sign { text-align: center; }
-.page-home .brand-sign-mark {
+.page-home .signe {
+  font-family: var(--display); font-weight: 800;
   font-size: clamp(50px, 12vw, 150px);
-  letter-spacing: -.035em;
   line-height: .9;
+  letter-spacing: -.035em;
   opacity: .14;
   color: var(--blanc);
   -webkit-text-fill-color: var(--blanc);
   background-image: none;
 }
-/* La signature de marque garde l'or — c'est une LETTRE, pas une surface,
-   et c'est la seule phrase de la page qui a droit à l'or plein. */
-.page-home .brand-sign-slogan {
-  background-image: none;
-  background-clip: border-box; -webkit-background-clip: border-box;
-  color: var(--or); -webkit-text-fill-color: var(--or);
-}
 /* LA MENTION SANITAIRE EST UNE OBLIGATION, PAS UNE PRÉFÉRENCE. Elle est
    mesurée sur le PIXEL PEINT à chaque lot (tools/qa/acquis.mjs) — jamais
-   sur sa couleur déclarée, puisque R96 a montré qu'elle pouvait être
+   sur sa couleur déclarée : R96 a montré qu'elle pouvait être
    intégralement recouverte par le ciel sans que rien ne le signale. */
-.page-home .footer-sante { color: var(--creme); }
-
-/* ===== BLOC 5 — L'ÉCOSYSTÈME : un bloc contenu =====
-   ⚠ `.section-dark` lui posait un fond OPAQUE (#1B1B1B + grain), soit un
-   panneau gris qui flottait au milieu de la nuit et coupait le ciel en
-   deux. Vu à la capture, pas au calcul : les six blocs étaient corrects,
-   les valeurs aussi, et pourtant le monde n'était plus unique.
-   Le fond redevient transparent — le ciel passe DERRIÈRE le contenu,
-   comme partout ailleurs sur l'accueil. Le grain, lui, est déjà porté par
-   la couche ciel (R98/2-2) : rien n'est perdu. */
-.page-home #confiance {
-  max-width: 1240px; margin-inline: auto;
-  padding: clamp(80px, 13vh, 150px) 26px;
-  background-color: transparent;
-  background-image: none;
-}
-.page-home #confiance .eco-grid,
-.page-home #confiance .trust-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
-  gap: 18px;
-}
-.page-home #confiance .eco-card,
-.page-home #confiance .trust-card {
-  background-color: rgba(var(--creme-rgb), .04);
-  background-image: none;
-  border-radius: 14px;
-}
-
-/* --- LES PHOTOS PLEIN CADRE ET LES BOUTONS (R98/6, conservés) ---
-   La photo domine, le fond la soutient. L'opacité plutôt qu'un voile
-   sombre : un voile ajoute une couche grise qui délave les noirs de la
-   photo ; l'opacité laisse le fond de nuit TRANSPARAÎTRE à travers elle,
-   donc les noirs de la photo deviennent les noirs de la nuit.
-   contrast(1.12) rattrape la matière que l'opacité coûte. */
-.page-home .hero-veil {
-  background-image:
-    radial-gradient(120% 78% at 50% 116%, rgba(var(--bleu-rgb), .30), transparent 62%),
-    linear-gradient(180deg,
-      rgba(var(--nuit-0-rgb), .80) 0%,
-      rgba(var(--nuit-0-rgb), .40) 34%,
-      rgba(var(--nuit-1-rgb), .56) 66%,
-      rgba(var(--nuit-2-rgb), .94) 100%);
-}
-
-/* Le bouton principal : blanc plein, il CONSOMME l'horloge --syfir-beat
-   de R94 par un drop-shadow. Il ne pose aucune animation propre — poser
-   `animation` sur un CTA écrase son animation d'entrée, et animer
-   `box-shadow` détruit son ombre : les deux ont été payés en R94. */
-.page-home .hero-cta .btn-gradient,
-.page-home .next-cta .btn {
-  background-image: none;
-  background-color: var(--blanc);
-  color: var(--nuit-0);
-  border: none;
-  filter: drop-shadow(0 0 calc(var(--syfir-beat, 0) * 10px) rgba(var(--blanc-rgb), .34));
-}
-/* ⚠ L'OMBRE VIOLETTE, VUE A LA CAPTURE. Le bouton heritait d'un
-   box-shadow rgba(126,34,206,.35) — le violet du degrade de l'ancien
-   monde d'ete. Un bouton blanc de nuit posait donc un halo violet sur du
-   bleu profond, et aucun chiffre ne pouvait le signaler : le contraste
-   du texte etait parfait, la couleur du fond correcte, seule l'ombre
-   mentait. On la remplace par une elevation neutre — la lueur, elle,
-   vient du drop-shadow qui bat au tempo kompa. */
-.page-home .hero-cta .btn-gradient,
-.page-home .next-cta .btn {
-  box-shadow: 0 10px 30px rgba(var(--nuit-0-rgb), .55);
-}
-
-/* Le secondaire en liseré, jamais en aplat — même règle que l'or :
-   un contour, pas une surface. */
-.page-home .hero-cta .btn-ghost,
-.page-home #artistes .btn-ghost {
-  background-color: transparent;
-  border: 1px solid rgba(var(--creme-rgb), .38);
-  color: var(--creme);
-}
-.page-home .hero-cta .btn-ghost:hover,
-.page-home #artistes .btn-ghost:hover { border-color: var(--or); color: var(--blanc); }
-
-/* --- LA TYPOGRAPHIE DE LA NUIT (R98/5, conservée) ---
-   ⚠ L'interlettrage passe par la valeur NOMINALE, jamais par une base
-   commune : R94 a payé ce piège (le h1 de la billetterie perdait 15 px).
-   --syfir-track est le delta de la respiration cinétique, il s'ajoute. */
-.page-home .h2 { letter-spacing: calc(-.035em + var(--syfir-track, 0em)); }
-.page-home .eyebrow,
-.page-home .eyebrow-light { color: var(--or); font-size: 11px; letter-spacing: .3em; }
-.page-home .h2 em {
-  background-image: none;
-  background-clip: border-box; -webkit-background-clip: border-box;
-  color: var(--or); -webkit-text-fill-color: var(--or);
-}
-.page-home .section-intro,
-.page-home .intro-light { color: var(--creme-doux); max-width: 60ch; }
+.page-home .sante { color: var(--creme); }
 
 /* --- 39.2 ter  R98/4 — LES FAISCEAUX ET LA BRUME -----------------------
    Ce qui fait « festival vu de l'intérieur » plutôt que « page sombre ».

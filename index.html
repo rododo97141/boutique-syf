@@ -230,219 +230,112 @@
 <main id="main">
 
 <!-- ============================================================
-     HERO — SYFIR, PLATEFORME D'ÉVÉNEMENTS ET DE RENCONTRES
-     R81 (reconstruction) : SYFIR n'est plus présenté comme une marque de
-     cocktails. Le premier écran parle événementiel, billetterie, artistes,
-     écosystème de partenaires — AVYR est une marque partenaire parmi
-     d'autres, présentée plus bas (#saveurs-teaser), jamais ici.
+     R100 — TRANSPLANTATION, PAS TRADUCTION.
+     Jusqu'ici l'accueil portait les classes DU SITE (home-hero,
+     manifesto, next-events, section-dark, eco-grid…) auxquelles on
+     appliquait les valeurs de la maquette. Chacune traîne des centaines
+     de lignes de CSS hérité — paddings, max-width, arrondis, fonds,
+     reveals — qui se battaient contre ces valeurs : la bonne structure,
+     la mauvaise peau, quatre fois de suite.
+     L'accueil utilise désormais les CLASSES DE LA MAQUETTE, et les
+     anciennes sont RETIRÉES DU MARKUP — pas surchargées. Une surcharge
+     laisse vivre l'héritage, et l'héritage finit toujours par gagner
+     quelque part.
+     Les `id` sont conservés : ce sont les ancres, citées 44 fois
+     (#artistes), 31 (#accueil), 13 (#prochains), 12 (#confiance).
 ============================================================ -->
-<!-- ============================================================
-     HERO CARROUSEL PLEIN ÉCRAN — slide 1 = identité SYFIR,
-     puis événements/billetterie, artistes, écosystème, SYFIR TV.
-     Auto-rotation 6 s.
-============================================================ -->
-<!-- ============================================================
-     R99 — LE HERO : UNE AFFICHE, PLUS UN CARROUSEL
-     Le hero etait un CARROUSEL HORIZONTAL de cinq panneaux
-     (.home-hero-track, cinq .hh-slide). C'est ce qui detruisait les trois
-     premieres secondes : on arrivait sur un catalogue qui defile, pas sur
-     une affiche. Les quatre panneaux editoriaux ne portaient que des
-     liens vers evenements.html, qui les porte deja.
-     Un ecran, un message, deux boutons.
-============================================================ -->
-<section class="home-hero" id="accueil" aria-label="SYFIR — Guadeloupe, Caraïbe">
-  <div class="hero-bg" data-parallax="0.25"></div>
-  <div class="hero-veil"></div>
 
-  <div class="hero-inner">
-    <h1 class="hero-title"><span class="hero-line"><span>SYFIR</span></span></h1>
-    <p class="hero-kicker">Guadeloupe &middot; Cara&iuml;be</p>
-    <p class="hero-tagline"><em>Entre dans la nuit.</em></p>
-    <div class="hero-cta">
-      <a href="evenements.html" class="btn btn-gradient btn-lg">Entrer dans la f&ecirc;te</a>
-      <a href="partenaires.html?type=soiree-particulier#partnerForm" class="btn btn-ghost btn-lg">Organiser la mienne</a>
+<header class="hero" id="accueil">
+  <div class="hero-photo">
+    <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg"
+         onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'"
+         alt="" aria-hidden="true" decoding="async" width="1600" height="1068">
+  </div>
+  <div>
+    <h1 class="marque">SYFIR</h1>
+    <p class="sous">Guadeloupe &middot; Cara&iuml;be</p>
+    <p class="tag">Entre dans la nuit.</p>
+    <div class="actions">
+      <a class="btn btn-1" href="evenements.html">Entrer dans la f&ecirc;te</a>
+      <a class="btn btn-2" href="partenaires.html?type=soiree-particulier#partnerForm">Organiser la mienne</a>
     </div>
   </div>
+</header>
 
-  <a href="#prochains" class="scroll-hint" aria-label="D&eacute;filer">
-    <span class="scroll-hint-line"></span>
-    <span>Explorer</span>
-  </a>
+<section class="sec" id="manifesto">
+  <p class="eyebrow">Le manifeste</p>
+  <h2>Un r&eacute;seau, <em>pas un catalogue.</em></h2>
+  <p class="lead">La libert&eacute; ne se programme pas. Les meilleurs moments non plus. Nous cr&eacute;ons ce qui les accompagne.</p>
+  <p class="lead">On ne raconte pas un produit. On raconte des instants de vie &mdash; des lieux, des artistes, des rencontres qui ne se refont pas deux fois. La libert&eacute;, c'est se retrouver, et en garder le souvenir.</p>
 </section>
 
-<!-- ============================================================
-     MANIFESTO — on vend l'espérance, pas le produit
-============================================================ -->
-<section class="manifesto cv-auto" id="manifesto">
-  <div class="container">
-    <p class="eyebrow reveal">Le manifeste</p>
-    <h2 class="h2 reveal d1">Un r&eacute;seau, <em>pas un catalogue.</em></h2>
-    <p class="manifesto-lines reveal">La liberté ne se programme pas.<br>Les meilleurs moments non plus.<br>Nous créons ce qui les accompagne.</p>
-    <!-- R81 (reconstruction) : SYFIR n'est plus défini par un produit —
-         des instants de vie, des lieux, des artistes, des rencontres. -->
-    <p class="manifesto-story reveal d1">On ne raconte pas un produit. On raconte des instants de vie.<br>
-      Des lieux, des artistes, des rencontres qui ne se refont pas deux fois.<br>
-      La liberté, c'est se retrouver — et en garder le souvenir.</p>
-    <p class="manifesto-sign reveal d2">SYFIR™</p>
-  </div>
-</section>
-
-
-
-<!-- ============================================================
-     NOTRE MARQUE — L'UNIVERS SYFIR
-============================================================ -->
-
-
-
-
-
-
-<!-- ============================================================
-     ARTISTES & DJs — fiches + extraits audio
-============================================================ -->
-<!-- ============================================================
-     R99 — BLOC 3 : LES ARTISTES, EN AFFICHE
-     Le line-up detaille (filtres, grille, agenda) a demenage vers
-     artistes.html : il ne disparait pas, il change de page. Ce qui reste
-     ici est l'affiche — pleine largeur, une colonne de texte a gauche,
-     un lien vers la page qui porte le detail.
-     L'ancre #artistes est conservee : elle etait citee 44 fois.
-============================================================ -->
-<section id="artistes" class="section section-dark" aria-label="Line-up SYFIR">
-  <picture>
-    <source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp">
-    <img class="artistes-photo" src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg"
-         onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg'"
-         alt="Foule en liesse pendant un concert SYFIR" loading="lazy" decoding="async"
-         width="1600" height="1068">
-  </picture>
-  <div class="container">
-    <p class="eyebrow eyebrow-light reveal">Artistes, DJs &amp; groupes live</p>
-    <h2 class="h2 reveal d1">Ceux qui font monter <em>la temp&eacute;rature.</em></h2>
-    <p class="section-intro intro-light reveal d2">DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
-    <p class="artists-cta reveal d2">
-      <a class="btn btn-ghost btn-lg" href="artistes.html#artistes">Voir le line-up &rarr;</a>
-    </p>
+<section class="plein" id="artistes">
+  <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg"
+       onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'"
+       alt="Foule en liesse pendant un concert SYFIR" loading="lazy" decoding="async"
+       width="1600" height="1068">
+  <div class="dedans">
+    <div class="bloc">
+      <p class="eyebrow">Artistes, DJs &amp; groupes live</p>
+      <h2>Ceux qui font monter <em>la temp&eacute;rature.</em></h2>
+      <p class="lead">DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
+      <a class="btn btn-2" href="artistes.html#artistes">Voir le line-up</a>
+    </div>
   </div>
 </section>
 
-<!-- ============================================================
-     PROCHAINS ÉVÉNEMENTS — conversion (3 dates réelles à venir)
-     R81 : rapatrié de syf-tv.html vers l'accueil (slot 2 du nouveau plan
-     de la page — cette fonctionnalité existait déjà, seule sa position
-     change).
-============================================================ -->
-<section class="next-events" id="prochains">
-  <div class="container">
-    <p class="eyebrow reveal">Prochaines dates</p>
-    <h2 class="h2 reveal d1">Là où le moment <em>devient une scène.</em></h2>
-  </div>
-  <!-- Rangée streaming Événements : cartes riches pilotées par les données -->
-  <div class="media-row-wrap">
-    <button class="row-arrow row-prev" type="button" aria-label="Événements précédents" hidden>‹</button>
-    <div class="media-row-track" id="nextEvents"></div>
-    <button class="row-arrow row-next" type="button" aria-label="Événements suivants">›</button>
-  </div>
-  <div class="container">
-    <p class="next-cta reveal d2"><a class="btn btn-solid btn-lg" href="evenements.html">Réserver ma place</a></p>
-  </div>
+<section class="sec" id="prochains">
+  <p class="eyebrow">Prochaines dates</p>
+  <h2>L&agrave; o&ugrave; le moment <em>devient une sc&egrave;ne.</em></h2>
 </section>
+<!-- La grille est HORS du bloc contenu : c'est ce décalage qui produit
+     le bord à bord. Elle garde l'id #nextEvents, cible du rendu JS. -->
+<div class="dates" id="nextEvents"></div>
 
-
-
-<!-- ============================================================
-     L'ÉCOSYSTÈME — réseau de partenaires SYFIR (le store locator AVYR
-     détaillé vit désormais sur le site autonome d'AVYR, R82)
-============================================================ -->
-<section id="confiance" class="section section-dark">
-  <div class="container">
-    <p class="eyebrow eyebrow-light reveal">L'Écosystème</p>
-    <h2 class="h2 reveal d1">Ta place dans <em>l'écosystème</em>.</h2>
-    <p class="section-intro intro-light reveal d2">SYFIR est une identité de fête et de musique, portée par un écosystème de services. Ses partenaires sont les lieux, les marques, les talents et les savoir-faire qui font vivre les expériences. SYFIR met en relation et coordonne&nbsp;; chaque prestation reste assurée par le prestataire concerné, avec qui le contrat est conclu directement.</p>
-    <!-- R82.1c : organisation validée par le fondateur — 6 catégories qui
-         disent ce que chaque partenaire APPORTE aux expériences SYFIR,
-         pas un annuaire. Honnêteté : portes d'entrée, pas des partenaires
-         confirmés (cf. « Nos partenaires officiels » plus bas). -->
-    <p class="trust-intro reveal d2">✦ Ces catégories ne représentent pas des partenaires confirmés — ce sont les portes d'entrée possibles dans l'écosystème SYFIR. <a class="eco-cta" href="partenaires.html#referencement">Sélection et référencement →</a></p>
-
-    <div class="eco-grid reveal d3">
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">🏝️</span>
+<section class="sec" id="confiance">
+  <p class="eyebrow">L'&eacute;cosyst&egrave;me</p>
+  <h2>Ta place dans <em>l'&eacute;cosyst&egrave;me.</em></h2>
+  <p class="lead">SYFIR est une identit&eacute; de f&ecirc;te et de musique, port&eacute;e par un &eacute;cosyst&egrave;me de services. Ses partenaires sont les lieux, les marques, les talents et les savoir-faire qui font vivre les exp&eacute;riences. SYFIR met en relation et coordonne&nbsp;; chaque prestation reste assur&eacute;e par le prestataire concern&eacute;, avec qui le contrat est conclu directement.</p>
+  <p class="lead">&#10022; Ces cat&eacute;gories ne repr&eacute;sentent pas des partenaires confirm&eacute;s &mdash; ce sont les portes d'entr&eacute;e possibles dans l'&eacute;cosyst&egrave;me SYFIR. <a href="partenaires.html#referencement">S&eacute;lection et r&eacute;f&eacute;rencement &rarr;</a></p>
+  <div class="eco">
+      <div class="c">
+        <span class="ic" aria-hidden="true">🏝️</span>
         <h3>Lieux</h3>
-        <p>Bars, restaurants, clubs, beach clubs, hôtels, espaces événementiels — le cadre, l'atmosphère et l'accueil des expériences. <em>Exemple : une soirée à thème co-organisée dans ton établissement.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=partenaire#partnerForm">Proposer mon lieu →</a>
-      </article>
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">🎤</span>
-        <h3>Artistes &amp; talents</h3>
-        <p>DJs, groupes, chanteurs, animateurs, performeurs, créateurs — la programmation qui fait vivre les événements. <em>Exemple : ton set programmé lors d'une prochaine soirée.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=artiste#partnerForm">Rejoindre le line-up →</a>
-      </article>
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">🏷️</span>
-        <h3>Marques partenaires</h3>
-        <p>Les marques qui enrichissent les expériences SYFIR — boissons, expériences culinaires, produits liés à l'événement. <em>Exemple : AVYR, marque partenaire indépendante de cocktails.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=marque-partenaire#partnerForm">Devenir marque partenaire →</a>
-      </article>
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">🎪</span>
-        <h3>Organisateurs</h3>
-        <p>Personnes, collectifs et structures qui créent des événements avec SYFIR. <em>Exemple : ton événement privé géré de bout en bout.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=evenement#partnerForm">Organiser un événement →</a>
-      </article>
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">🛠️</span>
-        <h3>Prestataires</h3>
-        <p>Son, lumière, sécurité, décoration, photo, vidéo, transport et logistique — la technique qui porte l'expérience. <em>Exemple : ton service technique mobilisé sur une soirée SYFIR.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=collaborateur#partnerForm">Proposer mes services →</a>
-      </article>
-      <article class="eco-card">
-        <span class="eco-ic" aria-hidden="true">📣</span>
-        <h3>Médias &amp; communautés</h3>
-        <p>Communication, visibilité et rassemblement du public autour des événements. <em>Exemple : une captation ou un partenariat média autour d'une soirée.</em></p>
-        <a class="eco-cta" href="partenaires.html?type=autre#partnerForm">Nous contacter →</a>
-      </article>
-    </div>
-
-    <!-- R81.4 : bloc séparé, honnête — aucun nom, logo ou témoignage tant
-         qu'aucun partenaire réel n'est validé par le fondateur. -->
-    <!-- R81.5 : premier partenaire officiel réel, accord explicite du
-         restaurateur pour affichage public. Pas d'adresse de rue publiée
-         (sources divergentes, à confirmer par le fondateur) — uniquement
-         la commune et un repère public. -->
-    <div class="official-partners reveal d4">
-      <h3 class="maison-h3">Nos partenaires officiels</h3>
-      <div class="official-grid">
-        <article class="official-card">
-          <span class="official-ic" aria-hidden="true">🍹</span>
-          <div>
-            <h4>AVYR</h4>
-            <p class="official-role">Marque partenaire indépendante de l'écosystème SYFIR</p>
-            <p class="official-note">Cocktails en pochette scellée, disponibles chez certains lieux partenaires.</p>
-            <a class="official-link" href="partenaire-avyr.html">Découvrir AVYR →</a>
-          </div>
-        </article>
-        <article class="official-card">
-          <span class="official-ic" aria-hidden="true">🍽️</span>
-          <div>
-            <h4>Les Délices du Bassin Bleu</h4>
-            <p class="official-role">Partenaire officiel SYFIR — Restaurant partenaire AVYR, Gourbeyre</p>
-            <p class="official-note">Cocktails AVYR disponibles sur place.</p>
-            <a class="official-link" href="partenaire-delices-bassin-bleu.html">Découvrir →</a>
-          </div>
-        </article>
+        <p>Bars, restaurants, clubs, beach clubs, hôtels, espaces événementiels — le cadre, l'atmosphère et l'accueil des expériences. Exemple : une soirée à thème co-organisée dans ton établissement.</p>
+        <a href="partenaires.html?type=partenaire#partnerForm">Proposer mon lieu →</a>
       </div>
-      <p class="official-more">Et bientôt d'autres. <a href="partenaires.html#referencement">Comment on sélectionne et référence les partenaires →</a></p>
-    </div>
+      <div class="c">
+        <span class="ic" aria-hidden="true">🎤</span>
+        <h3>Artistes &amp; talents</h3>
+        <p>DJs, groupes, chanteurs, animateurs, performeurs, créateurs — la programmation qui fait vivre les événements. Exemple : ton set programmé lors d'une prochaine soirée.</p>
+        <a href="partenaires.html?type=artiste#partnerForm">Rejoindre le line-up →</a>
+      </div>
+      <div class="c">
+        <span class="ic" aria-hidden="true">🏷️</span>
+        <h3>Marques partenaires</h3>
+        <p>Les marques qui enrichissent les expériences SYFIR — boissons, expériences culinaires, produits liés à l'événement. Exemple : AVYR, marque partenaire indépendante de cocktails.</p>
+        <a href="partenaires.html?type=marque-partenaire#partnerForm">Devenir marque partenaire →</a>
+      </div>
+      <div class="c">
+        <span class="ic" aria-hidden="true">🎪</span>
+        <h3>Organisateurs</h3>
+        <p>Personnes, collectifs et structures qui créent des événements avec SYFIR. Exemple : ton événement privé géré de bout en bout.</p>
+        <a href="partenaires.html?type=evenement#partnerForm">Organiser un événement →</a>
+      </div>
+      <div class="c">
+        <span class="ic" aria-hidden="true">🛠️</span>
+        <h3>Prestataires</h3>
+        <p>Son, lumière, sécurité, décoration, photo, vidéo, transport et logistique — la technique qui porte l'expérience. Exemple : ton service technique mobilisé sur une soirée SYFIR.</p>
+        <a href="partenaires.html?type=collaborateur#partnerForm">Proposer mes services →</a>
+      </div>
+      <div class="c">
+        <span class="ic" aria-hidden="true">📣</span>
+        <h3>Médias &amp; communautés</h3>
+        <p>Communication, visibilité et rassemblement du public autour des événements. Exemple : une captation ou un partenariat média autour d'une soirée.</p>
+        <a href="partenaires.html?type=autre#partnerForm">Nous contacter →</a>
+      </div>
   </div>
 </section>
-
-
-
-
-
-
 
 </main>
 
@@ -452,7 +345,7 @@
 <footer>
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
-    <p class="brand-sign-mark" aria-hidden="true">SYFIR</p>
+    <p class="signe" aria-hidden="true">SYFIR</p>
     <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
@@ -499,7 +392,7 @@
   </div>
   <div class="footer-bottom">
     <p>© 2026 SYFIR. Tous droits réservés.</p>
-    <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+    <p class="sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
   </div>
 </footer>
 

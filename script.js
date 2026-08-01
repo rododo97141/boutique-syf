@@ -1722,51 +1722,40 @@ if (placeModal && placesGridEl) {
       .sort((a, b) => a.date.localeCompare(b.date));
     if (!upcoming.length) {
       /* R99 — L'ÉTAT VIDE ASSUMÉ, ET IL REMPLACE UN TROU.
-         Jusqu'ici cette branche faisait `section.hidden = true` : quand
-         aucune date réelle n'est publiée — ce qui est le cas aujourd'hui,
-         `baseEvents` est vide — le bloc « Prochaines dates » de l'accueil
-         DISPARAISSAIT purement et simplement. Or c'est précisément la
-         section que Kily pointait dans la maquette.
-
-         On n'invente AUCUN événement : la règle tient, et un faux
-         événement serait pire que tout. Mais un vide travaillé vaut mieux
-         qu'un trou. Une seule carte pleine largeur, même traitement photo
-         que les vraies, qui dit franchement ce qu'il en est et propose la
-         seule chose réellement disponible : organiser la sienne, via le
-         formulaire qui existe déjà (l'offre est annoncée EN CONSTRUCTION,
-         conformément à la doctrine — on recueille un intérêt, on ne promet
-         pas un service ouvert). */
-      nextBox.classList.add('is-empty');
+         Cette branche faisait `section.hidden = true` : quand aucune date
+         réelle n'est publiée, le bloc « Prochaines dates » DISPARAISSAIT.
+         C'est précisément la section que Kily pointait dans la maquette.
+         On n'invente aucun événement ; on assume le vide et on le
+         travaille — une seule carte, pleine largeur, même traitement. */
+      nextBox.classList.add('vide');
       nextBox.innerHTML = `
-        <a class="rb-card rb-card-empty" href="partenaires.html?type=soiree-particulier#partnerForm">
-          <picture class="rb-card-pic"><img class="rb-card-img" src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" loading="lazy" decoding="async" width="1600" height="1068" alt=""></picture>
-          <div class="rb-card-overlay">
-            <span class="rb-badge rb-badge-bientot">Bient&ocirc;t</span>
-            <h3 class="rb-card-title">Les prochaines dates arrivent.</h3>
-            <p class="rb-card-sub">Rien de publi&eacute; pour l'instant &mdash; on n'annonce que du r&eacute;el. En attendant, tu peux organiser la tienne.</p>
-            <span class="rb-empty-cta">Organiser ma soir&eacute;e &rarr;</span>
-          </div>
+        <a class="date" href="partenaires.html?type=soiree-particulier#partnerForm">
+          <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" loading="lazy" decoding="async" width="1600" height="1068" alt="">
+          <span class="puce">Bient&ocirc;t</span>
+          <div class="quand">Prochainement</div>
+          <h3>Les prochaines dates arrivent.</h3>
+          <p class="ou">Rien de publi&eacute; pour l'instant &mdash; on n'annonce que du r&eacute;el. Organiser la mienne &rarr;</p>
         </a>`;
     } else {
-      // Carte riche façon chaîne TV : badge catégorie, date+lieu, compte à rebours.
+      /* R100 — CLASSES DE LA MAQUETTE : article.date > img / span.puce /
+         div.quand / h3 / p.ou. Le rendu n'émet plus .rb-card ni aucune
+         classe du site : celles-ci traînaient leur CSS hérité
+         (aspect-ratio 3/4, border-radius, box-shadow, overlay) qui se
+         battait contre les valeurs de la maquette. */
       const fallback = 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg';
+      nextBox.classList.remove('vide');
       nextBox.innerHTML = upcoming.map(ev => {
         const d = new Date(ev.date + 'T12:00:00');
         const dateStr = d.getDate() + ' ' + S.MONTHS[d.getMonth()].toLowerCase();
-        const badge = ev.prive ? 'Privé 🔒' : (S.typeLabel[ev.type] || 'Soirée');
-        const badgeCls = ev.prive ? 'rb-badge-prive' : ('rb-badge-' + ev.type);
-        const st = S.stockLabel(ev);
+        const badge = ev.prive ? 'Privé' : (S.typeLabel[ev.type] || 'Soirée');
         const img = ev.img || fallback;
         return `
-        <a class="rb-card" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
-          <picture class="rb-card-pic"><img class="rb-card-img" src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}"></picture>
-          ${st ? `<span class="rb-duration">${esc(st.text)}</span>` : ''}
-          <div class="rb-card-overlay">
-            <span class="rb-badge ${badgeCls}">${esc(badge)}</span>
-            <h3 class="rb-card-title">${esc(ev.name)}</h3>
-            <p class="rb-card-sub">📅 ${dateStr} · 📍 ${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
-            <span class="rb-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00"></span>
-          </div>
+        <a class="date" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
+          <img src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}">
+          <span class="puce">${esc(badge)}</span>
+          <div class="quand">${dateStr}</div>
+          <h3>${esc(ev.name)}</h3>
+          <p class="ou">${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
         </a>`;
       }).join('');
     }
