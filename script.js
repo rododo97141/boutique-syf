@@ -1130,7 +1130,26 @@
   // .tickets-hero, qui reste sur son image statique en attendant un jugement
   // séparé. Ce n'est PAS un aftermovie (aucun événement n'a eu lieu) : ne
   // jamais employer ce mot ici.
-  injectHeroVideo($('.hero#accueil'), ['videos/syfir-film-canva-web.mp4'], 'videos/syfir-film-canva-poster.jpg');
+  /* ⚠ R105 — PLUS DE FILM DANS LE HERO DE L'ACCUEIL.
+     « Il doit pas avoir la vidéo, ça doit être comme la maquette. » (Kily)
+     `maquettes/3-LUMIERE-DE-SCENE.html` n'a AUCUNE vidéo : son hero est une
+     photo fixe à opacité .5 avec un zoom lent, rien d'autre. L'appel
+     ci-dessous injectait le film par-dessus cette photo — un survivant que
+     ni la liste de R103 ni les 102 couches de `maquette.mjs` ne pouvaient
+     voir, parce qu'il n'est déclaré NULLE PART en CSS : il naît à
+     l'exécution.
+
+     LE FILM N'EST PAS SUPPRIMÉ. `videos/syfir-film-canva-web.mp4` et son
+     poster restent dans le dépôt — c'est un vrai travail du fondateur,
+     vérifié image par image, et il aura sa place ailleurs (`syf-tv.html`
+     est le candidat naturel). `injectHeroVideo` est donc CONSERVÉE telle
+     quelle, prête pour son futur hôte : on retire l'appel, pas l'outil.
+
+     Ce que ça change, mesuré : ici le <video> n'apparaissait déjà pas dans
+     le DOM (son gestionnaire d'erreur le retirait, faute de codec H.264
+     dans le conteneur) — mais les DEUX fichiers étaient tout de même
+     téléchargés, mp4 de ~9,5 Mo compris. Sur une machine avec les codecs,
+     le film s'injectait et se peignait. */
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
      Les modales de fiche produit sont remplacées par de vraies pages
