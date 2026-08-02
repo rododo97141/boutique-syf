@@ -4041,9 +4041,54 @@ html[data-econome] .portal-inner::after { opacity: 0; }
 
 /* Grade couleur du fond, en vignette (centre transparent = lecture intacte).
    Statique par défaut ; anime la température au scroll si supporté + motion OK. */
+/* ⚠⚠ LOT B — LE VOILE SAUTAIT, IL DÉRIVE. Le même bug qu'en R97, resté
+   vivant sur les 7 pages qui portent ce voile pendant que le ciel de
+   l'accueil était corrigé.
+
+   CE QUI N'ALLAIT PAS. `@keyframes ambient-grade` animait le RACCOURCI
+   `background`. Le raccourci embarque `background-image`, dont le type est
+   DISCRET : le navigateur ne sait pas interpoler un dégradé vers un autre,
+   il bascule à mi-chemin. Les cinq étapes déclarées — aube, golden hour,
+   sunset, nuit océan, braise — ne produisaient donc pas une dérive mais
+   QUATRE SAUTS. Mesuré avant correction sur `partenaires.html` :
+   5 luminances peintes distinctes sur 12 relevés, soit exactement le
+   nombre d'étapes. Les deux moyens de `tools/qa/voile.mjs` concordaient.
+
+   LE REMÈDE, ET POURQUOI CELUI-LÀ. Sur le ciel de l'accueil, le remède
+   R97/C était l'empilement de couches dont on anime les OPACITÉS. Ici il
+   aurait fallu ajouter cinq sous-couches au balisage DES 7 PAGES. On
+   obtient le même résultat sans toucher à un seul fichier HTML : ce ne
+   sont pas les dégradés qu'on interpole, ce sont LEURS PARAMÈTRES.
+   `@property` enregistre le type des variables, ce qui les rend
+   interpolables — c'est déjà l'idiome du dépôt depuis le pouls R94
+   (`--syfir-beat`, `--syfir-wght`). Le dégradé, lui, ne change jamais :
+   il lit deux variables qui, elles, dérivent continûment.
+
+   Le raccourci `background` est remplacé par la propriété LONGUE partout
+   ici, y compris dans la règle de base — c'est la règle du dépôt depuis
+   R97, et une exception « inoffensive » est exactement ce qui l'a fait
+   réapparaître trois lots plus tard.
+
+   ⚠ CE LOT NE CHANGE AUCUNE COULEUR. Les cinq teintes sont reprises
+   VERBATIM. Le passage de ces teintes au vocabulaire de la nuit est le
+   travail du lot C, et le mélanger ici aurait rendu impossible de dire
+   laquelle des deux causes a produit un changement à l'écran. */
+@property --voile-teinte {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: rgba(212, 160, 23, .08);
+}
+@property --voile-centre {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 38%;
+}
 .ambience {
   position: fixed; inset: 0; z-index: 40; pointer-events: none;
-  background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .08) 100%);
+  --voile-teinte: rgba(var(--gold-rgb), .08);
+  --voile-centre: 38%;
+  background-image: radial-gradient(115% 115% at 50% 45%,
+    transparent var(--voile-centre), var(--voile-teinte) 100%);
 }
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -4053,12 +4098,15 @@ html[data-econome] .portal-inner::after { opacity: 0; }
     }
   }
 }
+/* Les cinq moments de la traversée. On n'anime plus le dégradé : on anime
+   la TEINTE et le RAYON du centre transparent, deux valeurs que le
+   navigateur sait interpoler parce que `@property` leur a donné un type. */
 @keyframes ambient-grade {
-  0%   { background: radial-gradient(115% 115% at 50% 45%, transparent 40%, rgba(var(--gold-rgb), .05) 100%); }   /* aube douce */
-  25%  { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .12) 100%); }   /* golden hour — saveurs */
-  50%  { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--sunset-rgb), .13) 100%); } /* sunset — événements */
-  75%  { background: radial-gradient(115% 115% at 50% 45%, transparent 36%, rgba(var(--ocean-deep-rgb), .20) 100%); } /* nuit océan — artistes */
-  100% { background: radial-gradient(115% 115% at 50% 45%, transparent 38%, rgba(var(--gold-rgb), .13) 100%); }   /* braise dorée — moments/fin */
+  0%   { --voile-teinte: rgba(var(--gold-rgb), .05);       --voile-centre: 40%; }  /* aube douce */
+  25%  { --voile-teinte: rgba(var(--gold-rgb), .12);       --voile-centre: 38%; }  /* golden hour — saveurs */
+  50%  { --voile-teinte: rgba(var(--sunset-rgb), .13);     --voile-centre: 38%; }  /* sunset — événements */
+  75%  { --voile-teinte: rgba(var(--ocean-deep-rgb), .20); --voile-centre: 36%; }  /* nuit océan — artistes */
+  100% { --voile-teinte: rgba(var(--gold-rgb), .13);       --voile-centre: 38%; }  /* braise dorée — moments/fin */
 }
 
 /* Hero vivant (R3) — la signature se forme mot par mot à l'arrivée, comme un
