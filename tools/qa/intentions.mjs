@@ -56,7 +56,24 @@ if (!a || !b) {
 }
 const load = l => JSON.parse(readFileSync(resolve(OUT, `${l}.json`), 'utf8'));
 const A = load(a), B = load(b);
-const regles = existsSync(MANIFESTE) ? JSON.parse(readFileSync(MANIFESTE, 'utf8')) : [];
+/* ⚠ CHAQUE ENTRÉE EST LIÉE À SA PAIRE DE DUMPS (`de` / `vers`) — défaut
+   trouvé au PREMIER usage réel de l'outil, et c'en était un vrai. Sans ce
+   lien, une réclamation honorée au lot N est réévaluée au lot N+1, où le
+   changement a déjà eu lieu : elle ne trouve plus rien et fait échouer un
+   lot innocent. Le manifeste s'accumule, donc chaque entrée doit dire de
+   quel passage elle parle. Les entrées d'autres passages sont ignorées —
+   et le rapport dit COMBIEN, pour qu'on ne les croie pas vérifiées.
+
+   ⚠ ET UN LOT PEUT LÉGITIMEMENT NE RIEN RÉCLAMER. Le lot B — la
+   correction du voile `.ambience` — n'a produit AUCUNE différence dans le
+   dump : il change une INTERPOLATION, donc un comportement dans le temps,
+   et un dump lit la page AU REPOS. Zéro différence, zéro réclamation,
+   preuve verte : c'est cohérent, à condition de dire que cette preuve
+   porte sur l'état statique et pas sur ce que le lot a corrigé. C'est
+   `tools/qa/voile.mjs` qui prouve le lot B, pas cet outil-ci. */
+const toutes = existsSync(MANIFESTE) ? JSON.parse(readFileSync(MANIFESTE, 'utf8')) : [];
+const regles = toutes.filter(r => r.de === a && r.vers === b);
+const horsPaire = toutes.length - regles.length;
 
 /* ---- appariement, volontairement pauvre ---- */
 const colle = (motif, valeur) => {
@@ -98,7 +115,8 @@ for (const d of diffs) {
 const mortes = regles.map((r, i) => ({ r, i, n: utilisee.get(i) })).filter(x => x.n === 0);
 
 console.log(`\nINTENTION — ${a} -> ${b}${theme ? ` · thème « ${theme} »` : ''}`);
-console.log(`${diffs.length} différence(s) mesurée(s) · ${regles.length} réclamation(s) au manifeste\n`);
+console.log(`${diffs.length} différence(s) mesurée(s) · ${regles.length} réclamation(s) pour ce passage`
+  + (horsPaire ? ` · ${horsPaire} entrée(s) concernent d'autres passages, NON ÉVALUÉES ici` : '') + '\n');
 
 if (!orphelines.length) console.log('  ✓ toute différence mesurée est réclamée par un lot');
 else {
