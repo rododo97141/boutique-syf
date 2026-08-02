@@ -1,7 +1,59 @@
 # HANDOFF — SYFIR
 
 > Document de passation pour reprendre le travail dans une session fraîche sans perte de contexte.
-> Dernière mise à jour : fin du LOT 11 (juillet 2026).
+> Dernière mise à jour : R106 (août 2026). ⚠ Les sections 2 et suivantes datent du LOT 11 et
+> décrivent un état antérieur (PR #8, deux thèmes) — voir `JOURNAL-R98-NUIT.md` et les journaux
+> R99 → R106 pour l'état réel. **La section 0 ci-dessous, elle, est à jour et prioritaire.**
+
+---
+
+## 0. LA LEÇON QUI VAUT PLUS QUE LES LOTS
+
+# ON NE COMPARE QUE CE QU'ON SAIT NOMMER.
+
+Quatre défauts réels ont traversé la refonte de l'accueil sans être vus. Aucun n'était
+subtil à l'œil. **Tous les quatre étaient invisibles à la mesure pour la même raison :
+l'instrument comparait une liste, et la chose n'était pas dans la liste.** Chaque fois,
+la méthode a dû s'élargir *après coup*, et chaque fois c'est un humain qui a regardé une
+image qui a trouvé le défaut.
+
+| # | Le défaut | Pourquoi la mesure était aveugle | Ce qui a dû s'élargir |
+|---|---|---|---|
+| 1 | **Un losange doré** devant chaque sur-titre (motif goutte R30, `syfir-ui/components.css`) | on ne comparait que des **sélecteurs** — un `::before` n'en est pas un | les **pseudo-éléments** entrent dans la comparaison (34 → 102 couches) |
+| 2 | **Le film de marque injecté dans le hero** (9,5 Mo téléchargés, poster préchargé en LCP) | il n'est déclaré **nulle part en CSS** — il naît à l'exécution | comparaison du **DOM sans JS contre le DOM avec JS** |
+| 3 | **La barre du haut qui maigrit** de 72 à 64 px au défilement (`nav.scrolled`) | on mesurait **à hauteur zéro** — jamais ce que la page devient quand on descend | une **passe de stabilité au défilement** |
+| 4 | **La barre 20 px trop haute** au repos (72 contre 52,3 px) et son liseré jamais comparé | `nav` n'était **dans aucune paire**, et `height` / `borderBottom*` **dans aucune propriété** comparée | la paire `nav`, et les propriétés manquantes |
+
+**La même faute, descendue quatre étages** : sélecteurs → couches → moment → propriétés.
+À chaque étage on croyait comparer « tout », et on ne comparait que le vocabulaire dont on
+disposait.
+
+### Les trois règles qui en découlent
+
+1. **Avant de dire « 0 écart », dis ce que l'instrument NE REGARDE PAS.** Un rapport vert
+   sans périmètre déclaré est une opinion, pas une mesure. `tools/qa/maquette.mjs` porte
+   désormais ce périmètre en tête de fichier ; tiens-le à jour.
+2. **Une limite signalée et non traitée finit toujours par coûter.** En R104 j'ai écrit noir
+   sur blanc que l'inventaire portait sur des *noms de classe* et pas sur les *éléments nus*,
+   et que la mesure se faisait *à hauteur zéro*. Les deux limites ont produit leur défaut
+   deux lots plus tard. **Signaler n'est pas traiter.** Quand tu notes une limite, ouvre-lui
+   une ligne de travail au lieu de la laisser en commentaire.
+3. **Ce qui n'est pas vérifié visuellement n'est pas terminé.** Les quatre défauts ont été
+   trouvés à l'œil sur une capture. C'est pour ça que `tools/qa/captures/` est versionné et
+   que **chaque lot y dépose l'accueil ET la maquette, même viewport, voile levé, animations
+   figées** — c'est ce qui se regarde en premier, avant tout tableau.
+
+### Et le corollaire, appris à ses dépens
+
+**Ne jamais déclarer un défaut *ni une réussite* sur la foi d'un seul instrument ; nommer un
+second moyen indépendant ; mesurer le RÉSULTAT, jamais le câblage.** L'outillage s'est trompé
+**quinze fois** sur ce projet, et chaque erreur est documentée dans les journaux — dont un
+faux positif qui imitait exactement le vrai défaut qu'il devait détecter, un faux négatif qui
+aurait fait « corriger » un mécanisme qui fonctionnait, un outil qui suivait **zéro élément**
+en annonçant « ✓ », et une lecture de pixels qui donnait **l'inverse de la vérité**
+(26 % contre 16 %). Le seul rempart qui ait tenu, à chaque fois, c'est le second moyen.
+
+---
 
 ## 1. Le projet en une phrase
 
