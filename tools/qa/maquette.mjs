@@ -43,11 +43,40 @@ const PROPS = [
   'padding', 'margin', 'maxWidth', 'minHeight',
   'borderRadius', 'borderTopWidth', 'borderTopColor', 'borderTopStyle',
   'opacity', 'objectFit', 'zIndex', 'overflow', 'textShadow', 'boxShadow', 'filter',
+  /* ⚠ AJOUTÉES EN R106, et leur absence coûtait cher. La barre du haut
+     mesurait 72 px contre 52,3 px, et son liseré n'avait jamais été
+     comparé — parce que `height` ne figurait pas dans cette liste, et que
+     seuls les bords du HAUT y étaient (`borderTop*`) alors que la barre
+     porte le sien en BAS. C'est le même angle mort que les trois
+     précédents, descendu d'un cran : après les sélecteurs et les couches,
+     ce sont les PROPRIÉTÉS qu'on ne comparait que si on avait pensé à les
+     nommer.
+     `width` a été ESSAYÉE puis RETIRÉE, et la raison compte : dans ce
+     conteneur aucun webfont ne se charge, et les deux chaînes de repli
+     diffèrent (la maquette écrit « Unbounded » nu, donc serif ; le site
+     « 'Unbounded', sans-serif »). Toutes les largeurs de texte divergeaient
+     donc de quelques pixels — `.marque` 577,6 contre 565,9, `.btn-2` 258
+     contre 255,5 — en mesurant l'artefact d'environnement documenté en
+     R103, pas le dessin. Un instrument qui hurle sur du bruit finit ignoré.
+     `height` RESTE, parce qu'elle a attrapé la barre du haut. Les hauteurs
+     qui diffèrent par la LONGUEUR DU CONTENU sont tolérées une par une
+     ci-dessous, jamais en masse. */
+  'height', 'minWidth',
+  'borderBottomWidth', 'borderBottomColor', 'borderBottomStyle',
+  'backdropFilter',
 ];
 
 /* [nom lisible, sélecteur côté MAQUETTE, sélecteur côté ACCUEIL] */
 const PAIRES = [
   ['body (la base)',      'body',              '.page-home'],
+  /* ⚠ `nav` A ÉTÉ AJOUTÉE EN R106, et son absence coûtait 20 px. La barre
+     du haut n'avait JAMAIS été comparée : elle n'est ni une classe de la
+     maquette ni un enfant d'une paire existante, donc elle n'appartenait à
+     aucune. Le site posait `height: var(--nav-h)` = 72 px là où la maquette
+     laisse la barre se dimensionner par son contenu — 52,3 px. « On ne
+     compare que ce qu'on sait nommer. » */
+  ['nav',                 'nav',               '.page-home nav'],
+  ['nav .lg',             'nav .lg',           '.page-home nav .lg'],
   ['.hero',               '.hero',             '.hero'],
   ['.hero-photo',         '.hero-photo',       '.hero-photo'],
   ['.hero-photo img',     '.hero-photo img',   '.hero-photo img'],
@@ -120,6 +149,36 @@ const TOLERES = {
   '.hero-photo img.maxWidth': 'idem',
   '.plein img.maxWidth': 'idem — image en absolute inset:0, max-width sans effet',
   '.date img.maxWidth': 'idem',
+
+  /* ---- HAUTEURS PILOTÉES PAR LE CONTENU ----
+     `height` est comparée depuis R106 (c'est elle qui a trouvé la barre du
+     haut). Ces onze-là diffèrent parce que les deux pages ne portent pas le
+     même texte ni le même nombre de cartes — la maquette a 3 dates et
+     5 catégories, l'accueil 4 et 6, et son pied de page est celui du site.
+     Vérifié cas par cas : aucune n'est imposée par une règle du site. */
+  'body (la base).height': 'hauteur de page réelle : 4469 contre 5529, le contenu diffère',
+  '.sec.height': 'longueur du texte de section',
+  '.lead.height': 'le chapô de la maquette fait deux lignes de plus',
+  '.plein .dedans.height': 'longueur du bloc texte sur la photo pleine largeur',
+  '.plein .bloc.height': 'idem',
+  '.date .ou.height': '24,36 contre 24,78 : boîte de ligne du repli de police, artefact R103',
+  '.dates.height': 'à 390 px les cartes s’empilent : 3 dans la maquette, 4 sur l’accueil',
+  '.eco.height': '5 catégories contre 6',
+  '.eco .c.height': 'longueur des descriptions de catégorie',
+  'footer.height': 'la maquette a un pied de page de maquette ; le site a le sien (survivant R103, groupe E)',
+  '.f-in.height': 'idem',
+
+  /* ⚠ CELLE-CI N'EST PAS UN ARTEFACT, C'EST UN ARBITRAGE EN ATTENTE.
+     La barre de la maquette mesure 52,3 px ; celle de l'accueil 77 px une
+     fois `height: var(--nav-h)` retiré. La différence n'est plus imposée
+     par le CSS du site : elle vient du CONTENU. La maquette ne porte qu'un
+     logo ; l'accueil porte en plus les boutons recherche et profil que
+     Kily a demandé de garder, et la loi du dépôt exige des cibles
+     tactiles ≥ 44 px (CLAUDE.md §2.5). 44 + 16 + 16 = 76.
+     « À l'identique » et « cibles ≥ 44 px » ne peuvent pas être vrais
+     ensemble ici. Je ne trie pas cet arbitrage tout seul : il est posé
+     dans le journal R106 et attend une décision. */
+  'nav.height': 'ARBITRAGE EN ATTENTE — 52,3 px contre 77 px : cibles tactiles 44 px + les deux boutons gardés, voir JOURNAL-R106',
 };
 
 const norm = (s) => String(s)
@@ -139,7 +198,7 @@ try {
   for (const [nomVp, vp] of [['desktop', VIEWPORTS.desktop], ['390 px', VIEWPORTS.mobile]]) {
     const ctx = await b.newContext({ viewport: vp });
 
-    const lire = async (url, sels) => {
+    const lire = async (url, sels, frac = 0) => {
       const pg = await ctx.newPage();
       await pg.goto(url, { waitUntil: 'domcontentloaded' });
       await pg.waitForTimeout(1200);
@@ -174,6 +233,27 @@ try {
         document.getAnimations().forEach(a => { try { a.pause(); a.currentTime = 0; } catch (e) {} });
       });
       await pg.waitForTimeout(300);
+      /* ⚠ SECONDE PASSE : LES ÉTATS DÉCLENCHÉS PAR LE DÉFILEMENT — R106.
+         Troisième angle mort de la série, et le seul que j'avais SIGNALÉ
+         sans le traiter : mesurer à hauteur zéro, c'est ne jamais voir ce
+         qu'une page devient quand on descend. `nav.scrolled` faisait
+         maigrir la barre de l'accueil de 72 à 64 px pendant que celle de
+         la maquette ne bougeait pas d'un pixel, et aucune des 102 couches
+         ne pouvait le dire.
+         ON DÉFILE EN FRACTION, pas en pixels : les deux pages n'ont pas la
+         même hauteur, et c'est la fraction qui donne le même `--p` des deux
+         côtés — sinon le ciel diverge et on mesurerait du bruit.
+         Le cran de molette force le repeint (R103). */
+      if (frac > 0) {
+        await pg.evaluate(f => scrollTo(0, Math.round((document.documentElement.scrollHeight - innerHeight) * f)), frac);
+        await pg.mouse.move(300, 300);
+        await pg.mouse.wheel(0, 1); await pg.mouse.wheel(0, -1);
+        await pg.waitForTimeout(700);
+        await pg.evaluate(() => {
+          document.getAnimations().forEach(a => { try { a.pause(); a.currentTime = 0; } catch (e) {} });
+        });
+        await pg.waitForTimeout(200);
+      }
       const r = await pg.evaluate(({ sels, props }) => {
         const out = {};
         for (const s of sels) {
@@ -196,11 +276,14 @@ try {
       return r;
     };
 
-    const M = await lire(`${BASE}/maquettes/3-LUMIERE-DE-SCENE.html`, PAIRES.map(p => p[1]));
-    const A = await lire(`${BASE}/index.html`, PAIRES.map(p => p[2]));
-
     console.log(`\n═══════════ ${nomVp} ═══════════`);
     let ko = 0, tol = 0;
+    const selsM = PAIRES.map(p => p[1]), selsA = PAIRES.map(p => p[2]);
+    const M  = await lire(`${BASE}/maquettes/3-LUMIERE-DE-SCENE.html`, selsM, 0);
+    const A  = await lire(`${BASE}/index.html`, selsA, 0);
+    const M1 = await lire(`${BASE}/maquettes/3-LUMIERE-DE-SCENE.html`, selsM, 0.25);
+    const A1 = await lire(`${BASE}/index.html`, selsA, 0.25);
+    const passe = '';
     for (const [nom, sm, sa] of PAIRES) {
       const m = M[sm], a = A[sa];
       if (!m) { console.log(`  ⚠ ${nom} : absent de la MAQUETTE (${sm})`); continue; }
@@ -226,7 +309,7 @@ try {
             const cle = nom + suff + '.présence';
             if (TOLERES[cle]) { tol++; toleres++; continue; }
             ko++; ecarts++;
-            console.log(`  ✗ ${(nom + suff).padEnd(18)} ${'PSEUDO EN TROP'.padEnd(20)}`
+            console.log(`  ✗ ${(nom + suff).padEnd(18)}${passe} ${'PSEUDO EN TROP'.padEnd(20)}`
               + ` maquette « ${vm ? 'aucun' : cm.content.slice(0, 30)} »`);
             console.log(`    ${''.padEnd(18)} ${''.padEnd(20)} accueil  « ${va ? 'aucun' : ca.content.slice(0, 30)} »`);
             continue;                                   // inutile de détailler 34 propriétés d'un décor à supprimer
@@ -240,12 +323,43 @@ try {
           const cle = nom + suff + '.' + p;
           if (TOLERES[cle]) { tol++; toleres++; continue; }
           ko++; ecarts++;
-          console.log(`  ✗ ${(nom + suff).padEnd(18)} ${p.padEnd(20)} maquette « ${vm.slice(0, 46)} »`);
+          console.log(`  ✗ ${(nom + suff).padEnd(18)}${passe} ${p.padEnd(20)} maquette « ${vm.slice(0, 46)} »`);
           console.log(`    ${''.padEnd(18)} ${''.padEnd(20)} accueil  « ${va.slice(0, 46)} »`);
         }
       }
     }
-    console.log(`  → ${ko} écart(s)${tol ? `, ${tol} toléré(s) et documenté(s)` : ''}`);
+
+    /* ---- SECONDE PASSE : LA STABILITÉ AU DÉFILEMENT ----
+       ⚠ ON NE COMPARE PAS DES VALEURS ABSOLUES ICI, ET C'EST TOUT LE
+       POINT. Une première version comparait bêtement l'accueil défilé à la
+       maquette défilée — et ne voyait rien, parce que la tolérance posée
+       sur `nav.height` (52,3 contre 77 px, arbitrage en attente) avalait
+       aussi l'état défilé. Une tolérance destinée au repos aveuglait le
+       mouvement.
+       La bonne question n'est pas « même valeur que la maquette ? » mais
+       « L'ACCUEIL BOUGE-T-IL LÀ OÙ LA MAQUETTE NE BOUGE PAS ? ». On compare
+       donc chaque côté À LUI-MÊME entre le haut et le quart de page, et
+       c'est la DIVERGENCE DE COMPORTEMENT qui est l'écart. Aucune
+       tolérance d'état de repos ne peut masquer ça. */
+    for (const [nom, sm, sa] of PAIRES) {
+      if (!M[sm] || !A[sa] || !M1[sm] || !A1[sa]) continue;
+      for (const couche of ['el', 'before', 'after']) {
+        for (const p of PROPS) {
+          const bougeM = norm(M[sm][couche][p]) !== norm(M1[sm][couche][p]);
+          const bougeA = norm(A[sa][couche][p]) !== norm(A1[sa][couche][p]);
+          if (bougeM === bougeA) continue;
+          const suff = couche === 'el' ? '' : '::' + couche;
+          const cle = nom + suff + '.' + p + '@défilement';
+          if (TOLERES[cle]) { tol++; toleres++; continue; }
+          ko++; ecarts++;
+          console.log(`  ✗ ${(nom + suff).padEnd(18)} ${(p + ' AU DÉFILEMENT').padEnd(24)}`);
+          console.log(`    maquette ${bougeM ? 'change' : 'NE BOUGE PAS'} : ${norm(M[sm][couche][p]).slice(0,26)} -> ${norm(M1[sm][couche][p]).slice(0,26)}`);
+          console.log(`    accueil  ${bougeA ? 'CHANGE' : 'ne bouge pas'} : ${norm(A[sa][couche][p]).slice(0,26)} -> ${norm(A1[sa][couche][p]).slice(0,26)}`);
+        }
+      }
+    }
+    console.log(`  → ${ko} écart(s)${tol ? `, ${tol} toléré(s) et documenté(s)` : ''}`
+      + ' · deux passes : valeurs au repos, puis stabilité au défilement');
     await ctx.close();
   }
 } finally {
