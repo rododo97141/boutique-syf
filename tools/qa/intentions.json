@@ -1,0 +1,9 @@
+[
+  {
+    "lot": "R106/1",
+    "page": "index.html",
+    "sel": "nav#nav[0]",
+    "prop": "_box",
+    "raison": "la barre n'est plus forcée à var(--nav-h) : height auto, elle se dimensionne par son contenu (77 px avec les boutons recherche/profil et les cibles 44 px). Arbitrage de hauteur en attente, voir JOURNAL-R106."
+  }
+]
