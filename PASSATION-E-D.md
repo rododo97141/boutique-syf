@@ -73,11 +73,94 @@ node tools/qa/reservation.mjs --captures   # E/1 — 24/24, les deux parcours
 node tools/qa/formulaires.mjs --captures   # E/2 — 18/18, cinq réponses réseau
 node tools/qa/clics.mjs                    # E/3 — on clique pour de vrai
 node tools/qa/clics.mjs index.html --frais # E/3 — le Portail n'existe qu'en 1re visite
+node tools/qa/cibles.mjs                   # 390 px — cibles tactiles, boîte PEINTE
+node tools/qa/inp.mjs                      # délai geste → peinture, CPU ×4
 ```
 
 Les trois sont **versionnés** et doivent le rester : le harnais est un
 actif du projet (décision R93), et deux d'entre eux encodent des pièges
 qu'il serait coûteux de redécouvrir.
+
+---
+
+# CE QUE LE MANDAT DE CLÔTURE A AJOUTÉ, ET OÙ ÇA EN EST
+
+| Point | État |
+|---|---|
+| **1. Aucun clic mort** | ✅ 39 candidats cliqués : **37 répondent, 0 muets**, 2 non mesurables résolus par `--frais`. **0 `href="#"`**, **0 ancre morte** (audit statique sur les 19 pages). |
+| **2. Parcours de réservation** | ✅ 24/24 |
+| **3. Formulaires** | ✅ 18/18 · ⛔ **le mail réel reste à envoyer** (réseau bloqué, voir ci-dessous) |
+| **4. Les 13 pages (lot D)** | 🟡 **`syf-tv.html` faite** · les 12 autres restent |
+| **5. Sur téléphone** | ✅ **0 cible sous 44 px** (48 avant) · 0 débordement · menu accessible |
+| **6. Aucun placeholder visible** | ✅ hors pages légales, assumées. Aucun « lorem », aucun « bientôt » non expliqué. |
+| **Parcours de présentation** | ✅ `PARCOURS-DE-PRESENTATION.md` |
+| **INP** | 🟡 **mesuré pour la première fois — 3/9 sous 200 ms.** Voir ci-dessous. |
+| **Partage (OG)** | ✅ 19/19 pages |
+
+## ⚠ L'INP — LE CHIFFRE, NON ARRONDI
+
+`node tools/qa/inp.mjs` · 390 px · CPU bridé ×4 · 3 passes, **on garde le pire**.
+
+| Interaction | Pire |
+|---|---:|
+| ouvrir « Mon espace » | **0 ms** |
+| ajouter un billet (+) | **136 ms** |
+| RÉSERVER — le clic principal | **184 ms** |
+| ouvrir le voile d'entrée | ✗ **208 ms** |
+| soumettre le formulaire de contact | ✗ **216 ms** |
+| aimer un événement (♥) | ✗ **256 ms** |
+| ouvrir la recherche (méga-menu) | ✗ **280 ms** |
+| filtrer la billetterie | ✗ **296 ms** |
+| ouvrir le tunnel billets | ✗ **312 ms** |
+| trier les partenaires | ⚠ non joué (sélecteur `data-sort="recent"`, pas `"chrono"` — à corriger dans l'outil) |
+
+**Ce que ça dit, et ce que ça ne dit pas.** Les deux interactions qui
+comptent le plus pour la démonstration — **ajouter un billet** et
+**réserver** — passent. Les dépassements sont tous des re-rendus de liste
+(filtres, cœur, tunnel) et l'ouverture du méga-menu, **entièrement
+construit en JS à l'ouverture**. Aucun ne dépasse 320 ms : c'est « à
+améliorer », pas « mauvais » (le seuil « mauvais » est 500 ms).
+**Rien n'a été corrigé** : c'est un lot en soi, et il ne se traite pas à
+la fin d'un autre.
+
+## SYFIR TV — LA PLACE DU DIRECT, PRÉPARÉE ET INVISIBLE
+
+**Aucune section « en direct » n'a été créée.** Aucun bouton, aucun
+compte à rebours, aucune mention de diffusion à venir. Le visiteur ne
+voit rien, parce qu'il n'y a rien.
+
+**Où elle s'insérera, quand elle existera** : entre `<header class="tv-hero">`
+et la section « À regarder » — c'est-à-dire **juste après le hero**, en
+tête de page. L'ordre des sections a été laissé tel quel exprès : un bloc
+inséré à cet endroit ne déplace rien.
+
+**Ce qu'elle pourra réutiliser sans rien écrire de neuf** : `.tv-hero-slide`
+(plein cadre, une diapositive par écran, voile de scène) pour le lecteur ;
+`.replay-card` et `.media-row-track` pour une rangée de directs passés ;
+`.rb-badge` pour l'étiquette d'état. Le hero étant désormais **plein
+écran et non plus encarté**, un bloc « direct » posé au-dessus se lira
+comme une prise d'antenne, pas comme une bannière ajoutée.
+
+**Ce qu'elle demandera** : une source de flux réelle (aucune n'existe), et
+la règle du projet s'applique — **on ne l'annonce pas avant qu'elle
+diffuse**.
+
+## LA NEWSLETTER DE SYFIR TV — RÉPONSE À LA QUESTION POSÉE
+
+**Elle n'est pas muette.** Elle traverse `submitForm` avec
+`source: 'newsletter'`, qui n'est pas dans `FORM_SOURCES_ACTIVES` : elle
+répond, affiche « rien n'est enregistré ni transmis », et porte la note
+« démo — transmission bientôt active ». Elle ne tombe donc **pas** sous la
+règle des boutons qui ne répondent pas.
+
+⚠ **Elle apparaît DEUX FOIS sur `syf-tv.html`** — une section dédiée
+(« Reste dans la boucle ») puis celle du pied de page, à 400 px l'une de
+l'autre, avec le même champ et la même note. C'est redondant et ça
+affaiblit les deux. **Signalé, non tranché** : en retirer une est
+structurel.
+
+**Le branchement reste une décision du superviseur** : une entrée
+`'newsletter'` dans `FORM_SOURCES_ACTIVES` (`script.js`) suffit.
 
 ---
 
@@ -102,11 +185,12 @@ n'a pas le droit de joindre cet hôte. La consigne du proxy est explicite :
 Si un environnement autorisant cet hôte devient disponible, l'envoi se
 fait en une commande depuis `formulaires.mjs` en retirant l'interception.
 
-## 2. LOT D — les 13 pages par familles
+## 2. LOT D — les pages par familles
 
-Ordre validé, inchangé :
+Ordre **révisé** (décision de Kily : SYFIR TV absorbe communauté, médias
+et actualité — c'est la destination, pas une page parmi treize) :
 
-1. **contenu long** — `evenements`, `syf-tv`, `artistes`
+1. **contenu long** — ✅ `syf-tv` **faite** · reste `evenements`, `artistes`
 2. **formulaires** — `espace-pro`, `partenaires`, `contact`
 3. **pages légales** — `cgv`, `mentions-legales`, `confidentialite`, `faq`
 
@@ -159,10 +243,14 @@ toujours par coûter — elle a déjà produit trois défauts)*
    maquette en a 22. Des classes à reposer, pas du code à écrire. *(hérité)*
 5. **Trois règles mortes** posent encore `--cream` en fond : `.serve-tag`,
    `.event-date`, `.hero-line span`. *(hérité, arbitrage)*
-6. **`clics.mjs` ne dit pas si l'effet est le BON effet.** Un filtre déjà
+6. **`inp.mjs` : le scénario « trier les partenaires » vise
+   `.chip[data-sort="chrono"]`, or l'attribut réel est `"recent"`.**
+   L'interaction n'est donc pas jouée, et l'outil le dit au lieu de
+   compter un succès. **Une ligne à corriger.** *Nouveau.*
+7. **`clics.mjs` ne dit pas si l'effet est le BON effet.** Un filtre déjà
    actif recliqué se déclare muet à raison ; une commande qui fait la
    mauvaise chose se déclare répondante. **Nouveau.**
-7. **Le moyen 2 de `reservation.mjs` partage l'encodeur de la page.** Il
+8. **Le moyen 2 de `reservation.mjs` partage l'encodeur de la page.** Il
    prouve **quelle chaîne a été encodée**, pas que l'encodeur est juste.
    Un décodeur QR indépendant lèverait la limite. **Nouveau.**
 
