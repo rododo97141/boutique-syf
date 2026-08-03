@@ -3,30 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Deviens partenaire SYFIR : bars, clubs, hôtels, restaurants, artistes, distributeurs, investisseurs. Ton lieu, ton événement — on apporte le reste.">
+<meta name="description" content="Deviens partenaire SYFIR : lieux, artistes, prestataires, marques, médias. SYFIR met en relation et coordonne — chaque prestation reste assurée par le prestataire concerné.">
 <meta property="og:title" content="SYFIR EXPERIENCE — Devenir partenaire">
-<meta property="og:description" content="Ton lieu, ton événement, ta scène. On apporte le reste. Rejoins l'aventure SYFIR.">
-<meta property="og:image" content="images/produits/syfir-pub-duo.jpg">
+<meta property="og:description" content="Ton lieu, ton événement, ta scène. SYFIR met en relation avec son écosystème de prestataires sélectionnés. Rejoins l'aventure SYFIR.">
+<meta property="og:image" content="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syfir-pub-duo.jpg">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg">
 <title>Devenir partenaire — SYFIR EXPERIENCE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -36,6 +31,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,34 +52,27 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <!-- panneau pleine largeur façon maison de luxe (Hennessy) —
-             vignette paysage + libellé capitales, 3 catégories -->
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
+             ne vend pas les produits de ses partenaires, ce dropdown liste le
+             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -92,15 +84,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -109,9 +92,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
@@ -132,7 +115,7 @@
   <div class="container">
     <p class="eyebrow reveal">Devenir partenaire</p>
     <h1 class="h2 reveal d1">SYFIR <em>EXPERIENCE</em></h1>
-    <p class="section-intro reveal d2">Ton lieu, ton événement, ta scène. On apporte le reste.</p>
+    <p class="section-intro reveal d2">Ton lieu, ton événement, ta scène. SYFIR met en relation avec son écosystème.</p>
   </div>
 </header>
 
@@ -146,27 +129,130 @@
     <h2 class="h2 reveal d1">La Maison <em>SYFIR</em></h2>
     <p class="section-intro intro-light reveal d2">Née en Guadeloupe, pensée pour durer. Voici qui nous sommes — sans esbroufe.</p>
 
-    <!-- Jalons chiffrés HONNÊTES (façon Company Facts) -->
+    <!-- Jalons chiffrés HONNÊTES (façon Company Facts) —
+         R81 : « 3 Signatures à la carte » retiré (donnée produit AVYR,
+         pas une donnée SYFIR). -->
     <ul class="facts-grid reveal d2">
       <li class="fact-card"><span class="fact-num">2026</span><span class="fact-label">Fondation</span></li>
       <li class="fact-card"><span class="fact-num">Guadeloupe</span><span class="fact-label">Née sur l'île</span></li>
-      <li class="fact-card"><span class="fact-num">3</span><span class="fact-label">Signatures à la carte</span></li>
       <li class="fact-card"><span class="fact-num">En cours</span><span class="fact-label">Déploiement événementiel</span></li>
     </ul>
 
-    <!-- L'histoire du fondateur, en 3 lignes (la vision) -->
+    <!-- L'histoire du fondateur, en 3 lignes (la vision) —
+         R81 (reconstruction) : SYFIR n'est plus définie par le cocktail. -->
     <div class="maison-story reveal d2">
       <h3 class="maison-h3">Notre histoire</h3>
-      <p>SYFIR est née d'une idée simple : rendre le cocktail premium <strong>libre</strong>. Libre de te suivre partout, en pochette. Libre de rassembler — sur une plage, un rooftop, une scène.</p>
-      <p>On ne vend pas un produit, on fait vivre un moment. C'est la vision du fondateur, et elle se construit ici, pas à pas, en Guadeloupe. <em>Goûte à la liberté.</em></p>
+      <p>SYFIR est née d'une idée simple : rendre la fête <strong>libre</strong>. Libre de se vivre sur une plage, un rooftop, une scène. Libre de rassembler artistes, lieux et communautés autour d'un même instant.</p>
+      <p>SYFIR est une identité de fête et de musique, portée par un écosystème de services. Deux échelles : chacun peut créer sa fête, et SYFIR peut créer les grands moments qui rassemblent tout le monde. C'est la vision du fondateur, et elle se construit ici, pas à pas, en Guadeloupe. <em>Tes prochains souvenirs commencent ici.</em></p>
     </div>
 
     <!-- Les univers de la maison -->
     <div class="maison-univers reveal d3" aria-label="Les univers SYFIR">
-      <a class="univers-card" href="saveurs.html"><span class="univers-ic" aria-hidden="true">🍹</span><strong>AVYR cocktail</strong><small>Les pochettes &amp; les signatures</small></a>
       <a class="univers-card" href="evenements.html"><span class="univers-ic" aria-hidden="true">🎉</span><strong>Événements &amp; Fêtes</strong><small>La billetterie des expériences</small></a>
-      <a class="univers-card" href="index.html#artistes"><span class="univers-ic" aria-hidden="true">🎧</span><strong>Artistes</strong><small>DJs, groupes &amp; line-ups</small></a>
+      <a class="univers-card" href="artistes.html#artistes"><span class="univers-ic" aria-hidden="true">🎧</span><strong>Artistes</strong><small>DJs, groupes &amp; line-ups</small></a>
       <a class="univers-card" href="syf-tv.html"><span class="univers-ic" aria-hidden="true">📺</span><strong>SYFIR TV</strong><small>La chaîne des moments SYFIR</small></a>
+    </div>
+
+    <!-- R78 : Notre écosystème de partenaires — SYFIR est la plateforme, ne
+         vend pas directement les produits/services de ses partenaires ; ce
+         bloc liste les catégories du réseau (dont AVYR), cible du dropdown
+         nav « L'Écosystème ». Artistes et Talents n'est PAS dans ce dropdown
+         (déjà couvert par l'item de nav Artistes) mais reste visible ici. -->
+    <!-- R81.4 : catégories développées avec une présentation concrète —
+         portes d'entrée honnêtes, pas des partenaires confirmés (cf. bloc
+         « Nos partenaires officiels » plus bas). -->
+    <!-- R82.1c : organisation validée par le fondateur — 6 catégories qui
+         disent ce que chaque partenaire APPORTE aux expériences SYFIR
+         (lieu, talent, marque, organisation, savoir-faire, visibilité),
+         pas un annuaire. -->
+    <div class="maison-partner-block reveal d3">
+      <h3 class="maison-h3">Notre écosystème de partenaires</h3>
+      <p class="section-intro intro-light">SYFIR est une identité de fête et de musique, portée par un écosystème de services. Ses partenaires sont les lieux, les marques, les talents et les savoir-faire qui font vivre les expériences. SYFIR met en relation et coordonne&nbsp;; chaque prestation reste assurée par le prestataire concerné, avec qui le contrat est conclu directement.</p>
+      <p class="trust-intro">✦ Un partenaire SYFIR est une marque, un lieu, un talent ou un service qui accompagne et enrichit l'univers de la fête et de l'événementiel. Ces catégories sont les portes d'entrée possibles — elles ne représentent pas des partenaires confirmés. <a class="univers-link" href="#referencement">Comment on sélectionne et référence →</a></p>
+      <div class="maison-univers" aria-label="Notre écosystème de partenaires">
+        <div class="univers-card" id="eco-lieux">
+          <a class="univers-card-link" href="partenaires.html#partnerForm" data-request="partenaire"><span class="univers-ic" aria-hidden="true">🏝️</span><strong>Lieux</strong><small>Bars, restaurants, clubs, beach clubs, hôtels, espaces événementiels — le cadre, l'atmosphère et l'accueil des expériences. Exemple : une soirée à thème co-organisée dans ton établissement.</small></a>
+          <!-- R81.6/R81.7 : mention nommée d'un partenaire réel, rattachée
+               uniquement à cette carte, en complément de l'exemple générique
+               ci-dessus (non retiré). -->
+          <p class="univers-note">✦ Membre de l'écosystème SYFIR : <strong>Les Délices du Bassin Bleu</strong> (Gourbeyre) — Restaurant partenaire AVYR. <a class="univers-link" href="partenaire-delices-bassin-bleu.html">Découvrir →</a></p>
+        </div>
+        <a class="univers-card" id="eco-artistes" href="partenaires.html#partnerForm" data-request="artiste"><span class="univers-ic" aria-hidden="true">🎤</span><strong>Artistes et talents</strong><small>DJs, groupes, chanteurs, animateurs, performeurs, créateurs — la programmation qui fait vivre les événements. Exemple : ton set programmé lors d'une prochaine soirée.</small></a>
+        <a class="univers-card" id="eco-marques" href="partenaires.html?type=marque-partenaire#partnerForm" data-request="marque-partenaire"><span class="univers-ic" aria-hidden="true">🏷️</span><strong>Marques partenaires</strong><small>Les marques qui enrichissent les expériences SYFIR — boissons, expériences culinaires, produits liés à l'événement. Exemple : AVYR, marque partenaire indépendante de cocktails.</small></a>
+        <a class="univers-card" id="eco-organisateurs" href="partenaires.html#partnerForm" data-request="evenement"><span class="univers-ic" aria-hidden="true">🎪</span><strong>Organisateurs</strong><small>Personnes, collectifs et structures qui créent des événements avec SYFIR. Exemple : ton événement privé géré de bout en bout.</small></a>
+        <a class="univers-card" id="eco-prestataires" href="partenaires.html#partnerForm" data-request="collaborateur"><span class="univers-ic" aria-hidden="true">🛠️</span><strong>Prestataires</strong><small>Son, lumière, sécurité, décoration, photo, vidéo, transport et logistique — la technique qui porte l'expérience. Exemple : ton service technique mobilisé sur une soirée SYFIR.</small></a>
+        <a class="univers-card" id="eco-medias" href="partenaires.html#partnerForm" data-request="autre"><span class="univers-ic" aria-hidden="true">📣</span><strong>Médias et communautés</strong><small>Communication, visibilité et rassemblement du public autour des événements. Exemple : une captation ou un partenariat média autour d'une soirée.</small></a>
+      </div>
+    </div>
+
+    <!-- R81.4 : bloc séparé, honnête — aucun nom, logo ou témoignage tant
+         qu'aucun partenaire réel n'est validé par le fondateur. -->
+    <!-- R81.5 : premier partenaire officiel réel, accord explicite du
+         restaurateur pour affichage public. Pas d'adresse de rue publiée
+         (sources divergentes, à confirmer par le fondateur) — uniquement
+         la commune et un repère public. -->
+    <div class="official-partners reveal d3">
+      <h3 class="maison-h3">Nos partenaires officiels</h3>
+      <!-- R89 point 2 : le tri annoncé plus bas (#referencement) doit être réel,
+           pas seulement une phrase. data-added reflète l'ordre réel de
+           validation (AVYR R81.5, Les Délices R81.6) — pas une date inventée. -->
+      <div class="official-sort" role="group" aria-label="Trier les partenaires officiels" id="officialSort">
+        <button type="button" class="chip active" data-sort="alpha">Alphabétique</button>
+        <button type="button" class="chip" data-sort="recent">Chronologique</button>
+      </div>
+      <div class="official-grid" id="officialGrid">
+        <article class="official-card" data-name="AVYR" data-added="1">
+          <span class="official-ic" aria-hidden="true">🍹</span>
+          <div>
+            <h4>AVYR</h4>
+            <p class="official-role">Marque partenaire indépendante de l'écosystème SYFIR</p>
+            <p class="official-note">Cocktails en pochette scellée, disponibles chez certains lieux partenaires.</p>
+            <a class="official-link" href="partenaire-avyr.html">Découvrir AVYR →</a>
+          </div>
+        </article>
+        <article class="official-card" data-name="Les Délices du Bassin Bleu" data-added="2">
+          <span class="official-ic" aria-hidden="true">🍽️</span>
+          <div>
+            <h4>Les Délices du Bassin Bleu</h4>
+            <p class="official-role">Partenaire officiel SYFIR — Restaurant partenaire AVYR, Gourbeyre</p>
+            <p class="official-note">Cocktails AVYR disponibles sur place.</p>
+            <a class="official-link" href="partenaire-delices-bassin-bleu.html">Découvrir →</a>
+          </div>
+        </article>
+      </div>
+      <p class="official-more">Et bientôt d'autres. <a href="#referencement">Comment on sélectionne et référence les partenaires →</a></p>
+    </div>
+
+    <!-- ============================================================
+         R83 point 2 — SÉLECTION ET RÉFÉRENCEMENT DES PARTENAIRES
+         Rubrique factuelle : comment un partenaire entre dans la
+         sélection, sur quels critères il est présenté, comment il en
+         sort. Aucune promesse de conformité juridique, aucune règle
+         inventée : ce qui n'est pas encore arbitré est marqué
+         [À CONFIRMER] et doit être tranché par le fondateur.
+    ============================================================ -->
+    <div class="maison-ref reveal d3" id="referencement">
+      <h3 class="maison-h3">Sélection et référencement des partenaires</h3>
+      <p class="ref-lead">SYFIR présente des partenaires. Il ne fournit pas leurs services et ne se porte pas garant de leur conformité réglementaire, de leurs autorisations ou de leurs assurances : ces obligations relèvent de chaque partenaire.</p>
+      <ol class="ref-steps">
+        <li>
+          <strong>Comment on entre dans la sélection</strong>
+          <p>Par une candidature via le formulaire de cette page, ou par un échange direct. Chaque candidature est examinée par SYFIR. Aucun référencement n'est automatique.</p>
+        </li>
+        <li>
+          <strong>Sur quels critères un partenaire est présenté</strong>
+          <p>Le lien réel avec l'univers de la fête, de la musique et de l'événementiel, et la capacité à intervenir en Guadeloupe. Une assurance et les autorisations applicables à jour, fournies et vérifiées — leur absence bloque le référencement, sans exception possible. Pas d'ancienneté minimale exigée. Un partenaire n'est publié sur le site qu'avec son accord explicite, et seules les informations qu'il a lui-même confirmées sont affichées. Le porteur de la demande doit être majeur, ou mineur représenté par un responsable légal qui signe et engage sa responsabilité à sa place.</p>
+        </li>
+        <li>
+          <strong>Ordre d'affichage</strong>
+          <p>Tri alphabétique par défaut, avec une option chronologique. Aucune place n'est vendue et aucun classement payant n'existe sur ce site.</p>
+        </li>
+        <li>
+          <strong>Comment on en sort</strong>
+          <p>À la demande du partenaire, à tout moment. À l'initiative de SYFIR : préavis écrit de 30 jours et notification du motif si le manquement est corrigeable — retrait immédiat et sans préavis en cas de danger, fraude, illégalité, perte d'une assurance ou d'une autorisation obligatoire, ou signalement fondé. Ce délai concerne le retrait d'un partenaire référencé, distinct du retrait d'un événement déjà publié.</p>
+        </li>
+      </ol>
+      <p class="ref-foot">Une question sur ton référencement&nbsp;? <a href="#partnerForm">Écris-nous depuis le formulaire</a>.</p>
     </div>
 
     <!-- Notre engagement (sans greenwashing inventé) -->
@@ -176,7 +262,7 @@
         <div class="engagement-card">
           <span class="engagement-ic" aria-hidden="true">🔞</span>
           <strong>Consommation responsable</strong>
-          <p>Vérification d'âge à l'entrée, mention sanitaire sur chaque page, aucune vente aux mineurs. L'esprit loi Évin, appliqué — la fête reste la fête, jamais l'excès.</p>
+          <p>Chaque événement affiche sa condition d'âge, rappelée au moment de la réservation. Mention sanitaire présente sur le site, vente d'alcool interdite aux mineurs conformément à la loi. La fête reste la fête, jamais l'excès.</p>
         </div>
         <div class="engagement-card">
           <span class="engagement-ic" aria-hidden="true">🌴</span>
@@ -192,11 +278,63 @@
      DEVENIR PARTENAIRE — audiences, formulaire, investisseurs
      (page dédiée ; le teaser de l'accueil renvoie ici)
 ============================================================ -->
+<!-- ============================================================
+     R99 — « NOTRE MARQUE », DÉPLACÉE DEPUIS L'ACCUEIL
+     L'accueil est devenu l'affiche validée par Kily : six blocs. Ce récit
+     de marque n'y avait plus de place, et il n'existait NULLE PART
+     AILLEURS sur le site — vérifié : « là quand l'instant se joue » ne se
+     trouvait que dans index.html. Il est donc VRAIMENT déplacé, pas
+     supprimé, et il atterrit juste après « La Maison SYFIR », dont il est
+     la suite naturelle : qui nous sommes, puis ce qu'on raconte.
+     Les 11 liens « Notre marque » des pieds de page pointent désormais
+     sur partenaires.html#marque.
+============================================================ -->
+<section id="marque" class="section cv-auto">
+  <div class="container">
+    <p class="eyebrow reveal">Notre marque</p>
+    <h2 class="h2 reveal d1">Tout peut commencer<br><em>par une rencontre.</em></h2>
+
+    <div class="split">
+      <div class="split-text reveal from-left d2">
+        <p>Une plage improvisée. Un coucher de soleil qu'on n'attendait pas. Une soirée qui s'étire. Un festival, et le lendemain on en parle encore.</p>
+        <p class="accent-line">SYFIR, là quand l'instant se joue.</p>
+        <div class="values">
+          <span>Plaisir immédiat</span>
+          <span>Partage</span>
+          <span>Spontanéité</span>
+          <span>Instants photogéniques</span>
+          <span>Instants qui restent</span>
+        </div>
+      </div>
+      <div class="split-visual reveal from-right d3">
+        <figure class="visual-card">
+          <img width="400" height="500" src="images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg"
+               onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'"
+               alt="L'esprit carnaval SYFIR" loading="lazy" decoding="async">
+          <figcaption><em>« Je veux vivre ça. »</em></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Les territoires SYFIR -->
+  <div class="moments" tabindex="0" role="group" aria-label="Les moments SYFIR — faites défiler">
+    <div class="moments-track">
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg')"><h3>Festivals</h3></article>
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg')"><h3>Plages</h3></article>
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg')"><h3>Rooftops</h3></article>
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1414235077428-338989a2e8c0.jpg')"><h3>Soirées privées</h3></article>
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1526481280693-3bfa7568e0f3.jpg')"><h3>Pique-niques</h3></article>
+      <article class="moment" style="--img:url('images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg')"><h3>Événements exclusifs</h3></article>
+    </div>
+  </div>
+</section>
+
 <section id="partenaires" class="section">
   <div class="container">
     <div class="partner-chips reveal d2">
       <span>Bars</span><span>Clubs</span><span>Beach clubs</span><span>Hôtels</span>
-      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Distributeurs SYFIR</span><span>Partenaires financiers · Investisseurs</span>
+      <span>Boutiques</span><span>Restaurants</span><span>Artistes · DJs · Groupes</span><span>Collaborateurs</span><span>Organisateurs d'événements</span><span>Marques partenaires</span><span>Partenaires financiers · Investisseurs</span>
     </div>
 
     <!-- Formulaire intelligent -->
@@ -212,6 +350,13 @@
           <input type="radio" name="requestType" value="evenement">
           <span><strong>Organiser un événement</strong><small>Privé ou ouvert au public</small></span>
         </label>
+        <!-- R83 : échelle « petites soirées des particuliers ». L'offre n'est
+             pas ouverte — cette entrée est un formulaire d'intérêt réel, sans
+             catalogue de services ni tarif. -->
+        <label class="choice-card">
+          <input type="radio" name="requestType" value="soiree-particulier">
+          <span><strong>Créer ma soirée <em>(offre en construction)</em></strong><small>Anniversaire, fête privée — dis-nous ce dont tu aurais besoin</small></span>
+        </label>
         <label class="choice-card">
           <input type="radio" name="requestType" value="artiste">
           <span><strong>Artiste · DJ · Groupe</strong><small>Joue sur les scènes SYFIR</small></span>
@@ -221,8 +366,8 @@
           <span><strong>Collaborateur · Équipe</strong><small>Photo, vidéo, hôte·sse, ambassadeur·rice</small></span>
         </label>
         <label class="choice-card">
-          <input type="radio" name="requestType" value="distributeur">
-          <span><strong>Devenir distributeur</strong><small>Distribution SYFIR régionale</small></span>
+          <input type="radio" name="requestType" value="marque-partenaire">
+          <span><strong>Marque partenaire</strong><small>Boissons, produits, expériences liées aux événements</small></span>
         </label>
         <label class="choice-card">
           <input type="radio" name="requestType" value="investisseur">
@@ -264,6 +409,32 @@
           <textarea id="pfMessage" name="message" rows="4" placeholder="Parle-nous de ta vision…"></textarea>
           <span class="field-error"></span>
         </div>
+        <!-- R85 point 3 : un mineur ne peut pas valablement engager SYFIR sans
+             représentant légal (droit des contrats). Garde-fou construit dès
+             maintenant, dormant tant que FORM_ENDPOINT n'est pas activé. -->
+        <div class="form-field">
+          <label for="pfMajeur">Es-tu majeur(e) ? *</label>
+          <select id="pfMajeur" name="majeur">
+            <option value="">Choisir…</option>
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+          </select>
+          <span class="field-error"></span>
+        </div>
+      </div>
+
+      <div class="form-grid" id="guardianFields" hidden>
+        <div class="form-field">
+          <label for="pfGuardianName">Nom du responsable légal *</label>
+          <input type="text" id="pfGuardianName" name="guardianName" autocomplete="off" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="pfGuardianContact">Contact du responsable légal *</label>
+          <input type="text" id="pfGuardianContact" name="guardianContact" autocomplete="off" placeholder="Email ou téléphone">
+          <span class="field-error"></span>
+        </div>
+        <p class="form-note form-field-full">Ta demande ne pourra être validée qu'avec la signature de ton responsable légal.</p>
       </div>
 
       <label class="form-consent">
@@ -288,11 +459,11 @@
         </div>
         <div>
           <strong>Marque différenciante</strong>
-          <p>Un positionnement unique : le cocktail lifestyle en <a href="saveurs.html">pochette</a>, format liberté.</p>
+          <p>Un positionnement unique : une plateforme d'événements et un écosystème de partenaires, pas un simple catalogue.</p>
         </div>
         <div>
           <strong>Potentiel de croissance</strong>
-          <p>Un modèle pensé pour la scalabilité : événementiel, points de vente, nouvelles saveurs.</p>
+          <p>Un modèle pensé pour la scalabilité : les grands événements, l'accompagnement des soirées créées par chacun, et un écosystème de partenaires qui s'élargit.</p>
         </div>
       </div>
       <blockquote class="invest-quote">« Je ne cherche pas uniquement des investisseurs, mais des partenaires qui croient en la création de valeur sur le long terme. »</blockquote>
@@ -313,7 +484,7 @@
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">Goûte à la liberté.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -331,19 +502,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>SYFIR TV</h3>

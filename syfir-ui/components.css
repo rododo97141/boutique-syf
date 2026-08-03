@@ -1,0 +1,533 @@
+/* ============================================================
+   SYFIR-UI — bibliothèque de composants
+   ============================================================
+   HTML/CSS/JS vanilla. Zéro dépendance, zéro build : ce fichier se
+   charge par un <link> ordinaire, comme style.css.
+
+   ORDRE DE CHARGEMENT — IMPORTANT
+   Ce fichier se charge AVANT style.css sur chaque page. Conséquence
+   voulue : à spécificité égale, ce qui reste dans style.css gagne.
+   C'est ce qui permet aux règles de contexte (.final-cta .btn,
+   .footer-news .btn…) de continuer à s'appliquer sans y toucher.
+   R98/1-2 : les surcharges de thème clair, qui bénéficiaient du même
+   ordre de chargement, ont été retirées — un seul monde, la nuit.
+
+   CE QU'ON EXTRAIT ICI : le primitif — structure, variantes, tailles,
+   états propres au composant.
+   CE QU'ON NE DÉPLACE PAS : les surcharges de thème, les règles de
+   contexte page-spécifique, les sélecteurs partagés entre plusieurs
+   composants (ex. la règle :active commune aux boutons, chips,
+   qty-btn…). Les découper casserait les autres composants.
+
+   Les valeurs sont reprises VERBATIM de style.css — aucune
+   réécriture, aucune « amélioration » au passage. Toute extraction
+   est prouvée par un diff de styles calculés sur les 14 pages ×
+   2 thèmes × 2 viewports : zéro différence exigée.
+   ============================================================ */
+
+/* ===== 01. BOUTONS =====
+   Usage : 14 pages. Variantes solid / ghost / gradient, tailles
+   sm / lg / full, état :disabled, onde lumineuse au survol.
+   Restent dans style.css : les 11 surcharges thème clair
+   contextuelles (.modal, .age-box, .page-pro, .pd-share…), les 13
+   règles de contexte (.final-cta .btn…), la règle :active partagée,
+   le splash ::before et la cible tactile 44px du responsive. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--body);   /* UI : Plus Jakarta Sans, plus lisible que le display large */
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 100px;
+  border: 1.5px solid transparent;
+  transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease), background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+  position: relative;
+  overflow: hidden;
+}
+.btn-solid {
+  background: linear-gradient(120deg, var(--sunset), var(--passion));
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(var(--sunset-rgb), .35);
+}
+.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(var(--sunset-rgb), .5); }
+.btn-ghost { background: none; border-color: rgba(var(--creme-rgb), .4); color: var(--creme); backdrop-filter: blur(6px); }
+.btn-ghost:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-3px); }
+/* Bouton dégradé (repris du composant Hero : violet → orange) */
+.btn-gradient {
+  background: linear-gradient(90deg, var(--shotgun-purple), var(--shotgun-orange));
+  color: var(--creme); border: none;
+  box-shadow: 0 10px 30px rgba(var(--shotgun-purple-rgb), .35);
+}
+.btn-gradient:hover {
+  background: linear-gradient(90deg, var(--shotgun-purple-deep), var(--shotgun-orange-deep));
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 16px 42px rgba(var(--shotgun-orange-rgb), .45);
+}
+.btn-sm { padding: 12px 24px; font-size: .72rem; }
+.btn-lg { padding: 20px 44px; }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+/* Onde lumineuse au survol */
+.btn-solid::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(var(--cream-rgb), .45), transparent 70%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-med) var(--ease);
+}
+.btn-solid:hover::after { transform: translateX(120%); }
+
+/* ===== 02. EN-TÊTES DE SECTION =====
+   Usage : 12 pages. Le triptyque eyebrow / h2 / section-intro qui ouvre
+   chaque section du site, plus la goutte (motif de marque R30) et
+   l'accent Fraunces italique des titres.
+   ATTENTION à l'ordre : .section-intro doit rester AVANT .intro-light,
+   les deux ont la même spécificité (0-1-0) et .intro-light surcharge la
+   couleur.
+   Restent dans style.css : les surcharges thème clair, les règles de
+   contexte (.section-cream .section-intro, .tickets-hero .section-intro,
+   .page-hero .h2, .mobile-banner .h2, .partner-teaser .section-intro…),
+   toutes plus spécifiques donc prioritaires sans y toucher. */
+.eyebrow {
+  font-family: var(--display);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--sunset);
+  margin-bottom: 16px;
+}
+.eyebrow-light { color: var(--passion); }
+/* Motif GOUTTE (R30) : l'accent de l'eyebrow devient une goutte unique, or le
+   jour / argent la nuit (var(--drop-fill)). Une seule forme dans tout le site. */
+.eyebrow::before {
+  content: ""; display: inline-block; vertical-align: baseline;
+  width: 8px; height: 8px; margin-right: 9px;
+  background: var(--drop-fill);
+  border-radius: 50% 50% 50% 0; transform: rotate(45deg) translateY(-1px);
+}
+
+.h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6.5vw, 4.4rem);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.h2 em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  background: var(--gold-metal);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.section-intro { max-width: 560px; color: var(--creme-doux); margin-bottom: 48px; }
+.intro-light { color: rgba(var(--creme-rgb), .75); }
+
+/* ===== 03. CHAMPS DE FORMULAIRE =====
+   Usage : 8 pages. Étiquette, saisie (input/select/textarea), état de
+   focus, état invalide, message d'erreur. La grille .form-grid est ici ;
+   son passage à 2 colonnes reste dans le responsive de style.css.
+   Restent dans style.css : les surcharges thème clair (label, saisie,
+   placeholder, option, .field-error), les règles de contexte
+   (.form-consent .field-error, .pro-form .form-field, .tab-panel
+   .form-field), .form-row, .form-field-full, et le sélecteur d'élément nu
+   textarea{resize} — hors primitif, laissé où il était. */
+.form-grid { display: grid; gap: 20px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--creme-rgb), .65); }
+.form-field input, .form-field select, .form-field textarea {
+  background: rgba(var(--cream-rgb), .05);
+  border: 1.5px solid rgba(var(--creme-rgb), .16);
+  border-radius: 12px; padding: 16px 16px; color: var(--creme);
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(var(--creme-rgb), .3); }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline: none; border-color: var(--passion);
+  box-shadow: 0 0 0 3px rgba(var(--passion-rgb), .15);
+}
+.form-field select option { background: var(--nuit-1); }
+.form-field.invalid input, .form-field.invalid select, .form-field.invalid textarea { border-color: var(--error); }
+.field-error { font-size: .76rem; color: var(--error); min-height: 1em; }
+
+/* ===== 04. PUCES / FILTRES (.chip) =====
+   Usage : 3 pages (evenements, partenaires, syf-tv). Puce cliquable en
+   capitales, état :hover et état .active (dégradé sunset → passion).
+   Restent dans style.css : les surcharges thème clair, .audience-nav .chip
+   (lien sans soulignement), la cible tactile 44px du responsive, la règle
+   :active partagée avec .btn/.qty-btn/… et le :where(...) de focus-visible.
+   Les conteneurs de mise en page (.filters, .filter-chips, .filter-extra,
+   .official-sort) restent aussi dans style.css : ce sont des grilles de
+   page, pas le composant. */
+.chip {
+  font-family: var(--display); font-size: .72rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 12px 20px; border-radius: 100px;
+  background: none; border: 1.5px solid rgba(var(--creme-rgb), .2); color: rgba(var(--creme-rgb), .75);
+  transition: all var(--dur-fast) var(--ease);
+}
+.chip:hover { border-color: var(--passion); color: var(--passion); transform: translateY(-2px); }
+.chip.active { background: linear-gradient(120deg, var(--sunset), var(--passion)); border-color: transparent; color: var(--ink); }
+
+/* ===== 05. PLACEHOLDERS JURIDIQUES =====
+   Usage : 6 pages (mentions-legales, cgv, confidentialite, index,
+   partenaire-avyr, partenaire-delices-bassin-bleu). Les briques qui portent
+   l'honnêteté juridique du site : mention sanitaire de fin de page, texte
+   atténué, encadré d'alerte (dont la variante âge) et la puce
+   « [À COMPLÉTER] » en pointillés dorés.
+   ATTENTION à l'ordre : .legal-box-age doit rester APRÈS .legal-box, même
+   spécificité (0-1-0), elle surcharge la bordure et le fond.
+   Restent dans style.css : les surcharges thème clair (.legal-note,
+   .legal-todo) et tout le contexte typographique .legal-page, plus
+   spécifique donc prioritaire sans y toucher. */
+.legal-note { margin-top: 44px; text-align: center; font-size: .9rem; font-weight: 700; color: var(--taupe-ink); }
+.legal-muted { color: var(--creme-doux); }
+.legal-box { margin: 18px 0; padding: 14px 16px; border-left: 3px solid var(--sunset); background: rgba(var(--sunset-rgb), .08); border-radius: 0 12px 12px 0; }
+.legal-box-age { border-left-color: var(--gold); background: rgba(var(--gold-rgb), .10); font-weight: 600; }
+.legal-todo { background: rgba(var(--gold-rgb), .16); border: 1px dashed rgba(var(--gold-rgb), .5); color: var(--passion); padding: 2px 8px; border-radius: 6px; font-size: .9em; font-weight: 700; overflow-wrap: anywhere; }
+
+/* ===== 06. BADGES =====
+   Usage : 2 pages (index, syf-tv) pour .rb-badge ; les badges rareté et âge
+   sont posés par JS sur les cartes événement. Trois familles :
+   — rareté honnête (.stock-badge) : n'apparaît que si les données le disent ;
+   — condition d'âge (.event-age-badge, .age-*) : une INDICATION, jamais une
+     prétention de vérification d'identité (R82.1.1) ;
+   — catégorie de carte (.rb-badge + 6 variantes couleur).
+   ATTENTION à l'ordre : les variantes .stock-* et .rb-badge-* doivent rester
+   APRÈS leur base (même spécificité, elles surchargent fond et couleur), et
+   .stock-inline après .stock-badge (elle repasse position en static).
+   Restent dans style.css : les surcharges thème clair (.age-all, .age-16/18,
+   .age-tbd, .stock-complet), .ed-stock (contexte hero de la fiche événement,
+   qui doit continuer à surcharger la position) et .tm-age-note / .ed-age-note
+   qui sont des encadrés de texte, pas des badges. */
+.stock-badge {
+  position: absolute; top: 14px; left: 14px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+}
+.stock-dernieres { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.stock-complet { background: rgba(var(--ink-rgb), .82); color: rgba(var(--creme-rgb), .9); border: 1px solid rgba(var(--creme-rgb), .3); }
+/* Badges d'ACTION positifs (R28-2) — le badge dit toujours l'action possible */
+.stock-dispo { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.stock-open { background: rgba(var(--cream-rgb), .94); color: #071E30; border: 1px solid rgba(var(--gold-rgb), .45); }
+.stock-invite { background: rgba(var(--ink-rgb), .82); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .5); }
+/* variante en ligne (carte accueil, pas de conteneur positionné) */
+.stock-inline { position: static; display: inline-block; margin-top: 6px; }
+
+/* R82.1.1 : condition d'âge par événement — affichage honnête, jamais
+   une prétention de vérification d'identité (simple indication). */
+.event-age-badge { font-size: .74rem; font-weight: 600; margin: 4px 0 0; }
+.age-all { color: rgba(var(--creme-rgb), .55); }
+.age-16, .age-18 { color: var(--passion); }
+.age-tbd { color: rgba(var(--creme-rgb), .5); font-style: italic; }
+.age-badge.ed-age {
+  position: absolute; top: 16px; right: 16px;
+  font-family: var(--display); font-size: .6rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: 100px; backdrop-filter: blur(6px);
+  background: rgba(var(--ink-rgb), .78); color: var(--passion);
+}
+
+/* Badge de carte (base — enrichi au pattern 3) */
+.rb-badge {
+  display: inline-block; font-family: var(--display); font-weight: 700;
+  font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px; margin-bottom: 9px;
+  background: rgba(var(--gold-rgb), .92); color: var(--ink);
+}
+.rb-badge-beach    { background: rgba(var(--sunset-rgb), .92); color: var(--ink); }
+.rb-badge-festival { background: rgba(var(--gold-rgb), .92); color: var(--ink); }
+.rb-badge-club     { background: rgba(var(--passion-rgb), .95); color: var(--ink); }
+.rb-badge-rooftop  { background: rgba(var(--ocean-deep-rgb), .92); color: var(--creme); }
+.rb-badge-soiree   { background: rgba(var(--passion-rgb), .9); color: var(--ink); }
+.rb-badge-prive    { background: rgba(var(--black-rgb), .72); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), .55); }
+
+/* ===== 07. CARTES INFO =====
+   Usage : 2 pages, 19 cartes (index : 6 .eco-card + 2 .official-card ;
+   partenaires : 9 .univers-card + 2 .official-card). Trois cartes de contenu
+   factuel — pas de photo, pas de modale : une icône, un titre, un rôle.
+
+   POURQUOI TROIS PRIMITIFS ET PAS UN « .info-card » UNIFIÉ
+   Le plan prévoyait de les fondre en une base commune. Mesuré avant
+   d'écrire : sur 7 à 10 déclarations chacune, seules TROIS sont identiques
+   dans les trois (display:flex, border-radius, background). Tout le reste
+   diverge — flex-direction (column / column / row), gap (4 / 8 / 16px),
+   padding (22 / 24 / 22px), couleur de bordure (crème .1 vs passion .16), et
+   .official-card n'a NI transition NI :hover. Une base de 3 déclarations que
+   chaque variante surcharge sur 4 à 7 points n'est pas un composant, c'est un
+   renommage — au prix de 19 attributs class réécrits sur les deux pages les
+   plus importantes du site, pour zéro gain visuel. Décision remontée au
+   fondateur comme point ouvert ; en attendant, les trois restent des
+   primitifs frères, ce qui est une extraction pure et prouvable.
+
+   Restent dans style.css : les grilles (.maison-univers, .eco-grid,
+   .official-grid, .official-partners, .official-sort) qui sont de la mise en
+   page ; les 8 surcharges thème clair — dont deux sont des sélecteurs
+   GROUPÉS avec .fact-card / .fact-label, qu'on ne découpe pas ; le
+   @media prefers-reduced-motion de .univers-card ; la cible tactile 44px de
+   .eco-cta ; et .univers-num, groupé avec .engagement-num d'un autre
+   composant. */
+.univers-card {
+  display: flex; flex-direction: column; gap: 4px; padding: 22px; border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--creme-rgb), .1); color: inherit;
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+.univers-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
+.univers-ic { font-size: 1.7rem; }
+.univers-card strong { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: .96rem; letter-spacing: .02em; }
+.univers-card small { color: rgba(var(--creme-rgb), .66); font-size: .84rem; }
+.univers-card-link { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
+
+/* Cartes catégorie de l'écosystème (R81.4) : des catégories, jamais des
+   partenaires présentés comme confirmés. */
+.eco-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 24px; border-radius: var(--radius);
+  background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--creme-rgb), .1);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), box-shadow var(--dur-med) var(--ease);
+}
+.eco-card:hover { transform: translateY(-6px); border-color: var(--passion); box-shadow: 0 24px 50px rgba(var(--black-rgb), .34); }
+.eco-ic { font-size: 1.7rem; }
+.eco-card h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: .98rem; letter-spacing: .02em; margin: 4px 0 0; }
+.eco-card p { color: rgba(var(--creme-rgb), .72); font-size: .9rem; line-height: 1.55; margin: 0; }
+.eco-card p em { font-style: italic; color: rgba(var(--creme-rgb), .6); }
+.eco-cta { align-self: flex-start; margin-top: auto; padding-top: 8px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--sunset); transition: color var(--dur-fast), transform var(--dur-fast); }
+.eco-cta:hover { color: var(--passion); transform: translateX(3px); }
+
+/* Carte de partenaire officiel réel (R81.5) : volontairement sans les
+   affordances de fiche ou de modale — aucune photo fournie, rien à ouvrir. */
+.official-card { display: flex; align-items: flex-start; gap: 16px; padding: 22px; border-radius: var(--radius); background: rgba(var(--cream-rgb), .04); border: 1px solid rgba(var(--passion-rgb), .16); }
+.official-ic { font-size: 1.6rem; flex-shrink: 0; }
+.official-card h4 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: .02em; margin: 0 0 4px; }
+.official-role { font-size: .84rem; color: rgba(var(--creme-rgb), .66); margin: 0 0 6px; }
+.official-note { font-size: .84rem; color: rgba(var(--creme-rgb), .78); margin: 0 0 10px; }
+
+/* ===== 08. RANGÉE CARROUSEL =====
+   Usage : index, syf-tv, evenement, artiste. Rangée horizontale façon média
+   (R8) : scroll-snap natif, zéro dépendance JS pour le défilement lui-même,
+   flèches au survol sur desktop, swipe natif sur mobile. Alignée au
+   container, débordement plein écran via --row-gutter.
+   Aucune surcharge de thème ni de responsive sur ce composant — c'est le
+   seul des huit dans ce cas.
+   Restent dans style.css : le token --row-gutter (partagé avec
+   .tv-hero-track), les deux media queries (hover:none masque les flèches,
+   prefers-reduced-motion coupe le scroll fluide) et les règles de contexte
+   (.media-row-track .insta-item, figure, .replay-section .replay-card). */
+.media-row { margin: 56px 0; }
+.media-row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.media-row-title {
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.25rem, 3.4vw, 2rem); letter-spacing: -.01em; line-height: 1.05;
+}
+.media-row-all {
+  font-family: var(--body); font-weight: 600; font-size: .82rem; letter-spacing: .02em;
+  color: var(--sunset); white-space: nowrap; align-self: center;
+  transition: color var(--dur-fast) var(--ease);
+}
+.media-row-all:hover { color: var(--passion); }
+.media-row-wrap { position: relative; }
+.media-row-track {
+  display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  padding: 6px var(--row-gutter); scroll-padding-inline: var(--row-gutter);
+}
+.media-row-track::-webkit-scrollbar { display: none; }
+.media-row-track > * { scroll-snap-align: start; flex: 0 0 clamp(220px, 70vw, 280px); }
+/* Flèches (desktop, au survol) */
+.row-arrow {
+  position: absolute; top: calc(50% - 12px); transform: translateY(-50%); z-index: 3;
+  width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
+  display: grid; place-items: center; font-size: 1.7rem; line-height: 1;
+  background: rgba(var(--black-rgb), .55); color: var(--creme);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.media-row-wrap:hover .row-arrow { opacity: 1; }
+.row-arrow:focus-visible { opacity: 1; outline: 2px solid var(--passion); outline-offset: 2px; }
+.row-arrow:hover { background: var(--sunset); color: var(--ink); }
+.row-arrow[hidden] { display: none; }
+.row-prev { left: 10px; } .row-next { right: 10px; }
+
+/* ===== 09. CARTES DE CHOIX RADIO =====
+   Usage : partenaires. Un radio natif rendu invisible, un <span> stylé qui
+   sert de carte cliquable — l'accessibilité vient du radio, jamais d'un
+   div-avec-onclick. L'état sélectionné passe par input:checked + span, le
+   focus clavier reste visible via input:focus-visible + span.
+   Restent dans style.css : le fieldset .form-choice qui les regroupe (mise
+   en page), les 2 surcharges thème clair GROUPÉES avec .vis-opt (§10) —
+   les découper casserait l'autre composant — et le correctif de contraste
+   .choice-card span small (R39-A), plus spécifique donc prioritaire. */
+.choice-card { position: relative; display: block; cursor: pointer; }
+.choice-card input { position: absolute; opacity: 0; }
+.choice-card span {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 16px 20px; border-radius: 14px;
+  border: 1.5px solid rgba(var(--creme-rgb), .14);
+  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast) var(--ease);
+}
+.choice-card small { color: var(--creme-doux); font-size: .8rem; }
+.choice-card:hover span { transform: translateY(-2px); border-color: rgba(var(--passion-rgb), .4); }
+.choice-card input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .09); }
+.choice-card input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+/* ===== 10. INTERRUPTEUR RADIO =====
+   Usage : espace-pro. Variante compacte du §09 pour un choix binaire dans un
+   formulaire (visibilité d'un événement). Même principe d'accessibilité : le
+   radio natif porte l'état, le <span> porte le style. Pas de :hover ici,
+   volontairement — c'est un réglage, pas une carte à explorer.
+   Restent dans style.css : les 3 surcharges thème clair, TOUTES groupées
+   avec d'autres sélecteurs (.form-field label, .choice-card span/small,
+   .tier-info small) — les découper casserait ces composants —, et le passage
+   à 2 colonnes du responsive. */
+.visibility-switch { border: none; display: grid; gap: 10px; margin: 8px 0 20px; }
+.visibility-switch legend { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(var(--creme-rgb), .65); margin-bottom: 12px; }
+.vis-opt { position: relative; display: block; cursor: pointer; }
+.vis-opt input { position: absolute; opacity: 0; }
+.vis-opt span { display: flex; flex-direction: column; padding: 16px 16px; border-radius: 12px; border: 1.5px solid rgba(var(--creme-rgb), .15); transition: all var(--dur-fast); }
+.vis-opt small { color: var(--creme-doux); }
+.vis-opt input:checked + span { border-color: var(--sunset); background: rgba(var(--sunset-rgb), .1); }
+.vis-opt input:focus-visible + span { outline: 2px solid var(--passion); outline-offset: 2px; }
+
+/* ===== 11. ACCORDÉON =====
+   Usage : faq. Accordéon accessible (R22-3) bâti sur <details>/<summary>
+   natifs — l'ouverture, le clavier et le rôle ARIA viennent du navigateur,
+   pas d'un script. La croix .faq-ic est faite de deux pseudo-éléments qui
+   pivotent de 135° à l'ouverture ; currentColor la fait suivre la couleur du
+   summary sans la redéclarer.
+   Restent dans style.css : la surcharge thème clair de la bordure, les
+   conteneurs .faq-wrap / .faq-list, .faq-foot (pied de rubrique, pas
+   l'accordéon), et le @media prefers-reduced-motion: no-preference avec son
+   @keyframes faqReveal — l'animation reste hors du primitif pour que la
+   règle de sobriété du mouvement se lise d'un seul endroit. */
+.faq-item {
+  border-bottom: 1px solid rgba(var(--ink-rgb), .12);
+}
+.faq-item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 22px 4px; cursor: pointer; list-style: none;
+  transition: color var(--dur-fast);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--sunset-ink); }
+.faq-q {
+  font-family: var(--body); font-weight: 600; font-size: 1.06rem; line-height: 1.35;
+}
+.faq-ic {
+  flex-shrink: 0; width: 26px; height: 26px; position: relative;
+  border-radius: 50%; border: 1.5px solid rgba(var(--ink-rgb), .3);
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-med), background var(--dur-med);
+}
+.faq-ic::before, .faq-ic::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 11px; height: 1.8px; background: currentColor; border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+.faq-ic::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform var(--dur-med) var(--ease); }
+.faq-item[open] summary .faq-ic { transform: rotate(135deg); border-color: var(--sunset); color: var(--sunset); }
+.faq-a { padding: 0 4px 22px; max-width: 68ch; }
+.faq-a p { color: var(--grey-ink); font-size: 1rem; line-height: 1.62; margin: 0; }
+.faq-a a { color: var(--sunset-ink); font-weight: 600; }
+
+/* ===== 12. TOAST =====
+   Usage : toutes les pages qui appellent showToast() dans script.js. Un seul
+   élément, posé en bas au centre, hors flux. Le repos est translate(-50%,140%)
+   — donc hors écran mais toujours dans le DOM : pas de display:none, pas de
+   reflow à l'apparition, et rien à créer au moment où le message arrive. La
+   classe .show ne fait glisser que le transform.
+   Reste dans style.css : la surcharge thème clair, qui inverse fond et texte. */
+/* ⚠ UNE PASTILLE BLANCHE ÉTAIT PEINTE EN PERMANENCE SUR TOUTES LES PAGES.
+   Trouvée à l'œil par le superviseur sur une capture, comme le losange, le
+   film injecté et la barre qui maigrit : quelque chose était peint, personne
+   ne l'avait nommé, donc aucun instrument ne le cherchait.
+
+   LA CAUSE, ET ELLE EST PRÉCISE. Le toast se cachait en se poussant vers le
+   bas de 140 % — DE SA PROPRE HAUTEUR. Rempli de texte il mesure ~52 px,
+   140 % font 73 px, il franchit son `bottom: 24px` et disparaît. MAIS AU
+   REPOS IL EST VIDE : sa hauteur tombe à 32 px, 140 % ne font plus que
+   45 px, et il reste 11 px de pastille crème visibles en bas de chaque
+   écran. Un masquage dont la course dépend du CONTENU ne masque plus quand
+   il n'y a pas de contenu.
+
+   LE REMÈDE NE DOIT DONC PAS DÉPENDRE DE LA TAILLE. `opacity` et
+   `visibility` masquent quelle que soit la hauteur — et `visibility`
+   retire en plus la boîte du parcours clavier, ce que l'opacité seule ne
+   fait pas. C'est exactement ce que le bloc MODALE ci-dessous explique
+   trois lignes plus bas, et que ce primitif-ci n'appliquait pas.
+   Le glissement est conservé : c'est le mouvement d'entrée, pas le
+   masquage.
+
+   ⚠ SURVIVANT DE REGISTRE, NON TRAITÉ ICI : le fond reste `--cream`, le
+   crème CHAUD. C'est une paire COUPLÉE (fond clair + encre sombre) comme
+   `.section-cream`, et une pastille d'alerte claire sur un site sombre est
+   peut-être voulue. Ça se tranche en C/3, pas dans une correction de bug. */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; z-index: 400;
+  transform: translate(-50%, 140%);
+  opacity: 0; visibility: hidden;
+  background: var(--cream); color: var(--ink);
+  font-weight: 600; font-size: .92rem;
+  padding: 16px 28px; border-radius: 100px;
+  box-shadow: 0 14px 44px rgba(var(--black-rgb), .45);
+  transition: transform var(--dur-med) var(--ease),
+              opacity var(--dur-med) var(--ease),
+              visibility var(--dur-med) var(--ease);
+  max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
+
+/* ===== 13. MODALE / OVERLAY =====
+   Usage : index, evenement, compte, partenaires. Fond assombri + flou, boîte
+   centrée par une grille (place-items: center) plutôt que par des marges
+   négatives : elle reste centrée quelle que soit sa hauteur, et
+   overflow-y: auto sur le fond laisse défiler une modale plus haute que
+   l'écran sur mobile.
+   Le repos combine opacity: 0 ET visibility: hidden — l'opacité seule
+   laisserait la boîte cliquable et focusable pendant qu'elle est invisible ;
+   visibility la retire du parcours clavier, et la transition sur les deux
+   propriétés évite qu'elle réapparaisse d'un coup.
+   Restent dans style.css : les 6 surcharges thème clair (dont deux ciblent
+   .modal .btn-ghost, donc un autre composant vu depuis celui-ci), la cible
+   tactile 44px de .modal-close dans le responsive, et .modal-foot qui est un
+   pied de panier plus qu'une brique de modale. */
+.modal {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center; padding: 20px;
+  background: rgba(var(--black-rgb), .72); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur-med), visibility var(--dur-med);
+  overflow-y: auto;
+}
+.modal.open { opacity: 1; visibility: visible; }
+.modal-box {
+  position: relative; width: min(680px, 100%);
+  background: var(--nuit-1);
+  border: 1px solid rgba(var(--passion-rgb), .2);
+  border-radius: 22px; overflow: hidden;
+  transform: translateY(30px) scale(.97);
+  transition: transform var(--dur-med) var(--ease);
+  margin: auto;
+}
+.modal.open .modal-box { transform: none; }
+.modal-box-sm { width: min(440px, 100%); }
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(var(--ink-rgb), .7); border: none; color: var(--creme);
+  transition: transform var(--dur-fast), color var(--dur-fast);
+}
+.modal-close:hover { transform: rotate(90deg); color: var(--passion); }
+.modal-media { aspect-ratio: 16/7; overflow: hidden; }
+.modal-media img { width: 100%; height: 100%; object-fit: cover; }
+.modal-body { padding: 28px; }
+.modal-tag { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--passion); }
+.modal-body h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; margin: 8px 0 4px; }
+.modal-meta { color: var(--creme-doux); font-size: .9rem; margin-bottom: 20px; }

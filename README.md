@@ -1,16 +1,23 @@
-# SYFIR — Le Cocktail Libre™
+# SYFIR — identité de fête et de musique
 
-Site vitrine + billetterie de **SYFIR**, marque de cocktails premium en pochette
-(univers Antilles/Guadeloupe : plage, carnaval, golden hour).
+Site vitrine + billetterie de **SYFIR**, marque événementielle indépendante
+(soirées, festivals, artistes, billetterie, écosystème de partenaires —
+univers Antilles/Guadeloupe : plage, carnaval, golden hour). SYFIR ne vend
+pas de cocktails : **AVYR**, marque partenaire indépendante de cocktails,
+vit sur son propre site autonome (`avyr-site/`, voir `avyr-site/README.md`).
 
 **Stack** : HTML / CSS / JavaScript **vanilla**, zéro dépendance, zéro build.
 Tout fonctionne en ouvrant les fichiers derrière un simple serveur statique.
 PWA (manifest + service worker), deux thèmes (clair « été doré » / sombre
-« nuit festive »), conformité loi Évin (age gate 18+, mention sanitaire).
+« nuit festive »), mention sanitaire alcool sur les pages concernées et
+confirmation d'âge à l'entrée du site (auto-déclarative, sans vérification
+d'identité — voir `confidentialite.html` pour le détail du mécanisme).
 
-Pages : `index.html` (marque) · `saveurs.html` (cocktails) · `evenements.html`
-(billetterie) · `evenement.html?id=X` (fiche partageable) · `syf-tv.html` (SYFIR TV) ·
-`espace-pro.html` (Smartboard organisateur).
+Pages : `index.html` (marque) · `evenements.html` (billetterie) ·
+`evenement.html?id=X` (fiche partageable) · `syf-tv.html` (SYFIR TV) ·
+`espace-pro.html` (Smartboard organisateur) · `partenaires.html` (écosystème
+de partenaires) · `partenaire-avyr.html` / `partenaire-delices-bassin-bleu.html`
+(pages courtes de présentation des partenaires officiels).
 
 ---
 
@@ -88,8 +95,12 @@ Rien d'autre à configurer : le site est 100 % statique.
 ## 4. Structure
 
 ```
-index.html saveurs.html syf-tv.html            pages de marque
+index.html syf-tv.html                         pages de marque
 evenements.html evenement.html espace-pro.html  billetterie + fiche + smartboard
+partenaires.html                                écosystème de partenaires
+partenaire-avyr.html                            page courte partenaire AVYR
+partenaire-delices-bassin-bleu.html             page courte partenaire restaurant
+avyr-site/                                      site autonome de la marque AVYR (voir avyr-site/README.md)
 events-data.js   source unique window.SYFIR (événements, helpers)
 script.js        toute l'interactivité (thème, age gate, billetterie, formulaires, PWA, QR…)
 evenement.js espace-pro.js   logique des pages fiche & smartboard
@@ -98,14 +109,17 @@ manifest.webmanifest sw.js   PWA
 robots.txt sitemap.xml        SEO
 images/ videos/ tools/        assets + script de retouche reproductible
 CLAUDE.md        la « loi du dépôt » (design system, règles éditoriales)
+LEGAL-DATA-REQUIRED.md LEGAL-RESPONSIBILITIES.md   données/responsabilités à confirmer avant publication
 ```
 
 ---
 
 ## 5. Crédits & conformité
 
-- **Loi Évin** : vérification d'âge 18+ (localStorage) + mention sanitaire sur
-  chaque page. À conserver.
+- **Loi Évin** : confirmation d'âge à l'entrée du site (localStorage,
+  auto-déclarative — ce n'est pas une vérification d'identité) + mention
+  sanitaire sur les pages présentant directement des cocktails. À conserver,
+  sans sur-promettre un contrôle qui n'existe pas.
 - **Polices** : Unbounded (titres), Plus Jakarta Sans (UI/corps), Fraunces
   (accents) via Google Fonts.
 - **Vidéos d'ambiance de secours** : Pexels (licence libre, usage commercial),

@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="SYFIR Événements — Billetterie officielle. Beach parties, rooftops, festivals, soirées privées. Réserve tes billets ou organise ton événement.">
-<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <title>SYFIR Événements — Billetterie &amp; Espace Pro</title>
 <!-- LCP : fond du hero billetterie découvert dans le CSS — préchargé dès le HTML -->
 <link rel="preload" as="image" fetchpriority="high" href="images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg">
@@ -18,16 +18,12 @@
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
-<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<!-- R98 — un seul monde, la nuit : plus de thème à résoudre avant le rendu.
+     Ce script ne garde que les états qui doivent l'être avant le premier pixel. -->
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -37,6 +33,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-events">
@@ -53,34 +53,27 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <!-- panneau pleine largeur façon maison de luxe (Hennessy) —
-             vignette paysage + libellé capitales, 3 catégories -->
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
+             ne vend pas les produits de ses partenaires, ce dropdown liste le
+             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event active" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -92,15 +85,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -109,9 +93,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
@@ -175,7 +159,7 @@
 <section id="billetterie" class="section section-tickets">
   <div class="container">
     <p class="eyebrow reveal">Billetterie</p>
-    <h2 class="h2 reveal d1">Événements <em>à l'affiche</em> <span class="badge-demo">Démo</span></h2>
+    <h2 class="h2 reveal d1">Événements <em>à l'affiche</em></h2>
 
     <!-- Filtres -->
     <div class="ticket-search ticket-search-inline reveal d2">
@@ -243,14 +227,14 @@
     <!-- div+role : le sélecteur global « nav » stylise la barre fixe du site -->
     <div class="audience-nav reveal d2" role="navigation" aria-label="Audiences de l'espace pro">
       <a class="chip" href="#pro-orga">🎟 Organisateurs</a>
-      <a class="chip" href="#pro-lieux">🍹 Points de vente</a>
+      <a class="chip" href="#pro-lieux">🏝 Lieux partenaires</a>
       <a class="chip" href="#pro-ambassadeurs">📣 Ambassadeurs</a>
       <a class="chip" href="#pro-invest">🤝 Partenaires &amp; investisseurs</a>
     </div>
 
     <!-- ---- Audience 1 : ORGANISATEURS (l'existant, inchangé) ---- -->
     <h3 class="audience-title reveal" id="pro-orga">Organisateurs — <em>SYFIR Experience</em></h3>
-    <p class="section-intro intro-light reveal">Crée ton événement en quelques minutes. Public ou privé, tu décides. On s'occupe du reste.</p>
+    <p class="section-intro intro-light reveal">Crée ton événement en quelques minutes. Public ou privé, tu décides. SYFIR assure la billetterie et te met en relation avec les prestataires de l'écosystème.</p>
 
     <div class="pro-layout">
       <!-- Formulaire de création -->
@@ -315,6 +299,22 @@
           <span class="field-error"></span>
         </div>
 
+        <!-- R82.1.1 : condition d'âge par événement — SYFIR n'est pas un
+             site consacré à l'alcool, ses événements peuvent avoir des
+             conditions d'âge différentes. Affichée sur la carte et la
+             fiche, rappelée à la réservation pour les 16+/18+. -->
+        <div class="form-field">
+          <label for="evAgeStatus">Condition d'âge *</label>
+          <select id="evAgeStatus">
+            <option value="">Choisir…</option>
+            <option value="tout-public">Tout public</option>
+            <option value="16-plus">16 ans et plus</option>
+            <option value="18-plus">18 ans et plus</option>
+            <option value="a-confirmer">À confirmer plus tard</option>
+          </select>
+          <span class="field-error"></span>
+        </div>
+
         <!-- Visibilité : public ou privé -->
         <fieldset class="visibility-switch">
           <legend>Visibilité de l'événement *</legend>
@@ -333,24 +333,32 @@
           <span class="field-error"></span>
         </div>
 
-        <!-- Deux catalogues séparés : SYFIR (événementiel) / AVYR (fourniture produit) -->
+        <!-- R83 point 2 : deux blocs distincts selon QUI assure la prestation.
+             SYFIR assure sa plateforme ; pour tout le reste il met en relation
+             avec des prestataires sélectionnés, sans fournir lui-même leurs
+             services. L'ancien bloc « Nos services AVYR — AVYR fournit le
+             produit sur place, bar compris » a été retiré : il faisait
+             apparaître SYFIR comme vendeur de la prestation d'une marque
+             partenaire indépendante. -->
         <fieldset class="options-list options-syfir">
-          <legend>Nos services SYFIR <small>(événementiel — sur devis)</small></legend>
-          <p class="options-intro">SYFIR organise, met en avant et sécurise ton événement.</p>
+          <legend>Assuré par SYFIR <small>(sur devis)</small></legend>
+          <p class="options-intro">Les services que SYFIR opère lui-même.</p>
           <label class="opt-line"><input type="checkbox" checked disabled><span>Billetterie en ligne &amp; QR codes</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Mise en avant page d'accueil</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Scan d'entrée &amp; contrôle d'accès</span><strong>sur devis</strong></label>
-          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Photographe golden hour</span><strong>sur devis</strong></label>
           <label class="opt-line"><input type="checkbox" class="ev-option"><span>Campagne réseaux #SYFIR</span><strong>sur devis</strong></label>
         </fieldset>
 
-        <fieldset class="options-list options-avyr">
-          <legend>Nos services AVYR <small>(fourniture produit — sur devis)</small></legend>
-          <p class="options-intro">AVYR fournit le produit sur place, bar compris.</p>
-          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Bar à cocktails AVYR sur place</span><strong>sur devis</strong></label>
+        <fieldset class="options-list options-mer">
+          <legend>Mise en relation <small>(prestataires sélectionnés)</small></legend>
+          <p class="options-intro">SYFIR te met en relation avec des prestataires de l'écosystème. Le service est assuré par le prestataire, et le contrat est conclu directement avec lui.</p>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Photo &amp; vidéo</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Son &amp; lumière</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Décoration</span><strong>selon prestataire</strong></label>
+          <label class="opt-line"><input type="checkbox" class="ev-option"><span>Sécurité</span><strong>selon prestataire</strong></label>
         </fieldset>
 
-        <p class="options-devis-note">Chaque prestation est établie sur devis, selon ton événement.</p>
+        <p class="options-devis-note">Les prestations SYFIR sont établies sur devis. Les prestations des partenaires sont définies et facturées par le prestataire concerné.</p>
 
         <button type="submit" class="btn btn-solid btn-lg btn-full">Créer l'événement</button>
         <p class="form-success" id="proSuccess" hidden></p>
@@ -365,44 +373,41 @@
             <li>✦ Événement public visible par toute la communauté SYFIR</li>
             <li>✦ Mode privé avec code d'accès pour tes invités</li>
             <li>✦ Devis clair, à la prestation, sans abonnement</li>
-            <li>✦ Bar AVYR, photographe &amp; communication en option</li>
+            <li>✦ Mise en relation avec des prestataires sélectionnés (photo, son, déco, sécurité)</li>
             <li>✦ Tableau de bord ventes en temps réel</li>
           </ul>
           <a class="btn btn-ghost btn-sm dash-open" href="espace-pro.html">Ouvrir mon Smartboard →</a>
         </div>
-        <div class="pro-card pro-card-img">
-          <picture>
-            <source type="image/webp" srcset="images/produits/syfir-lanieres-orange-noir.webp">
-            <img src="images/produits/syfir-lanieres-orange-noir.jpg" alt="Les lanières SYFIR orange et noires" loading="lazy" decoding="async" width="1024" height="1024">
-          </picture>
-          <p>La lanière SYFIR — l'accessoire des équipes<br><small>sur le terrain, scan et service mains libres.</small></p>
-        </div>
       </aside>
     </div>
 
-    <!-- ---- Audience 2 : POINTS DE VENTE (bars, clubs, plages, revendeurs pilotes) ---- -->
-    <h3 class="audience-title reveal" id="pro-lieux">Deviens <em>point de vente</em> SYFIR</h3>
+    <!-- ---- Audience 2 : LIEUX PARTENAIRES (bars, restaurants, clubs, hôtels) ----
+         R82.1c : l'ancien bloc « Deviens point de vente AVYR » (distribution
+         d'une marque partenaire) n'a pas sa place sur le site SYFIR — les
+         demandes de distribution AVYR se traitent sur le site AVYR. Ici, le
+         lieu est présenté pour ce qu'il apporte aux expériences SYFIR. -->
+    <h3 class="audience-title reveal" id="pro-lieux">Deviens <em>lieu partenaire</em></h3>
     <div class="audience-grid">
       <div class="pro-card reveal d1">
-        <h4>Les formats</h4>
+        <h4>Ce que ton lieu apporte</h4>
         <ul>
-          <li>🥂 <strong>Sur place</strong> — servi au verre</li>
-          <li>🛍️ <strong>À emporter</strong> — la pochette scellée signature, mobile et photogénique</li>
-          <li>🍹 Trois recettes signature, AVYR Planteur™ en tête</li>
+          <li>✦ Le cadre et l'atmosphère d'une soirée ou d'un événement SYFIR</li>
+          <li>✦ Une programmation co-construite avec les artistes de l'écosystème</li>
+          <li>✦ L'accueil de ta propre communauté et de celle de SYFIR</li>
         </ul>
       </div>
       <div class="pro-card reveal d2">
-        <h4>Ce que ton lieu y gagne</h4>
+        <h4>Ce que SYFIR t'apporte</h4>
         <ul>
-          <li>✦ Un produit que tes clients remarquent avant même de le goûter</li>
-          <li>✦ Prestations possibles : bar AVYR sur place</li>
+          <li>✦ Billetterie, communication et coordination de l'événement</li>
+          <li>✦ Des artistes et prestataires de l'écosystème, selon ton projet</li>
         </ul>
       </div>
       <div class="pro-card audience-contact reveal d3">
         <h4>On en parle ?</h4>
-        <p>Bars, clubs, plages, hôtels, revendeurs pilotes : raconte-nous ton lieu, on revient vers toi.</p>
-        <a class="btn btn-solid" href="partenaires.html">Proposer mon établissement →</a>
-        <a class="audience-mail" href="partenaires.html#partnerForm" data-request="distributeur">✉ Nous écrire</a>
+        <p>Bars, restaurants, clubs, beach clubs, hôtels : raconte-nous ton lieu, on revient vers toi.</p>
+        <a class="btn btn-solid" href="partenaires.html">Proposer mon lieu →</a>
+        <a class="audience-mail" href="partenaires.html#partnerForm" data-request="partenaire">✉ Nous écrire</a>
       </div>
     </div>
 
@@ -420,9 +425,8 @@
       <div class="pro-card reveal d2">
         <h4>Ce que le programme t'apporte</h4>
         <ul>
-          <li>✦ Accompagnement et formation produit</li>
-          <li>✦ Conditions commerciales dédiées</li>
-          <li>✦ Outils de vente et supports</li>
+          <li>✦ Un cadre et un accompagnement définis avec SYFIR</li>
+          <li>✦ Des supports de communication pour relayer les événements</li>
           <li>✦ Un suivi dédié, un interlocuteur unique</li>
         </ul>
       </div>
@@ -440,15 +444,15 @@
       <div class="invest-args">
         <div>
           <strong>Une vision claire</strong>
-          <p>Une marque lifestyle née d'une conviction : on ne cherche plus seulement à boire, on cherche à ressentir. Un cap assumé, porté par son fondateur.</p>
+          <p>Une identité de fête et de musique, portée par un écosystème de services : chacun peut créer sa fête, et SYFIR peut créer les grands moments. Un cap assumé, porté par son fondateur.</p>
         </div>
         <div>
           <strong>Une marque différenciante</strong>
-          <p>La pochette comme format liberté — mobile, instantané, photogénique. Un produit qui se remarque avant même d'être goûté.</p>
+          <p>La pochette : un format scellé, individuel et refermable — adapté au service sur place comme à la vente à emporter.</p>
         </div>
         <div>
           <strong>Un potentiel de croissance</strong>
-          <p>Un modèle pensé pour s'étendre : produits, événements, licences de marque. Une génération mobile et connectée comme premier public.</p>
+          <p>Un modèle pensé pour s'étendre : produits, événements, licences de marque.</p>
         </div>
       </div>
       <div class="invest-cta">
@@ -468,7 +472,7 @@
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">Goûte à la liberté.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -486,19 +490,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>SYFIR TV</h3>
@@ -526,11 +528,12 @@
 <div class="modal" id="ticketModal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="modal-box">
     <button class="modal-close" data-close aria-label="Fermer">✕</button>
-    <div class="modal-media"><img width="400" height="300" id="tmImage" src="" alt=""></div>
+    <div class="modal-media"><img width="400" height="300" id="tmImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt=""></div>
     <div class="modal-body">
       <span class="modal-tag" id="tmTag"></span>
       <h3 id="tmTitle"></h3>
       <p class="modal-meta" id="tmMeta"></p>
+      <p class="tm-age-note" id="tmAgeNote" hidden></p>
 
       <!-- Saisie du code pour événements privés -->
       <div class="private-gate" id="privateGate" hidden>

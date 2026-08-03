@@ -3,24 +3,18 @@
      Basculer la base d'URL vers le domaine syfir.fr une fois acheté (cf. README §Domaine).
      N'inclut QUE les pages réelles indexables : ni les stubs de redirection
      (actualite, communaute, medias, apercu-syfir), ni les pages noindex
-     (compte, art-de-servir). lastmod tenu à jour à chaque évolution de contenu. -->
+     (compte). lastmod tenu à jour à chaque évolution de contenu.
+     R82 : saveurs.html et produit.html?id=X ont déménagé sur le site
+     autonome AVYR (avyr-site/, sitemap propre à ce dossier). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://rododo97141.github.io/boutique-syf/index.html</loc><lastmod>2026-07-17</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/saveurs.html</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/index.html</loc><lastmod>2026-07-23</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/evenements.html</loc><lastmod>2026-07-17</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/partenaires.html</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/produit.html?id=planteur</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/produit.html?id=coral</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/produit.html?id=golden</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/partenaires.html</loc><lastmod>2026-07-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/partenaire-avyr.html</loc><lastmod>2026-07-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/partenaire-delices-bassin-bleu.html</loc><lastmod>2026-07-23</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=unity</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=solaris</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=maya</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=brise</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=neo</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=kreyol</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=tropicanos</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://rododo97141.github.io/boutique-syf/artiste.html?id=zenith</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/syf-tv.html</loc><lastmod>2026-07-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://rododo97141.github.io/boutique-syf/artistes.html</loc><lastmod>2026-08-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/espace-pro.html</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/faq.html</loc><lastmod>2026-07-17</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://rododo97141.github.io/boutique-syf/mentions-legales.html</loc><lastmod>2026-07-17</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>

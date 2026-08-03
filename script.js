@@ -64,7 +64,10 @@
   };
 
   /* ===== 01b. ENDPOINT DES FORMULAIRES (newsletter + partenaire) =====
-     Vide = mode démo : confirmation locale, AUCUN envoi réseau.
+     Vide = mode démo : transmission désactivée, AUCUN envoi réseau, AUCUN
+     stockage local automatique des données saisies (R80.1 final). Les
+     valeurs restent uniquement dans les champs du formulaire, le temps de
+     la session — rien n'est écrit dans localStorage.
      Pour brancher un vrai envoi, renseigner FORM_ENDPOINT :
        • Formspree (le plus simple, zéro backend) :
            'https://formspree.io/f/xxxxxxxx'  (crée le form sur formspree.io)
@@ -72,27 +75,14 @@
      Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
      invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
   const FORM_ENDPOINT = '';
-  // Contact réel PUBLIC (présent sur le site) : sert de repli honnête tant que
-  // la transmission en ligne n'est pas branchée. Rien d'inventé.
-  // Message VRAI en mode démo : ne jamais laisser croire qu'une donnée a été
-  // transmise tant que FORM_ENDPOINT est vide (R29-1). La saisie est conservée
-  // en local pour ne rien perdre.
-  const DEMO_FORM_MSG = 'Ta demande est enregistrée sur cet appareil. La transmission en ligne s\'active très bientôt.';
+  // Message VRAI tant que FORM_ENDPOINT est vide : ne jamais laisser croire
+  // qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1 final —
+  // plus de sauvegarde locale automatique, les champs gardent juste la saisie).
+  const DEMO_FORM_MSG = 'L\'envoi en ligne n\'est pas encore actif. Tes informations restent dans ce formulaire, sur cet écran — rien n\'est enregistré ni transmis.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  // Conserve toute soumission en mode démo (aucun envoi réseau possible) pour
-  // ne rien perdre : historique local horodaté, plafonné à 50 entrées.
-  const persistDemoSubmission = data => {
-    try {
-      const key = 'syfir-form-submissions';
-      const log = JSON.parse(localStorage.getItem(key)) || [];
-      const { _gotcha, ...clean } = data || {};
-      log.push({ ...clean, at: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(log.slice(-50)));
-    } catch { /* stockage indisponible : on n'échoue pas pour autant */ }
-  };
   const submitForm = async data => {
     if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
-    if (!FORM_ENDPOINT) { persistDemoSubmission(data); return { ok: true, demo: true }; }  // mode démo : garde en local, aucun envoi
+    if (!FORM_ENDPOINT) return { ok: false, demo: true };     // mode démo : transmission désactivée, aucun stockage
     try {
       const r = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -120,9 +110,11 @@
   if (movedTo && !document.getElementById(location.hash.slice(1))) location.replace(movedTo);
 
   const nav = $('#nav');
+  const avyrBar = $('.avyr-bar');
   const onScrollNav = () => {
     const s = window.scrollY > 40;
     if (nav) nav.classList.toggle('scrolled', s);
+    if (avyrBar) avyrBar.classList.toggle('scrolled', s);
   };
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
@@ -151,30 +143,22 @@
      recherche client-side. Ouvert par le burger et l'icône recherche. ===== */
   (function initMega() {
     const S = window.SYFIR;
-    const pic = (base, alt) => `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" loading="lazy" decoding="async" alt="${esc(alt)}"></picture>`;
-    const prods = [
-      ['saveurs.html#planteur', 'AVYR Planteur', 'images/produits/syfir-planteur-marbre', 'Pochette AVYR Planteur sur marbre'],
-      ['saveurs.html#coral', 'Coral Breeze', 'images/produits/syfir-sachet-fruits-blanc', 'Pochette AVYR entourée de fruits'],
-      ['saveurs.html#golden', 'Golden Escape', 'images/produits/syfir-tropical-ananas', 'Pochette tropicale ananas'],
-      ['saveurs.html', 'La lanière', 'images/produits/syfir-laniere-blanc', 'Lanière SYFIR'],
-    ];
     const envies = [
-      ['evenements.html', 'Fête', 'images/produits/syfir-pub-duo.jpg'],
-      ['evenements.html', 'Plage', 'images/produits/syfir-pub-plage-1.jpg'],
+      ['evenements.html', 'Fête', 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg'],
+      ['evenements.html', 'Plage', 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg'],
       ['index.html#artistes', 'Concert', 'images/artiste-unity.jpg'],
-      ['evenements.html', 'Privé', 'images/produits/syf-planteur-verre.jpg'],
+      ['evenements.html', 'Privé', 'images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'],
     ];
     const idx = [
       ['Accueil', 'index.html#accueil', 'marque hero'],
-      ['AVYR cocktail', 'saveurs.html', 'saveurs gamme collection cocktails pochettes toutes'],
-      ['AVYR Planteur', 'saveurs.html#planteur', 'mangue passion ananas best-seller'],
-      ['AVYR Coral Breeze', 'saveurs.html#coral', 'agrumes hibiscus fruits rouges'],
-      ['AVYR Golden Escape', 'saveurs.html#golden', 'citron vert passion exotiques or'],
+      ['L\'Écosystème', 'partenaires.html', 'partenaires reseau lieux bars clubs organisateurs prestataires'],
+      ['Lieux', 'partenaires.html#eco-lieux', 'bars restaurants clubs beach clubs hôtels espaces événementiels'],
+      ['Marques partenaires', 'partenaires.html#eco-marques', 'marques avyr cocktails boissons produits expériences'],
       ['Événements & Fêtes', 'evenements.html', 'billetterie soirées beach party festival'],
       ['Artistes', 'index.html#artistes', 'djs line-up groupes'],
       ['SYFIR TV', 'syf-tv.html', 'moments chaîne aftermovie ambiance'],
       ['Espace pro', 'espace-pro.html', 'organisateur smartboard billetterie'],
-      ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels distributeur'],
+      ['Devenir partenaire', 'partenaires.html', 'partenaire investisseur lieu ambassadeur bars clubs hôtels prestataire marque média référencement'],
       ['Investisseurs', 'partenaires.html#investisseurs', 'investir levée de fonds actionnaire capital la maison institutionnel'],
       ['Nous rejoindre', 'partenaires.html#partnerForm', 'recrutement emploi carrière rejoindre équipe candidature partenaire la maison institutionnel'],
       ['Contact', 'partenaires.html#partnerForm', 'contact formulaire écrire nous joindre la maison institutionnel'],
@@ -197,12 +181,16 @@
       <div class="mega-body">
         <div class="mega-side" role="navigation" aria-label="Rubriques">
           <a href="index.html#accueil">Accueil</a>
+          <!-- R82.1c : les 6 catégories validées de l'écosystème — ce que
+               chaque partenaire APPORTE aux expériences SYFIR. -->
           <div class="mega-side-group">
-            <a class="mega-side-head" href="saveurs.html">AVYR cocktail</a>
-            <a href="saveurs.html">Toutes les pochettes</a>
-            <a href="saveurs.html#planteur">AVYR Planteur</a>
-            <a href="saveurs.html#coral">AVYR Coral Breeze</a>
-            <a href="saveurs.html#golden">AVYR Golden Escape</a>
+            <a class="mega-side-head" href="partenaires.html">L'Écosystème</a>
+            <a href="partenaires.html#eco-lieux">Lieux</a>
+            <a href="partenaires.html#eco-artistes">Artistes et talents</a>
+            <a href="partenaires.html#eco-marques">Marques partenaires</a>
+            <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
+            <a href="partenaires.html#eco-prestataires">Prestataires</a>
+            <a href="partenaires.html#eco-medias">Médias et communautés</a>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -220,12 +208,6 @@
           <div class="mega-results" id="megaResults" hidden></div>
           <div class="mega-panels" id="megaPanels">
             <section class="mega-row">
-              <div class="mega-row-head"><h3>Les pochettes AVYR</h3><a href="saveurs.html">Afficher tout →</a></div>
-              <div class="mega-prod-grid">
-                ${prods.map(([u, n, base, alt]) => `<a class="mega-prod" href="${u}"><span class="mega-prod-img">${pic(base, alt)}</span><span class="mega-prod-name">${esc(n)}</span></a>`).join('')}
-              </div>
-            </section>
-            <section class="mega-row">
               <div class="mega-row-head"><h3>Parcourir par envies</h3><a href="evenements.html">Afficher tout →</a></div>
               <div class="mega-envies">
                 ${envies.map(([u, n, img]) => `<a class="mega-envie" href="${u}"><img src="${img}" loading="lazy" decoding="async" alt=""><span>${esc(n)}</span></a>`).join('')}
@@ -240,8 +222,7 @@
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
     // on bascule en eager : le fetch part menu fermé, tout est décodé avant
     // la première ouverture. Micro-fade si l'utilisateur ouvre plus vite.
-    // (R15 : + les vignettes du dropdown NOTRE GAMME pleine largeur.)
-    const megaImgs = [...$$('.mega-prod-img img, .mega-envie img', mega), ...$$('.nav-lux-pic img')];
+    const megaImgs = [...$$('.mega-envie img', mega)];
     megaImgs.forEach(im => {
       if (im.complete && im.naturalWidth) return;
       im.classList.add('img-fade');
@@ -324,41 +305,6 @@
     window.__syfirCloseMobileNav = close;
   })();
 
-  // R15 : dropdown NOTRE GAMME pleine largeur (façon maison de luxe).
-  // Le panneau est sorti de la pilule (son backdrop-filter piège les
-  // position:fixed) et placé juste après <nav> pour couvrir toute la
-  // largeur ; ouverture survol + focus, fermeture Échap / clic dehors.
-  (function initLuxDrop() {
-    const panel = document.querySelector('.nav-drop-lux');
-    if (!panel) return;
-    const item = panel.closest('.has-drop');
-    if (!item) return;
-    const link = item.querySelector('.nav-link');
-    const navEl = document.getElementById('nav') || document.body;
-    navEl.insertAdjacentElement('afterend', panel);
-    let t;
-    const isOpen = () => panel.classList.contains('open');
-    const open = () => { clearTimeout(t); panel.classList.add('open'); if (link) link.setAttribute('aria-expanded', 'true'); };
-    const close = () => { panel.classList.remove('open'); if (link) link.setAttribute('aria-expanded', 'false'); };
-    const closeSoon = () => { clearTimeout(t); t = setTimeout(close, 140); };
-    const leftBoth = e => !item.contains(e.relatedTarget) && !panel.contains(e.relatedTarget);
-    item.addEventListener('mouseenter', open);
-    item.addEventListener('mouseleave', closeSoon);
-    panel.addEventListener('mouseenter', open);
-    panel.addEventListener('mouseleave', closeSoon);
-    item.addEventListener('focusin', open);
-    item.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
-    panel.addEventListener('focusout', e => { if (leftBoth(e)) closeSoon(); });
-    if (link) {
-      link.setAttribute('aria-haspopup', 'true');
-      link.setAttribute('aria-expanded', 'false');
-      link.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); open(); const f = panel.querySelector('a'); if (f) f.focus(); } });
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) { close(); if (link) link.focus(); } });
-    document.addEventListener('click', e => { if (isOpen() && !panel.contains(e.target) && !item.contains(e.target)) close(); });
-    $$('a', panel).forEach(a => a.addEventListener('click', close));
-  })();
-
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -381,50 +327,69 @@
 
   /* ===== 03. REVEAL ON SCROLL ===== */
   const reveals = $$('.reveal');
+  /* ⚠ ON N'ARME RIEN QUAND IL N'Y A RIEN À OBSERVER — R106, décision de
+     Kily : « du code qui observe le vide n'est pas neutre, il est trompeur
+     pour la prochaine session — elle croira que les apparitions existent ».
+
+     L'accueil n'a plus aucun `.reveal` depuis la transplantation R100, et
+     pourtant l'inventaire R105 y trouvait un IntersectionObserver, une
+     minuterie de 1600 ms et quatre écouteurs armés pour eux. Ils
+     observaient le vide.
+
+     LE GARDE EST GÉNÉRAL, PAS UNE EXCEPTION POUR L'ACCUEIL : ce fichier
+     est partagé par les 14 pages, et « zéro élément à révéler » est la
+     seule condition qui compte. Sur les 13 autres pages, qui en ont, rien
+     ne change — vérifié page par page, chiffres au journal. La machinerie
+     entière reste en place pour elles ET pour le jour où l'accueil
+     retrouvera ses apparitions (la maquette en a 22, c'est un manque
+     ouvert depuis R103) : rien n'est supprimé, on ne démarre simplement
+     pas un moteur qui n'a rien à entraîner. */
   const inViewport = el => {
     const r = el.getBoundingClientRect();
     return r.top < window.innerHeight * 0.95 && r.bottom > 0;
   };
-  // Au chargement : révèle immédiatement tout ce qui est déjà dans le viewport
-  // (le reste est visible par défaut et s'anime en entrant à l'écran).
-  reveals.forEach(el => { if (inViewport(el)) el.classList.add('in'); });
-  // L'état final ne doit JAMAIS dépendre de l'animation : après un saut
-  // programmatique (ancre partagée, scrollIntoView), Chrome peut laisser
-  // l'animation calée sur sa frame « from » (fill both = opacity 0) jusqu'au
-  // premier vrai scroll. animationend pose .in-done (opacity 1 garanti)…
-  reveals.forEach(el => el.addEventListener('animationend', () => el.classList.add('in-done'), { once: true }));
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
-    });
-  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
-  reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
+  if (reveals.length) {
+    // Au chargement : révèle immédiatement tout ce qui est déjà dans le viewport
+    // (le reste est visible par défaut et s'anime en entrant à l'écran).
+    reveals.forEach(el => { if (inViewport(el)) el.classList.add('in'); });
+    // L'état final ne doit JAMAIS dépendre de l'animation : après un saut
+    // programmatique (ancre partagée, scrollIntoView), Chrome peut laisser
+    // l'animation calée sur sa frame « from » (fill both = opacity 0) jusqu'au
+    // premier vrai scroll. animationend pose .in-done (opacity 1 garanti)…
+    reveals.forEach(el => el.addEventListener('animationend', () => el.classList.add('in-done'), { once: true }));
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(el => { if (!el.classList.contains('in')) revealObs.observe(el); });
 
-  // …l'arrivée par ancre (chargement avec #hash ou hashchange) révèle
-  // directement ce qui est à l'écran — pas d'animation d'entrée sur un
-  // contenu que l'utilisateur vient chercher. Le défilement d'ancre étant
-  // LISSE (scroll-behavior: smooth), on attend sa fin réelle : scrollend,
-  // avec un repli minuté pour les navigateurs sans l'événement.
-  const revealSettle = () => reveals.forEach(el => {
-    if (inViewport(el)) { el.classList.add('in', 'in-done'); revealObs.unobserve(el); }
-  });
-  let anchorJump = !!location.hash;
-  const settleAfterJump = () => {
-    if (!anchorJump) return;
-    anchorJump = false;
-    requestAnimationFrame(revealSettle);
-  };
-  addEventListener('hashchange', () => { anchorJump = true; setTimeout(settleAfterJump, 900); });
-  if ('onscrollend' in window) addEventListener('scrollend', settleAfterJump, { passive: true });
-  if (anchorJump) addEventListener('load', () => setTimeout(settleAfterJump, 900), { once: true });
-
-  // …et un garde-fou rattrape tout élément marqué .in resté invisible
-  // malgré tout (animation calée) : réévalué au chargement.
-  addEventListener('load', () => setTimeout(() => {
-    $$('.reveal.in:not(.in-done)').forEach(el => {
-      if (inViewport(el) && parseFloat(getComputedStyle(el).opacity) < 1) el.classList.add('in-done');
+    // …l'arrivée par ancre (chargement avec #hash ou hashchange) révèle
+    // directement ce qui est à l'écran — pas d'animation d'entrée sur un
+    // contenu que l'utilisateur vient chercher. Le défilement d'ancre étant
+    // LISSE (scroll-behavior: smooth), on attend sa fin réelle : scrollend,
+    // avec un repli minuté pour les navigateurs sans l'événement.
+    const revealSettle = () => reveals.forEach(el => {
+      if (inViewport(el)) { el.classList.add('in', 'in-done'); revealObs.unobserve(el); }
     });
-  }, 1600), { once: true });
+    let anchorJump = !!location.hash;
+    const settleAfterJump = () => {
+      if (!anchorJump) return;
+      anchorJump = false;
+      requestAnimationFrame(revealSettle);
+    };
+    addEventListener('hashchange', () => { anchorJump = true; setTimeout(settleAfterJump, 900); });
+    if ('onscrollend' in window) addEventListener('scrollend', settleAfterJump, { passive: true });
+    if (anchorJump) addEventListener('load', () => setTimeout(settleAfterJump, 900), { once: true });
+
+    // …et un garde-fou rattrape tout élément marqué .in resté invisible
+    // malgré tout (animation calée) : réévalué au chargement.
+    addEventListener('load', () => setTimeout(() => {
+      $$('.reveal.in:not(.in-done)').forEach(el => {
+        if (inViewport(el) && parseFloat(getComputedStyle(el).opacity) < 1) el.classList.add('in-done');
+      });
+    }, 1600), { once: true });
+  }
 
   /* ===== 04. PARALLAXE DOUCE =====
      Allégé (lot 8) : désactivé sous 768px — sur mobile, le défilement
@@ -486,119 +451,327 @@
     }
   };
 
-  /* ===== 06. MENU DE THÈME : AUTOMATIQUE / CLAIR / SOMBRE =====
-     Auto : clair le jour (7h-19h), sombre la nuit.
-     Le choix est mémorisé et appliqué dès le <head> (script inline). */
-  const themeSwitch = $('#themeSwitch');
-  const themeBtn    = $('#themeBtn');
-  const themeMenu   = $('#themeMenu');
-  const themeOpts   = $$('.theme-opt', themeSwitch || document.createElement('div'));
-  const themeByHour = () => {
-    const h = new Date().getHours();
-    return h >= 7 && h < 19 ? 'light' : 'dark';
-  };
-  const themeIcon = { auto: '🌗', light: '☀️', dark: '🌙' };
-  const applyTheme = pref => {
-    const mode = pref === 'auto' ? themeByHour() : pref;
-    document.documentElement.setAttribute('data-theme', mode);
-    document.documentElement.setAttribute('data-theme-pref', pref);
-    if (themeBtn) {
-      themeBtn.textContent = themeIcon[pref] || themeIcon.auto;
-      themeBtn.title = 'Thème : ' + (pref === 'auto'
-        ? `automatique (${themeByHour() === 'light' ? 'jour' : 'nuit'})`
-        : pref === 'light' ? 'clair' : 'sombre');
-    }
-    themeOpts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.theme === pref)));
-  };
-  let themePref = localStorage.getItem('syfir-theme') || 'auto';
-  applyTheme(themePref);
+  /* ===== 06. (retiré, R98/1-3) — LE MENU DE THÈME =====
+     Le site avait deux thèmes (clair « été doré », sombre « nuit
+     festive ») et un mode automatique qui suivait l'heure. Kily a tranché
+     après avoir ouvert le site dans son propre navigateur : « le thème,
+     c'est le monde de la nuit ». Il n'y a plus de choix à offrir, donc
+     plus de menu, plus de préférence en localStorage, plus de résolution
+     avant le premier pixel.
 
-  const closeThemeMenu = () => {
-    if (!themeMenu || themeMenu.hidden) return;
-    themeMenu.hidden = true;
-    themeBtn?.setAttribute('aria-expanded', 'false');
-    document.removeEventListener('click', onThemeOutside);
-    document.removeEventListener('keydown', onThemeKey);
-  };
-  const onThemeOutside = e => { if (!themeSwitch.contains(e.target)) closeThemeMenu(); };
-  const onThemeKey = e => { if (e.key === 'Escape') { closeThemeMenu(); themeBtn?.focus(); } };
-  const openThemeMenu = () => {
-    if (!themeMenu) return;
-    themeMenu.hidden = false;
-    themeBtn?.setAttribute('aria-expanded', 'true');
-    // écouteurs ajoutés au prochain tick pour ne pas capter le clic d'ouverture
-    setTimeout(() => {
-      document.addEventListener('click', onThemeOutside);
-      document.addEventListener('keydown', onThemeKey);
-    });
-  };
-  themeBtn?.addEventListener('click', e => {
-    e.stopPropagation();
-    themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
-  });
-  themeOpts.forEach(opt => {
-    opt.addEventListener('click', () => {
-      themePref = opt.dataset.theme;
-      localStorage.setItem('syfir-theme', themePref);
-      applyTheme(themePref);
-      closeThemeMenu();
-      showToast(themePref === 'auto'
-        ? '🌗 Thème automatique — clair le jour, sombre la nuit'
-        : themePref === 'light' ? '☀️ Mode clair activé' : '🌙 Mode sombre activé');
-    });
-  });
-  // En mode auto, on suit l'heure qui tourne
-  setInterval(() => { if (themePref === 'auto') applyTheme('auto'); }, 60000);
+     Ce que ce retrait emporte avec lui, et qui occupait deux lots entiers :
+     la JOINTURE DES DEUX HORLOGES (R96/R97). Il n'y a plus de bascule
+     d'encre, donc plus de zone où l'encre a basculé avant le ciel — et la
+     bande morte L ∈ [0,168 ; 0,243], où aucune encre de la charte ne
+     tenait 4,5:1, n'est plus jamais traversée. Le problème n'a pas été
+     résolu : il n'a plus d'objet.
 
-  /* ===== 07. AGE GATE 18+ =====
-     Marque d'alcool : vérification d'âge à l'entrée, affichée une seule
-     fois (localStorage), sur toutes les pages. Accessible : role=dialog,
-     focus initial, piège de focus, non fermable par Échap. */
-  if (!localStorage.getItem('syfir-age-ok')) {
-    const gate = document.createElement('div');
-    gate.className = 'age-gate';
-    gate.setAttribute('role', 'dialog');
-    gate.setAttribute('aria-modal', 'true');
-    gate.setAttribute('aria-labelledby', 'ageTitle');
-    gate.innerHTML = `
-      <div class="age-box">
-        <p class="age-logo">SYFIR<span>™</span></p>
-        <h2 id="ageTitle">Avez-vous 18 ans ?</h2>
-        <p class="age-sub">AVYR est une marque de cocktails alcoolisés, servie lors des événements SYFIR.<br>Pour continuer, confirmez que vous avez l'âge légal.</p>
-        <div class="age-actions">
-          <button class="btn btn-solid" id="ageYes" type="button">Oui, j'ai 18 ans ou plus</button>
-          <button class="btn btn-ghost" id="ageNo" type="button">Non, pas encore</button>
-        </div>
-        <p class="age-note">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
-      </div>`;
-    document.body.appendChild(gate);
-    document.body.style.overflow = 'hidden';
-    const ageYes = gate.querySelector('#ageYes');
-    requestAnimationFrame(() => ageYes.focus());
-    // Piège de focus : Tab reste dans le dialogue
-    gate.addEventListener('keydown', e => {
+     La clé localStorage `syfir-theme` n'est plus ni lue ni écrite. On ne
+     la purge pas : elle est inerte, et la purger coûterait un accès
+     disque à chaque visite pour rien. */
+
+  /* ===== 07. (retiré, R82.1.1) =====
+     L'ancienne modale 18+ globale bloquait TOUTES les pages SYFIR, y
+     compris les pages purement événementielles sans alcool — ce n'est
+     plus le cas : SYFIR n'est pas un site consacré à l'alcool, c'est une
+     marque événementielle dont certains événements peuvent être 18+.
+     La condition d'âge vit désormais par ÉVÉNEMENT (voir ageLabel dans
+     events-data.js), affichée sur sa carte et sa fiche, rappelée au
+     moment de la réservation pour les événements 18+. Rien ne prétend
+     vérifier juridiquement l'âge de la personne. */
+
+  /* ===== 07b-0. R93 — L'AMBIANCE (Web Audio, générée, zéro fichier) =====
+     Une percussion douce type ka à 116 BPM et une houle d'océan, produites
+     à la volée. Aucun asset : zéro question de droits, zéro poids réseau,
+     et rien à charger avant de pouvoir jouer.
+
+     JAMAIS D'AUTOPLAY. Le contexte audio n'est même pas construit tant
+     qu'un geste explicite ne l'a pas demandé — les navigateurs bloquent le
+     son automatique, et c'est très bien ainsi : le geste d'entrer EST
+     l'immersion. On ne cherche jamais à contourner cette politique.
+
+     POINT D'INSERTION D'UN VRAI FICHIER : quand une ambiance enregistrée
+     sera validée, il suffit de donner une URL à AMBIENCE_FILE ci-dessous.
+     Le fichier remplace alors les deux générateurs et passe par le MÊME
+     nœud de gain maître : les fondus, le toggle et les garde-fous
+     continuent de fonctionner sans être touchés. */
+  const AMBIENCE_FILE = null;   // ex. 'audio/ambiance-syfir.mp3'
+  const AMBIENCE_BPM = 116;
+  const AMBIENCE_VOL = 0.16;    // volume maître modéré, jamais brutal
+  const AMBIENCE_FADE = 2.5;    // montée en fondu, en secondes
+
+  const createAmbience = () => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    let ctx = null, master = null, timer = null, nodes = [];
+    let playing = false;
+    const beat = 60 / AMBIENCE_BPM;
+
+    /* Bruit blanc en mémoire : la matière première de la houle et de la
+       frappe claire. Deux secondes bouclées suffisent, l'oreille ne
+       reconnaît pas la boucle sous un filtre passe-bas. */
+    const noiseBuffer = () => {
+      const len = ctx.sampleRate * 2;
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      return buf;
+    };
+
+    const buildSwell = () => {
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer();
+      src.loop = true;
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 380; lp.Q.value = 0.7;
+      const g = ctx.createGain(); g.gain.value = 0.5;
+      // LFO très lent : le va-et-vient de la houle, ~14 s par respiration
+      const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07;
+      const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.32;
+      lfo.connect(lfoGain).connect(g.gain);
+      src.connect(lp).connect(g).connect(master);
+      src.start(); lfo.start();
+      nodes.push(src, lfo);
+    };
+
+    // Frappe grave du ka : une descente rapide, pas un « bip »
+    const kaLow = at => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(165, at);
+      o.frequency.exponentialRampToValueAtTime(52, at + 0.17);
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(0.9, at + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.28);
+      o.connect(g).connect(master);
+      o.start(at); o.stop(at + 0.32);
+    };
+
+    // Frappe claire, en contretemps : bruit filtré, très court
+    const kaHigh = at => {
+      const src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 1750; bp.Q.value = 1.4;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(0.16, at + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.09);
+      src.connect(bp).connect(g).connect(master);
+      src.start(at); src.stop(at + 0.12);
+    };
+
+    /* Ordonnanceur à anticipation : on programme un peu à l'avance sur
+       l'horloge audio, seule assez stable pour un tempo. Un setInterval
+       qui déclencherait les sons lui-même dériverait audiblement. */
+    let nextBeat = 0, beatIndex = 0;
+    const schedule = () => {
+      while (nextBeat < ctx.currentTime + 0.25) {
+        const pos = beatIndex % 4;
+        if (pos === 0 || pos === 2) kaLow(nextBeat);
+        if (pos === 1 || pos === 3) kaHigh(nextBeat + beat * 0.5);
+        nextBeat += beat; beatIndex++;
+      }
+    };
+
+    const start = () => {
+      if (playing) return;
+      if (!AC) return;                 // navigateur sans Web Audio : silence
+      playing = true;
+      if (!ctx) {
+        ctx = new AC();
+        master = ctx.createGain();
+        master.gain.value = 0.0001;
+        master.connect(ctx.destination);
+        buildSwell();
+        nextBeat = ctx.currentTime + 0.1; beatIndex = 0;
+      }
+      ctx.resume?.();
+      // Montée en fondu : jamais un démarrage brutal
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(AMBIENCE_VOL, ctx.currentTime + AMBIENCE_FADE);
+      schedule();
+      timer = setInterval(schedule, 60);
+    };
+
+    const stop = () => {
+      if (!playing || !ctx) return;
+      playing = false;
+      clearInterval(timer); timer = null;
+      // Descente en fondu : jamais un arrêt sec
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+      setTimeout(() => { if (!playing) ctx?.suspend?.(); }, 1400);
+    };
+
+    return { start, stop, isPlaying: () => playing, available: () => !!AC };
+  };
+
+  /* Les trois portes de sortie du son : les mêmes que celles du mouvement.
+     Un visiteur en économie de données ou en mouvement réduit n'a rien
+     demandé de sonore non plus. */
+  const conn0 = navigator.connection;
+  /* matchMedia relu ici plutôt que la constante `reducedMotion` de §08a :
+     ce bloc s'évalue AVANT elle, et y toucher lèverait une erreur de zone
+     morte temporelle (constaté à la mesure). */
+  const ambienceAllowed = !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !conn0?.saveData && !/(^|-)[23]g$/.test(conn0?.effectiveType || '');
+  const ambience = createAmbience();
+
+  /* ===== 07b-bis. R93 — LE PORTAIL (accueil, première visite) =====
+     Le voile est déjà peint par le HTML quand on arrive ici ; ce bloc lui
+     donne sa sortie. R93/2 pose la sortie BRUTE — on entre, on mémorise,
+     le voile disparaît. Ce qui vient ensuite est traité à son point :
+     le clavier et le piège de focus en R93/3, le fondu croisé vers le
+     ciel et le démarrage du film en R93/4, le son en R93/6.
+     Un voile sans sortie ne serait pas une structure, ce serait un piège. */
+  const portal = $('#portal');
+  const portalActive = portal && document.documentElement.getAttribute('data-portal') !== 'done';
+  /* Le film de marque attend derrière le voile : « Entrer » doit le
+     DÉCLENCHER, pas le découvrir déjà commencé. Aux visites mémorisées,
+     la porte est déjà ouverte — la promesse est résolue d'emblée. */
+  let openPortalGate = () => {};
+  const portalGate = portalActive
+    ? new Promise(res => { openPortalGate = res; })
+    : Promise.resolve();
+  if (portalActive) {
+    const enterBtn = $('#portalEnter'), quietBtn = $('#portalQuiet');
+
+    /* Le reste de la page est mis hors d'atteinte pendant que le voile est
+       là : `inert` retire d'un coup le focus clavier ET l'arbre
+       d'accessibilité, ce qu'aria-hidden seul ne fait pas. On le pose sur
+       les frères du voile, jamais sur un ancêtre commun — sinon le voile
+       s'inerterait lui-même. */
+    const siblings = [...document.body.children].filter(el => el !== portal && el.tagName !== 'NOSCRIPT');
+    siblings.forEach(el => el.setAttribute('inert', ''));
+
+    let leaving = false;
+    const leavePortal = withSound => {
+      if (leaving) return;
+      leaving = true;
+      try { localStorage.setItem('syfir-portal', withSound ? 'son' : 'muet'); } catch (e) {}
+      siblings.forEach(el => el.removeAttribute('inert'));
+      document.removeEventListener('keydown', onPortalKey);
+      // Le focus ne doit pas retomber dans le vide : on le rend au début
+      // du document, là où le visiteur vient d'arriver.
+      const first = document.querySelector('.skip-link') || document.body;
+      if (first.focus) { first.setAttribute('tabindex', '-1'); first.focus({ preventScroll: true }); }
+
+      /* CONTINUITÉ (point d'architecture 3 de la passation) : le ciel
+         d'arrivée est DÉJÀ peint derrière le voile — La Traversée a posé
+         son palier avant tout scroll. On ne force donc aucun palier : on
+         baisse simplement l'opacité du voile, et le fondu croisé se fait
+         tout seul entre la nuit de la porte et le ciel du site. Aucun saut
+         possible, quel que soit le palier d'arrivée (day, dusk ou night
+         selon le thème). */
+      openPortalGate();
+      // Le son ne démarre QUE là : sur le geste explicite, jamais avant.
+      if (withSound && ambienceAllowed) ambience.start();
+      if (reducedMotion) { document.documentElement.setAttribute('data-portal', 'done'); return; }
+      portal.classList.add('is-leaving');
+      let closed = false;
+      const finish = () => {
+        if (closed) return;
+        closed = true;
+        document.documentElement.setAttribute('data-portal', 'done');
+      };
+      /* transitionend REMONTE depuis les enfants : sans ce filtre, la
+         transition du bouton qui perd le survol au moment du clic terminait
+         la levée dans la même frame — le fondu ne se voyait jamais.
+         Constaté à la mesure (opacité échantillonnée à 0 d'emblée). */
+      portal.addEventListener('transitionend', e => {
+        if (e.target === portal && e.propertyName === 'opacity') finish();
+      });
+      setTimeout(finish, 1200);   // filet : une transition peut ne jamais finir
+    };
+
+    /* Piège de focus : Tab et Shift+Tab tournent entre les deux commandes.
+       Échap = entrer sans le son — une porte doit rester franchissable au
+       clavier, jamais une impasse pour un lecteur d'écran. */
+    function onPortalKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); leavePortal(false); return; }
       if (e.key !== 'Tab') return;
-      const f = [...gate.querySelectorAll('button, a')];
+      const f = [enterBtn, quietBtn].filter(Boolean);
+      if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    document.addEventListener('keydown', onPortalKey);
+
+    enterBtn?.addEventListener('click', () => leavePortal(true));
+    quietBtn?.addEventListener('click', () => leavePortal(false));
+    requestAnimationFrame(() => enterBtn?.focus());
+  }
+
+  /* ===== 07b-ter. R93 — LE RÉGLAGE DU SON (nav de l'accueil) =====
+     Visible et persistant, état mémorisé. Trois états, parce que deux
+     mentiraient : le navigateur EXIGE un geste avant de produire du son,
+     donc une préférence « son » au rechargement n'est pas « coupé » — elle
+     est EN ATTENTE. Le bouton le montre (état « prêt », point doré qui
+     respire) plutôt que d'afficher un haut-parleur barré trompeur, et
+     n'importe quel geste sur la page suffit à la réveiller : c'est un
+     geste valide au sens des navigateurs. */
+  const soundBtn = $('#soundBtn');
+  if (soundBtn && ambienceAllowed && ambience.available()) {
+    soundBtn.hidden = false;
+    const setSoundState = state => {
+      soundBtn.dataset.sound = state;
+      soundBtn.setAttribute('aria-pressed', String(state === 'on'));
+      soundBtn.setAttribute('aria-label',
+        state === 'on' ? 'Couper l\'ambiance sonore'
+        : state === 'ready' ? 'Ambiance sonore prête — touchez pour la lancer'
+        : 'Activer l\'ambiance sonore');
+      soundBtn.title = soundBtn.getAttribute('aria-label');
+    };
+    const wantsSound = () => {
+      try { return localStorage.getItem('syfir-sound') === 'on'; } catch (e) { return false; }
+    };
+    const rememberSound = on => {
+      try { localStorage.setItem('syfir-sound', on ? 'on' : 'off'); } catch (e) {}
+    };
+
+    // Réveil au premier geste, si et seulement si la préférence le demande.
+    let wakeArmed = false;
+    const wake = () => {
+      if (!wakeArmed) return;
+      disarmWake();
+      ambience.start();
+      setSoundState('on');
+    };
+    const wakeEvents = ['pointerdown', 'keydown', 'touchstart'];
+    function disarmWake() {
+      wakeArmed = false;
+      wakeEvents.forEach(e => removeEventListener(e, wake));
+    }
+    const armWake = () => {
+      if (wakeArmed) return;
+      wakeArmed = true;
+      wakeEvents.forEach(e => addEventListener(e, wake, { passive: true }));
+    };
+
+    soundBtn.addEventListener('click', e => {
+      e.stopPropagation();          // le clic ne doit pas déclencher aussi le réveil
+      disarmWake();
+      if (ambience.isPlaying()) { ambience.stop(); rememberSound(false); setSoundState('off'); }
+      else { ambience.start(); rememberSound(true); setSoundState('on'); }
     });
-    ageYes.addEventListener('click', () => {
-      localStorage.setItem('syfir-age-ok', '1');
-      gate.classList.add('age-out');
-      document.body.style.overflow = '';
-      setTimeout(() => gate.remove(), 450);
-    });
-    gate.querySelector('#ageNo').addEventListener('click', () => {
-      gate.querySelector('.age-box').innerHTML = `
-        <p class="age-logo">SYFIR<span>™</span></p>
-        <h2 id="ageTitle">À très vite ✦</h2>
-        <p class="age-sub">Ce site est réservé aux personnes majeures.<br>Pour s'informer sur l'alcool et être accompagné :</p>
-        <div class="age-actions">
-          <a class="btn btn-solid" href="https://www.alcool-info-service.fr" rel="noopener">alcool-info-service.fr</a>
-        </div>
-        <p class="age-note">L'abus d'alcool est dangereux pour la santé.</p>`;
-      gate.querySelector('a').focus();
+
+    // État initial. Le Portail décide pour la première visite ; ensuite
+    // c'est la préférence mémorisée qui parle.
+    if (portalActive) {
+      setSoundState('off');
+    } else if (wantsSound()) {
+      setSoundState('ready');
+      armWake();
+    } else {
+      setSoundState('off');
+    }
+    // Le Portail vient de démarrer le son : le bouton doit le refléter.
+    portalGate.then(() => {
+      if (ambience.isPlaying()) { rememberSound(true); setSoundState('on'); }
+      else if (!portalActive) { /* rien : l'état mémorisé fait déjà foi */ }
+      else { rememberSound(false); setSoundState('off'); }
     });
   }
 
@@ -900,14 +1073,30 @@
   artistFromHash();
   addEventListener('hashchange', artistFromHash);
 
-  /* ===== 12. FOND VIDÉO DU HERO (accueil + billetterie) =====
+  /* ===== 12. FOND VIDÉO DU HERO (accueil) =====
      Vidéo injectée APRÈS l'événement load : le LCP reste l'image de fond CSS
-     (poster). N'apparaît qu'une fois la lecture réellement lancée ; si aucune
-     source ne décode (ex. environnement sans codec H.264), l'image reste.
-     prefers-reduced-motion ou Save-Data -> pas de vidéo, l'image reste. */
+     (poster, préchargée en fetchpriority=high). N'apparaît qu'une fois la
+     lecture réellement lancée ; si aucune source ne décode (ex. environnement
+     sans codec H.264), l'image reste.
+     Trois portes de sortie -> pas de vidéo du tout, le poster reste :
+       - prefers-reduced-motion ;
+       - Save-Data (« économiseur de données » activé) ;
+       - connexion lente (effectiveType 2g/3g) — R91 : le film pèse ~9,5 Mo,
+         et autoplay le fait streamer en entier malgré preload=metadata. Le
+         télécharger sur un forfait mobile lent serait un coût imposé sans
+         contrepartie, le poster raconte déjà la même chose. */
   const injectHeroVideo = (host, sources, poster) => {
-    if (!host || reducedMotion || navigator.connection?.saveData) return;
-    addEventListener('load', () => {
+    const conn = navigator.connection;
+    const slowNet = /(^|-)[23]g$/.test(conn?.effectiveType || '');
+    if (!host || reducedMotion || conn?.saveData || slowNet) return;
+    /* R93/4 : le film attend que la porte soit franchie. Sur une visite
+       mémorisée, portalGate est déjà résolue et le comportement est
+       exactement celui d'avant. */
+    const afterLoad = cb => {
+      if (document.readyState === 'complete') cb();
+      else addEventListener('load', cb, { once: true });
+    };
+    afterLoad(() => portalGate.then(() => {
       const wrap = document.createElement('div');
       wrap.className = 'hero-video';
       wrap.setAttribute('aria-hidden', 'true');
@@ -941,15 +1130,45 @@
       tryPlay();
       events.forEach(e => addEventListener(e, kick, { passive: true, once: false }));
       document.addEventListener('visibilitychange', onVis);
-    }, { once: true });
+    }));
   };
 
-  // Accueil : la vidéo publicitaire officielle SYFIR (« la fraîcheur qu'on
-  // voit » — mouvement dès le premier écran). Poster = photo LCP du hero.
-  injectHeroVideo($('.hero#accueil'), ['videos/syfir-pub-video.mp4'], 'images/produits/syfir-pub-plage-1.webp');
-  // Billetterie : ambiance Pexels (fichier local d'abord, hotlink en secours)
-  injectHeroVideo($('.tickets-hero'), ['videos/syfir-pub-video.mp4'],
-    'images/ext/unsplash-photo-1492684223066-81342ee5ff30.jpg');
+  // R88 point (b) puis R89 point 3 : l'injection de videos/syfir-pub-video.mp4
+  // a été retirée du hero d'accueil ET de .tickets-hero (billetterie). Le
+  // fichier est nommé « pub » (publicité), au moins un de ses posters était
+  // un visuel produit confirmé, et le commentaire d'origine le décrivait comme
+  // « la vidéo publicitaire officielle SYFIR » — un faisceau d'indices
+  // suffisant pour ne pas la laisser sur des pages SYFIR sans l'avoir
+  // visionnée (aucun outil d'extraction vidéo dans ce bac à sable). Fichier
+  // conservé dans le dépôt, disponible pour avyr-site/.
+  //
+  // R90/R91 : premier film de marque conforme du projet (45 s, muet, fondus
+  // d'entrée et de sortie pour boucler), contenu vérifié image par image par
+  // le fondateur — aucun produit, aucune boisson, aucun logo tiers, aucun
+  // texte incrusté. Câblé uniquement sur le hero d'accueil — pas sur
+  // .tickets-hero, qui reste sur son image statique en attendant un jugement
+  // séparé. Ce n'est PAS un aftermovie (aucun événement n'a eu lieu) : ne
+  // jamais employer ce mot ici.
+  /* ⚠ R105 — PLUS DE FILM DANS LE HERO DE L'ACCUEIL.
+     « Il doit pas avoir la vidéo, ça doit être comme la maquette. » (Kily)
+     `maquettes/3-LUMIERE-DE-SCENE.html` n'a AUCUNE vidéo : son hero est une
+     photo fixe à opacité .5 avec un zoom lent, rien d'autre. L'appel
+     ci-dessous injectait le film par-dessus cette photo — un survivant que
+     ni la liste de R103 ni les 102 couches de `maquette.mjs` ne pouvaient
+     voir, parce qu'il n'est déclaré NULLE PART en CSS : il naît à
+     l'exécution.
+
+     LE FILM N'EST PAS SUPPRIMÉ. `videos/syfir-film-canva-web.mp4` et son
+     poster restent dans le dépôt — c'est un vrai travail du fondateur,
+     vérifié image par image, et il aura sa place ailleurs (`syf-tv.html`
+     est le candidat naturel). `injectHeroVideo` est donc CONSERVÉE telle
+     quelle, prête pour son futur hôte : on retire l'appel, pas l'outil.
+
+     Ce que ça change, mesuré : ici le <video> n'apparaissait déjà pas dans
+     le DOM (son gestionnaire d'erreur le retirait, faute de codec H.264
+     dans le conteneur) — mais les DEUX fichiers étaient tout de même
+     téléchargés, mp4 de ~9,5 Mo compris. Sur une machine avec les codecs,
+     le film s'injectait et se peignait. */
 
   /* ===== 13. FICHE PRODUIT — la carte cocktail mène à sa page dédiée (R28) =====
      Les modales de fiche produit sont remplacées par de vraies pages
@@ -969,6 +1188,16 @@
       goToProduct();
     });
   });
+
+  /* ===== 13b. R94 — LE POULS : plus rien à synchroniser ici =====
+     Une première version mettait en phase, en JS, une animation posée sur
+     CHAQUE élément d'appel. Deux mesures ont montré que poser une
+     animation sur ces éléments écrasait la leur (entrée de reveal, ombre
+     propre). Le pouls est donc devenu UNE horloge sur :root et des
+     consommateurs qui lisent une variable (style.css §41) : la mise en
+     phase n'est plus un problème à résoudre, c'est une conséquence — il
+     n'y a qu'une seule horloge. Ce bloc n'existe plus que pour dire
+     pourquoi il n'existe plus. */
 
   /* ===== 14. CARROUSEL DE LOGOS PARTENAIRES ===== */
   const logosTrack = $('#logosTrack');
@@ -1056,6 +1285,29 @@ if (placeModal && placesGridEl) {
     return setFieldState(field, result === true ? '' : result);
   };
 
+  /* ===== TRI DES PARTENAIRES OFFICIELS (R89 point 2) =====
+     Alphabétique par défaut (ordre déjà vrai des 2 cartes actuelles) ;
+     chronologique via data-added (ordre réel de validation, pas une date
+     inventée). Fonctionne dès aujourd'hui, prêt pour plus de partenaires. */
+  const officialSort = $('#officialSort');
+  const officialGrid = $('#officialGrid');
+  if (officialSort && officialGrid) {
+    officialSort.addEventListener('click', e => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      $$('.chip', officialSort).forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = $$('.official-card', officialGrid);
+      const key = btn.dataset.sort === 'alpha'
+        ? c => c.dataset.name
+        : c => +c.dataset.added;
+      cards.sort((a, b) => {
+        const ka = key(a), kb = key(b);
+        return typeof ka === 'string' ? ka.localeCompare(kb, 'fr') : ka - kb;
+      }).forEach(c => officialGrid.appendChild(c));
+    });
+  }
+
   const partnerForm = $('#partnerForm');
   if (partnerForm) {
     addDemoNote(partnerForm.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
@@ -1063,9 +1315,10 @@ if (placeModal && placesGridEl) {
     const contextConfig = {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
       evenement:    { label: 'Type d\'événement *',            placeholder: 'Mariage, soirée privée, festival…' },
+      'soiree-particulier': { label: 'Ta soirée *',            placeholder: 'Anniversaire, fête privée… + ce dont tu aurais besoin' },
       artiste:      { label: 'Nom de scène / du groupe *',     placeholder: 'DJ, chanteur, groupe… + style musical' },
       collaborateur:{ label: 'Ton rôle / talent *',          placeholder: 'Photographe, vidéaste, hôte·sse, ambassadeur·rice…' },
-      distributeur: { label: 'Zone de distribution *',         placeholder: 'Région, département, île…' },
+      'marque-partenaire': { label: 'Nom de ta marque *',       placeholder: 'Le nom de ta marque ou de ton produit' },
       investisseur: { label: 'Structure / société *',        placeholder: 'Société, fonds, particulier…' },
       autre:        { label: 'Objet de ta demande *',       placeholder: 'Presse, collaboration, idée…' }
     };
@@ -1076,6 +1329,18 @@ if (placeModal && placesGridEl) {
         $('#pfContext').placeholder = conf.placeholder;
         setFieldState($('#pfContext'), '');
       });
+    });
+
+    // R85 point 3 : un mineur ne peut pas valablement engager SYFIR sans
+    // représentant légal (droit des contrats) — les champs responsable
+    // légal n'apparaissent que si « Non » est choisi.
+    $('#pfMajeur')?.addEventListener('change', () => {
+      const isMinor = $('#pfMajeur').value === 'non';
+      $('#guardianFields').hidden = !isMinor;
+      if (!isMinor) {
+        setFieldState($('#pfGuardianName'), '');
+        setFieldState($('#pfGuardianContact'), '');
+      }
     });
 
     // Validation à la volée dès qu'un champ a été touché
@@ -1095,8 +1360,12 @@ if (placeModal && placesGridEl) {
     partnerForm.addEventListener('submit', async e => {
       e.preventDefault();
       const consent = $('#pfConsent');
+      const isMinor = $('#pfMajeur').value === 'non';
       const ok = [
         ...liveRules.map(([sel, rule]) => check($(sel), rule)),
+        check($('#pfMajeur'), validators.required),
+        !isMinor || check($('#pfGuardianName'), validators.required),
+        !isMinor || check($('#pfGuardianContact'), validators.required),
         setFieldState(consent, consent.checked ? '' : 'Merci de cocher cette case.')
       ].every(Boolean);
       if (!ok) {
@@ -1110,23 +1379,26 @@ if (placeModal && placesGridEl) {
         type: $('input[name="requestType"]:checked', partnerForm)?.value,
         name: $('#pfName').value.trim(), email: $('#pfEmail').value.trim(),
         phone: $('#pfPhone').value.trim(), context: $('#pfContext').value.trim(),
-        message: $('#pfMessage').value.trim(), source: 'partenaire'
+        message: $('#pfMessage').value.trim(), source: 'partenaire',
+        majeur: $('#pfMajeur').value,
+        guardianName: isMinor ? $('#pfGuardianName').value.trim() : '',
+        guardianContact: isMinor ? $('#pfGuardianContact').value.trim() : ''
       };
       const label = submitBtn.textContent; submitBtn.disabled = true; submitBtn.textContent = 'Envoi…';
       if (errorMsg) errorMsg.hidden = true;
       const res = await submitForm(data);
       submitBtn.disabled = false; submitBtn.textContent = label;
-      if (res.ok) {
+      if (res.demo) {
+        // Transmission désactivée (R80.1 final) : rien n'est stocké ni envoyé —
+        // la saisie reste visible dans le formulaire, pas de reset.
+        success.textContent = '✦ ' + DEMO_FORM_MSG;
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (res.ok) {
         partnerForm.reset();
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
-        // Mode démo : message VRAI (rien n'a été transmis) + contact réel
-        if (res.demo) {
-          success.textContent = '✦ ' + DEMO_FORM_MSG;
-          showToast('✦ Demande enregistrée sur cet appareil');
-        } else {
-          success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
-          showToast('✦ Demande envoyée à l\'équipe SYFIR !');
-        }
+        success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
+        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
         success.hidden = false;
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else if (errorMsg) {
@@ -1134,6 +1406,15 @@ if (placeModal && placesGridEl) {
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
+
+    // R78 : lien direct partageable depuis une carte de marque partenaire
+    // (partenaires.html?type=marque-partenaire#partnerForm) — présélectionne
+    // le type sans écraser le choix si l'utilisateur en change ensuite.
+    const urlType = new URLSearchParams(location.search).get('type');
+    if (urlType) {
+      const urlRadio = $(`input[name="requestType"][value="${urlType}"]`);
+      if (urlRadio) { urlRadio.checked = true; urlRadio.dispatchEvent(new Event('change')); }
+    }
 
     // R10 : intention transmise depuis une autre page (Booker, Rejoindre le
     // line-up, rôles…) — on présélectionne le type, pose la note/le message,
@@ -1206,31 +1487,9 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 19. VIDÉO D'AMBIANCE (accueil, communauté) =====
-     Remplace la façade aftermovie en attendant le vrai film : vidéo Pexels
-     muette en boucle, lancée après load (lazy, preload=none + poster).
-     prefers-reduced-motion -> pas d'autoplay, contrôles natifs à la place. */
-  const ambianceBox = $('#ambianceBox');
-  if (ambianceBox) {
-    const v = ambianceBox.querySelector('video');
-    const sound = ambianceBox.querySelector('.car-sound');
-    if (reducedMotion) {
-      v.controls = true;
-      sound.hidden = true;   // les contrôles natifs gèrent déjà le son
-    } else {
-      addEventListener('load', () => { v.play().catch(() => {}); }, { once: true });
-      sound.addEventListener('click', () => {
-        v.muted = !v.muted;
-        sound.textContent = v.muted ? '🔇' : '🔊';
-        sound.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
-        sound.setAttribute('aria-pressed', String(!v.muted));
-        if (v.paused) v.play().catch(() => {});
-      });
-      // aucune source ne charge (fichier absent + réseau) -> on retire le
-      // bouton son, le poster/fond reste en place
-      v.querySelector('source:last-of-type').addEventListener('error', () => { sound.hidden = true; });
-    }
-  }
+  /* ===== 19. VIDÉO D'AMBIANCE — retirée (R89 point 3) =====
+     #ambianceBox n'affiche plus qu'un fond statique (.ambiance-box, CSS) ;
+     plus de <video> ni de bouton son à initialiser. */
 
   /* ===== 20. TILT 3D LÉGER (data-tilt : vitrines de la pochette) =====
      Perspective + rotateX/Y suivant le pointeur, 6° max, retour doux
@@ -1476,11 +1735,12 @@ if (placeModal && placesGridEl) {
       if (btn) { btn.disabled = true; btn.textContent = '…'; }
       const res = await submitForm({ email, _gotcha: hp, source: 'newsletter' });
       if (btn) { btn.disabled = false; btn.textContent = label; }
-      if (res.ok) {
-        // Mode démo : on n'a rien transmis — message vrai, saisie gardée en local
-        msg.textContent = res.demo
-          ? '✦ C\'est noté sur cet appareil ! La transmission en ligne arrive très bientôt.'
-          : '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
+      if (res.demo) {
+        // Transmission désactivée (R80.1 final) : rien n'est stocké ni envoyé —
+        // l'email reste visible dans le champ, pas de reset.
+        msg.textContent = '✦ ' + DEMO_FORM_MSG;
+      } else if (res.ok) {
+        msg.textContent = '✦ Inscription confirmée ! À très vite pour les prochaines soirées.';
         form.reset();
       } else {
         msg.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
@@ -1499,27 +1759,48 @@ if (placeModal && placesGridEl) {
       .filter(ev => new Date(ev.date + 'T00:00:00') >= startOfToday)
       .sort((a, b) => a.date.localeCompare(b.date));
     if (!upcoming.length) {
-      nextBox.closest('.next-events').hidden = true;
+      /* R99 — L'ÉTAT VIDE ASSUMÉ, ET IL REMPLACE UN TROU.
+         Cette branche faisait `section.hidden = true` : quand aucune date
+         réelle n'est publiée, le bloc « Prochaines dates » DISPARAISSAIT.
+         C'est précisément la section que Kily pointait dans la maquette.
+         On n'invente aucun événement ; on assume le vide et on le
+         travaille — une seule carte, pleine largeur, même traitement. */
+      nextBox.classList.add('vide');
+      nextBox.innerHTML = `
+        <a class="date" href="partenaires.html?type=soiree-particulier#partnerForm">
+          <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" loading="lazy" decoding="async" width="1600" height="1068" alt="">
+          <span class="puce">Bient&ocirc;t</span>
+          <div class="quand">Prochainement</div>
+          <h3>Les prochaines dates arrivent.</h3>
+          <p class="ou">Rien de publi&eacute; pour l'instant &mdash; on n'annonce que du r&eacute;el. Organiser la mienne &rarr;</p>
+        </a>`;
     } else {
-      // Carte riche façon chaîne TV : badge catégorie, date+lieu, compte à rebours.
-      const fallback = 'images/produits/syfir-pub-plage-1.jpg';
+      /* R100 — CLASSES DE LA MAQUETTE : article.date > img / span.puce /
+         div.quand / h3 / p.ou. Le rendu n'émet plus .rb-card ni aucune
+         classe du site : celles-ci traînaient leur CSS hérité
+         (aspect-ratio 3/4, border-radius, box-shadow, overlay) qui se
+         battait contre les valeurs de la maquette. */
+      const fallback = 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg';
+      nextBox.classList.remove('vide');
       nextBox.innerHTML = upcoming.map(ev => {
         const d = new Date(ev.date + 'T12:00:00');
         const dateStr = d.getDate() + ' ' + S.MONTHS[d.getMonth()].toLowerCase();
-        const badge = ev.prive ? 'Privé 🔒' : (S.typeLabel[ev.type] || 'Soirée');
-        const badgeCls = ev.prive ? 'rb-badge-prive' : ('rb-badge-' + ev.type);
-        const st = S.stockLabel(ev);
+        /* La maquette met le JOUR et l'HEURE dans .quand (« Vendredi · 22h »),
+           et le LIEU dans .ou (« Le Gosier — toit-terrasse »). On respecte
+           ce partage avec les données réelles : date + heure d'un côté,
+           commune de l'autre. */
+        const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const heure = (ev.time || '').replace(':00', 'h').replace(':', 'h');
+        const quand = JOURS[d.getDay()] + ' ' + dateStr + (heure ? ' · ' + heure : '');
+        const badge = ev.prive ? 'Privé' : (S.typeLabel[ev.type] || 'Soirée');
         const img = ev.img || fallback;
         return `
-        <a class="rb-card" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
-          <picture class="rb-card-pic"><img class="rb-card-img" src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}"></picture>
-          ${st ? `<span class="rb-duration">${esc(st.text)}</span>` : ''}
-          <div class="rb-card-overlay">
-            <span class="rb-badge ${badgeCls}">${esc(badge)}</span>
-            <h3 class="rb-card-title">${esc(ev.name)}</h3>
-            <p class="rb-card-sub">📅 ${dateStr} · 📍 ${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
-            <span class="rb-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00"></span>
-          </div>
+        <a class="date" href="evenement.html?id=${ev.id}" aria-label="${esc(ev.name)} — ${esc(ev.city)}, le ${dateStr}">
+          <img src="${esc(img)}" onerror="this.onerror=null;this.src='${fallback}'" loading="lazy" decoding="async" width="900" height="1200" alt="${esc(ev.name)} — ${esc(ev.city)}">
+          <span class="puce">${esc(badge)}</span>
+          <div class="quand">${esc(quand)}</div>
+          <h3>${esc(ev.name)}</h3>
+          <p class="ou">${esc(ev.city)}${ev.demo ? ' · <span class="badge-demo">Exemple</span>' : ''}</p>
         </a>`;
       }).join('');
     }
@@ -1880,7 +2161,7 @@ if (placeModal && placesGridEl) {
     lb.innerHTML =
       '<button class="lightbox-close" type="button" aria-label="Fermer">✕</button>' +
       '<button class="lightbox-nav lightbox-prev" type="button" aria-label="Photo précédente">‹</button>' +
-      '<figure class="lightbox-stage"><img class="lightbox-img" alt=""><figcaption class="lightbox-cap"></figcaption></figure>' +
+      '<figure class="lightbox-stage"><img class="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt=""><figcaption class="lightbox-cap"></figcaption></figure>' +
       '<button class="lightbox-nav lightbox-next" type="button" aria-label="Photo suivante">›</button>' +
       '<p class="lightbox-count" aria-hidden="true"></p>';
     document.body.appendChild(lb);
@@ -2007,7 +2288,7 @@ if (placeModal && placesGridEl) {
       lb.innerHTML =
         `<button class="recap-close" type="button" aria-label="Fermer">✕</button>
          <button class="recap-nav recap-prev" type="button" aria-label="Photo précédente">‹</button>
-         <figure class="recap-stage"><img class="recap-img" alt="" decoding="async"><figcaption class="recap-cap"></figcaption></figure>
+         <figure class="recap-stage"><img class="recap-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" decoding="async"><figcaption class="recap-cap"></figcaption></figure>
          <button class="recap-nav recap-next" type="button" aria-label="Photo suivante">›</button>
          <span class="recap-count" aria-hidden="true"></span>`;
       document.body.appendChild(lb);
@@ -2051,6 +2332,98 @@ if (placeModal && placesGridEl) {
       const ev = S.getEvent(t.dataset.recap);
       if (ev && ev.recap && ev.recap.length) { e.preventDefault(); openRecap(ev); }
     });
+  })();
+
+  /* ===== 46. R98 — LA PROGRESSION DE LA SOIRÉE (accueil) =====
+     UNE SEULE HORLOGE, et elle ne fait qu'une chose : poser --p entre 0
+     et 1 sur :root, selon où on en est du défilement. Le ciel, les
+     faisceaux et la brume la CONSOMMENT depuis le CSS. C'est la forme
+     apprise en R94 — une horloge, des consommateurs — et c'est elle qui
+     n'écrase rien : aucune animation posée sur les couches, donc rien à
+     remettre en phase, rien à réinitialiser.
+
+     Ce que ça remplace : §46 posait quatre paliers discrets par
+     IntersectionObserver, §47 rejouait les mêmes trajectoires en repli,
+     et les keyframes CSS les redisaient une troisième fois. Trois
+     endroits à tenir alignés — la « dépendance triple » de la carte du
+     retrait. Il n'en reste qu'un, et il tient en dix lignes.
+
+     ⚠ L'ACCUEIL GRANDIT PENDANT QU'ON LE MESURE (piège R92 §4B) : les
+     sections `content-visibility: auto` ne déclarent leur hauteur qu'en
+     approchant du viewport. La hauteur de défilement est donc relue À
+     CHAQUE FRAME, jamais mise en cache : une valeur mesurée une seule
+     fois au chargement ferait arriver --p à 1 bien avant le bas de page.
+
+     PAS de garde `prefers-reduced-motion` ici, et c'est un choix motivé :
+     --p suit LE DÉFILEMENT DE L'UTILISATEUR, pas une horloge. Rien ne
+     bouge tout seul, rien ne clignote, rien ne défile de soi-même. Couper
+     --p reviendrait à figer le décor, or le principe du dépôt est
+     l'inverse : on coupe le mouvement, pas le décor (R92/10). Ce qui est
+     réellement animé — la rotation des faisceaux, la dérive de la brume —
+     est coupé, lui, dans le CSS. */
+  const ciel = $('.sky');
+  if (ciel) {
+    let enVol = false;
+    const poseP = () => {
+      enVol = false;
+      const doc = document.documentElement;
+      const course = doc.scrollHeight - innerHeight;
+      const p = course > 0 ? Math.min(1, Math.max(0, scrollY / course)) : 0;
+      /* Trois décimales : en dessous, l'œil ne voit rien et on ferait
+         recalculer le style pour du bruit ; au-dessus, on gagnerait une
+         précision que l'opacité peinte n'a pas. */
+      doc.style.setProperty('--p', p.toFixed(3));
+    };
+    const surDefilement = () => {
+      if (enVol) return;
+      enVol = true;
+      requestAnimationFrame(poseP);
+    };
+    addEventListener('scroll', surDefilement, { passive: true });
+    addEventListener('resize', surDefilement, { passive: true });
+    poseP();
+  }
+
+  /* ===== 47 (retiré, R98/1-4) — LA TRAVERSÉE =====
+     §46 posait les paliers du ciel (IntersectionObserver, resolveStage,
+     html[data-sky]) ; §47 était son repli requestAnimationFrame sans
+     scroll-timeline, et portait PISTES — les trajectoires du ciel
+     encodées PAR PRÉFÉRENCE DE THÈME.
+
+     Les trois étaient couplés, et leur propre commentaire l'annonçait :
+     PISTES devait rester synchronisé avec les keyframes CSS §39.2 et les
+     plafonds §39.3. Ils sont donc retirés ENSEMBLE — en retirer un seul
+     aurait laissé le site dans un état incohérent que rien n'aurait
+     signalé.
+
+     Il n'y a plus de passage jour -> nuit. Le voyage, lui, demeure : la
+     SOIRÉE AVANCE au défilement, entièrement dans la nuit, pilotée par
+     une seule variable --p calculée en rAF (R98/3). Une variable, pas
+     quatre paliers ; une horloge, pas trois endroits à tenir alignés. */
+
+  /* ===== 48. R92 — GARDE-FOU SAVE-DATA / RÉSEAU LENT =====
+     prefers-reduced-motion est une media query, donc le CSS la gère seul.
+     Save-Data et le type de connexion, NON : aucune media query ne les
+     expose de façon fiable (prefers-reduced-data n'est pas implémenté
+     partout). Il faut donc les traduire en attribut pour que le CSS
+     puisse s'en saisir.
+
+     CE QU'ON COUPE : le mouvement d'ambiance — scintillement des
+     étoiles, respiration des ampoules, filantes, éclats. CE QU'ON GARDE :
+     la traversée du ciel elle-même et TOUT le décor en version fixe. Un
+     visiteur en Save-Data doit voir le même site, pas un site amputé ;
+     on lui épargne les cycles processeur et la batterie, pas la nuit
+     étoilée.
+
+     Posé avant tout rendu utile, et jamais retiré : la préférence peut
+     changer en cours de navigation mais rebasculer l'ambiance en pleine
+     lecture serait plus perturbant que la garder coupée. */
+  (function initEconomie() {
+    if (!document.body.classList.contains('page-home')) return;
+    const conn = navigator.connection || navigator.webkitConnection;
+    if (!conn) return;
+    const lent = conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || '');
+    if (lent) document.documentElement.setAttribute('data-econome', '');
   })();
 
   /* ===== 45. HERO CARROUSEL PLEIN ÉCRAN (R8-C, accueil) — auto-rotation 6 s,
@@ -2105,7 +2478,7 @@ if (placeModal && placesGridEl) {
   if (!eventsGrid) return; // tout ce qui suit ne concerne que evenements.html
 
   /* ===== 30. DONNÉES & RENDU (source unique : events-data.js -> window.SYFIR) ===== */
-  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, stockLabel } = window.SYFIR;
+  const { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, stockLabel, ageLabel } = window.SYFIR;
   // Fourchette de prix réelle, calculée depuis les paliers (ex. « 20 € – 55 € »)
   const TIER_MULTS = () => TIERS_DEFAULT.map(t => t.mult);
   const priceRange = ev => {
@@ -2137,6 +2510,7 @@ if (placeModal && placesGridEl) {
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
     const stock = stockLabel(ev);
+    const age = ageLabel(ev);
     return `
     <article class="event-card${stock && stock.soldOut ? ' is-soldout' : ''}" data-id="${ev.id}" tabindex="0" role="link" aria-label="Voir ${esc(ev.name)}" style="animation-delay:${i * 0.07}s">
       <div class="event-card-media">
@@ -2152,6 +2526,7 @@ if (placeModal && placesGridEl) {
         ${ev.blurb ? `<p class="event-blurb">${esc(ev.blurb)}</p>` : ''}
         ${reco ? '<p class="event-reco">✦ Recommandé pour toi</p>' : ''}
         <p class="event-card-meta">${esc(when)}</p>
+        <p class="event-age-badge ${age.cls}">${age.icon} ${age.text}</p>
         ${genreTags(ev) ? `<div class="event-genres">${genreTags(ev)}</div>` : ''}
         <div class="event-card-foot">
           <span class="event-price"><small>Billets</small><strong>${priceRange(ev)}</strong></span>
@@ -2341,6 +2716,15 @@ if (placeModal && placesGridEl) {
     const when = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const loc = [currentEvent.city, currentEvent.venue].filter(Boolean).join(' · ');
     $('#tmMeta').textContent = `📍 ${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
+    // R82.1.1 : rappel de la condition d'âge AU MOMENT de la réservation
+    // (déjà visible sur la carte/fiche avant ce clic) — simple rappel,
+    // aucune vérification d'identité effectuée par le site.
+    const tmAge = ageLabel(currentEvent);
+    const tmAgeNote = $('#tmAgeNote');
+    if (tmAgeNote) {
+      if (tmAge.reminder) { tmAgeNote.textContent = `${tmAge.icon} ${tmAge.reminder}`; tmAgeNote.hidden = false; }
+      else tmAgeNote.hidden = true;
+    }
     $('#tmSuccess').hidden = true;
     $('#tmCalendar').hidden = true;
     $('#gateError').textContent = '';
@@ -2413,6 +2797,7 @@ if (placeModal && placesGridEl) {
       check($('#evDate'), v => (v && new Date(v) >= new Date().setHours(0, 0, 0, 0)) || 'Choisis une date à venir.'),
       check($('#evCity'), validators.required),
       check($('#evPrice'), v => (v !== '' && +v >= 0) || 'Indique un prix valide.'),
+      check($('#evAgeStatus'), validators.required),
       !isPrivate || check($('#evCode'), v => v.trim().length >= 4 || 'Code de 4 caractères minimum.')
     ].every(Boolean);
     if (!ok) {
@@ -2442,6 +2827,7 @@ if (placeModal && placesGridEl) {
       img: imgByType[$('#evType').value] || defaultImg,
       organizer: 'SYFIR Events',
       prive: isPrivate,
+      ageStatus: $('#evAgeStatus').value || 'a-confirmer',
       code: isPrivate ? $('#evCode').value.trim().toUpperCase() : undefined
     };
 
@@ -2453,10 +2839,13 @@ if (placeModal && placesGridEl) {
     refreshGenreOptions();
     renderEvents();
 
+    // Honnêteté (R80-4) : ce formulaire ne collecte aucun contact (nom/email/téléphone),
+    // donc pas de promesse de rappel ici — le devis sur les prestations se demande via
+    // le formulaire de contact (partenaires.html#partnerForm).
     const success = $('#proSuccess');
     success.textContent = isPrivate
-      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. On te recontacte avec un devis pour les prestations choisies.`
-      : `✦ Événement publié dans la billetterie SYFIR ! On te recontacte avec un devis pour les prestations choisies.`;
+      ? `✦ Événement privé créé ! Partage le code « ${newEvent.code} » avec tes invités. Pour un devis sur les prestations choisies, écris-nous via le formulaire de contact.`
+      : `✦ Événement publié dans la billetterie SYFIR ! Pour un devis sur les prestations choisies, écris-nous via le formulaire de contact.`;
     success.hidden = false;
 
     proForm.reset();

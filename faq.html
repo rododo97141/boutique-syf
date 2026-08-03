@@ -3,27 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FAQ SYFIR : la pochette, le degré d'alcool, où acheter, la conservation, les événements privés, les billets et l'âge minimum. Nos réponses claires.">
+<meta name="description" content="FAQ SYFIR : ce qu'est SYFIR, ce qu'il assure lui-même et ce qu'il met en relation, les soirées privées, les partenaires, les billets et la condition d'âge des événements.">
 <meta property="og:title" content="FAQ — SYFIR">
-<meta property="og:description" content="La pochette, où acheter, conservation, événements privés, partenaires, billets, âge minimum — tout ce qu'on nous demande le plus souvent.">
-<meta property="og:image" content="images/produits/syfir-pub-duo.jpg">
+<meta property="og:description" content="Ce qu'est SYFIR, ce qu'il assure et ce qu'il met en relation, les soirées privées, les partenaires, les billets, la condition d'âge — tout ce qu'on nous demande le plus souvent.">
+<meta property="og:image" content="images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syfir-pub-duo.jpg">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg">
 <title>FAQ — SYFIR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -31,15 +26,13 @@
 <!-- JSON-LD FAQPage — rich result Google (réponses honnêtes, sans donnée inventée) -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Qu'est-ce qu'une pochette AVYR ?","acceptedAnswer":{"@type":"Answer","text":"Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, refermable et transportable. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux."}},
-{"@type":"Question","name":"Quel est le degré d'alcool ?","acceptedAnswer":{"@type":"Answer","text":"Nos cocktails sont des boissons alcoolisées servies prêtes à boire. Le degré exact figure sur chaque pochette et sur sa fiche produit. À consommer avec modération, jamais avant 18 ans."}},
-{"@type":"Question","name":"Où acheter les pochettes AVYR ?","acceptedAnswer":{"@type":"Answer","text":"Chez nos partenaires en Guadeloupe : bars, beach clubs, hôtels, restaurants et boutiques. Retrouve-les tous sur la carte « Où nous trouver » de l'accueil. La vente en ligne, c'est pour bientôt."}},
-{"@type":"Question","name":"Comment conserver une pochette ?","acceptedAnswer":{"@type":"Answer","text":"Au frais, à l'abri du soleil. Avant de la boire : deux heures au congélateur ou un bon bain de glace. Une fois ouverte, elle se déguste tout de suite, c'est fait pour."}},
-{"@type":"Question","name":"Sur place ou à emporter, quelle différence ?","acceptedAnswer":{"@type":"Answer","text":"Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à boire où tu veux. Même saveur, deux formats."}},
-{"@type":"Question","name":"Vous organisez les événements privés ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Anniversaires, mariages, soirées d'entreprise : on amène les cocktails, le bar et l'ambiance. Raconte-nous ton projet sur la page Devenir partenaire."}},
-{"@type":"Question","name":"Comment devenir revendeur ou partenaire ?","acceptedAnswer":{"@type":"Answer","text":"Bar, club, plage, hôtel, boutique ou distributeur : présente-nous ton lieu sur la page Devenir partenaire, on revient vers toi vite."}},
+{"@type":"Question","name":"C'est quoi SYFIR ?","acceptedAnswer":{"@type":"Answer","text":"SYFIR est une identité de fête et de musique, portée par un écosystème de services. Deux échelles : SYFIR et ses partenaires produisent les grands événements — festivals, concerts, grandes soirées ; et l'accompagnement des soirées créées par des particuliers est une offre en construction."}},
+{"@type":"Question","name":"SYFIR fournit-il les prestations, ou met-il en relation ?","acceptedAnswer":{"@type":"Answer","text":"SYFIR assure lui-même sa billetterie et son Smartboard organisateur. Pour tout le reste — lieu, artistes, son, lumière, photo, décoration, sécurité, restauration — il met en relation avec des prestataires sélectionnés de son écosystème. Le service est assuré par le prestataire, et le contrat est conclu directement avec lui."}},
+{"@type":"Question","name":"AVYR, c'est SYFIR ?","acceptedAnswer":{"@type":"Answer","text":"Non. AVYR est une marque partenaire indépendante de cocktails, qui n'est ni éditée ni vendue par SYFIR. Elle a son propre site. Sur le site SYFIR, elle est présentée comme partenaire de l'écosystème, au même titre que les lieux, les talents et les prestataires."}},
+{"@type":"Question","name":"SYFIR peut-il m'aider à organiser une soirée privée ?","acceptedAnswer":{"@type":"Answer","text":"L'accompagnement des soirées créées par des particuliers est une offre en construction : elle n'est pas encore ouverte. SYFIR ne fournit pas lui-même les prestations (lieu, DJ, traiteur, son, déco) — il met en relation avec des prestataires sélectionnés, avec qui le contrat est conclu directement. Tu peux déjà nous dire ce dont tu aurais besoin depuis la page Devenir partenaire."}},
+{"@type":"Question","name":"Comment devenir partenaire de l'écosystème SYFIR ?","acceptedAnswer":{"@type":"Answer","text":"Lieu, artiste, prestataire technique, marque ou média : candidate depuis la page Devenir partenaire. Chaque candidature est examinée, rien n'est automatique, et un partenaire n'est publié qu'avec son accord explicite. Le détail est dans la rubrique Sélection et référencement des partenaires."}},
 {"@type":"Question","name":"Les billets sont-ils remboursables ?","acceptedAnswer":{"@type":"Answer","text":"Chaque événement a ses conditions, précisées au moment de la réservation et dans nos CGV. En cas d'annulation d'une soirée SYFIR, on te recontacte pour le remboursement ou le report."}},
-{"@type":"Question","name":"Quel est l'âge minimum ?","acceptedAnswer":{"@type":"Answer","text":"18 ans. La vente d'alcool est interdite aux mineurs (loi Évin). On te demande de confirmer ta majorité avant d'entrer, et on ne rigole pas avec ça."}}
+{"@type":"Question","name":"Quel est l'âge minimum pour un événement SYFIR ?","acceptedAnswer":{"@type":"Answer","text":"Ça dépend de l'événement. Chaque événement affiche sa condition d'âge — tout public, 16 ans et plus, 18 ans et plus, ou à confirmer — et elle est rappelée au moment de la réservation. L'organisateur ou le lieu peut demander un justificatif à l'entrée. Par ailleurs, la vente d'alcool est interdite aux mineurs (art. L.3342-1 du Code de la santé publique)."}}
 ]}
 </script>
 <link rel="manifest" href="manifest.webmanifest">
@@ -47,6 +40,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -64,32 +61,24 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -101,15 +90,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -118,9 +98,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="faq.html" aria-current="page">FAQ</a>
@@ -142,7 +122,7 @@
   <div class="container">
     <p class="eyebrow reveal">On te répond</p>
     <h1 class="h2 reveal d1">Questions <em>fréquentes</em></h1>
-    <p class="section-intro reveal d2">Tout ce qu'on nous demande le plus souvent — la pochette, où l'acheter, les soirées. Une question de plus&nbsp;? <a href="partenaires.html#partnerForm">Écris-nous</a>.</p>
+    <p class="section-intro reveal d2">Tout ce qu'on nous demande le plus souvent — SYFIR, les événements, les partenaires, les soirées. Une question de plus&nbsp;? <a href="partenaires.html#partnerForm">Écris-nous</a>.</p>
   </div>
 </header>
 
@@ -153,39 +133,35 @@
   <div class="container faq-wrap">
     <div class="faq-list">
 
+      <!-- R83 point 4 : la FAQ SYFIR portait majoritairement sur le produit
+           AVYR (pochette, degré d'alcool, conservation, où acheter, sur place
+           vs à emporter) sous le nom SYFIR — elle laissait croire que SYFIR
+           est la marque de cocktail. Ces questions relèvent du site AVYR, qui
+           les traite déjà (collection.html, format.html, art-de-servir.html).
+           La FAQ SYFIR répond désormais sur SYFIR. -->
       <details class="faq-item reveal" open>
-        <summary><span class="faq-q">Qu'est-ce qu'une pochette AVYR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Une pochette, c'est un cocktail premium prêt à boire, scellée à la main, refermable et transportable. Tu la glisses dans ton sac, tu la plantes dans la glace, tu la sirotes où tu veux.</p></div>
+        <summary><span class="faq-q">C'est quoi SYFIR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>SYFIR est une identité de fête et de musique, portée par un écosystème de services. Deux échelles : SYFIR et ses partenaires produisent les grands événements — festivals, concerts, grandes soirées&nbsp;; et l'accompagnement des soirées créées par des particuliers est une offre en construction.</p></div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-q">Quel est le degré d'alcool&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Nos cocktails sont des boissons alcoolisées servies prêtes à boire. Le degré exact figure sur chaque pochette et sur sa fiche produit. À consommer avec modération, jamais avant 18&nbsp;ans.</p></div>
+        <summary><span class="faq-q">SYFIR fournit-il les prestations, ou met-il en relation&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>SYFIR assure lui-même sa billetterie et son Smartboard organisateur. Pour tout le reste — lieu, artistes, son, lumière, photo, décoration, sécurité, restauration — il met en relation avec des <strong>prestataires sélectionnés</strong> de son écosystème. Le service est assuré par le prestataire, et le contrat est conclu directement avec lui. <a href="partenaires.html#referencement">Comment on sélectionne et référence →</a></p></div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-q">Où acheter les pochettes AVYR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Chez nos partenaires en Guadeloupe : bars, beach clubs, hôtels, restaurants et boutiques. Retrouve-les tous sur la carte <a href="index.html#ou-trouver">«&nbsp;Où nous trouver&nbsp;»</a>. La vente en ligne, c'est pour bientôt.</p></div>
+        <summary><span class="faq-q">AVYR, c'est SYFIR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Non. AVYR est une marque partenaire indépendante de cocktails, qui n'est ni éditée ni vendue par SYFIR. Elle a son propre site. Sur le site SYFIR, elle est présentée comme partenaire de l'écosystème, au même titre que les lieux, les talents et les prestataires. <a href="partenaire-avyr.html">La page AVYR →</a></p></div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-q">Comment conserver une pochette&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Au frais, à l'abri du soleil. Avant de la boire : deux heures au congélateur ou un bon bain de glace. Une fois ouverte, elle se déguste tout de suite — c'est fait pour. Retrouve nos rituels sur la page <a href="saveurs.html#rituels">AVYR cocktail</a>.</p></div>
+        <summary><span class="faq-q">SYFIR peut-il m'aider à organiser une soirée privée&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>L'accompagnement des soirées créées par des particuliers est une <strong>offre en construction</strong> : elle n'est pas encore ouverte. SYFIR ne fournit pas lui-même les prestations (lieu, DJ, traiteur, son, déco) — il met en relation avec des prestataires sélectionnés, avec qui le contrat est conclu directement. Tu peux déjà nous dire ce dont tu aurais besoin depuis la page <a href="partenaires.html?type=soiree-particulier#partnerForm">Devenir partenaire</a>.</p></div>
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-q">Sur place ou à emporter, quelle différence&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Sur place, ton cocktail est servi au verre chez nos partenaires. À emporter, c'est la pochette scellée, à boire où tu veux. Même saveur, deux formats.</p></div>
-      </details>
-
-      <details class="faq-item reveal">
-        <summary><span class="faq-q">Vous organisez les événements privés&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Oui. Anniversaires, mariages, soirées d'entreprise : on amène les cocktails, le bar et l'ambiance. Raconte-nous ton projet sur la page <a href="partenaires.html">Devenir partenaire</a>.</p></div>
-      </details>
-
-      <details class="faq-item reveal">
-        <summary><span class="faq-q">Comment devenir revendeur ou partenaire&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>Bar, club, plage, hôtel, boutique ou distributeur : présente-nous ton lieu sur la page <a href="partenaires.html">Devenir partenaire</a>, on revient vers toi vite.</p></div>
+        <summary><span class="faq-q">Comment devenir partenaire de l'écosystème SYFIR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Lieu, artiste, prestataire technique, marque ou média : candidate depuis la page <a href="partenaires.html#partnerForm">Devenir partenaire</a>. Chaque candidature est examinée, rien n'est automatique, et un partenaire n'est publié qu'avec son accord explicite. Le détail est dans la rubrique <a href="partenaires.html#referencement">Sélection et référencement des partenaires</a>.</p></div>
       </details>
 
       <details class="faq-item reveal">
@@ -194,8 +170,8 @@
       </details>
 
       <details class="faq-item reveal">
-        <summary><span class="faq-q">Quel est l'âge minimum&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
-        <div class="faq-a"><p>18&nbsp;ans. La vente d'alcool est interdite aux mineurs (loi Évin). On te demande de confirmer ta majorité avant d'entrer — et on ne rigole pas avec ça.</p></div>
+        <summary><span class="faq-q">Quel est l'âge minimum pour un événement SYFIR&nbsp;?</span><span class="faq-ic" aria-hidden="true"></span></summary>
+        <div class="faq-a"><p>Ça dépend de l'événement. Chaque événement affiche sa condition d'âge — tout public, 16&nbsp;ans et plus, 18&nbsp;ans et plus, ou à confirmer — et elle est rappelée au moment de la réservation. L'organisateur ou le lieu peut demander un justificatif à l'entrée. Par ailleurs, la vente d'alcool est interdite aux mineurs (art. L.3342-1 du Code de la santé publique).</p></div>
       </details>
 
     </div>
@@ -212,7 +188,7 @@
 <footer>
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">AVYR cocktail.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -230,19 +206,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>Aide</h3>

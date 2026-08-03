@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYFIR — Lumière de scène</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&display=swap">
+<style>
+/* ============================================================
+   MAQUETTE 3 — LUMIÈRE DE SCÈNE
+   Un seul monde : la nuit bleue d'un festival, vue de l'intérieur.
+   La soirée avance : les projecteurs s'allument, la brume monte,
+   la scène se remplit. L'or reste un détail.
+   ============================================================ */
+:root{
+  --nuit-0:#04070f;
+  --nuit-1:#060d1c;
+  --nuit-2:#0a1226;
+  --bleu:#2f6dff;
+  --bleu-clair:#7fb2ff;
+  --or:#e9c988;
+  --blanc:#fffaf0;
+  --creme:#eef2f8;
+  --creme-doux:rgba(238,242,248,.68);
+  --p:0;
+  --bpm:1.034s;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--nuit-0); color:var(--creme);
+  font:400 17px/1.68 "Plus Jakarta Sans",system-ui,sans-serif;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased}
+
+/* ---------- la nuit bleue ---------- */
+.nuit{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+.nuit i{position:absolute; inset:-8%; display:block}
+.n0{background:
+  radial-gradient(80% 55% at 50% -5%, #10224a 0%, transparent 62%),
+  linear-gradient(180deg,#04070f,#050a15);
+  opacity:calc(1 - var(--p)*1.1)}
+.n1{background:
+  radial-gradient(85% 55% at 50% 5%, #16336e 0%, transparent 60%),
+  radial-gradient(60% 45% at 12% 60%, #0d2f52 0%, transparent 62%),
+  linear-gradient(180deg,#050b18,#08101f);
+  opacity:calc(1 - abs(var(--p)*2 - 1))}
+.n2{background:
+  radial-gradient(90% 55% at 50% 8%, #1e3f8a 0%, transparent 58%),
+  radial-gradient(65% 50% at 85% 75%, #2a1a5e 0%, transparent 60%),
+  linear-gradient(180deg,#08101f,#0c1428);
+  opacity:calc(var(--p)*1.15 - .15)}
+
+/* projecteurs : ils s'ouvrent avec la soirée */
+.projos{position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+  mix-blend-mode:screen; opacity:calc(.2 + var(--p)*.8)}
+.projos b{position:absolute; top:-14vh; left:50%; display:block;
+  width:16vw; height:135vh; transform-origin:50% 0; filter:blur(22px);
+  background:linear-gradient(180deg,rgba(255,250,240,.5) 0%,rgba(127,178,255,.18) 40%,transparent 72%);
+  animation:pivote 11s ease-in-out infinite alternate}
+.p1{transform:rotate(-30deg) translateX(-160%); animation-delay:-1s}
+.p2{transform:rotate(-11deg) translateX(-60%);  animation-delay:-5s}
+.p3{transform:rotate(11deg)  translateX(40%);   animation-delay:-8s}
+.p4{transform:rotate(30deg)  translateX(140%);  animation-delay:-3s}
+@keyframes pivote{from{transform:rotate(-34deg) translateX(-120%)}
+                  to  {transform:rotate(22deg)  translateX(60%)}}
+
+/* brume */
+.brume{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:calc(.25 + var(--p)*.5);
+  background:
+    radial-gradient(55% 30% at 25% 82%, rgba(127,178,255,.2), transparent 70%),
+    radial-gradient(50% 28% at 75% 92%, rgba(255,250,240,.13), transparent 72%);
+  animation:derive 22s ease-in-out infinite alternate}
+@keyframes derive{from{transform:translateX(-3%) translateY(0)}
+                  to  {transform:translateX(3%)  translateY(-2%)}}
+
+main{position:relative; z-index:3}
+.sec{max-width:1240px; margin:0 auto; padding:clamp(80px,13vh,150px) 26px}
+.eyebrow{font:600 11px/1 "Plus Jakarta Sans"; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--or); margin:0 0 20px}
+h2{font:800 clamp(34px,5.4vw,66px)/1.05 "Unbounded"; margin:0 0 24px; letter-spacing:-.035em;
+  text-transform:uppercase}
+h2 em{font:400 clamp(34px,5.4vw,66px)/1.05 "Fraunces"; font-style:italic; text-transform:none;
+  letter-spacing:-.01em; color:var(--bleu-clair)}
+p.lead{font-size:clamp(17px,1.9vw,21px); color:var(--creme-doux); max-width:60ch; margin:0 0 30px}
+
+/* ---------- hero ---------- */
+.hero{position:relative; min-height:100svh; display:grid; place-items:center; text-align:center;
+  padding:0 26px}
+.hero-photo{position:absolute; inset:0; z-index:-1; overflow:hidden}
+.hero-photo img{width:100%;height:100%;object-fit:cover; opacity:.5;
+  filter:contrast(1.12) saturate(.92) brightness(.92);
+  animation:respire 34s ease-in-out infinite alternate}
+@keyframes respire{from{transform:scale(1.06)}to{transform:scale(1.16)}}
+.hero-photo::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(4,7,15,.72),rgba(4,7,15,.3) 42%,rgba(4,7,15,.94)),
+             radial-gradient(60% 42% at 50% 22%,rgba(127,178,255,.2),transparent 72%)}
+.marque{font:800 clamp(58px,15vw,210px)/.86 "Unbounded"; letter-spacing:-.05em; margin:0 0 4px;
+  color:var(--blanc); text-shadow:0 0 90px rgba(127,178,255,.5), 0 0 30px rgba(255,250,240,.25)}
+.hero .sous{font:600 11px/1 "Plus Jakarta Sans"; letter-spacing:.5em; text-transform:uppercase;
+  color:var(--or); margin:0 0 34px}
+.hero .tag{font:300 clamp(20px,2.5vw,32px)/1.35 "Fraunces"; font-style:italic;
+  color:var(--creme); margin:0 0 40px; max-width:20ch}
+.actions{display:flex; gap:14px; flex-wrap:wrap; justify-content:center}
+.btn{display:inline-flex; align-items:center; gap:10px; padding:17px 34px; border-radius:999px;
+  font:600 12.5px/1 "Plus Jakarta Sans"; letter-spacing:.16em; text-transform:uppercase;
+  text-decoration:none; border:1px solid transparent; transition:.3s}
+.btn-1{color:#04070f; background:var(--blanc); animation:phare var(--bpm) ease-out infinite}
+@keyframes phare{0%{box-shadow:0 0 0 0 rgba(255,250,240,.45)}
+                 70%{box-shadow:0 0 0 20px rgba(255,250,240,0)}
+                 100%{box-shadow:0 0 0 0 rgba(255,250,240,0)}}
+.btn-2{color:var(--creme); border-color:rgba(238,242,248,.32); backdrop-filter:blur(6px)}
+.btn-2:hover{border-color:var(--or); color:var(--or)}
+.btn-1:hover{transform:translateY(-2px)}
+
+/* ---------- plein cadre ---------- */
+.plein{position:relative; min-height:96vh; display:grid; align-items:center; isolation:isolate;
+  margin:0; overflow:hidden}
+.plein img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;
+  opacity:.56; filter:contrast(1.1) saturate(.95)}
+.plein::after{content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(90deg,rgba(4,7,15,.94) 6%,rgba(4,7,15,.28) 62%,rgba(4,7,15,.8)),
+             linear-gradient(180deg,rgba(4,7,15,.7),transparent 25%,rgba(4,7,15,.7))}
+.plein .dedans{max-width:1240px; margin:0 auto; padding:0 26px; width:100%}
+.plein .bloc{max-width:36ch}
+
+/* ---------- dates ---------- */
+.dates{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:2px;
+  background:rgba(238,242,248,.1)}
+.date{position:relative; overflow:hidden; min-height:400px; display:flex; flex-direction:column;
+  justify-content:flex-end; padding:30px; isolation:isolate; transition:.45s}
+.date img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;
+  opacity:.55; filter:contrast(1.1) saturate(.9); transition:.9s}
+.date::after{content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg,rgba(4,7,15,.35) 0%,transparent 30%,rgba(4,7,15,.95) 92%)}
+.date:hover img{opacity:.78; transform:scale(1.05)}
+.date .quand{font:600 10.5px/1 "Plus Jakarta Sans"; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--or); margin-bottom:12px}
+.date h3{font:600 26px/1.15 "Unbounded"; margin:0 0 8px; letter-spacing:-.02em}
+.date .ou{color:var(--creme-doux); font-size:14.5px; margin:0}
+.puce{position:absolute; top:22px; left:22px; z-index:1; font:600 10px/1 "Plus Jakarta Sans";
+  letter-spacing:.24em; text-transform:uppercase; padding:9px 14px; border-radius:999px;
+  background:rgba(4,7,15,.6); border:1px solid rgba(238,242,248,.3); backdrop-filter:blur(8px)}
+
+/* ---------- écosystème ---------- */
+.eco{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:18px}
+.eco .c{padding:28px 24px; border-radius:14px; background:rgba(238,242,248,.04);
+  border:1px solid rgba(238,242,248,.1); transition:.35s}
+.eco .c:hover{background:rgba(47,109,255,.12); border-color:rgba(127,178,255,.45)}
+.eco .c b{display:block; font:600 15px/1.3 "Unbounded"; letter-spacing:-.01em; margin-bottom:9px}
+.eco .c span{color:var(--creme-doux); font-size:14.5px}
+
+footer{position:relative; z-index:3; padding:80px 26px 48px;
+  background:rgba(3,6,13,.86); border-top:1px solid rgba(238,242,248,.1); backdrop-filter:blur(16px)}
+.f-in{max-width:1240px; margin:0 auto; text-align:center}
+.signe{font:800 clamp(50px,12vw,150px)/.88 "Unbounded"; letter-spacing:-.05em; margin:0 0 14px;
+  color:var(--blanc); opacity:.14}
+.sante{font-size:13px; color:rgba(238,242,248,.82); margin:26px 0 0; padding-top:20px;
+  border-top:1px solid rgba(238,242,248,.1)}
+
+nav{position:fixed; top:0; left:0; right:0; z-index:9; display:flex; align-items:center;
+  justify-content:space-between; padding:16px 26px; backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,rgba(4,7,15,.9),rgba(4,7,15,.2));
+  border-bottom:1px solid rgba(238,242,248,.08)}
+nav .lg{font:800 19px/1 "Unbounded"; letter-spacing:-.03em; color:var(--blanc); text-decoration:none}
+nav .lk{display:flex; gap:30px}
+nav a.l{color:var(--creme-doux); text-decoration:none; font-size:11.5px; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase}
+nav a.l:hover{color:var(--or)}
+@media(max-width:720px){nav .lk{display:none}}
+
+.tag-maq{position:fixed; left:14px; bottom:14px; z-index:99; font:600 12px/1.3 system-ui;
+  background:rgba(4,7,15,.92); color:#eef2f8; border:1px solid rgba(233,201,136,.5);
+  border-radius:999px; padding:9px 15px}
+.tag-maq b{display:block; font-size:10px; letter-spacing:.12em; opacity:.6; text-transform:uppercase}
+
+.rev{opacity:0; transform:translateY(28px); transition:opacity 1s, transform 1s}
+.rev.in{opacity:1; transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  .rev{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nuit" aria-hidden="true"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+<div class="projos" aria-hidden="true"><b class="p1"></b><b class="p2"></b><b class="p3"></b><b class="p4"></b></div>
+<div class="brume" aria-hidden="true"></div>
+
+<nav>
+  <a class="lg" href="#">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="#dates">Événements</a>
+    <a class="l" href="#scene">Artistes</a>
+    <a class="l" href="#eco">Écosystème</a>
+    <a class="l" href="#">SYFIR TV</a>
+  </div>
+</nav>
+
+<main>
+
+  <header class="hero">
+    <div class="hero-photo"><img src="img/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt=""></div>
+    <div>
+      <h1 class="marque rev">SYFIR</h1>
+      <p class="sous rev">Guadeloupe · Caraïbe</p>
+      <p class="tag rev">Entre dans la nuit.</p>
+      <div class="actions rev">
+        <a class="btn btn-1" href="#dates">Entrer dans la fête</a>
+        <a class="btn btn-2" href="#eco">Organiser la mienne</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="sec">
+    <p class="eyebrow rev">Le manifeste</p>
+    <h2 class="rev">Un réseau,<br><em>pas un catalogue.</em></h2>
+    <p class="lead rev">SYFIR est une identité de fête et de musique, portée par un écosystème
+      de services. Les partenaires sont des lieux, des marques, des talents et des
+      savoir-faire qui font vivre une expérience. SYFIR relie et combine — chaque
+      métier reste maître de ce qu'il apporte.</p>
+  </section>
+
+  <section class="plein" id="scene">
+    <img src="img/unsplash-photo-1493676304819-0d7a8d026dcf.jpg" alt="">
+    <div class="dedans">
+      <div class="bloc rev">
+        <p class="eyebrow">Artistes, DJs &amp; groupes live</p>
+        <h2>Ceux qui font monter<br><em>la température.</em></h2>
+        <p class="lead">Kompa, bouyon, zouk, afro. Ceux qui tiennent une salle jusqu'au
+          bout de la nuit, et ceux qu'on découvre avant tout le monde.</p>
+        <a class="btn btn-2" href="#">Voir le line-up</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="dates">
+    <p class="eyebrow rev">Trois dates. Zéro excuse.</p>
+    <h2 class="rev">Là où le moment<br><em>devient une scène.</em></h2>
+  </section>
+  <div class="dates">
+    <article class="date rev">
+      <img src="img/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="">
+      <span class="puce">Rooftop</span>
+      <div class="quand">Vendredi · 22h</div>
+      <h3>Bouyon Sunset</h3>
+      <p class="ou">Le Gosier — toit-terrasse</p>
+    </article>
+    <article class="date rev">
+      <img src="img/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="">
+      <span class="puce">Beach party</span>
+      <div class="quand">Samedi · 20h</div>
+      <h3>Kompa de Luxe</h3>
+      <p class="ou">Sainte-Anne — plage privée</p>
+    </article>
+    <article class="date rev">
+      <img src="img/unsplash-photo-1470225620780-dba8ba36b745.jpg" alt="">
+      <span class="puce">Villa</span>
+      <div class="quand">Dimanche · 18h</div>
+      <h3>Dîner dansant</h3>
+      <p class="ou">Saint-François — villa</p>
+    </article>
+  </div>
+
+  <section class="sec" id="eco">
+    <p class="eyebrow rev">L'écosystème</p>
+    <h2 class="rev">Ta place dans <em>l'écosystème.</em></h2>
+    <p class="lead rev">Six catégories de partenaires. Chacune apporte ce qu'elle sait faire
+      mieux que les autres — et le contrat reste direct entre les parties.</p>
+    <div class="eco">
+      <div class="c rev"><b>Lieux</b><span>Bars, restaurants, clubs, plages privées, villas, rooftops.</span></div>
+      <div class="c rev"><b>Artistes &amp; talents</b><span>DJs, groupes, chanteurs, danseurs, performeurs, artistes visuels.</span></div>
+      <div class="c rev"><b>Marques partenaires</b><span>Boissons, mode, cosmétique, lifestyle — comme AVYR.</span></div>
+      <div class="c rev"><b>Organisateurs</b><span>Associations, collectifs et producteurs qui montent des événements.</span></div>
+      <div class="c rev"><b>Prestataires</b><span>Son, lumière, sécurité, traiteur, décoration, captation.</span></div>
+      <div class="c rev"><b>Médias &amp; communautés</b><span>Radios, créateurs, pages et communautés qui font vivre la scène.</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="f-in">
+    <p class="signe">SYFIR</p>
+    <p style="color:var(--creme-doux);margin:0 auto;max-width:44ch">
+      Les prochains souvenirs commencent ici. Soirées, festivals, carnavals —
+      en Guadeloupe et dans toute la Caraïbe.</p>
+    <p class="sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<div class="tag-maq"><b>Maquette 3 sur 3</b>Lumière de scène — cinéma</div>
+
+<script>
+(function(){
+  var doc = document.documentElement, tick = false;
+  function horloge(){
+    var max = doc.scrollHeight - innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    doc.style.setProperty('--p', p.toFixed(4));
+    tick = false;
+  }
+  addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(horloge); } }, {passive:true});
+  addEventListener('resize', horloge); horloge();
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rev').forEach(function(el,i){
+    el.style.transitionDelay = (Math.min(i,6)*80) + 'ms'; io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,12 +1,68 @@
-# HANDOFF — SYFIR (Le Cocktail Libre™)
+# HANDOFF — SYFIR
 
 > Document de passation pour reprendre le travail dans une session fraîche sans perte de contexte.
-> Dernière mise à jour : fin du LOT 11 (juillet 2026).
+> Dernière mise à jour : R106 (août 2026). ⚠ Les sections 2 et suivantes datent du LOT 11 et
+> décrivent un état antérieur (PR #8, deux thèmes) — voir `JOURNAL-R98-NUIT.md` et les journaux
+> R99 → R106 pour l'état réel. **La section 0 ci-dessous, elle, est à jour et prioritaire.**
+
+---
+
+## 0. LA LEÇON QUI VAUT PLUS QUE LES LOTS
+
+# ON NE COMPARE QUE CE QU'ON SAIT NOMMER.
+
+Quatre défauts réels ont traversé la refonte de l'accueil sans être vus. Aucun n'était
+subtil à l'œil. **Tous les quatre étaient invisibles à la mesure pour la même raison :
+l'instrument comparait une liste, et la chose n'était pas dans la liste.** Chaque fois,
+la méthode a dû s'élargir *après coup*, et chaque fois c'est un humain qui a regardé une
+image qui a trouvé le défaut.
+
+| # | Le défaut | Pourquoi la mesure était aveugle | Ce qui a dû s'élargir |
+|---|---|---|---|
+| 1 | **Un losange doré** devant chaque sur-titre (motif goutte R30, `syfir-ui/components.css`) | on ne comparait que des **sélecteurs** — un `::before` n'en est pas un | les **pseudo-éléments** entrent dans la comparaison (34 → 102 couches) |
+| 2 | **Le film de marque injecté dans le hero** (9,5 Mo téléchargés, poster préchargé en LCP) | il n'est déclaré **nulle part en CSS** — il naît à l'exécution | comparaison du **DOM sans JS contre le DOM avec JS** |
+| 3 | **La barre du haut qui maigrit** de 72 à 64 px au défilement (`nav.scrolled`) | on mesurait **à hauteur zéro** — jamais ce que la page devient quand on descend | une **passe de stabilité au défilement** |
+| 4 | **La barre 20 px trop haute** au repos (72 contre 52,3 px) et son liseré jamais comparé | `nav` n'était **dans aucune paire**, et `height` / `borderBottom*` **dans aucune propriété** comparée | la paire `nav`, et les propriétés manquantes |
+
+**La même faute, descendue quatre étages** : sélecteurs → couches → moment → propriétés.
+À chaque étage on croyait comparer « tout », et on ne comparait que le vocabulaire dont on
+disposait.
+
+### Les trois règles qui en découlent
+
+1. **Avant de dire « 0 écart », dis ce que l'instrument NE REGARDE PAS.** Un rapport vert
+   sans périmètre déclaré est une opinion, pas une mesure. `tools/qa/maquette.mjs` porte
+   désormais ce périmètre en tête de fichier ; tiens-le à jour.
+2. **Une limite signalée et non traitée finit toujours par coûter.** En R104 j'ai écrit noir
+   sur blanc que l'inventaire portait sur des *noms de classe* et pas sur les *éléments nus*,
+   et que la mesure se faisait *à hauteur zéro*. Les deux limites ont produit leur défaut
+   deux lots plus tard. **Signaler n'est pas traiter.** Quand tu notes une limite, ouvre-lui
+   une ligne de travail au lieu de la laisser en commentaire.
+3. **Ce qui n'est pas vérifié visuellement n'est pas terminé.** Les quatre défauts ont été
+   trouvés à l'œil sur une capture. C'est pour ça que `tools/qa/captures/` est versionné et
+   que **chaque lot y dépose l'accueil ET la maquette, même viewport, voile levé, animations
+   figées** — c'est ce qui se regarde en premier, avant tout tableau.
+
+### Et le corollaire, appris à ses dépens
+
+**Ne jamais déclarer un défaut *ni une réussite* sur la foi d'un seul instrument ; nommer un
+second moyen indépendant ; mesurer le RÉSULTAT, jamais le câblage.** L'outillage s'est trompé
+**quinze fois** sur ce projet, et chaque erreur est documentée dans les journaux — dont un
+faux positif qui imitait exactement le vrai défaut qu'il devait détecter, un faux négatif qui
+aurait fait « corriger » un mécanisme qui fonctionnait, un outil qui suivait **zéro élément**
+en annonçant « ✓ », et une lecture de pixels qui donnait **l'inverse de la vérité**
+(26 % contre 16 %). Le seul rempart qui ait tenu, à chaque fois, c'est le second moyen.
+
+---
 
 ## 1. Le projet en une phrase
 
-Site de marque + billetterie festival pour **SYFIR**, marque de cocktails alcoolisés en pochette
-(« Le Cocktail Libre™ », univers Antilles/Guadeloupe : plage, carnaval, golden hour).
+Site de marque + billetterie festival pour **SYFIR**, identité de fête et de musique portée
+par un écosystème de services (univers Antilles/Guadeloupe : plage, carnaval, golden hour).
+Ce document date d'avant la séparation des marques (R82) : **AVYR**, marque partenaire
+indépendante de cocktails (« Le Cocktail Libre™ » est sa marque déposée), vit sur son
+propre site (`avyr-site/`) — voir `DOCTRINE-SYFIR.md` pour l'identité et le vocabulaire
+à jour.
 Vanilla **HTML/CSS/JS, zéro dépendance, zéro build** — tout se teste en ouvrant les fichiers
 derrière un simple `python3 -m http.server`.
 
@@ -29,7 +85,7 @@ derrière un simple `python3 -m http.server`.
 |---|---|
 | `saveurs.html` | **Page dédiée cocktails (lot 16, maquette client)** : hero sobre + section Nos Cocktails Signature complète (3 cartes, fiches produit modale, galeries/vidéos, formats) — l'accueil n'a plus qu'un teaser |
 | `syf-tv.html` (SYFIR TV — nom canonique ; stubs `actualite.html`, `medias.html` ET `communaute.html` redirigent vers elle) | **Page SYFIR TV — la chaîne des moments (lots 16-18, renommée R6)** : hero océan profond XXL « Partagez la couleur. », section L'AMBIANCE (vidéo + galerie), `#moments` réservé en commentaire (futur feed), section newsletter |
-| `index.html` | Site de marque : hero (slogan « Goûte à la liberté. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER SYFIR TV (bandeau -> syf-tv.html), CTA final, footer |
+| `index.html` | Site de marque : hero (signature « Tes prochains souvenirs commencent ici. »), manifesto 3 lignes, bloc Prochains événements, marquee, marque, TEASER saveurs (3 cartes -> saveurs.html), Où nous trouver (+ logos partenaires fusionnés, ancre `#confiance`), passerelle événements, Artistes/DJs/Groupes (carrousels média + audio), agenda concerts, partenaires (formulaire intelligent), équipe, TEASER SYFIR TV (bandeau -> syf-tv.html), CTA final, footer |
 | `evenements.html` | Billetterie : hero (fond vidéo Pexels injecté après load), **section Billetterie officielle Shotgun RETIRÉE du rendu** (consigne client 02/07 — bloc conservé en commentaire HTML avec TODO `#shotgunWidget`, styles `.shotgun-*` conservés), billetterie **démo** (groupée par jour, filtres type/ville/genre, compteur, cœurs favoris), espace pro (formulaire création), modales (billets, Mon espace), FAB Billets |
 | `evenement.html` + `evenement.js` | Fiche partageable `?id=X` : SEO/OG/JSON-LD MusicEvent, Maps, partage (navigator.share/WhatsApp), tunnel billets, compte à rebours, « Vous aimerez aussi » |
 | `espace-pro.html` + `espace-pro.js` | Smartboard organisateur : sidebar (Vue d'ensemble avec KPI + comparatifs simulés déterministes, Mes événements dupliquer/supprimer, Ventes/Scan/Équipe/Messages/Paramètres en maquettes « Bientôt ») |
@@ -59,8 +115,10 @@ derrière un simple `python3 -m http.server`.
   horizontal, un seul CTA principal par écran (le FAB s'efface sur le hero).
 - **Éthique** : AUCUN faux compteur/fausse urgence — compte à rebours basé sur la vraie date,
   « Quantité limitée » seulement sur Early Bird (vrai dans les données), badge « Recommandé »
-  simple ancrage. Age gate 18+ (localStorage `syfir-age-ok`), mention loi Évin `.footer-sante`
-  sur les 4 pages (contraste ≥4.5 vérifié).
+  simple ancrage. Depuis R82.1.1 : plus d'age gate globale sur SYFIR (retirée — SYFIR n'est pas
+  un site consacré à l'alcool) ; condition d'âge PAR ÉVÉNEMENT (`ageStatus`, cf. events-data.js),
+  affichée sur carte/fiche, rappelée à la réservation pour 16+/18+/à confirmer. Mention loi Évin
+  `.footer-sante` sur toutes les pages (contraste ≥4.5 vérifié).
 - **Fukasawa (lot 8)** : nav 5 entrées max, pas de préloader, pas de tilt, parallaxe ≥768px
   uniquement, CTA en langage expérience (« Vivre un événement », « Découvrir l'expérience »).
 - **Grain** : `--noise` (SVG 3,2%) sur fonds sombres uniquement, jamais en clair ni sur crème.
@@ -68,9 +126,12 @@ derrière un simple `python3 -m http.server`.
 
 ## 5. localStorage (clés)
 
-`syfir-theme` (auto/light/dark) · `syfir-age-ok` · `syfir-user` ({name,email,city}) ·
-`syfir-tickets` ([{event,city,date,detail,num}]) · `syfir-favs` ([ids]) · `syfir-pro-events` ([événements créés]).
-Dans les tests Playwright, TOUJOURS pré-poser `syfir-age-ok=1` (sinon l'age gate bloque tout).
+`syfir-theme` (auto/light/dark) · `syfir-user` ({name,email,city}) ·
+`syfir-tickets` ([{event,city,date,detail,num}]) · `syfir-favs` ([ids]) · `syfir-pro-events` ([événements créés,
+chacun avec `ageStatus`]).
+Note : `syfir-age-ok` n'existe plus côté SYFIR depuis R82.1.1 (age gate globale retirée) — cette
+clé reste utilisée, indépendamment, par le site autonome `avyr-site/` (qui présente réellement de
+l'alcool sur chacune de ses pages).
 Ancres déplacées : `index.html#cocktails` → `saveurs.html`, `index.html#communaute` → `syf-tv.html` (stubs `actualite.html`, `medias.html` ET `communaute.html` → `syf-tv.html`) (redirection JS si la cible n'existe pas sur la page). Nav maquette 5 entrées sur toutes les pages (billetterie : entrées dans le menu mobile, la nav-recherche desktop est conservée).
 
 ## 6. Lots livrés (tous validés à l'écran par le superviseur)

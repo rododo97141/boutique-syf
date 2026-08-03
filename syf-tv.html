@@ -6,28 +6,24 @@
 <meta name="description" content="SYFIR TV — la chaîne des moments SYFIR. Ambiances, aftermovies et soirées de la communauté.">
 <meta property="og:title" content="SYFIR TV — SYFIR">
 <meta property="og:description" content="La chaîne des moments SYFIR — ambiances, aftermovies et soirées de la communauté.">
-<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <title>SYFIR TV — SYFIR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
-<!-- Thème appliqué avant le rendu pour éviter tout flash : auto = clair le jour (7h-19h), sombre la nuit -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<!-- R98 — un seul monde, la nuit : plus de thème à résoudre avant le rendu.
+     Ce script ne garde que les états qui doivent l'être avant le premier pixel. -->
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -37,6 +33,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,34 +53,27 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <!-- panneau pleine largeur façon maison de luxe (Hennessy) —
-             vignette paysage + libellé capitales, 3 catégories -->
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
+             ne vend pas les produits de ses partenaires, ce dropdown liste le
+             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link active" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -92,15 +85,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -109,9 +93,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
@@ -135,8 +119,8 @@
     <div class="media-row-track tv-hero-track">
       <article class="tv-hero-slide">
         <picture class="rb-card-pic">
-          <source type="image/webp" srcset="images/produits/syfir-pub-plage-1.webp">
-          <img class="tv-hero-img" src="images/produits/syfir-pub-plage-1.jpg" alt="Golden hour SYFIR sur la plage" fetchpriority="high" width="1120" height="1400">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1507525428034-b723cf961d3e.webp">
+          <img class="tv-hero-img" src="images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg" alt="Golden hour sur la plage, ambiance festival SYFIR" fetchpriority="high" width="1600" height="1067">
         </picture>
         <div class="tv-hero-body">
           <p class="eyebrow eyebrow-light">SYFIR TV</p>
@@ -145,28 +129,24 @@
         </div>
       </article>
       <article class="tv-hero-slide">
+        <!-- R84 : l'ancienne carte montrait deux cocktails AVYR — SYFIR TV
+             est une page SYFIR, pas AVYR. Remplacée par un visuel concert
+             déjà présent dans le dépôt (utilisé plus bas dans la galerie
+             #moments) : aucune autre photo fête/musique sans produit n'était
+             disponible et inutilisée dans le dépôt. -->
         <picture class="rb-card-pic">
-          <source type="image/webp" srcset="images/produits/syfir-pub-duo.webp">
-          <img class="tv-hero-img" src="images/produits/syfir-pub-duo.jpg" alt="Deux cocktails AVYR à la golden hour" loading="lazy" decoding="async" width="1120" height="1400">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1514525253161-7a46d19cd819.webp">
+          <img class="tv-hero-img" src="images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="Le public en fusion pendant un concert SYFIR" loading="lazy" decoding="async" width="1600" height="1200">
         </picture>
         <div class="tv-hero-body">
           <span class="rb-badge">Moment</span>
-          <h2 class="tv-hero-title">Golden hour, <em>deux verres</em>.</h2>
-          <p class="tv-hero-sub">La lumière tombe, la fête commence.</p>
+          <h2 class="tv-hero-title">La foule <em>en fusion</em>.</h2>
+          <p class="tv-hero-sub">Les lumières s'allument, la musique prend le relais.</p>
         </div>
       </article>
-      <article class="tv-hero-slide">
-        <picture class="rb-card-pic">
-          <source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp">
-          <img class="tv-hero-img" src="images/produits/syfir-pub-plage-2.jpg" alt="SYFIR Tropical Festival — plage du Gosier" loading="lazy" decoding="async" width="1120" height="1400">
-        </picture>
-        <div class="tv-hero-body">
-          <span class="rb-badge rb-badge-festival">Festival</span>
-          <h2 class="tv-hero-title">SYFIR Tropical Festival</h2>
-          <p class="tv-hero-sub">📅 15 août · 📍 Le Gosier</p>
-          <a class="btn btn-solid" href="evenement.html?id=4">Réserver ma place →</a>
-        </div>
-      </article>
+<!-- R82.1c : la 3e carte « SYFIR Tropical Festival » (événement fictif,
+           CTA de réservation vers une fiche de démonstration) est retirée de
+           la version publique. -->
     </div>
     <button class="row-arrow row-next" type="button" aria-label="À la une suivante">›</button>
   </div>
@@ -187,25 +167,10 @@
   </div>
 </section>
 
-<!-- ============================================================
-     PROCHAINS ÉVÉNEMENTS — conversion (3 dates réelles à venir)
-============================================================ -->
-<section class="next-events" id="prochains">
-  <div class="container">
-    <p class="eyebrow reveal">Prochaines dates</p>
-    <h2 class="h2 reveal d1">Trois dates. <em>Zéro excuse.</em></h2>
-    <p class="section-intro reveal d2">Réserve avant que ce soit complet — les Early Bird partent vite.</p>
-  </div>
-  <!-- Rangée streaming Événements : cartes riches pilotées par les données -->
-  <div class="media-row-wrap">
-    <button class="row-arrow row-prev" type="button" aria-label="Événements précédents" hidden>‹</button>
-    <div class="media-row-track" id="nextEvents"></div>
-    <button class="row-arrow row-next" type="button" aria-label="Événements suivants">›</button>
-  </div>
-  <div class="container">
-    <p class="next-cta reveal d2"><a class="btn btn-solid btn-lg" href="evenements.html">Réserver ma place</a></p>
-  </div>
-</section>
+<!-- R81 : la section « Prochains événements » (#prochains) et la
+     passerelle billetterie (#evenements) ont été rapatriées vers
+     index.html (slots 2 et 3 du nouveau plan de l'accueil). Elles ne
+     sont donc plus dupliquées ici. -->
 
 <!-- ============================================================
      L'AMBIANCE — vidéo + galerie de la communauté
@@ -224,16 +189,6 @@
   <div class="media-row-wrap">
     <button class="row-arrow row-prev" type="button" aria-label="Vidéos précédentes" hidden>‹</button>
     <div class="media-row-track" id="replayTrack">
-
-      <article class="replay-card" data-kind="video" data-src="videos/syfir-pub-video.mp4">
-        <div class="replay-thumb">
-          <picture><source type="image/webp" srcset="images/produits/syfir-pub-plage-1.webp">
-            <img src="images/produits/syfir-pub-plage-1.jpg" alt="Le film SYFIR — golden hour sur la plage" loading="lazy" decoding="async" width="1120" height="1400"></picture>
-          <button class="replay-play" type="button" aria-label="Lire : Le film SYFIR">▶</button>
-          <span class="replay-badge replay-badge-film">Film</span>
-        </div>
-        <div class="replay-meta"><span class="replay-kicker">SYFIR</span><h3 class="replay-title">Le film — Goûte à la liberté</h3></div>
-      </article>
 
       <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/UVYTuLruNK8">
         <div class="replay-thumb">
@@ -282,16 +237,14 @@
     <h2 class="h2 reveal d1">La couleur, <em>en vrai</em>.</h2>
     <p class="section-intro intro-light reveal d2">Pas de mise en scène. Des soirées, des rires, du sable et des verres qui se lèvent.</p>
 
-    <!-- Vidéo d'ambiance : vraie vidéo SYFIR locale (zéro dépendance externe).
+    <!-- R89 point 3 : la vidéo (videos/syfir-pub-video.mp4) a été retirée —
+         même faisceau d'indices que le hero d'accueil (R88 point b), pas un
+         visionnage. Le fond (déjà sans produit, cf. .ambiance-box en CSS)
+         reste affiché seul en attendant le vrai aftermovie.
          👉 Quand l'aftermovie YouTube officiel sera prêt, remplacer par la façade
          lazy d'origine (voir l'historique git : bouton #aftermovieBtn + data-embed). -->
     <div class="aftermovie reveal d2">
       <div class="ambiance-box" id="ambianceBox">
-        <video muted loop playsinline preload="none" poster="images/produits/syfir-pub-plage-2.jpg"
-               aria-label="Vidéo d'ambiance SYFIR — toast au coucher de soleil">
-          <source src="videos/syfir-pub-video.mp4" type="video/mp4">
-        </video>
-        <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
         <span class="ambiance-label">Ambiance — l'aftermovie officiel arrive</span>
       </div>
     </div>
@@ -299,42 +252,42 @@
 
   <div class="insta-grid">
     <a class="insta-item reveal d1" href="#ambiance" aria-label="Photo communauté">
-      <img src="images/produits/syfir-pub-verre.jpg"
-           onerror="this.onerror=null;this.src='images/produits/syfir-pub-verre.jpg'"
-           alt="Amis qui trinquent avec des pochettes AVYR" loading="lazy" decoding="async" width="1086" height="1448">
+      <img src="images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg"
+           onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'"
+           alt="Silhouettes dans les lumières, communauté SYFIR" loading="lazy" decoding="async" width="1067" height="1600">
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d2" href="#ambiance" aria-label="Photo communauté">
-      <img src="images/produits/syfir-studio-fruits.jpg"
-           onerror="this.onerror=null;this.src='images/produits/syfir-studio-fruits.jpg'"
-           alt="Pochette AVYR entourée de fruits frais" loading="lazy" decoding="async" width="1184" height="1184">
+      <img src="images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg"
+           onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg'"
+           alt="Avant le concert, communauté SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d3" href="#ambiance" aria-label="Photo communauté">
       <picture>
-        <source type="image/webp" srcset="images/produits/syfir-bar-bois.webp">
-        <img src="images/produits/syfir-bar-bois.jpg" alt="Pochette AVYR sur une table de bar en bois" loading="lazy" decoding="async" width="1536" height="1536">
+        <source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp">
+        <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="Foule en fête lors d'un festival SYFIR" loading="lazy" decoding="async" width="1600" height="1068">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d4" href="#ambiance" aria-label="Photo communauté">
       <picture>
-        <source type="image/webp" srcset="images/produits/syfir-moodboard.webp">
-        <img src="images/produits/syfir-moodboard.jpg" alt="L'univers SYFIR — visuel, pratique, plaisir immédiat" loading="lazy" decoding="async" width="1024" height="1024">
+        <source type="image/webp" srcset="images/ext/unsplash-photo-1496337589254-7e19d01cec44.webp">
+        <img src="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="Ambiance de club lors d'une soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d5" href="#ambiance" aria-label="Photo communauté">
       <picture>
-        <source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp">
-        <img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — six saveurs" loading="lazy" decoding="async" width="1024" height="1024">
+        <source type="image/webp" srcset="images/ext/unsplash-photo-1470225620780-dba8ba36b745.webp">
+        <img src="images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg" alt="DJ aux platines pendant une soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
     </a>
     <a class="insta-item reveal d6" href="#ambiance" aria-label="Photo communauté">
       <picture>
-        <source type="image/webp" srcset="images/produits/syfir-sachet-or-vide.webp">
-        <img src="images/produits/syfir-sachet-or-vide.jpg" alt="La pochette AVYR dorée" loading="lazy" decoding="async" width="880" height="1216">
+        <source type="image/webp" srcset="images/ext/unsplash-photo-1514525253161-7a46d19cd819.webp">
+        <img src="images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="Concert et jeux de lumières, soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1200">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
     </a>
@@ -349,7 +302,7 @@
   <div class="container">
     <p class="eyebrow reveal">Moments</p>
     <h2 class="h2 reveal d1">Tes <em>moments</em> SYFIR.</h2>
-    <p class="section-intro reveal d2">Pris sur le vif, pochette en main — les moments de la communauté SYFIR se vivent <a href="index.html#ou-trouver">près de chez toi</a>.</p>
+    <p class="section-intro reveal d2">Pris sur le vif — les moments de la communauté SYFIR se vivent <a href="evenements.html">près de chez toi</a>.</p>
   </div>
   <!-- Rangée streaming : scroll horizontal, flèches au survol, swipe mobile -->
   <div class="media-row-wrap">
@@ -357,26 +310,26 @@
     <div class="media-row-track">
       <figure class="moment-shot reveal d1">
         <picture>
-          <source type="image/webp" srcset="images/produits/syfir-main-plage.webp">
-          <img src="images/produits/syfir-main-plage.jpg" alt="Une pochette AVYR à la main, citron vert et menthe" loading="lazy" decoding="async" width="643" height="857">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp">
+          <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="Foule en fête lors d'une soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1068">
         </picture>
       </figure>
       <figure class="moment-shot reveal d2">
         <picture>
-          <source type="image/webp" srcset="images/produits/syfir-main-citron.webp">
-          <img src="images/produits/syfir-main-citron.jpg" alt="Pochettes AVYR à la main, prêtes à partager" loading="lazy" decoding="async" width="643" height="857">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1574391884720-bbc3740c59d1.webp">
+          <img src="images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg" alt="Silhouettes dans les lumières d'une soirée SYFIR" loading="lazy" decoding="async" width="1067" height="1600">
         </picture>
       </figure>
       <figure class="moment-shot reveal d3">
         <picture>
-          <source type="image/webp" srcset="images/produits/syfir-pub-plage-2.webp">
-          <img src="images/produits/syfir-pub-plage-2.jpg" alt="Deux cocktails AVYR au ponton, golden hour" loading="lazy" decoding="async" width="1086" height="1448">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1516280440614-37939bbacd81.webp">
+          <img src="images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg" alt="Le micro, avant le concert" loading="lazy" decoding="async" width="1600" height="1067">
         </picture>
       </figure>
       <figure class="moment-shot reveal d4">
         <picture>
-          <source type="image/webp" srcset="images/produits/syfir-pub-plage-3.webp">
-          <img src="images/produits/syfir-pub-plage-3.jpg" alt="Verre et pochette AVYR entourés de fruits, plage" loading="lazy" decoding="async" width="1086" height="1448">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1514525253161-7a46d19cd819.webp">
+          <img src="images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="Concert et jeux de lumières, ambiance SYFIR" loading="lazy" decoding="async" width="1600" height="1200">
         </picture>
       </figure>
     </div>
@@ -384,33 +337,6 @@
   </div>
 </section>
 
-<!-- Passerelle billetterie, rapatriée de l'accueil. -->
-<!-- ============================================================
-     ÉVÉNEMENTS & FÊTES — passerelle vers la billetterie
-============================================================ -->
-<section id="evenements" class="section section-event">
-  <div class="event-bg" data-parallax="0.2"></div>
-  <div class="container">
-    <p class="eyebrow eyebrow-light reveal">Événements &amp; Fêtes</p>
-    <h2 class="h2 reveal d1">Là où le moment<br>devient <em>une scène</em>.</h2>
-    <p class="section-intro intro-light reveal d2">Beach parties, rooftops, festivals, soirées privées — <a href="evenements.html">réserve tes billets</a> pour les expériences SYFIR, ou organise la tienne.</p>
-
-    <div class="event-duo">
-      <a href="evenements.html" class="event-door reveal from-left d2">
-        <span class="event-door-tag">Espace client</span>
-        <h3>Prendre mes billets</h3>
-        <p>Accède à la billetterie SYFIR : soirées, fêtes et événements ouverts au public.</p>
-        <span class="event-door-cta">Choisir ma soirée →</span>
-      </a>
-      <a href="evenements.html#pro" class="event-door event-door-pro reveal from-right d3">
-        <span class="event-door-tag">Espace professionnel</span>
-        <h3>Organiser un événement</h3>
-        <p>Crée ton événement public ou privé, gère la billetterie et les options SYFIR Experience.</p>
-        <span class="event-door-cta">Créer mon événement →</span>
-      </a>
-    </div>
-  </div>
-</section>
 
 <!-- ============================================================
      NEWSLETTER — rester dans la boucle
@@ -441,7 +367,7 @@
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">Goûte à la liberté.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -459,19 +385,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>SYFIR TV</h3>

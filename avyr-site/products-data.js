@@ -1,16 +1,14 @@
 /* ============================================================
-   SYFIR — Données produits partagées (source unique)
-   Utilisé par la page produit dédiée (produit.html?id=X).
-   Étend window.SYFIR (créé par events-data.js).
-   Lexique CLAUDE.md : « pochette » (féminin), « AVYR cocktail ».
+   AVYR — Données produits (source unique du site autonome AVYR)
+   Utilisé par la fiche produit dédiée (produit.html?id=X).
+   Étend window.AVYR (créé par script.js).
 ============================================================ */
 (function () {
   'use strict';
 
   // Chaque signature = une vraie page partageable et référençable.
   // ingredients : [nom, emoji, rôle gustatif] — transparence sensorielle,
-  // AUCUNE allégation (loi Évin). photos : visuels OFFICIELS locaux (images/produits/).
-  // video : source locale uniquement — zéro dépendance externe.
+  // AUCUNE allégation (loi Évin). photos : visuels officiels locaux.
   const products = [
     {
       id: 'planteur',
@@ -73,8 +71,7 @@
 
   const getProduct = id => products.find(p => p.id === id);
 
-  // Étend l'espace de noms partagé (events-data.js l'a déjà créé).
-  window.SYFIR = window.SYFIR || {};
-  window.SYFIR.products = products;
-  window.SYFIR.getProduct = getProduct;
+  window.AVYR = window.AVYR || {};
+  window.AVYR.products = products;
+  window.AVYR.getProduct = getProduct;
 })();

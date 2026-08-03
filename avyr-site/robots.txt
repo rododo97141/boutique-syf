@@ -1,0 +1,5 @@
+# AVYR — site autonome, distinct du site événementiel SYFIR.
+User-agent: *
+Allow: /
+
+Sitemap: https://rododo97141.github.io/boutique-syf/avyr-site/sitemap.xml

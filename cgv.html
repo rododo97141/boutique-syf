@@ -12,15 +12,10 @@
 <title>Conditions Générales de Vente — SYFIR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <link rel="canonical" href="https://rododo97141.github.io/boutique-syf/cgv.html">
@@ -29,6 +24,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -42,32 +41,24 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -79,15 +70,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -96,9 +78,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="faq.html">FAQ</a>
@@ -127,10 +109,14 @@
     <div class="legal-box legal-box-age">🔞 Vente d'alcool réservée aux personnes majeures (18 ans et plus). En commandant, le client certifie avoir l'âge légal requis. La vente d'alcool à des mineurs est interdite (art. L.3342-1 du Code de la santé publique).</div>
 
     <h2>1. Objet et champ d'application</h2>
-    <p>Les présentes conditions régissent les ventes de produits et services proposés par
-      <span class="legal-todo">[À COMPLÉTER — raison sociale]</span> (« SYFIR ») : les cocktails AVYR servis sur place,
-      les pochettes AVYR à emporter, et la billetterie des événements SYFIR. Toute commande implique l'acceptation
-      sans réserve des présentes CGV.</p>
+    <p>Les présentes conditions régissent la vente de billets d'événements par
+      <span class="legal-todo">[À COMPLÉTER — raison sociale]</span> (« SYFIR »). À titre d'information : les
+      cocktails AVYR (marque indépendante) servis sur place et les pochettes AVYR à emporter sont vendus par
+      l'établissement partenaire qui les propose, pas directement par SYFIR.
+      <span class="legal-todo">[À COMPLÉTER — préciser la relation juridique exacte entre SYFIR et AVYR : même
+      structure, licence de marque, ou entités distinctes ? Si AVYR vend elle-même en direct un jour, ses propres
+      CGV devront être rédigées séparément.]</span> Toute commande de billet implique l'acceptation sans réserve
+      des présentes CGV.</p>
 
     <h2>2. Produits et prix</h2>
     <p>Les produits sont décrits avec la plus grande exactitude possible. Les prix sont indiqués en euros
@@ -152,8 +138,12 @@
       aux denrées périssables ni aux billets d'événements datés. <span class="legal-todo">[À COMPLÉTER — préciser les cas applicables]</span>.</p>
 
     <h2>7. Responsabilité</h2>
-    <p>SYFIR ne saurait être tenue responsable d'une consommation inappropriée des produits AVYR. Les produits AVYR
-      contiennent de l'alcool ; leur consommation relève de la responsabilité du client.</p>
+    <p>SYFIR met en relation avec les prestataires et les marques de son écosystème ; il ne fournit pas lui-même
+      leurs services ni leurs produits. Chaque prestation est assurée par le prestataire concerné, avec qui le
+      contrat est conclu directement.
+      <span class="legal-todo">[À COMPLÉTER — délimiter précisément la responsabilité de SYFIR au titre de son
+      rôle d'intermédiaire (billetterie, mise en relation) par rapport à celle des prestataires et des marques
+      partenaires. Clause à faire rédiger ou valider par un professionnel du droit.]</span></p>
 
     <h2>8. Garanties légales</h2>
     <p>Indépendamment de toute garantie commerciale, le vendeur reste tenu des défauts de conformité du bien
@@ -189,7 +179,7 @@
 <footer>
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">AVYR cocktail.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -207,19 +197,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>Aide</h3>

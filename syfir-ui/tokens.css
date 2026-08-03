@@ -1,0 +1,173 @@
+/* ============================================================
+   SYFIR-UI — tokens
+   ============================================================
+   La source de vérité des VALEURS du design system : couleurs,
+   typographies, géométrie, durées. CLAUDE.md §1 : « toujours via
+   les variables CSS, jamais en dur ».
+
+   POURQUOI CE FICHIER
+   syfir-ui/components.css ne référence que des var(--…). Sans les
+   tokens, il ne produit rien. Les deux ensemble forment une
+   bibliothèque autonome : on peut charger tokens.css +
+   components.css sur une page neuve et obtenir des composants
+   corrects, sans style.css.
+
+   ORDRE DE CHARGEMENT
+   tokens.css, puis components.css, puis style.css. L'ordre entre
+   tokens et composants n'a en réalité aucune importance technique —
+   var() résout à l'usage sur l'élément, pas à la déclaration — mais
+   il rend l'intention lisible.
+
+   CE QUI N'EST PAS ICI, VOLONTAIREMENT
+   1. (retiré en R98/1-2) Les surcharges de tokens du THÈME CLAIR
+      vivaient dans style.css, au même endroit que les autres
+      surcharges de thème. Il n'y a plus de thème clair : un seul
+      monde, la nuit. Les valeurs de ce fichier sont désormais les
+      seules — elles ne sont plus « la base que le clair recouvre ».
+   2. Quatre tokens de GÉOMÉTRIE LOCALE restent dans style.css,
+      collés au composant qu'ils mesurent : --util-h (barre
+      utilitaire), --header-h (dérivé de --nav-h), --avyr-bar-h
+      (bandeau AVYR) et --row-gutter (§08 rangée carrousel, partagé
+      avec .tv-hero-track). Ce sont des mesures de mise en page, pas
+      des décisions de design system — les déplacer les éloignerait
+      de la règle qui les explique.
+
+   Valeurs reprises VERBATIM de style.css — aucune réécriture.
+   ============================================================ */
+:root {
+  --sunset: #FF7A00;
+  --mango: #FF9A3D;
+  --coral: #FF8F70;
+  --passion: #FFC857;
+  --gold: #D4A017;
+  --gold-light: #F0C84A;
+  --gold-deep: #B8860B;
+  --ocean: #0F3D5E;
+  --ocean-deep: #071E30;
+  --cream: #FAF8F2;
+  --ink: #111111;
+  --ink-soft: #1B1B1B;
+  --grey: #8A8A8A;
+  --error: #E5484D;
+  --success: #46A758;
+
+  /* ===== R98 — LA NUIT (« Lumière de scène », maquette 3) =====
+     Direction validée telle quelle par Kily : rien à ajouter, rien à
+     retirer. Nuit bleue profonde d'un festival vu de l'intérieur.
+
+     Ces tokens NE REMPLACENT PAS les précédents, ils coexistent, et la
+     distinction porte du sens :
+       --gold (#D4A017) est l'or de MARQUE, celui du logo et des liserés
+         historiques ; --or (#E9C988) est l'or de SCÈNE, plus doux, celui
+         d'une lumière chaude posée sur du bleu profond. Confondre les
+         deux ferait de l'or de marque un éclairage, et inversement.
+       --cream (#FAF8F2) est le crème CHAUD de l'ancien monde d'été ;
+         --creme (#EEF2F8) est le crème FROID de la nuit, très légèrement
+         bleuté pour ne pas jaunir sur du #04070f.
+
+     LES TROIS MOMENTS DE LA SOIRÉE — c'est le voyage qui reste quand le
+     passage jour->nuit s'en va. Les trois fonds sont pilotés par --p
+     (0 -> 1) au défilement : début de soirée en haut, la montée au
+     milieu, cœur de nuit en bas. Jamais de gris pâle, jamais de noir
+     écrasant — les trois valeurs sont bleues, aucune n'est neutre. */
+  --nuit-0: #04070F;   /* début de soirée — la nuit tombe à peine */
+  --nuit-1: #060D1C;   /* la montée */
+  --nuit-2: #0A1226;   /* cœur de nuit */
+  --bleu: #2F6DFF;         /* le bleu de scène, saturé */
+  --bleu-clair: #7FB2FF;   /* son éclat, pour les halos */
+  --or: #E9C988;           /* l'or de scène — EN DÉTAIL, jamais en aplat */
+  --blanc: #FFFAF0;        /* le blanc des faisceaux et du bouton principal */
+  --creme: #EEF2F8;        /* le texte courant */
+  --creme-doux: rgba(238, 242, 248, .68);   /* le texte secondaire */
+
+  /* Triplets pour les compositions en alpha. Le piège est connu (R93) :
+     la substitution des tokens de couleur ne porte PAS sur leurs
+     triplets — ils se déclarent donc explicitement, jamais dérivés. */
+  --nuit-0-rgb: 4, 7, 15;
+  --nuit-1-rgb: 6, 13, 28;
+  --nuit-2-rgb: 10, 18, 38;
+  --bleu-rgb: 47, 109, 255;
+  --bleu-clair-rgb: 127, 178, 255;
+  --or-rgb: 233, 201, 136;
+  --blanc-rgb: 255, 250, 240;
+  --creme-rgb: 238, 242, 248;
+
+  /* LA PROGRESSION DE LA SOIRÉE, 0 -> 1, calculée au défilement en rAF
+     (script.js §46). Déclarée ici parce que TOUT la consomme — ciel,
+     faisceaux, brume. Une horloge, des consommateurs : la forme apprise
+     en R94, celle qui n'écrase rien. Valeur initiale 0 : sans JS, le
+     site reste en début de soirée, décor intact. */
+  --p: 0;
+  /* Police identitaire (lot 22, amendement fondateur : « ère nouvelle +
+     fraîcheur ») : Unbounded — display géométrique aux formes larges,
+     rondes et futuristes (bulles, gouttelettes) : sensation de nouveau
+     monde et de fraîcheur tropicale premium. Réservée à l'IDENTITÉ et
+     aux TITRES ; la nav et les boutons repassent en Plus Jakarta Sans
+     (lisibilité « dans un bar »). Comparée à Syne, Bricolage Grotesque
+     et Space Grotesk sur captures du hero et d'une carte. */
+  --display: 'Unbounded', sans-serif;
+  --body: 'Plus Jakarta Sans', sans-serif;
+  --serif: 'Fraunces', serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  /* Tokens de durée : hover/focus = fast, entrées/déplacements = med */
+  --dur-fast: 180ms;
+  --dur-med: 300ms;
+  --radius: 18px;
+  --nav-h: 72px;
+  /* Or métallique SYFIR (lettrage doré du packaging) */
+  --gold-metal: linear-gradient(160deg, #F6D87C 8%, #D4A017 38%, #B8860B 58%, #F0C84A 86%);
+  /* Argent/ombre métallique — la « nuit » du motif goutte (R30) */
+  --silver-metal: linear-gradient(160deg, #E9ECF0 8%, #AEB5BE 38%, #7C838C 58%, #CDD3DA 86%);
+  /* Remplissage du motif GOUTTE, piloté par le thème (or le jour, argent la nuit).
+     Base = thème sombre ; surchargé en clair dans style.css. Une seule forme partout. */
+  --drop-fill: var(--silver-metal);
+  /* Grain de matière (noise SVG, ~3%) — appliqué aux fonds sombres uniquement */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+  /* --- Triplets RGB des couleurs de base (pour rgba(var(--x-rgb), a)) --- */
+  --cream-rgb: 250, 248, 242;
+  --passion-rgb: 255, 200, 87;
+  --sunset-rgb: 255, 122, 0;
+  --gold-rgb: 212, 160, 23;
+  --gold-deep-rgb: 184, 134, 11;
+  --gold-light-rgb: 240, 200, 74;
+  --ink-rgb: 17, 17, 17;
+  --black-rgb: 0, 0, 0;
+  --ocean-deep-rgb: 7, 30, 48;
+  --coral-rgb: 255, 143, 112;
+  --success-rgb: 70, 167, 88;
+  /* --- Neutres & surfaces --- */
+  --white: #fff;
+  --black: #000;
+  --grey-ink: #555;      /* texte doux sur crème */
+  --grey-ink-2: #666;    /* descriptions sur crème */
+  --grey-mid: #777;      /* mentions footer */
+  --grey-soft: #999;     /* notes légales sur crème */
+  --footer-ink: #0C0C0C; /* fond du footer */
+  --charcoal-rgb: 13, 13, 13;   /* nav scrollée, sidebar pro */
+  --charcoal-2-rgb: 18, 18, 18; /* menu mobile */
+  --charcoal-3-rgb: 10, 10, 10; /* menu thème */
+  --charcoal-4-rgb: 12, 12, 12; /* voile bas des sections chaudes */
+  --abyss-rgb: 7, 14, 22;       /* backdrop age gate */
+  --ocean-night: #0A1622;       /* bas du dégradé espace pro */
+  --ocean-lift: #0C2438;        /* haut du dégradé sections chaudes */
+  /* --- Thème clair (encres chaudes, sables) --- */
+  --ink-warm: #221A10;   --ink-warm-rgb: 34, 26, 16;
+  --taupe: #6E6353;      /* texte secondaire clair */
+  --taupe-soft: #8A7E6C; --taupe-deep: #635B4E; --taupe-ink: #4A4136;
+  --brown-ink: #3a3125;
+  --surface-light: #FFFDF6; --surface-light-rgb: 255, 253, 247;
+  --cream-warm: #FAF6EE;    --cream-warm-rgb: 250, 246, 238;
+  --sand: #F3ECDC; --sand-line: #E4D9C2; --sand-line-2: #E5E0D5;
+  --shadow-warm-rgb: 60, 45, 20; /* ombres chaudes du thème clair */
+  --sunset-ink: #A04600;  /* orange lisible sur clair (AA) */
+  --gold-ink: #7E5C06;    --gold-ink-rgb: 126, 92, 6;
+  --gold-ink-2: #8A6508;
+  /* --- États --- */
+  --error-deep: #C8323A;
+  --success-light: #8FD19E; --success-bright: #5FC77A; --success-deep: #2E7D42;
+  --terracotta: #B4451F;
+  /* --- Marque Shotgun (carte billetterie officielle, bloc commenté) --- */
+  --shotgun-purple: #7E22CE; --shotgun-purple-deep: #6B21A8;
+  --shotgun-orange: #F97316; --shotgun-orange-deep: #EA580C;
+  --shotgun-purple-rgb: 126, 34, 206; --shotgun-orange-rgb: 249, 115, 22;
+}

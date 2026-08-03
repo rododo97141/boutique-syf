@@ -4,27 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="SYFIR Smartboard — tableau de bord organisateur : ventes, événements, scan, équipe.">
-<meta property="og:image" content="images/produits/syf-planteur-1.jpg">
+<meta property="og:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/produits/syf-planteur-1.jpg">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <title>Espace pro organisateur — SYFIR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
      plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
      assure le texte en repli immédiat puis la bascule. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
 <script>
 (function () {
-  var pref = localStorage.getItem('syfir-theme') || 'auto';
-  var h = new Date().getHours();
-  var mode = pref === 'auto' ? (h >= 7 && h < 19 ? 'light' : 'dark') : pref;
-  document.documentElement.setAttribute('data-theme', mode);
-  document.documentElement.setAttribute('data-theme-pref', pref);
 })();
 </script>
 <!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
@@ -34,6 +29,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
 <link rel="apple-touch-icon" href="images/icons/icon-192.png">
 <meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-pro">
@@ -46,34 +45,27 @@
   <div class="nav-pill">
     <ul class="nav-links">
       <li class="nav-item has-drop">
-        <a href="saveurs.html" class="nav-link" data-nav="saveurs">AVYR cocktail</a>
-        <!-- panneau pleine largeur façon maison de luxe (Hennessy) —
-             vignette paysage + libellé capitales, 3 catégories -->
-        <div class="nav-drop nav-drop-lux" role="menu" aria-label="AVYR cocktail">
-          <div class="nav-lux-inner">
-            <a class="nav-lux-item" href="saveurs.html" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-gamme-6-saveurs.webp"><img src="images/produits/syfir-gamme-6-saveurs.jpg" alt="La gamme AVYR — toute la collection" loading="lazy" decoding="async" width="1024" height="1024"></picture></span>
-              <span class="nav-lux-label">Toute la collection</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#cocktails" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-pub-verre.webp"><img src="images/produits/syfir-pub-verre.jpg" alt="Un cocktail AVYR servi au verre" loading="lazy" decoding="async" width="1086" height="1448"></picture></span>
-              <span class="nav-lux-label">Nos cocktails</span>
-            </a>
-            <a class="nav-lux-item" href="saveurs.html#signatures" role="menuitem">
-              <span class="nav-lux-pic"><picture><source type="image/webp" srcset="images/produits/syfir-planteur-marbre.webp"><img src="images/produits/syfir-planteur-marbre.jpg" alt="La pochette AVYR Planteur signature" loading="lazy" decoding="async" width="864" height="1184"></picture></span>
-              <span class="nav-lux-label">Nos signatures</span>
-            </a>
-          </div>
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
+             ne vend pas les produits de ses partenaires, ce dropdown liste le
+             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
         </div>
       </li>
       <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="index.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
       <li class="nav-item has-drop">
         <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
         <div class="nav-drop" role="menu" aria-label="SYFIR TV">
           <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
           <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="syf-tv.html#prochains" role="menuitem">Prochaines dates</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
         </div>
       </li>
     </ul>
@@ -85,15 +77,6 @@
     <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
       <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <div class="theme-switch" id="themeSwitch">
-      <button class="theme-btn" id="themeBtn" aria-label="Choisir le th&egrave;me" aria-haspopup="true" aria-expanded="false" title="Th&egrave;me">&#127761;</button>
-      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Th&egrave;me" hidden>
-        <p class="theme-menu-title">Apparence</p>
-        <button class="theme-opt" data-theme="auto" role="menuitemradio" aria-checked="true"><span class="theme-opt-ic">&#127761;</span><span class="theme-opt-txt">Automatique<small>Clair le jour, sombre la nuit</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="light" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#9728;&#65039;</span><span class="theme-opt-txt">Clair<small>&Eacute;t&eacute; dor&eacute;</small></span><span class="theme-check">&check;</span></button>
-        <button class="theme-opt" data-theme="dark" role="menuitemradio" aria-checked="false"><span class="theme-opt-ic">&#127769;</span><span class="theme-opt-txt">Sombre<small>Nuit festive</small></span><span class="theme-check">&check;</span></button>
-      </div>
-    </div>
     <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -102,9 +85,9 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
   <a href="index.html#accueil">Accueil</a>
-  <a href="saveurs.html">AVYR cocktail</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
   <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="index.html#artistes">Artistes</a>
+  <a href="artistes.html#artistes">Artistes</a>
   <a href="syf-tv.html">SYFIR TV</a>
   <a href="partenaires.html">Devenir partenaire</a>
   <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
@@ -118,7 +101,6 @@
     <p class="dash-side-title">Organisateur</p>
     <div class="dash-nav" id="dashNav" role="navigation" aria-label="Sections">
       <button class="dash-link active" data-sec="overview"><span>📊</span> Vue d'ensemble</button>
-      <button class="dash-link" data-sec="portail"><span>🛒</span> Portail distributeur</button>
       <button class="dash-link" data-sec="events"><span>🎫</span> Mes événements</button>
       <button class="dash-link" data-sec="sales"><span>💶</span> Ventes</button>
       <button class="dash-link" data-sec="scan"><span>📲</span> Scan &amp; caisse</button>
@@ -133,72 +115,6 @@
     <section class="dash-section active" id="sec-overview">
       <div class="dash-h"><h1>Vue d'ensemble</h1><p>Tes performances en un coup d'œil.</p></div>
       <div id="overviewBody"></div>
-    </section>
-
-    <!-- ============================================================
-         PORTAIL DISTRIBUTEUR (transposition myHerbalife, démo honnête)
-    ============================================================ -->
-    <section class="dash-section" id="sec-portail">
-      <div class="dash-h"><h1>Portail distributeur <span class="badge-demo">démo</span></h1><p>Ton espace revendeur SYFIR : performances, catalogue et commandes.</p></div>
-
-      <!-- 1. Bandeau KPI perso -->
-      <div class="portail-kpis" id="portailKpis" aria-label="Tes indicateurs du mois"></div>
-
-      <!-- 2. Onglets -->
-      <div class="portail-tabs" role="tablist" aria-label="Portail distributeur">
-        <button class="portail-tab active" role="tab" aria-selected="true" data-ptab="featured">À la une</button>
-        <button class="portail-tab" role="tab" aria-selected="false" data-ptab="catalog">Catalogue</button>
-        <button class="portail-tab" role="tab" aria-selected="false" data-ptab="orders">Mes commandes</button>
-      </div>
-
-      <!-- Onglet À la une -->
-      <div class="portail-panel active" id="ptab-featured" role="tabpanel">
-        <!-- 3. Espace distributeur — suivi professionnel -->
-        <div class="challenge-banner">
-          <div class="challenge-text">
-            <span class="challenge-tag">Espace distributeur SYFIR</span>
-            <h3>Ton suivi distributeur.</h3>
-            <p>Suivi de tes commandes, informations produit et accompagnement commercial : tes ressources professionnelles réunies au même endroit.</p>
-            <a class="btn btn-solid" href="partenaires.html#partnerForm" data-request="distributeur">Contacter mon référent →</a>
-          </div>
-        </div>
-
-        <!-- 4. Formation -->
-        <div class="formation-block">
-          <h3 class="portail-h3">Formation &amp; supports</h3>
-          <div class="formation-grid">
-            <a class="formation-card formation-ready" href="art-de-servir.html" target="_blank" rel="noopener">
-              <span class="formation-ic" aria-hidden="true">📄</span>
-              <strong>L'art de servir AVYR</strong>
-              <small>One-pager prêt à imprimer (PDF)</small>
-              <span class="formation-cta">Ouvrir · Imprimer →</span>
-            </a>
-            <div class="formation-card formation-soon">
-              <span class="formation-ic" aria-hidden="true">🎒</span>
-              <strong>Kit distributeur</strong>
-              <small>Argumentaire, visuels, tarifs pros</small>
-              <span class="badge-soon">Bientôt disponible</span>
-            </div>
-            <div class="formation-card formation-soon">
-              <span class="formation-ic" aria-hidden="true">🎬</span>
-              <strong>Vidéos de formation</strong>
-              <small>Gestes, conservation, service</small>
-              <span class="badge-soon">Bientôt disponible</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Onglet Catalogue -->
-      <div class="portail-panel" id="ptab-catalog" role="tabpanel" hidden>
-        <p class="portail-intro">Passe commande en gros pour ton établissement. Tarifs pros communiqués sur devis.</p>
-        <div class="catalog-grid" id="portailCatalog"></div>
-      </div>
-
-      <!-- Onglet Mes commandes -->
-      <div class="portail-panel" id="ptab-orders" role="tabpanel" hidden>
-        <div id="portailOrders"></div>
-      </div>
     </section>
 
     <section class="dash-section" id="sec-events">
@@ -257,7 +173,7 @@
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
     <p class="brand-sign-mark">SYFIR</p>
-    <p class="brand-sign-slogan">Goûte à la liberté.</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -275,19 +191,17 @@
     </div>
     <div class="footer-col">
       <h3>Explorer</h3>
-      <a href="index.html#marque">Notre marque</a>
-      <a href="saveurs.html">Nos Cocktails</a>
-      <a href="index.html#ou-trouver">Où nous trouver</a>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
       <a href="index.html#confiance">Ils nous font confiance</a>
       <a href="evenements.html">Événements &amp; Fêtes</a>
       <a href="espace-pro.html">Espace pro — Smartboard</a>
     </div>
     <div class="footer-col">
-      <h3>Artistes &amp; équipe</h3>
-      <a href="index.html#artistes">Artistes, DJs &amp; groupes</a>
-      <a href="index.html#agenda">Agenda des concerts</a>
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
       <a href="partenaires.html">Devenir partenaire</a>
-      <a href="index.html#equipe">Équipe &amp; collaborateurs</a>
     </div>
     <div class="footer-col">
       <h3>SYFIR TV</h3>
@@ -311,40 +225,12 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-<!-- Modale de commande grossiste (portail distributeur) -->
-<div class="modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-box modal-box-sm">
-    <button class="modal-close" data-close aria-label="Fermer">✕</button>
-    <div class="modal-body">
-      <p class="modal-tag">Commande grossiste</p>
-      <h3 id="orderProduct">Commande SYFIR</h3>
-      <p class="order-note">Sans vente en ligne pour l'instant : ta demande part par e-mail à l'équipe pro, pré-remplie. On te recontacte avec le tarif.</p>
-      <form id="orderForm" novalidate>
-        <div class="form-field">
-          <label for="orderQty">Quantité (cartons de 12)</label>
-          <input type="number" id="orderQty" min="1" value="5" inputmode="numeric">
-        </div>
-        <div class="form-field">
-          <label for="orderPlace">Ton établissement</label>
-          <input type="text" id="orderPlace" placeholder="Nom du bar / boutique">
-        </div>
-        <div class="form-field">
-          <label for="orderCity">Commune</label>
-          <input type="text" id="orderCity" placeholder="Le Gosier, Sainte-Anne…" autocomplete="address-level2">
-        </div>
-        <button type="submit" class="btn btn-solid btn-full">Envoyer ma demande →</button>
-        <p class="order-todo">✦ Démo : ta demande est enregistrée sur cet appareil ; on t'oriente vers le formulaire de contact pour la finaliser (endpoint de commande à brancher).</p>
-      </form>
-    </div>
-  </div>
-</div>
-
 <!-- Bulle d'aide flottante (espace pro) -->
 <div class="help-bubble" id="helpBubble">
   <button class="help-toggle" id="helpToggle" type="button" aria-expanded="false" aria-controls="helpPop" aria-label="Besoin d'aide ?">?</button>
   <div class="help-pop" id="helpPop" role="dialog" aria-label="Besoin d'aide" hidden>
     <p class="help-pop-title">Un coup de main ?</p>
-    <p class="help-pop-text">L'équipe SYFIR répond aux pros et distributeurs.</p>
+    <p class="help-pop-text">L'équipe SYFIR répond aux organisateurs et aux partenaires de l'écosystème.</p>
     <a class="help-pop-link" href="partenaires.html#partnerForm">✉ Nous écrire</a>
     <a class="help-pop-link" href="faq.html">❓ Voir la FAQ</a>
   </div>

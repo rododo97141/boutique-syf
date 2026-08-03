@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Le line-up SYFIR : artistes, DJs et groupes live bookés pour les événements en Guadeloupe, et l\'agenda des concerts.">
+<meta property="og:title" content="Line-up SYFIR">
+<meta property="og:description" content="La chaîne des moments SYFIR — ambiances, aftermovies et soirées de la communauté.">
+<meta property="og:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="SYFIR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
+<title>Line-up SYFIR — artistes, DJs &amp; groupes live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
+     plus le rendu (protège le LCP si le CDN est lent) ; font-display:swap
+     assure le texte en repli immédiat puis la bascule. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Unbounded:wght@200..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"></noscript>
+<!-- R98 — un seul monde, la nuit : plus de thème à résoudre avant le rendu.
+     Ce script ne garde que les états qui doivent l'être avant le premier pixel. -->
+<script>
+(function () {
+})();
+</script>
+<!-- Canonical / URL absolues : on déclare l'URL RÉELLEMENT CONTRÔLÉE (déploiement GitHub Pages actif), pas un domaine non possédé. Basculer vers le domaine syfir.fr une fois acheté — cf. README §Domaine. -->
+<link rel="canonical" href="https://rododo97141.github.io/boutique-syf/artistes.html">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="images/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon-192.png">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">
+<meta name="theme-color" content="#071E30">
+<!-- syfir-ui : primitifs de composants. Chargé AVANT style.css pour que
+     les surcharges de thème et de contexte qui y restent gardent la main. -->
+<link rel="stylesheet" href="syfir-ui/tokens.css">
+  <link rel="stylesheet" href="syfir-ui/components.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<!-- ============================================================
+     NAVIGATION (maquette client)
+============================================================ -->
+
+<nav id="nav">
+  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
+    SYFIR<span>&trade;</span>
+  </a>
+  <div class="nav-pill">
+    <ul class="nav-links">
+      <li class="nav-item has-drop">
+        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
+        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
+             ne vend pas les produits de ses partenaires, ce dropdown liste le
+             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
+        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
+          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
+          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
+          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
+          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
+          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
+          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
+      <li class="nav-item"><a href="artistes.html" class="nav-link active" data-nav="artistes">Artistes</a></li>
+      <li class="nav-item has-drop">
+        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
+        <div class="nav-drop" role="menu" aria-label="SYFIR TV">
+          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
+          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
+          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    </button>
+    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    </button>
+    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- Menu mobile plein écran -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
+  <a href="index.html#accueil">Accueil</a>
+  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
+  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
+  <a href="artistes.html#artistes">Artistes</a>
+  <a href="syf-tv.html">SYFIR TV</a>
+  <a href="partenaires.html">Devenir partenaire</a>
+  <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
+    <div class="mobile-nav-util">
+    <a href="partenaires.html#investisseurs">Investisseurs</a>
+    <a href="partenaires.html#partnerForm">Nous rejoindre</a>
+    <a href="partenaires.html#partnerForm">Contact</a>
+  </div>
+  <div class="mobile-nav-foot">#SYFIR</div>
+</div>
+
+<main id="main">
+
+<!-- ============================================================
+     R99 — LE LINE-UP, DÉPLACÉ DEPUIS L'ACCUEIL
+     L'accueil est devenu l'affiche que Kily a validée : six blocs, pas un
+     catalogue. Sa section « artistes » y reste, mais en AFFICHE — pleine
+     largeur, une colonne de texte, un lien vers ici.
+     Le line-up détaillé (filtres, grille, agenda des concerts) n'avait
+     AUCUNE page pour l'accueillir : artiste.html est une fiche
+     individuelle, pas une liste. Il est déplacé ici INTÉGRALEMENT, sans
+     rien retirer — c'est la condition posée : rien ne disparaît du site.
+     Les ancres #artistes et #agenda sont conservées à l'identique pour
+     que les liens entrants continuent de pointer sur le bon contenu.
+============================================================ -->
+<section class="page-hero page-hero-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light">Line-up SYFIR</p>
+    <h1 class="h2">Artistes, DJs &amp; <em>groupes live</em>.</h1>
+    <p class="section-intro intro-light">Ceux qui font monter la temp&eacute;rature. DJs, voix et orchestres &mdash; &eacute;coute, choisis, booke.</p>
+  </div>
+</section>
+
+<section id="artistes" class="section section-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
+    <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
+    <p class="section-intro intro-light reveal d2">Ceux qui font monter la température. DJs, voix et orchestres — écoute, choisis, booke.</p>
+
+    <div class="filter-chips artist-chips reveal d2" id="artistChips">
+      <button class="chip active" data-cat="tous">Tous</button>
+      <button class="chip" data-cat="dj">DJ</button>
+      <button class="chip" data-cat="artiste">Artiste</button>
+      <button class="chip" data-cat="groupe">Groupe musical</button>
+    </div>
+
+    <p class="lineup-note reveal d2">✦ Artistes, DJs et groupes musicaux sont des <strong>partenaires</strong> SYFIR (talents bookés pour les événements).</p>
+
+    <div class="artists-grid" id="lineupGrid">
+      <!-- R82.1c : les 7 cartes d'artistes de démonstration (noms, bios et
+           photos fictifs) sont retirées de la version publique — archivées
+           dans dev/demo-data-artistes.md. Seul Unity 141 (réel) est publié. -->
+      <!-- Unity 141 — groupe RÉEL (bio, contacts et photo officiels, validés par le client) -->
+      <article class="artist-card reveal d2" data-type="groupe" data-cat="groupe"
+        id="artiste-unity"
+        data-name="Unity 141" data-role="Kompa · Zouk · Bouyon" data-badge="Orchestre live"
+        data-book-note="Réponse sous 24h — management Unity 141"
+        data-contact-phone="+590690945474" data-contact-phone-display="0690 94 54 74"
+        data-contact-email="unity141vf@gmail.com"
+        data-img="images/artiste-unity.jpg"
+        data-photos="images/artiste-unity.jpg"
+        data-video="https://www.youtube.com/embed/UVYTuLruNK8|https://www.youtube.com/embed/94N9rC4bIGg|https://www.youtube.com/embed/sP6-aWgghGY"
+        data-video-titles="Live fête de la pêche — Terre-de-Haut 2023 (feat Danday Danday)|Live du 10 juin avec Danday Danday — Terre-de-Haut|Live Unity 141"
+        data-tags="Kompa,Zouk,Bouyon,Carnaval"
+        data-bio="Unity 141, c'est l'orchestre qui fait danser la Guadeloupe. Kompa, zouk, bouyon, carnaval et ambiance live — des fêtes patronales de Terre-de-Haut aux scènes de Marie-Galante, le collectif et ses voix enflamment chaque bal. Un mot d'ordre : l'unité par la musique."
+        data-youtube="https://www.youtube.com/@unity1416"
+        data-soundcloud="https://soundcloud.com/user-393789233"
+        data-listen-embed="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-393789233/mix-zouk-live-unity-141"
+        data-instagram="https://www.instagram.com/unity_141"
+        data-facebook="https://www.facebook.com/Unity141"
+        data-tiktok="https://www.tiktok.com/@unity_141">
+        <div class="artist-photo">
+          <img width="1142" height="1600" src="images/artiste-unity.jpg" alt="Unity 141 — les dix musiciens du collectif" loading="lazy" decoding="async">
+          <span class="artist-badge">Orchestre live</span>
+          <button class="artist-play" type="button" aria-label="Écouter Unity 141 (mix SoundCloud dans la fiche)">▶</button>
+        </div>
+        <div class="artist-info">
+          <h3>Unity 141</h3>
+          <p class="artist-role">Kompa · Zouk · Bouyon</p>
+          <div class="artist-tags"><span>Kompa</span><span>Zouk</span><span>Bouyon</span><span>Carnaval</span></div>
+          <div class="artist-foot">
+            <span class="artist-more">Voir la fiche →</span>
+            <button class="artist-book" data-request="artiste" type="button">Booker</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="no-results artists-empty" id="noArtists" hidden>Aucun talent dans cette catégorie pour l'instant. ✦</p>
+
+    <p class="artists-cta reveal d2">
+      Tu es DJ, chanteur·euse ou groupe ?
+      <button class="artists-cta-link" data-request="artiste" type="button">Rejoins le line-up SYFIR →</button>
+    </p>
+
+    <!-- Agenda des concerts -->
+    <div class="agenda reveal d2" id="agenda">
+      <h3 class="agenda-title">Agenda des concerts</h3>
+      <!-- R82.1c : les 3 dates de concerts fictives sont retirées — l'état
+           vide honnête ci-dessous s'affiche tant qu'aucun concert réel
+           n'est programmé. -->
+      <ul class="agenda-list"></ul>
+      <!-- Visible par défaut : script.js ne le masque que s'il existe des
+           rangées de concerts à venir (aucune tant que la programmation
+           réelle n'est pas publiée). -->
+      <p class="agenda-empty" id="agendaEmpty">Aucun concert à venir pour le moment — la programmation arrive très vite. ✦</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES SYFIR — ce que la plateforme permet concrètement
+     R81 (reconstruction) : remplace « La vision » (dossier fondateur en
+     trois convictions + carte « La pochette AVYR » + photo produit).
+     SYFIR n'est plus défini par un produit ici — le contenu équivalent
+     vit désormais sur le site autonome d'AVYR (avyr-site/).
+============================================================ -->
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
+  <div class="brand-sign">
+    <p class="brand-sign-mark">SYFIR</p>
+    <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
+  </div>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">SYFIR<span>™</span></div>
+      <p>Des instants de vie, des expériences —<br>et tout un univers pour les vivre.</p>
+      <form class="footer-news" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+        <label for="nlEmail">Reçois les prochaines soirées ✦</label>
+        <div class="footer-news-row">
+          <input type="email" id="nlEmail" name="email" placeholder="ton@email.com" autocomplete="email" required>
+          <button class="btn btn-solid btn-sm" type="submit">S'inscrire</button>
+        </div>
+        <p class="footer-news-msg" role="status" hidden></p>
+      </form>
+    </div>
+    <div class="footer-col">
+      <h3>Explorer</h3>
+      <a href="partenaires.html#marque">Notre marque</a>
+      <a href="partenaire-avyr.html">AVYR — marque partenaire</a>
+      <a href="index.html#confiance">Ils nous font confiance</a>
+      <a href="evenements.html">Événements &amp; Fêtes</a>
+      <a href="espace-pro.html">Espace pro — Smartboard</a>
+    </div>
+    <div class="footer-col">
+      <h3>Artistes</h3>
+      <a href="artistes.html#artistes">Artistes, DJs &amp; groupes</a>
+      <a href="artistes.html#agenda">Agenda des concerts</a>
+      <a href="partenaires.html">Devenir partenaire</a>
+    </div>
+    <div class="footer-col">
+      <h3>SYFIR TV</h3>
+      <a href="syf-tv.html">#SYFIR</a>
+      <a href="syf-tv.html">Instagram</a>
+      <a href="syf-tv.html">TikTok</a>
+    </div>
+    <div class="footer-col">
+      <h3>Légal</h3>
+      <a href="faq.html">FAQ</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="cgv.html">CGV</a>
+      <a href="confidentialite.html">Confidentialité</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SYFIR. Tous droits réservés.</p>
+    <p class="footer-sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<!-- Modale Mon espace (billets / favoris / profil — toutes pages) -->
+<div class="modal" id="clientModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-box modal-box-sm">
+    <button class="modal-close" data-close aria-label="Fermer">✕</button>
+    <div class="modal-body">
+      <h3 id="clientTitle">Mon espace</h3>
+      <div class="tabs" id="clientTabs">
+        <button class="tab active" data-tab="tickets">Mes billets</button>
+        <button class="tab" data-tab="favs">Favoris</button>
+        <button class="tab" data-tab="profile">Mon profil</button>
+        <button class="tab" data-tab="login" data-auth>Connexion</button>
+        <button class="tab" data-tab="register" data-auth>Inscription</button>
+      </div>
+
+      <!-- Mes billets (défaut) -->
+      <div class="tab-panel active" id="panel-tickets">
+        <div class="subtabs" id="ticketSubtabs">
+          <button class="subtab active" data-sub="upcoming">À venir</button>
+          <button class="subtab" data-sub="past">Passés</button>
+        </div>
+        <div id="myTickets"></div>
+      </div>
+
+      <!-- Favoris -->
+      <div class="tab-panel" id="panel-favs">
+        <div id="myFavs"></div>
+      </div>
+
+      <!-- Mon profil -->
+      <form class="tab-panel" id="panel-profile" novalidate>
+        <div class="form-field">
+          <label for="profName">Nom complet</label>
+          <input type="text" id="profName" placeholder="Prénom Nom" autocomplete="name">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profEmail">Email</label>
+          <input type="email" id="profEmail" placeholder="toi@exemple.com" autocomplete="email">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="profCity">Ville</label>
+          <input type="text" id="profCity" placeholder="Pointe-à-Pitre" autocomplete="address-level2">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Enregistrer mon profil</button>
+        <button type="button" class="btn btn-ghost btn-full" id="logoutBtn" hidden>Se déconnecter</button>
+      </form>
+
+      <!-- Connexion -->
+      <form class="tab-panel" id="panel-login" novalidate>
+        <div class="form-field">
+          <label for="clEmail">Email</label>
+          <input type="email" id="clEmail" placeholder="toi@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="clPass">Mot de passe</label>
+          <input type="password" id="clPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Se connecter</button>
+      </form>
+
+      <!-- Inscription -->
+      <form class="tab-panel" id="panel-register" novalidate>
+        <div class="form-field">
+          <label for="rgName">Nom complet</label>
+          <input type="text" id="rgName" placeholder="Prénom Nom">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgEmail">Email</label>
+          <input type="email" id="rgEmail" placeholder="toi@exemple.com">
+          <span class="field-error"></span>
+        </div>
+        <div class="form-field">
+          <label for="rgPass">Mot de passe (8 caractères min.)</label>
+          <input type="password" id="rgPass" placeholder="••••••••">
+          <span class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-solid btn-full">Créer mon compte</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bouton retour en haut -->
+<button class="to-top" id="toTop" aria-label="Remonter en haut">↑</button>
+
+<!-- Barre de progression de lecture -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<script src="events-data.js"></script>
+<script src="auth.js"></script>
+<script src="script.js"></script>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

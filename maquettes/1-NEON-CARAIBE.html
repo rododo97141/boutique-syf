@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYFIR — Néon Caraïbe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&display=swap">
+<style>
+/* ============================================================
+   MAQUETTE 1 — NÉON CARAÏBE
+   Un seul monde : la nuit. La soirée avance quand on descend :
+   début de soirée (bleu frais) → la montée → cœur de nuit (saturé).
+   Jamais de jour. Jamais de gris pâle.
+   ============================================================ */
+:root{
+  --nuit-0:#070516;      /* début de soirée */
+  --nuit-1:#12082c;      /* la montée */
+  --nuit-2:#1b0733;      /* cœur de nuit */
+  --magenta:#ff2f7e;
+  --turquoise:#1fe3cf;
+  --violet:#8b5cff;
+  --or:#ffc964;
+  --creme:#f6f1ea;
+  --creme-doux:rgba(246,241,234,.72);
+  --p:0;                          /* progression de la soirée, 0 → 1 */
+  --bpm:1.034s;                   /* 116 BPM, le tempo kompa */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--nuit-0); color:var(--creme);
+  font:400 17px/1.65 "Plus Jakarta Sans",system-ui,sans-serif;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- LE CIEL DE LA NUIT : trois couches, opacités pilotées ---------- */
+.nuit{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+.nuit i{position:absolute; inset:-10%; display:block}
+.n0{background:
+  radial-gradient(90% 60% at 20% 0%, #1b1650 0%, transparent 60%),
+  radial-gradient(70% 50% at 85% 15%, #0d2b4d 0%, transparent 65%),
+  linear-gradient(180deg,#070516,#0a0620);
+  opacity:calc(1 - var(--p)*1.1)}
+.n1{background:
+  radial-gradient(80% 55% at 15% 25%, #3a0f5e 0%, transparent 62%),
+  radial-gradient(75% 55% at 90% 40%, #06414a 0%, transparent 60%),
+  linear-gradient(180deg,#0c0726,#170a34);
+  opacity:calc(1 - abs(var(--p)*2 - 1))}
+.n2{background:
+  radial-gradient(85% 60% at 25% 70%, #56104f 0%, transparent 60%),
+  radial-gradient(70% 60% at 80% 85%, #1a0a52 0%, transparent 62%),
+  linear-gradient(180deg,#170a34,#22083c);
+  opacity:calc(var(--p)*1.15 - .15)}
+
+/* faisceaux de sono : ils s'ouvrent quand la soirée monte */
+.faisceaux{position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+  opacity:calc(.25 + var(--p)*.75); mix-blend-mode:screen}
+.faisceaux b{position:absolute; top:-30vh; left:50%; width:34vw; height:150vh;
+  transform-origin:50% 0; display:block; filter:blur(28px);
+  animation:balayage 13s ease-in-out infinite alternate}
+.f1{background:linear-gradient(180deg,rgba(255,47,126,.55),transparent 62%);
+  transform:rotate(-24deg) translateX(-70%); animation-delay:-2s}
+.f2{background:linear-gradient(180deg,rgba(31,227,207,.42),transparent 60%);
+  transform:rotate(19deg) translateX(-10%); animation-delay:-7s}
+.f3{background:linear-gradient(180deg,rgba(139,92,255,.38),transparent 58%);
+  transform:rotate(4deg) translateX(30%); animation-delay:-11s}
+@keyframes balayage{from{transform:rotate(-26deg) translateX(-60%)}
+                    to  {transform:rotate(14deg)  translateX(20%)}}
+
+/* poussière lumineuse */
+.grains{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5}
+.grains s{position:absolute; width:2px; height:2px; border-radius:50%;
+  background:var(--creme); box-shadow:0 0 6px rgba(255,255,255,.8);
+  animation:flotte linear infinite}
+@keyframes flotte{from{transform:translateY(12vh);opacity:0}
+                  12%{opacity:.85} 88%{opacity:.5}
+                  to{transform:translateY(-105vh);opacity:0}}
+
+/* ---------- structure ---------- */
+main{position:relative; z-index:2}
+.sec{max-width:1180px; margin:0 auto; padding:clamp(80px,13vh,150px) 26px}
+.eyebrow{font:600 11.5px/1 "Plus Jakarta Sans"; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--turquoise); margin:0 0 18px}
+h2{font:800 clamp(34px,5.6vw,68px)/1.04 "Unbounded"; margin:0 0 22px; letter-spacing:-.02em}
+h2 em{font:400 clamp(34px,5.6vw,68px)/1.04 "Fraunces"; font-style:italic;
+  background:linear-gradient(92deg,var(--magenta),var(--or) 55%,var(--turquoise));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+p.lead{font-size:clamp(17px,1.9vw,21px); color:var(--creme-doux); max-width:62ch; margin:0 0 30px}
+
+/* ---------- hero ---------- */
+.hero{position:relative; min-height:100svh; display:grid; align-items:end;
+  padding:0 26px clamp(52px,9vh,110px); max-width:1180px; margin:0 auto}
+.hero-photo{position:absolute; inset:0; z-index:-1; overflow:hidden;
+  mask-image:linear-gradient(180deg,#000 55%,transparent)}
+.hero-photo img{width:100%;height:100%;object-fit:cover; opacity:.62;
+  filter:saturate(1.35) contrast(1.08); animation:respire 26s ease-in-out infinite alternate}
+@keyframes respire{from{transform:scale(1.04)}to{transform:scale(1.14)}}
+.hero-photo::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(7,5,22,.55) 0%,transparent 35%,rgba(7,5,22,.85) 100%),
+             radial-gradient(70% 50% at 30% 60%,rgba(255,47,126,.28),transparent 70%)}
+.marque{font:800 clamp(62px,15vw,190px)/.86 "Unbounded"; letter-spacing:-.035em;
+  margin:0 0 6px; background:linear-gradient(96deg,#fff,var(--or) 38%,var(--magenta) 72%,var(--turquoise));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 44px rgba(255,47,126,.4))}
+.hero .tag{font:400 clamp(19px,2.4vw,30px)/1.35 "Fraunces"; font-style:italic;
+  color:var(--creme); margin:0 0 34px; max-width:22ch}
+.actions{display:flex; gap:14px; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; gap:10px; padding:16px 30px; border-radius:999px;
+  font:600 15px/1 "Plus Jakarta Sans"; text-decoration:none; border:1px solid transparent;
+  transition:transform .25s, box-shadow .25s}
+.btn-1{color:#0b0518; background:linear-gradient(96deg,var(--or),var(--magenta));
+  box-shadow:0 0 0 0 rgba(255,47,126,.55); animation:pouls var(--bpm) ease-out infinite}
+@keyframes pouls{0%{box-shadow:0 0 0 0 rgba(255,47,126,.5)}
+                 70%{box-shadow:0 0 0 18px rgba(255,47,126,0)}
+                 100%{box-shadow:0 0 0 0 rgba(255,47,126,0)}}
+.btn-2{color:var(--creme); border-color:rgba(246,241,234,.34); backdrop-filter:blur(6px);
+  background:rgba(246,241,234,.05)}
+.btn:hover{transform:translateY(-2px)}
+
+/* ---------- verre ---------- */
+.verre{background:rgba(10,6,30,.5); border:1px solid rgba(246,241,234,.11);
+  border-radius:22px; backdrop-filter:blur(16px); padding:30px}
+
+/* ---------- dates ---------- */
+.dates{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px}
+.date{position:relative; overflow:hidden; border-radius:22px; min-height:330px;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:26px;
+  border:1px solid rgba(246,241,234,.12); isolation:isolate;
+  transition:transform .35s, border-color .35s}
+.date img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  z-index:-2; opacity:.72; filter:saturate(1.3); transition:transform .7s}
+.date::after{content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg,transparent 25%,rgba(9,5,25,.9) 88%)}
+.date:hover{transform:translateY(-6px); border-color:rgba(255,201,100,.45)}
+.date:hover img{transform:scale(1.07)}
+.date .quand{font:600 11.5px/1 "Plus Jakarta Sans"; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--or); margin-bottom:9px}
+.date h3{font:600 24px/1.2 "Unbounded"; margin:0 0 8px}
+.date .ou{color:var(--creme-doux); font-size:14.5px; margin:0}
+.puce{position:absolute; top:18px; right:18px; z-index:1; font:600 11px/1 "Plus Jakarta Sans";
+  letter-spacing:.14em; text-transform:uppercase; padding:8px 13px; border-radius:999px;
+  background:rgba(31,227,207,.16); color:var(--turquoise); border:1px solid rgba(31,227,207,.4)}
+
+/* ---------- scène ---------- */
+.scene{position:relative; border-radius:28px; overflow:hidden; min-height:74vh;
+  display:grid; align-items:center; padding:clamp(34px,6vw,80px); isolation:isolate}
+.scene img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2;
+  opacity:.66; filter:saturate(1.4) contrast(1.05)}
+.scene::after{content:""; position:absolute; inset:0; z-index:-1;
+  background:radial-gradient(80% 90% at 15% 50%,rgba(9,5,25,.94),rgba(9,5,25,.35) 70%)}
+
+/* ---------- écosystème ---------- */
+.eco{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px}
+.eco .c{padding:24px; border-radius:18px; background:rgba(246,241,234,.045);
+  border:1px solid rgba(246,241,234,.1); transition:background .3s,border-color .3s}
+.eco .c:hover{background:rgba(255,47,126,.09); border-color:rgba(255,47,126,.4)}
+.eco .c b{display:block; font:600 16px/1.3 "Unbounded"; margin-bottom:7px}
+.eco .c span{color:var(--creme-doux); font-size:14.5px}
+
+/* ---------- pied ---------- */
+footer{position:relative; z-index:2; margin-top:60px; padding:70px 26px 44px;
+  background:rgba(6,4,18,.72); border-top:1px solid rgba(246,241,234,.1);
+  backdrop-filter:blur(18px)}
+.f-in{max-width:1180px; margin:0 auto}
+.signe{font:800 clamp(52px,11vw,128px)/.9 "Unbounded"; letter-spacing:-.035em; margin:0 0 10px;
+  color:rgba(246,241,234,.1); -webkit-text-stroke:1px rgba(255,201,100,.4)}
+.sante{font-size:13px; color:rgba(246,241,234,.8); margin:22px 0 0;
+  padding-top:18px; border-top:1px solid rgba(246,241,234,.1)}
+
+/* ---------- barre ---------- */
+nav{position:fixed; top:0; left:0; right:0; z-index:9; display:flex; align-items:center;
+  justify-content:space-between; padding:15px 26px; backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,rgba(7,5,22,.86),rgba(7,5,22,.28));
+  border-bottom:1px solid rgba(246,241,234,.08)}
+nav .lg{font:800 19px/1 "Unbounded"; letter-spacing:-.02em; color:var(--creme); text-decoration:none}
+nav .lk{display:flex; gap:26px}
+nav a.l{color:var(--creme-doux); text-decoration:none; font-size:13.5px; font-weight:500}
+nav a.l:hover{color:var(--or)}
+@media(max-width:720px){nav .lk{display:none}}
+
+/* ---------- étiquette de maquette ---------- */
+.tag-maq{position:fixed; left:14px; bottom:14px; z-index:99; font:600 12px/1.3 system-ui;
+  background:rgba(8,5,22,.9); color:#f6f1ea; border:1px solid rgba(255,201,100,.45);
+  border-radius:11px; padding:9px 13px}
+.tag-maq b{display:block; font-size:10px; letter-spacing:.12em; opacity:.6; text-transform:uppercase}
+
+.rev{opacity:0; transform:translateY(26px); transition:opacity .9s, transform .9s}
+.rev.in{opacity:1; transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  .rev{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nuit" aria-hidden="true"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+<div class="faisceaux" aria-hidden="true"><b class="f1"></b><b class="f2"></b><b class="f3"></b></div>
+<div class="grains" id="grains" aria-hidden="true"></div>
+
+<nav>
+  <a class="lg" href="#">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="#dates">Événements</a>
+    <a class="l" href="#scene">Artistes</a>
+    <a class="l" href="#eco">L'écosystème</a>
+    <a class="l" href="#">SYFIR TV</a>
+  </div>
+</nav>
+
+<main>
+
+  <header class="hero">
+    <div class="hero-photo">
+      <img src="img/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="">
+    </div>
+    <div>
+      <p class="eyebrow rev">Guadeloupe · Caraïbe</p>
+      <h1 class="marque rev">SYFIR</h1>
+      <p class="tag rev">La nuit commence ici.</p>
+      <div class="actions rev">
+        <a class="btn btn-1" href="#dates">Entrer dans la fête</a>
+        <a class="btn btn-2" href="#eco">Organiser la mienne</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="sec">
+    <p class="eyebrow rev">Le manifeste</p>
+    <h2 class="rev">Un réseau,<br><em>pas un catalogue.</em></h2>
+    <p class="lead rev">SYFIR est une identité de fête et de musique, portée par un écosystème
+      de services. Les partenaires sont des lieux, des marques, des talents et des
+      savoir-faire qui font vivre une expérience. SYFIR relie et combine — chaque
+      métier reste maître de ce qu'il apporte.</p>
+  </section>
+
+  <section class="sec" id="dates">
+    <p class="eyebrow rev">Trois dates. Zéro excuse.</p>
+    <h2 class="rev">Là où le moment<br><em>devient une scène.</em></h2>
+    <div class="dates">
+      <article class="date rev">
+        <img src="img/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="">
+        <span class="puce">Rooftop</span>
+        <div class="quand">Vendredi · 22h</div>
+        <h3>Bouyon Sunset</h3>
+        <p class="ou">Le Gosier — toit-terrasse</p>
+      </article>
+      <article class="date rev">
+        <img src="img/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="">
+        <span class="puce">Beach party</span>
+        <div class="quand">Samedi · 20h</div>
+        <h3>Kompa de Luxe</h3>
+        <p class="ou">Sainte-Anne — plage privée</p>
+      </article>
+      <article class="date rev">
+        <img src="img/unsplash-photo-1470225620780-dba8ba36b745.jpg" alt="">
+        <span class="puce">Villa</span>
+        <div class="quand">Dimanche · 18h</div>
+        <h3>Dîner dansant</h3>
+        <p class="ou">Saint-François — villa</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="scene">
+    <div class="scene rev">
+      <img src="img/unsplash-photo-1493676304819-0d7a8d026dcf.jpg" alt="">
+      <div style="max-width:34ch">
+        <p class="eyebrow">Artistes, DJs &amp; groupes live</p>
+        <h2>Ceux qui font monter<br><em>la température.</em></h2>
+        <p class="lead">Kompa, bouyon, zouk, afro. Ceux qui tiennent une salle jusqu'au
+          bout de la nuit, et ceux qu'on découvre avant tout le monde.</p>
+        <a class="btn btn-2" href="#">Voir le line-up</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="eco">
+    <p class="eyebrow rev">L'écosystème</p>
+    <h2 class="rev">Ta place dans <em>l'écosystème.</em></h2>
+    <p class="lead rev">Six catégories de partenaires. Chacune apporte ce qu'elle sait faire
+      mieux que les autres — et le contrat reste direct entre les parties.</p>
+    <div class="eco">
+      <div class="c rev"><b>Lieux</b><span>Bars, restaurants, clubs, plages privées, villas, rooftops.</span></div>
+      <div class="c rev"><b>Artistes &amp; talents</b><span>DJs, groupes, chanteurs, danseurs, performeurs, artistes visuels.</span></div>
+      <div class="c rev"><b>Marques partenaires</b><span>Boissons, mode, cosmétique, lifestyle — comme AVYR.</span></div>
+      <div class="c rev"><b>Organisateurs</b><span>Associations, collectifs et producteurs qui montent des événements.</span></div>
+      <div class="c rev"><b>Prestataires</b><span>Son, lumière, sécurité, traiteur, décoration, captation.</span></div>
+      <div class="c rev"><b>Médias &amp; communautés</b><span>Radios, créateurs, pages et communautés qui font vivre la scène.</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="f-in">
+    <p class="signe">SYFIR</p>
+    <p style="color:var(--creme-doux);margin:0;max-width:44ch">
+      Les prochains souvenirs commencent ici. Soirées, festivals, carnavals —
+      en Guadeloupe et dans toute la Caraïbe.</p>
+    <p class="sante">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+  </div>
+</footer>
+
+<div class="tag-maq"><b>Maquette 1 sur 3</b>Néon Caraïbe — électrique</div>
+
+<script>
+(function(){
+  var red = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* la soirée avance : une seule horloge, tout le reste en dérive */
+  var doc = document.documentElement, tick = false;
+  function horloge(){
+    var max = doc.scrollHeight - innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    doc.style.setProperty('--p', p.toFixed(4));
+    tick = false;
+  }
+  addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(horloge); } }, {passive:true});
+  addEventListener('resize', horloge); horloge();
+
+  /* poussière lumineuse */
+  if (!red) {
+    var g = document.getElementById('grains'), h = '';
+    for (var i=0;i<46;i++){
+      var d = (8 + Math.random()*16).toFixed(1);
+      h += '<s style="left:'+(Math.random()*100).toFixed(2)+'%;top:'+(60+Math.random()*60).toFixed(1)
+         + 'vh;animation-duration:'+d+'s;animation-delay:-'+(Math.random()*d).toFixed(1)
+         + 's;opacity:'+(.3+Math.random()*.6).toFixed(2)+'"></s>';
+    }
+    g.innerHTML = h;
+  }
+
+  /* apparitions */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rev').forEach(function(el,i){
+    el.style.transitionDelay = (Math.min(i,6)*70) + 'ms'; io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
