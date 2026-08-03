@@ -16,5 +16,14 @@
     "sel": "*",
     "prop": "*",
     "raison": "LA NUIT DEVIENT LA BASE — 238 usages de rôle TEXTE basculés : --grey -> --creme-doux (texte secondaire), --cream -> --creme et --cream-rgb -> --creme-rgb (texte courant). Réécriture des USAGES, jamais des tokens, et conditionnée par le rôle de chaque déclaration. L'or de MARQUE --gold/--gold-rgb/--gold-light/--gold-deep n'est pas touché (décision Kily). Les rôles fond/bordure/ombre restent à traiter en C/2."
+  },
+  {
+    "lot": "C/2",
+    "de": "r108",
+    "vers": "r109",
+    "page": "*",
+    "sel": "*",
+    "prop": "*",
+    "raison": "les rôles NON TEXTE basculent : 37 liserés --cream-rgb -> --creme-rgb, 23 fonds --ink-soft -> --nuit-1, 18 fonds --ocean-deep -> --nuit-2. Plus .section-cream, le dernier bloc clair du site (3 pages) : fond, encre, fondus et chapô basculés ENSEMBLE parce qu'ils sont couplés. L'or de marque reste intact."
   }
 ]
