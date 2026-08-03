@@ -66,12 +66,20 @@
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+  /* Une og:image RELATIVE ne s'affiche pas : la spec Open Graph exige une
+     URL absolue, et les robots de WhatsApp, Facebook et LinkedIn ne
+     résolvent pas un chemin. Le HTML porte désormais des valeurs absolues
+     par défaut ; le JS écrasait ces valeurs avec le chemin relatif de
+     l'événement — il aurait donc RECASSÉ ce que le HTML venait de réparer,
+     et précisément sur la page la plus partagée du site. */
+  const CANON = 'https://rododo97141.github.io/boutique-syf';
+  const absolu = u => (!u || /^https?:/.test(u)) ? u : `${CANON}/${String(u).replace(/^\.?\//, '')}`;
   document.getElementById('pageTitle').textContent = `${ev.name} — SYFIR Événements`;
   setAttr('#metaDesc', 'content', shareText);
   setAttr('#ogTitle', 'content', `${ev.name} — SYFIR`);
   setAttr('#ogDesc', 'content', shareText);
-  setAttr('#ogImage', 'content', ev.img);
-  setAttr('#twImage', 'content', ev.img);
+  setAttr('#ogImage', 'content', absolu(ev.img));
+  setAttr('#twImage', 'content', absolu(ev.img));
   setAttr('#ogUrl', 'content', location.href);
 
   // --- Données structurées JSON-LD MusicEvent (schema.org) ---
@@ -85,7 +93,7 @@
     startDate: `${ev.date}T${ev.time || '20:00'}:00`,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    image: [ev.img],
+    image: [absolu(ev.img)],
     description: `${tag} SYFIR à ${ev.city}${ev.venue ? ' — ' + ev.venue : ''}. ${(ev.genres || []).join(', ')}`,
     location: { '@type': 'Place', name: ev.venue || ev.city, address: { '@type': 'PostalAddress', addressLocality: ev.city, addressCountry: 'GP' } },
     offers: { '@type': 'AggregateOffer', priceCurrency: 'EUR', lowPrice: lowP, highPrice: highP, availability: 'https://schema.org/InStock', url: location.href },
@@ -118,7 +126,8 @@
   }
 
   // --- Fil d'Ariane structuré (R39-B) : Accueil > Événements > cet événement ---
-  const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
+  // (la base canonique est déclarée plus haut sous le nom CANON)
+  const CANON_BASE = CANON;
   const crumbLd = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [

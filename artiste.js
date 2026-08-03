@@ -29,12 +29,17 @@
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+  /* Même raison que sur la fiche événement : une og:image relative ne
+     s'affiche pas dans une conversation. Le HTML porte une valeur absolue
+     par défaut, le JS ne doit pas la remplacer par un chemin. */
+  const CANON = 'https://rododo97141.github.io/boutique-syf';
+  const absolu = u => (!u || /^https?:/.test(u)) ? u : `${CANON}/${String(u).replace(/^\.?\//, '')}`;
   document.getElementById('pageTitle').textContent = `${a.name} — Artistes SYFIR`;
   setAttr('#metaDesc', 'content', `${a.name} — ${a.role}. ${a.bio.slice(0, 120)}`);
   setAttr('#ogTitle', 'content', `${a.name} — SYFIR`);
   setAttr('#ogDesc', 'content', shareText);
-  setAttr('#ogImage', 'content', a.photo);
-  setAttr('#twImage', 'content', a.photo);
+  setAttr('#ogImage', 'content', absolu(a.photo));
+  setAttr('#twImage', 'content', absolu(a.photo));
   setAttr('#ogUrl', 'content', location.href);
   setAttr('#canonical', 'href', `${CANON_BASE}/artiste.html?id=${encodeURIComponent(a.id)}`);
 

@@ -1004,7 +1004,29 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   display: block; font-family: var(--display); font-size: .72rem; font-weight: 700;
   letter-spacing: .14em; text-transform: uppercase; color: var(--passion); margin-bottom: 12px;
 }
-.footer-news-row { display: flex; gap: 8px; }
+/* ⚠ LA RANGÉE A TROIS ENFANTS, PAS DEUX — et le troisième écrasait le
+   premier. `addDemoNote` insère la note « démo — transmission bientôt
+   active » JUSTE APRÈS le bouton d'envoi, donc **à l'intérieur de cette
+   rangée flex** : elle devient un troisième élément flexible, prend ses
+   129 px, et le champ e-mail — seul à porter `flex: 1; min-width: 0` —
+   se laisse écraser jusqu'à **34 px de large** à 390 px. Un champ e-mail
+   de 34 px n'est pas une cible tactile trop petite : il est inutilisable.
+
+   Mesuré au rendu à 390 px sur les 14 pages, par `tools/qa/cibles.mjs`.
+   Aucun instrument existant ne pouvait le voir : il n'y a **aucun
+   débordement** (la rangée tient dans sa largeur) et **aucun défaut de
+   contraste**. La page est simplement cassée à l'intérieur de sa boîte.
+
+   Le défaut préexiste au lot E/2, mais E/2 l'a rendu PERMANENT ici : la
+   note s'efface désormais toute seule sur le formulaire partenaire, et
+   reste pour toujours sur la newsletter, qui ne transmet pas.
+
+   Le remède ne touche ni le HTML ni le JS : la rangée s'autorise à
+   revenir à la ligne, et la note prend une ligne entière au lieu de
+   disputer la sienne au champ. */
+.footer-news-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.footer-news-row .form-demo-note { flex: 1 0 100%; margin-top: 0; }
+.footer-news-row input { flex: 1 1 60%; }
 .footer-news input {
   flex: 1; min-width: 0; min-height: 44px; padding: 12px 16px;
   background: rgba(var(--cream-rgb), .06); border: 1px solid rgba(var(--creme-rgb), .18);
@@ -4032,6 +4054,29 @@ html[data-econome] .portal-inner::after { opacity: 0; }
      sur une seule ligne à 390px — la partie droite se replie dessous, alignée à droite */
   .tier { flex-wrap: wrap; }
   .tier-right { margin-left: auto; }
+
+  /* ===== MANDAT DE CLÔTURE — les cibles que la LISTE avait manquées =====
+     Le bloc ci-dessus est une liste de sélecteurs écrite à la main : tout
+     composant né après elle en est absent, et personne ne s'en aperçoit.
+     `tools/qa/cibles.mjs` ne lit plus aucun sélecteur — il mesure la boîte
+     PEINTE de tout ce qui se clique, à 390 px. Voici ce qu'il a trouvé, et
+     que la liste ne pouvait pas contenir. */
+  .ticket-share { min-height: 44px; padding: 10px 14px; }        /* 34 px — bouton « Partager » d'un billet */
+  .ticket-search { min-height: 44px; }                            /* 43 px — à un pixel près, donc faux */
+  .audience-mail { display: inline-flex; align-items: center; min-height: 44px; }
+  .legal-back, .account-back { display: inline-flex; align-items: center; min-height: 44px; }
+  .linklike { min-height: 44px; padding: 10px 4px; }
+  /* `min-width` autant que `min-height` : « CGV » fait 34,7 px de large,
+     et une cible haute mais étroite reste une cible ratée au pouce. */
+  .legal-pills a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+  /* Les liens d'action des cartes « écosystème » de l'accueil (« Proposer
+     mon lieu → », « Rejoindre le line-up → »…) : 18,5 px de haut. Ce sont
+     des appels à l'action, pas des liens en flux de texte — l'exception
+     WCAG 2.5.8 ne les couvre pas. */
+  .eco .c a, .eco-card a { display: inline-flex; align-items: center; min-height: 44px; }
+  /* Le logo de la barre : c'est le retour à l'accueil, la cible la plus
+     utilisée d'un site sur téléphone. */
+  nav .lg, .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
 }
 
 /* Tablette */
@@ -4504,17 +4549,59 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 
 /* ===== Hero mosaïque SYFIR TV (R8 pattern 4) — carrousel de grandes cartes
    portrait, flèches (via initRows) + swipe natif, scroll-snap centré. */
-.tv-hero { padding: 18px 0 6px; }
-.tv-hero-track { scroll-padding-inline: var(--row-gutter); }
+/* ===== LOT D — SYFIR TV AU REGISTRE « LUMIÈRE DE SCÈNE » =====
+   Décision de Kily : « communauté, médias et tout le reste, tout se passe
+   dans SYFIR TV ». Ce n'est pas une page parmi treize, c'est LA
+   destination. Elle doit s'ouvrir comme l'accueil s'ouvre.
+
+   CE QUE J'AI VU SUR LA CAPTURE À 390 px, avant de toucher au CSS, et
+   qu'aucun test ne signalait : la page s'ouvrait comme un BILLET DE BLOG.
+   Le « hero » était une carte encartée de 88 vw sur 420 px de haut, avec
+   la tranche colorée de la carte suivante qui dépassait en haut à droite —
+   lue comme un défaut d'affichage, pas comme une invitation à faire
+   défiler. Une chaîne ne s'ouvre pas sur une vignette.
+
+   CE QUI CHANGE, ET CE QUI NE CHANGE PAS. Uniquement du CSS : aucune
+   section déplacée, aucun contenu retiré, le carrousel « à la une » garde
+   ses diapositives, ses flèches et son balayage. La diapositive prend
+   simplement toute la largeur et toute la hauteur d'écran — une à la fois,
+   plein cadre, comme le hero de la maquette. Effet de bord voulu : la
+   tranche qui dépassait disparaît, puisqu'une diapositive occupe
+   exactement l'écran.
+
+   `100%` et non `100vw` : `100vw` inclut la largeur de la barre de
+   défilement et rouvrirait un débordement horizontal à 390 px — le
+   défaut que `debordement.mjs` traque depuis R81. */
+.tv-hero { padding: 0; }
+.tv-hero-track { scroll-padding-inline: 0; padding: 0; gap: 0; }
 .tv-hero-track > .tv-hero-slide {
-  flex: 0 0 min(88vw, 560px); scroll-snap-align: center;
-  position: relative; height: min(76vh, 660px); min-height: 420px;
-  border-radius: 22px; overflow: hidden; background: var(--nuit-1);
+  flex: 0 0 100%; scroll-snap-align: center;
+  position: relative; height: min(100svh, 900px); min-height: 520px;
+  border-radius: 0; overflow: hidden; background: var(--nuit-1);
 }
+/* La photo passe derrière la nuit au lieu de la remplacer : même recette
+   que le hero de la maquette (opacité .5 + contraste léger), pour que le
+   bleu de scène traverse l'image au lieu de s'arrêter à son bord. */
+.tv-hero-img { opacity: .55; filter: contrast(1.12) saturate(.92) brightness(.92); }
+/* Le texte descend d'un cran et respire : sur 100svh, une accroche collée
+   au bas de l'écran se fait manger par la barre du navigateur mobile. */
+.tv-hero-body { padding-bottom: clamp(48px, 12vh, 96px); }
 .tv-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Le voile ne descendait que par le bas (transparent au-dessus de 68 %) :
+   en carte de 420 px ça suffisait, en plein écran le haut de la photo
+   reste en plein jour et la page s'ouvre sur une plage ensoleillée alors
+   que tout le site est une nuit bleue. Vu sur la capture à 390 px, par
+   aucun instrument — ni le contraste ni le débordement n'ont rien à en
+   dire, l'image est simplement dans le mauvais monde.
+   La recette est celle du hero de la maquette, reprise telle quelle :
+   sombre en haut, ouvert au milieu, sombre en bas, plus un halo bleu de
+   projecteur au zénith (`at 50% 22%` — la lumière de scène vient d'en
+   haut, ce n'est pas un coucher de soleil). */
 .tv-hero-slide::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(var(--black-rgb), .92) 5%, rgba(var(--black-rgb), .32) 42%, transparent 68%);
+  background:
+    linear-gradient(180deg, rgba(4, 7, 15, .72), rgba(4, 7, 15, .30) 42%, rgba(4, 7, 15, .94)),
+    radial-gradient(60% 42% at 50% 22%, rgba(127, 178, 255, .20), transparent 72%);
 }
 .tv-hero-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(22px, 4vw, 40px); color: var(--creme); }
 .tv-hero-title {
