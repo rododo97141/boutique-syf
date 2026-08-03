@@ -14,8 +14,15 @@ import { serve, browser, openPage, VIEWPORTS } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const url = args.find(a => !a.startsWith('--')) || 'index.html';
-const theme = (args[args.indexOf('--theme') + 1] && !args[args.indexOf('--theme') + 1].startsWith('--'))
-  ? args[args.indexOf('--theme') + 1] : 'dark';  /* R98 : un seul thème, la nuit. Le défaut « light » restait ici et
+/* ⚠ `indexOf` RENVOIE −1 QUAND L'OPTION EST ABSENTE, et `args[-1 + 1]`
+   vaut `args[0]` — c'est-à-dire LE NOM DE LA PAGE. Sans `--theme`, le
+   rapport s'intitulait donc « thème evenements.html ». La mesure était
+   juste, l'étiquette fausse ; et un libellé faux sur une mesure juste
+   suffit à faire douter de la mesure — c'est exactement ce qui avait été
+   corrigé en R106 sur le défaut « light », en laissant passer la cause. */
+const iTheme = args.indexOf('--theme');
+const theme = (iTheme >= 0 && args[iTheme + 1] && !args[iTheme + 1].startsWith('--'))
+  ? args[iTheme + 1] : 'dark';  /* R98 : un seul thème, la nuit. Le défaut « light » restait ici et
      étiquetait chaque rapport « thème light » — un libellé faux sur une
      mesure juste, ce qui suffit à faire douter de la mesure. */
 const portalFirst = args.includes('--portal-first');
