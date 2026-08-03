@@ -265,7 +265,12 @@
     let user = null; try { user = JSON.parse(localStorage.getItem('syfir-user')); } catch (err) { user = null; }
     const prenom = ((user && user.name) || '').trim().split(/\s+/)[0] || '';
     const count = tierQty.reduce((s2, q) => s2 + q, 0);
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie.`;
+    /* E/1 — la même phrase que la modale de la billetterie, tirée de la
+       même source (`S.demoTicketText`, events-data.js). Le billet créé ici
+       est un vrai billet : il a son numéro, son QR, il est dans Mon espace
+       et il se consulte hors ligne. Ce qu'il n'est pas se dit dans la
+       phrase même qui annonce sa création, pas en petit à côté. */
+    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie. ${S.demoTicketText}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     if (S.ticketPeakHTML) ok.insertAdjacentHTML('afterend', S.ticketPeakHTML({ num, event: ev.name, date: ev.date }));

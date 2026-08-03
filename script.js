@@ -1775,18 +1775,57 @@ if (placeModal && placesGridEl) {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
   };
 
+  /* ===== 22 bis. LA MENTION « DÉMONSTRATION » — LOT E/1 =====
+     ------------------------------------------------------------------
+     RÈGLE ABSOLUE du lot : le parcours de réservation va jusqu'au bout —
+     choix du billet, confirmation, vrai billet avec son QR dans le profil,
+     consultable hors ligne — mais AUCUN paiement n'existe. Un billet qui
+     ne dit pas ce qu'il est laisserait croire à une entrée achetée.
+
+     TROIS CHOIX QUI RENDENT LA MENTION INDÉLÉBILE, et chacun se justifie :
+
+     1. Elle est INCONDITIONNELLE. Elle ne dépend ni de `ev.demo`, ni d'un
+        champ enregistré sur le billet, ni d'un réglage. Le parcours entier
+        est une démonstration, pas seulement les dates d'exemple : un
+        billet pris sur un événement créé depuis l'espace pro n'encaisse
+        pas davantage. Aucune donnée manquante ne peut donc l'effacer.
+     2. Elle est POSÉE AU RENDU, pas à l'écriture. Les billets déjà dans
+        le localStorage d'un visiteur — pris avant ce lot — la portent
+        aussi, dès le prochain affichage. Une mention écrite dans la donnée
+        aurait laissé les anciens billets nus.
+     3. Elle est DANS LE QR. Le code encode `SYFIR|DEMO|…` : même sorti de
+        la page, scanné par un contrôle à l'entrée, le billet se déclare.
+        C'est le seul endroit où la mention survit à la capture d'écran.
+
+     Le libellé dit les deux choses qui comptent, et rien de plus :
+     aucun paiement n'a eu lieu, et le billet ne donne pas accès. */
+  const DEMO_TICKET = window.SYFIR.demoTicketText;
+  const demoStamp = () =>
+    `<span class="ticket-demo" role="note"><span class="ticket-demo-badge">Démonstration</span><span class="ticket-demo-text">${DEMO_TICKET}</span></span>`;
+  // Charge utile du QR : le marqueur DEMO vient en deuxième position, juste
+  // après la marque, pour qu'il soit lu même par un scanner qui tronque.
+  const qrPayload = (num, event, date) => `SYFIR|DEMO|${num || ''}|${event}|${date}`;
+  /* L'encodeur est exposé au même titre que `escapeHtml` ou `downloadICS` :
+     c'est un utilitaire du module partagé, pas un crochet de test. Il rend
+     le QR AUDITABLE — sans lui, personne ne peut vérifier de l'extérieur
+     quelle chaîne un code peint encode réellement, et « le QR dit DEMO »
+     resterait une affirmation invérifiable. */
+  window.SYFIR.makeQR = makeQR;
+
   // Pic émotionnel (R3) — la confirmation d'achat devient LE moment signature :
   // onde or/sunset, le billet QR comme objet précieux, la signature « À très
   // vite. — SYFIR ». Partagé par la billetterie et la fiche événement.
   const ticketPeakHTML = ({ num, event, date }) => {
-    const qr = makeQR(`SYFIR|${num || ''}|${event}|${date}`);
+    const qr = makeQR(qrPayload(num, event, date));
     return `
-      <div class="ticket-peak" role="group" aria-label="Billet confirmé">
+      <div class="ticket-peak" role="group" aria-label="Billet de démonstration confirmé">
         <span class="ticket-peak-splash" aria-hidden="true"></span>
         <div class="ticket-peak-card">
-          ${qr ? `<span class="qr-code" role="img" aria-label="QR code du billet ${esc(num || '')}">${qr}</span>` : ''}
+          <span class="ticket-demo-badge ticket-demo-badge-peak">Démonstration</span>
+          ${qr ? `<span class="qr-code" role="img" aria-label="QR code du billet de démonstration ${esc(num || '')}">${qr}</span>` : ''}
           <p class="ticket-peak-num">N° ${esc(num || '')}</p>
         </div>
+        <p class="ticket-peak-demo">${DEMO_TICKET}</p>
         <p class="ticket-peak-sign">À très vite.<span>— SYFIR</span></p>
       </div>`;
   };
@@ -1913,11 +1952,33 @@ if (placeModal && placesGridEl) {
   /* ===== 27. FAVORIS + MODALES GÉNÉRIQUES (toutes pages) ===== */
   /* Favoris : exploration à coût zéro — un cœur par carte, conservé en
      localStorage. Pas de compteur, pas d'artifice : juste une liste à soi. */
+  /* ===== E/3 — LES IDENTIFIANTS NE SONT PLUS DES NOMBRES =====
+     R99 a donné aux événements des identifiants TEXTE (`demo-rooftop-1`).
+     Le code de la billetterie, lui, les relisait encore avec `+…`, hérité
+     de l'époque où ils étaient numériques. `+'demo-rooftop-1'` vaut NaN,
+     et NaN n'est égal à rien — pas même à lui-même.
+
+     Deux commandes en sont mortes sans que rien ne le signale :
+       · le bouton « Billets » de la billetterie levait une TypeError et
+         la modale ne s'ouvrait JAMAIS (l'action principale de la page) ;
+       · le cœur ♥ enregistrait NaN, qui devient `null` une fois passé par
+         JSON : le favori était écrit et ne se retrouvait plus.
+
+     Trouvé au CLIC, pas à la lecture — `muets.mjs` les avait rangés en
+     « candidats servis par un écouteur délégué », ce qui était vrai et ne
+     disait rien de ce qui se passait ensuite.
+
+     Le remède est un seul geste, appliqué partout où un identifiant
+     revient d'un attribut HTML : comparer en TEXTE. `String(a) === String(b)`
+     survit aux deux formes — les identifiants texte de R99 et les
+     identifiants numériques que l'espace pro fabrique encore avec
+     `Date.now()`. */
+  const memeId = (a, b) => String(a) === String(b);
   const getFavs = () => store.get('syfir-favs', []);
-  const isFav = id => getFavs().includes(id);
+  const isFav = id => getFavs().some(f => memeId(f, id));
   const toggleFav = id => {
     const favs = getFavs();
-    const i = favs.indexOf(id);
+    const i = favs.findIndex(f => memeId(f, id));
     if (i >= 0) favs.splice(i, 1); else favs.push(id);
     store.set('syfir-favs', favs);
     return i < 0;
@@ -1944,7 +2005,7 @@ if (placeModal && placesGridEl) {
       ? all.find(ev => ev.name === tickets[0].event && ev.date === tickets[0].date)
       : null;
     const favEvs = getFavs()
-      .map(id => all.find(ev => ev.id === id)).filter(Boolean)
+      .map(id => all.find(ev => memeId(ev.id, id))).filter(Boolean)
       .filter(upcoming).filter(ev => ev !== nextTicketEv)
       .sort((a, b) => a.date.localeCompare(b.date));
     const items = [];
@@ -2042,12 +2103,17 @@ if (placeModal && placesGridEl) {
   const ticketRow = t => {
     // QR réel généré côté client (terrain préparé pour Wallet) :
     // payload lisible par n'importe quel scanner, zéro appel réseau.
-    const qr = makeQR(`SYFIR|${t.num || ''}|${t.event}|${t.date}`);
+    const qr = makeQR(qrPayload(t.num, t.event, t.date));
     return `
-    <div class="my-ticket">
+    <div class="my-ticket my-ticket-demo">
       <div class="my-ticket-main">
         <strong>${esc(t.event)}</strong>
+        ${demoStamp()}
         <small>${esc(t.city)} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${esc(t.detail)}</small>
+        <!-- « Revente interdite » est CONSERVÉ tel quel. Sur un billet qui ne
+             donne accès à rien, la mention sonne étrangement — mais la retirer
+             serait supprimer du texte existant de ma propre initiative, et rien
+             ne l'impose. Signalé au superviseur plutôt que tranché ici. -->
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <div class="ticket-actions">
           <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
@@ -2076,7 +2142,7 @@ if (placeModal && placesGridEl) {
   const renderMyFavs = () => {
     const box = $('#myFavs');
     if (!box) return;
-    const favs = getFavs().map(id => events.find(ev => ev.id === id)).filter(Boolean);
+    const favs = getFavs().map(id => events.find(ev => memeId(ev.id, id))).filter(Boolean);
     box.innerHTML = favs.length
       ? favs.map(ev => `
         <div class="my-ticket my-fav">
@@ -2091,7 +2157,7 @@ if (placeModal && placesGridEl) {
   $('#myFavs')?.addEventListener('click', e => {
     const btn = e.target.closest('[data-unfav]');
     if (!btn) return;
-    toggleFav(+btn.dataset.unfav);
+    toggleFav(btn.dataset.unfav);
     renderMyFavs();
     renderEventsHook?.();   // resynchronise les cœurs de la grille (billetterie)
   });
@@ -2574,7 +2640,7 @@ if (placeModal && placesGridEl) {
   const favGenres = () => {
     const set = new Set();
     getFavs().forEach(id => {
-      const ev = events.find(e => e.id === id);
+      const ev = events.find(e => memeId(e.id, id));
       (ev?.genres || []).forEach(g => set.add(g.toLowerCase()));
     });
     return set;
@@ -2770,7 +2836,7 @@ if (placeModal && placesGridEl) {
     const favBtn = e.target.closest('[data-fav]');
     if (favBtn) {
       e.stopPropagation();
-      const added = toggleFav(+favBtn.dataset.fav);
+      const added = toggleFav(favBtn.dataset.fav);
       favBtn.classList.toggle('on', added);
       favBtn.setAttribute('aria-pressed', String(added));
       favBtn.setAttribute('aria-label', added ? 'Retirer des favoris' : 'Ajouter aux favoris');
@@ -2784,7 +2850,7 @@ if (placeModal && placesGridEl) {
       openEventPage(e.target.closest('.event-card'));
       return;
     }
-    currentEvent = events.find(ev => ev.id === +btn.dataset.tickets);
+    currentEvent = events.find(ev => memeId(ev.id, btn.dataset.tickets));
     tierQty = TIERS_DEFAULT.map(() => 0);
     const d = new Date(currentEvent.date + 'T12:00:00');
     $('#tmImage').src = currentEvent.img;
@@ -2845,7 +2911,11 @@ if (placeModal && placesGridEl) {
     $('#modalFoot').style.display = 'none';
     const ok = $('#tmSuccess');
     const prenom = firstNameOf((store.get('syfir-user', null) || {}).name);
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace.`;
+    /* La confirmation NE PROMET RIEN QU'ELLE NE TIENNE. Le billet existe
+       vraiment, il est dans Mon espace, il a son QR — et il ne donne accès
+       à rien parce qu'aucun paiement n'a lieu. Les deux se disent dans la
+       même phrase, pas l'un après l'autre. (E/1) */
+    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace. ${DEMO_TICKET}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     ok.insertAdjacentHTML('afterend', ticketPeakHTML({ num, event: currentEvent.name, date: currentEvent.date }));

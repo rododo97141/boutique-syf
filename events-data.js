@@ -101,6 +101,18 @@
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
 
+  /* ===== E/1 — LA MENTION DU BILLET DE DÉMONSTRATION =====
+     Elle vit ICI, dans la source de données partagée, et pas dans un des
+     deux fichiers qui la rendent. Le parcours de réservation existe en
+     DEUX exemplaires — la modale de `evenements.html` (script.js) et la
+     fiche `evenement.html` (evenement.js) — et deux copies d'une même
+     phrase, c'est une copie qui finira par ne plus dire la même chose que
+     l'autre. events-data.js est chargé avant les deux : une seule phrase,
+     un seul endroit où la corriger.
+     Ce qu'elle affirme est exactement ce qui est vrai : pas de paiement,
+     pas d'accès. Rien de plus, rien de moins. */
+  const demoTicketText = 'Billet de démonstration — aucun paiement n\'a été effectué, et ce billet ne donne pas accès à l\'événement.';
+
   // Badge d'ACTION (modèle page événements Red Bull) : le badge dit TOUJOURS
   // l'action possible pour le visiteur. Rareté honnête d'abord (pilotée par le
   // vrai champ `stock` : « complet » | « dernieres »), puis état positif par
@@ -272,5 +284,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, demoTicketText, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
 })();

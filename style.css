@@ -1812,6 +1812,45 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .kpi-delta.up { color: var(--success); }
 .kpi-delta.down { color: var(--coral); }
 
+/* ===== E/1 — LA MENTION « DÉMONSTRATION » DU BILLET =====
+   Elle est traitée « au même titre que les badges Exemple des dates » :
+   même famille visuelle que `.badge-demo` (or de marque à faible opacité,
+   capitales serrées), pour qu'un visiteur reconnaisse d'un coup d'œil le
+   même signal aux deux endroits. Aucun token nouveau n'est créé — l'or de
+   marque et le crème doux existent déjà, et une couleur inédite aurait dû
+   être déclinée partout (CLAUDE.md §2.1).
+   Rayon 100px sur la pastille (pilule, comme les autres badges du site),
+   8px sur le bloc de texte : grille de 8. */
+.ticket-demo { display: block; margin: 6px 0 8px; }
+.ticket-demo-badge {
+  display: inline-block; font-family: var(--body);
+  font-size: .58rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 100px;
+  background: rgba(var(--gold-rgb), .16); color: var(--gold-light);
+  border: 1px solid rgba(var(--gold-rgb), .34);
+}
+.ticket-demo-text {
+  display: block; margin-top: 6px;
+  font-size: .78rem; line-height: 1.45; color: var(--creme-doux);
+}
+/* Le billet de Mon espace : le liseré pointillé passe de l'orange d'action
+   à l'or de marque, pour que le cadre lui-même dise « exemple » plutôt que
+   « à faire ». Même épaisseur, même rythme de pointillés. */
+.my-ticket-demo { border-color: rgba(var(--gold-rgb), .42); }
+
+/* Sur la carte du pic de confirmation, le fond est BLANC (il l'est pour la
+   scannabilité du QR) : la pastille y reprend donc l'encre, pas l'or clair,
+   qui serait illisible sur blanc. Mesuré par contraste.mjs. */
+.ticket-demo-badge-peak {
+  background: rgba(var(--gold-deep-rgb), .18); color: var(--ink);
+  border-color: rgba(var(--gold-deep-rgb), .5);
+}
+.ticket-peak-demo {
+  position: relative; z-index: 1;
+  max-width: 34ch; margin: 12px auto 0;
+  font-size: .8rem; line-height: 1.45; color: var(--creme-doux); text-align: center;
+}
+
 /* Billet : numéro unique, revente interdite, contact organisateur */
 .my-ticket-main small { display: block; }
 .ticket-num { color: var(--creme-doux); font-variant-numeric: tabular-nums; margin-top: 2px; }
