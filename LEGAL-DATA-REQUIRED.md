@@ -80,9 +80,26 @@ ce soit à un tiers, et chacun l'affiche.
 
 ## C. Relation SYFIR / AVYR
 
+> ### ✅ RÉPONSE DU FONDATEUR — question tranchée
+>
+> **SYFIR et AVYR sont DEUX IDENTITÉS SÉPARÉES ET INDÉPENDANTES : deux
+> marques qui fonctionnent séparément, liées par un rapport de
+> partenariat.**
+>
+> C'est la réponse du fondateur à la question ouverte depuis des semaines,
+> enregistrée ici telle qu'elle a été donnée. **Aucun texte juridique n'est
+> rédigé dans ce dépôt** — la rédaction des mentions correspondantes
+> revient au juriste, qui part de cette réponse.
+>
+> Ce que cette réponse **détermine** et qu'il reste à faire écrire :
+> la ou les entités exploitantes, la titularité des marques, l'existence
+> et la forme du contrat de partenariat, et qui facture quoi à qui. Les
+> lignes du tableau ci-dessous restent donc ouvertes — la réponse fixe le
+> **principe**, pas encore les **actes**.
+
 | Donnée | Où c'est utilisé |
 |---|---|
-| Même structure juridique ou entités distinctes ? | mentions-legales.html (SYFIR et AVYR), cgv.html (les deux) |
+| ~~Même structure juridique ou entités distinctes ?~~ **→ RÉPONDU : entités distinctes, partenariat.** Reste à documenter juridiquement. | mentions-legales.html (SYFIR et AVYR), cgv.html (les deux) |
 | Si entités distinctes : existe-t-il un contrat de partenariat écrit ? | LEGAL-RESPONSIBILITIES.md (voir section dédiée) |
 | Licence de marque éventuelle (SYFIR utilise-t-elle le nom/logo AVYR avec autorisation, et réciproquement ?) | partenaire-avyr.html, footer des deux sites |
 | Droit d'utilisation des visuels AVYR sur le site SYFIR (photos produit utilisées sur partenaire-avyr.html, index.html) | partenaire-avyr.html, index.html |

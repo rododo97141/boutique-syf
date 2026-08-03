@@ -1163,7 +1163,23 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 /* .stock-inline (variante en ligne) : extraite en §06 avec le composant. */
 .event-card.is-soldout .event-card-media img { filter: grayscale(.4) brightness(.82); }
 /* badge sur la fiche événement (hero) */
-.ed-stock { position: absolute; top: 16px; left: 16px; font-size: .66rem; }
+/* ⚠ LES DEUX BADGES DU HERO PASSAIENT SOUS LA BARRE DE NAV, à 390 px, sur
+   la fiche événement — c'est-à-dire sur la page la plus partagée du site.
+   `top: 16px` les place à 16 px du haut de la PAGE, alors que la barre est
+   fixe et occupe `--header-h` : le logo SYFIR et les boutons de la barre
+   se peignaient par-dessus « BILLETS DISPONIBLES » et « 16 ANS ET PLUS ».
+
+   Trouvé à l'œil sur une capture 390 px, par aucun instrument : il n'y a
+   ni débordement (rien ne dépasse en largeur), ni défaut de contraste
+   (chaque élément est lisible SÉPARÉMENT), ni cible trop petite. Deux
+   choses correctes qui se superposent ne sont fautives qu'à l'œil.
+   Sixième défaut réel de ce chantier trouvé sur une image.
+
+   Le remède se lit tout seul : les badges partent du bas de la barre, pas
+   du haut de la page. `--header-h` est déjà la hauteur réelle de l'en-tête
+   (elle absorbe la barre utilitaire quand il y en a une). */
+.ed-stock { position: absolute; top: calc(var(--header-h) + 16px); left: 16px; font-size: .66rem; }
+.age-badge.ed-age { top: calc(var(--header-h) + 16px); }
 /* Alignement vertical d'une même rangée : le pied (prix/CTA) et
    l'organisateur restent calés en bas, quel que soit le nombre de
    lignes de tags au-dessus */
@@ -2161,6 +2177,54 @@ footer { background-image: var(--noise); }
   padding: 8px 16px; border-radius: 100px; background: var(--gold-metal); color: var(--ink);
 }
 .ed-hero-tag.tag-prive { background: var(--ink); color: var(--coral); }
+
+/* ============================================================
+   LA COULEUR DE L'ÉVÉNEMENT — L'ATMOSPHÈRE, JAMAIS LE TEXTE
+   ------------------------------------------------------------
+   Chaque événement porte sa teinte, déclarée dans events-data.js et
+   posée sur <html> par evenement.js (`--ev-teinte`, `--ev-teinte-rgb`).
+   L'accueil, lui, ne bouge pas : c'est là qu'on reconnaît SYFIR.
+
+   ⚠⚠ CE BLOC EST LE SEUL ENDROIT DU DÉPÔT QUI A LE DROIT DE LIRE
+   `--ev-teinte`, ET IL NE TOUCHE QUE DES PROPRIÉTÉS ATMOSPHÉRIQUES.
+   Ce qui est autorisé ici : un halo au-dessus d'une PHOTO, un liseré, une
+   ombre portée. Ce qui est interdit, sans exception : `background` ou
+   `color` sur une surface qui porte du texte — `.ed-body`, `.ed-main`,
+   `.ed-tickets`, `.tier`, `.ed-blurb`, `.ed-meta`, et tout ce qui se lit.
+
+   POURQUOI CETTE INTERDICTION EST ÉCRITE EN GRAND : trois échecs de ce
+   chantier viennent tous du même geste — un fond qui change sous un texte
+   qui ne change pas. Un mois de travail sur la lisibilité y est passé. On
+   ne le refait pas treize fois, une par événement.
+
+   `tools/qa/teintes.mjs` MESURE cette règle : il rend la fiche avec
+   CHAQUE teinte déclarée et vérifie que les surfaces porteuses de texte
+   sont identiques d'une teinte à l'autre. Si un jour quelqu'un ajoute
+   `background: var(--ev-teinte)` sur un bloc de lecture, le test tombe.
+
+   Repli : `--ev-teinte` n'est jamais absente (evenement.js la pose
+   toujours, et `teinteOf` a sa valeur par défaut), mais les `var(…, …)`
+   ci-dessous portent quand même leur second argument — une page rendue
+   sans JavaScript reste dans le bleu de scène plutôt que sans couleur. */
+
+/* 1. Le halo de scène au-dessus de la photo du hero. La photo n'est pas
+      du texte : c'est l'endroit naturel de la couleur. Le voile sombre
+      existant reste par-dessous, donc rien ne s'éclaircit. */
+.ed-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(70% 55% at 50% 8%,
+              rgba(var(--ev-teinte-rgb, 47, 109, 255), .38), transparent 70%);
+  mix-blend-mode: screen;
+}
+/* 2. La ligne de bas de hero : la couleur signe la coupure entre la photo
+      et le contenu, sans jamais passer dessous. */
+.ed-hero { border-bottom: 2px solid rgba(var(--ev-teinte-rgb, 47, 109, 255), .55); }
+/* 3. L'ombre colorée du bloc billets — une ombre est peinte À CÔTÉ de la
+      boîte, jamais dessous : le fond du verre reste celui du site. */
+.ed-tickets { box-shadow: 0 18px 60px rgba(var(--ev-teinte-rgb, 47, 109, 255), .16); }
+/* 4. Les liserés d'accent. `border-color` seul — pas `background`. */
+.ed-genres .event-genre,
+.ed-countdown { border-color: rgba(var(--ev-teinte-rgb, 47, 109, 255), .45); }
 .ed-body { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 36px; }
 .ed-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.6rem); line-height: 1.08; text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 16px; }
 /* Ligne de caractère (R28-3) sur la fiche — ton bar-readable */

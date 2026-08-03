@@ -54,7 +54,7 @@
   ============================================================ */
   const baseEvents = [
     {
-      id: 'demo-rooftop-1', demo: true,
+      id: 'demo-rooftop-1', demo: true, teinte: '#FF8A3D',   /* le cuivre d'un coucher de soleil sur les toits */
       name: 'Rooftop Sunset Session',
       date: '2026-08-22', time: '19:00',
       city: 'Pointe-à-Pitre', type: 'rooftop',
@@ -65,7 +65,7 @@
       blurb: 'Le soleil descend sur la ville, la basse monte. Deux platines, une terrasse, et la nuit qui commence.'
     },
     {
-      id: 'demo-beach-1', demo: true,
+      id: 'demo-beach-1', demo: true, teinte: '#2FD1C5',     /* le lagon sous la pleine lune */
       name: 'Beach Party — Pleine Lune',
       date: '2026-09-05', time: '18:30',
       city: 'Sainte-Anne', type: 'beach',
@@ -76,7 +76,7 @@
       blurb: 'Les pieds dans le sable, le son face à la mer. On installe au coucher, on démonte au lever.'
     },
     {
-      id: 'demo-villa-1', demo: true,
+      id: 'demo-villa-1', demo: true, teinte: '#7A5CFF',     /* le violet fermé d'une villa, jauge courte */
       name: 'Villa Session — Soirée privée',
       date: '2026-09-19', time: '21:00',
       city: 'Le Gosier', type: 'prive', prive: true,
@@ -87,7 +87,7 @@
       blurb: 'Format intime, jauge courte, accès sur code. Ce qui se passe à la villa reste à la villa.'
     },
     {
-      id: 'demo-carnaval-1', demo: true,
+      id: 'demo-carnaval-1', demo: true, teinte: '#FF4D9D',  /* le magenta des masques et des cuivres */
       name: 'Nuit Carnaval',
       date: '2026-10-10', time: '20:00',
       city: 'Basse-Terre', type: 'festival',
@@ -112,6 +112,40 @@
      Ce qu'elle affirme est exactement ce qui est vrai : pas de paiement,
      pas d'accès. Rien de plus, rien de moins. */
   const demoTicketText = 'Billet de démonstration — aucun paiement n\'a été effectué, et ce billet ne donne pas accès à l\'événement.';
+
+  /* ===== LA COULEUR PAR ÉVÉNEMENT — idée de Kily =====
+     L'accueil reste la nuit : c'est l'identité, c'est là qu'on reconnaît
+     SYFIR. Mais chaque événement porte SA couleur, accordée à sa photo —
+     une beach party en plein soleil n'a pas la lumière d'un carnaval ni
+     d'une villa de nuit. C'est le métier : marque mère constante, affiche
+     propre à chaque soirée.
+
+     ⚠⚠ LA RÈGLE QUI CONDITIONNE TOUT, et elle vient de trois échecs :
+     LA COULEUR DE L'ÉVÉNEMENT VIT DANS L'ATMOSPHÈRE, JAMAIS SOUS LE TEXTE.
+     Ciel, halos, lueurs, liserés, ombres colorées — oui. Le verre qui
+     porte les paragraphes ne change pas, jamais. Tout le mois perdu sur la
+     lisibilité venait d'un fond qui changeait sous un texte qui ne
+     changeait pas. `tools/qa/teintes.mjs` mesure cette règle : il vérifie
+     que les surfaces porteuses de texte sont IDENTIQUES d'une teinte à
+     l'autre, pour toutes les teintes déclarées.
+
+     ⚠ ELLE EST DÉCLARÉE, JAMAIS EXTRAITE DE LA PHOTO. Une couleur
+     imprévisible posée automatiquement est précisément ce qui a cassé le
+     site trois fois : on ne peut pas mesurer le contraste d'une valeur
+     qu'on ne connaîtra qu'à l'exécution. Ici chaque teinte est écrite à
+     la main, donc énumérable, donc mesurable une par une.
+
+     REPLI : un événement sans `teinte` reçoit `TEINTE_DEFAUT`, le bleu de
+     scène de la maquette. Aucun événement ne se retrouve sans couleur, et
+     un champ oublié ne produit ni page cassée ni couleur au hasard. */
+  const TEINTE_DEFAUT = '#2F6DFF';        // le bleu de scène — la nuit SYFIR
+  const teinteOf = ev => (ev && typeof ev.teinte === 'string' && /^#[0-9a-f]{6}$/i.test(ev.teinte))
+    ? ev.teinte : TEINTE_DEFAUT;
+  // rgb « r, g, b » pour les rgba() du CSS, sans dépendance
+  const teinteRGB = hex => {
+    const h = String(hex).replace('#', '');
+    return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)).join(', ');
+  };
 
   // Badge d'ACTION (modèle page événements Red Bull) : le badge dit TOUJOURS
   // l'action possible pour le visiteur. Rareté honnête d'abord (pilotée par le
@@ -284,5 +318,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, demoTicketText, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, demoTicketText, TEINTE_DEFAUT, teinteOf, teinteRGB, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
 })();

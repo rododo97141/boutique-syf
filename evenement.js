@@ -33,6 +33,18 @@
     return;
   }
 
+  /* ===== LA TEINTE DE L'ÉVÉNEMENT =====
+     Deux variables posées sur <html>, et rien d'autre. Tout ce que le CSS
+     en fait est ATMOSPHÉRIQUE — halos, lueurs, liserés, ombres colorées —
+     jamais un fond sous du texte. La règle est tenue par le CSS, pas par
+     ce fichier : ici on ne fait que déclarer la couleur, et l'attribut
+     `data-teinte` permet de la reconnaître dans une capture ou un test.
+     Le repli est dans events-data.js : `teinteOf` ne rend jamais rien. */
+  const teinte = S.teinteOf(ev);
+  document.documentElement.style.setProperty('--ev-teinte', teinte);
+  document.documentElement.style.setProperty('--ev-teinte-rgb', S.teinteRGB(teinte));
+  document.documentElement.setAttribute('data-teinte', teinte);
+
   const d = new Date(ev.date + 'T12:00:00');
   const dateLong = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   // Événement passé : la date de fin de journée est révolue -> état « terminé »

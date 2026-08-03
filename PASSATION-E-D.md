@@ -214,8 +214,18 @@ etc.) et l'outil `scratchpad/bascule.py`. **⚠ `scratchpad/` ne survit pas
 # ARBITRAGES OUVERTS — à poser à Kily, pas à trancher
 
 1. **`--sunset` #FF7A00**, la couleur d'action de tout le site (99 usages
-   de CTA), contre les boutons **blancs** de la maquette 3. Décision
-   d'identité, pas d'habillage. *(hérité de C/3)*
+   de CTA), contre les boutons **blancs** de la maquette 3. *(hérité de C/3)*
+
+   ⚠ **CORRECTION D'UNE ERREUR PROPAGÉE, ET RETIRÉE PAR SON AUTEUR** : il
+   avait été écrit que **l'or était la signature de SYFIR**. C'est faux.
+   La signature de marque est une **PHRASE** — « Tes prochains souvenirs
+   commencent ici. » (décision R84, `DOCTRINE-SYFIR.md` §Signature de
+   marque). **L'or n'est qu'un accent, il peut bouger.** Toute consigne
+   antérieure qui traitait l'or comme intouchable *au nom de l'identité*
+   était mal fondée : la distinction or de marque / or de scène reste
+   utile **techniquement**, mais ce n'est pas une question d'identité.
+   Cet arbitrage — et celui de `--gold*` en C/3 — est donc un arbitrage
+   **d'habillage**, pas de marque. Ça élargit ce qui est permis en C/3.
 2. **La hauteur de la barre** : 77 px contre 52,3 dans la maquette.
    « À l'identique » et « cibles ≥ 44 px » sont incompatibles. *(hérité)*
 3. **« Revente interdite »** reste écrit sur un billet de démonstration
