@@ -1,4 +1,4 @@
-# PASSATION — reprendre au LOT C/3
+# PASSATION — reprendre au LOT E (puis C/3, puis D)
 
 > Branche `claude/r73-loi-evin`, **PR #13 qui reste en Draft**.
 > Lire d'abord **`HANDOFF.md` section 0** — « on ne compare que ce qu'on
@@ -17,6 +17,7 @@ Le programme va **du partagé vers le particulier**, jamais page par page.
 | **C/2** — rôles FOND / BORDURE / OMBRE + `.section-cream` | ✅ 78 substitutions + le cas couplé |
 | **C/3** — les accents chauds | ⬜ **LA REPRISE** |
 | **D** — par familles de pages | ⬜ contenu long · formulaires · légales |
+| **E** — le site répond | ⬜ **PASSE AVANT D** — E/3 fait, E/1 et E/2 à faire |
 
 **Vocabulaire de nuit** (mesuré par `registre.mjs`) : 4 % → **69 %**.
 Dumps : `r109` = état après C/2. Le prochain lot dumpe `r110`.
@@ -174,6 +175,100 @@ commande, ne contient que les données.
 Les accents des maquettes 1 (Néon Caraïbe) et 2 (Braise) ne viennent
 **qu'après** : on ne pose pas d'accent sur une base pas encore commune.
 Jamais une autre base que la nuit de la maquette 3.
+
+---
+
+# LOT E — LE SITE RÉPOND (nouvel objectif, il PASSE AVANT D)
+
+Kily va montrer le site à des gens : « il faut qu'il soit prêt pour être
+présenté visuellement AVEC LES FONCTIONS ». **Ce qui se clique doit
+répondre.**
+
+**Jugement rendu au superviseur, et accepté comme question ouverte :
+E passe avant D.** Une page dans l'ancien registre qui *fonctionne* se
+démontre mieux qu'une page à la bonne couleur dont le bouton principal ne
+répond pas. Ordre : **E/3 → E/1 → E/2 → D**.
+
+## E/3 — la chasse aux boutons muets ✅ FAIT (l'outil et le premier passage)
+
+`tools/qa/muets.mjs` — la méthode de la chasse aux survivants appliquée à
+**l'interaction** au lieu du style. Deux moyens : l'intention déclarée
+(`disabled`, `href="#"`, ancre morte) et le **câblage réel**
+(`addEventListener` remplacé avant tout script).
+
+**Trouvé et corrigé** : `index.html` portait **deux ancres mortes** dans
+son pied de page — « Notre marque » → `#marque` et « Agenda des concerts »
+→ `#agenda`, séquelles des déménagements de R99. Recâblées vers
+`partenaires.html#marque` et `artistes.html#agenda`.
+
+**Faux positif corrigé dans l'outil** : les `<summary>` ouvrent leur
+`<details>` par comportement **natif** — sept étaient accusés à tort sur
+`faq.html`. Un instrument qui accuse ce qui marche se fait ignorer aussi
+sûrement qu'un instrument qui laisse passer ce qui est cassé.
+
+⚠ **RESTE À FAIRE** : les « aucun écouteur propre » sont des **candidats**,
+pas des verdicts — 2 écouteurs délégués vivent sur `document`, et un
+enfant sans écouteur propre peut très bien être servi par eux. C'est le
+cas des chips de filtre, des cœurs favoris et des boutons du Portail
+(`acquis.mjs` prouve que ces derniers répondent). **Il faut les CLIQUER**
+un par un et observer l'effet : l'outil ne clique pas, et il le dit dans
+son en-tête.
+
+## E/1 — le parcours de réservation, SANS paiement ⬜
+
+Décision Kily : parcours complet, **aucun encaissement**.
+« Réserver mes billets » → choix d'un type parmi ceux déjà définis
+(`TIERS_DEFAULT` dans `events-data.js` : Early Bird `scarce`, Standard
+`reco`, VIP) → confirmation → **un vrai billet dans le profil**, avec son
+QR (l'encodeur existe depuis R95) et consultable hors connexion.
+
+**Le bouton bloquant est `#edBuy`, `disabled`, sur `evenement.html`** —
+c'est l'action principale du site et elle ne fait rien.
+
+⚠ **RÈGLE ABSOLUE** : le billet porte une mention « **démonstration** »
+**visible et indélébile**, au même titre que les badges « Exemple » des
+dates. Aucun paiement, aucune promesse d'entrée réelle, **aucun prix
+présenté comme dû**.
+
+## E/2 — les formulaires envoient pour de vrai ⬜ (déjà prêt à 95 %)
+
+**KILY AUTORISE EXPLICITEMENT L'ACTIVATION DE `FORM_ENDPOINT`** — c'était
+liste rouge, ça ne l'est plus, **et uniquement pour ce point**. Aucun
+compte n'est créé chez un prestataire : c'est Kily qui le fait.
+
+**RÉPONSE PRÉCISE À « quelle valeur, et où » :**
+
+> **Fichier `script.js`, ligne 77** — remplacer
+> `const FORM_ENDPOINT = '';`
+> par
+> `const FORM_ENDPOINT = 'https://formspree.io/f/XXXXXXXX';`
+> où `XXXXXXXX` est l'identifiant du formulaire créé sur formspree.io.
+> Web3Forms marche aussi : n'importe quelle URL qui accepte un **POST
+> JSON**. **Une seule ligne, rien d'autre à toucher.**
+
+Vérifié dans le code : l'envoi est un `fetch` POST JSON, **l'échec réseau
+est déjà rattrapé** (`catch { return { ok: false } }`), un **honeypot**
+`_gotcha` abandonne silencieusement les bots, et la note « démo —
+transmission bientôt active » **disparaît toute seule** dès que
+l'endpoint est renseigné (`addDemoNote` sort si `FORM_ENDPOINT` est
+truthy). Le message de démo dit la vérité : « rien n'est enregistré ni
+transmis ».
+
+⚠ **RESTE À VÉRIFIER** : que le message de confirmation dise aussi la
+vérité dans le cas **succès réel** et dans le cas **échec réseau** —
+c'est le seul point de E/2 qui n'a pas été relu.
+
+## Ce qui reste INTERDIT, inchangé
+
+Aucun encaissement · aucun compte créé chez un tiers · pas de Shotgun ni
+de newsletter branchés · `avyr-site/` intouchable · aucune équipe ni
+artiste inventés · aucun visuel produit hors `partenaire-avyr.html` ·
+aucune donnée fabriquée.
+
+**La PR** : Kily dit qu'on peut fusionner si besoin — mais **fusionner
+n'est pas publier**, et la publication reste bloquée par les mentions
+légales incomplètes. **Ne rien fusionner et n'activer aucun hébergement**
+sans demande explicite du superviseur.
 
 ## Ordre du lot D, déjà validé
 
