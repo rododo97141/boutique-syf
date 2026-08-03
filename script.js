@@ -63,39 +63,91 @@
     set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
   };
 
-  /* ===== 01b. ENDPOINT DES FORMULAIRES (newsletter + partenaire) =====
-     Vide = mode démo : transmission désactivée, AUCUN envoi réseau, AUCUN
-     stockage local automatique des données saisies (R80.1 final). Les
-     valeurs restent uniquement dans les champs du formulaire, le temps de
-     la session — rien n'est écrit dans localStorage.
-     Pour brancher un vrai envoi, renseigner FORM_ENDPOINT :
-       • Formspree (le plus simple, zéro backend) :
-           'https://formspree.io/f/xxxxxxxx'  (crée le form sur formspree.io)
-       • Brevo / Mailchimp / autre : une URL qui accepte un POST JSON.
-     Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
-     invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
-  const FORM_ENDPOINT = '';
-  // Message VRAI tant que FORM_ENDPOINT est vide : ne jamais laisser croire
-  // qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1 final —
-  // plus de sauvegarde locale automatique, les champs gardent juste la saisie).
+  /* ===== 01b. ENDPOINT DES FORMULAIRES ===== LOT E/2
+     ------------------------------------------------------------------
+     ACTIVÉ. Autorisation explicite du fondateur, levée de liste rouge
+     limitée À CE SEUL POINT. Le compte prestataire a été créé par lui,
+     pas par une session : aucune inscription chez un tiers n'est faite
+     depuis ce dépôt, et cette règle-là n'a pas bougé.
+
+     Prestataire : WEB3FORMS. Retenu contre Formspree parce qu'il ne
+     demande qu'une adresse mail — Formspree exige la création d'un
+     compte, que ni le fondateur ni le superviseur ne feront.
+     Le contrat de l'API : POST JSON sur https://api.web3forms.com/submit
+     avec `access_key` DANS LE CORPS.
+
+     ⚠ LA CLÉ N'EST PAS UN SECRET, et il faut le dire pour que personne
+     ne « corrige » ça plus tard : Web3Forms la documente comme publique
+     (« This is a public key. You can use it in client side code. »).
+     Elle est même une PROTECTION : elle sert d'alias, l'adresse de
+     destination réelle n'apparaît nulle part dans les sources du site.
+     La sortir vers un fichier de configuration n'ajouterait aucune
+     sécurité et ajouterait une étape de build — liste rouge.
+
+     Compatibilité Formspree conservée, et elle ne coûte rien : une URL
+     `https://formspree.io/f/xxxxxxxx` fonctionne telle quelle, le champ
+     `access_key` surnuméraire étant simplement ignoré par Formspree.
+
+     Anti-spam : chaque formulaire porte un honeypot (champ caché
+     `_gotcha`), invisible pour l'humain ; s'il est rempli, c'est un bot
+     → on abandonne EN SILENCE, sans requête réseau, et le bot croit
+     avoir réussi. Le champ n'est jamais transmis au prestataire. */
+  const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+  const FORM_ACCESS_KEY = '35807543-abbf-4253-a494-b5b730d90942';   // ← LA LIGNE DE LA CLÉ
+
+  /* QUELS FORMULAIRES TRANSMETTENT — et pourquoi la newsletter n'est pas
+     de la liste. « Brancher la newsletter » est un point de liste rouge
+     DISTINCT, et il n'a pas été levé : une inscription newsletter est un
+     consentement commercial qui appelle son propre traitement (registre,
+     désinscription, double opt-in), pas un simple message. Elle reste
+     donc en mode démo, et sa note « démo » reste affichée — ce qui est
+     la vérité pour elle. Le jour où le fondateur la lève, il suffit
+     d'ajouter 'newsletter' ici. */
+  const FORM_SOURCES_ACTIVES = ['partenaire'];
+  const formTransmet = source => !!FORM_ENDPOINT && FORM_SOURCES_ACTIVES.includes(source);
+
+  // Message VRAI pour un formulaire qui ne transmet pas : ne jamais laisser
+  // croire qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1
+  // final — plus de sauvegarde locale automatique, les champs gardent juste
+  // la saisie).
   const DEMO_FORM_MSG = 'L\'envoi en ligne n\'est pas encore actif. Tes informations restent dans ce formulaire, sur cet écran — rien n\'est enregistré ni transmis.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
   const submitForm = async data => {
     if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
-    if (!FORM_ENDPOINT) return { ok: false, demo: true };     // mode démo : transmission désactivée, aucun stockage
+    if (!formTransmet(data.source)) return { ok: false, demo: true };
+    /* Le honeypot ne quitte jamais le navigateur : il a fait son travail
+       ci-dessus, et l'envoyer ne ferait que salir le message reçu. */
+    const { _gotcha, ...champs } = data;
+    const corps = { access_key: FORM_ACCESS_KEY, ...champs };
     try {
       const r = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(corps)
       });
-      return { ok: r.ok };
-    } catch { return { ok: false }; }
+      /* ⚠ `r.ok` SEUL MENTIRAIT. Web3Forms répond en JSON `{success:…}` et
+         peut rendre un 200 avec `success:false` (clé invalide, message
+         classé spam, quota). Un formulaire qui affiche « merci » alors que
+         rien n'est parti est pire que le mode démo : il ment au visiteur
+         ET au destinataire. On lit donc le corps, et on ne conclut au
+         succès que si les DEUX concordent. */
+      let corpsRep = null;
+      try { corpsRep = await r.clone().json(); } catch (e) { corpsRep = null; }
+      const ok = r.ok && (!corpsRep || corpsRep.success !== false);
+      return { ok, statut: r.status, motif: ok ? '' : String((corpsRep && corpsRep.message) || '') };
+    } catch (e) {
+      return { ok: false, reseau: true };   // hors ligne, DNS, CORS, blocage
+    }
   };
-  // Bandeau discret « démo — transmission bientôt active » près d'un bouton
-  // d'envoi, uniquement tant qu'aucun endpoint réel n'est branché.
-  const addDemoNote = btn => {
-    if (FORM_ENDPOINT || !btn || btn.parentNode?.querySelector('.form-demo-note')) return;
+
+  /* Bandeau discret « démo — transmission bientôt active » près d'un bouton
+     d'envoi — uniquement pour un formulaire qui ne transmet PAS. Il
+     disparaît de lui-même dès que sa source entre dans
+     FORM_SOURCES_ACTIVES : aucune note à retirer à la main, donc aucune
+     note oubliée qui mentirait dans l'autre sens. */
+  const addDemoNote = (btn, source) => {
+    if (formTransmet(source) || !btn || btn.parentNode?.querySelector('.form-demo-note')) return;
     const note = document.createElement('span');
     note.className = 'form-demo-note';
     note.textContent = 'démo — transmission bientôt active';
@@ -1310,7 +1362,7 @@ if (placeModal && placesGridEl) {
 
   const partnerForm = $('#partnerForm');
   if (partnerForm) {
-    addDemoNote(partnerForm.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
+    addDemoNote(partnerForm.querySelector('button[type="submit"]'), 'partenaire');   // (R29-1) — s'efface seul depuis E/2
     // Le champ contextuel s'adapte au type de demande choisi
     const contextConfig = {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
@@ -1374,9 +1426,19 @@ if (placeModal && placesGridEl) {
       }
       const success = $('#formSuccess'), errorMsg = $('#formError');
       const submitBtn = partnerForm.querySelector('button[type="submit"]');
+      const type = $('input[name="requestType"]:checked', partnerForm)?.value;
       const data = {
         _gotcha: $('input[name="_gotcha"]', partnerForm)?.value || '',
-        type: $('input[name="requestType"]:checked', partnerForm)?.value,
+        /* `subject`, `from_name` et `replyto` sont les trois champs que
+           Web3Forms sait interpréter pour composer le mail : sans eux
+           l'objet est générique et « Répondre » ne renvoie nulle part.
+           Formspree lit `_replyto` — les deux coexistent sans conflit,
+           chacun ignorant le champ de l'autre. */
+        subject: `SYFIR — demande « ${type || 'autre'} » depuis le site`,
+        from_name: 'Formulaire du site SYFIR',
+        replyto: $('#pfEmail').value.trim(),
+        _replyto: $('#pfEmail').value.trim(),
+        type,
         name: $('#pfName').value.trim(), email: $('#pfEmail').value.trim(),
         phone: $('#pfPhone').value.trim(), context: $('#pfContext').value.trim(),
         message: $('#pfMessage').value.trim(), source: 'partenaire',
@@ -1397,13 +1459,29 @@ if (placeModal && placesGridEl) {
       } else if (res.ok) {
         partnerForm.reset();
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
-        success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
-        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+        /* Ce qui est promis ici est ce qui est vérifiable : le message est
+           PARTI et le prestataire l'a accepté. Aucun délai de réponse n'est
+           annoncé — « sous 48 h » était un engagement que personne ne tient
+           dans le contrat, et rien ne le mesure. */
+        success.textContent = '✦ Message envoyé. L\'équipe SYFIR l\'a reçu et te répondra à l\'adresse que tu as indiquée.';
+        showToast('✦ Message envoyé à l\'équipe SYFIR !');
         success.hidden = false;
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else if (errorMsg) {
+        /* ÉCHEC — et il se dit. Le formulaire n'est PAS réinitialisé : la
+           saisie reste à l'écran, sinon « réessaie » demanderait de tout
+           retaper. Deux causes distinctes, deux phrases distinctes : un
+           visiteur hors ligne n'a pas le même geste à faire qu'un visiteur
+           dont l'envoi a été refusé. */
+        errorMsg.textContent = res.reseau
+          ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
+          : 'L\'envoi a été refusé et ton message n\'est pas parti. Ton texte est toujours là : réessaie dans un instant.';
         errorMsg.hidden = false;
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        /* PAS de toast ici. Vu sur la capture : le toast est ancré en bas
+           d'écran et recouvrait la fin de la phrase d'échec — deux messages
+           qui se marchent dessus, dont celui qui compte. La bannière porte
+           déjà `role="alert"` et vient d'elle-même sous les yeux. */
       }
     });
 
@@ -1716,7 +1794,7 @@ if (placeModal && placesGridEl) {
 
   /* ===== 23. NEWSLETTER (footer + inline, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
-    addDemoNote(form.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
+    addDemoNote(form.querySelector('button[type="submit"]'), 'newsletter');   // reste affiché : la newsletter ne transmet pas (E/2)
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const input = form.querySelector('input[type="email"]');

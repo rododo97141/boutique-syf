@@ -410,8 +410,9 @@
           <span class="field-error"></span>
         </div>
         <!-- R85 point 3 : un mineur ne peut pas valablement engager SYFIR sans
-             représentant légal (droit des contrats). Garde-fou construit dès
-             maintenant, dormant tant que FORM_ENDPOINT n'est pas activé. -->
+             représentant légal (droit des contrats). Garde-fou construit en
+             R85 alors que FORM_ENDPOINT dormait — ACTIF depuis le lot E/2 :
+             les champs responsable légal partent maintenant avec la demande. -->
         <div class="form-field">
           <label for="pfMajeur">Es-tu majeur(e) ? *</label>
           <select id="pfMajeur" name="majeur">
@@ -444,8 +445,14 @@
       </label>
 
       <button type="submit" class="btn btn-solid btn-lg">Envoyer ma demande</button>
-      <p class="form-success" id="formSuccess" hidden>✦ Ta demande est enregistrée sur cet appareil. La transmission en ligne s'active très bientôt.</p>
-      <p class="form-error" id="formError" role="alert" hidden>Oups, l'envoi a échoué. Réessaie, ou écris-nous directement à contact@syfir.fr.</p>
+      <!-- Ces deux textes sont des SECOURS : le script réécrit toujours le
+           contenu avant de démasquer l'un ou l'autre (cas succès / réseau /
+           refus). Ils restent écrits ici pour que la page dise quelque chose
+           de vrai même sans JavaScript. L'ancien secours d'échec renvoyait
+           vers « contact@syfir.fr » — une adresse sur un domaine qui n'est
+           pas acheté, donc une boîte qui n'existe pas : retirée (E/2). -->
+      <p class="form-success" id="formSuccess" hidden>✦ Message envoyé.</p>
+      <p class="form-error" id="formError" role="alert" hidden>L'envoi n'est pas parti. Ton message est toujours là : réessaie dans un instant.</p>
     </form>
 
     <!-- Partenaires & investisseurs — les 3 arguments du dossier fondateur,
