@@ -444,17 +444,45 @@
    reflow à l'apparition, et rien à créer au moment où le message arrive. La
    classe .show ne fait glisser que le transform.
    Reste dans style.css : la surcharge thème clair, qui inverse fond et texte. */
+/* ⚠ UNE PASTILLE BLANCHE ÉTAIT PEINTE EN PERMANENCE SUR TOUTES LES PAGES.
+   Trouvée à l'œil par le superviseur sur une capture, comme le losange, le
+   film injecté et la barre qui maigrit : quelque chose était peint, personne
+   ne l'avait nommé, donc aucun instrument ne le cherchait.
+
+   LA CAUSE, ET ELLE EST PRÉCISE. Le toast se cachait en se poussant vers le
+   bas de 140 % — DE SA PROPRE HAUTEUR. Rempli de texte il mesure ~52 px,
+   140 % font 73 px, il franchit son `bottom: 24px` et disparaît. MAIS AU
+   REPOS IL EST VIDE : sa hauteur tombe à 32 px, 140 % ne font plus que
+   45 px, et il reste 11 px de pastille crème visibles en bas de chaque
+   écran. Un masquage dont la course dépend du CONTENU ne masque plus quand
+   il n'y a pas de contenu.
+
+   LE REMÈDE NE DOIT DONC PAS DÉPENDRE DE LA TAILLE. `opacity` et
+   `visibility` masquent quelle que soit la hauteur — et `visibility`
+   retire en plus la boîte du parcours clavier, ce que l'opacité seule ne
+   fait pas. C'est exactement ce que le bloc MODALE ci-dessous explique
+   trois lignes plus bas, et que ce primitif-ci n'appliquait pas.
+   Le glissement est conservé : c'est le mouvement d'entrée, pas le
+   masquage.
+
+   ⚠ SURVIVANT DE REGISTRE, NON TRAITÉ ICI : le fond reste `--cream`, le
+   crème CHAUD. C'est une paire COUPLÉE (fond clair + encre sombre) comme
+   `.section-cream`, et une pastille d'alerte claire sur un site sombre est
+   peut-être voulue. Ça se tranche en C/3, pas dans une correction de bug. */
 .toast {
   position: fixed; bottom: 24px; left: 50%; z-index: 400;
   transform: translate(-50%, 140%);
+  opacity: 0; visibility: hidden;
   background: var(--cream); color: var(--ink);
   font-weight: 600; font-size: .92rem;
   padding: 16px 28px; border-radius: 100px;
   box-shadow: 0 14px 44px rgba(var(--black-rgb), .45);
-  transition: transform var(--dur-med) var(--ease);
+  transition: transform var(--dur-med) var(--ease),
+              opacity var(--dur-med) var(--ease),
+              visibility var(--dur-med) var(--ease);
   max-width: 90vw; text-align: center;
 }
-.toast.show { transform: translate(-50%, 0); }
+.toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
 
 /* ===== 13. MODALE / OVERLAY =====
    Usage : index, evenement, compte, partenaires. Fond assombri + flou, boîte
