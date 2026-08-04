@@ -2453,9 +2453,38 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
 
 /* Grille des moments authentiques (photos 3:4) */
 .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; }
-.moment-shot { border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 4; }
+/* ===== LOT D — « MOMENTS » : QUATRE PHOTOS DEVIENNENT UNE PROGRAMMATION
+   ------------------------------------------------------------
+   La section s'appelle « Tes moments SYFIR » et ne montrait que quatre
+   images muettes : ni titre, ni soirée, ni date. Sur LA page où Kily
+   enverra les gens en disant « tout se passe là », le cœur de la page ne
+   disait rien. Une chaîne annonce ce qu'elle diffuse.
+
+   La légende se pose PAR-DESSUS la photo, en bas, sur un dégradé — pas
+   sous elle : la rangée défile horizontalement et des blocs de texte
+   sous les images casseraient l'alignement des cartes entre elles.
+   Le dégradé descend du transparent au noir : le texte est toujours sur
+   sa partie la plus sombre, quelle que soit la photo. C'est la même
+   recette que `.date::after` de la maquette. */
+.moment-shot { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 4; }
 .moment-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
 .moment-shot:hover img { transform: scale(1.03); }
+.moment-shot::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(var(--black-rgb), .30) 0%, transparent 34%, rgba(var(--black-rgb), .92) 92%);
+}
+.moment-cap {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  padding: 16px 16px 18px;
+}
+.moment-cap strong {
+  font-family: var(--display); font-weight: 700; font-size: .96rem; line-height: 1.2;
+  letter-spacing: -.01em; color: var(--blanc);
+}
+.moment-cap small {
+  font-size: .76rem; line-height: 1.35; color: rgba(var(--creme-rgb), .82);
+}
 
 /* ===== 35. PAGES DÉDIÉES (saveurs.html, actualite.html) : hero sobre =====
    Rythme unique : --nav-h (72px) + 80px (une section) en haut, 8px en bas
