@@ -306,8 +306,11 @@ supprimer une fonctionnalité.
 | contenu long | `syf-tv.html` | ✅ hero plein cadre au registre de la maquette · les 4 « Moments » portent titre, soirée et badge « Exemple » |
 | contenu long | `artistes.html` | ✅ 3 fiches d'exemple — le format d'un line-up se lit enfin |
 | contenu long | `evenements.html` | ✅ collision de badges corrigée (date sous la pastille de stock) |
-| **formulaires** | `espace-pro`, `partenaires`, `contact` | ⬜ **LA PROCHAINE** |
-| légales | `cgv`, `mentions-legales`, `confidentialite`, `faq` | ⬜ |
+| formulaires | `espace-pro.html` | ✅ entrée dans la nuit — c'était la seule page sans aucun fond peint |
+| formulaires | `partenaires`, `compte`, `faq` | 🟡 **auditées, rien de cassé** — reste l'habillage |
+| fiches partenaires | `partenaire-avyr`, `partenaire-delices-bassin-bleu` | 🟡 **auditées, rien de cassé** — reste l'habillage |
+| **légales** | `cgv`, `mentions-legales`, `confidentialite` | ⛔ **HORS PÉRIMÈTRE — décision de Kily.** Elles attendent son identité juridique ; les habiller avant leur contenu serait du travail à refaire. Elles restent en nuit héritée. |
+| **C/3** — les accents chauds | ⬜ **LA PROCHAINE** |
 
 ## La méthode, telle qu'elle a marché deux fois
 
@@ -352,3 +355,43 @@ que des visuels sans visage (micro, public de dos, silhouettes) ou des
 portraits de personnes réelles qu'on ne peut pas rebaptiser. `images/README.md`
 liste déjà ce que le client doit fournir : **les photos d'artistes en font
 partie**, et rien ne remplacera un envoi réel.
+
+---
+
+# L'AUDIT DES SIX PAGES RESTANTES — ce qui est DÉJÀ prouvé
+
+Avant de les habiller, les six pages (formulaires + fiches partenaires)
+ont été passées à 390 px au même crible que celui qui a trouvé les
+défauts d'`artistes.html` et d'`evenements.html` :
+
+| Page | hauteur 390 px | titres dupliqués | chevauchements |
+|---|---:|---|---|
+| `espace-pro.html` | 2 681 | — | — |
+| `partenaires.html` | 13 001 | — | — |
+| `compte.html` | 844 | — | — |
+| `faq.html` | 3 138 | — | — |
+| `partenaire-avyr.html` | 5 616 | — | — |
+| `partenaire-delices-bassin-bleu.html` | 5 244 | — | — |
+
+**Aucune ne porte les deux défauts déjà trouvés ailleurs.** Ce qui reste
+sur ces pages est donc de l'habillage pur — et l'habillage ne se juge
+qu'à l'œil, sur capture.
+
+⚠ **`partenaires.html` fait 13 001 px de haut à 390 px**, soit une
+quinzaine d'écrans. C'est la page la plus longue du site après la
+billetterie. Ce n'est pas un défaut mesurable, c'est une question de
+rythme — à regarder avant de décider quoi que ce soit.
+
+⚠ **Sur `partenaire-avyr.html` les visuels produit sont AUTORISÉS**, et
+**nulle part ailleurs**. C'est la seule page du site où un cocktail peut
+apparaître.
+
+# LE SCRIPT D'AUDIT, à refaire avant chaque page
+
+Il n'est pas versionné (il vivait dans le scratchpad, qui ne survit pas à
+la session). Ce qu'il fait, en une passe à 390 px : relever la hauteur,
+comparer les textes de tous les `h1`/`h2` pour trouver les répétitions à
+l'identique, et croiser les boîtes de tous les éléments `position:
+absolute` visibles pour trouver ceux qui se recouvrent. **Les deux
+défauts les plus visibles du lot D ont été trouvés par ces deux tests.**
+Le reconstruire coûte dix minutes et vaut d'être versionné cette fois.
