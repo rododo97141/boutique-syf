@@ -90,7 +90,7 @@ qu'il serait coûteux de redécouvrir.
 | **1. Aucun clic mort** | ✅ 39 candidats cliqués : **37 répondent, 0 muets**, 2 non mesurables résolus par `--frais`. **0 `href="#"`**, **0 ancre morte** (audit statique sur les 19 pages). |
 | **2. Parcours de réservation** | ✅ 24/24 |
 | **3. Formulaires** | ✅ 18/18 · ⛔ **le mail réel reste à envoyer** (réseau bloqué, voir ci-dessous) |
-| **4. Les 13 pages (lot D)** | 🟡 **`syf-tv.html` faite** · les 12 autres restent |
+| **4. Les 13 pages (lot D)** | 🟡 **`syf-tv` et `artistes` faites** · reste `evenements`, puis les formulaires, puis les légales |
 | **5. Sur téléphone** | ✅ **0 cible sous 44 px** (48 avant) · 0 débordement · menu accessible |
 | **6. Aucun placeholder visible** | ✅ hors pages légales, assumées. Aucun « lorem », aucun « bientôt » non expliqué. |
 | **Parcours de présentation** | ✅ `PARCOURS-DE-PRESENTATION.md` |
@@ -190,7 +190,9 @@ fait en une commande depuis `formulaires.mjs` en retirant l'interception.
 Ordre **révisé** (décision de Kily : SYFIR TV absorbe communauté, médias
 et actualité — c'est la destination, pas une page parmi treize) :
 
-1. **contenu long** — ✅ `syf-tv` **faite** · reste `evenements`, `artistes`
+1. **contenu long** — ✅ `syf-tv` **faite** (hero plein cadre + les quatre
+   « Moments » légendés) · ✅ `artistes` **faite** (3 fiches d'exemple, le
+   format d'un line-up se lit) · ⬜ reste **`evenements`**
 2. **formulaires** — `espace-pro`, `partenaires`, `contact`
 3. **pages légales** — `cgv`, `mentions-legales`, `confidentialite`, `faq`
 
@@ -294,3 +296,45 @@ supprimer une fonctionnalité.
   **et désormais aussi** par `LEGAL-DATA-REQUIRED.md` **§A bis** : un
   sous-traitant hors UE reçoit des données personnelles que
   `confidentialite.html` ne mentionne pas.
+
+---
+
+# LOT D — CE QUI EST FAIT, ET LA PROCHAINE ACTION EXACTE
+
+| Famille | Page | État |
+|---|---|---|
+| contenu long | `syf-tv.html` | ✅ hero plein cadre au registre de la maquette · les 4 « Moments » portent titre, soirée et badge « Exemple » |
+| contenu long | `artistes.html` | ✅ 3 fiches d'exemple — le format d'un line-up se lit enfin |
+| contenu long | `evenements.html` | ⬜ **LA PROCHAINE** |
+| formulaires | `espace-pro`, `partenaires`, `contact` | ⬜ |
+| légales | `cgv`, `mentions-legales`, `confidentialite`, `faq` | ⬜ |
+
+## La méthode, telle qu'elle a marché deux fois
+
+**Deux commits par page, jamais un seul** :
+1. un commit **habillage** (CSS seul, aucun contenu) ;
+2. un commit **`DEMO — `** (contenu seul, annulable), **suivi immédiatement**
+   de sa ligne dans `A-RETIRER-AVANT-LANCEMENT.md`.
+
+Et entre les deux : **regarder la capture**. Les deux vrais défauts de ce
+lot — le hero de SYFIR TV qui s'ouvrait comme un billet de blog, les
+badges du hero événement sous la barre de nav — n'ont été vus que là.
+
+## Signalés, non corrigés (structurels, hors périmètre du lot D)
+
+- **`artistes.html` affiche DEUX FOIS son bloc de titre** « LINE-UP SYFIR /
+  Artistes, DJs & groupes live » — en haut, puis au-dessus des filtres.
+- **`syf-tv.html` porte DEUX formulaires newsletter** à 400 px l'un de
+  l'autre, avec le même champ et la même note.
+- **Les 6 vignettes `.insta-item` de `syf-tv.html` pointent sur
+  `#ambiance`**, la section où elles se trouvent déjà : le clic ne mène
+  nulle part. Leur `onerror` retombe en plus sur **la même image**, ce qui
+  n'est pas un repli.
+
+## La limite qui bloquera les vraies fiches artistes
+
+**Il n'existe aucune photo utilisable pour un artiste nommé.** Le dépôt n'a
+que des visuels sans visage (micro, public de dos, silhouettes) ou des
+portraits de personnes réelles qu'on ne peut pas rebaptiser. `images/README.md`
+liste déjà ce que le client doit fournir : **les photos d'artistes en font
+partie**, et rien ne remplacera un envoi réel.
