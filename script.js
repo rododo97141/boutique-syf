@@ -137,7 +137,32 @@
       const ok = r.ok && (!corpsRep || corpsRep.success !== false);
       return { ok, statut: r.status, motif: ok ? '' : String((corpsRep && corpsRep.message) || '') };
     } catch (e) {
-      return { ok: false, reseau: true };   // hors ligne, DNS, CORS, blocage
+      /* ⚠ UN `fetch` QUI LÈVE NE DIT PAS POURQUOI. Hors ligne, DNS, CORS,
+         blocage d'extension : le navigateur rend la même erreur opaque,
+         par conception (sinon une page pourrait sonder le réseau privé).
+         Ma première version en concluait « connexion indisponible » — ce
+         qui est FAUX dans le cas le plus probable ici, et donc un message
+         menteur au pire moment.
+
+         DEUX FAITS ÉTABLIS DEPUIS, qui changent le diagnostic :
+         · Web3Forms REFUSE tout appel hors navigateur, quel que soit
+           l'Origin (« This method is not allowed. Use our API in client
+           side… ») — vérifié depuis un environnement autorisé à sortir.
+           Aucun harnais ne pourra donc jamais tester cet envoi ; ce n'est
+           pas un problème de proxy, c'est une règle du service.
+         · Une page ouverte en `file://` envoie `Origin: null`, cas que
+           beaucoup de services refusent. C'est exactement ce que fait
+           quelqu'un qui double-clique le fichier HTML.
+
+         On ne DEVINE donc pas la cause : on relève ce qu'on sait
+         réellement (`navigator.onLine`, le protocole de la page) et on
+         laisse le message dire l'un ou l'autre sans jamais affirmer ce
+         qu'on n'a pas mesuré. */
+      return {
+        ok: false,
+        reseau: navigator.onLine === false,
+        local: location.protocol === 'file:'
+      };
     }
   };
 
@@ -1473,9 +1498,16 @@ if (placeModal && placesGridEl) {
            retaper. Deux causes distinctes, deux phrases distinctes : un
            visiteur hors ligne n'a pas le même geste à faire qu'un visiteur
            dont l'envoi a été refusé. */
-        errorMsg.textContent = res.reseau
-          ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
-          : 'L\'envoi a été refusé et ton message n\'est pas parti. Ton texte est toujours là : réessaie dans un instant.';
+        errorMsg.textContent =
+          res.local
+            /* Le cas le plus probable quand quelqu'un double-clique le
+               fichier : `file://` envoie `Origin: null`, largement refusé.
+               On le dit, avec le geste qui répare — c'est la seule des
+               trois causes sur laquelle le visiteur peut agir. */
+            ? 'L\'envoi n\'est pas parti. Cette page est ouverte depuis un fichier local : le service de messagerie refuse les envois qui ne viennent pas d\'une vraie adresse web. Ton message est toujours là — ouvre le site depuis son adresse (http:// ou https://) et renvoie-le.'
+          : res.reseau
+            ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
+            : 'L\'envoi n\'est pas parti et n\'a pas abouti. Ton message est toujours là : réessaie dans un instant.';
         errorMsg.hidden = false;
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
         /* PAS de toast ici. Vu sur la capture : le toast est ancré en bas
