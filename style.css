@@ -1132,6 +1132,25 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
 .event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .event-card:hover .event-card-media img { transform: scale(1.03); }
+/* ⚠ DEUX BADGES AU MÊME ENDROIT. `.event-date` et `.stock-badge` sont
+   tous deux `position: absolute; top: 14px; left: 14px` — ils se peignent
+   l'un SUR l'autre dans le coin de chaque carte de la billetterie. Sur les
+   quatre cartes, à toutes les largeurs. Mesuré : les deux boîtes se
+   recoupent réellement (`event-date ⨯ stock-badge`), ce n'est pas une
+   impression.
+
+   La pastille de stock reste en place : elle porte l'ACTION possible
+   (« Billets disponibles », « Complet »), c'est le signal le plus utile.
+   La date descend d'un cran — et seulement quand une pastille de stock
+   existe, sinon elle remonterait toute seule dans le vide. `:has()` est
+   déjà l'idiome du dépôt (cf. `body:has(.util-bar)`).
+
+   ⚠ Et une correction dans l'autre sens, qui mérite d'être écrite : à
+   l'œil, sur la même capture, j'ai cru que le bouton « Billets »
+   recouvrait le texte de la carte. La mesure dit non — le chapô finit à
+   1707, le bouton commence à 1818. C'est la capture défilée qui trompait.
+   L'œil trouve ce que la mesure rate ; l'inverse est vrai aussi. */
+.event-card-media:has(.stock-badge) .event-date { top: 56px; }
 .event-date {
   position: absolute; top: 14px; left: 14px;
   background: var(--cream); color: var(--ink);
