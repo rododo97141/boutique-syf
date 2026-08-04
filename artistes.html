@@ -134,10 +134,15 @@
 
 <section id="artistes" class="section section-dark">
   <div class="container">
-    <p class="eyebrow eyebrow-light reveal">Line-up SYFIR</p>
-    <h2 class="h2 reveal d1">Artistes, DJs &amp; <em>groupes live</em>.</h2>
-    <p class="section-intro intro-light reveal d2">Ceux qui font monter la température. DJs, voix et orchestres — écoute, choisis, booke.</p>
-
+    <!-- ⚠ TITRE EN DOUBLE, CORRIGÉ. Ce bloc répétait mot pour mot le hero
+         de la page juste au-dessus : même sur-titre « Line-up SYFIR »,
+         même titre « Artistes, DJs & groupes live. », même chapô. Deux
+         fois le même écran, à 300 px d'intervalle — ça se voit en une
+         seconde, et aucun instrument n'a rien à en dire : les deux blocs
+         sont corrects, c'est leur répétition qui est fautive.
+         Le hero garde le <h1> (structure et référencement) ; ici il ne
+         reste que ce qui est propre à la section. L'ancre #artistes est
+         CONSERVÉE : la navigation pointe dessus depuis les 19 pages. -->
     <div class="filter-chips artist-chips reveal d2" id="artistChips">
       <button class="chip active" data-cat="tous">Tous</button>
       <button class="chip" data-cat="dj">DJ</button>

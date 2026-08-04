@@ -4975,3 +4975,17 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
   color: rgba(var(--creme-rgb), .62);
 }
 .artist-card-demo h3 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ⚠ DEUX FOIS LE MÊME FORMULAIRE, CORRIGÉ. Les pages qui portent leur
+   propre section newsletter (« Reste dans la boucle » sur SYFIR TV)
+   affichaient EN PLUS celui du pied de page, à 400 px de distance : même
+   champ, même bouton, même note « démo ». Le second se lisait comme un
+   bug, et il affaiblissait le premier.
+
+   On masque le doublon du pied de page LÀ OÙ la section existe, plutôt
+   que de retirer l'un des deux blocs : le pied de page reste identique
+   sur les 19 pages (une seule source à maintenir), et si la section
+   dédiée disparaît un jour, le formulaire du pied revient tout seul.
+   `display: none` le sort aussi du parcours clavier — un champ invisible
+   mais tabulable serait pire que le doublon. */
+body:has(.news-section .footer-news) footer .footer-news { display: none; }
