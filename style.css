@@ -4960,3 +4960,18 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
 
 /* Ancre de défilement invisible (cible d'un lien de nav, ex. #signatures) */
 .anchor-target { display: block; height: 0; }
+
+/* ===== LOT D — LES FICHES ARTISTES DE DÉMONSTRATION =====
+   Trois fiches d'exemple montrent le FORMAT d'un line-up ; Unity 141
+   reste le seul artiste réel et n'est ni touché ni mélangé.
+
+   Elles se distinguent à l'œil AVANT d'être lues : liseré discontinu,
+   comme les billets de démonstration de Mon espace. Le badge « Exemple »
+   du titre et la note sous les tags disent le reste en toutes lettres.
+   Trois signaux, parce qu'un seul se manque. */
+.artist-card-demo { border: 1px dashed rgba(var(--gold-rgb), .42); border-radius: var(--radius); }
+.artist-demo-note {
+  margin-top: 10px; font-size: .74rem; line-height: 1.4;
+  color: rgba(var(--creme-rgb), .62);
+}
+.artist-card-demo h3 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
