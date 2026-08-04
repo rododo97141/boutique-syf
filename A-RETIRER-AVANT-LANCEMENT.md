@@ -71,6 +71,49 @@ pages que le vide empêche de comprendre.
 *(Les lignes suivantes s'ajoutent au fur et à mesure. Une famille = une
 ligne = un sha.)*
 
+## ✅ LE RETRAIT A ÉTÉ TESTÉ POUR DE VRAI — pas supposé
+
+Les trois commits ont été annulés sur une branche jetable, et le site
+mesuré dans cet état. **Résultat : le site tient debout.**
+
+| Ce qui a été vérifié | Résultat |
+|---|---|
+| erreurs JS, 30 combinaisons | **0** |
+| restes de démo dans le rendu (`badge-demo`, `artist-card-demo`, `moment-cap`) | **0** sur les 4 pages |
+| accueil — `#nextEvents` | état vide honnête : « Les prochaines dates arrivent. Rien de publié pour l'instant » |
+| billetterie — la grille | vide, et `.no-results` prend la main : « Aucun événement ne correspond… » |
+| artistes | **Unity 141 seul** — c'est la configuration correcte, et `#noArtists` reste masqué à raison |
+| SYFIR TV — « Moments » | les 4 photos restent, les légendes partent : la section redevient une galerie, ce qui est honnête |
+
+### ⚠ MAIS LE RETRAIT NE PASSE PLUS TOUT SEUL — et voici la résolution
+
+**`git revert f20ea5a` entre en CONFLIT sur `events-data.js`.** Cause : le
+lot « couleur par événement » a ajouté un champ `teinte:` **à l'intérieur**
+du bloc de données de démonstration. La couche démo n'est donc plus
+parfaitement détachable par git seul.
+
+> **LA RÉSOLUTION, ET ELLE EST SANS AMBIGUÏTÉ** : garder le côté du
+> *revert*, c'est-à-dire
+> ```js
+> const baseEvents = [];
+> ```
+> Les teintes vivent **sur** les événements : elles disparaissent avec eux,
+> c'est leur place. Aucune autre décision n'est à prendre.
+
+⚠ **PIÈGE VÉRIFIÉ, à ne pas redécouvrir** : les commentaires de ce dépôt
+contiennent des lignes `============`. Un script qui cherche le séparateur
+de conflit `=======` **coupe au mauvais endroit** et produit un fichier
+JavaScript invalide. Le marqueur doit être cherché **en début de ligne, sur
+la ligne entière** (`^=======$`). Constaté, et corrigé, pendant ce test.
+
+### La leçon pour la suite : garder la couche détachable
+
+Tant qu'un champ non-démo est ajouté **dans** le tableau `baseEvents`, tout
+revert de `f20ea5a` conflictera. Deux façons de faire mieux, le jour où ça
+devient gênant : sortir les événements de démonstration dans leur propre
+fichier, ou n'ajouter les champs transversaux (comme `teinte`) **que** par
+une fonction de lecture (`teinteOf` le fait déjà pour le repli).
+
 ## APRÈS LE RETRAIT — ce qui doit rester vrai
 
 Le site ne doit pas s'effondrer quand les démonstrations partent. **Les

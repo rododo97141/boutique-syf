@@ -1,3 +1,14 @@
+> ⚠ **CE N'EST PLUS UN LIVRABLE.** Kily a tranché : « il ne doit pas y
+> avoir de parcours de présentation, c'est moi qui fais la présentation ».
+> Il connaît son produit. Ce fichier est **conservé comme note interne** —
+> il ne se maintient plus, et rien ne doit en dépendre.
+>
+> Ce qui reste utile ailleurs a été déplacé : les fonctions et leurs
+> limites réelles sont dans **`FONCTIONS-DU-SITE.md`**, et la condition
+> « servir le site » est levée par `LANCER-LE-SITE.command`.
+
+---
+
 # PARCOURS DE PRÉSENTATION — SYFIR
 
 > **Pour Kily, à suivre devant quelqu'un.** Dix étapes, dans l'ordre.
