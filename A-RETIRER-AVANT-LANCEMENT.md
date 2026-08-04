@@ -45,6 +45,11 @@ pages que le vide empêche de comprendre.
 | sha | Famille | Contenu | Fichier(s) | Annuler |
 |---|---|---|---|---|
 | `f20ea5aeaa2f88beef87f6d0ebd15d422d99be7c` | **dates** | 4 événements de démonstration (`demo-rooftop-1`, `demo-beach-1`, `demo-villa-1`, `demo-carnaval-1`) — lieux, dates, prix et stocks inventés. Aucun nom de lieu réel (`venue` volontairement absent), aucun nom d'artiste réel, organisateur = SYFIR. | `events-data.js` | `git revert f20ea5a` |
+| `10a453857a46fb5896bbdc18382a803c8c2916d2` | **moments SYFIR TV** | 4 légendes sur les photos de la section « Moments » : titre + soirée + commune, chacune précédée de son badge « Exemple ». **Aucun nom nouveau** — les quatre moments renvoient aux quatre soirées de `f20ea5a`. Unity 141 n'y apparaît pas. | `syf-tv.html` | `git revert 10a4538` |
+
+> ⚠ **Ordre de révocation** : `10a4538` **avant** `f20ea5a`. Les légendes
+> citent les soirées ; retirer les soirées d'abord laisserait quatre
+> légendes qui renvoient à des dates inexistantes.
 
 *(Les lignes suivantes s'ajoutent au fur et à mesure. Une famille = une
 ligne = un sha.)*
