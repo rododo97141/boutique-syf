@@ -305,8 +305,8 @@ supprimer une fonctionnalité.
 |---|---|---|
 | contenu long | `syf-tv.html` | ✅ hero plein cadre au registre de la maquette · les 4 « Moments » portent titre, soirée et badge « Exemple » |
 | contenu long | `artistes.html` | ✅ 3 fiches d'exemple — le format d'un line-up se lit enfin |
-| contenu long | `evenements.html` | ⬜ **LA PROCHAINE** |
-| formulaires | `espace-pro`, `partenaires`, `contact` | ⬜ |
+| contenu long | `evenements.html` | ✅ collision de badges corrigée (date sous la pastille de stock) |
+| **formulaires** | `espace-pro`, `partenaires`, `contact` | ⬜ **LA PROCHAINE** |
 | légales | `cgv`, `mentions-legales`, `confidentialite`, `faq` | ⬜ |
 
 ## La méthode, telle qu'elle a marché deux fois
@@ -320,16 +320,30 @@ Et entre les deux : **regarder la capture**. Les deux vrais défauts de ce
 lot — le hero de SYFIR TV qui s'ouvrait comme un billet de blog, les
 badges du hero événement sous la barre de nav — n'ont été vus que là.
 
-## Signalés, non corrigés (structurels, hors périmètre du lot D)
+## Les trois défauts structurels — ✅ CORRIGÉS sur autorisation
 
-- **`artistes.html` affiche DEUX FOIS son bloc de titre** « LINE-UP SYFIR /
-  Artistes, DJs & groupes live » — en haut, puis au-dessus des filtres.
-- **`syf-tv.html` porte DEUX formulaires newsletter** à 400 px l'un de
-  l'autre, avec le même champ et la même note.
-- **Les 6 vignettes `.insta-item` de `syf-tv.html` pointent sur
-  `#ambiance`**, la section où elles se trouvent déjà : le clic ne mène
-  nulle part. Leur `onerror` retombe en plus sur **la même image**, ce qui
-  n'est pas un repli.
+Signalés d'abord, corrigés ensuite, une fois le mandat donné :
+le titre en double d'`artistes.html`, les deux formulaires newsletter de
+`syf-tv.html`, et les six vignettes qui pointaient sur leur propre section
+(plus cinq `onerror` qui retombaient sur l'image en échec — un no-op qui
+donnait l'illusion d'un filet).
+
+## ⚠ WEB3FORMS — LA VRAIE CAUSE, pour ne pas la rechercher
+
+`api.web3forms.com` **refuse tout appel hors navigateur**, quel que soit
+l'Origin : « This method is not allowed. Use our API in client side or
+contact support with server IP address (Pro plan is required) ». Vérifié
+depuis un environnement autorisé à sortir.
+
+**Aucun harnais ne pourra jamais tester cet envoi.** Ce n'était pas
+seulement le proxy du bac à sable : c'est une règle du service. **Ne
+cherche pas de contournement réseau, il n'y en a pas.** Seul un vrai
+navigateur peut faire partir ce formulaire.
+
+Conséquence traitée : le message d'échec ne devine plus la cause. Il
+relève `navigator.onLine` et le protocole de la page, et distingue le cas
+`file://` (Origin `null`, ce que fait quelqu'un qui double-clique le
+fichier) — avec le geste qui répare. Aucun chemin n'affiche « merci ».
 
 ## La limite qui bloquera les vraies fiches artistes
 
