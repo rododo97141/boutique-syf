@@ -5008,3 +5008,29 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
    `display: none` le sort aussi du parcours clavier — un champ invisible
    mais tabulable serait pire que le doublon. */
 body:has(.news-section .footer-news) footer .footer-news { display: none; }
+
+/* ===== LOT D — L'ESPACE PRO ENTRE DANS LA NUIT =====
+   Mesuré, pas supposé : `espace-pro.html` était la SEULE page de la
+   famille formulaires sans aucun fond peint. Ses `.dash-section` sont
+   toutes transparentes, elle n'a pas de voile `.ambience`, et le
+   `body` — `rgb(17,17,17)`, l'encre — traversait donc toute la page.
+   À côté, `artistes.html` peint ses sections en `rgb(10,18,38)` et
+   `rgb(6,13,28)`, les deux nuits de la maquette.
+
+   Résultat à l'œil : le Smartboard ressemblait à un autre site. C'est
+   précisément la page qu'un PARTENAIRE ouvre pendant la présentation —
+   celle où il se projette en organisateur. Elle ne peut pas être la seule
+   à sortir du monde.
+
+   Habillage seul : aucun bloc déplacé, aucun contenu touché. Le dégradé
+   descend de la nuit haute vers la nuit basse, comme le fait la page au
+   fil du défilement ailleurs sur le site — la même soirée, du haut vers
+   le bas. */
+.dash {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(var(--gold-rgb), .05), transparent 62%),
+    linear-gradient(180deg, var(--nuit-2) 0%, var(--nuit-1) 46%, var(--nuit-0) 100%);
+}
+/* Le liseré qui sépare la colonne des sections : il existait déjà en
+   filigrane sur les autres pages, il manquait ici. */
+.dash-side { border-bottom: 1px solid rgba(var(--creme-rgb), .10); }
