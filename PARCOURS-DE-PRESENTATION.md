@@ -11,6 +11,34 @@
 
 ## AVANT DE COMMENCER — trois minutes qui évitent tout
 
+**0. ⚠ SERS LE SITE — ne double-clique PAS le fichier.**
+
+C'est le point qui décide si l'étape 10 marche ou non, et il a déjà coûté
+un test raté.
+
+> Une page ouverte en **double-cliquant** sur `index.html` s'affiche à une
+> adresse `file://…`, ce qui donne au site une **origine « nulle »**. Le
+> service de messagerie refuse les envois venus d'une origine nulle —
+> c'est une **règle de sécurité du navigateur**, pas un défaut du site.
+> **Le formulaire de l'étape 10 ne partira pas.** Tout le reste du
+> parcours fonctionne, y compris le billet hors ligne.
+
+**Ce qu'il faut faire, une ligne, rien à installer** — ouvre un Terminal,
+place-toi dans le dossier du site, puis :
+
+```bash
+python3 -m http.server 8000
+```
+
+*(Sous Windows : `py -m http.server 8000`.)*
+
+Puis ouvre **`http://localhost:8000`** dans le navigateur. Laisse le
+Terminal ouvert pendant toute la présentation ; `Ctrl+C` l'arrête à la
+fin.
+
+**Comment savoir que c'est bon** : l'adresse commence par `http://` et
+non par `file://`. C'est le seul contrôle à faire.
+
 **1. Prépare un navigateur propre.** Le site se souvient de toi (billets,
 favoris, profil, voile d'entrée déjà franchi). Pour que l'étape 1 existe,
 il faut une fenêtre qui ne t'a jamais vu : **une fenêtre de navigation
@@ -199,23 +227,22 @@ encore prêtes**, et les montrer sans contexte ferait douter du reste.
 
 ---
 
-# ⚠ LA SEULE CHOSE À FAIRE AVANT — l'envoi de test
+# ✅ L'ENVOI EST PROUVÉ — et la seule condition, c'est le §0
 
-L'envoi du formulaire est câblé et vérifié de bout en bout **côté site**
-(18 vérifications automatiques, dont les quatre cas d'échec). Ce qui n'a
-**pas** pu être fait depuis l'atelier : **l'envoi réel**, parce que
-l'environnement de développement n'a pas le droit de joindre l'hôte du
-prestataire de messagerie (refus réseau documenté).
+**Le test a été fait depuis un vrai navigateur, sur une page servie en
+`https://` : HTTP 200, « Form submitted successfully! », et les deux mails
+sont arrivés dans la boîte de Kily.** La clé et le câblage fonctionnent.
+Ce n'est plus une inconnue.
 
-> **Le geste, une fois, cinq minutes** : ouvrir `partenaires.html` dans un
-> navigateur ordinaire, remplir le formulaire avec un objet du type
-> **« TEST technique — câblage des formulaires »**, envoyer, puis vérifier
-> la boîte de réception.
->
-> **Si le bandeau vert « Message envoyé » s'affiche, le prestataire a
-> accepté le message.** Le site a été construit pour que cette phrase ne
-> puisse s'afficher dans aucun autre cas : réseau coupé, refus du
-> prestataire, erreur serveur — chacun affiche un message rouge distinct.
+**La seule condition est celle du §0 : le site doit être SERVI.** Le test
+fait en double-cliquant le fichier n'a rien envoyé — origine nulle,
+refusée par le service. Ce n'est pas un défaut du site.
 
-Tant que ce mail n'est pas arrivé, **présente l'étape 10 sans envoyer**,
-ou remplace-la par l'étape 4 (le ♥ et le profil local).
+| Comment tu ouvres le site | L'étape 10 |
+|---|---|
+| `http://localhost:8000` (ou une vraie adresse en ligne) | ✅ le message part |
+| double-clic sur le fichier (`file://…`) | ❌ rien ne part — le site le dit et explique quoi faire |
+
+Le site ne ment dans aucun des deux cas : en `file://` il affiche un
+message rouge qui nomme la cause et donne le geste. Il n'affiche
+**jamais** « merci » sans un envoi accepté.

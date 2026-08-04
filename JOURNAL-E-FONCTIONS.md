@@ -184,7 +184,33 @@ comme le ferait l'espace pro, et la page rendue pour de vrai.
 Captures : `e2-formulaire-succes.png` · `e2-formulaire-refus.png` ·
 `e2-formulaire-echec-reseau.png`.
 
-## ⛔ CE QUI N'A PAS PU ÊTRE FAIT — l'envoi réel
+## ✅ E/2 EST CLOS — l'envoi réel est prouvé
+
+**Test fait depuis un vrai navigateur, sur une page servie en `https://`
+: HTTP 200, « Form submitted successfully! », les deux mails arrivés dans
+la boîte du fondateur.** La clé publique et le câblage fonctionnent. Ce
+n'est plus une déduction.
+
+### Et la vraie règle, celle qui explique les deux échecs
+
+Deux échecs ont été observés, et ils ont **deux causes différentes** —
+les confondre aurait fait chercher un défaut là où il n'y en a pas :
+
+| Où | Ce qui s'est passé | Cause |
+|---|---|---|
+| depuis l'atelier (harnais) | 403 sur CONNECT | la politique de sortie du bac à sable **ET**, en amont, une règle du prestataire : `api.web3forms.com` refuse **tout appel hors navigateur**, quel que soit l'Origin (« This method is not allowed. Use our API in client side »). **Aucun environnement d'exécution ne pourra jamais tester cet envoi.** |
+| chez le fondateur, page en `file://` | rien n'est parti | une page ouverte en double-cliquant a une **origine nulle**, que le service refuse. **Règle de sécurité du navigateur, pas défaut du site.** |
+| chez le superviseur, page servie en `https://` | ✅ **200, mails reçus** | rien à signaler |
+
+> **LES FORMULAIRES NE FONCTIONNENT PAS SI LE SITE EST OUVERT EN
+> DOUBLE-CLIQUANT SUR LE FICHIER.** Il faut le **servir**. La commande est
+> dans `PARCOURS-DE-PRESENTATION.md` §0 — une ligne, rien à installer.
+
+Le code traite ce cas explicitement : en `file://`, le message d'échec
+**nomme la cause et donne le geste qui répare**, au lieu d'accuser la
+connexion. Et il n'affiche « merci » dans aucun cas où rien n'est parti.
+
+## ⛔ CE QUI N'AVAIT PAS PU ÊTRE FAIT DEPUIS L'ATELIER — et pourquoi c'est structurel
 
 **`api.web3forms.com:443` est refusé par la politique de sortie de cet
 environnement d'exécution** (`gateway answered 403 to CONNECT`, tracé dans
