@@ -42,73 +42,43 @@
   <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-home" data-teinte="violet">
 <a class="skip-link" href="#main">Aller au contenu</a>
+
+<!-- ============================================================
+     UNIFICATION — LE CIEL DE LA MAQUETTE, SUR TOUTES LES PAGES.
+     Jusqu'ici cette couche n'existait que sur l'accueil : c'est
+     pourquoi le reste du site paraissait d'une autre marque.
+     Décor pur, aucune requête réseau, aucun texte à annoncer.
+============================================================ -->
+<div class="sky" aria-hidden="true">
+  <div class="nuit"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+  <div class="projos"><b class="p1"></b><b class="p2"></b><b class="p3"></b><b class="p4"></b></div>
+  <div class="brume"></div>
+</div>
+
 
 <!-- ============================================================
      NAVIGATION (maquette client)
 ============================================================ -->
 
 <nav id="nav">
-  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
-    SYFIR<span>&trade;</span>
-  </a>
-  <div class="nav-pill">
-    <ul class="nav-links">
-      <li class="nav-item has-drop">
-        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
-        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
-             ne vend pas les produits de ses partenaires, ce dropdown liste le
-             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
-        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
-          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
-          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
-          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
-          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
-          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
-          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="artistes.html" class="nav-link active" data-nav="artistes">Artistes</a></li>
-      <li class="nav-item has-drop">
-        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
-        <div class="nav-drop" role="menu" aria-label="SYFIR TV">
-          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
-          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
-        </div>
-      </li>
-    </ul>
+  <a class="lg" href="index.html#accueil">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="evenements.html">&Eacute;v&eacute;nements</a>
+    <a class="l active" aria-current="page" href="artistes.html#artistes">Artistes</a>
+    <a class="l" href="partenaires.html">&Eacute;cosyst&egrave;me</a>
+    <a class="l" href="syf-tv.html">SYFIR TV</a>
   </div>
-  <div class="nav-actions">
-    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+  <div class="nav-outils">
+    <button class="outil" id="searchBtn" type="button" aria-label="Rechercher et naviguer — menu SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
     </button>
-    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    <button class="outil" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
-<!-- Menu mobile plein écran -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
-  <a href="index.html#accueil">Accueil</a>
-  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
-  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="artistes.html#artistes">Artistes</a>
-  <a href="syf-tv.html">SYFIR TV</a>
-  <a href="partenaires.html">Devenir partenaire</a>
-  <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
-    <div class="mobile-nav-util">
-    <a href="partenaires.html#investisseurs">Investisseurs</a>
-    <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-    <a href="partenaires.html#partnerForm">Contact</a>
-  </div>
-  <div class="mobile-nav-foot">#SYFIR</div>
-</div>
 
 <main id="main">
 
@@ -134,15 +104,6 @@
 
 <section id="artistes" class="section section-dark">
   <div class="container">
-    <!-- ⚠ TITRE EN DOUBLE, CORRIGÉ. Ce bloc répétait mot pour mot le hero
-         de la page juste au-dessus : même sur-titre « Line-up SYFIR »,
-         même titre « Artistes, DJs & groupes live. », même chapô. Deux
-         fois le même écran, à 300 px d'intervalle — ça se voit en une
-         seconde, et aucun instrument n'a rien à en dire : les deux blocs
-         sont corrects, c'est leur répétition qui est fautive.
-         Le hero garde le <h1> (structure et référencement) ; ici il ne
-         reste que ce qui est propre à la section. L'ancre #artistes est
-         CONSERVÉE : la navigation pointe dessus depuis les 19 pages. -->
     <div class="filter-chips artist-chips reveal d2" id="artistChips">
       <button class="chip active" data-cat="tous">Tous</button>
       <button class="chip" data-cat="dj">DJ</button>
@@ -282,9 +243,12 @@
 ============================================================ -->
 <footer>
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
+  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
-    <p class="brand-sign-mark">SYFIR</p>
+    <div class="f-in">
+    <p class="signe" aria-hidden="true">SYFIR</p>
     <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
+  </div>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">

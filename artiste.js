@@ -122,8 +122,8 @@
     <section class="ar-section container">
       <h2 class="pd-h2">Booking &amp; <em>contact</em></h2>
       <div class="ar-booking">
-        ${a.booking.phone ? `<a class="btn btn-solid" href="tel:${esc(a.booking.phone)}">📞 ${esc(a.booking.phoneDisplay || a.booking.phone)}</a>` : ''}
-        ${a.booking.email ? `<a class="btn btn-ghost" href="mailto:${esc(a.booking.email)}">✉ ${esc(a.booking.email)}</a>` : ''}
+        ${a.booking.phone ? `<a class="btn btn-solid" href="tel:${esc(a.booking.phone)}">${esc(a.booking.phoneDisplay || a.booking.phone)}</a>` : ''}
+        ${a.booking.email ? `<a class="btn btn-ghost" href="mailto:${esc(a.booking.email)}">${esc(a.booking.email)}</a>` : ''}
       </div>
       ${a.booking.note ? `<p class="ar-book-note">${esc(a.booking.note)}</p>` : ''}
     </section>` : '';
@@ -153,7 +153,7 @@
         <p class="ar-bio">${esc(a.bio)}</p>
         ${socialsHtml}
         <div class="ar-share">
-          <button class="btn btn-solid btn-sm" id="arShare" type="button">🔗 Partager</button>
+          <button class="btn btn-solid btn-sm" id="arShare" type="button">Partager</button>
           <a class="btn btn-ghost btn-sm" id="arWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
         </div>
         ${a.demo ? '<p class="ar-demo-note">Artiste de démonstration — exemple de fiche. Les vrais artistes partenaires ont leur fiche complète (voir Unity 141).</p>' : ''}
@@ -175,7 +175,7 @@
   $('#arShare')?.addEventListener('click', async () => {
     const data = { title: `SYFIR — ${a.name}`, text: shareText, url: location.href };
     if (navigator.share) { try { await navigator.share(data); } catch (e) { /* annulé */ } }
-    else if (navigator.clipboard) { try { await navigator.clipboard.writeText(location.href); toast('🔗 Lien copié dans le presse-papier !'); } catch (e) { toast('Copie le lien depuis la barre d\'adresse.'); } }
+    else if (navigator.clipboard) { try { await navigator.clipboard.writeText(location.href); toast('Lien copié dans le presse-papier !'); } catch (e) { toast('Copie le lien depuis la barre d\'adresse.'); } }
     else { toast('Copie le lien depuis la barre d\'adresse.'); }
   });
 

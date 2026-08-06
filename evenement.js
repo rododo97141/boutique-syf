@@ -53,7 +53,7 @@
   // WebP local là où il est garanti (images/ext, images/produits) — cf. R25
   const webpOf = src => /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
   const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
-  const tag = ev.prive ? '🔒 Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
+  const tag = ev.prive ? 'Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
   const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
   const shareText = `${ev.name} · ${dateLong}${ev.time ? ' · ' + S.fmtTime(ev.time) : ''} · ${loc}`;
 
@@ -171,17 +171,17 @@
         <h1 class="ed-title">${esc(ev.name)}${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</h1>
         ${ev.blurb ? `<p class="ed-blurb">${esc(ev.blurb)}</p>` : ''}
         <ul class="ed-meta">
-          <li>📅 <span class="ed-date">${dateLong}</span></li>
-          ${ev.time ? `<li>🕘 ${S.fmtTime(ev.time)}</li>` : ''}
-          <li><a href="${esc(S.mapsUrl(ev))}" target="_blank" rel="noopener">📍 ${esc(loc)} ↗</a></li>
+          <li><span class="ed-date">${dateLong}</span></li>
+          ${ev.time ? `<li>${S.fmtTime(ev.time)}</li>` : ''}
+          <li><a href="${esc(S.mapsUrl(ev))}" target="_blank" rel="noopener">${esc(loc)} ↗</a></li>
           <li class="ed-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00" hidden></li>
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
         <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong>${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</p>
         <div class="ed-share">
-          <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
+          <button class="btn btn-solid btn-sm" id="edShare">Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
-          <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">📅 Ajouter au calendrier</button>
+          <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">Ajouter au calendrier</button>
         </div>
         <p class="ed-share-note">Fais tourner — les meilleurs plans se partagent.</p>
       </div>
@@ -196,7 +196,7 @@
       <aside class="ed-tickets">
         <h2 class="ed-tickets-title">Billets</h2>
         <div class="private-gate" id="edGate" hidden>
-          <p>🔒 Événement privé. Entre ton code d'accès :</p>
+          <p>Événement privé. Entre ton code d'accès :</p>
           <div class="gate-row">
             <input type="text" id="edGateCode" placeholder="CODE D'ACCÈS">
             <button class="btn btn-solid btn-sm" id="edGateBtn">Valider</button>
@@ -225,7 +225,7 @@
           <p class="form-success" id="edWaitOk" hidden></p>
         </div>` : ''; })()}
         <p class="form-success" id="edSuccess" hidden></p>
-        <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
+        <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>Ajouter au calendrier</button>
       </aside>`}
     </div>
     ${lineupHtml}`;
@@ -291,12 +291,12 @@
        est un vrai billet : il a son numéro, son QR, il est dans Mon espace
        et il se consulte hors ligne. Ce qu'il n'est pas se dit dans la
        phrase même qui annonce sa création, pas en petit à côté. */
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie. ${S.demoTicketText}`;
+    ok.textContent = `C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie. ${S.demoTicketText}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     if (S.ticketPeakHTML) ok.insertAdjacentHTML('afterend', S.ticketPeakHTML({ num, event: ev.name, date: ev.date }));
     $('#edCalAfter').hidden = false;
-    toast('🎉 C\'est dans la poche !');
+    toast('C\'est dans la poche !');
   });
 
   /* ===== R95 — LISTE D'ATTENTE (événement complet) =====
@@ -352,7 +352,7 @@
 
   $('#edGateBtn').addEventListener('click', () => {
     const code = $('#edGateCode').value.trim().toUpperCase();
-    if (code && code === (ev.code || '').toUpperCase()) { showTickets(true); toast('🔓 Accès débloqué !'); }
+    if (code && code === (ev.code || '').toUpperCase()) { showTickets(true); toast('Accès débloqué !'); }
     else $('#edGateError').textContent = 'Code invalide. Vérifie ton invitation.';
   });
 
@@ -366,7 +366,7 @@
     if (navigator.share) {
       try { await navigator.share(data); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
-      try { await navigator.clipboard.writeText(location.href); toast('🔗 Lien copié dans le presse-papier !'); }
+      try { await navigator.clipboard.writeText(location.href); toast('Lien copié dans le presse-papier !'); }
       catch (e) { toast('Copie le lien depuis la barre d\'adresse.'); }
     } else {
       toast('Copie le lien depuis la barre d\'adresse.');

@@ -42,73 +42,43 @@
   <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-home" data-teinte="turquoise">
 <a class="skip-link" href="#main">Aller au contenu</a>
+
+<!-- ============================================================
+     UNIFICATION — LE CIEL DE LA MAQUETTE, SUR TOUTES LES PAGES.
+     Jusqu'ici cette couche n'existait que sur l'accueil : c'est
+     pourquoi le reste du site paraissait d'une autre marque.
+     Décor pur, aucune requête réseau, aucun texte à annoncer.
+============================================================ -->
+<div class="sky" aria-hidden="true">
+  <div class="nuit"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+  <div class="projos"><b class="p1"></b><b class="p2"></b><b class="p3"></b><b class="p4"></b></div>
+  <div class="brume"></div>
+</div>
+
 
 <!-- ============================================================
      NAVIGATION (maquette client)
 ============================================================ -->
 
 <nav id="nav">
-  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
-    SYFIR<span>&trade;</span>
-  </a>
-  <div class="nav-pill">
-    <ul class="nav-links">
-      <li class="nav-item has-drop">
-        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
-        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
-             ne vend pas les produits de ses partenaires, ce dropdown liste le
-             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
-        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
-          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
-          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
-          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
-          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
-          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
-          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
-      <li class="nav-item has-drop">
-        <a href="syf-tv.html" class="nav-link active" data-nav="syf-tv">SYFIR TV</a>
-        <div class="nav-drop" role="menu" aria-label="SYFIR TV">
-          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
-          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
-        </div>
-      </li>
-    </ul>
+  <a class="lg" href="index.html#accueil">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="evenements.html">&Eacute;v&eacute;nements</a>
+    <a class="l" href="artistes.html#artistes">Artistes</a>
+    <a class="l" href="partenaires.html">&Eacute;cosyst&egrave;me</a>
+    <a class="l active" aria-current="page" href="syf-tv.html">SYFIR TV</a>
   </div>
-  <div class="nav-actions">
-    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+  <div class="nav-outils">
+    <button class="outil" id="searchBtn" type="button" aria-label="Rechercher et naviguer — menu SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
     </button>
-    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    <button class="outil" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
     </button>
-    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
-<!-- Menu mobile plein écran -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
-  <a href="index.html#accueil">Accueil</a>
-  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
-  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="artistes.html#artistes">Artistes</a>
-  <a href="syf-tv.html">SYFIR TV</a>
-  <a href="partenaires.html">Devenir partenaire</a>
-  <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
-    <div class="mobile-nav-util">
-    <a href="partenaires.html#investisseurs">Investisseurs</a>
-    <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-    <a href="partenaires.html#partnerForm">Contact</a>
-  </div>
-  <div class="mobile-nav-foot">#SYFIR</div>
-</div>
 
 <main id="main">
 
@@ -122,8 +92,8 @@
     <div class="media-row-track tv-hero-track">
       <article class="tv-hero-slide">
         <picture class="rb-card-pic">
-          <source type="image/webp" srcset="images/ext/unsplash-photo-1507525428034-b723cf961d3e.webp">
-          <img class="tv-hero-img" src="images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg" alt="Golden hour sur la plage, ambiance festival SYFIR" fetchpriority="high" width="1600" height="1067">
+          <source type="image/webp" srcset="images/ext/unsplash-photo-1459749411175-04bf5292ceea.webp">
+          <img class="tv-hero-img" src="images/ext/unsplash-photo-1459749411175-04bf5292ceea.jpg" alt="Public et lumières de scène pendant une soirée SYFIR" fetchpriority="high" width="1600" height="1067">
         </picture>
         <div class="tv-hero-body">
           <p class="eyebrow eyebrow-light">SYFIR TV</p>
@@ -195,7 +165,7 @@
 
       <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/UVYTuLruNK8">
         <div class="replay-thumb">
-          <picture><source type="image/webp" srcset="images/ext/yt-UVYTuLruNK8.webp"><img src="images/ext/yt-UVYTuLruNK8.jpg" alt="Unity 141 — Live fête de la pêche à Terre-de-Haut" loading="lazy" decoding="async" width="480" height="360"></picture>
+          <picture><source type="image/webp" srcset="images/ext/yt-UVYTuLruNK8.webp"><img src="images/ext/yt-UVYTuLruNK8.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — Live fête de la pêche à Terre-de-Haut" loading="lazy" decoding="async" width="480" height="360"></picture>
           <button class="replay-play" type="button" aria-label="Lire : Live fête de la pêche, Terre-de-Haut">▶</button>
           <span class="replay-badge replay-badge-replay">Replay</span>
         </div>
@@ -204,7 +174,7 @@
 
       <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/94N9rC4bIGg">
         <div class="replay-thumb">
-          <picture><source type="image/webp" srcset="images/ext/yt-94N9rC4bIGg.webp"><img src="images/ext/yt-94N9rC4bIGg.jpg" alt="Unity 141 — Live du 10 juin avec Danday Danday" loading="lazy" decoding="async" width="480" height="360"></picture>
+          <picture><source type="image/webp" srcset="images/ext/yt-94N9rC4bIGg.webp"><img src="images/ext/yt-94N9rC4bIGg.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — Live du 10 juin avec Danday Danday" loading="lazy" decoding="async" width="480" height="360"></picture>
           <button class="replay-play" type="button" aria-label="Lire : Live du 10 juin avec Danday Danday">▶</button>
           <span class="replay-badge replay-badge-replay">Replay</span>
         </div>
@@ -213,7 +183,7 @@
 
       <article class="replay-card" data-kind="yt" data-embed="https://www.youtube.com/embed/sP6-aWgghGY">
         <div class="replay-thumb">
-          <picture><source type="image/webp" srcset="images/ext/yt-sP6-aWgghGY.webp"><img src="images/ext/yt-sP6-aWgghGY.jpg" alt="Unity 141 — live en concert" loading="lazy" decoding="async" width="480" height="360"></picture>
+          <picture><source type="image/webp" srcset="images/ext/yt-sP6-aWgghGY.webp"><img src="images/ext/yt-sP6-aWgghGY.jpg" onerror="this.onerror=null;this.src='images/artiste-unity.jpg'" alt="Unity 141 — live en concert" loading="lazy" decoding="async" width="480" height="360"></picture>
           <button class="replay-play" type="button" aria-label="Lire : Live Unity 141">▶</button>
           <span class="replay-badge replay-badge-replay">Replay</span>
         </div>
@@ -244,7 +214,7 @@
          même faisceau d'indices que le hero d'accueil (R88 point b), pas un
          visionnage. Le fond (déjà sans produit, cf. .ambiance-box en CSS)
          reste affiché seul en attendant le vrai aftermovie.
-         👉 Quand l'aftermovie YouTube officiel sera prêt, remplacer par la façade
+         Quand l'aftermovie YouTube officiel sera prêt, remplacer par la façade
          lazy d'origine (voir l'historique git : bouton #aftermovieBtn + data-embed). -->
     <div class="aftermovie reveal d2">
       <div class="ambiance-box" id="ambianceBox">
@@ -254,44 +224,46 @@
   </div>
 
   <div class="insta-grid">
-    <figure class="insta-item reveal d1">
+    <a class="insta-item reveal d1" href="#ambiance" aria-label="Photo communauté">
       <img src="images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg"
+           onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1574391884720-bbc3740c59d1.jpg'"
            alt="Silhouettes dans les lumières, communauté SYFIR" loading="lazy" decoding="async" width="1067" height="1600">
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
-    <figure class="insta-item reveal d2">
+    </a>
+    <a class="insta-item reveal d2" href="#ambiance" aria-label="Photo communauté">
       <img src="images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg"
+           onerror="this.onerror=null;this.src='images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg'"
            alt="Avant le concert, communauté SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
-    <figure class="insta-item reveal d3">
+    </a>
+    <a class="insta-item reveal d3" href="#ambiance" aria-label="Photo communauté">
       <picture>
         <source type="image/webp" srcset="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.webp">
         <img src="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg" alt="Foule en fête lors d'un festival SYFIR" loading="lazy" decoding="async" width="1600" height="1068">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
-    <figure class="insta-item reveal d4">
+    </a>
+    <a class="insta-item reveal d4" href="#ambiance" aria-label="Photo communauté">
       <picture>
         <source type="image/webp" srcset="images/ext/unsplash-photo-1496337589254-7e19d01cec44.webp">
         <img src="images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg" alt="Ambiance de club lors d'une soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
-    <figure class="insta-item reveal d5">
+    </a>
+    <a class="insta-item reveal d5" href="#ambiance" aria-label="Photo communauté">
       <picture>
         <source type="image/webp" srcset="images/ext/unsplash-photo-1470225620780-dba8ba36b745.webp">
         <img src="images/ext/unsplash-photo-1470225620780-dba8ba36b745.jpg" alt="DJ aux platines pendant une soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1067">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
-    <figure class="insta-item reveal d6">
+    </a>
+    <a class="insta-item reveal d6" href="#ambiance" aria-label="Photo communauté">
       <picture>
         <source type="image/webp" srcset="images/ext/unsplash-photo-1514525253161-7a46d19cd819.webp">
         <img src="images/ext/unsplash-photo-1514525253161-7a46d19cd819.jpg" alt="Concert et jeux de lumières, soirée SYFIR" loading="lazy" decoding="async" width="1600" height="1200">
       </picture>
       <span class="insta-overlay">#SYFIR</span>
-    </figure>
+    </a>
   </div>
 </section>
 
@@ -386,9 +358,12 @@
 ============================================================ -->
 <footer>
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
+  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
-    <p class="brand-sign-mark">SYFIR</p>
+    <div class="f-in">
+    <p class="signe" aria-hidden="true">SYFIR</p>
     <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
+  </div>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">

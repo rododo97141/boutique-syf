@@ -1132,25 +1132,6 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
 .event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .event-card:hover .event-card-media img { transform: scale(1.03); }
-/* ⚠ DEUX BADGES AU MÊME ENDROIT. `.event-date` et `.stock-badge` sont
-   tous deux `position: absolute; top: 14px; left: 14px` — ils se peignent
-   l'un SUR l'autre dans le coin de chaque carte de la billetterie. Sur les
-   quatre cartes, à toutes les largeurs. Mesuré : les deux boîtes se
-   recoupent réellement (`event-date ⨯ stock-badge`), ce n'est pas une
-   impression.
-
-   La pastille de stock reste en place : elle porte l'ACTION possible
-   (« Billets disponibles », « Complet »), c'est le signal le plus utile.
-   La date descend d'un cran — et seulement quand une pastille de stock
-   existe, sinon elle remonterait toute seule dans le vide. `:has()` est
-   déjà l'idiome du dépôt (cf. `body:has(.util-bar)`).
-
-   ⚠ Et une correction dans l'autre sens, qui mérite d'être écrite : à
-   l'œil, sur la même capture, j'ai cru que le bouton « Billets »
-   recouvrait le texte de la carte. La mesure dit non — le chapô finit à
-   1707, le bouton commence à 1818. C'est la capture défilée qui trompait.
-   L'œil trouve ce que la mesure rate ; l'inverse est vrai aussi. */
-.event-card-media:has(.stock-badge) .event-date { top: 56px; }
 .event-date {
   position: absolute; top: 14px; left: 14px;
   background: var(--cream); color: var(--ink);
@@ -3327,6 +3308,7 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    La goutte RESTE sur les 13 autres pages : c'est un motif de marque
    assumé depuis R30. On la retire ici seulement, par le scope. */
 .page-home .eyebrow::before { content: none; }
+.page-home h1,
 .page-home h2 {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(34px, 5.4vw, 66px);
@@ -3341,6 +3323,7 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    écrit et le fichier : la maquette met la lumière froide des
    projecteurs sur l'accent des titres, pas l'or. L'or reste au sur-titre
    et au détail. */
+.page-home h1 em,
 .page-home h2 em {
   font-family: var(--serif); font-weight: 400; font-style: italic;
   font-size: clamp(34px, 5.4vw, 66px);
@@ -4995,42 +4978,707 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
 }
 .artist-card-demo h3 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-/* ⚠ DEUX FOIS LE MÊME FORMULAIRE, CORRIGÉ. Les pages qui portent leur
-   propre section newsletter (« Reste dans la boucle » sur SYFIR TV)
-   affichaient EN PLUS celui du pied de page, à 400 px de distance : même
-   champ, même bouton, même note « démo ». Le second se lisait comme un
-   bug, et il affaiblissait le premier.
 
-   On masque le doublon du pied de page LÀ OÙ la section existe, plutôt
-   que de retirer l'un des deux blocs : le pied de page reste identique
-   sur les 19 pages (une seule source à maintenir), et si la section
-   dédiée disparaît un jour, le formulaire du pied revient tout seul.
-   `display: none` le sort aussi du parcours clavier — un champ invisible
-   mais tabulable serait pire que le doublon. */
-body:has(.news-section .footer-news) footer .footer-news { display: none; }
+/* ============================================================
+   UNIFICATION — UNE SEULE IDENTITÉ SUR TOUT LE SITE
+   ------------------------------------------------------------
+   Le design de la maquette 3 vivait enfermé sous `.page-home`.
+   La classe est désormais portée par TOUTES les pages ; ce bloc
+   ne fait que régler les quelques endroits où l'ancien site
+   gagnait encore par spécificité.
+============================================================ */
 
-/* ===== LOT D — L'ESPACE PRO ENTRE DANS LA NUIT =====
-   Mesuré, pas supposé : `espace-pro.html` était la SEULE page de la
-   famille formulaires sans aucun fond peint. Ses `.dash-section` sont
-   toutes transparentes, elle n'a pas de voile `.ambience`, et le
-   `body` — `rgb(17,17,17)`, l'encre — traversait donc toute la page.
-   À côté, `artistes.html` peint ses sections en `rgb(10,18,38)` et
-   `rgb(6,13,28)`, les deux nuits de la maquette.
+/* Le sur-titre : or, partout. L'orange des anciennes pages a disparu. */
+.page-home .eyebrow,
+.page-home .eyebrow-light,
+.page-home .section-eyebrow { color: var(--or); }
+.page-home .eyebrow::before,
+.page-home .eyebrow-light::before { content: none; }
 
-   Résultat à l'œil : le Smartboard ressemblait à un autre site. C'est
-   précisément la page qu'un PARTENAIRE ouvre pendant la présentation —
-   celle où il se projette en organisateur. Elle ne peut pas être la seule
-   à sortir du monde.
+/* Les fonds opaques des anciennes sections masquaient le ciel et
+   créaient une cassure horizontale nette entre deux noirs. */
+.page-home .section-dark,
+.page-home .page-hero,
+.page-home .page-hero-dark,
+.page-home .section,
+.page-home .section-light { background: transparent; }
+.page-home .section,
+.page-home .page-hero { position: relative; z-index: 1; }
 
-   Habillage seul : aucun bloc déplacé, aucun contenu touché. Le dégradé
-   descend de la nuit haute vers la nuit basse, comme le fait la page au
-   fil du défilement ailleurs sur le site — la même soirée, du haut vers
-   le bas. */
-.dash {
-  background:
-    radial-gradient(120% 70% at 50% 0%, rgba(var(--gold-rgb), .05), transparent 62%),
-    linear-gradient(180deg, var(--nuit-2) 0%, var(--nuit-1) 46%, var(--nuit-0) 100%);
+/* La page en cours, signalée dans la barre du haut. */
+.page-home nav a.l.active { color: var(--creme); }
+
+/* Le titre de page suit le rythme des titres de section. */
+.page-home .page-hero h1 { margin-bottom: 18px; }
+
+/* ------------------------------------------------------------
+   LES ACCENTS DE TITRE : LA LUMIÈRE FROIDE, PAS L'OR QUI S'ÉTEINT
+   ------------------------------------------------------------
+   Neuf titres portaient un dégradé doré appliqué au texte lui-même.
+   Le dégradé finit sombre : la fin du mot devenait presque noire sur
+   fond noir (« SYFIR EXPERIENCE », « LA MAISON SYFIR »).
+   La maquette met du bleu clair sur les accents de titre — c'est la
+   lumière des projecteurs. L'or reste au sur-titre et au détail.
+------------------------------------------------------------ */
+.page-home .audience-title em,
+.page-home .ed-related-title em,
+.page-home .hh-title em,
+.page-home .invest-title em,
+.page-home .maison-story em,
+.page-home .story-text h3 em,
+.page-home .tickets-title em,
+.page-home .trust-title em,
+.page-home .tv-hero-title em {
+  background: none;
+  background-image: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--bleu-clair);
+  -webkit-text-fill-color: var(--bleu-clair);
 }
-/* Le liseré qui sépare la colonne des sections : il existait déjà en
-   filigrane sur les autres pages, il manquait ici. */
-.dash-side { border-bottom: 1px solid rgba(var(--creme-rgb), .10); }
+
+/* ------------------------------------------------------------
+   LES BOUTONS : LES DEUX MÊMES QUE SUR L'ACCUEIL
+   Le dégradé orange n'existe pas dans la maquette ; il faisait de
+   chaque page un autre site dès le premier appel à l'action.
+------------------------------------------------------------ */
+.page-home .btn-solid,
+.page-home .btn-primary {
+  background: var(--creme);
+  background-image: none;
+  color: #0a0f1c;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.page-home .btn-solid:hover,
+.page-home .btn-primary:hover { transform: translateY(-2px); }
+.page-home .btn-ghost {
+  background: transparent;
+  color: var(--creme);
+  border: 1px solid rgba(var(--creme-rgb), .34);
+}
+.page-home .btn-ghost:hover { border-color: var(--or); color: var(--or); }
+
+/* ------------------------------------------------------------
+   LES BADGES DE CARTE NE SE MARCHENT PLUS DESSUS
+   ------------------------------------------------------------
+   `.event-date` (le jour + le mois) et `.stock-badge` (« Billets
+   disponibles ») étaient tous deux posés à top:14px / left:14px.
+   Le second recouvrait le premier : on lisait « AOÛT » dépassant
+   sous une pastille dorée, et le numéro du jour disparaissait.
+   La date reste en haut à gauche — c'est l'information première ;
+   la disponibilité passe dessous.
+------------------------------------------------------------ */
+.page-home .event-card .stock-badge { top: 74px; left: 14px; }
+
+/* Sur la fiche événement et les rangées horizontales, la date n'est
+   pas là : le badge reprend sa place d'origine. */
+.page-home .rb-card .stock-badge,
+.page-home .ed-hero .stock-badge { top: 14px; }
+
+/* ------------------------------------------------------------
+   PLUS AUCUN DÉGRADÉ ORANGE EN APLAT
+   ------------------------------------------------------------
+   La maquette validée ne contient pas un seul aplat de couleur :
+   l'or y est toujours un liseré, une lettre, un contour. Les pastilles
+   et boutons pleins en dégradé orange→magenta faisaient de chaque page
+   une autre marque dès le premier élément actif.
+   L'état actif se dit désormais par le crème — le même contraste que
+   les boutons de l'accueil, et lisible sans discussion.
+------------------------------------------------------------ */
+.page-home .btn-gradient,
+.page-home .chip.active,
+.page-home .subtab.active,
+.page-home .dash-link.active,
+.page-home .tickets-fab,
+.page-home .replay-play {
+  background: var(--creme);
+  background-image: none;
+  color: #0a0f1c;
+  border-color: transparent;
+  -webkit-text-fill-color: #0a0f1c;
+}
+.page-home .tickets-fab { box-shadow: 0 12px 34px rgba(0,0,0,.45); }
+
+/* Le filet de progression du scroll : or discret plutôt que dégradé chaud. */
+.page-home .scroll-progress {
+  background: linear-gradient(90deg, rgba(var(--or-rgb, 212,160,23), .0), var(--or));
+}
+
+/* Le liseré animé sous un lien de navigation n'a plus lieu d'être :
+   la barre du haut de la maquette n'en a pas. */
+.page-home .nav-link::after { content: none; }
+
+/* ------------------------------------------------------------
+   UN SEUL ACCENT CHAUD SUR TOUT LE SITE
+   ------------------------------------------------------------
+   Le site portait trois chaleurs différentes selon la page :
+   --sunset (#FF7A00, orange franc), --passion (#FFC857, jaune chaud)
+   et --coral (#FF8F70). L'accueil, lui, n'en connaît qu'une :
+   --or (#E9C988), l'or de scène.
+   Plutôt que corriger une centaine de règles une par une, on
+   redéfinit les trois variables à l'intérieur du site : tout ce qui
+   les consomme devient cohérent d'un coup, et rien n'est cassé.
+   Les vraies alertes reprennent leur couleur juste, deux lignes plus bas.
+------------------------------------------------------------ */
+.page-home {
+  --sunset: #E9C988;
+  --sunset-rgb: 233, 201, 136;
+  --passion: #E9C988;
+  --passion-rgb: 233, 201, 136;
+  --coral: #E9C988;
+  --coral-rgb: 233, 201, 136;
+}
+
+/* Une erreur doit rester rouge : elle n'est pas un accent de marque. */
+.page-home .footer-news-msg.is-error,
+.page-home .form-msg.is-error,
+.page-home .is-error { color: var(--error); }
+.page-home .danger-link {
+  color: var(--error) !important;
+  border-color: rgba(229, 72, 77, .4) !important;
+}
+.page-home .danger-link:hover { background: rgba(229, 72, 77, .12) !important; }
+
+/* ------------------------------------------------------------
+   L'INSCRIPTION AUX PROCHAINES SOIRÉES : UN CHAMP LISIBLE
+   ------------------------------------------------------------
+   La colonne de marque du pied de page mesure ~1,6 fraction sur cinq ;
+   avec `flex: 1 1 60%` le champ tombait à 140 px et l'adresse d'exemple
+   était tronquée en « ton@email.c ». Un formulaire dont on ne lit pas
+   le champ ne donne pas envie de le remplir.
+   Le champ prend la ligne, le bouton passe dessous — c'est aussi ce
+   qui se passe déjà sur mobile, donc un seul comportement à retenir.
+------------------------------------------------------------ */
+.page-home .footer-news-row { flex-direction: column; align-items: stretch; gap: 10px; }
+.page-home .footer-news-row input { flex: 1 1 auto; width: 100%; }
+.page-home .footer-news-row .btn { width: 100%; }
+
+@media (min-width: 1100px) {
+  .page-home .footer-news-row { flex-direction: row; align-items: center; }
+  .page-home .footer-news-row input { flex: 1 1 auto; min-width: 190px; }
+  .page-home .footer-news-row .btn { width: auto; flex: 0 0 auto; }
+}
+
+/* La barre du haut est fixe : sans cette marge, une ancre place son
+   titre exactement dessous, et on croit avoir raté la cible. */
+.page-home [id] { scroll-margin-top: 96px; }
+
+/* ============================================================
+   LE PANNEAU — RECHERCHE ET MENU, EN CLAIR
+   ------------------------------------------------------------
+   Deux décisions de Kily, appliquées ici :
+
+   1. LE BURGER A DISPARU. Sur téléphone il ouvrait un second menu,
+      moins complet que ce panneau, qui contient déjà toute la
+      navigation. Deux menus pour un site, c'est un menu de trop.
+      Le panneau est désormais l'unique porte : on cherche ET on
+      navigue au même endroit.
+
+   2. LE PANNEAU EST CLAIR. Le site est la nuit ; le panneau est le
+      moment où on allume. Le contraste est volontaire : on sait
+      immédiatement qu'on a quitté la page pour un outil.
+
+   Règle de couleur : sur fond clair, l'or de scène (#E9C988) tombe
+   à 1,5:1 — illisible. L'accent devient donc un or PROFOND (#7A5C0F,
+   mesuré à 5,9:1 sur le fond du panneau).
+============================================================ */
+
+.page-home .mega {
+  --p-fond: #F4F6FA;
+  --p-carte: #FFFFFF;
+  --p-encre: #0A0F1C;
+  --p-doux: #59637A;
+  --p-trait: rgba(10, 15, 28, .10);
+  --p-or: #7A5C0F;
+
+  background: var(--p-fond);
+  color: var(--p-encre);
+  backdrop-filter: none;
+  overflow-y: auto;
+}
+
+/* ---------- la barre du panneau ---------- */
+.page-home .mega-top {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--p-fond);
+  border-bottom: 1px solid var(--p-trait);
+  padding: 16px clamp(16px, 4vw, 40px);
+  gap: 14px;
+}
+.page-home .mega-logo { color: var(--p-encre); letter-spacing: .06em; }
+.page-home .mega-logo span { display: none; }
+
+.page-home .mega-search {
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  border-radius: 100px;
+  box-shadow: 0 1px 2px rgba(10, 15, 28, .04);
+  padding: 0 20px;
+  min-height: 54px;
+  max-width: 620px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.page-home .mega-search:focus-within {
+  border-color: var(--p-or);
+  box-shadow: 0 0 0 3px rgba(122, 92, 15, .14);
+}
+.page-home .mega-search svg { color: var(--p-doux); }
+.page-home .mega-search input { color: var(--p-encre); font-size: 1.02rem; }
+.page-home .mega-search input::placeholder { color: var(--p-doux); }
+
+.page-home .mega-close {
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  color: var(--p-encre);
+  font-size: 1.1rem;
+}
+.page-home .mega-close:hover {
+  background: var(--p-encre); color: var(--p-carte);
+  border-color: var(--p-encre); transform: rotate(90deg);
+}
+
+/* ---------- la navigation ---------- */
+.page-home .mega-side > a,
+.page-home .mega-side-head { color: var(--p-encre); }
+.page-home .mega-side > a {
+  border-radius: 10px; padding: 10px 12px; margin-left: -12px;
+  transition: background .14s ease, color .14s ease, transform .14s ease;
+}
+.page-home .mega-side > a:hover {
+  background: rgba(10, 15, 28, .05); color: var(--p-encre); transform: none;
+}
+.page-home .mega-side-group { border-left: 2px solid var(--p-trait); padding-left: 14px; margin: 6px 0 14px; }
+.page-home .mega-side-group .mega-side-head { padding: 8px 0 4px; }
+.page-home .mega-side-group a:not(.mega-side-head) { color: var(--p-doux); padding: 7px 0; }
+.page-home .mega-side-group a:not(.mega-side-head):hover { color: var(--p-or); }
+
+/* ---------- les rangées ---------- */
+.page-home .mega-row-head h3 { color: var(--p-encre); }
+.page-home .mega-row-head a { color: var(--p-or); font-weight: 700; }
+.page-home .mega-row-head a:hover { color: var(--p-encre); }
+
+/* ---------- les résultats ---------- */
+.page-home .mega-results { gap: 8px; }
+.page-home .mega-result {
+  justify-content: space-between;
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  border-radius: 14px;
+  padding: 15px 18px;
+  color: var(--p-encre);
+  transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
+}
+.page-home .mega-result:hover {
+  background: var(--p-carte);
+  border-color: var(--p-or);
+  box-shadow: 0 6px 18px rgba(10, 15, 28, .07);
+  transform: translateY(-1px);
+}
+.page-home .mega-result strong { font-size: 1.02rem; color: var(--p-encre); }
+.page-home .mega-result small {
+  color: var(--p-or); font-size: .72rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; white-space: nowrap;
+}
+.page-home .mega-result-empty {
+  color: var(--p-doux); background: var(--p-carte);
+  border: 1px dashed var(--p-trait); border-radius: 14px;
+  padding: 26px; text-align: center; line-height: 1.7;
+}
+
+/* ---------- les vignettes « envies » ---------- */
+.page-home .mega-envie { box-shadow: 0 2px 10px rgba(10, 15, 28, .10); }
+.page-home .mega-envie span { color: #fff; }
+
+/* ---------- téléphone : le panneau est la seule porte ---------- */
+@media (max-width: 720px) {
+  .page-home .mega-top { flex-wrap: wrap; gap: 12px; }
+  .page-home .mega-logo { order: 1; }
+  .page-home .mega-close { order: 2; margin-left: auto; }
+  .page-home .mega-search { order: 3; flex: 1 0 100%; max-width: none; }
+  .page-home .mega-side > a,
+  .page-home .mega-side-head { font-size: 1.28rem; }
+  .page-home .mega-envies { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Sur téléphone, la loupe est la SEULE porte vers la navigation : les
+   liens de la barre sont masqués sous 720 px et le burger a été retiré.
+   Une loupe seule ne dit pas « menu » — on écrit le mot à côté. */
+@media (max-width: 720px) {
+  .page-home nav .outil#searchBtn { gap: 8px; width: auto; padding: 0 6px; }
+  .page-home nav .outil#searchBtn::after {
+    content: 'Menu';
+    font-family: var(--display); font-weight: 700;
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  }
+}
+
+/* ------------------------------------------------------------
+   ÉQUILIBRE DU PANNEAU — plus de moitié droite vide
+   ------------------------------------------------------------
+   Le panneau était bâti en deux colonnes : navigation à gauche,
+   contenu à droite. La navigation est longue, le contenu tient en
+   une rangée : la moitié droite restait blanche sur toute la
+   hauteur de l'écran. Un vide de cette taille se lit comme une
+   page qui n'a pas fini de charger.
+   On empile désormais : d'abord ce qu'on cherche, ensuite où aller,
+   la navigation étalée sur trois colonnes. Rien n'est perdu,
+   tout tient sans défilement sur un écran d'ordinateur.
+------------------------------------------------------------ */
+.page-home .mega-body {
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 1180px; padding-bottom: 64px;
+}
+.page-home .mega-content { order: 1; }
+/* Colonnes de TEXTE, pas grille : le groupe « L'Écosystème » fait
+   sept lignes quand « Accueil » en fait une. En grille, chaque rangée
+   prend la hauteur du plus grand — on obtenait deux colonnes vides
+   sous un bloc géant. Le flux en colonnes remplit tout seul. */
+.page-home .mega-side {
+  order: 2; display: block;
+  columns: 3; column-gap: 44px;
+  border-top: 1px solid var(--p-trait);
+  margin-top: 30px; padding-top: 26px;
+}
+.page-home .mega-side > a,
+.page-home .mega-side-group { break-inside: avoid; -webkit-column-break-inside: avoid; }
+.page-home .mega-side > a { display: block; }
+.page-home .mega-side::before {
+  content: 'Aller à';
+  display: block; column-span: all;
+  font-family: var(--display); font-weight: 800;
+  font-size: 1.1rem; text-transform: uppercase; letter-spacing: .01em;
+  color: var(--p-encre); margin-bottom: 14px;
+}
+.page-home .mega-side-group { margin: 0 0 18px; }
+.page-home .mega-row { margin-bottom: 0; }
+.page-home .mega-envies { grid-template-columns: repeat(4, 1fr); }
+
+/* Téléphone : le panneau est la seule porte — la navigation passe
+   devant, une colonne, gros doigts. Les envies suivent. */
+@media (max-width: 720px) {
+  .page-home .mega-side {
+    order: 1; columns: 1;
+    border-top: none; margin-top: 4px; padding-top: 0;
+  }
+  .page-home .mega-content {
+    order: 2;
+    border-top: 1px solid var(--p-trait);
+    margin-top: 26px; padding-top: 24px;
+  }
+  .page-home .mega-side > a { padding: 13px 12px; }
+  .page-home .mega-side-group a:not(.mega-side-head) { padding: 11px 0; }
+}
+
+/* ------------------------------------------------------------
+   LA NAVIGATION DU PANNEAU — HUIT RUBRIQUES, RIEN DE PLUS
+   ------------------------------------------------------------
+   Une colonne, des lignes larges, et les sous-rubriques repliées.
+   Les colonnes de texte ont été abandonnées : quand on déplie un
+   groupe, le flux se redistribue entre les colonnes et tout saute
+   sous les yeux. Une colonne ne bouge pas — on pousse vers le bas,
+   c'est ce que le regard attend.
+------------------------------------------------------------ */
+.page-home .mega-side {
+  columns: auto; column-gap: normal;
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 620px;
+}
+.page-home .mega-side::before { column-span: none; }
+
+.page-home .mega-side > a,
+.page-home .mega-side .mega-side-head {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; margin: 0; padding: 15px 4px;
+  border: none; border-bottom: 1px solid var(--p-trait);
+  background: none; text-align: left; cursor: pointer;
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.22rem; letter-spacing: -.01em;
+  color: var(--p-encre);
+  transition: color .14s ease, padding-left .14s ease;
+}
+.page-home .mega-side > a:hover,
+.page-home .mega-side .mega-side-head:hover { background: none; padding-left: 12px; }
+
+/* Le chevron dit qu'il y a quelque chose dessous, et où on en est. */
+.page-home .mega-chev {
+  width: 11px; height: 11px; flex-shrink: 0; margin-left: 14px;
+  border-right: 2px solid var(--p-encre);
+  border-bottom: 2px solid var(--p-encre);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform .2s var(--ease, ease);
+}
+.page-home .mega-side-head[aria-expanded="true"] .mega-chev {
+  transform: rotate(-135deg) translate(-3px, -3px);
+}
+.page-home .mega-side-head[aria-expanded="true"] { color: var(--p-or); }
+.page-home .mega-side-head[aria-expanded="true"] .mega-chev {
+  border-color: var(--p-or);
+}
+
+.page-home .mega-side-group { display: block; margin: 0; padding: 0; border: none; }
+.page-home .mega-side-sub {
+  display: flex; flex-direction: column;
+  padding: 6px 0 14px 4px;
+  border-bottom: 1px solid var(--p-trait);
+  animation: megaDeplie .22s ease both;
+}
+.page-home .mega-side-sub[hidden] { display: none; }
+.page-home .mega-side-sub a {
+  font-family: var(--body); font-weight: 500; font-size: .98rem;
+  color: var(--p-doux); padding: 11px 0 11px 16px;
+  border-left: 2px solid var(--p-trait);
+  transition: color .14s ease, border-color .14s ease;
+}
+.page-home .mega-side-sub a:hover { color: var(--p-or); border-color: var(--p-or); }
+
+@keyframes megaDeplie {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-home .mega-side-sub { animation: none; }
+  .page-home .mega-chev { transition: none; }
+}
+
+@media (max-width: 720px) {
+  .page-home .mega-side { max-width: none; }
+  .page-home .mega-side > a,
+  .page-home .mega-side .mega-side-head { font-size: 1.32rem; padding: 17px 4px; }
+  .page-home .mega-side-sub a { padding: 14px 0 14px 16px; font-size: 1.02rem; }
+}
+
+/* ------------------------------------------------------------
+   FINITIONS DU PANNEAU
+------------------------------------------------------------ */
+
+/* La colonne de navigation se recroquevillait à ~280 px : les lignes
+   étaient trop courtes pour qu'on ait envie d'y viser. */
+.page-home .mega-side { width: 100%; }
+
+/* Le trait de séparation appartenait à la navigation, donc il s'arrêtait
+   avec elle — un filet de 280 px sous des vignettes de 1 300. Il tient
+   maintenant sous le contenu, sur toute la largeur. */
+.page-home .mega-content {
+  border-bottom: 1px solid var(--p-trait);
+  padding-bottom: 30px;
+}
+.page-home .mega-side { border-top: none; }
+
+/* Une vignette dont la photo n'est pas encore arrivée affichait un
+   dégradé sombre sur fond clair : ça se lit « cassé », pas « en train
+   de charger ». Fond neutre, et le voile ne s'installe qu'avec l'image. */
+.page-home .mega-envie { background: rgba(10, 15, 28, .05); }
+.page-home .mega-envie::after { opacity: 0; transition: opacity .3s ease; }
+.page-home .mega-envie:has(img.img-in)::after,
+.page-home .mega-envie:has(img:not(.img-fade))::after { opacity: 1; }
+
+@media (max-width: 720px) {
+  .page-home .mega-content { border-bottom: none; padding-bottom: 0; }
+}
+
+/* ============================================================
+   LE PANNEAU REPASSE À LA NUIT — assorti au site
+   ------------------------------------------------------------
+   J'avais lu « blanc » là où Kily demandait une couleur ASSORTIE
+   au site et à SYFIR. Le site est la nuit : le panneau l'est aussi.
+   Il reste une COUCHE, pas une page : son fond est posé un cran
+   au-dessus du noir de la page (#070D1A contre #04070F) et il
+   porte une ombre — on doit sentir qu'il flotte devant, sinon on
+   ne sait plus si on a ouvert quelque chose.
+   Les six variables suffisent : la mise en page, les dépliants et
+   les résultats ne sont pas touchés.
+============================================================ */
+.page-home .mega {
+  --p-fond: #070D1A;
+  --p-carte: rgba(238, 242, 248, .045);
+  --p-encre: #EEF2F8;
+  --p-doux: rgba(238, 242, 248, .62);
+  --p-trait: rgba(238, 242, 248, .12);
+  --p-or: #E9C988;                 /* l'or de scène redevient lisible : 11:1 */
+
+  background: var(--p-fond);
+  box-shadow: inset 0 90px 120px -80px rgba(127, 178, 255, .10);
+}
+
+/* La barre du panneau reste opaque en défilant, sinon les titres
+   passent derrière elle. */
+.page-home .mega-top {
+  background: rgba(7, 13, 26, .94);
+  backdrop-filter: blur(16px);
+}
+
+/* Le champ : verre sombre, halo d'or à la saisie. */
+.page-home .mega-search { box-shadow: none; }
+.page-home .mega-search:focus-within {
+  box-shadow: 0 0 0 3px rgba(233, 201, 136, .16);
+}
+
+/* La croix s'inverse au survol : crème plein sur nuit. */
+.page-home .mega-close:hover {
+  background: var(--p-encre); color: #070D1A; border-color: var(--p-encre);
+}
+
+/* Un résultat survolé se soulève dans la lumière, pas dans l'ombre. */
+.page-home .mega-result:hover {
+  background: rgba(238, 242, 248, .07);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .35);
+}
+
+/* Vignette en attente de sa photo : un gris de nuit, pas un gris de jour. */
+.page-home .mega-envie {
+  background: rgba(238, 242, 248, .06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+}
+
+/* Le survol d'une rubrique : un filet d'or à gauche plutôt qu'un aplat. */
+.page-home .mega-side > a:hover,
+.page-home .mega-side .mega-side-head:hover { color: var(--p-or); }
+
+
+/* ============================================================
+   UNE SEULE NUIT, UNE LUMIÈRE PAR PIÈCE  —  ÉTAPE 1
+   ------------------------------------------------------------
+   La structure, la typographie, les cartes, les boutons et l'or ne
+   bougent pas d'une page à l'autre : c'est ce qui fait qu'on reste
+   chez SYFIR. Ce qui bouge, c'est la LUMIÈRE qui traverse la pièce.
+
+   ⚠ RÈGLE NON NÉGOCIABLE, reprise de la fiche événement : la teinte
+   ne touche QUE des propriétés atmosphériques — halos, liserés,
+   ombres. Jamais un fond ni une couleur de texte sur une surface
+   qu'on lit. C'est la seule raison pour laquelle sept teintes ne
+   coûtent pas sept campagnes de mesure : les surfaces de lecture
+   sont identiques partout, par construction.
+
+   ⚠ CE QUI A FAIT GELER LA PAGE AU PREMIER ESSAI, à ne jamais refaire :
+   1. `opacity: calc(… var(--p) …)` sur un pseudo-élément plein écran.
+      `--p` est réécrite à chaque image par la boucle du ciel : deux
+      dégradés radiaux repeints soixante fois par seconde sur un
+      calque non promu. Les couches .n0/.n1/.n2 y survivent parce que
+      ce sont de vrais éléments, promus chacun sur leur calque.
+   2. `.page-home *:focus-visible { … }`. Le sélecteur universel place
+      TOUT le document dans l'ensemble « pourrait correspondre » ;
+      combiné à une variable réécrite chaque image sur :root, le
+      recalcul de style repart sur l'arbre entier, en boucle.
+   Les deux sont interdits ici. La lumière de la pièce est FIXE.
+============================================================ */
+
+.page-home[data-teinte]            { --pt-rgb: 47, 109, 255; --pt-force: .30; }
+.page-home[data-teinte="bleu"]     { --pt-rgb: 47, 109, 255;  --pt-force: 0;   }
+.page-home[data-teinte="magenta"]  { --pt-rgb: 255, 77, 157;  --pt-force: .30; }
+.page-home[data-teinte="violet"]   { --pt-rgb: 143, 92, 255;  --pt-force: .30; }
+.page-home[data-teinte="turquoise"]{ --pt-rgb: 47, 209, 197;  --pt-force: .26; }
+.page-home[data-teinte="ambre"]    { --pt-rgb: 224, 165, 72;  --pt-force: .28; }
+.page-home[data-teinte="acier"]    { --pt-rgb: 61, 169, 255;  --pt-force: .18; }
+.page-home[data-teinte="calme"]    { --pt-rgb: 127, 178, 255; --pt-force: .12; }
+
+/* La lumière au zénith, comme les projecteurs de la maquette : elle
+   vient d'en haut, elle ne monte pas de l'horizon. Opacité FIXE. */
+.page-home .sky::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    radial-gradient(70% 42% at 50% -6%, rgba(var(--pt-rgb, 47,109,255), .55) 0%, transparent 64%),
+    radial-gradient(46% 34% at 88% 22%, rgba(var(--pt-rgb, 47,109,255), .30) 0%, transparent 66%);
+  opacity: var(--pt-force, 0);
+}
+
+/* Le trait sous la barre du haut prend la couleur de la pièce.
+   C'est un pixel, et c'est la première chose qu'on voit. */
+.page-home nav {
+  border-bottom: 1px solid rgba(var(--pt-rgb, 47,109,255), calc(var(--pt-force, 0) * .9 + .04));
+}
+
+/* ---------- ÉTAPE 2 : les détails qui prennent la température ----------
+   Sélecteurs NOMMÉS uniquement. Aucun `*` : voir l'avertissement
+   au-dessus, c'est lui qui a gelé la page. */
+
+/* Une lueur derrière le titre de page, là où le bloc est typographique
+   et n'a pas de photo pour porter l'ambiance. */
+.page-home .page-hero { position: relative; }
+.page-home .page-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(56% 62% at 20% 6%, rgba(var(--pt-rgb, 47,109,255), .26) 0%, transparent 72%);
+  opacity: var(--pt-force, 0);
+}
+.page-home .page-hero > * { position: relative; z-index: 1; }
+
+/* Ce qu'on survole s'allume à la couleur de la pièce. L'or reste
+   l'accent de MARQUE — sur-titres et liens — et ne bouge pas. */
+.page-home .chip:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .55); }
+.page-home .event-card:hover,
+.page-home .artist-card:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .40); }
+.page-home .btn-ghost:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .60); }
+
+/* Le focus clavier suit la pièce lui aussi — sur les éléments
+   focalisables NOMMÉS, pas sur tout le document. */
+.page-home a:focus-visible,
+.page-home button:focus-visible,
+.page-home input:focus-visible,
+.page-home select:focus-visible,
+.page-home textarea:focus-visible {
+  outline: 2px solid rgba(var(--pt-rgb, 47,109,255), .95);
+  outline-offset: 3px;
+}
+
+/* ---------- ÉTAPE 3 : LA LUMIÈRE DOIT SE VOIR ----------
+   Premier réglage : force .30, halo au zénith seulement. Résultat
+   mesuré à l'écran : Partenaires et FAQ étaient indiscernables. Une
+   variation qu'on ne voit pas ne répond pas au problème posé — on se
+   lasse quand même. On monte, et on éclaire la pièce en TROIS points
+   au lieu d'un : le zénith, un côté, et le sol. C'est ce qui distingue
+   une salle éclairée d'une salle avec une ampoule.
+   Les surfaces de lecture ne bougent toujours pas : ce sont des halos
+   derrière le contenu, jamais un fond de bloc. */
+.page-home[data-teinte]            { --pt-force: .62; }
+.page-home[data-teinte="bleu"]     { --pt-force: 0;   }   /* l'accueil est le contrat */
+.page-home[data-teinte="magenta"]  { --pt-force: .62; }
+.page-home[data-teinte="violet"]   { --pt-force: .60; }
+.page-home[data-teinte="turquoise"]{ --pt-force: .52; }
+.page-home[data-teinte="ambre"]    { --pt-force: .58; }
+.page-home[data-teinte="acier"]    { --pt-force: .40; }
+.page-home[data-teinte="calme"]    { --pt-force: .26; }
+
+.page-home .sky::after {
+  background-image:
+    radial-gradient(78% 48% at 50% -8%,  rgba(var(--pt-rgb, 47,109,255), .70) 0%, transparent 66%),
+    radial-gradient(58% 44% at 92% 26%,  rgba(var(--pt-rgb, 47,109,255), .42) 0%, transparent 68%),
+    radial-gradient(66% 40% at 8%  104%, rgba(var(--pt-rgb, 47,109,255), .34) 0%, transparent 70%);
+}
+
+/* Le liseré sous la barre du haut devient franc : c'est la signature
+   la plus lisible du changement de pièce. */
+.page-home nav {
+  border-bottom: 1px solid rgba(var(--pt-rgb, 47,109,255), calc(var(--pt-force, 0) * .55 + .05));
+}
+
+/* La lueur derrière un titre de page, elle aussi. */
+.page-home .page-hero::before {
+  background-image:
+    radial-gradient(62% 70% at 16% 2%,  rgba(var(--pt-rgb, 47,109,255), .40) 0%, transparent 72%),
+    radial-gradient(48% 56% at 86% 96%, rgba(var(--pt-rgb, 47,109,255), .22) 0%, transparent 74%);
+}
+
+/* ------------------------------------------------------------
+   DES JETONS DE JOUR RESTÉS SUR DES SURFACES DE NUIT
+   ------------------------------------------------------------
+   `--grey-ink` (#555) porte le commentaire « texte doux sur crème »
+   et `--sunset-ink` (#A04600) « orange lisible sur clair (AA) ».
+   Ces deux-là habillaient encore les réponses de la FAQ, restées
+   sur un fond clair qui n'existe plus depuis que le site est passé
+   à la nuit. Mesuré : 2,70:1 pour le texte, 3,23:1 pour les liens,
+   contre 4,5 exigés. On lisait, mais mal, et sur la page qui sert
+   justement à répondre aux questions.
+   Ce n'est pas la teinte de page qui l'a causé — elle l'a révélé.
+------------------------------------------------------------ */
+.page-home .faq-a p,
+.page-home .faq-foot,
+.page-home .sf-body,
+.page-home .ritual-text p,
+.page-home .brand-tm { color: var(--creme-doux); }
+
+.page-home .faq-a a,
+.page-home .faq-foot a { color: var(--or); font-weight: 600; }
+.page-home .faq-a a:hover,
+.page-home .faq-foot a:hover { color: var(--creme); }
+.page-home .faq-item summary:hover { color: var(--or); }

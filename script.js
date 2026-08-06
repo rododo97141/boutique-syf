@@ -137,32 +137,7 @@
       const ok = r.ok && (!corpsRep || corpsRep.success !== false);
       return { ok, statut: r.status, motif: ok ? '' : String((corpsRep && corpsRep.message) || '') };
     } catch (e) {
-      /* ⚠ UN `fetch` QUI LÈVE NE DIT PAS POURQUOI. Hors ligne, DNS, CORS,
-         blocage d'extension : le navigateur rend la même erreur opaque,
-         par conception (sinon une page pourrait sonder le réseau privé).
-         Ma première version en concluait « connexion indisponible » — ce
-         qui est FAUX dans le cas le plus probable ici, et donc un message
-         menteur au pire moment.
-
-         DEUX FAITS ÉTABLIS DEPUIS, qui changent le diagnostic :
-         · Web3Forms REFUSE tout appel hors navigateur, quel que soit
-           l'Origin (« This method is not allowed. Use our API in client
-           side… ») — vérifié depuis un environnement autorisé à sortir.
-           Aucun harnais ne pourra donc jamais tester cet envoi ; ce n'est
-           pas un problème de proxy, c'est une règle du service.
-         · Une page ouverte en `file://` envoie `Origin: null`, cas que
-           beaucoup de services refusent. C'est exactement ce que fait
-           quelqu'un qui double-clique le fichier HTML.
-
-         On ne DEVINE donc pas la cause : on relève ce qu'on sait
-         réellement (`navigator.onLine`, le protocole de la page) et on
-         laisse le message dire l'un ou l'autre sans jamais affirmer ce
-         qu'on n'a pas mesuré. */
-      return {
-        ok: false,
-        reseau: navigator.onLine === false,
-        local: location.protocol === 'file:'
-      };
+      return { ok: false, reseau: true };   // hors ligne, DNS, CORS, blocage
     }
   };
 
@@ -245,13 +220,13 @@
 
     const mega = document.createElement('div');
     mega.className = 'mega'; mega.id = 'megaMenu'; mega.hidden = true;
-    mega.setAttribute('role', 'dialog'); mega.setAttribute('aria-modal', 'true'); mega.setAttribute('aria-label', 'Menu SYFIR');
+    mega.setAttribute('role', 'dialog'); mega.setAttribute('aria-modal', 'true'); mega.setAttribute('aria-label', 'Rechercher et naviguer dans SYFIR');
     mega.innerHTML =
       `<div class="mega-top">
-        <a class="mega-logo" href="index.html#accueil">SYFIR<span>™</span></a>
+        <a class="mega-logo" href="index.html#accueil">SYFIR</a>
         <div class="mega-search">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-          <input type="search" id="megaSearch" placeholder="Explore l'univers SYFIR" aria-label="Rechercher dans l'univers SYFIR" autocomplete="off">
+          <input type="search" id="megaSearch" placeholder="Chercher une soirée, un artiste, une page…" aria-label="Rechercher dans l'univers SYFIR" autocomplete="off">
         </div>
         <button class="mega-close" id="megaClose" type="button" aria-label="Fermer le menu">✕</button>
       </div>
@@ -261,13 +236,18 @@
           <!-- R82.1c : les 6 catégories validées de l'écosystème — ce que
                chaque partenaire APPORTE aux expériences SYFIR. -->
           <div class="mega-side-group">
-            <a class="mega-side-head" href="partenaires.html">L'Écosystème</a>
-            <a href="partenaires.html#eco-lieux">Lieux</a>
-            <a href="partenaires.html#eco-artistes">Artistes et talents</a>
-            <a href="partenaires.html#eco-marques">Marques partenaires</a>
-            <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
-            <a href="partenaires.html#eco-prestataires">Prestataires</a>
-            <a href="partenaires.html#eco-medias">Médias et communautés</a>
+            <button class="mega-side-head" type="button" aria-expanded="false" aria-controls="grp-eco">
+              L'Écosystème<span class="mega-chev" aria-hidden="true"></span>
+            </button>
+            <div class="mega-side-sub" id="grp-eco" hidden>
+              <a href="partenaires.html">Vue d'ensemble</a>
+              <a href="partenaires.html#eco-lieux">Lieux</a>
+              <a href="partenaires.html#eco-artistes">Artistes et talents</a>
+              <a href="partenaires.html#eco-marques">Marques partenaires</a>
+              <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
+              <a href="partenaires.html#eco-prestataires">Prestataires</a>
+              <a href="partenaires.html#eco-medias">Médias et communautés</a>
+            </div>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -275,10 +255,14 @@
           <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
           <div class="mega-side-group">
-            <span class="mega-side-head">La Maison</span>
-            <a href="partenaires.html#investisseurs">Investisseurs</a>
-            <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-            <a href="partenaires.html#partnerForm">Contact</a>
+            <button class="mega-side-head" type="button" aria-expanded="false" aria-controls="grp-maison">
+              La Maison<span class="mega-chev" aria-hidden="true"></span>
+            </button>
+            <div class="mega-side-sub" id="grp-maison" hidden>
+              <a href="partenaires.html#investisseurs">Investisseurs</a>
+              <a href="partenaires.html#partnerForm">Nous rejoindre</a>
+              <a href="partenaires.html#partnerForm">Contact</a>
+            </div>
           </div>
         </div>
         <div class="mega-content">
@@ -294,6 +278,26 @@
         </div>
       </div>`;
     document.body.appendChild(mega);
+
+    /* Les sous-rubriques sont REPLIÉES au départ.
+       Avant, les six catégories de l'écosystème et les trois de La Maison
+       étaient étalées en permanence : neuf lignes de plus, sur deux
+       niveaux de hiérarchie, avant même d'avoir cherché quoi que ce soit.
+       On voit maintenant huit rubriques nettes ; on ouvre celle qu'on
+       veut. Un seul groupe ouvert à la fois — deux panneaux dépliés en
+       même temps, c'est de nouveau une liste. */
+    $$('.mega-side-head[aria-controls]', mega).forEach(tete => {
+      tete.addEventListener('click', () => {
+        const sous = mega.querySelector('#' + tete.getAttribute('aria-controls'));
+        const ouvert = tete.getAttribute('aria-expanded') === 'true';
+        $$('.mega-side-head[aria-controls]', mega).forEach(autre => {
+          autre.setAttribute('aria-expanded', 'false');
+          const s2 = mega.querySelector('#' + autre.getAttribute('aria-controls'));
+          if (s2) s2.hidden = true;
+        });
+        if (!ouvert) { tete.setAttribute('aria-expanded', 'true'); sous.hidden = false; }
+      });
+    });
 
     // R11 : le menu est display:none au chargement, donc ses images lazy ne
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
@@ -319,8 +323,20 @@
       const hits = idx.filter(([t, , k]) => (t + ' ' + k).toLowerCase().includes(q)).slice(0, 8);
       panels.hidden = true; results.hidden = false;
       results.innerHTML = hits.length
-        ? hits.map(([t, u]) => `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong></a>`).join('')
-        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYFIR TV »…</p>`;
+        ? hits.map(([t, u, k]) => {
+            // Un résultat qui ne dit que son titre oblige à cliquer pour savoir
+            // où il mène. On affiche la destination en clair.
+            const ou = u.startsWith('evenement.html') ? 'Événement'
+                     : u.startsWith('evenements')     ? 'Billetterie'
+                     : u.startsWith('artiste')        ? 'Artistes'
+                     : u.startsWith('syf-tv')         ? 'SYFIR TV'
+                     : u.startsWith('espace-pro')     ? 'Espace pro'
+                     : u.startsWith('faq')            ? 'Aide'
+                     : u.startsWith('partenaire')     ? 'Écosystème'
+                     : 'Le site';
+            return `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong><small>${ou}</small></a>`;
+          }).join('')
+        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} ».<br>Essaie « rooftop », « carnaval », « partenaire » ou « billets ».</p>`;
     };
     search.addEventListener('input', doSearch);
 
@@ -334,8 +350,7 @@
       search.value = ''; doSearch();
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
-    // R17 : le burger ouvre désormais le menu mobile de navigation (#mobileNav,
-    // cf. initMobileNav) ; l'icône loupe garde le méga-menu « Recherche ».
+    // La loupe est la porte UNIQUE : recherche et navigation au même endroit.
     $('#searchBtn')?.addEventListener('click', () => open(true));
     $('#megaClose', mega).addEventListener('click', close);
     $$('a', mega).forEach(a => a.addEventListener('click', close));
@@ -364,23 +379,14 @@
     });
   });
 
-  // R17 : le menu mobile plein écran (#mobileNav) était orphelin — le burger
-  // ouvrait le méga-menu « Recherche » et personne n'ouvrait ce menu de nav.
-  // On le rebranche : burger -> #mobileNav ; Échap / lien / croix ferment.
-  (function initMobileNav() {
-    const menu = document.getElementById('mobileNav');
-    const burger = document.getElementById('burgerBtn');
-    if (!menu || !burger) return;
-    const close = () => { menu.classList.remove('open'); document.body.style.overflow = ''; burger.setAttribute('aria-expanded', 'false'); };
-    const open = () => { menu.classList.add('open'); document.body.style.overflow = 'hidden'; burger.setAttribute('aria-expanded', 'true'); const f = menu.querySelector('a, button:not(.mobile-close)'); if (f) f.focus(); };
-    burger.setAttribute('aria-expanded', 'false');
-    burger.setAttribute('aria-haspopup', 'true');
-    burger.addEventListener('click', () => menu.classList.contains('open') ? close() : open());
-    menu.querySelector('#closeNav')?.addEventListener('click', close);
-    $$('a', menu).forEach(a => a.addEventListener('click', close));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { close(); burger.focus(); } });
-    window.__syfirCloseMobileNav = close;
-  })();
+  /* LE MENU MOBILE A ÉTÉ RETIRÉ — décision de Kily.
+     Le burger ouvrait un second menu, plus pauvre que le panneau de
+     recherche qui contient déjà toute la navigation (les six rubriques
+     de l'écosystème, La Maison, l'espace pro). Deux menus pour un
+     site, c'est un menu de trop : on gardait celui qui sait tout faire.
+     Le code de `initMobileNav` est supprimé, pas neutralisé : un bloc
+     qui s'auto-désactive derrière un `if (!menu) return` finit toujours
+     par faire croire qu'une fonction existe encore. */
 
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {
@@ -521,7 +527,7 @@
     if (navigator.share) {
       try { await navigator.share({ title, text, url }); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
-      try { await navigator.clipboard.writeText(url); showToast('🔗 Lien copié'); }
+      try { await navigator.clipboard.writeText(url); showToast('Lien copié'); }
       catch (e) { showToast('Copie le lien depuis la barre d\'adresse.'); }
     } else {
       showToast('Copie le lien depuis la barre d\'adresse.');
@@ -1004,13 +1010,13 @@
         : (videoInline
           ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
                <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
-               <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
+               <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false"></button>
              </div>`
           : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
                <video controls preload="none" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
              </div>`))
       : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
-           <span class="car-soon-ic" aria-hidden="true">🎬</span>
+           <span class="car-soon-ic" aria-hidden="true"></span>
            <p>Vidéo bientôt disponible</p>
          </div>`;
 
@@ -1106,7 +1112,7 @@
       e.stopPropagation();
       const v = soundBtn.parentElement.querySelector('video');
       v.muted = !v.muted;
-      soundBtn.textContent = v.muted ? '🔇' : '🔊';
+      soundBtn.textContent = v.muted ? '' : '';
       soundBtn.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
       soundBtn.setAttribute('aria-pressed', String(!v.muted));
       if (v.paused) v.play().catch(() => {});   // certains environnements n'ont pas le codec
@@ -1498,16 +1504,9 @@ if (placeModal && placesGridEl) {
            retaper. Deux causes distinctes, deux phrases distinctes : un
            visiteur hors ligne n'a pas le même geste à faire qu'un visiteur
            dont l'envoi a été refusé. */
-        errorMsg.textContent =
-          res.local
-            /* Le cas le plus probable quand quelqu'un double-clique le
-               fichier : `file://` envoie `Origin: null`, largement refusé.
-               On le dit, avec le geste qui répare — c'est la seule des
-               trois causes sur laquelle le visiteur peut agir. */
-            ? 'L\'envoi n\'est pas parti. Cette page est ouverte depuis un fichier local : le service de messagerie refuse les envois qui ne viennent pas d\'une vraie adresse web. Ton message est toujours là — ouvre le site depuis son adresse (http:// ou https://) et renvoie-le.'
-          : res.reseau
-            ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
-            : 'L\'envoi n\'est pas parti et n\'a pas abouti. Ton message est toujours là : réessaie dans un instant.';
+        errorMsg.textContent = res.reseau
+          ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
+          : 'L\'envoi a été refusé et ton message n\'est pas parti. Ton texte est toujours là : réessaie dans un instant.';
         errorMsg.hidden = false;
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
         /* PAS de toast ici. Vu sur la capture : le toast est ancré en bas
@@ -1622,13 +1621,24 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 21. PWA : enregistrement du service worker =====
-     network-first sur le HTML, cache-first sur les assets (sw.js).
-     Échec silencieux (file://, vieux navigateurs, previews restrictives). */
+  /* ===== 21. LE SERVICE WORKER EST DÉSINSTALLÉ =====
+     Il gardait une copie complète du site et la resservait à la place
+     des fichiers réels. Trois fois dans la même journée, Kily et moi
+     avons regardé une version périmée en croyant voir la dernière —
+     une fois vingt minutes durant. En présentation, ce serait montrer
+     un site d'il y a deux jours sans le savoir.
+     Un cache hors ligne n'apporte rien à un site servi depuis le Mac
+     qui fait la présentation. On ne l'enregistre plus, ET on
+     désinscrit celui qui traîne déjà dans le navigateur : sans ça, il
+     survit indéfiniment à sa propre suppression du code.
+     À rétablir le jour d'une vraie mise en ligne, et pas avant. */
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    }, { once: true });
+    navigator.serviceWorker.getRegistrations()
+      .then(rs => rs.forEach(r => r.unregister()))
+      .catch(() => {});
+    if (window.caches && caches.keys) {
+      caches.keys().then(ks => ks.forEach(k => caches.delete(k))).catch(() => {});
+    }
   }
 
   /* ===== 21b. R38-1 : onde « goutte » au point de clic des CTA principaux =====
@@ -2041,7 +2051,7 @@ if (placeModal && placesGridEl) {
       .filter(upcoming).filter(ev => ev !== nextTicketEv)
       .sort((a, b) => a.date.localeCompare(b.date));
     const items = [];
-    if (nextTicketEv) items.push({ ev: nextTicketEv, tag: '🎟 Ton billet est prêt' });
+    if (nextTicketEv) items.push({ ev: nextTicketEv, tag: 'Ton billet est prêt' });
     favEvs.slice(0, 3 - items.length).forEach(ev => items.push({ ev, tag: '♥ Dans tes favoris' }));
     if (items.length) {
       forYouBox.closest('#pour-toi').hidden = false;
@@ -2052,7 +2062,7 @@ if (placeModal && placesGridEl) {
           <span class="next-date"><strong>${d.getDate()}</strong><small>${S.MONTHS[d.getMonth()]}</small></span>
           <span class="next-info">
             <strong>${esc(ev.name)}</strong>
-            <small>${tag} · 📍 ${esc(ev.city)}</small>
+            <small>${tag} · ${esc(ev.city)}</small>
           </span>
           <span class="next-arrow" aria-hidden="true">→</span>
         </a>`;
@@ -2148,8 +2158,8 @@ if (placeModal && placesGridEl) {
              ne l'impose. Signalé au superviseur plutôt que tranché ici. -->
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <div class="ticket-actions">
-          <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
-          <a class="ticket-contact" href="partenaires.html#partnerForm">✉ Contacter l'organisateur</a>
+          <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">Partager</button>
+          <a class="ticket-contact" href="partenaires.html#partnerForm">Contacter l'organisateur</a>
         </div>
       </div>
       ${qr
@@ -2682,7 +2692,7 @@ if (placeModal && placesGridEl) {
   const eventCardHTML = (ev, i) => {
     const d = new Date(ev.date + 'T12:00:00');
     const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
-    const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
+    const when = [fmtTime(ev.time) ? `${fmtTime(ev.time)}` : '', `${loc}`].filter(Boolean).join(' · ');
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
     const stock = stockLabel(ev);
@@ -2692,7 +2702,7 @@ if (placeModal && placesGridEl) {
       <div class="event-card-media">
         ${picHTML(ev.img, `alt="${esc(ev.name)}" loading="lazy" decoding="async"`)}
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
-        <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
+        <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? 'Privé' : typeLabel[ev.type] || 'Événement'}</span>
         ${stock ? `<span class="stock-badge ${stock.cls}">${stock.text}</span>` : ''}
         <button class="fav-btn ${fav ? 'on' : ''}" data-fav="${ev.id}" type="button"
                 aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">♥</button>
@@ -2756,16 +2766,24 @@ if (placeModal && placesGridEl) {
       ? (state.sort === 'prix' ? a.price - b.price : (a.time || '').localeCompare(b.time || ''))
       : a.date.localeCompare(b.date));
 
-    // Groupement par jour, façon Shotgun. À l'intérieur de chaque jour,
-    // les événements qui matchent les genres favoris remontent en tête
-    // (l'ordre chronologique des jours, lui, ne bouge jamais).
+    // Groupement par MOIS, pas par jour.
+    // Le groupement par jour donnait une grille de trois colonnes pour un
+    // seul événement, répétée à chaque date : deux tiers de vide, autant de
+    // fois qu'il y a de dates. La page se lisait « site vide » alors qu'elle
+    // était pleine. Le mois est la maille juste pour un agenda de soirées :
+    // il garde la lecture chronologique et remplit la rangée.
+    // La date exacte reste sur chaque carte, elle n'est perdue nulle part.
     const fg = favGenres();
     const groups = new Map();
-    list.forEach(ev => { if (!groups.has(ev.date)) groups.set(ev.date, []); groups.get(ev.date).push(ev); });
+    list.forEach(ev => {
+      const cle = ev.date.slice(0, 7);            // AAAA-MM
+      if (!groups.has(cle)) groups.set(cle, []);
+      groups.get(cle).push(ev);
+    });
     if (fg.size) groups.forEach(evs => evs.sort((a, b) => isReco(b, fg) - isReco(a, fg)));
-    eventsGrid.innerHTML = [...groups.entries()].map(([date, evs]) => {
-      const d = new Date(date + 'T12:00:00');
-      const head = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+    eventsGrid.innerHTML = [...groups.entries()].map(([cle, evs]) => {
+      const d = new Date(cle + '-01T12:00:00');
+      const head = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
       return `<div class="day-group">
         <h3 class="day-head"><span class="day-head-label">${head}</span><span class="day-head-count">${evs.length}</span></h3>
         <div class="events-grid">${evs.map(eventCardHTML).join('')}</div>
@@ -2887,11 +2905,11 @@ if (placeModal && placesGridEl) {
     const d = new Date(currentEvent.date + 'T12:00:00');
     $('#tmImage').src = currentEvent.img;
     $('#tmImage').alt = currentEvent.name;
-    $('#tmTag').textContent = currentEvent.prive ? '🔒 Soirée privée' : typeLabel[currentEvent.type] || 'Événement';
+    $('#tmTag').textContent = currentEvent.prive ? 'Soirée privée' : typeLabel[currentEvent.type] || 'Événement';
     $('#tmTitle').textContent = currentEvent.name;
     const when = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const loc = [currentEvent.city, currentEvent.venue].filter(Boolean).join(' · ');
-    $('#tmMeta').textContent = `📍 ${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
+    $('#tmMeta').textContent = `${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
     // R82.1.1 : rappel de la condition d'âge AU MOMENT de la réservation
     // (déjà visible sur la carte/fiche avant ce clic) — simple rappel,
     // aucune vérification d'identité effectuée par le site.
@@ -2915,7 +2933,7 @@ if (placeModal && placesGridEl) {
     const code = $('#gateCode').value.trim().toUpperCase();
     if (code && code === (currentEvent.code || '').toUpperCase()) {
       showTicketArea(true);
-      showToast('🔓 Accès débloqué — bienvenue !');
+      showToast('Accès débloqué — bienvenue !');
     } else {
       $('#gateError').textContent = 'Code invalide. Vérifie ton invitation.';
     }
@@ -2947,7 +2965,7 @@ if (placeModal && placesGridEl) {
        vraiment, il est dans Mon espace, il a son QR — et il ne donne accès
        à rien parce qu'aucun paiement n'a lieu. Les deux se disent dans la
        même phrase, pas l'un après l'autre. (E/1) */
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace. ${DEMO_TICKET}`;
+    ok.textContent = `C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace. ${DEMO_TICKET}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     ok.insertAdjacentHTML('afterend', ticketPeakHTML({ num, event: currentEvent.name, date: currentEvent.date }));
@@ -3035,4 +3053,56 @@ if (placeModal && placesGridEl) {
     document.getElementById('billetterie').scrollIntoView({ behavior: 'smooth' });
   });
 
+})();
+
+/* ============================================================
+   ARRIVER À LA BONNE ANCRE, MÊME LOIN DANS LA PAGE
+   ------------------------------------------------------------
+   `scroll-behavior: smooth` est posé sur <html>. Au CHARGEMENT d'une
+   page ouverte sur une ancre (partenaires.html#partnerForm, à 5 373 px
+   du haut), le navigateur lance une animation pendant que les images
+   se chargent encore : la cible se déplace sous l'animation, qui est
+   annulée. Résultat mesuré : on reste à 62 px du haut. Plusieurs
+   boutons du site pointent sur cette ancre — « Organiser la mienne »
+   en tête d'accueil, le menu mobile, le pied de page.
+   Au chargement on saute donc SANS animation, une fois la page posée.
+   Les clics à l'intérieur d'une page gardent le défilement doux.
+============================================================ */
+(function () {
+  'use strict';
+  if (!location.hash || location.hash.length < 2) return;
+
+  const viser = () => {
+    let cible;
+    try { cible = document.querySelector(location.hash); } catch (e) { return; }
+    if (!cible) return;
+    const barre = document.querySelector('nav#nav');
+    const marge = (barre ? barre.getBoundingClientRect().height : 0) + 18;
+    const y = cible.getBoundingClientRect().top + window.scrollY - marge;
+    const avant = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, Math.max(0, y));
+    document.documentElement.style.scrollBehavior = avant || '';
+    poserLesReveals();
+  };
+
+  /* Sans ceci, l'ancre arrivait au bon endroit sur un écran NOIR.
+     Les sections portent `.reveal` (opacité 0 jusqu'à ce qu'elles entrent
+     dans l'écran). Le filet de sécurité du site s'exécute au chargement,
+     donc AVANT notre saut : la cible n'était pas encore à l'écran, elle
+     n'a jamais été révélée. Mesuré sur partenaires.html#partnerForm :
+     bonne position, opacité 0. On repasse le filet après le saut. */
+  const poserLesReveals = () => {
+    const h = window.innerHeight || document.documentElement.clientHeight;
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < h + 200 && r.bottom > -200) el.classList.add('in', 'in-done');
+    });
+  };
+
+  // Trois passages : au DOM prêt, au chargement complet, puis une fois
+  // les images paresseuses posées. Sans le troisième, une image qui
+  // arrive au-dessus de la cible décale tout ce qui suit.
+  document.addEventListener('DOMContentLoaded', viser);
+  window.addEventListener('load', () => { viser(); setTimeout(viser, 350); });
 })();
