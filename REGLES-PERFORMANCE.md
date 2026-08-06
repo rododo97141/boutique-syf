@@ -62,7 +62,7 @@ en peinture pendant un défilement continu**.
 
 ---
 
-# 3. UNE TROISIÈME OCCURRENCE, TROUVÉE PAR LA MESURE — l'horloge du pouls
+# 3. UNE TROISIÈME OCCURRENCE — et je m'étais trompée de coupable
 
 `tools/qa/recalc.mjs` a été écrit pour combler l'angle mort ci-dessus. Il
 a immédiatement **rougi sur les cinq pages mesurées**, alors que le
@@ -115,3 +115,63 @@ pouls par une propriété **non héritée** (`inherits: false`) et le lire sur
 les seuls éléments qui en ont besoin — ils sont quatre, déjà nommés dans
 `style.css` (`.btn-gradient.btn-lg`, `.btn-solid.btn-lg`, `.next-cta .btn`,
 `.tickets-fab`, plus `.badge-soon`).
+
+
+---
+
+# ⚠ CORRECTION — J'AVAIS NOMMÉ LA MAUVAISE HORLOGE
+
+La discrimination du premier passage coupait `:root { animation-name: none }`,
+ce qui arrête **les deux** horloges de `:root` à la fois. J'ai attribué le
+gain au **pouls** (`--syfir-beat`). **C'était une hypothèse présentée comme
+une conclusion.**
+
+Le correctif a été appliqué — pouls non hérité, horloge descendue sur les
+cinq consommateurs — et **il n'a rien changé** : `artistes.html` restait à
+5 354 ms et 27 images. C'est ce démenti qui a imposé la vraie mesure.
+
+## Le vrai coupable, isolé cette fois
+
+Même page, même défilement, une seule chose retirée à chaque essai :
+
+| État | recalcul de style | images en 5 s | pire image |
+|---|---:|---:|---:|
+| tel quel | **5 050 ms** | 25 | 367 ms |
+| **sans `syfir-type-breathe`** | **774 ms** | 59 | 667 ms |
+| sans le ciel | 4 931 ms | 35 | 233 ms |
+| sans les deux | 2 142 ms | **238** (≈48 im/s) | 50 ms |
+
+**−85 % de recalcul en retirant la seule respiration typographique.** Le
+ciel, lui, ne coûte presque rien : 5 050 → 4 931.
+
+`syfir-type-breathe` anime `--syfir-wght` et `--syfir-track`, **toutes deux
+`inherits: true`**, sur `:root` et sur une **timeline de défilement** :
+tout l'arbre est réévalué à chaque image de défilement. Même faute que les
+trois autres, quatrième costume.
+
+## ⚠ POURQUOI CE N'EST PAS CORRIGÉ, ET CE QUE LE PROCHAIN DOIT SAVOIR
+
+**L'héritage est PORTEUR ICI, par conception**, et le fichier l'explique :
+l'animation ne peut pas vivre sur le titre (`.reveal.in { animation: … }`
+est un raccourci qui écraserait `animation-name` et `animation-timeline` —
+mesuré en son temps), donc **la section porte l'animation et le titre
+consomme la variable héritée**. Passer `inherits: false` casse la
+fonctionnalité.
+
+Le correctif demande donc de **repenser le mécanisme**, pas de changer un
+mot-clé — et ce n'est pas une chose à improviser en fin de contexte, sur
+le fichier le plus disputé, juste après une intégration.
+
+**Piste à instruire, non à appliquer** : porter la respiration sur les
+titres eux-mêmes via une animation SÉPARÉE de `.reveal` (nom d'animation
+distinct, listes parallèles comme le fait déjà le bloc scroll-timeline),
+ce qui bornerait le recalcul aux titres au lieu du document.
+
+## Ce qui EST corrigé, et qui reste juste
+
+Le pouls est désormais **non hérité** et son horloge tourne sur les cinq
+éléments qui la lisent, au lieu du document entier. Le gain est réel mais
+**dominé** par la respiration typographique : il ne se verra qu'une fois
+celle-ci traitée. `prefers-reduced-motion` et `data-econome` coupent
+maintenant le pouls **là où il tourne** — sans ça, le mouvement réduit
+aurait laissé battre ce qu'il est censé arrêter.

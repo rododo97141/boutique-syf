@@ -1132,6 +1132,13 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
 .event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .event-card:hover .event-card-media img { transform: scale(1.03); }
+/* ⚠ DEUX BADGES AU MÊME ENDROIT. `.event-date` et `.stock-badge` sont
+   tous deux `position: absolute; top: 14px; left: 14px` — ils se peignent
+   l'un SUR l'autre dans le coin de chaque carte de la billetterie. Mesuré
+   sur les quatre cartes : les boîtes se recoupent réellement.
+   La pastille de stock reste en place (elle porte l'ACTION possible) ; la
+   date descend d'un cran, et seulement quand une pastille existe. */
+.event-card-media:has(.stock-badge) .event-date { top: 56px; }
 .event-date {
   position: absolute; top: 14px; left: 14px;
   background: var(--cream); color: var(--ink);
@@ -3864,7 +3871,19 @@ html[data-portal="done"] .portal { display: none; }
    Une variable animée sur :root n'écrase rien du tout, et la mise en
    phase devient une propriété de construction : il n'y a qu'une horloge,
    donc il n'y a rien à synchroniser. */
-@property --syfir-beat { syntax: '<number>'; inherits: true; initial-value: 0; }
+/* ⚠ `inherits: false`, ET C'EST LA CORRECTION LA PLUS RENTABLE DU LOT.
+   Mesuré par `tools/qa/recalc.mjs`, même page, même défilement de 5 s,
+   CPU ×4, seule différence l'horloge coupée :
+     artistes.html AVEC : 5 311 ms de recalcul,  27 images (≈5 im/s)
+     artistes.html SANS :   349 ms de recalcul, 301 images (≈60 im/s)
+   Une propriété enregistrée HÉRITÉE qui change oblige le moteur à
+   réévaluer TOUT l'arbre — c'est le sélecteur universel sous un autre
+   déguisement, soixante fois par seconde. La page tournait à 5 images par
+   seconde, et personne ne l'avait vu : une capture est immobile, elle ne
+   peut pas montrer une fréquence d'images.
+   Non héritée, la variable ne se propage plus ; l'horloge descend donc
+   sur les CINQ éléments qui la consomment, nommés juste en dessous. */
+@property --syfir-beat { syntax: '<number>'; inherits: false; initial-value: 0; }
 @keyframes syfir-beat-clock {
   0%, 100% { --syfir-beat: 0; }
   38%      { --syfir-beat: 1; }
@@ -3889,7 +3908,14 @@ html[data-portal="done"] .portal { display: none; }
    une règle :root plus tardive l'emporterait sur elle — mesuré, l'horloge
    continuait de tourner sous prefers-reduced-motion. L'ordre EST la
    correction. */
-:root {
+/* L'horloge ne tourne plus sur :root — elle tourne sur les cinq éléments
+   qui la lisent. Même tempo, même effet à l'écran, mais le recalcul est
+   borné à ces cinq boîtes au lieu du document entier. */
+.btn-gradient.btn-lg,
+.btn-solid.btn-lg,
+.next-cta .btn,
+.tickets-fab,
+.badge-soon {
   animation-name: syfir-beat-clock;
   animation-duration: 517ms;          /* 116 BPM — le tempo kompa */
   animation-timing-function: ease-in-out;
@@ -3901,12 +3927,24 @@ html[data-portal="done"] .portal { display: none; }
    donc halo nul et badges pleinement opaques. On coupe le mouvement, pas
    le décor. */
 @media (prefers-reduced-motion: reduce) {
+  /* L'horloge du pouls ne tourne plus sur :root : la couper là ne
+     suffirait plus. On la coupe LÀ OÙ elle tourne — sur les cinq
+     consommateurs — sans quoi le mouvement réduit laisserait battre ce
+     qu'il est censé arrêter. `:root` reste coupé pour la respiration
+     typographique, qui, elle, y est toujours. */
   :root { animation-name: none; }
+  .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
+  .tickets-fab, .badge-soon { animation-name: none; }
   .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
   .tickets-fab { filter: none; }
   .badge-soon { opacity: 1; }
 }
 html[data-econome] { animation-name: none; }
+html[data-econome] .btn-gradient.btn-lg,
+html[data-econome] .btn-solid.btn-lg,
+html[data-econome] .next-cta .btn,
+html[data-econome] .tickets-fab,
+html[data-econome] .badge-soon { animation-name: none; }
 html[data-econome] .btn-gradient.btn-lg,
 html[data-econome] .btn-solid.btn-lg,
 html[data-econome] .next-cta .btn,
@@ -3979,7 +4017,7 @@ html[data-econome] .badge-soon { opacity: 1; }
        respiration typographique (défilement). Déclarées ensemble, en
        listes parallèles — sinon la seconde écraserait la première. */
     :root {
-      animation-name: syfir-beat-clock, syfir-type-breathe;
+      animation-name: syfir-type-breathe;   /* le pouls a quitté :root — voir @property --syfir-beat */
       animation-duration: 517ms, auto;      /* sur une timeline de défilement,
                                                c'est la PROGRESSION qui pilote ;
                                                une durée finie (essayée à 1ms)

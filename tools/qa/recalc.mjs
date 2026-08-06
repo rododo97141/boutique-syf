@@ -65,7 +65,16 @@ function lecturesInterdites() {
   for (const f of ['style.css', 'syfir-ui/components.css', 'syfir-ui/tokens.css']) {
     const p = resolve(ROOT, f);
     if (!existsSync(p)) continue;
-    const src = readFileSync(p, 'utf8');
+    /* ⚠ LES COMMENTAIRES SONT RETIRÉS AVANT TOUT. Au premier passage sur
+       l'état intégré, ce contrôle a accusé `style.css:5567` — qui est la
+       ligne d'un COMMENTAIRE documentant le piège, écrit exprès pour
+       qu'on ne le refasse pas. Un instrument qui accuse le texte qui
+       met en garde contre la faute se fait ignorer aussi sûrement qu'un
+       instrument qui laisse passer la faute. On remplace chaque
+       commentaire par autant de retours à la ligne : les numéros de
+       ligne restent justes. */
+    const brut = readFileSync(p, 'utf8');
+    const src = brut.replace(/\/\*[\s\S]*?\*\//g, m => m.replace(/[^\n]/g, ' '));
     const lignes = src.split('\n');
 
     /* 1. un bloc de pseudo-élément qui lit --p. On délimite le bloc par
