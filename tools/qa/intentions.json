@@ -25,5 +25,14 @@
     "sel": "*",
     "prop": "*",
     "raison": "les rôles NON TEXTE basculent : 37 liserés --cream-rgb -> --creme-rgb, 23 fonds --ink-soft -> --nuit-1, 18 fonds --ocean-deep -> --nuit-2. Plus .section-cream, le dernier bloc clair du site (3 pages) : fond, encre, fondus et chapô basculés ENSEMBLE parce qu'ils sont couplés. L'or de marque reste intact."
+  },
+  {
+    "lot": "E/2",
+    "de": "e-avant",
+    "vers": "e2",
+    "page": "partenaires.html",
+    "sel": "*",
+    "prop": "_box",
+    "raison": "FORM_ENDPOINT est activé (Web3Forms) : la note « démo — transmission bientôt active » du formulaire partenaire s'efface d'elle-même, comme prévu par addDemoNote. La section du formulaire perd donc la hauteur de cette ligne — 26 px en desktop, 25 en mobile — et le corps de la page avec elle. C'est la SEULE différence du lot hors accueil, elle ne concerne QUE partenaires.html, et elle est la preuve visible que la note a bien disparu. Les 27 autres combinaisons : 0 différence."
   }
 ]

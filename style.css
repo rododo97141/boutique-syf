@@ -1004,7 +1004,29 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
   display: block; font-family: var(--display); font-size: .72rem; font-weight: 700;
   letter-spacing: .14em; text-transform: uppercase; color: var(--passion); margin-bottom: 12px;
 }
-.footer-news-row { display: flex; gap: 8px; }
+/* ⚠ LA RANGÉE A TROIS ENFANTS, PAS DEUX — et le troisième écrasait le
+   premier. `addDemoNote` insère la note « démo — transmission bientôt
+   active » JUSTE APRÈS le bouton d'envoi, donc **à l'intérieur de cette
+   rangée flex** : elle devient un troisième élément flexible, prend ses
+   129 px, et le champ e-mail — seul à porter `flex: 1; min-width: 0` —
+   se laisse écraser jusqu'à **34 px de large** à 390 px. Un champ e-mail
+   de 34 px n'est pas une cible tactile trop petite : il est inutilisable.
+
+   Mesuré au rendu à 390 px sur les 14 pages, par `tools/qa/cibles.mjs`.
+   Aucun instrument existant ne pouvait le voir : il n'y a **aucun
+   débordement** (la rangée tient dans sa largeur) et **aucun défaut de
+   contraste**. La page est simplement cassée à l'intérieur de sa boîte.
+
+   Le défaut préexiste au lot E/2, mais E/2 l'a rendu PERMANENT ici : la
+   note s'efface désormais toute seule sur le formulaire partenaire, et
+   reste pour toujours sur la newsletter, qui ne transmet pas.
+
+   Le remède ne touche ni le HTML ni le JS : la rangée s'autorise à
+   revenir à la ligne, et la note prend une ligne entière au lieu de
+   disputer la sienne au champ. */
+.footer-news-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.footer-news-row .form-demo-note { flex: 1 0 100%; margin-top: 0; }
+.footer-news-row input { flex: 1 1 60%; }
 .footer-news input {
   flex: 1; min-width: 0; min-height: 44px; padding: 12px 16px;
   background: rgba(var(--cream-rgb), .06); border: 1px solid rgba(var(--creme-rgb), .18);
@@ -1110,6 +1132,13 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .event-card-media { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
 .event-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform var(--dur-med) var(--ease); }
 .event-card:hover .event-card-media img { transform: scale(1.03); }
+/* ⚠ DEUX BADGES AU MÊME ENDROIT. `.event-date` et `.stock-badge` sont
+   tous deux `position: absolute; top: 14px; left: 14px` — ils se peignent
+   l'un SUR l'autre dans le coin de chaque carte de la billetterie. Mesuré
+   sur les quatre cartes : les boîtes se recoupent réellement.
+   La pastille de stock reste en place (elle porte l'ACTION possible) ; la
+   date descend d'un cran, et seulement quand une pastille existe. */
+.event-card-media:has(.stock-badge) .event-date { top: 56px; }
 .event-date {
   position: absolute; top: 14px; left: 14px;
   background: var(--cream); color: var(--ink);
@@ -1141,7 +1170,23 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 /* .stock-inline (variante en ligne) : extraite en §06 avec le composant. */
 .event-card.is-soldout .event-card-media img { filter: grayscale(.4) brightness(.82); }
 /* badge sur la fiche événement (hero) */
-.ed-stock { position: absolute; top: 16px; left: 16px; font-size: .66rem; }
+/* ⚠ LES DEUX BADGES DU HERO PASSAIENT SOUS LA BARRE DE NAV, à 390 px, sur
+   la fiche événement — c'est-à-dire sur la page la plus partagée du site.
+   `top: 16px` les place à 16 px du haut de la PAGE, alors que la barre est
+   fixe et occupe `--header-h` : le logo SYFIR et les boutons de la barre
+   se peignaient par-dessus « BILLETS DISPONIBLES » et « 16 ANS ET PLUS ».
+
+   Trouvé à l'œil sur une capture 390 px, par aucun instrument : il n'y a
+   ni débordement (rien ne dépasse en largeur), ni défaut de contraste
+   (chaque élément est lisible SÉPARÉMENT), ni cible trop petite. Deux
+   choses correctes qui se superposent ne sont fautives qu'à l'œil.
+   Sixième défaut réel de ce chantier trouvé sur une image.
+
+   Le remède se lit tout seul : les badges partent du bas de la barre, pas
+   du haut de la page. `--header-h` est déjà la hauteur réelle de l'en-tête
+   (elle absorbe la barre utilitaire quand il y en a une). */
+.ed-stock { position: absolute; top: calc(var(--header-h) + 16px); left: 16px; font-size: .66rem; }
+.age-badge.ed-age { top: calc(var(--header-h) + 16px); }
 /* Alignement vertical d'une même rangée : le pied (prix/CTA) et
    l'organisateur restent calés en bas, quel que soit le nombre de
    lignes de tags au-dessus */
@@ -1812,6 +1857,45 @@ footer { background: var(--footer-ink); border-top: 1px solid rgba(var(--passion
 .kpi-delta.up { color: var(--success); }
 .kpi-delta.down { color: var(--coral); }
 
+/* ===== E/1 — LA MENTION « DÉMONSTRATION » DU BILLET =====
+   Elle est traitée « au même titre que les badges Exemple des dates » :
+   même famille visuelle que `.badge-demo` (or de marque à faible opacité,
+   capitales serrées), pour qu'un visiteur reconnaisse d'un coup d'œil le
+   même signal aux deux endroits. Aucun token nouveau n'est créé — l'or de
+   marque et le crème doux existent déjà, et une couleur inédite aurait dû
+   être déclinée partout (CLAUDE.md §2.1).
+   Rayon 100px sur la pastille (pilule, comme les autres badges du site),
+   8px sur le bloc de texte : grille de 8. */
+.ticket-demo { display: block; margin: 6px 0 8px; }
+.ticket-demo-badge {
+  display: inline-block; font-family: var(--body);
+  font-size: .58rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 100px;
+  background: rgba(var(--gold-rgb), .16); color: var(--gold-light);
+  border: 1px solid rgba(var(--gold-rgb), .34);
+}
+.ticket-demo-text {
+  display: block; margin-top: 6px;
+  font-size: .78rem; line-height: 1.45; color: var(--creme-doux);
+}
+/* Le billet de Mon espace : le liseré pointillé passe de l'orange d'action
+   à l'or de marque, pour que le cadre lui-même dise « exemple » plutôt que
+   « à faire ». Même épaisseur, même rythme de pointillés. */
+.my-ticket-demo { border-color: rgba(var(--gold-rgb), .42); }
+
+/* Sur la carte du pic de confirmation, le fond est BLANC (il l'est pour la
+   scannabilité du QR) : la pastille y reprend donc l'encre, pas l'or clair,
+   qui serait illisible sur blanc. Mesuré par contraste.mjs. */
+.ticket-demo-badge-peak {
+  background: rgba(var(--gold-deep-rgb), .18); color: var(--ink);
+  border-color: rgba(var(--gold-deep-rgb), .5);
+}
+.ticket-peak-demo {
+  position: relative; z-index: 1;
+  max-width: 34ch; margin: 12px auto 0;
+  font-size: .8rem; line-height: 1.45; color: var(--creme-doux); text-align: center;
+}
+
 /* Billet : numéro unique, revente interdite, contact organisateur */
 .my-ticket-main small { display: block; }
 .ticket-num { color: var(--creme-doux); font-variant-numeric: tabular-nums; margin-top: 2px; }
@@ -2100,6 +2184,54 @@ footer { background-image: var(--noise); }
   padding: 8px 16px; border-radius: 100px; background: var(--gold-metal); color: var(--ink);
 }
 .ed-hero-tag.tag-prive { background: var(--ink); color: var(--coral); }
+
+/* ============================================================
+   LA COULEUR DE L'ÉVÉNEMENT — L'ATMOSPHÈRE, JAMAIS LE TEXTE
+   ------------------------------------------------------------
+   Chaque événement porte sa teinte, déclarée dans events-data.js et
+   posée sur <html> par evenement.js (`--ev-teinte`, `--ev-teinte-rgb`).
+   L'accueil, lui, ne bouge pas : c'est là qu'on reconnaît SYFIR.
+
+   ⚠⚠ CE BLOC EST LE SEUL ENDROIT DU DÉPÔT QUI A LE DROIT DE LIRE
+   `--ev-teinte`, ET IL NE TOUCHE QUE DES PROPRIÉTÉS ATMOSPHÉRIQUES.
+   Ce qui est autorisé ici : un halo au-dessus d'une PHOTO, un liseré, une
+   ombre portée. Ce qui est interdit, sans exception : `background` ou
+   `color` sur une surface qui porte du texte — `.ed-body`, `.ed-main`,
+   `.ed-tickets`, `.tier`, `.ed-blurb`, `.ed-meta`, et tout ce qui se lit.
+
+   POURQUOI CETTE INTERDICTION EST ÉCRITE EN GRAND : trois échecs de ce
+   chantier viennent tous du même geste — un fond qui change sous un texte
+   qui ne change pas. Un mois de travail sur la lisibilité y est passé. On
+   ne le refait pas treize fois, une par événement.
+
+   `tools/qa/teintes.mjs` MESURE cette règle : il rend la fiche avec
+   CHAQUE teinte déclarée et vérifie que les surfaces porteuses de texte
+   sont identiques d'une teinte à l'autre. Si un jour quelqu'un ajoute
+   `background: var(--ev-teinte)` sur un bloc de lecture, le test tombe.
+
+   Repli : `--ev-teinte` n'est jamais absente (evenement.js la pose
+   toujours, et `teinteOf` a sa valeur par défaut), mais les `var(…, …)`
+   ci-dessous portent quand même leur second argument — une page rendue
+   sans JavaScript reste dans le bleu de scène plutôt que sans couleur. */
+
+/* 1. Le halo de scène au-dessus de la photo du hero. La photo n'est pas
+      du texte : c'est l'endroit naturel de la couleur. Le voile sombre
+      existant reste par-dessous, donc rien ne s'éclaircit. */
+.ed-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(70% 55% at 50% 8%,
+              rgba(var(--ev-teinte-rgb, 47, 109, 255), .38), transparent 70%);
+  mix-blend-mode: screen;
+}
+/* 2. La ligne de bas de hero : la couleur signe la coupure entre la photo
+      et le contenu, sans jamais passer dessous. */
+.ed-hero { border-bottom: 2px solid rgba(var(--ev-teinte-rgb, 47, 109, 255), .55); }
+/* 3. L'ombre colorée du bloc billets — une ombre est peinte À CÔTÉ de la
+      boîte, jamais dessous : le fond du verre reste celui du site. */
+.ed-tickets { box-shadow: 0 18px 60px rgba(var(--ev-teinte-rgb, 47, 109, 255), .16); }
+/* 4. Les liserés d'accent. `border-color` seul — pas `background`. */
+.ed-genres .event-genre,
+.ed-countdown { border-color: rgba(var(--ev-teinte-rgb, 47, 109, 255), .45); }
 .ed-body { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 36px; }
 .ed-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.6rem); line-height: 1.08; text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 16px; }
 /* Ligne de caractère (R28-3) sur la fiche — ton bar-readable */
@@ -2328,9 +2460,38 @@ a.cocktail-teaser { text-decoration: none; color: inherit; }
 
 /* Grille des moments authentiques (photos 3:4) */
 .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; }
-.moment-shot { border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 4; }
+/* ===== LOT D — « MOMENTS » : QUATRE PHOTOS DEVIENNENT UNE PROGRAMMATION
+   ------------------------------------------------------------
+   La section s'appelle « Tes moments SYFIR » et ne montrait que quatre
+   images muettes : ni titre, ni soirée, ni date. Sur LA page où Kily
+   enverra les gens en disant « tout se passe là », le cœur de la page ne
+   disait rien. Une chaîne annonce ce qu'elle diffuse.
+
+   La légende se pose PAR-DESSUS la photo, en bas, sur un dégradé — pas
+   sous elle : la rangée défile horizontalement et des blocs de texte
+   sous les images casseraient l'alignement des cartes entre elles.
+   Le dégradé descend du transparent au noir : le texte est toujours sur
+   sa partie la plus sombre, quelle que soit la photo. C'est la même
+   recette que `.date::after` de la maquette. */
+.moment-shot { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 3 / 4; }
 .moment-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-med) var(--ease); }
 .moment-shot:hover img { transform: scale(1.03); }
+.moment-shot::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(var(--black-rgb), .30) 0%, transparent 34%, rgba(var(--black-rgb), .92) 92%);
+}
+.moment-cap {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  padding: 16px 16px 18px;
+}
+.moment-cap strong {
+  font-family: var(--display); font-weight: 700; font-size: .96rem; line-height: 1.2;
+  letter-spacing: -.01em; color: var(--blanc);
+}
+.moment-cap small {
+  font-size: .76rem; line-height: 1.35; color: rgba(var(--creme-rgb), .82);
+}
 
 /* ===== 35. PAGES DÉDIÉES (saveurs.html, actualite.html) : hero sobre =====
    Rythme unique : --nav-h (72px) + 80px (une section) en haut, 8px en bas
@@ -3154,6 +3315,7 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    La goutte RESTE sur les 13 autres pages : c'est un motif de marque
    assumé depuis R30. On la retire ici seulement, par le scope. */
 .page-home .eyebrow::before { content: none; }
+.page-home h1,
 .page-home h2 {
   font-family: var(--display); font-weight: 800;
   font-size: clamp(34px, 5.4vw, 66px);
@@ -3168,6 +3330,7 @@ body:has(.hero, .tv-hero, .ed-hero) nav.scrolled .nav-logo { text-shadow: none; 
    écrit et le fichier : la maquette met la lumière froide des
    projecteurs sur l'accent des titres, pas l'or. L'or reste au sur-titre
    et au détail. */
+.page-home h1 em,
 .page-home h2 em {
   font-family: var(--serif); font-weight: 400; font-style: italic;
   font-size: clamp(34px, 5.4vw, 66px);
@@ -3708,7 +3871,19 @@ html[data-portal="done"] .portal { display: none; }
    Une variable animée sur :root n'écrase rien du tout, et la mise en
    phase devient une propriété de construction : il n'y a qu'une horloge,
    donc il n'y a rien à synchroniser. */
-@property --syfir-beat { syntax: '<number>'; inherits: true; initial-value: 0; }
+/* ⚠ `inherits: false`, ET C'EST LA CORRECTION LA PLUS RENTABLE DU LOT.
+   Mesuré par `tools/qa/recalc.mjs`, même page, même défilement de 5 s,
+   CPU ×4, seule différence l'horloge coupée :
+     artistes.html AVEC : 5 311 ms de recalcul,  27 images (≈5 im/s)
+     artistes.html SANS :   349 ms de recalcul, 301 images (≈60 im/s)
+   Une propriété enregistrée HÉRITÉE qui change oblige le moteur à
+   réévaluer TOUT l'arbre — c'est le sélecteur universel sous un autre
+   déguisement, soixante fois par seconde. La page tournait à 5 images par
+   seconde, et personne ne l'avait vu : une capture est immobile, elle ne
+   peut pas montrer une fréquence d'images.
+   Non héritée, la variable ne se propage plus ; l'horloge descend donc
+   sur les CINQ éléments qui la consomment, nommés juste en dessous. */
+@property --syfir-beat { syntax: '<number>'; inherits: false; initial-value: 0; }
 @keyframes syfir-beat-clock {
   0%, 100% { --syfir-beat: 0; }
   38%      { --syfir-beat: 1; }
@@ -3733,7 +3908,14 @@ html[data-portal="done"] .portal { display: none; }
    une règle :root plus tardive l'emporterait sur elle — mesuré, l'horloge
    continuait de tourner sous prefers-reduced-motion. L'ordre EST la
    correction. */
-:root {
+/* L'horloge ne tourne plus sur :root — elle tourne sur les cinq éléments
+   qui la lisent. Même tempo, même effet à l'écran, mais le recalcul est
+   borné à ces cinq boîtes au lieu du document entier. */
+.btn-gradient.btn-lg,
+.btn-solid.btn-lg,
+.next-cta .btn,
+.tickets-fab,
+.badge-soon {
   animation-name: syfir-beat-clock;
   animation-duration: 517ms;          /* 116 BPM — le tempo kompa */
   animation-timing-function: ease-in-out;
@@ -3745,12 +3927,24 @@ html[data-portal="done"] .portal { display: none; }
    donc halo nul et badges pleinement opaques. On coupe le mouvement, pas
    le décor. */
 @media (prefers-reduced-motion: reduce) {
+  /* L'horloge du pouls ne tourne plus sur :root : la couper là ne
+     suffirait plus. On la coupe LÀ OÙ elle tourne — sur les cinq
+     consommateurs — sans quoi le mouvement réduit laisserait battre ce
+     qu'il est censé arrêter. `:root` reste coupé pour la respiration
+     typographique, qui, elle, y est toujours. */
   :root { animation-name: none; }
+  .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
+  .tickets-fab, .badge-soon { animation-name: none; }
   .btn-gradient.btn-lg, .btn-solid.btn-lg, .next-cta .btn,
   .tickets-fab { filter: none; }
   .badge-soon { opacity: 1; }
 }
 html[data-econome] { animation-name: none; }
+html[data-econome] .btn-gradient.btn-lg,
+html[data-econome] .btn-solid.btn-lg,
+html[data-econome] .next-cta .btn,
+html[data-econome] .tickets-fab,
+html[data-econome] .badge-soon { animation-name: none; }
 html[data-econome] .btn-gradient.btn-lg,
 html[data-econome] .btn-solid.btn-lg,
 html[data-econome] .next-cta .btn,
@@ -3823,7 +4017,7 @@ html[data-econome] .badge-soon { opacity: 1; }
        respiration typographique (défilement). Déclarées ensemble, en
        listes parallèles — sinon la seconde écraserait la première. */
     :root {
-      animation-name: syfir-beat-clock, syfir-type-breathe;
+      animation-name: syfir-type-breathe;   /* le pouls a quitté :root — voir @property --syfir-beat */
       animation-duration: 517ms, auto;      /* sur une timeline de défilement,
                                                c'est la PROGRESSION qui pilote ;
                                                une durée finie (essayée à 1ms)
@@ -3993,6 +4187,29 @@ html[data-econome] .portal-inner::after { opacity: 0; }
      sur une seule ligne à 390px — la partie droite se replie dessous, alignée à droite */
   .tier { flex-wrap: wrap; }
   .tier-right { margin-left: auto; }
+
+  /* ===== MANDAT DE CLÔTURE — les cibles que la LISTE avait manquées =====
+     Le bloc ci-dessus est une liste de sélecteurs écrite à la main : tout
+     composant né après elle en est absent, et personne ne s'en aperçoit.
+     `tools/qa/cibles.mjs` ne lit plus aucun sélecteur — il mesure la boîte
+     PEINTE de tout ce qui se clique, à 390 px. Voici ce qu'il a trouvé, et
+     que la liste ne pouvait pas contenir. */
+  .ticket-share { min-height: 44px; padding: 10px 14px; }        /* 34 px — bouton « Partager » d'un billet */
+  .ticket-search { min-height: 44px; }                            /* 43 px — à un pixel près, donc faux */
+  .audience-mail { display: inline-flex; align-items: center; min-height: 44px; }
+  .legal-back, .account-back { display: inline-flex; align-items: center; min-height: 44px; }
+  .linklike { min-height: 44px; padding: 10px 4px; }
+  /* `min-width` autant que `min-height` : « CGV » fait 34,7 px de large,
+     et une cible haute mais étroite reste une cible ratée au pouce. */
+  .legal-pills a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+  /* Les liens d'action des cartes « écosystème » de l'accueil (« Proposer
+     mon lieu → », « Rejoindre le line-up → »…) : 18,5 px de haut. Ce sont
+     des appels à l'action, pas des liens en flux de texte — l'exception
+     WCAG 2.5.8 ne les couvre pas. */
+  .eco .c a, .eco-card a { display: inline-flex; align-items: center; min-height: 44px; }
+  /* Le logo de la barre : c'est le retour à l'accueil, la cible la plus
+     utilisée d'un site sur téléphone. */
+  nav .lg, .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
 }
 
 /* Tablette */
@@ -4465,17 +4682,59 @@ html[data-tagline-seen] .hero-tagline span { animation: none; opacity: 1; transf
 
 /* ===== Hero mosaïque SYFIR TV (R8 pattern 4) — carrousel de grandes cartes
    portrait, flèches (via initRows) + swipe natif, scroll-snap centré. */
-.tv-hero { padding: 18px 0 6px; }
-.tv-hero-track { scroll-padding-inline: var(--row-gutter); }
+/* ===== LOT D — SYFIR TV AU REGISTRE « LUMIÈRE DE SCÈNE » =====
+   Décision de Kily : « communauté, médias et tout le reste, tout se passe
+   dans SYFIR TV ». Ce n'est pas une page parmi treize, c'est LA
+   destination. Elle doit s'ouvrir comme l'accueil s'ouvre.
+
+   CE QUE J'AI VU SUR LA CAPTURE À 390 px, avant de toucher au CSS, et
+   qu'aucun test ne signalait : la page s'ouvrait comme un BILLET DE BLOG.
+   Le « hero » était une carte encartée de 88 vw sur 420 px de haut, avec
+   la tranche colorée de la carte suivante qui dépassait en haut à droite —
+   lue comme un défaut d'affichage, pas comme une invitation à faire
+   défiler. Une chaîne ne s'ouvre pas sur une vignette.
+
+   CE QUI CHANGE, ET CE QUI NE CHANGE PAS. Uniquement du CSS : aucune
+   section déplacée, aucun contenu retiré, le carrousel « à la une » garde
+   ses diapositives, ses flèches et son balayage. La diapositive prend
+   simplement toute la largeur et toute la hauteur d'écran — une à la fois,
+   plein cadre, comme le hero de la maquette. Effet de bord voulu : la
+   tranche qui dépassait disparaît, puisqu'une diapositive occupe
+   exactement l'écran.
+
+   `100%` et non `100vw` : `100vw` inclut la largeur de la barre de
+   défilement et rouvrirait un débordement horizontal à 390 px — le
+   défaut que `debordement.mjs` traque depuis R81. */
+.tv-hero { padding: 0; }
+.tv-hero-track { scroll-padding-inline: 0; padding: 0; gap: 0; }
 .tv-hero-track > .tv-hero-slide {
-  flex: 0 0 min(88vw, 560px); scroll-snap-align: center;
-  position: relative; height: min(76vh, 660px); min-height: 420px;
-  border-radius: 22px; overflow: hidden; background: var(--nuit-1);
+  flex: 0 0 100%; scroll-snap-align: center;
+  position: relative; height: min(100svh, 900px); min-height: 520px;
+  border-radius: 0; overflow: hidden; background: var(--nuit-1);
 }
+/* La photo passe derrière la nuit au lieu de la remplacer : même recette
+   que le hero de la maquette (opacité .5 + contraste léger), pour que le
+   bleu de scène traverse l'image au lieu de s'arrêter à son bord. */
+.tv-hero-img { opacity: .55; filter: contrast(1.12) saturate(.92) brightness(.92); }
+/* Le texte descend d'un cran et respire : sur 100svh, une accroche collée
+   au bas de l'écran se fait manger par la barre du navigateur mobile. */
+.tv-hero-body { padding-bottom: clamp(48px, 12vh, 96px); }
 .tv-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Le voile ne descendait que par le bas (transparent au-dessus de 68 %) :
+   en carte de 420 px ça suffisait, en plein écran le haut de la photo
+   reste en plein jour et la page s'ouvre sur une plage ensoleillée alors
+   que tout le site est une nuit bleue. Vu sur la capture à 390 px, par
+   aucun instrument — ni le contraste ni le débordement n'ont rien à en
+   dire, l'image est simplement dans le mauvais monde.
+   La recette est celle du hero de la maquette, reprise telle quelle :
+   sombre en haut, ouvert au milieu, sombre en bas, plus un halo bleu de
+   projecteur au zénith (`at 50% 22%` — la lumière de scène vient d'en
+   haut, ce n'est pas un coucher de soleil). */
 .tv-hero-slide::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(var(--black-rgb), .92) 5%, rgba(var(--black-rgb), .32) 42%, transparent 68%);
+  background:
+    linear-gradient(180deg, rgba(4, 7, 15, .72), rgba(4, 7, 15, .30) 42%, rgba(4, 7, 15, .94)),
+    radial-gradient(60% 42% at 50% 22%, rgba(127, 178, 255, .20), transparent 72%);
 }
 .tv-hero-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(22px, 4vw, 40px); color: var(--creme); }
 .tv-hero-title {
@@ -4741,3 +5000,723 @@ body.tab-hidden .hh-slide:not(.hh-brand) .hh-bg { animation-play-state: paused; 
 
 /* Ancre de défilement invisible (cible d'un lien de nav, ex. #signatures) */
 .anchor-target { display: block; height: 0; }
+
+/* ===== LOT D — LES FICHES ARTISTES DE DÉMONSTRATION =====
+   Trois fiches d'exemple montrent le FORMAT d'un line-up ; Unity 141
+   reste le seul artiste réel et n'est ni touché ni mélangé.
+
+   Elles se distinguent à l'œil AVANT d'être lues : liseré discontinu,
+   comme les billets de démonstration de Mon espace. Le badge « Exemple »
+   du titre et la note sous les tags disent le reste en toutes lettres.
+   Trois signaux, parce qu'un seul se manque. */
+.artist-card-demo { border: 1px dashed rgba(var(--gold-rgb), .42); border-radius: var(--radius); }
+.artist-demo-note {
+  margin-top: 10px; font-size: .74rem; line-height: 1.4;
+  color: rgba(var(--creme-rgb), .62);
+}
+.artist-card-demo h3 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+
+/* ============================================================
+   UNIFICATION — UNE SEULE IDENTITÉ SUR TOUT LE SITE
+   ------------------------------------------------------------
+   Le design de la maquette 3 vivait enfermé sous `.page-home`.
+   La classe est désormais portée par TOUTES les pages ; ce bloc
+   ne fait que régler les quelques endroits où l'ancien site
+   gagnait encore par spécificité.
+============================================================ */
+
+/* Le sur-titre : or, partout. L'orange des anciennes pages a disparu. */
+.page-home .eyebrow,
+.page-home .eyebrow-light,
+.page-home .section-eyebrow { color: var(--or); }
+.page-home .eyebrow::before,
+.page-home .eyebrow-light::before { content: none; }
+
+/* Les fonds opaques des anciennes sections masquaient le ciel et
+   créaient une cassure horizontale nette entre deux noirs. */
+.page-home .section-dark,
+.page-home .page-hero,
+.page-home .page-hero-dark,
+.page-home .section,
+.page-home .section-light { background: transparent; }
+.page-home .section,
+.page-home .page-hero { position: relative; z-index: 1; }
+
+/* La page en cours, signalée dans la barre du haut. */
+.page-home nav a.l.active { color: var(--creme); }
+
+/* Le titre de page suit le rythme des titres de section. */
+.page-home .page-hero h1 { margin-bottom: 18px; }
+
+/* ------------------------------------------------------------
+   LES ACCENTS DE TITRE : LA LUMIÈRE FROIDE, PAS L'OR QUI S'ÉTEINT
+   ------------------------------------------------------------
+   Neuf titres portaient un dégradé doré appliqué au texte lui-même.
+   Le dégradé finit sombre : la fin du mot devenait presque noire sur
+   fond noir (« SYFIR EXPERIENCE », « LA MAISON SYFIR »).
+   La maquette met du bleu clair sur les accents de titre — c'est la
+   lumière des projecteurs. L'or reste au sur-titre et au détail.
+------------------------------------------------------------ */
+.page-home .audience-title em,
+.page-home .ed-related-title em,
+.page-home .hh-title em,
+.page-home .invest-title em,
+.page-home .maison-story em,
+.page-home .story-text h3 em,
+.page-home .tickets-title em,
+.page-home .trust-title em,
+.page-home .tv-hero-title em {
+  background: none;
+  background-image: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--bleu-clair);
+  -webkit-text-fill-color: var(--bleu-clair);
+}
+
+/* ------------------------------------------------------------
+   LES BOUTONS : LES DEUX MÊMES QUE SUR L'ACCUEIL
+   Le dégradé orange n'existe pas dans la maquette ; il faisait de
+   chaque page un autre site dès le premier appel à l'action.
+------------------------------------------------------------ */
+.page-home .btn-solid,
+.page-home .btn-primary {
+  background: var(--creme);
+  background-image: none;
+  color: #0a0f1c;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.page-home .btn-solid:hover,
+.page-home .btn-primary:hover { transform: translateY(-2px); }
+.page-home .btn-ghost {
+  background: transparent;
+  color: var(--creme);
+  border: 1px solid rgba(var(--creme-rgb), .34);
+}
+.page-home .btn-ghost:hover { border-color: var(--or); color: var(--or); }
+
+/* ------------------------------------------------------------
+   LES BADGES DE CARTE NE SE MARCHENT PLUS DESSUS
+   ------------------------------------------------------------
+   `.event-date` (le jour + le mois) et `.stock-badge` (« Billets
+   disponibles ») étaient tous deux posés à top:14px / left:14px.
+   Le second recouvrait le premier : on lisait « AOÛT » dépassant
+   sous une pastille dorée, et le numéro du jour disparaissait.
+   La date reste en haut à gauche — c'est l'information première ;
+   la disponibilité passe dessous.
+------------------------------------------------------------ */
+.page-home .event-card .stock-badge { top: 74px; left: 14px; }
+
+/* Sur la fiche événement et les rangées horizontales, la date n'est
+   pas là : le badge reprend sa place d'origine. */
+.page-home .rb-card .stock-badge,
+.page-home .ed-hero .stock-badge { top: 14px; }
+
+/* ------------------------------------------------------------
+   PLUS AUCUN DÉGRADÉ ORANGE EN APLAT
+   ------------------------------------------------------------
+   La maquette validée ne contient pas un seul aplat de couleur :
+   l'or y est toujours un liseré, une lettre, un contour. Les pastilles
+   et boutons pleins en dégradé orange→magenta faisaient de chaque page
+   une autre marque dès le premier élément actif.
+   L'état actif se dit désormais par le crème — le même contraste que
+   les boutons de l'accueil, et lisible sans discussion.
+------------------------------------------------------------ */
+.page-home .btn-gradient,
+.page-home .chip.active,
+.page-home .subtab.active,
+.page-home .dash-link.active,
+.page-home .tickets-fab,
+.page-home .replay-play {
+  background: var(--creme);
+  background-image: none;
+  color: #0a0f1c;
+  border-color: transparent;
+  -webkit-text-fill-color: #0a0f1c;
+}
+.page-home .tickets-fab { box-shadow: 0 12px 34px rgba(0,0,0,.45); }
+
+/* Le filet de progression du scroll : or discret plutôt que dégradé chaud. */
+.page-home .scroll-progress {
+  background: linear-gradient(90deg, rgba(var(--or-rgb, 212,160,23), .0), var(--or));
+}
+
+/* Le liseré animé sous un lien de navigation n'a plus lieu d'être :
+   la barre du haut de la maquette n'en a pas. */
+.page-home .nav-link::after { content: none; }
+
+/* ------------------------------------------------------------
+   UN SEUL ACCENT CHAUD SUR TOUT LE SITE
+   ------------------------------------------------------------
+   Le site portait trois chaleurs différentes selon la page :
+   --sunset (#FF7A00, orange franc), --passion (#FFC857, jaune chaud)
+   et --coral (#FF8F70). L'accueil, lui, n'en connaît qu'une :
+   --or (#E9C988), l'or de scène.
+   Plutôt que corriger une centaine de règles une par une, on
+   redéfinit les trois variables à l'intérieur du site : tout ce qui
+   les consomme devient cohérent d'un coup, et rien n'est cassé.
+   Les vraies alertes reprennent leur couleur juste, deux lignes plus bas.
+------------------------------------------------------------ */
+.page-home {
+  --sunset: #E9C988;
+  --sunset-rgb: 233, 201, 136;
+  --passion: #E9C988;
+  --passion-rgb: 233, 201, 136;
+  --coral: #E9C988;
+  --coral-rgb: 233, 201, 136;
+}
+
+/* Une erreur doit rester rouge : elle n'est pas un accent de marque. */
+.page-home .footer-news-msg.is-error,
+.page-home .form-msg.is-error,
+.page-home .is-error { color: var(--error); }
+.page-home .danger-link {
+  color: var(--error) !important;
+  border-color: rgba(229, 72, 77, .4) !important;
+}
+.page-home .danger-link:hover { background: rgba(229, 72, 77, .12) !important; }
+
+/* ------------------------------------------------------------
+   L'INSCRIPTION AUX PROCHAINES SOIRÉES : UN CHAMP LISIBLE
+   ------------------------------------------------------------
+   La colonne de marque du pied de page mesure ~1,6 fraction sur cinq ;
+   avec `flex: 1 1 60%` le champ tombait à 140 px et l'adresse d'exemple
+   était tronquée en « ton@email.c ». Un formulaire dont on ne lit pas
+   le champ ne donne pas envie de le remplir.
+   Le champ prend la ligne, le bouton passe dessous — c'est aussi ce
+   qui se passe déjà sur mobile, donc un seul comportement à retenir.
+------------------------------------------------------------ */
+.page-home .footer-news-row { flex-direction: column; align-items: stretch; gap: 10px; }
+.page-home .footer-news-row input { flex: 1 1 auto; width: 100%; }
+.page-home .footer-news-row .btn { width: 100%; }
+
+@media (min-width: 1100px) {
+  .page-home .footer-news-row { flex-direction: row; align-items: center; }
+  .page-home .footer-news-row input { flex: 1 1 auto; min-width: 190px; }
+  .page-home .footer-news-row .btn { width: auto; flex: 0 0 auto; }
+}
+
+/* La barre du haut est fixe : sans cette marge, une ancre place son
+   titre exactement dessous, et on croit avoir raté la cible. */
+.page-home [id] { scroll-margin-top: 96px; }
+
+/* ============================================================
+   LE PANNEAU — RECHERCHE ET MENU, EN CLAIR
+   ------------------------------------------------------------
+   Deux décisions de Kily, appliquées ici :
+
+   1. LE BURGER A DISPARU. Sur téléphone il ouvrait un second menu,
+      moins complet que ce panneau, qui contient déjà toute la
+      navigation. Deux menus pour un site, c'est un menu de trop.
+      Le panneau est désormais l'unique porte : on cherche ET on
+      navigue au même endroit.
+
+   2. LE PANNEAU EST CLAIR. Le site est la nuit ; le panneau est le
+      moment où on allume. Le contraste est volontaire : on sait
+      immédiatement qu'on a quitté la page pour un outil.
+
+   Règle de couleur : sur fond clair, l'or de scène (#E9C988) tombe
+   à 1,5:1 — illisible. L'accent devient donc un or PROFOND (#7A5C0F,
+   mesuré à 5,9:1 sur le fond du panneau).
+============================================================ */
+
+.page-home .mega {
+  --p-fond: #F4F6FA;
+  --p-carte: #FFFFFF;
+  --p-encre: #0A0F1C;
+  --p-doux: #59637A;
+  --p-trait: rgba(10, 15, 28, .10);
+  --p-or: #7A5C0F;
+
+  background: var(--p-fond);
+  color: var(--p-encre);
+  backdrop-filter: none;
+  overflow-y: auto;
+}
+
+/* ---------- la barre du panneau ---------- */
+.page-home .mega-top {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--p-fond);
+  border-bottom: 1px solid var(--p-trait);
+  padding: 16px clamp(16px, 4vw, 40px);
+  gap: 14px;
+}
+.page-home .mega-logo { color: var(--p-encre); letter-spacing: .06em; }
+.page-home .mega-logo span { display: none; }
+
+.page-home .mega-search {
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  border-radius: 100px;
+  box-shadow: 0 1px 2px rgba(10, 15, 28, .04);
+  padding: 0 20px;
+  min-height: 54px;
+  max-width: 620px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.page-home .mega-search:focus-within {
+  border-color: var(--p-or);
+  box-shadow: 0 0 0 3px rgba(122, 92, 15, .14);
+}
+.page-home .mega-search svg { color: var(--p-doux); }
+.page-home .mega-search input { color: var(--p-encre); font-size: 1.02rem; }
+.page-home .mega-search input::placeholder { color: var(--p-doux); }
+
+.page-home .mega-close {
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  color: var(--p-encre);
+  font-size: 1.1rem;
+}
+.page-home .mega-close:hover {
+  background: var(--p-encre); color: var(--p-carte);
+  border-color: var(--p-encre); transform: rotate(90deg);
+}
+
+/* ---------- la navigation ---------- */
+.page-home .mega-side > a,
+.page-home .mega-side-head { color: var(--p-encre); }
+.page-home .mega-side > a {
+  border-radius: 10px; padding: 10px 12px; margin-left: -12px;
+  transition: background .14s ease, color .14s ease, transform .14s ease;
+}
+.page-home .mega-side > a:hover {
+  background: rgba(10, 15, 28, .05); color: var(--p-encre); transform: none;
+}
+.page-home .mega-side-group { border-left: 2px solid var(--p-trait); padding-left: 14px; margin: 6px 0 14px; }
+.page-home .mega-side-group .mega-side-head { padding: 8px 0 4px; }
+.page-home .mega-side-group a:not(.mega-side-head) { color: var(--p-doux); padding: 7px 0; }
+.page-home .mega-side-group a:not(.mega-side-head):hover { color: var(--p-or); }
+
+/* ---------- les rangées ---------- */
+.page-home .mega-row-head h3 { color: var(--p-encre); }
+.page-home .mega-row-head a { color: var(--p-or); font-weight: 700; }
+.page-home .mega-row-head a:hover { color: var(--p-encre); }
+
+/* ---------- les résultats ---------- */
+.page-home .mega-results { gap: 8px; }
+.page-home .mega-result {
+  justify-content: space-between;
+  background: var(--p-carte);
+  border: 1px solid var(--p-trait);
+  border-radius: 14px;
+  padding: 15px 18px;
+  color: var(--p-encre);
+  transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
+}
+.page-home .mega-result:hover {
+  background: var(--p-carte);
+  border-color: var(--p-or);
+  box-shadow: 0 6px 18px rgba(10, 15, 28, .07);
+  transform: translateY(-1px);
+}
+.page-home .mega-result strong { font-size: 1.02rem; color: var(--p-encre); }
+.page-home .mega-result small {
+  color: var(--p-or); font-size: .72rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; white-space: nowrap;
+}
+.page-home .mega-result-empty {
+  color: var(--p-doux); background: var(--p-carte);
+  border: 1px dashed var(--p-trait); border-radius: 14px;
+  padding: 26px; text-align: center; line-height: 1.7;
+}
+
+/* ---------- les vignettes « envies » ---------- */
+.page-home .mega-envie { box-shadow: 0 2px 10px rgba(10, 15, 28, .10); }
+.page-home .mega-envie span { color: #fff; }
+
+/* ---------- téléphone : le panneau est la seule porte ---------- */
+@media (max-width: 720px) {
+  .page-home .mega-top { flex-wrap: wrap; gap: 12px; }
+  .page-home .mega-logo { order: 1; }
+  .page-home .mega-close { order: 2; margin-left: auto; }
+  .page-home .mega-search { order: 3; flex: 1 0 100%; max-width: none; }
+  .page-home .mega-side > a,
+  .page-home .mega-side-head { font-size: 1.28rem; }
+  .page-home .mega-envies { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Sur téléphone, la loupe est la SEULE porte vers la navigation : les
+   liens de la barre sont masqués sous 720 px et le burger a été retiré.
+   Une loupe seule ne dit pas « menu » — on écrit le mot à côté. */
+@media (max-width: 720px) {
+  .page-home nav .outil#searchBtn { gap: 8px; width: auto; padding: 0 6px; }
+  .page-home nav .outil#searchBtn::after {
+    content: 'Menu';
+    font-family: var(--display); font-weight: 700;
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  }
+}
+
+/* ------------------------------------------------------------
+   ÉQUILIBRE DU PANNEAU — plus de moitié droite vide
+   ------------------------------------------------------------
+   Le panneau était bâti en deux colonnes : navigation à gauche,
+   contenu à droite. La navigation est longue, le contenu tient en
+   une rangée : la moitié droite restait blanche sur toute la
+   hauteur de l'écran. Un vide de cette taille se lit comme une
+   page qui n'a pas fini de charger.
+   On empile désormais : d'abord ce qu'on cherche, ensuite où aller,
+   la navigation étalée sur trois colonnes. Rien n'est perdu,
+   tout tient sans défilement sur un écran d'ordinateur.
+------------------------------------------------------------ */
+.page-home .mega-body {
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 1180px; padding-bottom: 64px;
+}
+.page-home .mega-content { order: 1; }
+/* Colonnes de TEXTE, pas grille : le groupe « L'Écosystème » fait
+   sept lignes quand « Accueil » en fait une. En grille, chaque rangée
+   prend la hauteur du plus grand — on obtenait deux colonnes vides
+   sous un bloc géant. Le flux en colonnes remplit tout seul. */
+.page-home .mega-side {
+  order: 2; display: block;
+  columns: 3; column-gap: 44px;
+  border-top: 1px solid var(--p-trait);
+  margin-top: 30px; padding-top: 26px;
+}
+.page-home .mega-side > a,
+.page-home .mega-side-group { break-inside: avoid; -webkit-column-break-inside: avoid; }
+.page-home .mega-side > a { display: block; }
+.page-home .mega-side::before {
+  content: 'Aller à';
+  display: block; column-span: all;
+  font-family: var(--display); font-weight: 800;
+  font-size: 1.1rem; text-transform: uppercase; letter-spacing: .01em;
+  color: var(--p-encre); margin-bottom: 14px;
+}
+.page-home .mega-side-group { margin: 0 0 18px; }
+.page-home .mega-row { margin-bottom: 0; }
+.page-home .mega-envies { grid-template-columns: repeat(4, 1fr); }
+
+/* Téléphone : le panneau est la seule porte — la navigation passe
+   devant, une colonne, gros doigts. Les envies suivent. */
+@media (max-width: 720px) {
+  .page-home .mega-side {
+    order: 1; columns: 1;
+    border-top: none; margin-top: 4px; padding-top: 0;
+  }
+  .page-home .mega-content {
+    order: 2;
+    border-top: 1px solid var(--p-trait);
+    margin-top: 26px; padding-top: 24px;
+  }
+  .page-home .mega-side > a { padding: 13px 12px; }
+  .page-home .mega-side-group a:not(.mega-side-head) { padding: 11px 0; }
+}
+
+/* ------------------------------------------------------------
+   LA NAVIGATION DU PANNEAU — HUIT RUBRIQUES, RIEN DE PLUS
+   ------------------------------------------------------------
+   Une colonne, des lignes larges, et les sous-rubriques repliées.
+   Les colonnes de texte ont été abandonnées : quand on déplie un
+   groupe, le flux se redistribue entre les colonnes et tout saute
+   sous les yeux. Une colonne ne bouge pas — on pousse vers le bas,
+   c'est ce que le regard attend.
+------------------------------------------------------------ */
+.page-home .mega-side {
+  columns: auto; column-gap: normal;
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 620px;
+}
+.page-home .mega-side::before { column-span: none; }
+
+.page-home .mega-side > a,
+.page-home .mega-side .mega-side-head {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; margin: 0; padding: 15px 4px;
+  border: none; border-bottom: 1px solid var(--p-trait);
+  background: none; text-align: left; cursor: pointer;
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.22rem; letter-spacing: -.01em;
+  color: var(--p-encre);
+  transition: color .14s ease, padding-left .14s ease;
+}
+.page-home .mega-side > a:hover,
+.page-home .mega-side .mega-side-head:hover { background: none; padding-left: 12px; }
+
+/* Le chevron dit qu'il y a quelque chose dessous, et où on en est. */
+.page-home .mega-chev {
+  width: 11px; height: 11px; flex-shrink: 0; margin-left: 14px;
+  border-right: 2px solid var(--p-encre);
+  border-bottom: 2px solid var(--p-encre);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform .2s var(--ease, ease);
+}
+.page-home .mega-side-head[aria-expanded="true"] .mega-chev {
+  transform: rotate(-135deg) translate(-3px, -3px);
+}
+.page-home .mega-side-head[aria-expanded="true"] { color: var(--p-or); }
+.page-home .mega-side-head[aria-expanded="true"] .mega-chev {
+  border-color: var(--p-or);
+}
+
+.page-home .mega-side-group { display: block; margin: 0; padding: 0; border: none; }
+.page-home .mega-side-sub {
+  display: flex; flex-direction: column;
+  padding: 6px 0 14px 4px;
+  border-bottom: 1px solid var(--p-trait);
+  animation: megaDeplie .22s ease both;
+}
+.page-home .mega-side-sub[hidden] { display: none; }
+.page-home .mega-side-sub a {
+  font-family: var(--body); font-weight: 500; font-size: .98rem;
+  color: var(--p-doux); padding: 11px 0 11px 16px;
+  border-left: 2px solid var(--p-trait);
+  transition: color .14s ease, border-color .14s ease;
+}
+.page-home .mega-side-sub a:hover { color: var(--p-or); border-color: var(--p-or); }
+
+@keyframes megaDeplie {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-home .mega-side-sub { animation: none; }
+  .page-home .mega-chev { transition: none; }
+}
+
+@media (max-width: 720px) {
+  .page-home .mega-side { max-width: none; }
+  .page-home .mega-side > a,
+  .page-home .mega-side .mega-side-head { font-size: 1.32rem; padding: 17px 4px; }
+  .page-home .mega-side-sub a { padding: 14px 0 14px 16px; font-size: 1.02rem; }
+}
+
+/* ------------------------------------------------------------
+   FINITIONS DU PANNEAU
+------------------------------------------------------------ */
+
+/* La colonne de navigation se recroquevillait à ~280 px : les lignes
+   étaient trop courtes pour qu'on ait envie d'y viser. */
+.page-home .mega-side { width: 100%; }
+
+/* Le trait de séparation appartenait à la navigation, donc il s'arrêtait
+   avec elle — un filet de 280 px sous des vignettes de 1 300. Il tient
+   maintenant sous le contenu, sur toute la largeur. */
+.page-home .mega-content {
+  border-bottom: 1px solid var(--p-trait);
+  padding-bottom: 30px;
+}
+.page-home .mega-side { border-top: none; }
+
+/* Une vignette dont la photo n'est pas encore arrivée affichait un
+   dégradé sombre sur fond clair : ça se lit « cassé », pas « en train
+   de charger ». Fond neutre, et le voile ne s'installe qu'avec l'image. */
+.page-home .mega-envie { background: rgba(10, 15, 28, .05); }
+.page-home .mega-envie::after { opacity: 0; transition: opacity .3s ease; }
+.page-home .mega-envie:has(img.img-in)::after,
+.page-home .mega-envie:has(img:not(.img-fade))::after { opacity: 1; }
+
+@media (max-width: 720px) {
+  .page-home .mega-content { border-bottom: none; padding-bottom: 0; }
+}
+
+/* ============================================================
+   LE PANNEAU REPASSE À LA NUIT — assorti au site
+   ------------------------------------------------------------
+   J'avais lu « blanc » là où Kily demandait une couleur ASSORTIE
+   au site et à SYFIR. Le site est la nuit : le panneau l'est aussi.
+   Il reste une COUCHE, pas une page : son fond est posé un cran
+   au-dessus du noir de la page (#070D1A contre #04070F) et il
+   porte une ombre — on doit sentir qu'il flotte devant, sinon on
+   ne sait plus si on a ouvert quelque chose.
+   Les six variables suffisent : la mise en page, les dépliants et
+   les résultats ne sont pas touchés.
+============================================================ */
+.page-home .mega {
+  --p-fond: #070D1A;
+  --p-carte: rgba(238, 242, 248, .045);
+  --p-encre: #EEF2F8;
+  --p-doux: rgba(238, 242, 248, .62);
+  --p-trait: rgba(238, 242, 248, .12);
+  --p-or: #E9C988;                 /* l'or de scène redevient lisible : 11:1 */
+
+  background: var(--p-fond);
+  box-shadow: inset 0 90px 120px -80px rgba(127, 178, 255, .10);
+}
+
+/* La barre du panneau reste opaque en défilant, sinon les titres
+   passent derrière elle. */
+.page-home .mega-top {
+  background: rgba(7, 13, 26, .94);
+  backdrop-filter: blur(16px);
+}
+
+/* Le champ : verre sombre, halo d'or à la saisie. */
+.page-home .mega-search { box-shadow: none; }
+.page-home .mega-search:focus-within {
+  box-shadow: 0 0 0 3px rgba(233, 201, 136, .16);
+}
+
+/* La croix s'inverse au survol : crème plein sur nuit. */
+.page-home .mega-close:hover {
+  background: var(--p-encre); color: #070D1A; border-color: var(--p-encre);
+}
+
+/* Un résultat survolé se soulève dans la lumière, pas dans l'ombre. */
+.page-home .mega-result:hover {
+  background: rgba(238, 242, 248, .07);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .35);
+}
+
+/* Vignette en attente de sa photo : un gris de nuit, pas un gris de jour. */
+.page-home .mega-envie {
+  background: rgba(238, 242, 248, .06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+}
+
+/* Le survol d'une rubrique : un filet d'or à gauche plutôt qu'un aplat. */
+.page-home .mega-side > a:hover,
+.page-home .mega-side .mega-side-head:hover { color: var(--p-or); }
+
+
+/* ============================================================
+   UNE SEULE NUIT, UNE LUMIÈRE PAR PIÈCE  —  ÉTAPE 1
+   ------------------------------------------------------------
+   La structure, la typographie, les cartes, les boutons et l'or ne
+   bougent pas d'une page à l'autre : c'est ce qui fait qu'on reste
+   chez SYFIR. Ce qui bouge, c'est la LUMIÈRE qui traverse la pièce.
+
+   ⚠ RÈGLE NON NÉGOCIABLE, reprise de la fiche événement : la teinte
+   ne touche QUE des propriétés atmosphériques — halos, liserés,
+   ombres. Jamais un fond ni une couleur de texte sur une surface
+   qu'on lit. C'est la seule raison pour laquelle sept teintes ne
+   coûtent pas sept campagnes de mesure : les surfaces de lecture
+   sont identiques partout, par construction.
+
+   ⚠ CE QUI A FAIT GELER LA PAGE AU PREMIER ESSAI, à ne jamais refaire :
+   1. `opacity: calc(… var(--p) …)` sur un pseudo-élément plein écran.
+      `--p` est réécrite à chaque image par la boucle du ciel : deux
+      dégradés radiaux repeints soixante fois par seconde sur un
+      calque non promu. Les couches .n0/.n1/.n2 y survivent parce que
+      ce sont de vrais éléments, promus chacun sur leur calque.
+   2. `.page-home *:focus-visible { … }`. Le sélecteur universel place
+      TOUT le document dans l'ensemble « pourrait correspondre » ;
+      combiné à une variable réécrite chaque image sur :root, le
+      recalcul de style repart sur l'arbre entier, en boucle.
+   Les deux sont interdits ici. La lumière de la pièce est FIXE.
+============================================================ */
+
+.page-home[data-teinte]            { --pt-rgb: 47, 109, 255; --pt-force: .30; }
+.page-home[data-teinte="bleu"]     { --pt-rgb: 47, 109, 255;  --pt-force: 0;   }
+.page-home[data-teinte="magenta"]  { --pt-rgb: 255, 77, 157;  --pt-force: .30; }
+.page-home[data-teinte="violet"]   { --pt-rgb: 143, 92, 255;  --pt-force: .30; }
+.page-home[data-teinte="turquoise"]{ --pt-rgb: 47, 209, 197;  --pt-force: .26; }
+.page-home[data-teinte="ambre"]    { --pt-rgb: 224, 165, 72;  --pt-force: .28; }
+.page-home[data-teinte="acier"]    { --pt-rgb: 61, 169, 255;  --pt-force: .18; }
+.page-home[data-teinte="calme"]    { --pt-rgb: 127, 178, 255; --pt-force: .12; }
+
+/* La lumière au zénith, comme les projecteurs de la maquette : elle
+   vient d'en haut, elle ne monte pas de l'horizon. Opacité FIXE. */
+.page-home .sky::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    radial-gradient(70% 42% at 50% -6%, rgba(var(--pt-rgb, 47,109,255), .55) 0%, transparent 64%),
+    radial-gradient(46% 34% at 88% 22%, rgba(var(--pt-rgb, 47,109,255), .30) 0%, transparent 66%);
+  opacity: var(--pt-force, 0);
+}
+
+/* Le trait sous la barre du haut prend la couleur de la pièce.
+   C'est un pixel, et c'est la première chose qu'on voit. */
+.page-home nav {
+  border-bottom: 1px solid rgba(var(--pt-rgb, 47,109,255), calc(var(--pt-force, 0) * .9 + .04));
+}
+
+/* ---------- ÉTAPE 2 : les détails qui prennent la température ----------
+   Sélecteurs NOMMÉS uniquement. Aucun `*` : voir l'avertissement
+   au-dessus, c'est lui qui a gelé la page. */
+
+/* Une lueur derrière le titre de page, là où le bloc est typographique
+   et n'a pas de photo pour porter l'ambiance. */
+.page-home .page-hero { position: relative; }
+.page-home .page-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(56% 62% at 20% 6%, rgba(var(--pt-rgb, 47,109,255), .26) 0%, transparent 72%);
+  opacity: var(--pt-force, 0);
+}
+.page-home .page-hero > * { position: relative; z-index: 1; }
+
+/* Ce qu'on survole s'allume à la couleur de la pièce. L'or reste
+   l'accent de MARQUE — sur-titres et liens — et ne bouge pas. */
+.page-home .chip:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .55); }
+.page-home .event-card:hover,
+.page-home .artist-card:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .40); }
+.page-home .btn-ghost:hover { border-color: rgba(var(--pt-rgb, 47,109,255), .60); }
+
+/* Le focus clavier suit la pièce lui aussi — sur les éléments
+   focalisables NOMMÉS, pas sur tout le document. */
+.page-home a:focus-visible,
+.page-home button:focus-visible,
+.page-home input:focus-visible,
+.page-home select:focus-visible,
+.page-home textarea:focus-visible {
+  outline: 2px solid rgba(var(--pt-rgb, 47,109,255), .95);
+  outline-offset: 3px;
+}
+
+/* ---------- ÉTAPE 3 : LA LUMIÈRE DOIT SE VOIR ----------
+   Premier réglage : force .30, halo au zénith seulement. Résultat
+   mesuré à l'écran : Partenaires et FAQ étaient indiscernables. Une
+   variation qu'on ne voit pas ne répond pas au problème posé — on se
+   lasse quand même. On monte, et on éclaire la pièce en TROIS points
+   au lieu d'un : le zénith, un côté, et le sol. C'est ce qui distingue
+   une salle éclairée d'une salle avec une ampoule.
+   Les surfaces de lecture ne bougent toujours pas : ce sont des halos
+   derrière le contenu, jamais un fond de bloc. */
+.page-home[data-teinte]            { --pt-force: .62; }
+.page-home[data-teinte="bleu"]     { --pt-force: 0;   }   /* l'accueil est le contrat */
+.page-home[data-teinte="magenta"]  { --pt-force: .62; }
+.page-home[data-teinte="violet"]   { --pt-force: .60; }
+.page-home[data-teinte="turquoise"]{ --pt-force: .52; }
+.page-home[data-teinte="ambre"]    { --pt-force: .58; }
+.page-home[data-teinte="acier"]    { --pt-force: .40; }
+.page-home[data-teinte="calme"]    { --pt-force: .26; }
+
+.page-home .sky::after {
+  background-image:
+    radial-gradient(78% 48% at 50% -8%,  rgba(var(--pt-rgb, 47,109,255), .70) 0%, transparent 66%),
+    radial-gradient(58% 44% at 92% 26%,  rgba(var(--pt-rgb, 47,109,255), .42) 0%, transparent 68%),
+    radial-gradient(66% 40% at 8%  104%, rgba(var(--pt-rgb, 47,109,255), .34) 0%, transparent 70%);
+}
+
+/* Le liseré sous la barre du haut devient franc : c'est la signature
+   la plus lisible du changement de pièce. */
+.page-home nav {
+  border-bottom: 1px solid rgba(var(--pt-rgb, 47,109,255), calc(var(--pt-force, 0) * .55 + .05));
+}
+
+/* La lueur derrière un titre de page, elle aussi. */
+.page-home .page-hero::before {
+  background-image:
+    radial-gradient(62% 70% at 16% 2%,  rgba(var(--pt-rgb, 47,109,255), .40) 0%, transparent 72%),
+    radial-gradient(48% 56% at 86% 96%, rgba(var(--pt-rgb, 47,109,255), .22) 0%, transparent 74%);
+}
+
+/* ------------------------------------------------------------
+   DES JETONS DE JOUR RESTÉS SUR DES SURFACES DE NUIT
+   ------------------------------------------------------------
+   `--grey-ink` (#555) porte le commentaire « texte doux sur crème »
+   et `--sunset-ink` (#A04600) « orange lisible sur clair (AA) ».
+   Ces deux-là habillaient encore les réponses de la FAQ, restées
+   sur un fond clair qui n'existe plus depuis que le site est passé
+   à la nuit. Mesuré : 2,70:1 pour le texte, 3,23:1 pour les liens,
+   contre 4,5 exigés. On lisait, mais mal, et sur la page qui sert
+   justement à répondre aux questions.
+   Ce n'est pas la teinte de page qui l'a causé — elle l'a révélé.
+------------------------------------------------------------ */
+.page-home .faq-a p,
+.page-home .faq-foot,
+.page-home .sf-body,
+.page-home .ritual-text p,
+.page-home .brand-tm { color: var(--creme-doux); }
+
+.page-home .faq-a a,
+.page-home .faq-foot a { color: var(--or); font-weight: 600; }
+.page-home .faq-a a:hover,
+.page-home .faq-foot a:hover { color: var(--creme); }
+.page-home .faq-item summary:hover { color: var(--or); }

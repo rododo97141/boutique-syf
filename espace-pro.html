@@ -4,13 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="SYFIR Smartboard — tableau de bord organisateur : ventes, événements, scan, équipe.">
-<meta property="og:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
+<meta property="og:image" content="https://rododo97141.github.io/boutique-syf/images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1068">
+<meta property="og:image:alt" content="Une soirée SYFIR en Guadeloupe, à la tombée de la nuit">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="SYFIR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
+<meta name="twitter:image" content="https://rododo97141.github.io/boutique-syf/images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg">
 <title>Espace pro organisateur — SYFIR</title>
+<meta property="og:title" content="Espace pro organisateur — SYFIR">
+<meta property="og:description" content="SYFIR Smartboard — tableau de bord organisateur : ventes, événements, scan, équipe.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Polices en chargement asynchrone : la feuille Google Fonts ne bloque
@@ -35,78 +40,52 @@
   <link rel="stylesheet" href="syfir-ui/components.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="page-pro">
+<body class="page-pro page-home" data-teinte="acier">
 <a class="skip-link" href="#main">Aller au contenu</a>
 
-<nav id="nav">
-  <a href="index.html#accueil" class="nav-logo" aria-label="SYFIR — accueil">
-    SYFIR<span>&trade;</span>
-  </a>
-  <div class="nav-pill">
-    <ul class="nav-links">
-      <li class="nav-item has-drop">
-        <a href="partenaires.html" class="nav-link" data-nav="ecosysteme">L'&Eacute;cosyst&egrave;me</a>
-        <!-- R78 : remplace l'ancien panneau produit AVYR (nav-drop-lux) — SYFIR
-             ne vend pas les produits de ses partenaires, ce dropdown liste le
-             r&eacute;seau de partenaires (dont AVYR), pas un catalogue. -->
-        <div class="nav-drop" role="menu" aria-label="L'&Eacute;cosyst&egrave;me">
-          <a href="partenaires.html#eco-lieux" role="menuitem">Lieux</a>
-          <a href="partenaires.html#eco-artistes" role="menuitem">Artistes et talents</a>
-          <a href="partenaires.html#eco-marques" role="menuitem">Marques partenaires</a>
-          <a href="partenaires.html#eco-organisateurs" role="menuitem">Organisateurs</a>
-          <a href="partenaires.html#eco-prestataires" role="menuitem">Prestataires</a>
-          <a href="partenaires.html#eco-medias" role="menuitem">M&eacute;dias et communaut&eacute;s</a>
-        </div>
-      </li>
-      <li class="nav-item"><a href="evenements.html" class="nav-link nav-link-event" data-nav="evenements">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a></li>
-      <li class="nav-item"><a href="artistes.html#artistes" class="nav-link" data-nav="artistes">Artistes</a></li>
-      <li class="nav-item has-drop">
-        <a href="syf-tv.html" class="nav-link" data-nav="syf-tv">SYFIR TV</a>
-        <div class="nav-drop" role="menu" aria-label="SYFIR TV">
-          <a href="syf-tv.html" role="menuitem">La cha&icirc;ne</a>
-          <a href="syf-tv.html#moments" role="menuitem">Moments</a>
-          <a href="index.html#prochains" role="menuitem">Prochaines dates</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="nav-actions">
-    <button class="nav-icon" id="searchBtn" type="button" aria-label="Rechercher dans l'univers SYFIR" aria-haspopup="dialog">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-    </button>
-    <button class="nav-icon" id="clientSpaceBtn" type="button" aria-label="Mon profil">
-      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
-    </button>
-    <button class="burger" id="burgerBtn" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
-</nav>
-
-<!-- Menu mobile plein écran (nav maquette) -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" id="closeNav" aria-label="Fermer">&#10005;</button>
-  <a href="index.html#accueil">Accueil</a>
-  <a href="partenaires.html">L'&Eacute;cosyst&egrave;me</a>
-  <a href="evenements.html">&Eacute;v&eacute;nements &amp; F&ecirc;tes</a>
-  <a href="artistes.html#artistes">Artistes</a>
-  <a href="syf-tv.html">SYFIR TV</a>
-  <a href="partenaires.html">Devenir partenaire</a>
-  <a href="compte.html" id="clientSpaceBtnMobile">Mon profil</a>
-  <div class="mobile-nav-foot">#SYFIR</div>
+<!-- ============================================================
+     UNIFICATION — LE CIEL DE LA MAQUETTE, SUR TOUTES LES PAGES.
+     Jusqu'ici cette couche n'existait que sur l'accueil : c'est
+     pourquoi le reste du site paraissait d'une autre marque.
+     Décor pur, aucune requête réseau, aucun texte à annoncer.
+============================================================ -->
+<div class="sky" aria-hidden="true">
+  <div class="nuit"><i class="n0"></i><i class="n1"></i><i class="n2"></i></div>
+  <div class="projos"><b class="p1"></b><b class="p2"></b><b class="p3"></b><b class="p4"></b></div>
+  <div class="brume"></div>
 </div>
 
+
+<nav id="nav">
+  <a class="lg" href="index.html#accueil">SYFIR</a>
+  <div class="lk">
+    <a class="l" href="evenements.html">&Eacute;v&eacute;nements</a>
+    <a class="l" href="artistes.html#artistes">Artistes</a>
+    <a class="l active" aria-current="page" href="partenaires.html">&Eacute;cosyst&egrave;me</a>
+    <a class="l" href="syf-tv.html">SYFIR TV</a>
+  </div>
+  <div class="nav-outils">
+    <button class="outil" id="searchBtn" type="button" aria-label="Rechercher et naviguer — menu SYFIR" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    </button>
+    <button class="outil" id="clientSpaceBtn" type="button" aria-label="Mon profil">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    </button>
+  </div>
+</nav>
 
 <div class="dash">
   <!-- Sidebar -->
   <aside class="dash-side">
     <p class="dash-side-title">Organisateur</p>
     <div class="dash-nav" id="dashNav" role="navigation" aria-label="Sections">
-      <button class="dash-link active" data-sec="overview"><span>📊</span> Vue d'ensemble</button>
-      <button class="dash-link" data-sec="events"><span>🎫</span> Mes événements</button>
-      <button class="dash-link" data-sec="sales"><span>💶</span> Ventes</button>
-      <button class="dash-link" data-sec="scan"><span>📲</span> Scan &amp; caisse</button>
-      <button class="dash-link" data-sec="team"><span>👥</span> Équipe</button>
-      <button class="dash-link" data-sec="messages"><span>💬</span> Messages</button>
-      <button class="dash-link" data-sec="settings"><span>⚙️</span> Paramètres</button>
+      <button class="dash-link active" data-sec="overview"><span></span> Vue d'ensemble</button>
+      <button class="dash-link" data-sec="events"><span></span> Mes événements</button>
+      <button class="dash-link" data-sec="sales"><span></span> Ventes</button>
+      <button class="dash-link" data-sec="scan"><span></span> Scan &amp; caisse</button>
+      <button class="dash-link" data-sec="team"><span></span> Équipe</button>
+      <button class="dash-link" data-sec="messages"><span></span> Messages</button>
+      <button class="dash-link" data-sec="settings"><span>⚙</span> Paramètres</button>
     </div>
   </aside>
 
@@ -125,7 +104,7 @@
     <section class="dash-section" id="sec-sales">
       <div class="dash-h"><h1>Ventes <span class="badge-soon">Bientôt disponible</span></h1><p>Le détail de tes ventes, palier par palier.</p></div>
       <div class="dash-empty">
-        <div class="dash-empty-ic">📈</div>
+        <div class="dash-empty-ic"></div>
         <h3>Analytics de ventes en préparation</h3>
         <p>Bientôt : courbes de ventes jour par jour, répartition par palier (Early Bird / Standard / VIP), taux de remplissage et export CSV.</p>
       </div>
@@ -134,7 +113,7 @@
     <section class="dash-section" id="sec-scan">
       <div class="dash-h"><h1>Scan &amp; caisse <span class="badge-soon">Bientôt disponible</span></h1><p>Contrôle d'accès et encaissement le jour J.</p></div>
       <div class="dash-empty">
-        <div class="dash-empty-ic">📲</div>
+        <div class="dash-empty-ic"></div>
         <h3>Application de scan à venir</h3>
         <p>Bientôt : scan des QR codes à l'entrée, mode hors-ligne, caisse cash &amp; carte, et suivi des entrées en temps réel.</p>
       </div>
@@ -143,7 +122,7 @@
     <section class="dash-section" id="sec-team">
       <div class="dash-h"><h1>Équipe <span class="badge-soon">Bientôt disponible</span></h1><p>Invite ton staff et gère les rôles.</p></div>
       <div class="dash-empty">
-        <div class="dash-empty-ic">👥</div>
+        <div class="dash-empty-ic"></div>
         <h3>Aucun membre pour l'instant</h3>
         <p>Bientôt : invite des collaborateurs par email et attribue des rôles (scan, caisse, administrateur, partenaire de vente).</p>
       </div>
@@ -152,7 +131,7 @@
     <section class="dash-section" id="sec-messages">
       <div class="dash-h"><h1>Messages <span class="badge-soon">Bientôt disponible</span></h1><p>Échange avec tes participants, comme dans un back-office Bizouk.</p></div>
       <div class="dash-empty">
-        <div class="dash-empty-ic">💬</div>
+        <div class="dash-empty-ic"></div>
         <h3>Boîte de réception en préparation</h3>
         <p>Bientôt : questions des participants, réponses par modèle, notifications avant l'événement et diffusion d'informations de dernière minute (lieu, horaires, météo).</p>
       </div>
@@ -171,9 +150,12 @@
 
 <footer>
   <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
+  <!-- La fin signée : ponctuation de marque, même rythme sur chaque page -->
   <div class="brand-sign">
-    <p class="brand-sign-mark">SYFIR</p>
+    <div class="f-in">
+    <p class="signe" aria-hidden="true">SYFIR</p>
     <p class="brand-sign-slogan">Tes prochains souvenirs commencent ici.</p>
+  </div>
   </div>
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -231,8 +213,8 @@
   <div class="help-pop" id="helpPop" role="dialog" aria-label="Besoin d'aide" hidden>
     <p class="help-pop-title">Un coup de main ?</p>
     <p class="help-pop-text">L'équipe SYFIR répond aux organisateurs et aux partenaires de l'écosystème.</p>
-    <a class="help-pop-link" href="partenaires.html#partnerForm">✉ Nous écrire</a>
-    <a class="help-pop-link" href="faq.html">❓ Voir la FAQ</a>
+    <a class="help-pop-link" href="partenaires.html#partnerForm">Nous écrire</a>
+    <a class="help-pop-link" href="faq.html">Voir la FAQ</a>
   </div>
 </div>
 

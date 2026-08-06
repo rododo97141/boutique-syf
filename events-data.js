@@ -54,7 +54,7 @@
   ============================================================ */
   const baseEvents = [
     {
-      id: 'demo-rooftop-1', demo: true,
+      id: 'demo-rooftop-1', demo: true, teinte: '#FF8A3D',   /* le cuivre d'un coucher de soleil sur les toits */
       name: 'Rooftop Sunset Session',
       date: '2026-08-22', time: '19:00',
       city: 'Pointe-à-Pitre', type: 'rooftop',
@@ -65,18 +65,18 @@
       blurb: 'Le soleil descend sur la ville, la basse monte. Deux platines, une terrasse, et la nuit qui commence.'
     },
     {
-      id: 'demo-beach-1', demo: true,
+      id: 'demo-beach-1', demo: true, teinte: '#2FD1C5',     /* le lagon sous la pleine lune */
       name: 'Beach Party — Pleine Lune',
       date: '2026-09-05', time: '18:30',
       city: 'Sainte-Anne', type: 'beach',
-      img: 'images/ext/unsplash-photo-1533174072545-7a4b6ad7a6c3.jpg',
+      img: 'images/ext/unsplash-photo-1507525428034-b723cf961d3e.jpg',
       price: 20, ageStatus: 'tout-public', ticketing: 'billetterie',
       genres: ['Dancehall', 'Afrobeats'],
       organizer: 'SYFIR',
       blurb: 'Les pieds dans le sable, le son face à la mer. On installe au coucher, on démonte au lever.'
     },
     {
-      id: 'demo-villa-1', demo: true,
+      id: 'demo-villa-1', demo: true, teinte: '#7A5CFF',     /* le violet fermé d'une villa, jauge courte */
       name: 'Villa Session — Soirée privée',
       date: '2026-09-19', time: '21:00',
       city: 'Le Gosier', type: 'prive', prive: true,
@@ -87,7 +87,7 @@
       blurb: 'Format intime, jauge courte, accès sur code. Ce qui se passe à la villa reste à la villa.'
     },
     {
-      id: 'demo-carnaval-1', demo: true,
+      id: 'demo-carnaval-1', demo: true, teinte: '#FF4D9D',  /* le magenta des masques et des cuivres */
       name: 'Nuit Carnaval',
       date: '2026-10-10', time: '20:00',
       city: 'Basse-Terre', type: 'festival',
@@ -96,10 +96,122 @@
       genres: ['Gwo ka', 'Kompa', 'Soca'],
       organizer: 'SYFIR',
       blurb: 'Tambours, cuivres et masques. La rue rentre à l\'intérieur et ne se calme pas avant l\'aube.'
+    },
+    {
+      id: 'demo-plage-2', demo: true, teinte: '#3DA9FF',
+      name: 'Sunset Boat — Petite-Terre',
+      date: '2026-08-08', time: '16:00',
+      city: 'Saint-François', type: 'beach',
+      img: 'images/ext/unsplash-photo-1519046904884-53103b34b206.jpg',
+      price: 45, ageStatus: 'tout-public', ticketing: 'billetterie',
+      genres: ['Zouk', 'Afrobeats'],
+      organizer: 'SYFIR',
+      blurb: 'On lève l\'ancre au plus chaud, on rentre à la nuit tombée. Le son suit le soleil.'
+    },
+    {
+      id: 'demo-gwoka-1', demo: true, teinte: '#E0A548',
+      name: 'Léwòz — Nuit Gwo Ka',
+      date: '2026-08-29', time: '20:30',
+      city: 'Sainte-Rose', type: 'festival',
+      img: 'images/ext/unsplash-photo-1516280440614-37939bbacd81.jpg',
+      price: 15, ageStatus: 'tout-public', ticketing: 'billetterie',
+      genres: ['Gwo ka'],
+      organizer: 'SYFIR',
+      blurb: 'Sept rythmes, un cercle, et personne qui regarde sa montre. On entre quand on veut, on repart au jour.'
+    },
+    {
+      id: 'demo-rooftop-2', demo: true, teinte: '#FF6B5C',
+      name: 'Afterwork Rooftop — Vol. 2',
+      date: '2026-09-11', time: '18:00',
+      city: 'Le Gosier', type: 'rooftop',
+      img: 'images/ext/unsplash-photo-1572116469696-31de0f17cc34.jpg',
+      price: 12, ageStatus: '18-plus', ticketing: 'billetterie',
+      genres: ['House', 'Afro house'],
+      organizer: 'SYFIR',
+      blurb: 'On sort du bureau, on monte, et la semaine s\'arrête là. Deux heures, pas plus, mais les bonnes.'
+    },
+    {
+      id: 'demo-club-1', demo: true, teinte: '#8F5CFF',
+      name: 'Bouyon Room',
+      date: '2026-09-26', time: '23:00',
+      city: 'Baie-Mahault', type: 'club',
+      img: 'images/ext/unsplash-photo-1496337589254-7e19d01cec44.jpg',
+      price: 18, ageStatus: '18-plus', ticketing: 'billetterie',
+      genres: ['Bouyon', 'Dancehall'],
+      organizer: 'SYFIR',
+      blurb: 'Salle fermée, basses hautes, aucune fenêtre pour savoir l\'heure. Ça commence tard et ça finit plus tard.'
+    },
+    {
+      id: 'demo-festival-2', demo: true, teinte: '#2FD196',
+      name: 'Clôture de Saison — Open Air',
+      date: '2026-10-24', time: '19:00',
+      city: 'Le Moule', type: 'festival',
+      img: 'images/ext/unsplash-photo-1493676304819-0d7a8d026dcf.jpg',
+      price: 35, ageStatus: '16-plus', ticketing: 'billetterie',
+      genres: ['Kompa', 'Soca', 'Afrobeats'],
+      organizer: 'SYFIR',
+      blurb: 'La dernière de la saison, dehors, jusqu\'à ce que la sono chauffe trop. On se quitte au petit matin.'
+    },
+    {
+      id: 'demo-prive-2', demo: true, teinte: '#C77DFF',
+      name: 'Villa Session — Anniversaire',
+      date: '2026-10-31', time: '21:30',
+      city: 'Deshaies', type: 'prive', prive: true,
+      img: 'images/ext/unsplash-photo-1571003123894-1f0594d2b5d9.jpg',
+      price: 0, ageStatus: '18-plus', ticketing: 'inscription',
+      genres: ['Kompa', 'Zouk'],
+      organizer: 'SYFIR',
+      blurb: 'Un format qu\'on monte pour toi : lieu, son, lumière, service. Accès sur code, jauge courte.'
     }
   ];
 
   const typeLabel = { beach: 'Beach Party', rooftop: 'Rooftop', festival: 'Festival', club: 'Club', soiree: 'Soirée', prive: 'Soirée privée' };
+
+  /* ===== E/1 — LA MENTION DU BILLET DE DÉMONSTRATION =====
+     Elle vit ICI, dans la source de données partagée, et pas dans un des
+     deux fichiers qui la rendent. Le parcours de réservation existe en
+     DEUX exemplaires — la modale de `evenements.html` (script.js) et la
+     fiche `evenement.html` (evenement.js) — et deux copies d'une même
+     phrase, c'est une copie qui finira par ne plus dire la même chose que
+     l'autre. events-data.js est chargé avant les deux : une seule phrase,
+     un seul endroit où la corriger.
+     Ce qu'elle affirme est exactement ce qui est vrai : pas de paiement,
+     pas d'accès. Rien de plus, rien de moins. */
+  const demoTicketText = 'Billet de démonstration — aucun paiement n\'a été effectué, et ce billet ne donne pas accès à l\'événement.';
+
+  /* ===== LA COULEUR PAR ÉVÉNEMENT — idée de Kily =====
+     L'accueil reste la nuit : c'est l'identité, c'est là qu'on reconnaît
+     SYFIR. Mais chaque événement porte SA couleur, accordée à sa photo —
+     une beach party en plein soleil n'a pas la lumière d'un carnaval ni
+     d'une villa de nuit. C'est le métier : marque mère constante, affiche
+     propre à chaque soirée.
+
+     ⚠⚠ LA RÈGLE QUI CONDITIONNE TOUT, et elle vient de trois échecs :
+     LA COULEUR DE L'ÉVÉNEMENT VIT DANS L'ATMOSPHÈRE, JAMAIS SOUS LE TEXTE.
+     Ciel, halos, lueurs, liserés, ombres colorées — oui. Le verre qui
+     porte les paragraphes ne change pas, jamais. Tout le mois perdu sur la
+     lisibilité venait d'un fond qui changeait sous un texte qui ne
+     changeait pas. `tools/qa/teintes.mjs` mesure cette règle : il vérifie
+     que les surfaces porteuses de texte sont IDENTIQUES d'une teinte à
+     l'autre, pour toutes les teintes déclarées.
+
+     ⚠ ELLE EST DÉCLARÉE, JAMAIS EXTRAITE DE LA PHOTO. Une couleur
+     imprévisible posée automatiquement est précisément ce qui a cassé le
+     site trois fois : on ne peut pas mesurer le contraste d'une valeur
+     qu'on ne connaîtra qu'à l'exécution. Ici chaque teinte est écrite à
+     la main, donc énumérable, donc mesurable une par une.
+
+     REPLI : un événement sans `teinte` reçoit `TEINTE_DEFAUT`, le bleu de
+     scène de la maquette. Aucun événement ne se retrouve sans couleur, et
+     un champ oublié ne produit ni page cassée ni couleur au hasard. */
+  const TEINTE_DEFAUT = '#2F6DFF';        // le bleu de scène — la nuit SYFIR
+  const teinteOf = ev => (ev && typeof ev.teinte === 'string' && /^#[0-9a-f]{6}$/i.test(ev.teinte))
+    ? ev.teinte : TEINTE_DEFAUT;
+  // rgb « r, g, b » pour les rgba() du CSS, sans dépendance
+  const teinteRGB = hex => {
+    const h = String(hex).replace('#', '');
+    return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)).join(', ');
+  };
 
   // Badge d'ACTION (modèle page événements Red Bull) : le badge dit TOUJOURS
   // l'action possible pour le visiteur. Rareté honnête d'abord (pilotée par le
@@ -272,5 +384,5 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
+  window.SYFIR = { TIERS_DEFAULT, MONTHS, baseEvents, typeLabel, demoTicketText, TEINTE_DEFAUT, teinteOf, teinteRGB, euro, fmtTime, priceRange, mapsUrl, getProEvents, getAllEvents, getEvent, countdownText, downloadICS, escapeHtml, stockLabel, ageLabel };
 })();

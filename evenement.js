@@ -33,6 +33,18 @@
     return;
   }
 
+  /* ===== LA TEINTE DE L'ÉVÉNEMENT =====
+     Deux variables posées sur <html>, et rien d'autre. Tout ce que le CSS
+     en fait est ATMOSPHÉRIQUE — halos, lueurs, liserés, ombres colorées —
+     jamais un fond sous du texte. La règle est tenue par le CSS, pas par
+     ce fichier : ici on ne fait que déclarer la couleur, et l'attribut
+     `data-teinte` permet de la reconnaître dans une capture ou un test.
+     Le repli est dans events-data.js : `teinteOf` ne rend jamais rien. */
+  const teinte = S.teinteOf(ev);
+  document.documentElement.style.setProperty('--ev-teinte', teinte);
+  document.documentElement.style.setProperty('--ev-teinte-rgb', S.teinteRGB(teinte));
+  document.documentElement.setAttribute('data-teinte', teinte);
+
   const d = new Date(ev.date + 'T12:00:00');
   const dateLong = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   // Événement passé : la date de fin de journée est révolue -> état « terminé »
@@ -41,7 +53,7 @@
   // WebP local là où il est garanti (images/ext, images/produits) — cf. R25
   const webpOf = src => /\/(ext|produits)\/[^"']+\.jpe?g$/i.test(src) ? src.replace(/\.jpe?g$/i, '.webp') : null;
   const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
-  const tag = ev.prive ? '🔒 Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
+  const tag = ev.prive ? 'Soirée privée' : (S.typeLabel[ev.type] || 'Événement');
   const genresHtml = (ev.genres || []).slice(0, 3).map(g => `<span class="event-genre">${esc(g)}</span>`).join('');
   const shareText = `${ev.name} · ${dateLong}${ev.time ? ' · ' + S.fmtTime(ev.time) : ''} · ${loc}`;
 
@@ -66,12 +78,20 @@
 
   // --- SEO & aperçus sociaux ---
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+  /* Une og:image RELATIVE ne s'affiche pas : la spec Open Graph exige une
+     URL absolue, et les robots de WhatsApp, Facebook et LinkedIn ne
+     résolvent pas un chemin. Le HTML porte désormais des valeurs absolues
+     par défaut ; le JS écrasait ces valeurs avec le chemin relatif de
+     l'événement — il aurait donc RECASSÉ ce que le HTML venait de réparer,
+     et précisément sur la page la plus partagée du site. */
+  const CANON = 'https://rododo97141.github.io/boutique-syf';
+  const absolu = u => (!u || /^https?:/.test(u)) ? u : `${CANON}/${String(u).replace(/^\.?\//, '')}`;
   document.getElementById('pageTitle').textContent = `${ev.name} — SYFIR Événements`;
   setAttr('#metaDesc', 'content', shareText);
   setAttr('#ogTitle', 'content', `${ev.name} — SYFIR`);
   setAttr('#ogDesc', 'content', shareText);
-  setAttr('#ogImage', 'content', ev.img);
-  setAttr('#twImage', 'content', ev.img);
+  setAttr('#ogImage', 'content', absolu(ev.img));
+  setAttr('#twImage', 'content', absolu(ev.img));
   setAttr('#ogUrl', 'content', location.href);
 
   // --- Données structurées JSON-LD MusicEvent (schema.org) ---
@@ -85,7 +105,7 @@
     startDate: `${ev.date}T${ev.time || '20:00'}:00`,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    image: [ev.img],
+    image: [absolu(ev.img)],
     description: `${tag} SYFIR à ${ev.city}${ev.venue ? ' — ' + ev.venue : ''}. ${(ev.genres || []).join(', ')}`,
     location: { '@type': 'Place', name: ev.venue || ev.city, address: { '@type': 'PostalAddress', addressLocality: ev.city, addressCountry: 'GP' } },
     offers: { '@type': 'AggregateOffer', priceCurrency: 'EUR', lowPrice: lowP, highPrice: highP, availability: 'https://schema.org/InStock', url: location.href },
@@ -118,7 +138,8 @@
   }
 
   // --- Fil d'Ariane structuré (R39-B) : Accueil > Événements > cet événement ---
-  const CANON_BASE = 'https://rododo97141.github.io/boutique-syf';
+  // (la base canonique est déclarée plus haut sous le nom CANON)
+  const CANON_BASE = CANON;
   const crumbLd = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
@@ -150,17 +171,17 @@
         <h1 class="ed-title">${esc(ev.name)}${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</h1>
         ${ev.blurb ? `<p class="ed-blurb">${esc(ev.blurb)}</p>` : ''}
         <ul class="ed-meta">
-          <li>📅 <span class="ed-date">${dateLong}</span></li>
-          ${ev.time ? `<li>🕘 ${S.fmtTime(ev.time)}</li>` : ''}
-          <li><a href="${esc(S.mapsUrl(ev))}" target="_blank" rel="noopener">📍 ${esc(loc)} ↗</a></li>
+          <li><span class="ed-date">${dateLong}</span></li>
+          ${ev.time ? `<li>${S.fmtTime(ev.time)}</li>` : ''}
+          <li><a href="${esc(S.mapsUrl(ev))}" target="_blank" rel="noopener">${esc(loc)} ↗</a></li>
           <li class="ed-countdown" data-countdown="${ev.date}T${ev.time || '20:00'}:00" hidden></li>
         </ul>
         ${genresHtml ? `<div class="event-genres ed-genres">${genresHtml}</div>` : ''}
         <p class="ed-organizer">Organisé par <strong>${esc(ev.organizer)}</strong>${ev.demo ? ' <span class="badge-demo">Exemple</span>' : ''}</p>
         <div class="ed-share">
-          <button class="btn btn-solid btn-sm" id="edShare">🔗 Partager</button>
+          <button class="btn btn-solid btn-sm" id="edShare">Partager</button>
           <a class="btn btn-ghost btn-sm" id="edWhatsapp" target="_blank" rel="noopener">Partager sur WhatsApp</a>
-          <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">📅 Ajouter au calendrier</button>
+          <button class="btn btn-ghost btn-sm" id="edCalendar" type="button">Ajouter au calendrier</button>
         </div>
         <p class="ed-share-note">Fais tourner — les meilleurs plans se partagent.</p>
       </div>
@@ -175,7 +196,7 @@
       <aside class="ed-tickets">
         <h2 class="ed-tickets-title">Billets</h2>
         <div class="private-gate" id="edGate" hidden>
-          <p>🔒 Événement privé. Entre ton code d'accès :</p>
+          <p>Événement privé. Entre ton code d'accès :</p>
           <div class="gate-row">
             <input type="text" id="edGateCode" placeholder="CODE D'ACCÈS">
             <button class="btn btn-solid btn-sm" id="edGateBtn">Valider</button>
@@ -204,7 +225,7 @@
           <p class="form-success" id="edWaitOk" hidden></p>
         </div>` : ''; })()}
         <p class="form-success" id="edSuccess" hidden></p>
-        <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>📅 Ajouter au calendrier</button>
+        <button class="btn btn-ghost btn-full" id="edCalAfter" type="button" hidden>Ajouter au calendrier</button>
       </aside>`}
     </div>
     ${lineupHtml}`;
@@ -265,12 +286,17 @@
     let user = null; try { user = JSON.parse(localStorage.getItem('syfir-user')); } catch (err) { user = null; }
     const prenom = ((user && user.name) || '').trim().split(/\s+/)[0] || '';
     const count = tierQty.reduce((s2, q) => s2 + q, 0);
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie.`;
+    /* E/1 — la même phrase que la modale de la billetterie, tirée de la
+       même source (`S.demoTicketText`, events-data.js). Le billet créé ici
+       est un vrai billet : il a son numéro, son QR, il est dans Mon espace
+       et il se consulte hors ligne. Ce qu'il n'est pas se dit dans la
+       phrase même qui annonce sa création, pas en petit à côté. */
+    ok.textContent = `C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace, sur la billetterie. ${S.demoTicketText}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     if (S.ticketPeakHTML) ok.insertAdjacentHTML('afterend', S.ticketPeakHTML({ num, event: ev.name, date: ev.date }));
     $('#edCalAfter').hidden = false;
-    toast('🎉 C\'est dans la poche !');
+    toast('C\'est dans la poche !');
   });
 
   /* ===== R95 — LISTE D'ATTENTE (événement complet) =====
@@ -326,7 +352,7 @@
 
   $('#edGateBtn').addEventListener('click', () => {
     const code = $('#edGateCode').value.trim().toUpperCase();
-    if (code && code === (ev.code || '').toUpperCase()) { showTickets(true); toast('🔓 Accès débloqué !'); }
+    if (code && code === (ev.code || '').toUpperCase()) { showTickets(true); toast('Accès débloqué !'); }
     else $('#edGateError').textContent = 'Code invalide. Vérifie ton invitation.';
   });
 
@@ -340,7 +366,7 @@
     if (navigator.share) {
       try { await navigator.share(data); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
-      try { await navigator.clipboard.writeText(location.href); toast('🔗 Lien copié dans le presse-papier !'); }
+      try { await navigator.clipboard.writeText(location.href); toast('Lien copié dans le presse-papier !'); }
       catch (e) { toast('Copie le lien depuis la barre d\'adresse.'); }
     } else {
       toast('Copie le lien depuis la barre d\'adresse.');

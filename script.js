@@ -63,39 +63,112 @@
     set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
   };
 
-  /* ===== 01b. ENDPOINT DES FORMULAIRES (newsletter + partenaire) =====
-     Vide = mode démo : transmission désactivée, AUCUN envoi réseau, AUCUN
-     stockage local automatique des données saisies (R80.1 final). Les
-     valeurs restent uniquement dans les champs du formulaire, le temps de
-     la session — rien n'est écrit dans localStorage.
-     Pour brancher un vrai envoi, renseigner FORM_ENDPOINT :
-       • Formspree (le plus simple, zéro backend) :
-           'https://formspree.io/f/xxxxxxxx'  (crée le form sur formspree.io)
-       • Brevo / Mailchimp / autre : une URL qui accepte un POST JSON.
-     Anti-spam : chaque formulaire porte un honeypot (champ caché `_gotcha`),
-     invisible pour l'humain ; s'il est rempli, c'est un bot → on ignore. */
-  const FORM_ENDPOINT = '';
-  // Message VRAI tant que FORM_ENDPOINT est vide : ne jamais laisser croire
-  // qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1 final —
-  // plus de sauvegarde locale automatique, les champs gardent juste la saisie).
+  /* ===== 01b. ENDPOINT DES FORMULAIRES ===== LOT E/2
+     ------------------------------------------------------------------
+     ACTIVÉ. Autorisation explicite du fondateur, levée de liste rouge
+     limitée À CE SEUL POINT. Le compte prestataire a été créé par lui,
+     pas par une session : aucune inscription chez un tiers n'est faite
+     depuis ce dépôt, et cette règle-là n'a pas bougé.
+
+     Prestataire : WEB3FORMS. Retenu contre Formspree parce qu'il ne
+     demande qu'une adresse mail — Formspree exige la création d'un
+     compte, que ni le fondateur ni le superviseur ne feront.
+     Le contrat de l'API : POST JSON sur https://api.web3forms.com/submit
+     avec `access_key` DANS LE CORPS.
+
+     ⚠ LA CLÉ N'EST PAS UN SECRET, et il faut le dire pour que personne
+     ne « corrige » ça plus tard : Web3Forms la documente comme publique
+     (« This is a public key. You can use it in client side code. »).
+     Elle est même une PROTECTION : elle sert d'alias, l'adresse de
+     destination réelle n'apparaît nulle part dans les sources du site.
+     La sortir vers un fichier de configuration n'ajouterait aucune
+     sécurité et ajouterait une étape de build — liste rouge.
+
+     Compatibilité Formspree conservée, et elle ne coûte rien : une URL
+     `https://formspree.io/f/xxxxxxxx` fonctionne telle quelle, le champ
+     `access_key` surnuméraire étant simplement ignoré par Formspree.
+
+     Anti-spam : chaque formulaire porte un honeypot (champ caché
+     `_gotcha`), invisible pour l'humain ; s'il est rempli, c'est un bot
+     → on abandonne EN SILENCE, sans requête réseau, et le bot croit
+     avoir réussi. Le champ n'est jamais transmis au prestataire. */
+  const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+  const FORM_ACCESS_KEY = '35807543-abbf-4253-a494-b5b730d90942';   // ← LA LIGNE DE LA CLÉ
+
+  /* QUELS FORMULAIRES TRANSMETTENT — et pourquoi la newsletter n'est pas
+     de la liste. « Brancher la newsletter » est un point de liste rouge
+     DISTINCT, et il n'a pas été levé : une inscription newsletter est un
+     consentement commercial qui appelle son propre traitement (registre,
+     désinscription, double opt-in), pas un simple message. Elle reste
+     donc en mode démo, et sa note « démo » reste affichée — ce qui est
+     la vérité pour elle. Le jour où le fondateur la lève, il suffit
+     d'ajouter 'newsletter' ici. */
+  const FORM_SOURCES_ACTIVES = ['partenaire'];
+  const formTransmet = source => !!FORM_ENDPOINT && FORM_SOURCES_ACTIVES.includes(source);
+
+  // Message VRAI pour un formulaire qui ne transmet pas : ne jamais laisser
+  // croire qu'une donnée a été transmise OU stockée (R29-1, durci en R80.1
+  // final — plus de sauvegarde locale automatique, les champs gardent juste
+  // la saisie).
   const DEMO_FORM_MSG = 'L\'envoi en ligne n\'est pas encore actif. Tes informations restent dans ce formulaire, sur cet écran — rien n\'est enregistré ni transmis.';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
   const submitForm = async data => {
     if (data._gotcha) return { ok: true, bot: true };        // honeypot → abandon silencieux
-    if (!FORM_ENDPOINT) return { ok: false, demo: true };     // mode démo : transmission désactivée, aucun stockage
+    if (!formTransmet(data.source)) return { ok: false, demo: true };
+    /* Le honeypot ne quitte jamais le navigateur : il a fait son travail
+       ci-dessus, et l'envoyer ne ferait que salir le message reçu. */
+    const { _gotcha, ...champs } = data;
+    const corps = { access_key: FORM_ACCESS_KEY, ...champs };
     try {
       const r = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(corps)
       });
-      return { ok: r.ok };
-    } catch { return { ok: false }; }
+      /* ⚠ `r.ok` SEUL MENTIRAIT. Web3Forms répond en JSON `{success:…}` et
+         peut rendre un 200 avec `success:false` (clé invalide, message
+         classé spam, quota). Un formulaire qui affiche « merci » alors que
+         rien n'est parti est pire que le mode démo : il ment au visiteur
+         ET au destinataire. On lit donc le corps, et on ne conclut au
+         succès que si les DEUX concordent. */
+      let corpsRep = null;
+      try { corpsRep = await r.clone().json(); } catch (e) { corpsRep = null; }
+      const ok = r.ok && (!corpsRep || corpsRep.success !== false);
+      return { ok, statut: r.status, motif: ok ? '' : String((corpsRep && corpsRep.message) || '') };
+    } catch (e) {
+      /* ⚠ UN `fetch` QUI LÈVE NE DIT PAS POURQUOI. Hors ligne, DNS, CORS,
+         blocage d'extension : le navigateur rend la même erreur opaque, par
+         conception. Conclure « connexion indisponible » est FAUX dans le
+         cas le plus probable ici, et c'est un message menteur au pire
+         moment.
+
+         DEUX FAITS ÉTABLIS, qui changent le diagnostic :
+         · Web3Forms REFUSE tout appel hors navigateur, quel que soit
+           l'Origin (« This method is not allowed. Use our API in client
+           side… »). Aucun harnais ne pourra jamais tester cet envoi : ce
+           n'est pas un problème de réseau, c'est une règle du service.
+         · Une page ouverte en `file://` envoie `Origin: null`, que le
+           service refuse — c'est ce que fait quelqu'un qui double-clique
+           le fichier HTML. L'envoi RÉEL est prouvé depuis un vrai
+           navigateur sur une page servie : HTTP 200, mails reçus.
+
+         On ne DEVINE donc pas la cause : on relève ce qu'on SAIT. */
+      return {
+        ok: false,
+        reseau: navigator.onLine === false,
+        local: location.protocol === 'file:'
+      };
+    }
   };
-  // Bandeau discret « démo — transmission bientôt active » près d'un bouton
-  // d'envoi, uniquement tant qu'aucun endpoint réel n'est branché.
-  const addDemoNote = btn => {
-    if (FORM_ENDPOINT || !btn || btn.parentNode?.querySelector('.form-demo-note')) return;
+
+  /* Bandeau discret « démo — transmission bientôt active » près d'un bouton
+     d'envoi — uniquement pour un formulaire qui ne transmet PAS. Il
+     disparaît de lui-même dès que sa source entre dans
+     FORM_SOURCES_ACTIVES : aucune note à retirer à la main, donc aucune
+     note oubliée qui mentirait dans l'autre sens. */
+  const addDemoNote = (btn, source) => {
+    if (formTransmet(source) || !btn || btn.parentNode?.querySelector('.form-demo-note')) return;
     const note = document.createElement('span');
     note.className = 'form-demo-note';
     note.textContent = 'démo — transmission bientôt active';
@@ -168,13 +241,13 @@
 
     const mega = document.createElement('div');
     mega.className = 'mega'; mega.id = 'megaMenu'; mega.hidden = true;
-    mega.setAttribute('role', 'dialog'); mega.setAttribute('aria-modal', 'true'); mega.setAttribute('aria-label', 'Menu SYFIR');
+    mega.setAttribute('role', 'dialog'); mega.setAttribute('aria-modal', 'true'); mega.setAttribute('aria-label', 'Rechercher et naviguer dans SYFIR');
     mega.innerHTML =
       `<div class="mega-top">
-        <a class="mega-logo" href="index.html#accueil">SYFIR<span>™</span></a>
+        <a class="mega-logo" href="index.html#accueil">SYFIR</a>
         <div class="mega-search">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-          <input type="search" id="megaSearch" placeholder="Explore l'univers SYFIR" aria-label="Rechercher dans l'univers SYFIR" autocomplete="off">
+          <input type="search" id="megaSearch" placeholder="Chercher une soirée, un artiste, une page…" aria-label="Rechercher dans l'univers SYFIR" autocomplete="off">
         </div>
         <button class="mega-close" id="megaClose" type="button" aria-label="Fermer le menu">✕</button>
       </div>
@@ -184,13 +257,18 @@
           <!-- R82.1c : les 6 catégories validées de l'écosystème — ce que
                chaque partenaire APPORTE aux expériences SYFIR. -->
           <div class="mega-side-group">
-            <a class="mega-side-head" href="partenaires.html">L'Écosystème</a>
-            <a href="partenaires.html#eco-lieux">Lieux</a>
-            <a href="partenaires.html#eco-artistes">Artistes et talents</a>
-            <a href="partenaires.html#eco-marques">Marques partenaires</a>
-            <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
-            <a href="partenaires.html#eco-prestataires">Prestataires</a>
-            <a href="partenaires.html#eco-medias">Médias et communautés</a>
+            <button class="mega-side-head" type="button" aria-expanded="false" aria-controls="grp-eco">
+              L'Écosystème<span class="mega-chev" aria-hidden="true"></span>
+            </button>
+            <div class="mega-side-sub" id="grp-eco" hidden>
+              <a href="partenaires.html">Vue d'ensemble</a>
+              <a href="partenaires.html#eco-lieux">Lieux</a>
+              <a href="partenaires.html#eco-artistes">Artistes et talents</a>
+              <a href="partenaires.html#eco-marques">Marques partenaires</a>
+              <a href="partenaires.html#eco-organisateurs">Organisateurs</a>
+              <a href="partenaires.html#eco-prestataires">Prestataires</a>
+              <a href="partenaires.html#eco-medias">Médias et communautés</a>
+            </div>
           </div>
           <a href="evenements.html">Événements</a>
           <a href="index.html#artistes">Artistes</a>
@@ -198,10 +276,14 @@
           <a href="partenaires.html">Devenir partenaire</a>
           <a href="espace-pro.html">Espace pro</a>
           <div class="mega-side-group">
-            <span class="mega-side-head">La Maison</span>
-            <a href="partenaires.html#investisseurs">Investisseurs</a>
-            <a href="partenaires.html#partnerForm">Nous rejoindre</a>
-            <a href="partenaires.html#partnerForm">Contact</a>
+            <button class="mega-side-head" type="button" aria-expanded="false" aria-controls="grp-maison">
+              La Maison<span class="mega-chev" aria-hidden="true"></span>
+            </button>
+            <div class="mega-side-sub" id="grp-maison" hidden>
+              <a href="partenaires.html#investisseurs">Investisseurs</a>
+              <a href="partenaires.html#partnerForm">Nous rejoindre</a>
+              <a href="partenaires.html#partnerForm">Contact</a>
+            </div>
           </div>
         </div>
         <div class="mega-content">
@@ -217,6 +299,26 @@
         </div>
       </div>`;
     document.body.appendChild(mega);
+
+    /* Les sous-rubriques sont REPLIÉES au départ.
+       Avant, les six catégories de l'écosystème et les trois de La Maison
+       étaient étalées en permanence : neuf lignes de plus, sur deux
+       niveaux de hiérarchie, avant même d'avoir cherché quoi que ce soit.
+       On voit maintenant huit rubriques nettes ; on ouvre celle qu'on
+       veut. Un seul groupe ouvert à la fois — deux panneaux dépliés en
+       même temps, c'est de nouveau une liste. */
+    $$('.mega-side-head[aria-controls]', mega).forEach(tete => {
+      tete.addEventListener('click', () => {
+        const sous = mega.querySelector('#' + tete.getAttribute('aria-controls'));
+        const ouvert = tete.getAttribute('aria-expanded') === 'true';
+        $$('.mega-side-head[aria-controls]', mega).forEach(autre => {
+          autre.setAttribute('aria-expanded', 'false');
+          const s2 = mega.querySelector('#' + autre.getAttribute('aria-controls'));
+          if (s2) s2.hidden = true;
+        });
+        if (!ouvert) { tete.setAttribute('aria-expanded', 'true'); sous.hidden = false; }
+      });
+    });
 
     // R11 : le menu est display:none au chargement, donc ses images lazy ne
     // partent qu'à l'ouverture → cartes vides ~1 s. À l'« idle » (LCP passé),
@@ -242,8 +344,20 @@
       const hits = idx.filter(([t, , k]) => (t + ' ' + k).toLowerCase().includes(q)).slice(0, 8);
       panels.hidden = true; results.hidden = false;
       results.innerHTML = hits.length
-        ? hits.map(([t, u]) => `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong></a>`).join('')
-        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} » — essaie « planteur », « festival », « SYFIR TV »…</p>`;
+        ? hits.map(([t, u, k]) => {
+            // Un résultat qui ne dit que son titre oblige à cliquer pour savoir
+            // où il mène. On affiche la destination en clair.
+            const ou = u.startsWith('evenement.html') ? 'Événement'
+                     : u.startsWith('evenements')     ? 'Billetterie'
+                     : u.startsWith('artiste')        ? 'Artistes'
+                     : u.startsWith('syf-tv')         ? 'SYFIR TV'
+                     : u.startsWith('espace-pro')     ? 'Espace pro'
+                     : u.startsWith('faq')            ? 'Aide'
+                     : u.startsWith('partenaire')     ? 'Écosystème'
+                     : 'Le site';
+            return `<a class="mega-result" href="${u}"><strong>${esc(t)}</strong><small>${ou}</small></a>`;
+          }).join('')
+        : `<p class="mega-result-empty">Rien pour « ${esc(search.value.trim())} ».<br>Essaie « rooftop », « carnaval », « partenaire » ou « billets ».</p>`;
     };
     search.addEventListener('input', doSearch);
 
@@ -257,8 +371,7 @@
       search.value = ''; doSearch();
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
-    // R17 : le burger ouvre désormais le menu mobile de navigation (#mobileNav,
-    // cf. initMobileNav) ; l'icône loupe garde le méga-menu « Recherche ».
+    // La loupe est la porte UNIQUE : recherche et navigation au même endroit.
     $('#searchBtn')?.addEventListener('click', () => open(true));
     $('#megaClose', mega).addEventListener('click', close);
     $$('a', mega).forEach(a => a.addEventListener('click', close));
@@ -287,23 +400,14 @@
     });
   });
 
-  // R17 : le menu mobile plein écran (#mobileNav) était orphelin — le burger
-  // ouvrait le méga-menu « Recherche » et personne n'ouvrait ce menu de nav.
-  // On le rebranche : burger -> #mobileNav ; Échap / lien / croix ferment.
-  (function initMobileNav() {
-    const menu = document.getElementById('mobileNav');
-    const burger = document.getElementById('burgerBtn');
-    if (!menu || !burger) return;
-    const close = () => { menu.classList.remove('open'); document.body.style.overflow = ''; burger.setAttribute('aria-expanded', 'false'); };
-    const open = () => { menu.classList.add('open'); document.body.style.overflow = 'hidden'; burger.setAttribute('aria-expanded', 'true'); const f = menu.querySelector('a, button:not(.mobile-close)'); if (f) f.focus(); };
-    burger.setAttribute('aria-expanded', 'false');
-    burger.setAttribute('aria-haspopup', 'true');
-    burger.addEventListener('click', () => menu.classList.contains('open') ? close() : open());
-    menu.querySelector('#closeNav')?.addEventListener('click', close);
-    $$('a', menu).forEach(a => a.addEventListener('click', close));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { close(); burger.focus(); } });
-    window.__syfirCloseMobileNav = close;
-  })();
+  /* LE MENU MOBILE A ÉTÉ RETIRÉ — décision de Kily.
+     Le burger ouvrait un second menu, plus pauvre que le panneau de
+     recherche qui contient déjà toute la navigation (les six rubriques
+     de l'écosystème, La Maison, l'espace pro). Deux menus pour un
+     site, c'est un menu de trop : on gardait celui qui sait tout faire.
+     Le code de `initMobileNav` est supprimé, pas neutralisé : un bloc
+     qui s'auto-désactive derrière un `if (!menu) return` finit toujours
+     par faire croire qu'une fonction existe encore. */
 
   // Smooth scroll avec décalage de navbar (ancres internes)
   $$('a[href^="#"]').forEach(a => {
@@ -444,7 +548,7 @@
     if (navigator.share) {
       try { await navigator.share({ title, text, url }); } catch (e) { /* partage annulé */ }
     } else if (navigator.clipboard) {
-      try { await navigator.clipboard.writeText(url); showToast('🔗 Lien copié'); }
+      try { await navigator.clipboard.writeText(url); showToast('Lien copié'); }
       catch (e) { showToast('Copie le lien depuis la barre d\'adresse.'); }
     } else {
       showToast('Copie le lien depuis la barre d\'adresse.');
@@ -927,13 +1031,13 @@
         : (videoInline
           ? `<div class="car-slide car-slide-video car-video-live" role="group" aria-roledescription="diapositive">
                <video muted loop autoplay playsinline preload="metadata" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
-               <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false">🔇</button>
+               <button class="car-sound" type="button" aria-label="Activer le son" aria-pressed="false"></button>
              </div>`
           : `<div class="car-slide car-slide-video" role="group" aria-roledescription="diapositive">
                <video controls preload="none" aria-label="Vidéo de ${esc(name)}">${videoSources}</video>
              </div>`))
       : `<div class="car-slide car-slide-video car-video-soon" role="group" aria-roledescription="diapositive">
-           <span class="car-soon-ic" aria-hidden="true">🎬</span>
+           <span class="car-soon-ic" aria-hidden="true"></span>
            <p>Vidéo bientôt disponible</p>
          </div>`;
 
@@ -1029,7 +1133,7 @@
       e.stopPropagation();
       const v = soundBtn.parentElement.querySelector('video');
       v.muted = !v.muted;
-      soundBtn.textContent = v.muted ? '🔇' : '🔊';
+      soundBtn.textContent = v.muted ? '' : '';
       soundBtn.setAttribute('aria-label', v.muted ? 'Activer le son' : 'Couper le son');
       soundBtn.setAttribute('aria-pressed', String(!v.muted));
       if (v.paused) v.play().catch(() => {});   // certains environnements n'ont pas le codec
@@ -1310,7 +1414,7 @@ if (placeModal && placesGridEl) {
 
   const partnerForm = $('#partnerForm');
   if (partnerForm) {
-    addDemoNote(partnerForm.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
+    addDemoNote(partnerForm.querySelector('button[type="submit"]'), 'partenaire');   // (R29-1) — s'efface seul depuis E/2
     // Le champ contextuel s'adapte au type de demande choisi
     const contextConfig = {
       partenaire:   { label: 'Nom de l\'établissement *',      placeholder: 'Le nom de ton lieu' },
@@ -1374,9 +1478,19 @@ if (placeModal && placesGridEl) {
       }
       const success = $('#formSuccess'), errorMsg = $('#formError');
       const submitBtn = partnerForm.querySelector('button[type="submit"]');
+      const type = $('input[name="requestType"]:checked', partnerForm)?.value;
       const data = {
         _gotcha: $('input[name="_gotcha"]', partnerForm)?.value || '',
-        type: $('input[name="requestType"]:checked', partnerForm)?.value,
+        /* `subject`, `from_name` et `replyto` sont les trois champs que
+           Web3Forms sait interpréter pour composer le mail : sans eux
+           l'objet est générique et « Répondre » ne renvoie nulle part.
+           Formspree lit `_replyto` — les deux coexistent sans conflit,
+           chacun ignorant le champ de l'autre. */
+        subject: `SYFIR — demande « ${type || 'autre'} » depuis le site`,
+        from_name: 'Formulaire du site SYFIR',
+        replyto: $('#pfEmail').value.trim(),
+        _replyto: $('#pfEmail').value.trim(),
+        type,
         name: $('#pfName').value.trim(), email: $('#pfEmail').value.trim(),
         phone: $('#pfPhone').value.trim(), context: $('#pfContext').value.trim(),
         message: $('#pfMessage').value.trim(), source: 'partenaire',
@@ -1397,13 +1511,36 @@ if (placeModal && placesGridEl) {
       } else if (res.ok) {
         partnerForm.reset();
         $$('.invalid', partnerForm).forEach(el => el.classList.remove('invalid'));
-        success.textContent = '✦ Merci ! Ta demande a bien été envoyée. L\'équipe SYFIR te répond sous 48 h.';
-        showToast('✦ Demande envoyée à l\'équipe SYFIR !');
+        /* Ce qui est promis ici est ce qui est vérifiable : le message est
+           PARTI et le prestataire l'a accepté. Aucun délai de réponse n'est
+           annoncé — « sous 48 h » était un engagement que personne ne tient
+           dans le contrat, et rien ne le mesure. */
+        success.textContent = '✦ Message envoyé. L\'équipe SYFIR l\'a reçu et te répondra à l\'adresse que tu as indiquée.';
+        showToast('✦ Message envoyé à l\'équipe SYFIR !');
         success.hidden = false;
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else if (errorMsg) {
+        /* ÉCHEC — et il se dit. Le formulaire n'est PAS réinitialisé : la
+           saisie reste à l'écran, sinon « réessaie » demanderait de tout
+           retaper. Deux causes distinctes, deux phrases distinctes : un
+           visiteur hors ligne n'a pas le même geste à faire qu'un visiteur
+           dont l'envoi a été refusé. */
+        errorMsg.textContent =
+          res.local
+            /* Le cas le plus probable quand quelqu'un double-clique le
+               fichier : `file://` envoie `Origin: null`, refusé. On le dit,
+               avec le geste qui répare — c'est la seule des trois causes
+               sur laquelle le visiteur peut agir. */
+            ? 'L\'envoi n\'est pas parti. Cette page est ouverte depuis un fichier local : le service de messagerie refuse les envois qui ne viennent pas d\'une vraie adresse web. Ton message est toujours là — ouvre le site depuis son adresse (http:// ou https://) et renvoie-le.'
+          : res.reseau
+            ? 'L\'envoi n\'a pas pu partir — connexion indisponible. Ton message est toujours là : vérifie ta connexion et renvoie-le.'
+            : 'L\'envoi n\'est pas parti et n\'a pas abouti. Ton message est toujours là : réessaie dans un instant.';
         errorMsg.hidden = false;
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        /* PAS de toast ici. Vu sur la capture : le toast est ancré en bas
+           d'écran et recouvrait la fin de la phrase d'échec — deux messages
+           qui se marchent dessus, dont celui qui compte. La bannière porte
+           déjà `role="alert"` et vient d'elle-même sous les yeux. */
       }
     });
 
@@ -1512,13 +1649,24 @@ if (placeModal && placesGridEl) {
     });
   }
 
-  /* ===== 21. PWA : enregistrement du service worker =====
-     network-first sur le HTML, cache-first sur les assets (sw.js).
-     Échec silencieux (file://, vieux navigateurs, previews restrictives). */
+  /* ===== 21. LE SERVICE WORKER EST DÉSINSTALLÉ =====
+     Il gardait une copie complète du site et la resservait à la place
+     des fichiers réels. Trois fois dans la même journée, Kily et moi
+     avons regardé une version périmée en croyant voir la dernière —
+     une fois vingt minutes durant. En présentation, ce serait montrer
+     un site d'il y a deux jours sans le savoir.
+     Un cache hors ligne n'apporte rien à un site servi depuis le Mac
+     qui fait la présentation. On ne l'enregistre plus, ET on
+     désinscrit celui qui traîne déjà dans le navigateur : sans ça, il
+     survit indéfiniment à sa propre suppression du code.
+     À rétablir le jour d'une vraie mise en ligne, et pas avant. */
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    }, { once: true });
+    navigator.serviceWorker.getRegistrations()
+      .then(rs => rs.forEach(r => r.unregister()))
+      .catch(() => {});
+    if (window.caches && caches.keys) {
+      caches.keys().then(ks => ks.forEach(k => caches.delete(k))).catch(() => {});
+    }
   }
 
   /* ===== 21b. R38-1 : onde « goutte » au point de clic des CTA principaux =====
@@ -1697,18 +1845,57 @@ if (placeModal && placesGridEl) {
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb} ${vb}" shape-rendering="crispEdges"><rect width="${vb}" height="${vb}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
   };
 
+  /* ===== 22 bis. LA MENTION « DÉMONSTRATION » — LOT E/1 =====
+     ------------------------------------------------------------------
+     RÈGLE ABSOLUE du lot : le parcours de réservation va jusqu'au bout —
+     choix du billet, confirmation, vrai billet avec son QR dans le profil,
+     consultable hors ligne — mais AUCUN paiement n'existe. Un billet qui
+     ne dit pas ce qu'il est laisserait croire à une entrée achetée.
+
+     TROIS CHOIX QUI RENDENT LA MENTION INDÉLÉBILE, et chacun se justifie :
+
+     1. Elle est INCONDITIONNELLE. Elle ne dépend ni de `ev.demo`, ni d'un
+        champ enregistré sur le billet, ni d'un réglage. Le parcours entier
+        est une démonstration, pas seulement les dates d'exemple : un
+        billet pris sur un événement créé depuis l'espace pro n'encaisse
+        pas davantage. Aucune donnée manquante ne peut donc l'effacer.
+     2. Elle est POSÉE AU RENDU, pas à l'écriture. Les billets déjà dans
+        le localStorage d'un visiteur — pris avant ce lot — la portent
+        aussi, dès le prochain affichage. Une mention écrite dans la donnée
+        aurait laissé les anciens billets nus.
+     3. Elle est DANS LE QR. Le code encode `SYFIR|DEMO|…` : même sorti de
+        la page, scanné par un contrôle à l'entrée, le billet se déclare.
+        C'est le seul endroit où la mention survit à la capture d'écran.
+
+     Le libellé dit les deux choses qui comptent, et rien de plus :
+     aucun paiement n'a eu lieu, et le billet ne donne pas accès. */
+  const DEMO_TICKET = window.SYFIR.demoTicketText;
+  const demoStamp = () =>
+    `<span class="ticket-demo" role="note"><span class="ticket-demo-badge">Démonstration</span><span class="ticket-demo-text">${DEMO_TICKET}</span></span>`;
+  // Charge utile du QR : le marqueur DEMO vient en deuxième position, juste
+  // après la marque, pour qu'il soit lu même par un scanner qui tronque.
+  const qrPayload = (num, event, date) => `SYFIR|DEMO|${num || ''}|${event}|${date}`;
+  /* L'encodeur est exposé au même titre que `escapeHtml` ou `downloadICS` :
+     c'est un utilitaire du module partagé, pas un crochet de test. Il rend
+     le QR AUDITABLE — sans lui, personne ne peut vérifier de l'extérieur
+     quelle chaîne un code peint encode réellement, et « le QR dit DEMO »
+     resterait une affirmation invérifiable. */
+  window.SYFIR.makeQR = makeQR;
+
   // Pic émotionnel (R3) — la confirmation d'achat devient LE moment signature :
   // onde or/sunset, le billet QR comme objet précieux, la signature « À très
   // vite. — SYFIR ». Partagé par la billetterie et la fiche événement.
   const ticketPeakHTML = ({ num, event, date }) => {
-    const qr = makeQR(`SYFIR|${num || ''}|${event}|${date}`);
+    const qr = makeQR(qrPayload(num, event, date));
     return `
-      <div class="ticket-peak" role="group" aria-label="Billet confirmé">
+      <div class="ticket-peak" role="group" aria-label="Billet de démonstration confirmé">
         <span class="ticket-peak-splash" aria-hidden="true"></span>
         <div class="ticket-peak-card">
-          ${qr ? `<span class="qr-code" role="img" aria-label="QR code du billet ${esc(num || '')}">${qr}</span>` : ''}
+          <span class="ticket-demo-badge ticket-demo-badge-peak">Démonstration</span>
+          ${qr ? `<span class="qr-code" role="img" aria-label="QR code du billet de démonstration ${esc(num || '')}">${qr}</span>` : ''}
           <p class="ticket-peak-num">N° ${esc(num || '')}</p>
         </div>
+        <p class="ticket-peak-demo">${DEMO_TICKET}</p>
         <p class="ticket-peak-sign">À très vite.<span>— SYFIR</span></p>
       </div>`;
   };
@@ -1716,7 +1903,7 @@ if (placeModal && placesGridEl) {
 
   /* ===== 23. NEWSLETTER (footer + inline, toutes pages) ===== */
   $$('.footer-news').forEach(form => {
-    addDemoNote(form.querySelector('button[type="submit"]'));   // bandeau démo (R29-1)
+    addDemoNote(form.querySelector('button[type="submit"]'), 'newsletter');   // reste affiché : la newsletter ne transmet pas (E/2)
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const input = form.querySelector('input[type="email"]');
@@ -1835,11 +2022,33 @@ if (placeModal && placesGridEl) {
   /* ===== 27. FAVORIS + MODALES GÉNÉRIQUES (toutes pages) ===== */
   /* Favoris : exploration à coût zéro — un cœur par carte, conservé en
      localStorage. Pas de compteur, pas d'artifice : juste une liste à soi. */
+  /* ===== E/3 — LES IDENTIFIANTS NE SONT PLUS DES NOMBRES =====
+     R99 a donné aux événements des identifiants TEXTE (`demo-rooftop-1`).
+     Le code de la billetterie, lui, les relisait encore avec `+…`, hérité
+     de l'époque où ils étaient numériques. `+'demo-rooftop-1'` vaut NaN,
+     et NaN n'est égal à rien — pas même à lui-même.
+
+     Deux commandes en sont mortes sans que rien ne le signale :
+       · le bouton « Billets » de la billetterie levait une TypeError et
+         la modale ne s'ouvrait JAMAIS (l'action principale de la page) ;
+       · le cœur ♥ enregistrait NaN, qui devient `null` une fois passé par
+         JSON : le favori était écrit et ne se retrouvait plus.
+
+     Trouvé au CLIC, pas à la lecture — `muets.mjs` les avait rangés en
+     « candidats servis par un écouteur délégué », ce qui était vrai et ne
+     disait rien de ce qui se passait ensuite.
+
+     Le remède est un seul geste, appliqué partout où un identifiant
+     revient d'un attribut HTML : comparer en TEXTE. `String(a) === String(b)`
+     survit aux deux formes — les identifiants texte de R99 et les
+     identifiants numériques que l'espace pro fabrique encore avec
+     `Date.now()`. */
+  const memeId = (a, b) => String(a) === String(b);
   const getFavs = () => store.get('syfir-favs', []);
-  const isFav = id => getFavs().includes(id);
+  const isFav = id => getFavs().some(f => memeId(f, id));
   const toggleFav = id => {
     const favs = getFavs();
-    const i = favs.indexOf(id);
+    const i = favs.findIndex(f => memeId(f, id));
     if (i >= 0) favs.splice(i, 1); else favs.push(id);
     store.set('syfir-favs', favs);
     return i < 0;
@@ -1866,11 +2075,11 @@ if (placeModal && placesGridEl) {
       ? all.find(ev => ev.name === tickets[0].event && ev.date === tickets[0].date)
       : null;
     const favEvs = getFavs()
-      .map(id => all.find(ev => ev.id === id)).filter(Boolean)
+      .map(id => all.find(ev => memeId(ev.id, id))).filter(Boolean)
       .filter(upcoming).filter(ev => ev !== nextTicketEv)
       .sort((a, b) => a.date.localeCompare(b.date));
     const items = [];
-    if (nextTicketEv) items.push({ ev: nextTicketEv, tag: '🎟 Ton billet est prêt' });
+    if (nextTicketEv) items.push({ ev: nextTicketEv, tag: 'Ton billet est prêt' });
     favEvs.slice(0, 3 - items.length).forEach(ev => items.push({ ev, tag: '♥ Dans tes favoris' }));
     if (items.length) {
       forYouBox.closest('#pour-toi').hidden = false;
@@ -1881,7 +2090,7 @@ if (placeModal && placesGridEl) {
           <span class="next-date"><strong>${d.getDate()}</strong><small>${S.MONTHS[d.getMonth()]}</small></span>
           <span class="next-info">
             <strong>${esc(ev.name)}</strong>
-            <small>${tag} · 📍 ${esc(ev.city)}</small>
+            <small>${tag} · ${esc(ev.city)}</small>
           </span>
           <span class="next-arrow" aria-hidden="true">→</span>
         </a>`;
@@ -1964,16 +2173,21 @@ if (placeModal && placesGridEl) {
   const ticketRow = t => {
     // QR réel généré côté client (terrain préparé pour Wallet) :
     // payload lisible par n'importe quel scanner, zéro appel réseau.
-    const qr = makeQR(`SYFIR|${t.num || ''}|${t.event}|${t.date}`);
+    const qr = makeQR(qrPayload(t.num, t.event, t.date));
     return `
-    <div class="my-ticket">
+    <div class="my-ticket my-ticket-demo">
       <div class="my-ticket-main">
         <strong>${esc(t.event)}</strong>
+        ${demoStamp()}
         <small>${esc(t.city)} · ${new Date(t.date + 'T12:00:00').toLocaleDateString('fr-FR')} · ${esc(t.detail)}</small>
+        <!-- « Revente interdite » est CONSERVÉ tel quel. Sur un billet qui ne
+             donne accès à rien, la mention sonne étrangement — mais la retirer
+             serait supprimer du texte existant de ma propre initiative, et rien
+             ne l'impose. Signalé au superviseur plutôt que tranché ici. -->
         <small class="ticket-num">N° ${esc(t.num || '—')} · Revente interdite</small>
         <div class="ticket-actions">
-          <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">🔗 Partager</button>
-          <a class="ticket-contact" href="partenaires.html#partnerForm">✉ Contacter l'organisateur</a>
+          <button class="ticket-share" type="button" data-share-id="${esc(t.id || '')}" data-share-title="${esc(t.event)}" data-share-date="${esc(t.date || '')}" aria-label="Partager ${esc(t.event)}">Partager</button>
+          <a class="ticket-contact" href="partenaires.html#partnerForm">Contacter l'organisateur</a>
         </div>
       </div>
       ${qr
@@ -1998,7 +2212,7 @@ if (placeModal && placesGridEl) {
   const renderMyFavs = () => {
     const box = $('#myFavs');
     if (!box) return;
-    const favs = getFavs().map(id => events.find(ev => ev.id === id)).filter(Boolean);
+    const favs = getFavs().map(id => events.find(ev => memeId(ev.id, id))).filter(Boolean);
     box.innerHTML = favs.length
       ? favs.map(ev => `
         <div class="my-ticket my-fav">
@@ -2013,7 +2227,7 @@ if (placeModal && placesGridEl) {
   $('#myFavs')?.addEventListener('click', e => {
     const btn = e.target.closest('[data-unfav]');
     if (!btn) return;
-    toggleFav(+btn.dataset.unfav);
+    toggleFav(btn.dataset.unfav);
     renderMyFavs();
     renderEventsHook?.();   // resynchronise les cœurs de la grille (billetterie)
   });
@@ -2496,7 +2710,7 @@ if (placeModal && placesGridEl) {
   const favGenres = () => {
     const set = new Set();
     getFavs().forEach(id => {
-      const ev = events.find(e => e.id === id);
+      const ev = events.find(e => memeId(e.id, id));
       (ev?.genres || []).forEach(g => set.add(g.toLowerCase()));
     });
     return set;
@@ -2506,7 +2720,7 @@ if (placeModal && placesGridEl) {
   const eventCardHTML = (ev, i) => {
     const d = new Date(ev.date + 'T12:00:00');
     const loc = [ev.city, ev.venue].filter(Boolean).join(' · ');
-    const when = [fmtTime(ev.time) ? `🕘 ${fmtTime(ev.time)}` : '', `📍 ${loc}`].filter(Boolean).join(' · ');
+    const when = [fmtTime(ev.time) ? `${fmtTime(ev.time)}` : '', `${loc}`].filter(Boolean).join(' · ');
     const fav = isFav(ev.id);
     const reco = isReco(ev, favGenres());
     const stock = stockLabel(ev);
@@ -2516,7 +2730,7 @@ if (placeModal && placesGridEl) {
       <div class="event-card-media">
         ${picHTML(ev.img, `alt="${esc(ev.name)}" loading="lazy" decoding="async"`)}
         <span class="event-date"><strong>${d.getDate()}</strong><small>${MONTHS[d.getMonth()]}</small></span>
-        <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? '🔒 Privé' : typeLabel[ev.type] || 'Événement'}</span>
+        <span class="event-tag ${ev.prive ? 'tag-prive' : ''}">${ev.prive ? 'Privé' : typeLabel[ev.type] || 'Événement'}</span>
         ${stock ? `<span class="stock-badge ${stock.cls}">${stock.text}</span>` : ''}
         <button class="fav-btn ${fav ? 'on' : ''}" data-fav="${ev.id}" type="button"
                 aria-pressed="${fav}" aria-label="${fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">♥</button>
@@ -2580,16 +2794,24 @@ if (placeModal && placesGridEl) {
       ? (state.sort === 'prix' ? a.price - b.price : (a.time || '').localeCompare(b.time || ''))
       : a.date.localeCompare(b.date));
 
-    // Groupement par jour, façon Shotgun. À l'intérieur de chaque jour,
-    // les événements qui matchent les genres favoris remontent en tête
-    // (l'ordre chronologique des jours, lui, ne bouge jamais).
+    // Groupement par MOIS, pas par jour.
+    // Le groupement par jour donnait une grille de trois colonnes pour un
+    // seul événement, répétée à chaque date : deux tiers de vide, autant de
+    // fois qu'il y a de dates. La page se lisait « site vide » alors qu'elle
+    // était pleine. Le mois est la maille juste pour un agenda de soirées :
+    // il garde la lecture chronologique et remplit la rangée.
+    // La date exacte reste sur chaque carte, elle n'est perdue nulle part.
     const fg = favGenres();
     const groups = new Map();
-    list.forEach(ev => { if (!groups.has(ev.date)) groups.set(ev.date, []); groups.get(ev.date).push(ev); });
+    list.forEach(ev => {
+      const cle = ev.date.slice(0, 7);            // AAAA-MM
+      if (!groups.has(cle)) groups.set(cle, []);
+      groups.get(cle).push(ev);
+    });
     if (fg.size) groups.forEach(evs => evs.sort((a, b) => isReco(b, fg) - isReco(a, fg)));
-    eventsGrid.innerHTML = [...groups.entries()].map(([date, evs]) => {
-      const d = new Date(date + 'T12:00:00');
-      const head = d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+    eventsGrid.innerHTML = [...groups.entries()].map(([cle, evs]) => {
+      const d = new Date(cle + '-01T12:00:00');
+      const head = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
       return `<div class="day-group">
         <h3 class="day-head"><span class="day-head-label">${head}</span><span class="day-head-count">${evs.length}</span></h3>
         <div class="events-grid">${evs.map(eventCardHTML).join('')}</div>
@@ -2692,7 +2914,7 @@ if (placeModal && placesGridEl) {
     const favBtn = e.target.closest('[data-fav]');
     if (favBtn) {
       e.stopPropagation();
-      const added = toggleFav(+favBtn.dataset.fav);
+      const added = toggleFav(favBtn.dataset.fav);
       favBtn.classList.toggle('on', added);
       favBtn.setAttribute('aria-pressed', String(added));
       favBtn.setAttribute('aria-label', added ? 'Retirer des favoris' : 'Ajouter aux favoris');
@@ -2706,16 +2928,16 @@ if (placeModal && placesGridEl) {
       openEventPage(e.target.closest('.event-card'));
       return;
     }
-    currentEvent = events.find(ev => ev.id === +btn.dataset.tickets);
+    currentEvent = events.find(ev => memeId(ev.id, btn.dataset.tickets));
     tierQty = TIERS_DEFAULT.map(() => 0);
     const d = new Date(currentEvent.date + 'T12:00:00');
     $('#tmImage').src = currentEvent.img;
     $('#tmImage').alt = currentEvent.name;
-    $('#tmTag').textContent = currentEvent.prive ? '🔒 Soirée privée' : typeLabel[currentEvent.type] || 'Événement';
+    $('#tmTag').textContent = currentEvent.prive ? 'Soirée privée' : typeLabel[currentEvent.type] || 'Événement';
     $('#tmTitle').textContent = currentEvent.name;
     const when = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const loc = [currentEvent.city, currentEvent.venue].filter(Boolean).join(' · ');
-    $('#tmMeta').textContent = `📍 ${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
+    $('#tmMeta').textContent = `${loc} · ${when}${currentEvent.time ? ' · ' + fmtTime(currentEvent.time) : ''} · Organisé par ${currentEvent.organizer}`;
     // R82.1.1 : rappel de la condition d'âge AU MOMENT de la réservation
     // (déjà visible sur la carte/fiche avant ce clic) — simple rappel,
     // aucune vérification d'identité effectuée par le site.
@@ -2739,7 +2961,7 @@ if (placeModal && placesGridEl) {
     const code = $('#gateCode').value.trim().toUpperCase();
     if (code && code === (currentEvent.code || '').toUpperCase()) {
       showTicketArea(true);
-      showToast('🔓 Accès débloqué — bienvenue !');
+      showToast('Accès débloqué — bienvenue !');
     } else {
       $('#gateError').textContent = 'Code invalide. Vérifie ton invitation.';
     }
@@ -2767,7 +2989,11 @@ if (placeModal && placesGridEl) {
     $('#modalFoot').style.display = 'none';
     const ok = $('#tmSuccess');
     const prenom = firstNameOf((store.get('syfir-user', null) || {}).name);
-    ok.textContent = `🎉 C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} (${bought}) — N° ${num}. Retrouve-les dans Mon espace.`;
+    /* La confirmation NE PROMET RIEN QU'ELLE NE TIENNE. Le billet existe
+       vraiment, il est dans Mon espace, il a son QR — et il ne donne accès
+       à rien parce qu'aucun paiement n'a lieu. Les deux se disent dans la
+       même phrase, pas l'un après l'autre. (E/1) */
+    ok.textContent = `C'est dans la poche${prenom ? ', ' + prenom : ''} ! Tu as ${count} billet${count > 1 ? 's' : ''} de démonstration (${bought}) — N° ${num}. Retrouve-les dans Mon espace. ${DEMO_TICKET}`;
     ok.hidden = false;
     ok.parentNode.querySelector('.ticket-peak')?.remove();
     ok.insertAdjacentHTML('afterend', ticketPeakHTML({ num, event: currentEvent.name, date: currentEvent.date }));
@@ -2855,4 +3081,56 @@ if (placeModal && placesGridEl) {
     document.getElementById('billetterie').scrollIntoView({ behavior: 'smooth' });
   });
 
+})();
+
+/* ============================================================
+   ARRIVER À LA BONNE ANCRE, MÊME LOIN DANS LA PAGE
+   ------------------------------------------------------------
+   `scroll-behavior: smooth` est posé sur <html>. Au CHARGEMENT d'une
+   page ouverte sur une ancre (partenaires.html#partnerForm, à 5 373 px
+   du haut), le navigateur lance une animation pendant que les images
+   se chargent encore : la cible se déplace sous l'animation, qui est
+   annulée. Résultat mesuré : on reste à 62 px du haut. Plusieurs
+   boutons du site pointent sur cette ancre — « Organiser la mienne »
+   en tête d'accueil, le menu mobile, le pied de page.
+   Au chargement on saute donc SANS animation, une fois la page posée.
+   Les clics à l'intérieur d'une page gardent le défilement doux.
+============================================================ */
+(function () {
+  'use strict';
+  if (!location.hash || location.hash.length < 2) return;
+
+  const viser = () => {
+    let cible;
+    try { cible = document.querySelector(location.hash); } catch (e) { return; }
+    if (!cible) return;
+    const barre = document.querySelector('nav#nav');
+    const marge = (barre ? barre.getBoundingClientRect().height : 0) + 18;
+    const y = cible.getBoundingClientRect().top + window.scrollY - marge;
+    const avant = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, Math.max(0, y));
+    document.documentElement.style.scrollBehavior = avant || '';
+    poserLesReveals();
+  };
+
+  /* Sans ceci, l'ancre arrivait au bon endroit sur un écran NOIR.
+     Les sections portent `.reveal` (opacité 0 jusqu'à ce qu'elles entrent
+     dans l'écran). Le filet de sécurité du site s'exécute au chargement,
+     donc AVANT notre saut : la cible n'était pas encore à l'écran, elle
+     n'a jamais été révélée. Mesuré sur partenaires.html#partnerForm :
+     bonne position, opacité 0. On repasse le filet après le saut. */
+  const poserLesReveals = () => {
+    const h = window.innerHeight || document.documentElement.clientHeight;
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < h + 200 && r.bottom > -200) el.classList.add('in', 'in-done');
+    });
+  };
+
+  // Trois passages : au DOM prêt, au chargement complet, puis une fois
+  // les images paresseuses posées. Sans le troisième, une image qui
+  // arrive au-dessus de la cible décale tout ce qui suit.
+  document.addEventListener('DOMContentLoaded', viser);
+  window.addEventListener('load', () => { viser(); setTimeout(viser, 350); });
 })();

@@ -32,6 +32,37 @@ confiance dans l'économie numérique).
 | Modalités de prix, TVA, paiement, livraison/retrait, rétractation, médiateur de la consommation | cgv.html |
 | Source des visuels libres de droits utilisés (ex. Unsplash) | mentions-legales.html |
 
+## A bis. ⚠ NOUVEAU (lot E/2) — un sous-traitant reçoit désormais des données
+
+**Ce point est ouvert par le lot E/2 et il est BLOQUANT pour la publication.**
+Jusqu'ici le formulaire de contact ne transmettait rien : `FORM_ENDPOINT`
+était vide, aucune donnée personnelle ne quittait le navigateur, et la page
+de confidentialité n'avait donc rien à déclarer sur ce point. **Ce n'est
+plus vrai.** Depuis E/2, le formulaire `#partnerForm` de `partenaires.html`
+envoie ses champs à un prestataire tiers.
+
+> **Rien de ce qui suit n'est une rédaction juridique** — écrire le texte de
+> la page de confidentialité est hors du périmètre de cette session (liste
+> rouge : aucune affirmation juridique). Ce sont les **faits techniques**,
+> relevés dans le code, à remettre au juriste pour qu'il rédige.
+
+| Élément | Fait constaté dans le code |
+|---|---|
+| **Sous-traitant** | Web3Forms — `https://api.web3forms.com/submit` (`script.js`, constante `FORM_ENDPOINT`). Prestataire **hors Union européenne** : le transfert et sa base légale sont à qualifier. |
+| **Finalité** | Acheminer vers la boîte mail du fondateur une demande de contact / candidature partenaire envoyée depuis le site. |
+| **Données transmises** | nom, email, téléphone, contexte de la demande, message, type de demande, statut majeur/mineur, et — **si mineur** — nom et contact du responsable légal. Ce dernier point mérite une attention particulière : ce sont des données concernant un mineur. |
+| **Données NON transmises** | le honeypot `_gotcha` est retiré du corps avant l'envoi. Aucun stockage local des saisies. |
+| **Durée de conservation chez le sous-traitant** | **à confirmer auprès de Web3Forms** — l'ordre de grandeur communément annoncé est de 30 jours, mais ce chiffre n'a **pas** été vérifié depuis cette session : la conformité ne se fonde pas sur un ordre de grandeur. |
+| **Destinataire final** | la boîte mail déclarée par le fondateur à la création du formulaire. Elle n'apparaît **pas** dans les sources du site : la clé publique Web3Forms sert d'alias. |
+| **Ce qui manque sur le site** | `confidentialite.html` ne mentionne **ni** ce sous-traitant, **ni** cette finalité, **ni** cette durée, **ni** le transfert hors UE. La case de consentement du formulaire dit seulement « J'accepte d'être recontacté(e) par l'équipe SYFIR » — elle ne dit rien du tiers. |
+| **Registre des traitements** | à créer ou à compléter (art. 30 RGPD) pour ce traitement. |
+
+**Ce qui reste EN MODE DÉMO, et donc hors de ce point** : la newsletter
+(`.footer-news`, sur toutes les pages), le formulaire de l'espace pro
+(`#proForm`, qui ne collecte aucun contact — R80-4) et la liste d'attente
+(`#edWaitForm`, purement locale). Aucun de ces trois ne transmet quoi que
+ce soit à un tiers, et chacun l'affiche.
+
 ## B. Site AVYR (avyr-site/)
 
 | Donnée | Fichier(s) concerné(s) |
@@ -49,9 +80,26 @@ confiance dans l'économie numérique).
 
 ## C. Relation SYFIR / AVYR
 
+> ### ✅ RÉPONSE DU FONDATEUR — question tranchée
+>
+> **SYFIR et AVYR sont DEUX IDENTITÉS SÉPARÉES ET INDÉPENDANTES : deux
+> marques qui fonctionnent séparément, liées par un rapport de
+> partenariat.**
+>
+> C'est la réponse du fondateur à la question ouverte depuis des semaines,
+> enregistrée ici telle qu'elle a été donnée. **Aucun texte juridique n'est
+> rédigé dans ce dépôt** — la rédaction des mentions correspondantes
+> revient au juriste, qui part de cette réponse.
+>
+> Ce que cette réponse **détermine** et qu'il reste à faire écrire :
+> la ou les entités exploitantes, la titularité des marques, l'existence
+> et la forme du contrat de partenariat, et qui facture quoi à qui. Les
+> lignes du tableau ci-dessous restent donc ouvertes — la réponse fixe le
+> **principe**, pas encore les **actes**.
+
 | Donnée | Où c'est utilisé |
 |---|---|
-| Même structure juridique ou entités distinctes ? | mentions-legales.html (SYFIR et AVYR), cgv.html (les deux) |
+| ~~Même structure juridique ou entités distinctes ?~~ **→ RÉPONDU : entités distinctes, partenariat.** Reste à documenter juridiquement. | mentions-legales.html (SYFIR et AVYR), cgv.html (les deux) |
 | Si entités distinctes : existe-t-il un contrat de partenariat écrit ? | LEGAL-RESPONSIBILITIES.md (voir section dédiée) |
 | Licence de marque éventuelle (SYFIR utilise-t-elle le nom/logo AVYR avec autorisation, et réciproquement ?) | partenaire-avyr.html, footer des deux sites |
 | Droit d'utilisation des visuels AVYR sur le site SYFIR (photos produit utilisées sur partenaire-avyr.html, index.html) | partenaire-avyr.html, index.html |
@@ -78,3 +126,7 @@ confiance dans l'économie numérique).
 pages légales affichent des placeholders `[À COMPLÉTER]` explicites, jamais
 une valeur inventée. Les pages restent marquées `noindex` tant que ce
 document n'est pas vidé de tout `[À COMPLÉTER]` obligatoire.
+
+**Depuis le lot E/2, la section A bis s'ajoute aux motifs de blocage** : un
+formulaire du site transmet désormais des données personnelles à un
+sous-traitant que la page de confidentialité ne mentionne pas.
